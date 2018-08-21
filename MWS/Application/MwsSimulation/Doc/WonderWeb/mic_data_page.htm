@@ -1,0 +1,385 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=yes">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link rel="shortcut icon" href="/Images/favicon.ico">
+<script type="text/javascript" src="/js/Commons/jquery-2.1.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/Commons/jquery.cookie.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/Commons/jquery-ui-1.11.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/Commons/jquery.ui.datepicker-ja.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/Commons/jquery.colorbox-min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/Commons/jquery.tablefix.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/Commons/jquery.wwselect.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/Commons/jquery.ui.touch-punch.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/Commons/jquery.validate.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/Commons/additional-methods.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/WWTemplateHandler.ashx?load=~/Js/Commons/jquery.validate_ja.js" charset="utf-8"></script>
+<script type="text/javascript" src="/WWTemplateHandler.ashx?load=~/Js/Pages/Schedule/Calendar.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="/js/Commons/ww.util.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/Commons/ww.ui.onload.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/Commons/ww.ui.control.js" charset="utf-8"></script>
+
+
+<script type="text/javascript" src="/js/Commons/ww.ui.menu.js" charset="utf-8"></script>
+
+
+<link rel="stylesheet" type="text/css" href="/Css/overcast/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="/Css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="/Css/base.css" />
+<link rel="stylesheet" type="text/css" href="/Css/extends.css" />
+<link rel="stylesheet" type="text/css" href="/Css/navigation.css" />
+<link rel="stylesheet" type="text/css" href="/Css/mgpd.css" />
+<link rel="stylesheet" type="text/css" href="/Css/colorbox.css" />
+
+<title>
+    &nbsp;WonderWeb
+</title>
+</head>
+
+<body>
+
+<header>
+
+<nav>
+  <div id="gnavi">
+    <ul>
+      <li id="logo"><h1><img src="/Images/Common/logo.png" class="logo_img" alt="ワンダーウェブ" /></h1></li>
+      <li id="gn_home"><a href="/Pages/Home/Dashboard.aspx"><span>Home</span></a></li>
+      <li id="gn_ar"><a><span>Myワーク</span></a>
+        <ul>
+          <li id="gn_ar_schedule"><a href="/Pages/Schedule/Calendar.aspx"><span>スケジュール</span></a></li>
+          <li id="gn_ar_check"><a href="/Pages/Schedule/ToDoList.aspx"><span>ToDo</span></a></li>
+          <li id="gn_ar_search"><a href="/Pages/Schedule/KeyWordSearch.aspx"><span>スケジュール検索</span></a></li>
+        </ul>
+      </li>
+      <li id="gn_is"><a><span>共有</span></a>
+        <ul>
+          <li id="gn_is_bbs"><a href="/Pages/Bbs/BbsPortal.aspx"><span>掲示板</span></a></li>
+          <li id="gn_is_reserve"><a href="/Pages/Reservation/ReservationPortal.aspx"><span>設備予約</span></a></li>
+          <li id="gn_is_web" class="last"><a href="/Pages/WebLib/WebLibrary.aspx"><span>Webライブラリ</span></a></li>
+        </ul>
+      </li>
+      <li id="gn_mm"><a><span>顧客</span></a>
+        <ul>
+          <li id="gn_mm_company"><a href="/Pages/Client/ClientSearch.aspx"><span>顧客管理</span></a></li>
+          <li id="gn_mm_namecard"><a href="/Pages/Name/NameSearch.aspx"><span>名刺</span></a></li>
+          <li id="gn_mm_memo"><a href="/Pages/Memo/MemoSearch.aspx"><span>メモ抽出</span></a></li>
+          <li id="gn_mm_repair"><a href="/Pages/Repair/RepairSearch.aspx"><span>修理管理</span></a></li>
+          <li id="gn_mm_substitute"><a href="/Pages/Repair/AlternativeSearch.aspx"><span>代替機管理</span></a></li>
+          <li id="gn_mm_ordersheet"><a href="/Pages/OrderSheet/OrderSheet.aspx"><span>オーダーシート発行</span></a></li>
+        </ul>
+      </li>
+      <li id="gn_ii"><a><span>受注・納品</span></a>
+        <ul>
+          <li id="gn_ii_businesssearch"><a href="/Pages/Business/BusinessSearch.aspx"><span>案件・商談</span></a></li>
+          <li id="gn_ii_quotatoin"><a href="javascript:openJuchuKanri('/Pages/Sales/SalesMenu.aspx')")><span>見積・受注・出荷</span></a></li>
+          <li id="gn_ii_stock"><a href="/Pages/Stock/StockReservation.aspx"><span>在庫引当</span></a></li>
+          <li id="gn_ii_branch"><a href="/Pages/Stock/StockListBranch.aspx"><span>支店別在庫一覧</span></a></li>
+          <li id="gn_ii_stocktable"><a href="/Pages/Stock/StockList.aspx"><span>実在庫表</span></a></li>
+        </ul>
+      </li>
+      <li id="gn_al"><a><span>分析</span></a>
+        <ul>
+          <li id="gn_al_table" class="last"><a href="/Pages/Analysis/CallSummary.aspx"><span>訪問実績集計</span></a></li>
+          <li id="gn_al_graph"><a href="/Pages/Analysis/CallDiagnosis.aspx"><span>コール分析</span></a></li>
+          <li id="gn_al_calc"><a href="/Pages/Analysis/SalesSummary.aspx"><span>案件分析</span></a></li>
+        </ul>
+      </li>
+      <li id="gn_aa"><a><span>管理</span></a>
+        <ul>
+          <li id="gn_aa_autotext" class="last"><a href="/Settings/Master/MemoTemplateSearch.aspx"><span>定型句管理</span></a></li>
+          <li id="gn_aa_proceeds"><a href="javascript:openWindowUrlNoSize('/Pages/Sales/MaeukeShueki.aspx', 'Maeukeshueki')")><span>前受収益</span></a></li>
+        </ul>
+      </li>
+      <li id="gn_rr"><a><span>社内ツール</span></a>
+        <ul>
+          <li id="gn_rr_manual" class="last"><a href="javascript:openSyanaiToolPage('/mic/mic_menu.htm')"><span>マニュアルページ</span></a></li>
+          <li id="gn_rr_data" class="last"><a href="javascript:openSyanaiToolPage('/mic/mic_data_page.htm')"><span>データページ</span></a></li>
+          <li id="gn_rr_staffbrain" class="last"><a href="javascript:openSyanaiToolPage('http://192.168.13.253/LG/l000m001.aspx')"><span>STAFFBRAIN</span></a></li>
+          <li id="gn_rr_seisan" class="last"><a href="javascript:openSyanaiToolPage('https://rsduo.rakurakuseisan.jp/nGen0stJLKa/')"><span>楽楽精算</span></a></li>
+          <li id="gn_rr_yammer" class="last"><a href="javascript:openSyanaiToolPage('https://www.yammer.com')"><span>Yammer</span></a></li>
+          <li id="gn_rr_base" class="last"><a href="javascript:openSyanaiToolPage('https://xenappsv/rdweb/')"><span>拠点PCA</span></a></li>
+          <li id="gn_rr_entry" class="last"><a href="javascript:openSyanaiToolPage('https://www.webservice.mic.jp/index.cfm?fuseaction%3dwebserviceapply_login%26refer%3d2')"><span>エントリーサイト</span></a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="undermenu">
+  <section>
+    <div class="pagetitle">
+      <h1>社内ツール
+        &gt;
+        データページ
+      </h1>
+    </div>
+    <div class="____active-bar" style="display:none;">
+      
+    </div>
+  </section>
+</div>
+
+
+<style type="text/css">
+<!--
+
+ 
+ h2{
+ margin-top:3em;";
+ }
+-->
+
+ </style>
+
+
+</header>
+
+
+<div class="contents">
+<div class="schedule">
+<article>
+
+<section>
+
+<div class="regist">
+
+<!-- 情報ページ -->
+<!--更新日-->
+<script type="text/javascript"><!--
+var hiduke=new Date(document.lastModified);
+var b=hiduke.getDate();
+var c=hiduke.getMonth()+1;
+document.write("▲"+c+"月"+b+"日　更新いたしました");
+-->
+</script>
+
+<p><span style='color:maroon'>※ <span>ODBC</span>設定が必要です。<a href="SET_ODBC.ZIP">SET_ODBC.ZIP</a>をダウンロード →<span> set_odbc.bat </span>をダブルクリックしてください</span></p>
+
+
+<h2>営業管理部</h2>
+
+
+<h4>スケジュール・問い合わせ一覧</h4>
+<blockquote>
+  <table cellspacing=1>
+    <tr>
+	<td style='width:30%;padding:1mm;' nowrap><a href="基本スケジュール.htm">問い合わせ一覧＆基本スケジュール</a></td>
+	<td style='width:30%;padding:1mm;' nowrap></td>
+	<td style='width:30%;padding:1mm;' nowrap></td>
+  </tr>
+  </table>
+</blockquote>
+
+<h4>発注・仕入</h4>
+<blockquote>
+  <table cellspacing=1>
+    <tr>
+      <td style='width:30%;padding:1mm' nowrap><a href="推奨品.htm"  >推奨品一覧 </a></td>
+      <td style='width:30%;padding:1mm' nowrap><a href="納期価格検索.htm"   >在庫・価格確認(仕入先サイト)</a></td>
+      <td style='width:30%;padding:1mm;' nowrap></td>
+    </tr>
+
+    <tr>
+      <td style='width:30%;padding:1mm;' nowrap><a href="サーバー推奨品0208.htm" >推奨サーバー情報</a></td>
+      <td style='width:30%;padding:1mm' nowrap><a href="MS CAL購入申請書（DIS).xls" >CAL購入申請書</a</td>
+      <td style='width:30%;padding:1mm' nowrap><a href="サーバー発注の流れ.htm">サーバー発注の流れ(2017/08)</a></td></td>
+   </tr>
+  </table>
+</blockquote>
+
+<h4>社内使用</h4>
+<blockquote>
+  <table cellspacing=1>
+    <tr>
+      <td style='width:30%;padding:1mm;' nowrap><a href="/Pages/WebLib/WWDownloadHandler.ashx?file=AVFgkjKBcMZxTp%2bmMVZPdzvtXquAjCce0ICPgPTtHrz5X9RODmtk6Zhucga%2bZD4MotR8xZrqvmS0bfvJPO%2fhesi4133yrQPidUiJYmytcWbRQjHBYtZJYWWWkIXhDWiKy7ONpRRkL6Be2IH1R2zEI%2btzRwD9Wy%2bt7wPhLJkSsSjFXzME7AfqFp2CIzo9dh9dynDHy3Qkdj0QNwGlnkw83u3qFUSxx%2fvtbtEV9z51ynmBS2Oiwu5rC623KoppFYzHTqBoSYBKaV6Ujja5shLZHBtFMst86SkVoXxP0uF0trS7bHcClq8DBws3ClOJEErFPkDLbmIoZ695px1kGRtgGI3lwED7aUcC8RekwkyEOMY%3d">社内発注依頼書をダウンロード</a></td>
+      <td style='width:30%;padding:1mm;' nowrap><a href="/Pages/WebLib/WWDownloadHandler.ashx?file=%2fsRw1YYQaTTmSwr3gyy1bBtnCsub%2bmdpoPDxJVvZycfuKdngyr9ZBgTaQxX2guz%2futZqVImivkWDrW5tSOFxmMXwD1LCFHL8k%2f0aq0QpO6pdPd6QpCXZnJV14l1JWwnrhCIM7zvZbfJGkk0Tv3yf4Vj3RUm2dH8U2mr2vpreDC652ySFvsadIJYno11Ihtq4PwiXJuQh83aSCMuzRLsJeRHZa534EewZVM%2flKie9NlVhnewKWl5G%2bL8CGBRkNLRzg0S%2fJ%2bLkMzGM2RboNy4hbG92IvbL6QO3j8RcMDHdVvfubNSj4AIxAitslqzEQBvPq0AtRIhXV%2fIrtjFQ%2b%2bi0Td%2f0q5bNRu3%2bfSP1zims7YU%3d" >封筒・販促品類　発送依頼書をダウンロード(2017/08)</a></td>
+      <td style='width:30%;padding:1mm;' nowrap><a href="貯蔵品（封筒・販促品）発送の流れ.htm">貯蔵品（封筒・販促品）発送の流れ(2017/08)</a></td>
+    </tr>
+    <tr>
+        <td style='width:30%;padding:1mm;' nowrap>
+        <td style='width:30%;padding:1mm;' nowrap>
+        <td style='width:30%;padding:1mm;' nowrap>
+    </tr>
+
+  </table>
+</blockquote>
+
+
+<h4>消耗品価格表</h4>
+<blockquote>
+  <table cellspacing=1>
+    <tr>
+    <td style='width:30%;padding:1mm;' nowrap><a href="/Pages/WebLib/WWDownloadHandler.ashx?file=5%2fwG1ABy3lV4xMYTFNoEiAQZtWpQAJj9u75mg4LVrd%2fQdLm4Bh8GYU93meeJBEuZQgon1YxQRSMSufXeapVb6L22%2fUaJELz1p5Sp4e5Me2k0lAOHsf%2fSAFGWs7EYXv%2bonyfnsHAmlJ0%2fiPwiuXnTdfgxrKeqDKT5exYCudiVGWIn1WXUgN4vY2NzJkS30YHz9WExf0OuZAatR1iRRMTVBRlVHzfu9NDtdkulqzKoFJUlxScEz7aN5n51mfanitWc1DFqJlYi5q8wXNpBXneOZM0Siv88KXOaookeS0eFlYMn4g4r%2f%2boFNVkFsZvnKHow4itg36dgrbFK4zoITA4dtIEGusS2ACgPuMKMyT4WmTE%3d" >消耗品価格表 </a></td>
+        <td style='width:30%;padding:1mm;' nowrap>
+        <td style='width:30%;padding:1mm;' nowrap>
+    </tr>
+   </table>
+</blockquote>
+
+
+<h4>各種届出用紙</h4>
+<blockquote>
+  <table cellspacing=1>
+    <tr>
+        <td style='width:30%;padding:1mm;' nowrap><a href="/Pages/WebLib/WWDownloadHandler.ashx?file=oVWIJejXEPuXlRuhWlHgRKYb4RlnNNMsZJjcVKcWQg8lpEf76lV%2b8zaOnE10oPQu4UuIDUCbEyrs2L%2bNEYM%2fT%2b5zIp39TmgnfwhAvm72fqedjTK7iE4XjbaLN1VS%2bDnf0p3nIM%2ftyy2qaQ7PK0OvY4QryZtBW2bAk38DdopqSMebuqEfnqTHWpMMk16rFzfCc2dEQytKpKhKMoyfaelFO59O9JDQd%2bmd3lyHR9qUbjydrcQuy2YJbNdW8IfA9hgqRBvO0uxEe7cMcQmUQunSkISpw9k%2fYFXjhytoTyzMwClyf81q6mSm8g4gDDa7rglf%2blECKyJg1ar3UoY%2fy7c%2bFyL8WyOKMY0TeVJA22r%2bTkU%3d"    >各種帳票出力アプリをダウンロード</a></td>
+        <td style='width:30%;padding:1mm;' nowrap>
+        <td style='width:30%;padding:1mm;' nowrap>
+    </tr>
+   </table>
+</blockquote>
+
+<h4>ユーザーデータ管理</h4>
+<blockquote>
+  <table cellspacing=1>
+    <tr>
+      <td style='width:30%;padding:1mm;' nowrap><a href="file://wwsv/MIC_Folder/mic_menu/ユーザーデータ管理/publish.htm">ユーザーデータ管理</a></td>
+      <td style='width:30%;padding:1mm;' nowrap><a href="データ管理について.pdf">データ管理の操作方法</a></td>
+     <td style='width:30%;padding:1mm;' nowrap>
+     </tr>
+</table>
+</blockquote>
+
+<h4>MIC WEB SERVICE 課金シミュレーション</h4>
+<blockquote>
+  <table cellspacing=1>
+    <tr>
+      <td style='width:50%;padding:1mm;' nowrap><a href="file://wwsv2/mic_menu/MWS課金シミュレーション/Publish/publish.htm">MIC WEB SERVICE 課金シミュレーション</a></td>
+      <td style='width:50%;padding:1mm;' nowrap><a href="MIC WEB SERVICE 課金シミュレーションについて.pdf">MIC WEB SERVICE 課金シミュレーションについて</a></td>
+      <td style='width:50%;padding:1mm;' nowrap>
+     </tr>
+</table>
+</blockquote>
+
+
+<h4>メール</h4>
+<blockquote>
+  <table cellspacing=1>
+    <tr>
+    <td style='width:50%;padding:1mm;' nowrap><a href="DisplayKeitaiAddressList.asp">社員携帯&amp;アドレス一覧</a></td>
+    <td style='width:50%;padding:1mm;' nowrap>配信リスト一覧(Outlookのアドレス帳の「グローバルアドレス一覧」をご利用下さい)</td>
+    <td style='width:50%;padding:1mm;' nowrap>
+    </tr>
+</table>
+</blockquote>
+
+
+<h2>営業管理部</2>
+
+<h4>実績情報</h4>
+<blockquote>
+  <table cellspacing=1>
+   <tr>
+      <td style='width:50%;padding:1mm;' nowrap><a href="MWS月額利用単価支店別推移表.htm">MWS月額利用単価支店別推移表</a><img border="0" src="new1.gif" width="25" height="16"></td>
+      <td style='width:50%;padding:1mm;' nowrap><a href="販売実績分析資料.htm">販売実績分析資料</a></td>
+   </tr>
+   <tr>
+      <td style='width:50%;padding:1mm;' nowrap><a href="営業担当別実績.htm">営業担当別実績</a></td>
+      <td style='width:50%;padding:1mm;' nowrap><a href="デモ実績集計表.htm">デモ実績集計表</a></td>
+   </tr>
+   
+  </table>
+</blockquote>
+
+
+<h4>ユーザー情報</h4>
+<blockquote>
+  <table cellspacing=1>
+   
+    <tr>
+      <!--  <td style='width:50%;padding:1mm;' nowrap><a href="http://aspsv/Userchange/Userchange.aspx" target="_blank">ユーザー推移</a></td> -->
+      <td style='width:50%;padding:1mm;' nowrap><a href="ユーザー分析.htm"                >ユーザー分析                   </a></td>
+      <td style='width:50%;padding:1mm;' nowrap><a href="MWSユーザーバージョンアップ状況.htm"  >MWSユーザーバージョンアップ状況     </a></td>
+    </tr>
+    <tr>
+   <!--<td style='width:50%;padding:1mm;' nowrap><a href="http://wwsv/mic/Network_disconnection_user/Network_disconnection_user.aspx"     >通信異常paletteユーザーリスト  </a></td>-->
+      <td style='width:50%;padding:1mm;' nowrap><a href="通信異常paletteユーザー.asp"     >通信異常paletteユーザーリスト  </a><img border="0" src="new1.gif" width="25" height="16"></td>
+      <td style='width:50%;padding:1mm;' nowrap><a href="DisplayUnpaidUserList.asp"       >当月未入金回収状況             </a></td>
+    </tr>
+　　<tr>　    
+        <td style='width:50%;padding:1mm;' nowrap><a href="ユーザー数推移表.htm" >ユーザー数推移表 </a></td>
+        <td style='width:50%;padding:1mm;' nowrap><a href="はなはなし購読のみ.asp">はなはなし購読のみ歯科医院</a></td>
+　　</tr>
+ </table>
+</blockquote>
+
+
+<h4>訪問履歴</h4>
+<blockquote>
+  <table cellspacing=1>
+    <tr>
+      <td style='width:50%;padding:1mm;' nowrap><a href="訪問状況確認.xlsx"    >ユーザー訪問状況確認</a></td>      
+      <td style='width:50%;padding:1mm;' nowrap><a href="販売店訪問状況確認.xlsx"   >販売店訪問状況確認</a></td>
+    </tr>
+    <tr>
+      <td style='width:50%;padding:1mm;' nowrap><a href="MWSユーザーチェックリスト.xlsx"    >MWSユーザーチェックリスト</a></td>      
+      <td style='width:50%;padding:1mm;' nowrap></td>
+    </tr>
+  </table>
+</blockquote>
+
+
+
+
+
+
+<h2>外部サイト</2>
+
+<h4>外部サイト</h4>
+<blockquote>
+  <table cellspacing=1>
+    <tr>
+      <td style='width:30%;padding:1mm;' nowrap><a href="https://telema-service.com/telema-web/login.htm">テレマティクス サービス</a></td>
+      <td style='width:30%;padding:1mm;' nowrap><a href="http://wwsv2/businessplanningweb/misyounin/misyounin.aspx">BusinessPlanningWeb</a></td>
+      <td style='width:30%;padding:1mm;' nowrap><a href="http://mail.office365.com">Webメール(office365)ログイン画面</a></td>
+    </tr>
+    <tr>
+      <td style='width:30%;padding:1mm;' nowrap><a href="http://wwsv2/userinfomail/">WWデータページ更新メール通知</a></td>
+      <td style='width:30%;padding:1mm;' nowrap><a href="https://www.e4628.jp/">WEB給与明細</a><img border="0" src="new1.gif" width="25" height="16"></td>
+      <td style='width:30%;padding:1mm;' nowrap></td>
+    </tr>
+  </table>
+</blockquote>
+	
+</table>
+
+
+
+
+
+
+<p>&nbsp;&nbsp;&nbsp;</p>
+
+
+<div class="validation">
+  <ul id="errorList">
+  </ul>
+</div>
+</div>
+
+</article>
+
+</div>
+</div>
+
+</form>
+<script>
+    (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','http://172.16.81.72/mautic/index.php/mtc.js','mt');
+
+    mt('send', 'pageview');
+</script>
+</body>
+</html>
+
