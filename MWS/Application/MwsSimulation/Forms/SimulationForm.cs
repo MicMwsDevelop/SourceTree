@@ -7,6 +7,7 @@
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
 // Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
+// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
 // 
 using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
@@ -65,6 +66,24 @@ namespace MwsSimulation.Forms
 		private const string SERVICE_CODE_CHART2_STD = "1014100";
 
 		/// <summary>
+		/// おまとめプラン１２ヵ月が存在する
+		/// </summary>
+		// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
+		private bool ExistGroupPlan12 { get; set; }
+
+		/// <summary>
+		/// おまとめプラン２４ヵ月が存在する
+		/// </summary>
+		// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
+		private bool ExistGroupPlan24 { get; set; }
+
+		/// <summary>
+		/// おまとめプラン３６ヵ月が存在する
+		/// </summary>
+		// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
+		private bool ExistGroupPlan36 { get; set; }
+
+		/// <summary>
 		/// コンストラクタ
 		/// </summary>
 		public SimulationForm()
@@ -76,6 +95,11 @@ namespace MwsSimulation.Forms
 			PrintInfo = new PrintEstimate();
 			PrintDocument = new PrintDocument();
 			MaxPage = 0;
+
+			// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
+			ExistGroupPlan12 = false;
+			ExistGroupPlan24 = false;
+			ExistGroupPlan36 = false;
 		}
 
 		/// <summary>
@@ -90,6 +114,11 @@ namespace MwsSimulation.Forms
 			PrintInfo = new PrintEstimate();
 			PrintDocument = new PrintDocument();
 			MaxPage = 0;
+
+			// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
+			ExistGroupPlan12 = false;
+			ExistGroupPlan24 = false;
+			ExistGroupPlan36 = false;
 		}
 
 		/// <summary>
@@ -143,6 +172,33 @@ namespace MwsSimulation.Forms
 			comboBoxTerm.Items.Add("３６か月");
 			comboBoxTerm.SelectedIndex = 0;
 
+			// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
+			if (MainForm.gGroupPlanList.IsExistKeiyakuMonth(12))
+			{
+				// おまとめプラン１２ヵ月が有効
+				ExistGroupPlan12 = true;
+				radioButtonGroup12.Enabled = true;
+				textBoxPrice12.Enabled = true;
+				textBoxFree12.Enabled = true;
+			}
+			// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
+			if (MainForm.gGroupPlanList.IsExistKeiyakuMonth(24))
+			{
+				// おまとめプラン２４ヵ月が有効
+				ExistGroupPlan24 = true;
+				radioButtonGroup24.Enabled = true;
+				textBoxPrice24.Enabled = true;
+				textBoxFree24.Enabled = true;
+			}
+			// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
+			if (MainForm.gGroupPlanList.IsExistKeiyakuMonth(36))
+			{
+				// おまとめプラン３６ヵ月が有効
+				ExistGroupPlan36 = true;
+				radioButtonGroup36.Enabled = true;
+				textBoxPrice36.Enabled = true;
+				textBoxFree36.Enabled = true;
+			}
 			// おススメセットの設定
 			if (3 == MainForm.gInitGroupPlanList.Count)
 			{
@@ -474,12 +530,6 @@ namespace MwsSimulation.Forms
 		/// <param name="e"></param>
 		private void buttonPrint_Click(object sender, EventArgs e)
 		{
-			if (0 == textBoxDestination.Text.Length)
-			{
-				MessageBox.Show("宛先を入力してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				textBoxDestination.Focus();
-				return;
-			}
 			// 子サービスの申込に対して親サービスが申し込まれているか判定
 			string msg;
 			int errIndex = this.IsOrderParentSrvice(out msg);
@@ -490,6 +540,52 @@ namespace MwsSimulation.Forms
 
 				// Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
 				listViewService.EnsureVisible(errIndex);
+				return;
+			}
+			if (radioButtonGroupNone.Checked)
+			{
+				// おまとめプランなし
+				if (0 != comboBoxTerm.SelectedIndex)
+				{
+					MessageBox.Show("契約期間は１か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					comboBoxTerm.Focus();
+					return;
+				}
+			}
+			else if (radioButtonGroup12.Checked)
+			{
+				// おまとめプラン12ヵ月
+				if (1 != comboBoxTerm.SelectedIndex)
+				{
+					MessageBox.Show("契約期間は１２か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					comboBoxTerm.Focus();
+					return;
+				}
+			}
+			else if (radioButtonGroup24.Checked)
+			{
+				// おまとめプラン24ヵ月
+				if (2 != comboBoxTerm.SelectedIndex)
+				{
+					MessageBox.Show("契約期間は２４か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					comboBoxTerm.Focus();
+					return;
+				}
+			}
+			else if (radioButtonGroup36.Checked)
+			{
+				// おまとめプラン36ヵ月
+				if (3 != comboBoxTerm.SelectedIndex)
+				{
+					MessageBox.Show("契約期間は３６か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					comboBoxTerm.Focus();
+					return;
+				}
+			}
+			if (0 == textBoxDestination.Text.Length)
+			{
+				MessageBox.Show("宛先を入力してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				textBoxDestination.Focus();
 				return;
 			}
 			// 申込み情報の取得
@@ -556,6 +652,46 @@ namespace MwsSimulation.Forms
 				// Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
 				listViewService.EnsureVisible(errIndex);
 				return;
+			}
+			if (radioButtonGroupNone.Checked)
+			{
+				// おまとめプランなし
+				if (0 != comboBoxTerm.SelectedIndex)
+				{
+					MessageBox.Show("契約期間は１か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					comboBoxTerm.Focus();
+					return;
+				}
+			}
+			else if (radioButtonGroup12.Checked)
+			{
+				// おまとめプラン12ヵ月
+				if (1 != comboBoxTerm.SelectedIndex)
+				{
+					MessageBox.Show("契約期間は１２か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					comboBoxTerm.Focus();
+					return;
+				}
+			}
+			else if (radioButtonGroup24.Checked)
+			{
+				// おまとめプラン24ヵ月
+				if (2 != comboBoxTerm.SelectedIndex)
+				{
+					MessageBox.Show("契約期間は２４か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					comboBoxTerm.Focus();
+					return;
+				}
+			}
+			else if (radioButtonGroup36.Checked)
+			{
+				// おまとめプラン36ヵ月
+				if (3 != comboBoxTerm.SelectedIndex)
+				{
+					MessageBox.Show("契約期間は３６か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					comboBoxTerm.Focus();
+					return;
+				}
 			}
 			// 申込み情報の取得
 			List<GroupService> groupList = null;
@@ -897,32 +1033,49 @@ namespace MwsSimulation.Forms
 			if (MainForm.gMinAmmount <= groupPrice)
 			{
 				// おまとめプラン適用
-				radioButtonGroup12.Enabled = true;
-				radioButtonGroup24.Enabled = true;
-				radioButtonGroup36.Enabled = true;
+				// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
+				if (ExistGroupPlan12)
+				{
+					radioButtonGroup12.Enabled = true;
 
-				GroupPlan targetPlan12 = MainForm.gGroupPlanList.GetMachGroupPlan(12, groupPrice);
-				GroupPlan targetPlan24 = MainForm.gGroupPlanList.GetMachGroupPlan(24, groupPrice);
-				GroupPlan targetPlan36 = MainForm.gGroupPlanList.GetMachGroupPlan(36, groupPrice);
+					// おまとめプラン料金の表示
+					GroupPlan targetPlan12 = MainForm.gGroupPlanList.GetMachGroupPlan(12, groupPrice);
+					textBoxPrice12.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan12.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice)));
+					textBoxPrice12.Tag = string.Format("{0}*12+{1}*(12-{2})", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan12.FreeMonth);
 
-				// おまとめプラン料金の表示
-				textBoxPrice12.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan12.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice)));
-				textBoxPrice12.Tag = string.Format("{0}*12+{1}*(12-{2})", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan12.FreeMonth);
-				textBoxPrice24.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan24.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice)));
-				textBoxPrice24.Tag = string.Format("{0}*24+{1}*(24-{2})", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan24.FreeMonth);
-				textBoxPrice36.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan36.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice)));
-				textBoxPrice36.Tag = string.Format("{0}*36+{1}*(36-{2})", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan36.FreeMonth);
+					// おまとめプラン無償利用期間の表示
+					int totalGroupPrice12 = targetPlan12.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice);
+					textBoxFree12.Text = string.Format("\\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(12, MainForm.gServiceList.Standard.Price, groupPrice, totalGroupPrice12)));
+					textBoxFree12.Tag = string.Format("(({0}*12+{1}*12) - ({0}*12+{1}*(12-{2}))) / 12", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan12.FreeMonth);
+				}
+				if (ExistGroupPlan24)
+				{
+					radioButtonGroup24.Enabled = true;
 
-				// おまとめプラン無償利用期間の表示
-				int totalGroupPrice12 = targetPlan12.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice);
-				int totalGroupPrice24 = targetPlan24.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice);
-				int totalGroupPrice36 = targetPlan36.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice);
-				textBoxFree12.Text = string.Format("\\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(12, MainForm.gServiceList.Standard.Price, groupPrice, totalGroupPrice12)));
-				textBoxFree12.Tag = string.Format("(({0}*12+{1}*12) - ({0}*12+{1}*(12-{2}))) / 12", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan12.FreeMonth);
-				textBoxFree24.Text = string.Format("\\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(24, MainForm.gServiceList.Standard.Price, groupPrice, totalGroupPrice24)));
-				textBoxFree24.Tag = string.Format("(({0}*24+{1}*24) - ({0}*24+{1}*(24-{2}))) / 24", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan24.FreeMonth);
-				textBoxFree36.Text = string.Format("\\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(36, MainForm.gServiceList.Standard.Price, groupPrice, totalGroupPrice36)));
-				textBoxFree36.Tag = string.Format("(({0}*36+{1}*36) - ({0}*36+{1}*(36-{2}))) / 36", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan36.FreeMonth);
+					// おまとめプラン料金の表示
+					GroupPlan targetPlan24 = MainForm.gGroupPlanList.GetMachGroupPlan(24, groupPrice);
+					textBoxPrice24.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan24.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice)));
+					textBoxPrice24.Tag = string.Format("{0}*24+{1}*(24-{2})", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan24.FreeMonth);
+
+					// おまとめプラン無償利用期間の表示
+					int totalGroupPrice24 = targetPlan24.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice);
+					textBoxFree24.Text = string.Format("\\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(24, MainForm.gServiceList.Standard.Price, groupPrice, totalGroupPrice24)));
+					textBoxFree24.Tag = string.Format("(({0}*24+{1}*24) - ({0}*24+{1}*(24-{2}))) / 24", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan24.FreeMonth);
+				}
+				if (ExistGroupPlan36)
+				{
+					radioButtonGroup36.Enabled = true;
+
+					// おまとめプラン料金の表示
+					GroupPlan targetPlan36 = MainForm.gGroupPlanList.GetMachGroupPlan(36, groupPrice);
+					textBoxPrice36.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan36.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice)));
+					textBoxPrice36.Tag = string.Format("{0}*36+{1}*(36-{2})", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan36.FreeMonth);
+
+					// おまとめプラン無償利用期間の表示
+					int totalGroupPrice36 = targetPlan36.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice);
+					textBoxFree36.Text = string.Format("\\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(36, MainForm.gServiceList.Standard.Price, groupPrice, totalGroupPrice36)));
+					textBoxFree36.Tag = string.Format("(({0}*36+{1}*36) - ({0}*36+{1}*(36-{2}))) / 36", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan36.FreeMonth);
+				}
 				labelGroupPlanMessage.Text = "※おまとめプランが適用できます。";
 
 				// ご利用のサービスの月額利用額の表示
@@ -935,18 +1088,21 @@ namespace MwsSimulation.Forms
 				else if (radioButtonGroup12.Checked)
 				{
 					// おまとめプラン12ヵ月
+					GroupPlan targetPlan12 = MainForm.gGroupPlanList.GetMachGroupPlan(12, groupPrice);
 					textBoxTotalPrice.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan12.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice));
 					textBoxTotalPrice.Tag = string.Format("group:({0}*(12-{1})) / 12 + normal:{2} + set:{3}", groupPrice, targetPlan12.FreeMonth, normalPrice, setPrice);
 				}
 				else if (radioButtonGroup24.Checked)
 				{
 					// おまとめプラン24ヵ月
+					GroupPlan targetPlan24 = MainForm.gGroupPlanList.GetMachGroupPlan(24, groupPrice);
 					textBoxTotalPrice.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan24.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice));
 					textBoxTotalPrice.Tag = string.Format("group:({0}*(24-{1})) / 24 + normal:{2} + set:{3}", groupPrice, targetPlan24.FreeMonth, normalPrice, setPrice);
 				}
 				else if (radioButtonGroup36.Checked)
 				{
 					// おまとめプラン36ヵ月
+					GroupPlan targetPlan36 = MainForm.gGroupPlanList.GetMachGroupPlan(36, groupPrice);
 					textBoxTotalPrice.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan36.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice));
 					textBoxTotalPrice.Tag = string.Format("group:({0}*(36-{1})) / 36 + normal:{2} + set:{3}", groupPrice, targetPlan36.FreeMonth, normalPrice, setPrice);
 				}

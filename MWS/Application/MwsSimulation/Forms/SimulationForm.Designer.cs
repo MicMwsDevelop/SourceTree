@@ -260,6 +260,7 @@
 			// textBoxFree36
 			// 
 			this.textBoxFree36.BackColor = System.Drawing.Color.White;
+			this.textBoxFree36.Enabled = false;
 			this.textBoxFree36.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxFree36.Location = new System.Drawing.Point(277, 126);
 			this.textBoxFree36.Name = "textBoxFree36";
@@ -272,6 +273,7 @@
 			// textBoxPrice36
 			// 
 			this.textBoxPrice36.BackColor = System.Drawing.Color.White;
+			this.textBoxPrice36.Enabled = false;
 			this.textBoxPrice36.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxPrice36.Location = new System.Drawing.Point(147, 127);
 			this.textBoxPrice36.Name = "textBoxPrice36";
@@ -284,6 +286,7 @@
 			// textBoxFree24
 			// 
 			this.textBoxFree24.BackColor = System.Drawing.Color.White;
+			this.textBoxFree24.Enabled = false;
 			this.textBoxFree24.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxFree24.Location = new System.Drawing.Point(277, 92);
 			this.textBoxFree24.Name = "textBoxFree24";
@@ -296,6 +299,7 @@
 			// textBoxPrice24
 			// 
 			this.textBoxPrice24.BackColor = System.Drawing.Color.White;
+			this.textBoxPrice24.Enabled = false;
 			this.textBoxPrice24.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxPrice24.Location = new System.Drawing.Point(147, 93);
 			this.textBoxPrice24.Name = "textBoxPrice24";
@@ -308,6 +312,7 @@
 			// textBoxFree12
 			// 
 			this.textBoxFree12.BackColor = System.Drawing.Color.White;
+			this.textBoxFree12.Enabled = false;
 			this.textBoxFree12.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxFree12.Location = new System.Drawing.Point(277, 57);
 			this.textBoxFree12.Name = "textBoxFree12";
@@ -320,6 +325,7 @@
 			// textBoxPrice12
 			// 
 			this.textBoxPrice12.BackColor = System.Drawing.Color.White;
+			this.textBoxPrice12.Enabled = false;
 			this.textBoxPrice12.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxPrice12.Location = new System.Drawing.Point(147, 58);
 			this.textBoxPrice12.Name = "textBoxPrice12";
@@ -332,6 +338,7 @@
 			// radioButtonGroup36
 			// 
 			this.radioButtonGroup36.AutoSize = true;
+			this.radioButtonGroup36.Enabled = false;
 			this.radioButtonGroup36.Location = new System.Drawing.Point(16, 128);
 			this.radioButtonGroup36.Name = "radioButtonGroup36";
 			this.radioButtonGroup36.Size = new System.Drawing.Size(132, 21);
@@ -343,6 +350,7 @@
 			// radioButtonGroup24
 			// 
 			this.radioButtonGroup24.AutoSize = true;
+			this.radioButtonGroup24.Enabled = false;
 			this.radioButtonGroup24.Location = new System.Drawing.Point(16, 94);
 			this.radioButtonGroup24.Name = "radioButtonGroup24";
 			this.radioButtonGroup24.Size = new System.Drawing.Size(132, 21);
@@ -354,6 +362,7 @@
 			// radioButtonGroup12
 			// 
 			this.radioButtonGroup12.AutoSize = true;
+			this.radioButtonGroup12.Enabled = false;
 			this.radioButtonGroup12.Location = new System.Drawing.Point(16, 59);
 			this.radioButtonGroup12.Name = "radioButtonGroup12";
 			this.radioButtonGroup12.Size = new System.Drawing.Size(132, 21);

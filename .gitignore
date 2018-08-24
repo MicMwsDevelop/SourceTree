@@ -1,0 +1,12 @@
+﻿################################################################################
+# この .gitignore ファイルは Microsoft(R) Visual Studio によって自動的に作成されました。
+################################################################################
+
+/MWS/Application/MwsSimulation/bin
+/MWS/Application/MwsSimulation/obj
+/MWS/CommonDialog/PrintPreview/obj
+/MWS/CommonDialog/Progress/obj
+/MWS/MwsLib/bin
+/MWS/MwsLib/obj
+/MWS/Util/MwsServiceFrequency
+*.sln

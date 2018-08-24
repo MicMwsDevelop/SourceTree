@@ -288,6 +288,23 @@ namespace MwsLib.BaseFactory.MwsSimulation
 			}
 			return hashCode;
 		}
+
+		/// <summary>
+		/// 指定された契約期間が存在するかどうか？
+		/// </summary>
+		/// <param name="month"></param>
+		/// <returns></returns>
+		public bool IsExistKeiyakuMonth(int month)
+		{
+			foreach (GroupPlan plan in this)
+			{
+				if (month == plan.KeiyakuMonth)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 
 
