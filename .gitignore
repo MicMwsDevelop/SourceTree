@@ -10,3 +10,5 @@
 /MWS/MwsLib/obj
 /MWS/Util/MwsServiceFrequency
 *.sln
+/MWS/Tool/EntryFinishedUser/bin/Debug
+/MWS/Tool/EntryFinishedUser/obj/Debug
