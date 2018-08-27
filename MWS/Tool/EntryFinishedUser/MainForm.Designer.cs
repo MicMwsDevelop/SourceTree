@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.label1 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.textBoxTokuisakiID = new System.Windows.Forms.TextBox();
 			this.buttonSearch = new System.Windows.Forms.Button();
 			this.buttonClear = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
@@ -41,10 +41,10 @@
 			this.label5 = new System.Windows.Forms.Label();
 			this.comboBoxReplace = new System.Windows.Forms.ComboBox();
 			this.labelVersion = new System.Windows.Forms.Label();
-			this.comboBoxReason = new System.Windows.Forms.ComboBox();
+			this.comboBoxEndReason = new System.Windows.Forms.ComboBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
-			this.textBox2 = new System.Windows.Forms.TextBox();
+			this.textBoxReason = new System.Windows.Forms.TextBox();
 			this.buttonOK = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.buttonList = new System.Windows.Forms.Button();
@@ -61,14 +61,14 @@
 			this.label1.TabIndex = 1;
 			this.label1.Text = "得意先No";
 			// 
-			// textBox1
+			// textBoxTokuisakiID
 			// 
-			this.textBox1.ImeMode = System.Windows.Forms.ImeMode.Off;
-			this.textBox1.Location = new System.Drawing.Point(86, 47);
-			this.textBox1.Margin = new System.Windows.Forms.Padding(4);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(132, 24);
-			this.textBox1.TabIndex = 2;
+			this.textBoxTokuisakiID.ImeMode = System.Windows.Forms.ImeMode.Off;
+			this.textBoxTokuisakiID.Location = new System.Drawing.Point(86, 47);
+			this.textBoxTokuisakiID.Margin = new System.Windows.Forms.Padding(4);
+			this.textBoxTokuisakiID.Name = "textBoxTokuisakiID";
+			this.textBoxTokuisakiID.Size = new System.Drawing.Size(132, 24);
+			this.textBoxTokuisakiID.TabIndex = 2;
 			// 
 			// buttonSearch
 			// 
@@ -78,6 +78,7 @@
 			this.buttonSearch.TabIndex = 3;
 			this.buttonSearch.Text = "検索";
 			this.buttonSearch.UseVisualStyleBackColor = true;
+			this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
 			// 
 			// buttonClear
 			// 
@@ -87,6 +88,7 @@
 			this.buttonClear.TabIndex = 4;
 			this.buttonClear.Text = "クリア";
 			this.buttonClear.UseVisualStyleBackColor = true;
+			this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
 			// 
 			// label2
 			// 
@@ -100,9 +102,11 @@
 			// 
 			// textBoxUserName
 			// 
+			this.textBoxUserName.BackColor = System.Drawing.SystemColors.Window;
 			this.textBoxUserName.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
 			this.textBoxUserName.Location = new System.Drawing.Point(86, 79);
 			this.textBoxUserName.Name = "textBoxUserName";
+			this.textBoxUserName.ReadOnly = true;
 			this.textBoxUserName.Size = new System.Drawing.Size(295, 24);
 			this.textBoxUserName.TabIndex = 6;
 			// 
@@ -170,14 +174,14 @@
 			this.labelVersion.TabIndex = 0;
 			this.labelVersion.Text = "Ver 1.00  2018/08/24";
 			// 
-			// comboBoxReason
+			// comboBoxEndReason
 			// 
-			this.comboBoxReason.FormattingEnabled = true;
-			this.comboBoxReason.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-			this.comboBoxReason.Location = new System.Drawing.Point(86, 207);
-			this.comboBoxReason.Name = "comboBoxReason";
-			this.comboBoxReason.Size = new System.Drawing.Size(378, 25);
-			this.comboBoxReason.TabIndex = 15;
+			this.comboBoxEndReason.FormattingEnabled = true;
+			this.comboBoxEndReason.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
+			this.comboBoxEndReason.Location = new System.Drawing.Point(86, 207);
+			this.comboBoxEndReason.Name = "comboBoxEndReason";
+			this.comboBoxEndReason.Size = new System.Drawing.Size(378, 25);
+			this.comboBoxEndReason.TabIndex = 15;
 			// 
 			// label6
 			// 
@@ -199,13 +203,14 @@
 			this.label7.TabIndex = 16;
 			this.label7.Text = "理由";
 			// 
-			// textBox2
+			// textBoxReason
 			// 
-			this.textBox2.Location = new System.Drawing.Point(86, 240);
-			this.textBox2.Multiline = true;
-			this.textBox2.Name = "textBox2";
-			this.textBox2.Size = new System.Drawing.Size(378, 121);
-			this.textBox2.TabIndex = 17;
+			this.textBoxReason.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
+			this.textBoxReason.Location = new System.Drawing.Point(86, 240);
+			this.textBoxReason.Multiline = true;
+			this.textBoxReason.Name = "textBoxReason";
+			this.textBoxReason.Size = new System.Drawing.Size(378, 121);
+			this.textBoxReason.TabIndex = 17;
 			// 
 			// buttonOK
 			// 
@@ -253,9 +258,9 @@
 			this.Controls.Add(this.buttonList);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.buttonOK);
-			this.Controls.Add(this.textBox2);
+			this.Controls.Add(this.textBoxReason);
 			this.Controls.Add(this.label7);
-			this.Controls.Add(this.comboBoxReason);
+			this.Controls.Add(this.comboBoxEndReason);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.labelVersion);
 			this.Controls.Add(this.comboBoxReplace);
@@ -268,7 +273,7 @@
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.buttonClear);
 			this.Controls.Add(this.buttonSearch);
-			this.Controls.Add(this.textBox1);
+			this.Controls.Add(this.textBoxTokuisakiID);
 			this.Controls.Add(this.label1);
 			this.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -277,6 +282,7 @@
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "終了ユーザー登録";
+			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -285,7 +291,7 @@
 		#endregion
 
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox textBoxTokuisakiID;
 		private System.Windows.Forms.Button buttonSearch;
 		private System.Windows.Forms.Button buttonClear;
 		private System.Windows.Forms.Label label2;
@@ -297,10 +303,10 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.ComboBox comboBoxReplace;
 		private System.Windows.Forms.Label labelVersion;
-		private System.Windows.Forms.ComboBox comboBoxReason;
+		private System.Windows.Forms.ComboBox comboBoxEndReason;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.TextBox textBox2;
+		private System.Windows.Forms.TextBox textBoxReason;
 		private System.Windows.Forms.Button buttonOK;
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonList;
