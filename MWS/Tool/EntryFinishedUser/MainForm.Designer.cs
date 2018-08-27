@@ -35,13 +35,13 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.textBoxUserName = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
-			this.comboBoxEndMonth = new System.Windows.Forms.ComboBox();
+			this.comboBoxFinishedMonth = new System.Windows.Forms.ComboBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.dateTimePickerAcceptDate = new System.Windows.Forms.DateTimePicker();
 			this.label5 = new System.Windows.Forms.Label();
 			this.comboBoxReplace = new System.Windows.Forms.ComboBox();
 			this.labelVersion = new System.Windows.Forms.Label();
-			this.comboBoxEndReason = new System.Windows.Forms.ComboBox();
+			this.comboBoxFinishedReason = new System.Windows.Forms.ComboBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.textBoxReason = new System.Windows.Forms.TextBox();
@@ -66,9 +66,11 @@
 			this.textBoxTokuisakiID.ImeMode = System.Windows.Forms.ImeMode.Off;
 			this.textBoxTokuisakiID.Location = new System.Drawing.Point(86, 47);
 			this.textBoxTokuisakiID.Margin = new System.Windows.Forms.Padding(4);
+			this.textBoxTokuisakiID.MaxLength = 6;
 			this.textBoxTokuisakiID.Name = "textBoxTokuisakiID";
 			this.textBoxTokuisakiID.Size = new System.Drawing.Size(132, 24);
 			this.textBoxTokuisakiID.TabIndex = 2;
+			this.textBoxTokuisakiID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTokuisakiID_KeyPress);
 			// 
 			// buttonSearch
 			// 
@@ -120,14 +122,14 @@
 			this.label3.TabIndex = 7;
 			this.label3.Text = "終了月";
 			// 
-			// comboBoxEndMonth
+			// comboBoxFinishedMonth
 			// 
-			this.comboBoxEndMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxEndMonth.FormattingEnabled = true;
-			this.comboBoxEndMonth.Location = new System.Drawing.Point(86, 117);
-			this.comboBoxEndMonth.Name = "comboBoxEndMonth";
-			this.comboBoxEndMonth.Size = new System.Drawing.Size(121, 25);
-			this.comboBoxEndMonth.TabIndex = 8;
+			this.comboBoxFinishedMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxFinishedMonth.FormattingEnabled = true;
+			this.comboBoxFinishedMonth.Location = new System.Drawing.Point(86, 117);
+			this.comboBoxFinishedMonth.Name = "comboBoxFinishedMonth";
+			this.comboBoxFinishedMonth.Size = new System.Drawing.Size(121, 25);
+			this.comboBoxFinishedMonth.TabIndex = 8;
 			// 
 			// label4
 			// 
@@ -174,14 +176,14 @@
 			this.labelVersion.TabIndex = 0;
 			this.labelVersion.Text = "Ver 1.00  2018/08/24";
 			// 
-			// comboBoxEndReason
+			// comboBoxFinishedReason
 			// 
-			this.comboBoxEndReason.FormattingEnabled = true;
-			this.comboBoxEndReason.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-			this.comboBoxEndReason.Location = new System.Drawing.Point(86, 207);
-			this.comboBoxEndReason.Name = "comboBoxEndReason";
-			this.comboBoxEndReason.Size = new System.Drawing.Size(378, 25);
-			this.comboBoxEndReason.TabIndex = 15;
+			this.comboBoxFinishedReason.FormattingEnabled = true;
+			this.comboBoxFinishedReason.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
+			this.comboBoxFinishedReason.Location = new System.Drawing.Point(86, 207);
+			this.comboBoxFinishedReason.Name = "comboBoxFinishedReason";
+			this.comboBoxFinishedReason.Size = new System.Drawing.Size(378, 25);
+			this.comboBoxFinishedReason.TabIndex = 15;
 			// 
 			// label6
 			// 
@@ -260,14 +262,14 @@
 			this.Controls.Add(this.buttonOK);
 			this.Controls.Add(this.textBoxReason);
 			this.Controls.Add(this.label7);
-			this.Controls.Add(this.comboBoxEndReason);
+			this.Controls.Add(this.comboBoxFinishedReason);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.labelVersion);
 			this.Controls.Add(this.comboBoxReplace);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.dateTimePickerAcceptDate);
 			this.Controls.Add(this.label4);
-			this.Controls.Add(this.comboBoxEndMonth);
+			this.Controls.Add(this.comboBoxFinishedMonth);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.textBoxUserName);
 			this.Controls.Add(this.label2);
@@ -297,13 +299,13 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox textBoxUserName;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.ComboBox comboBoxEndMonth;
+		private System.Windows.Forms.ComboBox comboBoxFinishedMonth;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.DateTimePicker dateTimePickerAcceptDate;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.ComboBox comboBoxReplace;
 		private System.Windows.Forms.Label labelVersion;
-		private System.Windows.Forms.ComboBox comboBoxEndReason;
+		private System.Windows.Forms.ComboBox comboBoxFinishedReason;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.TextBox textBoxReason;

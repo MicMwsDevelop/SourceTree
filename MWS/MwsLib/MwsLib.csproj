@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseFactory\EntryFinishedUser\EntryFinishedUserData.cs" />
     <Compile Include="BaseFactory\MwsSimulation\Estimate.cs" />
     <Compile Include="BaseFactory\MwsSimulation\GroupPlan.cs" />
     <Compile Include="BaseFactory\MwsSimulation\ServiceInfo.cs" />
@@ -93,6 +94,9 @@
     <Compile Include="DB\SqlServer\DataBaseController.cs" />
     <Compile Include="DB\SqlServer\DataBaseTableSQL.cs" />
     <Compile Include="DB\DataBaseValue.cs" />
+    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserDataAccess.cs" />
+    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserDataController.cs" />
+    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserDataGetIO.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationAccess.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationController.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationGetIO.cs" />
