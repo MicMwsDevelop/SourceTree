@@ -12,19 +12,30 @@ using System.Windows.Forms;
 
 namespace MwsSimulation.Forms
 {
+	/// <summary>
+	/// バージョン情報画面
+	/// </summary>
 	public partial class VersionInfoForm : Form
 	{
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
 		public VersionInfoForm()
 		{
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// Form Load
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void VersionInfoForm_Load(object sender, EventArgs e)
 		{
-			//自分自身のバージョン情報を取得する
+			// 自分自身のバージョン情報を取得する
 			System.Diagnostics.FileVersionInfo ver = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
-			textBoxProgramVer.Text = ver.FileVersion;
-			textBoxDataVer.Text = string.Format("{0} ({1})", MainForm.gVersionInfo.Item1, MainForm.gVersionInfo.Item2.ToString());
+			labelProgramVersion.Text = ver.FileVersion;
+			labelDataVersion.Text = string.Format("{0} ({1})", MainForm.gVersionInfo.Item1, MainForm.gVersionInfo.Item2.ToString());
 		}
 	}
 }

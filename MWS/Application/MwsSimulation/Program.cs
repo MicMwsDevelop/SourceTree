@@ -23,7 +23,7 @@ namespace MwsSimulation
 		/// <summary>
 		/// カレントデータフォルダ
 		/// </summary>
-		private const string CURRENT_DATA_FOLDER = @"C:\MwsSimulation";
+		private const string CURRENT_DATA_FOLDER = @"MwsSimulation";
 
 		/// <summary>
 		/// サーバーデータフォルダ
@@ -48,7 +48,7 @@ namespace MwsSimulation
 		public static string GetDataFolder()
 		{
 			string systemDrive = Environment.GetEnvironmentVariable("SystemDrive");
-			return Path.Combine(systemDrive, CURRENT_DATA_FOLDER);
+			return string.Format("{0}\\{1}", systemDrive, CURRENT_DATA_FOLDER);
 		}
 	}
 }

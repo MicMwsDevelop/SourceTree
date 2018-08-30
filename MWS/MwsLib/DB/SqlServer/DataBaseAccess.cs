@@ -27,9 +27,14 @@ namespace MwsLib.DB.SqlServer
         // ＤＢインスタンス ///////////////////////////////////////
 
 		/// <summary>
-		/// SQLSVのインスタンス名
+		/// SQLSVのインスタンス名（本番環境）
 		/// </summary>
 		public const string DB_INSTANCE_NAME_SQLSV = "SQLSV";
+
+		/// <summary>
+		/// SQLSV2のインスタンス名（CT環境）
+		/// </summary>
+		public const string DB_INSTANCE_NAME_SQLSV2 = "SQLSV2";
 
 		/// <summary>
 		/// TCCSVのインスタンス名
@@ -74,7 +79,7 @@ namespace MwsLib.DB.SqlServer
         /// Charileデータベース接続文字列を作成する
         /// </summary>
         /// <returns>Charlieデータベース接続文字列</returns>
-        public static string CreateCharlieConnectionString()
+        public static string CreateCharlieConnectionString(bool sqlsv2)
         {
             try
             {
@@ -87,23 +92,27 @@ namespace MwsLib.DB.SqlServer
                 rwLock.ReleaseReaderLock();
             }
             // Charlie
-            return CreateCharlieWebConnectionString();
+            return CreateCharlieWebConnectionString(sqlsv2);
         }
 
         /// <summary>
         /// Charlieデータベース接続文字列を作成する
         /// </summary>
         /// <returns>Charlieデータベース接続文字列</returns>
-        public static string CreateCharlieWebConnectionString()
+        public static string CreateCharlieWebConnectionString(bool sqlsv2)
         {
-            return string.Format(DB_CONNECT_STRING, DB_INSTANCE_NAME_SQLSV, DB_NAME_CHARLIE);
+			if (sqlsv2)
+			{
+				return string.Format(DB_CONNECT_STRING, DB_INSTANCE_NAME_SQLSV2, DB_NAME_CHARLIE);
+			}
+			return string.Format(DB_CONNECT_STRING, DB_INSTANCE_NAME_SQLSV, DB_NAME_CHARLIE);
         }
 
         /// <summary>
         /// Junpデータベース接続文字列を作成する
         /// </summary>
         /// <returns>Junpデータベース接続文字列</returns>
-        public static string CreateJunpConnectionString()
+        public static string CreateJunpConnectionString(bool sqlsv2)
         {
             try
             {
@@ -116,16 +125,20 @@ namespace MwsLib.DB.SqlServer
                 rwLock.ReleaseReaderLock();
             }
             // Junp
-            return CreateJunpWebConnectionString();
+            return CreateJunpWebConnectionString(sqlsv2);
         }
 
 		/// <summary>
 		/// Junpデータベース接続文字列を作成する
 		/// </summary>
 		/// <returns>Junpデータベース接続文字列</returns>
-		public static string CreateJunpWebConnectionString()
+		public static string CreateJunpWebConnectionString(bool sqlsv2)
         {
-            return string.Format(DB_CONNECT_STRING, DB_INSTANCE_NAME_SQLSV, DB_NAME_JUNP);
+			if (sqlsv2)
+			{
+				return string.Format(DB_CONNECT_STRING, DB_INSTANCE_NAME_SQLSV2, DB_NAME_JUNP);
+			}
+			return string.Format(DB_CONNECT_STRING, DB_INSTANCE_NAME_SQLSV, DB_NAME_JUNP);
         }
 
 		/// <summary>

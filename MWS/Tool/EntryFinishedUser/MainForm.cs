@@ -50,7 +50,7 @@ namespace EntryFinishedUser
 				textBoxTokuisakiID.Focus();
 				return;
 			}
-			EntryFinishedUserData data = EntryFinishedUserDataAccess.GetEntryFinishedUserData(textBoxTokuisakiID.Text);
+			EntryFinishedUserData data = EntryFinishedUserDataAccess.GetEntryFinishedUserData(textBoxTokuisakiID.Text, true);
 			if (null == data)
 			{
 				MessageBox.Show("該当顧客がいません。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -61,9 +61,10 @@ namespace EntryFinishedUser
 			comboBoxReplace.Text = data.Replace;
 			comboBoxFinishedReason.Text = data.FinishedReason;
 			textBoxReason.Text = data.Reason;
-
-
-
+			if (data.AcceptDate.HasValue)
+			{
+				dateTimePickerAcceptDate.Value = data.AcceptDate.Value.ToDateTime();
+			}
 		}
 
 		/// <summary>

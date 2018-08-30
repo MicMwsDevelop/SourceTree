@@ -108,7 +108,6 @@
 			this.textBoxUserName.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
 			this.textBoxUserName.Location = new System.Drawing.Point(86, 79);
 			this.textBoxUserName.Name = "textBoxUserName";
-			this.textBoxUserName.ReadOnly = true;
 			this.textBoxUserName.Size = new System.Drawing.Size(295, 24);
 			this.textBoxUserName.TabIndex = 6;
 			// 
@@ -163,6 +162,7 @@
 			this.comboBoxReplace.FormattingEnabled = true;
 			this.comboBoxReplace.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
 			this.comboBoxReplace.Location = new System.Drawing.Point(86, 176);
+			this.comboBoxReplace.MaxLength = 50;
 			this.comboBoxReplace.Name = "comboBoxReplace";
 			this.comboBoxReplace.Size = new System.Drawing.Size(182, 25);
 			this.comboBoxReplace.TabIndex = 13;
@@ -181,6 +181,7 @@
 			this.comboBoxFinishedReason.FormattingEnabled = true;
 			this.comboBoxFinishedReason.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
 			this.comboBoxFinishedReason.Location = new System.Drawing.Point(86, 207);
+			this.comboBoxFinishedReason.MaxLength = 50;
 			this.comboBoxFinishedReason.Name = "comboBoxFinishedReason";
 			this.comboBoxFinishedReason.Size = new System.Drawing.Size(378, 25);
 			this.comboBoxFinishedReason.TabIndex = 15;

@@ -24,13 +24,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>\\1HTXXBX\public\publish\</InstallUrl>
+    <InstallUrl>\\wwsv\MIC_Folder\mic_menu\MWS課金シミュレーション\publish\</InstallUrl>
+    <UpdateUrl>\\wwsv\MIC_Folder\mic_menu\MWS課金シミュレーション\publish\</UpdateUrl>
     <ProductName>MIC WEB SERVICE 課金シミュレーション</ProductName>
     <PublisherName>株式会社ミック 営業管理部</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.3.0</ApplicationVersion>
+    <ApplicationVersion>1.0.4.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>

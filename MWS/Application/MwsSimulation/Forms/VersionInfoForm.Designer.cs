@@ -30,10 +30,10 @@
 		{
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.textBoxProgramVer = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
-			this.textBoxDataVer = new System.Windows.Forms.TextBox();
 			this.buttonClose = new System.Windows.Forms.Button();
+			this.labelProgramVersion = new System.Windows.Forms.Label();
+			this.labelDataVersion = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -54,15 +54,6 @@
 			this.label2.TabIndex = 3;
 			this.label2.Text = "■データファイルバージョン";
 			// 
-			// textBoxProgramVer
-			// 
-			this.textBoxProgramVer.BackColor = System.Drawing.Color.White;
-			this.textBoxProgramVer.Location = new System.Drawing.Point(157, 48);
-			this.textBoxProgramVer.Name = "textBoxProgramVer";
-			this.textBoxProgramVer.ReadOnly = true;
-			this.textBoxProgramVer.Size = new System.Drawing.Size(109, 24);
-			this.textBoxProgramVer.TabIndex = 2;
-			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
@@ -72,35 +63,44 @@
 			this.label3.TabIndex = 0;
 			this.label3.Text = "MIC WEB SERVICE 課金シミュレーション";
 			// 
-			// textBoxDataVer
-			// 
-			this.textBoxDataVer.BackColor = System.Drawing.Color.White;
-			this.textBoxDataVer.Location = new System.Drawing.Point(157, 78);
-			this.textBoxDataVer.Name = "textBoxDataVer";
-			this.textBoxDataVer.ReadOnly = true;
-			this.textBoxDataVer.Size = new System.Drawing.Size(285, 24);
-			this.textBoxDataVer.TabIndex = 4;
-			// 
 			// buttonClose
 			// 
 			this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonClose.Location = new System.Drawing.Point(367, 108);
+			this.buttonClose.Location = new System.Drawing.Point(367, 118);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 32);
 			this.buttonClose.TabIndex = 5;
 			this.buttonClose.Text = "閉じる";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			// 
+			// labelProgramVersion
+			// 
+			this.labelProgramVersion.BackColor = System.Drawing.SystemColors.Window;
+			this.labelProgramVersion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.labelProgramVersion.Location = new System.Drawing.Point(157, 50);
+			this.labelProgramVersion.Name = "labelProgramVersion";
+			this.labelProgramVersion.Size = new System.Drawing.Size(109, 24);
+			this.labelProgramVersion.TabIndex = 2;
+			// 
+			// labelDataVersion
+			// 
+			this.labelDataVersion.BackColor = System.Drawing.SystemColors.Window;
+			this.labelDataVersion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.labelDataVersion.Location = new System.Drawing.Point(157, 80);
+			this.labelDataVersion.Name = "labelDataVersion";
+			this.labelDataVersion.Size = new System.Drawing.Size(285, 24);
+			this.labelDataVersion.TabIndex = 4;
+			// 
 			// VersionInfoForm
 			// 
 			this.AcceptButton = this.buttonClose;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(460, 153);
+			this.ClientSize = new System.Drawing.Size(460, 162);
+			this.Controls.Add(this.labelDataVersion);
+			this.Controls.Add(this.labelProgramVersion);
 			this.Controls.Add(this.buttonClose);
-			this.Controls.Add(this.textBoxDataVer);
 			this.Controls.Add(this.label3);
-			this.Controls.Add(this.textBoxProgramVer);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -121,9 +121,9 @@
 
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.TextBox textBoxProgramVer;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox textBoxDataVer;
 		private System.Windows.Forms.Button buttonClose;
+		private System.Windows.Forms.Label labelProgramVersion;
+		private System.Windows.Forms.Label labelDataVersion;
 	}
 }

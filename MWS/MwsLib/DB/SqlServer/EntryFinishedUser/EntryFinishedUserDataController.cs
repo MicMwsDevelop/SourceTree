@@ -39,6 +39,7 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 					entry.HanbaitenID = row["販売店ID"].ToString();
 					entry.HanbaitenName = row["販売店名称"].ToString();
 					entry.FinishedYearMonth = DataBaseValue.ConvObjectToYearMonthNull(row["終了月"]);
+					entry.AcceptDate = DataBaseValue.ConvObjectToDateNull(row["終了届受領日"]);
 					result.Add(entry);
 				}
 			}

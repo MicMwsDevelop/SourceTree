@@ -89,6 +89,11 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 		public YearMonth? FinishedYearMonth { get; set; }
 
 		/// <summary>
+		/// 終了届受領日
+		/// </summary>
+		public Date? AcceptDate { get; set; }
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public EntryFinishedUserData()
@@ -109,6 +114,7 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 			HanbaitenID = string.Empty;
 			HanbaitenName = string.Empty;
 			FinishedYearMonth = null;
+			AcceptDate = null;
 		}
 	}
 }

@@ -21,10 +21,11 @@ namespace MwsLib.DB.SqlServer.MwsSimulation
 		/// <summary>
 		/// サービス情報リストの取得
 		/// </summary>
+		/// <param name="sqlsv2">CT環境</param>
 		/// <returns>サービス情報リスト</returns>
-		public static ServiceInfoList GetServiceInfo()
+		public static ServiceInfoList GetServiceInfo(bool sqlsv2 = false)
 		{
-			DataTable table = MwsSimulationGetIO.GetServiceInfo();
+			DataTable table = MwsSimulationGetIO.GetServiceInfo(sqlsv2);
 			return MwsSimulationController.ConvertServiceInfoList(table);
 		}
 
@@ -51,12 +52,13 @@ namespace MwsLib.DB.SqlServer.MwsSimulation
 		/// <summary>
 		/// セット割サービス情報リストの取得
 		/// </summary>
+		/// <param name="sqlsv2">CT環境</param>
 		/// <returns>セット割サービス情報リスト</returns>
-		public static List<SetPlan> GetSetPlanList()
+		public static List<SetPlan> GetSetPlanList(bool sqlsv2 = false)
 		{
-			DataTable table = MwsSimulationGetIO.GetSetPlan();
+			DataTable table = MwsSimulationGetIO.GetSetPlan(sqlsv2);
 			List<SetPlan> result = MwsSimulationController.ConvertSetPlan(table);
-			table = MwsSimulationGetIO.GetSetPlanElement();
+			table = MwsSimulationGetIO.GetSetPlanElement(sqlsv2);
 			return MwsSimulationController.ConvertSetPlanElement(result, table);
 		}
 	}
