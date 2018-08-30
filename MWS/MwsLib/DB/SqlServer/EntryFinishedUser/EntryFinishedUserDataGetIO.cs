@@ -10,9 +10,11 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 	public static class EntryFinishedUserDataGetIO
 	{
 		/// <summary>
-		/// 
+		/// 顧客情報の取得
 		/// </summary>
-		/// <returns></returns>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="tokuisakiID">得意先No</param>
+		/// <returns>DataTable</returns>
 		public static DataTable GetEntryFinishedUserDataList(bool sqlsv2, string tokuisakiID = "")
 		{
 			DataTable result = null;
@@ -33,6 +35,50 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 					{
 						strSQL += string.Format(" WHERE vMic全ユーザー３.得意先No = '{0}'", tokuisakiID);
 					}
+					using (SqlCommand cmd = new SqlCommand(strSQL, con))
+					{
+						using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+						{
+							result = new DataTable();
+							da.Fill(result);
+						}
+					}
+				}
+				catch
+				{
+					throw;
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// リプレース先メーカーリストの取得
+		/// </summary>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>リプレース先メーカーリスト</returns>
+		public static DataTable GetReplaceMakerList(bool sqlsv2)
+		{
+			DataTable result = null;
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(sqlsv2)))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					string strSQL = @"SELECT [tMikコードマスタ].fcm名称"
+									+ " FROM [tMikコードマスタ]"
+									+ " WHERE [tMikコードマスタ].fcm名称 Not Like '%不可%' AND [tMikコードマスタ].fcmコード <> '001' AND [tMikコードマスタ].fcmコード種別 = '30'"
+									+ " ORDER BY [tMikコードマスタ].fcmコード ASC";
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
 						using (SqlDataAdapter da = new SqlDataAdapter(cmd))

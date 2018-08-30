@@ -116,5 +116,50 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 			FinishedYearMonth = null;
 			AcceptDate = null;
 		}
+
+		public static string[] ToTitleArray()
+		{
+			List<string> list = new List<string>();
+			list.Add("顧客No");
+			list.Add("得意先No");
+			list.Add("顧客名");
+			list.Add("レセコン名称");
+			list.Add("拠点コード");
+			list.Add("拠点名");
+			list.Add("都道府県名");
+			list.Add("終了事由");
+			list.Add("リプレース");
+			list.Add("理由");
+			list.Add("コメント");
+			list.Add("有効ユーザーフラグ");
+			list.Add("除外");
+			list.Add("販売店ID");
+			list.Add("販売店名称");
+			list.Add("終了月");
+			return list.ToArray();
+		}
+
+
+		public string[] ToStringArray()
+		{
+			List<string> list = new List<string>();
+			list.Add(CostomerID);
+			list.Add(TokuisakiNo);
+			list.Add(SystemName);
+			list.Add(AreaCode);
+			list.Add(AreaName);
+			list.Add(KenName);
+			list.Add(FinishedReason);
+			list.Add(Replace);
+			list.Add(Reason);
+			list.Add(Comment);
+			list.Add(EnableUserFlag.ToString());
+			list.Add(Expcet);
+			list.Add(HanbaitenID);
+			list.Add(HanbaitenName);
+			list.Add(FinishedYearMonth.ToString());
+			list.Add("");
+			return list.ToArray();
+		}
 	}
 }

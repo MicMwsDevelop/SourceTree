@@ -97,6 +97,7 @@
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserDataAccess.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserDataController.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserDataGetIO.cs" />
+    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserDataSetIO.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationAccess.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationController.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationGetIO.cs" />

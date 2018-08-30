@@ -123,7 +123,6 @@
 			// 
 			// comboBoxFinishedMonth
 			// 
-			this.comboBoxFinishedMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFinishedMonth.FormattingEnabled = true;
 			this.comboBoxFinishedMonth.Location = new System.Drawing.Point(86, 117);
 			this.comboBoxFinishedMonth.Name = "comboBoxFinishedMonth";
@@ -180,6 +179,11 @@
 			// 
 			this.comboBoxFinishedReason.FormattingEnabled = true;
 			this.comboBoxFinishedReason.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
+			this.comboBoxFinishedReason.Items.AddRange(new object[] {
+            "１．他メーカーリプレース",
+            "２．閉院",
+            "３．手書きなどに変更",
+            "４．その他"});
 			this.comboBoxFinishedReason.Location = new System.Drawing.Point(86, 207);
 			this.comboBoxFinishedReason.MaxLength = 50;
 			this.comboBoxFinishedReason.Name = "comboBoxFinishedReason";
@@ -223,6 +227,7 @@
 			this.buttonOK.TabIndex = 18;
 			this.buttonOK.Text = "登録";
 			this.buttonOK.UseVisualStyleBackColor = true;
+			this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
 			// 
 			// buttonClose
 			// 
@@ -232,6 +237,7 @@
 			this.buttonClose.TabIndex = 20;
 			this.buttonClose.Text = "閉じる";
 			this.buttonClose.UseVisualStyleBackColor = true;
+			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
 			// 
 			// buttonList
 			// 
@@ -241,6 +247,7 @@
 			this.buttonList.TabIndex = 19;
 			this.buttonList.Text = "リスト参照";
 			this.buttonList.UseVisualStyleBackColor = true;
+			this.buttonList.Click += new System.EventHandler(this.buttonList_Click);
 			// 
 			// checkBoxNotPaletteUser
 			// 
