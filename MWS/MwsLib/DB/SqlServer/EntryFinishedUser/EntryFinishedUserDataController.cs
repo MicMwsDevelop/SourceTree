@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MwsLib.BaseFactory.EntryFinishedUser;
-using System.Data;
+﻿using MwsLib.BaseFactory.EntryFinishedUser;
 using MwsLib.Common;
+using System.Collections.Generic;
+using System.Data;
 
 namespace MwsLib.DB.SqlServer.EntryFinishedUser
 {

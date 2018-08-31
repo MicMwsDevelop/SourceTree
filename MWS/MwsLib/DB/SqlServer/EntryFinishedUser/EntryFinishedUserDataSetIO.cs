@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MwsLib.BaseFactory.EntryFinishedUser;
-using System.Data.SqlClient;
-using System.ComponentModel;
-using System.Collections;
+﻿using MwsLib.BaseFactory.EntryFinishedUser;
 using MwsLib.Common;
+using System;
+using System.Data.SqlClient;
 
 namespace MwsLib.DB.SqlServer.EntryFinishedUser
 {
@@ -177,12 +172,12 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 													new SqlParameter("@8", DBNull.Value),
 													new SqlParameter("@9", DBNull.Value),
 													new SqlParameter("@10", DBNull.Value),
-													new SqlParameter("@11", ""),
-													new SqlParameter("@12", ""),
-													new SqlParameter("@13", ""),
-													new SqlParameter("@14", ""),
-													new SqlParameter("@15", ""),
-													new SqlParameter("@16", ""),
+													new SqlParameter("@11", Convert.ToInt32(0)),
+													new SqlParameter("@12", Convert.ToInt32(0)),
+													new SqlParameter("@13", Convert.ToInt32(0)),
+													new SqlParameter("@14", Convert.ToInt32(0)),
+													new SqlParameter("@15", Convert.ToInt32(0)),
+													new SqlParameter("@16", Convert.ToInt32(0)),
 													new SqlParameter("@17", DBNull.Value),
 													new SqlParameter("@18", DBNull.Value) };
 							// 実行
