@@ -6,6 +6,7 @@ using MwsLib.BaseFactory.EntryFinishedUser;
 using System.Data.SqlClient;
 using System.ComponentModel;
 using System.Collections;
+using MwsLib.Common;
 
 namespace MwsLib.DB.SqlServer.EntryFinishedUser
 {
@@ -168,22 +169,22 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 							string sqlString = @"INSERT INTO tMemo VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18)";
 							SqlParameter[] param = { new SqlParameter("@1", data.CostomerID),
 													new SqlParameter("@2", "tClient"),
-													new SqlParameter("@3", string.Format("{0} 営業管理部", DateTime.Now.ToString())),
+													new SqlParameter("@3", string.Format("{0} {1:D2}:{2:D2} 営業管理部", new Date(DateTime.Now).ToString(), DateTime.Now.Hour, DateTime.Now.Minute)),
 													new SqlParameter("@4", param4),
 													new SqlParameter("@5", DateTime.Now),
 													new SqlParameter("@6", "営業管理部"),
-													new SqlParameter("@7", null),
-													new SqlParameter("@8", null),
-													new SqlParameter("@9", null),
-													new SqlParameter("@10", null),
-													new SqlParameter("@11", 0),
-													new SqlParameter("@12", 0),
-													new SqlParameter("@13", 0),
-													new SqlParameter("@14", 0),
-													new SqlParameter("@15", 0),
-													new SqlParameter("@16", 0),
-													new SqlParameter("@17", null),
-													new SqlParameter("@18", null) };
+													new SqlParameter("@7", DBNull.Value),
+													new SqlParameter("@8", DBNull.Value),
+													new SqlParameter("@9", DBNull.Value),
+													new SqlParameter("@10", DBNull.Value),
+													new SqlParameter("@11", ""),
+													new SqlParameter("@12", ""),
+													new SqlParameter("@13", ""),
+													new SqlParameter("@14", ""),
+													new SqlParameter("@15", ""),
+													new SqlParameter("@16", ""),
+													new SqlParameter("@17", DBNull.Value),
+													new SqlParameter("@18", DBNull.Value) };
 							// 実行
 							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString, param);
 							if (rowCount <= -1)
