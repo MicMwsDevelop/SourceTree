@@ -7,6 +7,7 @@
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
 //
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -184,15 +185,16 @@ namespace MwsLib.DB.SqlServer.MwsSimulation
 					// 接続
 					con.Open();
 
-					string strSQL = @"SELECT goods_id AS GoodsID"
+					string strSQL = string.Format(@"SELECT goods_id AS GoodsID"
 									+ ", plan_nm AS GoodsName"
 									+ ", keiyaku_month_cnt AS KeiyakuMonth"
 									+ ", free_use_month AS FreeMonth"
 									+ ", min_amount AS MinAmmount"
 									+ ", max_amount AS MaxAmmount"
 									+ " FROM dbo.GROUP_PLAN"
-									+ " WHERE del_flg = 0 AND goods_kbn = 204"
-									+ " ORDER BY goods_id ASC, plan_rank ASC";
+									+ " WHERE del_flg = N'0' AND goods_kbn = 204"
+									+ " AND ((close_date is null) OR (open_date <= '{0}' AND close_date >= '{0}'))"
+									+ " ORDER BY goods_id ASC, keiyaku_month_cnt ASC", DateTime.Now);
 
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
@@ -233,12 +235,13 @@ namespace MwsLib.DB.SqlServer.MwsSimulation
 					// 接続
 					con.Open();
 
-					string strSQL = @"SELECT MSET.SET_ID AS GroupID"
+					string strSQL = string.Format(@"SELECT MSET.SET_ID AS GroupID"
 									+ ", MSET.SET_NM AS GroupName"
 									+ ", SET_SERVICE.SERVICE_ID AS ServiceCode"
 									+ " FROM dbo.M_SET AS MSET"
 									+ " LEFT JOIN dbo.M_SET_SERVICE AS SET_SERVICE ON SET_SERVICE.SET_ID = MSET.SET_ID"
-									+ " ORDER BY MSET.SET_ID ASC, SET_SERVICE.SERVICE_ID ASC";
+									+ " WHERE MSET.DEL_FLG = N'0' AND (MSET.SET_START_DATE <= '{0}' AND MSET.SET_END_DATE >= '{0}')"
+									+ " ORDER BY MSET.SET_ID ASC, SET_SERVICE.SERVICE_ID ASC", DateTime.Now);
 
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{

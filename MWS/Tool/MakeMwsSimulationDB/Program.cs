@@ -22,7 +22,11 @@ namespace MakeMwsSimulationDB
 		/// <summary>
 		/// サーバーデータフォルダ
 		/// </summary>
+#if DEBUG
+		private const string SERVER_DATA_FOLDER = @"C:\_AAA\MakeMwsSimulationDB";
+#else
 		private const string SERVER_DATA_FOLDER = @"\\storage\公開データ\サポート課公開用\02_Tools類\その他\MwsSimulation";
+#endif
 
 		static void Main(string[] args)
 		{

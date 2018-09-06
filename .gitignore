@@ -12,3 +12,9 @@
 *.sln
 /MWS/Tool/EntryFinishedUser/bin/Debug
 /MWS/Tool/EntryFinishedUser/obj/Debug
+/MWS/Tool/MwsServiceFrequency/Doc/palette_使用頻度
+/MWS/Tool/MwsServiceFrequency/obj
+/MWS/Tool/MakeMwsSimulationDB/bin
+/MWS/Tool/MakeMwsSimulationDB/obj
+/MWS/Tool/MwsServiceFrequency/bin
+/MWS/Tool/MwsServiceFrequency/Doc/ユーザー情報.sql
