@@ -11,6 +11,7 @@ using MwsLib.BaseFactory.MwsServiceFrequency;
 using ClosedXML.Excel;
 using MwsLib.DB.SQLite.MwsServiceFrequency;
 using System.IO;
+using MwsLib.Common;
 
 namespace MwsServiceFrequency
 {
@@ -49,12 +50,24 @@ namespace MwsServiceFrequency
 						MwsServiceFrequencyDataList addList = new MwsServiceFrequencyDataList();
 						MwsServiceFrequencyDataList list = new MwsServiceFrequencyDataList();
 						int columnCount = table.DataRange.ColumnCount();
+						YearMonth? usedMonth = null;
 						foreach (var dataRow in table.DataRange.Rows())
 						{
 							if (null != dataRow.Cell(16).Value)
 							{
 								if ("" != Convert.ToString(dataRow.Cell(16).Value))
 								{
+									// 使用回数が１回以上
+									if (false == usedMonth.HasValue)
+									{
+										YearMonth work;
+										if (YearMonth.TryParse(Convert.ToString(dataRow.Cell(22).Value), out work))
+										{
+											// 利用年月
+											usedMonth = work;
+											SQLiteMwsServiceFrequencyAccess.DeleteAllMwsServiceFrequencyData(Directory.GetCurrentDirectory(), usedMonth.Value);
+										}
+									}
 									for (int i = 0; i < columnCount; i++)
 									{
 										if (null != dataRow.Cell(i + 1).Value)
@@ -75,6 +88,11 @@ namespace MwsServiceFrequency
 									}
 								}
 							}
+						}
+						if (0 < list.Count)
+						{
+							SQLiteMwsServiceFrequencyAccess.SetMwsServiceFrequencyDataList(Directory.GetCurrentDirectory(), list);
+							addList.AddRange(list);
 						}
 						if (0 < addList.Count)
 						{

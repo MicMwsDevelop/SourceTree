@@ -48,6 +48,9 @@ namespace MwsSimulation.Print
 		/// </summary>
 		List<List<EstimateData>> PageList { get; set; }
 
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
 		public PrintEstimateData()
 		{
 			EstimateID = 0;

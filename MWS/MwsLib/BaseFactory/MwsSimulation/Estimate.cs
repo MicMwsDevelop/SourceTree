@@ -72,7 +72,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		}
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public Estimate()
 		{
@@ -234,7 +234,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		public List<Tuple<string, string>> GroupServiceList { get; set; }
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public EstimateService()
 		{

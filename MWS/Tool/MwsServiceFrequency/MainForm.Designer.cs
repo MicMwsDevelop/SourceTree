@@ -53,7 +53,6 @@
 			this.listBoxFrequency.ItemHeight = 17;
 			this.listBoxFrequency.Location = new System.Drawing.Point(15, 15);
 			this.listBoxFrequency.Name = "listBoxFrequency";
-			this.listBoxFrequency.SelectionMode = System.Windows.Forms.SelectionMode.None;
 			this.listBoxFrequency.Size = new System.Drawing.Size(357, 633);
 			this.listBoxFrequency.TabIndex = 1;
 			// 

@@ -24,7 +24,7 @@ namespace MwsSimulation.Forms
 		public StringCollection StaffList { get; set; }
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public EnvironmentForm()
 		{

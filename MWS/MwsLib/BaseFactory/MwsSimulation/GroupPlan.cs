@@ -359,7 +359,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		public List<string> ServiceCodeList { get; set; }
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public InitGroupPlan()
 		{

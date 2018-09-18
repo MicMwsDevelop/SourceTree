@@ -1,5 +1,4 @@
-﻿using System.IO;
-//
+﻿//
 // PrintEstimateDef.cs
 //
 // MIC WEB SERVICE見積書・注文書/注文請書印刷定義クラス
@@ -8,6 +7,7 @@
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
 // 
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace MwsSimulation.Print

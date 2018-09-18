@@ -388,7 +388,7 @@
 			// 
 			this.buttonInitGroupPlan3.Location = new System.Drawing.Point(702, 145);
 			this.buttonInitGroupPlan3.Name = "buttonInitGroupPlan3";
-			this.buttonInitGroupPlan3.Size = new System.Drawing.Size(381, 35);
+			this.buttonInitGroupPlan3.Size = new System.Drawing.Size(415, 35);
 			this.buttonInitGroupPlan3.TabIndex = 11;
 			this.buttonInitGroupPlan3.Text = "button3";
 			this.buttonInitGroupPlan3.UseVisualStyleBackColor = true;
@@ -398,7 +398,7 @@
 			// 
 			this.buttonInitGroupPlan2.Location = new System.Drawing.Point(702, 104);
 			this.buttonInitGroupPlan2.Name = "buttonInitGroupPlan2";
-			this.buttonInitGroupPlan2.Size = new System.Drawing.Size(381, 35);
+			this.buttonInitGroupPlan2.Size = new System.Drawing.Size(415, 35);
 			this.buttonInitGroupPlan2.TabIndex = 10;
 			this.buttonInitGroupPlan2.Text = "button2";
 			this.buttonInitGroupPlan2.UseVisualStyleBackColor = true;
@@ -408,7 +408,7 @@
 			// 
 			this.buttonInitGroupPlan1.Location = new System.Drawing.Point(702, 63);
 			this.buttonInitGroupPlan1.Name = "buttonInitGroupPlan1";
-			this.buttonInitGroupPlan1.Size = new System.Drawing.Size(381, 35);
+			this.buttonInitGroupPlan1.Size = new System.Drawing.Size(415, 35);
 			this.buttonInitGroupPlan1.TabIndex = 9;
 			this.buttonInitGroupPlan1.Text = "button1";
 			this.buttonInitGroupPlan1.UseVisualStyleBackColor = true;
@@ -590,14 +590,14 @@
 			// 
 			this.dateTimePickerStartDate.Location = new System.Drawing.Point(782, 14);
 			this.dateTimePickerStartDate.Name = "dateTimePickerStartDate";
-			this.dateTimePickerStartDate.Size = new System.Drawing.Size(141, 24);
+			this.dateTimePickerStartDate.Size = new System.Drawing.Size(144, 24);
 			this.dateTimePickerStartDate.TabIndex = 6;
 			// 
 			// comboBoxTerm
 			// 
 			this.comboBoxTerm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxTerm.FormattingEnabled = true;
-			this.comboBoxTerm.Location = new System.Drawing.Point(929, 13);
+			this.comboBoxTerm.Location = new System.Drawing.Point(932, 13);
 			this.comboBoxTerm.Name = "comboBoxTerm";
 			this.comboBoxTerm.Size = new System.Drawing.Size(80, 25);
 			this.comboBoxTerm.TabIndex = 7;

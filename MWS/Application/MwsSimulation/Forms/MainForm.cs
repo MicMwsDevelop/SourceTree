@@ -91,7 +91,7 @@ namespace MwsSimulation.Forms
 		private int MaxPage { get; set; }
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public MainForm()
 		{
@@ -117,6 +117,12 @@ namespace MwsSimulation.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
+			// 元のカーソルを保持
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
 			// データファイルの更新
 			string dataFolder = Program.GetDataFolder();
 			if (false == this.UpdateDataFile(dataFolder))
@@ -139,31 +145,38 @@ namespace MwsSimulation.Forms
 			{
 				comboBoxStaff.SelectedIndex = gSettings.CurrentStaffIndex;
 			}
-			// サービス情報リストの取得
-			gServiceList = SQLiteMwsSimulationAccess.GetServiceInfo(dataFolder);
+			try
+			{
+				// サービス情報リストの取得
+				gServiceList = SQLiteMwsSimulationAccess.GetServiceInfo(dataFolder);
 
-			// おススメセット情報リストの取得
-			gInitGroupPlanList = SQLiteMwsSimulationAccess.GetInitGroupPlan(dataFolder);
+				// おススメセット情報リストの取得
+				gInitGroupPlanList = SQLiteMwsSimulationAccess.GetInitGroupPlan(dataFolder);
 
-			// おまとめプラン情報リストの取得
-			gGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder);
+				// おまとめプラン情報リストの取得
+				gGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder);
 
-			// セット割サービス情報リストの設定
-			gSetPlanList = SQLiteMwsSimulationAccess.GetSetPlanList(dataFolder);
+				// セット割サービス情報リストの設定
+				gSetPlanList = SQLiteMwsSimulationAccess.GetSetPlanList(dataFolder);
 
-			// バージョン情報の取得
-			gVersionInfo = SQLiteMwsSimulationAccess.GetVerionInfo(dataFolder);
+				// バージョン情報の取得
+				gVersionInfo = SQLiteMwsSimulationAccess.GetVerionInfo(dataFolder);
 
-			// おまとめプランの中で下限金額の最小値
-			gMinAmmount = gGroupPlanList.GetMinAmmount();
+				// おまとめプランの中で下限金額の最小値
+				gMinAmmount = gGroupPlanList.GetMinAmmount();
 
-			// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）
-			// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
-			gMinFreeMonthMinAmmount = gGroupPlanList.GetMinFreeMonthMinAmmount();
+				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）
+				// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
+				gMinFreeMonthMinAmmount = gGroupPlanList.GetMinFreeMonthMinAmmount();
 
-			// 見積書情報リストの取得
-			EstimateList = SQLiteMwsSimulationAccess.GetEstimateList(dataFolder);
-
+				// 見積書情報リストの取得
+				EstimateList = SQLiteMwsSimulationAccess.GetEstimateList(dataFolder);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "マスター情報読込エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				return;
+			}
 			// 見積書情報リストボックスの設定
 			this.SetListBoxEstimate();
 
@@ -171,6 +184,8 @@ namespace MwsSimulation.Forms
 			{
 				listBoxEstimate.SelectedIndex = 0;
 			}
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
 		}
 
 		/// <summary>
@@ -256,12 +271,19 @@ namespace MwsSimulation.Forms
 			{
 				if (DialogResult.Yes == MessageBox.Show("見積書を削除してもよろしいですか？", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question))
 				{
-					if (-1 != SQLiteMwsSimulationAccess.DeleteEstimate(Program.GetDataFolder(), EstimateList[listBoxEstimate.SelectedIndex].EstimateID))
+					try
 					{
-						EstimateList.RemoveAt(listBoxEstimate.SelectedIndex);
+						if (-1 != SQLiteMwsSimulationAccess.DeleteEstimate(Program.GetDataFolder(), EstimateList[listBoxEstimate.SelectedIndex].EstimateID))
+						{
+							EstimateList.RemoveAt(listBoxEstimate.SelectedIndex);
 
-						// 見積書情報リストボックスの設定
-						this.SetListBoxEstimate();
+							// 見積書情報リストボックスの設定
+							this.SetListBoxEstimate();
+						}
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(ex.Message, "見積書情報削除エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 					}
 				}
 			}
@@ -291,9 +313,16 @@ namespace MwsSimulation.Forms
 						}
 						est.Destination = form.Destination;
 
-						// 宛先の更新
-						SQLiteMwsSimulationAccess.UpdateEstimateHeaderDestination(Program.GetDataFolder(), est.EstimateID, est.Destination);
-
+						try
+						{
+							// 宛先の更新
+							SQLiteMwsSimulationAccess.UpdateEstimateHeaderDestination(Program.GetDataFolder(), est.EstimateID, est.Destination);
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(ex.Message, "宛先更新エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+							return;
+						}
 						// 見積書情報リストボックスの設定
 						this.SetListBoxEstimate();
 
@@ -445,6 +474,7 @@ namespace MwsSimulation.Forms
 		{
 			if (ApplicationDeployment.IsNetworkDeployed)
 			{
+				// オンライン
 				if (Directory.Exists(Program.SERVER_DATA_FOLDER))
 				{
 					string srcMasterDB = Path.Combine(Program.SERVER_DATA_FOLDER, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
@@ -603,7 +633,7 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// PalettePrintPreviewForm BeginPrintイベント
+		/// PrintPreviewForm BeginPrintイベント
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -671,18 +701,18 @@ namespace MwsSimulation.Forms
 		/// </summary>
 		private void PrintPreviewForm_EndPrint(object sender, PrintEventArgs e)
 		{
-			PrintDocument printDocument = ((PrintPreviewForm)sender).Document;
+			//PrintDocument printDocument = ((PrintPreviewForm)sender).Document;
 
-			if (!printDocument.PrintController.IsPreview)
-			{
-				if (!e.Cancel)
-				{
-					// プリンタ発行情報をINIファイルに記憶する
-					//ClientPrinterInfoIni pi = new ClientPrinterInfoIni();
-					//pi.ReadPrintDocument(printDocument);
-					//ClientIniIO.SetClientIntroducePrinterInfo(PrintIntroduce.PaperName, pi);
-				}
-			}
+			//if (!printDocument.PrintController.IsPreview)
+			//{
+			//	if (!e.Cancel)
+			//	{
+			//		// プリンタ発行情報をINIファイルに記憶する
+			//		ClientPrinterInfoIni pi = new ClientPrinterInfoIni();
+			//		pi.ReadPrintDocument(printDocument);
+			//		ClientIniIO.SetClientIntroducePrinterInfo(PrintIntroduce.PaperName, pi);
+			//	}
+			//}
 		}
 
 		/// <summary>

@@ -40,7 +40,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		public List<Tuple<string, string>> ServiceList;
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public SetPlan()
 		{

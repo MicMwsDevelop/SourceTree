@@ -20,7 +20,7 @@ namespace MwsSimulation.Forms
 		public string StaffName { get; set; }
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public SetStaffForm()
 		{

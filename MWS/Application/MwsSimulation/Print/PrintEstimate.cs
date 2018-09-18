@@ -61,7 +61,7 @@ namespace MwsSimulation.Print
 		}
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public PrintEstimate()
 		{

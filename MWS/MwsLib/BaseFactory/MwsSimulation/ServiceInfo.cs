@@ -91,7 +91,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		}
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public ServiceInfo()
 		{
@@ -205,7 +205,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		public ServiceInfo Standard { get; set; }
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public ServiceInfoList()
 		{
@@ -332,7 +332,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		public List<Tuple<string, string>> ServiceCodeList { get; set; }
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public GroupService()
 		{

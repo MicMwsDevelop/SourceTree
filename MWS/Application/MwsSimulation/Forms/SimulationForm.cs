@@ -67,19 +67,19 @@ namespace MwsSimulation.Forms
 		private const string SERVICE_CODE_CHART2_STD = "1014100";
 
 		/// <summary>
-		/// おまとめプラン１２ヵ月が存在する
+		/// おまとめプラン１２ヵ月がマスターに存在する
 		/// </summary>
 		// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
 		private bool ExistGroupPlan12 { get; set; }
 
 		/// <summary>
-		/// おまとめプラン２４ヵ月が存在する
+		/// おまとめプラン２４ヵ月がマスターに存在する
 		/// </summary>
 		// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
 		private bool ExistGroupPlan24 { get; set; }
 
 		/// <summary>
-		/// おまとめプラン３６ヵ月が存在する
+		/// おまとめプラン３６ヵ月がマスターに存在する
 		/// </summary>
 		// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
 		private bool ExistGroupPlan36 { get; set; }
@@ -129,6 +129,12 @@ namespace MwsSimulation.Forms
 		/// <param name="e"></param>
 		private void SimulationForm_Load(object sender, EventArgs e)
 		{
+			// 元のカーソルを保持
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
 #if DEBUG
 			// Debug情報表示
 			labelDebugNormal.Visible = true;
@@ -328,6 +334,8 @@ namespace MwsSimulation.Forms
 					radioButtonGroup36.Checked = true;
 					break;
 			}
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
 		}
 
 		/// <summary>
@@ -515,7 +523,6 @@ namespace MwsSimulation.Forms
 					else
 					{
 						item.Checked = false;
-						//var c = SystemBrushes.Window;
 						item.BackColor = Color.White;
 					}
 				}
@@ -701,6 +708,12 @@ namespace MwsSimulation.Forms
 
 			if (0 < groupList.Count || 0 < serviceList.Count)
 			{
+				// 元のカーソルを保持
+				Cursor preCursor = Cursor.Current;
+
+				// カーソルを待機カーソルに変更
+				Cursor.Current = Cursors.WaitCursor;
+
 				string dataFolder = Program.GetDataFolder();
 				if (null == EstimateData)
 				{
@@ -760,10 +773,17 @@ namespace MwsSimulation.Forms
 					// 備考
 					EstimateData.SetRemark(textBoxRemark.Lines);
 
-					// 見積書情報の追加
-					if (-1 == SQLiteMwsSimulationSetIO.InsertIntoEstimate(dataFolder, EstimateData))
+					try
 					{
-						return;
+						// 見積書情報の追加
+						if (-1 == SQLiteMwsSimulationSetIO.InsertIntoEstimate(dataFolder, EstimateData))
+						{
+							return;
+						}
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(ex.Message, "見積書情報追加エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 					}
 				}
 				else
@@ -810,11 +830,21 @@ namespace MwsSimulation.Forms
 					// 備考
 					EstimateData.SetRemark(textBoxRemark.Lines);
 
-					if (-1 == SQLiteMwsSimulationSetIO.UpdateEstimate(dataFolder, EstimateData))
+					try
 					{
-						return;
+						if (-1 == SQLiteMwsSimulationSetIO.UpdateEstimate(dataFolder, EstimateData))
+						{
+							return;
+						}
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(ex.Message, "見積書情報更新エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 					}
 				}
+				// カーソルを元に戻す
+				Cursor.Current = preCursor;
+
 				this.DialogResult = DialogResult.OK;
 			}
 			else
@@ -956,7 +986,6 @@ namespace MwsSimulation.Forms
 		private void GetServicePrice(out int normalPrice, out int setPrice, out int groupPrice)
 		{
 			normalPrice = setPrice = groupPrice = 0;
-
 			List<string> codeList = new List<string>();
 
 			// セット割サービス
@@ -1404,18 +1433,18 @@ namespace MwsSimulation.Forms
 		/// </summary>
 		private void PrintPreviewForm_EndPrint(object sender, PrintEventArgs e)
 		{
-			PrintDocument printDocument = ((PrintPreviewForm)sender).Document;
+			//PrintDocument printDocument = ((PrintPreviewForm)sender).Document;
 
-			if (!printDocument.PrintController.IsPreview)
-			{
-				if (!e.Cancel)
-				{
-					// プリンタ発行情報をINIファイルに記憶する
-					//ClientPrinterInfoIni pi = new ClientPrinterInfoIni();
-					//pi.ReadPrintDocument(printDocument);
-					//ClientIniIO.SetClientIntroducePrinterInfo(PrintIntroduce.PaperName, pi);
-				}
-			}
+			//if (!printDocument.PrintController.IsPreview)
+			//{
+			//	if (!e.Cancel)
+			//	{
+			//		// プリンタ発行情報をINIファイルに記憶する
+			//		ClientPrinterInfoIni pi = new ClientPrinterInfoIni();
+			//		pi.ReadPrintDocument(printDocument);
+			//		ClientIniIO.SetClientIntroducePrinterInfo(PrintIntroduce.PaperName, pi);
+			//	}
+			//}
 		}
 
 

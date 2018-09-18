@@ -7,6 +7,7 @@
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
 //
+
 namespace MwsLib.BaseFactory
 {
 	/// <summary>

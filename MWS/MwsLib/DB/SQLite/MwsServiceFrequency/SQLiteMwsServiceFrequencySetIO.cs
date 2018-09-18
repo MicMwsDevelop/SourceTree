@@ -63,28 +63,14 @@ namespace MwsLib.DB.SQLite.MwsServiceFrequency
 		private static int InsertIntoMwsServiceFrequencyData(SQLiteConnection con, SQLiteTransaction tran, MwsServiceFrequencyData data)
 		{
 			int result = -1;
-			string sqlString = string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21)", SQLiteMwsServiceFrequencyDef.USED_SERIVE_TABLE_NAME);
-			SQLiteParameter[] param = { new SQLiteParameter("@1", data.FinishedFlag),
-										new SQLiteParameter("@2", data.EnableUserFlag),
-										new SQLiteParameter("@3", data.SectionName),
-										new SQLiteParameter("@4", data.BranchCode),
-										new SQLiteParameter("@5", data.BranchName),
-										new SQLiteParameter("@6", data.CostomerID),
-										new SQLiteParameter("@7", data.CostomerName),
-										new SQLiteParameter("@8", data.EarningsMonth.ToIntYM()),
-										new SQLiteParameter("@9", data.MwsAcceptType),
-										new SQLiteParameter("@10", data.ServiceTypeID),
-										new SQLiteParameter("@11", data.ServiceTypeName),
-										new SQLiteParameter("@12", data.ServiceCode),
-										new SQLiteParameter("@13", data.ServiceName),
-										new SQLiteParameter("@14", data.UsedStartDate.ToIntYMD()),
-										new SQLiteParameter("@15", data.UsedEndDate.ToIntYMD()),
-										new SQLiteParameter("@16", data.UsedCount),
-										new SQLiteParameter("@17", data.SystemID),
-										new SQLiteParameter("@18", data.SystemName),
-										new SQLiteParameter("@19", data.BeforeSystemName),
-										new SQLiteParameter("@20", data.Ken),
-										new SQLiteParameter("@21", data.UsedMonth.ToIntYM()) };
+			string sqlString = string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7)", SQLiteMwsServiceFrequencyDef.USED_SERIVE_TABLE_NAME);
+			SQLiteParameter[] param = { new SQLiteParameter("@1", data.UsedMonth.ToIntYM()),
+										new SQLiteParameter("@2", data.CostomerID),
+										new SQLiteParameter("@3", data.ServiceCode),
+										new SQLiteParameter("@4", data.ServiceName),
+										new SQLiteParameter("@5", data.UsedCount),
+										new SQLiteParameter("@6", data.Ken),
+										new SQLiteParameter("@7", data.BranchCode) };
 			// 実行
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)

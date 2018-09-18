@@ -23,7 +23,7 @@ namespace MwsSimulation.Forms
 		public string Destination { get; set; }
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public DestinationForm()
 		{

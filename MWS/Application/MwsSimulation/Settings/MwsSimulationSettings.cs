@@ -159,7 +159,7 @@ namespace MwsSimulation.Settings
 		public string Fax;
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public BranchSettings()
 		{
@@ -282,7 +282,7 @@ namespace MwsSimulation.Settings
 	public class BranchSettingsList : List<BranchSettings>
 	{
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public BranchSettingsList()
 		{

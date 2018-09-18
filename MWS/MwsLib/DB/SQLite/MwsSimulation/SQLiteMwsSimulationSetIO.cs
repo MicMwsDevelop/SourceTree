@@ -18,12 +18,12 @@ using System.IO;
 namespace MwsLib.DB.SQLite.MwsSimulation
 {
 	/// <summary>
-	/// MwsSimulation.dbへの書込みI/O
+	/// MwsSimulationMaster.db, MwsSimulationUser.dbへの書込みI/O
 	/// </summary>
 	public static class SQLiteMwsSimulationSetIO
 	{
 		/////////////////////////////////////////////
-		// マスター情報関連
+		// マスター情報関連（MwsSimulationMaster.db）
 
 		/// <summary>
 		/// バージョン情報の更新
@@ -95,7 +95,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("バージョン情報削除エラー");
 			}
 			return result;
 		}
@@ -118,7 +118,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("バージョン情報追加エラー");
 			}
 			return result;
 		}
@@ -190,7 +190,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("サービス情報削除エラー");
 			}
 			return result;
 		}
@@ -261,7 +261,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("おまとめプラン情報削除エラー");
 			}
 			return result;
 		}
@@ -334,7 +334,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("おススメセット情報削除エラー");
 			}
 			return result;
 		}
@@ -354,7 +354,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("おススメセット情報削除エラー");
 			}
 			return result;
 		}
@@ -427,7 +427,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("セット割サービス情報削除エラー");
 			}
 			return result;
 		}
@@ -447,14 +447,14 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("セット割サービス情報削除エラー");
 			}
 			return result;
 		}
 
 
 		/////////////////////////////////////////////
-		// ユーザー情報関連
+		// ユーザー情報関連（MwsSimulationUser.db）
 
 		/// <summary>
 		/// 見積書情報の追加
@@ -550,7 +550,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("見積書ヘッダ情報追加エラー");
 			}
 			return result;
 		}
@@ -578,7 +578,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("見積書サービス情報追加エラー");
 			}
 			return result;
 		}
@@ -606,7 +606,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("おまとめプラン・セット割サービス情報追加エラー");
 			}
 			return result;
 		}
@@ -763,7 +763,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("見積書情報宛先更新エラー");
 			}
 			return result;
 		}
@@ -844,7 +844,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("見積書ヘッダ情報削除エラー");
 			}
 			return result;
 		}
@@ -867,7 +867,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("見積書サービス情報削除エラー");
 			}
 			return result;
 		}
@@ -890,7 +890,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("見積書おまとめプラン・セット割サービス情報削除エラー");
 			}
 			return result;
 		}
@@ -981,7 +981,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("サービス情報追加エラー");
 			}
 			return result;
 		}
@@ -1067,7 +1067,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("おまとめプラン情報追加エラー");
 			}
 			return result;
 		}
@@ -1154,7 +1154,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("おススメセット情報追加エラー");
 			}
 			return result;
 		}
@@ -1177,7 +1177,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("おススメセットサービス情報追加エラー");
 			}
 			return result;
 		}
@@ -1265,7 +1265,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("セット割サービスヘッダ情報追加エラー");
 			}
 			return result;
 		}
@@ -1289,7 +1289,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
 			{
-				throw new ApplicationException("");
+				throw new ApplicationException("セット割サービス情報追加エラー");
 			}
 			return result;
 		}
