@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
+// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
 //
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		public int? MaxAmmount { get; set; }
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public GroupPlan()
 		{
@@ -151,6 +152,9 @@ namespace MwsLib.BaseFactory.MwsSimulation
 	/// </summary>
 	public class GroupPlanList : List<GroupPlan>, IEquatable<GroupPlanList>
 	{
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
 		public GroupPlanList()
 		{
 		}
@@ -161,18 +165,44 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		/// <returns>おまとめプランの中で下限金額の最小値</returns>
 		public int GetMinAmmount()
 		{
-			int ret = 0;
+			// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
+			//int ret = 0;
+			//foreach (GroupPlan plan in this)
+			//{
+			//	if (0 == ret)
+			//	{
+			//		ret = plan.MinAmmount;
+			//	}
+			//	else if (plan.MinAmmount < ret)
+			//	{
+			//		ret = plan.MinAmmount;
+			//	}
+			//}
+			//return ret;
+			return this.Min(p => p.MinAmmount);
+		}
+
+		/// <summary>
+		/// おまとめプランの中で無償月数が最小値の下限金額を取得（無償月数が０月は除く）
+		/// </summary>
+		/// <returns>下限金額</returns>
+		// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
+		public int GetMinFreeMonthMinAmmount()
+		{
+			int free = this.Max(p => p.FreeMonth);
+			int minAmmount = 0;
 			foreach (GroupPlan plan in this)
 			{
-				if (0 == ret)
+				if (0 < plan.FreeMonth)
 				{
-					ret = plan.MinAmmount;
-				} else if (plan.MinAmmount < ret)
-				{
-					ret = plan.MinAmmount;
+					if (plan.FreeMonth < free)
+					{
+						free = plan.FreeMonth;
+						minAmmount = plan.MinAmmount;
+					}
 				}
 			}
-			return ret;
+			return minAmmount;
 		}
 
 		/// <summary>

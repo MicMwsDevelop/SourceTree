@@ -8,6 +8,7 @@
 // Ver1.000 新規作成(2018/08/01 勝呂)
 // Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
 // Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
+// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
 // 
 using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
@@ -84,7 +85,7 @@ namespace MwsSimulation.Forms
 		private bool ExistGroupPlan36 { get; set; }
 
 		/// <summary>
-		/// コンストラクタ
+		/// デフォルトコンストラクタ
 		/// </summary>
 		public SimulationForm()
 		{
@@ -1076,8 +1077,6 @@ namespace MwsSimulation.Forms
 					textBoxFree36.Text = string.Format("\\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(36, MainForm.gServiceList.Standard.Price, groupPrice, totalGroupPrice36)));
 					textBoxFree36.Tag = string.Format("(({0}*36+{1}*36) - ({0}*36+{1}*(36-{2}))) / 36", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan36.FreeMonth);
 				}
-				labelGroupPlanMessage.Text = "※おまとめプランが適用できます。";
-
 				// ご利用のサービスの月額利用額の表示
 				if (radioButtonGroupNone.Checked)
 				{
@@ -1124,11 +1123,19 @@ namespace MwsSimulation.Forms
 				textBoxFree12.Text = "\\0";
 				textBoxFree24.Text = "\\0";
 				textBoxFree36.Text = "\\0";
-				labelGroupPlanMessage.Text = string.Format("※あと \\{0} でおまとめプランが適用できます。", StringUtil.CommaEdit(MainForm.gMinAmmount - groupPrice));
 
 				// ご利用のサービスの月額利用額の表示
 				textBoxTotalPrice.Text = string.Format("\\{0}", StringUtil.CommaEdit(normalPrice + setPrice + groupPrice));
 				textBoxTotalPrice.Tag = string.Format("normal:{0}+ set:{1}+ group:{2}", normalPrice, setPrice, groupPrice);
+			}
+			// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
+			if (MainForm.gMinFreeMonthMinAmmount <= groupPrice)
+			{
+				labelGroupPlanMessage.Text = "※おまとめプラン割引が適用できます。";
+			}
+			else
+			{
+				labelGroupPlanMessage.Text = string.Format("※あと \\{0} でおまとめプラン割引が適用できます。", StringUtil.CommaEdit(MainForm.gMinFreeMonthMinAmmount - groupPrice));
 			}
 #if DEBUG
 			if (radioButtonGroupNone.Checked)

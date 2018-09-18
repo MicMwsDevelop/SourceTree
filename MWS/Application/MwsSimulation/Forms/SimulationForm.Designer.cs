@@ -422,7 +422,7 @@
 			this.labelGroupPlanMessage.Name = "labelGroupPlanMessage";
 			this.labelGroupPlanMessage.Size = new System.Drawing.Size(418, 17);
 			this.labelGroupPlanMessage.TabIndex = 28;
-			this.labelGroupPlanMessage.Text = "※おまとめプランが適用できます。";
+			this.labelGroupPlanMessage.Text = "※おまとめプラン割引が適用できます。";
 			this.labelGroupPlanMessage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDebugNormal

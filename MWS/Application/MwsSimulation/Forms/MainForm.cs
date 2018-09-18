@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
+// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
 // 
 using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
@@ -54,6 +55,12 @@ namespace MwsSimulation.Forms
 		public static int gMinAmmount { get; set; }
 
 		/// <summary>
+		/// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）
+		/// </summary>
+		// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
+		public static int gMinFreeMonthMinAmmount { get; set; }
+
+		/// <summary>
 		/// バージョン情報
 		/// </summary>
 		public static Tuple<int, Date> gVersionInfo { get; set; }
@@ -95,6 +102,7 @@ namespace MwsSimulation.Forms
 			gGroupPlanList = null;
 			gSetPlanList = null;
 			gMinAmmount = 0;
+			gMinFreeMonthMinAmmount = 0;
 			gSettings = null;
 			EstimateList = null;
 			PrintInfo = new PrintEstimate();
@@ -148,6 +156,10 @@ namespace MwsSimulation.Forms
 
 			// おまとめプランの中で下限金額の最小値
 			gMinAmmount = gGroupPlanList.GetMinAmmount();
+
+			// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）
+			// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
+			gMinFreeMonthMinAmmount = gGroupPlanList.GetMinFreeMonthMinAmmount();
 
 			// 見積書情報リストの取得
 			EstimateList = SQLiteMwsSimulationAccess.GetEstimateList(dataFolder);
