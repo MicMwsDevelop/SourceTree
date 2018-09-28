@@ -43,10 +43,12 @@
 			this.comboBoxStaff = new System.Windows.Forms.ComboBox();
 			this.menuStripMainForm = new System.Windows.Forms.MenuStrip();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItemEnvironmant = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemEnvStaff = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemEnvRemark = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripMenuItemVersion = new System.Windows.Forms.ToolStripMenuItem();
 			this.buttonPrintOrder = new System.Windows.Forms.Button();
+			this.buttonCopy = new System.Windows.Forms.Button();
 			this.menuStripMainForm.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -56,7 +58,7 @@
 			this.buttonNew.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonNew.Name = "buttonNew";
 			this.buttonNew.Size = new System.Drawing.Size(99, 33);
-			this.buttonNew.TabIndex = 3;
+			this.buttonNew.TabIndex = 2;
 			this.buttonNew.Text = "新規追加";
 			this.buttonNew.UseVisualStyleBackColor = true;
 			this.buttonNew.Click += new System.EventHandler(this.buttonNew_Click);
@@ -67,7 +69,7 @@
 			this.buttonModify.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonModify.Name = "buttonModify";
 			this.buttonModify.Size = new System.Drawing.Size(99, 33);
-			this.buttonModify.TabIndex = 4;
+			this.buttonModify.TabIndex = 3;
 			this.buttonModify.Text = "変更";
 			this.buttonModify.UseVisualStyleBackColor = true;
 			this.buttonModify.Click += new System.EventHandler(this.buttonModify_Click);
@@ -78,7 +80,7 @@
 			this.buttonDelete.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonDelete.Name = "buttonDelete";
 			this.buttonDelete.Size = new System.Drawing.Size(99, 33);
-			this.buttonDelete.TabIndex = 5;
+			this.buttonDelete.TabIndex = 4;
 			this.buttonDelete.Text = "削除";
 			this.buttonDelete.UseVisualStyleBackColor = true;
 			this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
@@ -89,7 +91,7 @@
 			this.buttonDestinationChange.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonDestinationChange.Name = "buttonDestinationChange";
 			this.buttonDestinationChange.Size = new System.Drawing.Size(99, 33);
-			this.buttonDestinationChange.TabIndex = 6;
+			this.buttonDestinationChange.TabIndex = 5;
 			this.buttonDestinationChange.Text = "宛先変更";
 			this.buttonDestinationChange.UseVisualStyleBackColor = true;
 			this.buttonDestinationChange.Click += new System.EventHandler(this.buttonNameChange_Click);
@@ -101,7 +103,7 @@
 			this.listBoxEstimate.Location = new System.Drawing.Point(12, 51);
 			this.listBoxEstimate.Name = "listBoxEstimate";
 			this.listBoxEstimate.Size = new System.Drawing.Size(377, 395);
-			this.listBoxEstimate.TabIndex = 2;
+			this.listBoxEstimate.TabIndex = 1;
 			this.listBoxEstimate.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxEstimate_MouseDoubleClick);
 			// 
 			// buttonClose
@@ -118,7 +120,7 @@
 			// 
 			// buttonPrintEstimate
 			// 
-			this.buttonPrintEstimate.Location = new System.Drawing.Point(394, 223);
+			this.buttonPrintEstimate.Location = new System.Drawing.Point(395, 266);
 			this.buttonPrintEstimate.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonPrintEstimate.Name = "buttonPrintEstimate";
 			this.buttonPrintEstimate.Size = new System.Drawing.Size(99, 33);
@@ -151,7 +153,7 @@
 			this.label3.Location = new System.Drawing.Point(9, 31);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(60, 17);
-			this.label3.TabIndex = 1;
+			this.label3.TabIndex = 0;
 			this.label3.Text = "■見積書";
 			// 
 			// comboBoxBranch
@@ -188,35 +190,43 @@
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemEnvironmant,
+            this.toolStripMenuItemEnvStaff,
+            this.toolStripMenuItemEnvRemark,
             this.toolStripSeparator1,
             this.toolStripMenuItemVersion});
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
 			this.toolStripMenuItem1.Size = new System.Drawing.Size(43, 20);
 			this.toolStripMenuItem1.Text = "設定";
 			// 
-			// toolStripMenuItemEnvironmant
+			// toolStripMenuItemEnvStaff
 			// 
-			this.toolStripMenuItemEnvironmant.Name = "toolStripMenuItemEnvironmant";
-			this.toolStripMenuItemEnvironmant.Size = new System.Drawing.Size(144, 22);
-			this.toolStripMenuItemEnvironmant.Text = "担当者の登録";
-			this.toolStripMenuItemEnvironmant.Click += new System.EventHandler(this.toolStripMenuItemEnvironmant_Click);
+			this.toolStripMenuItemEnvStaff.Name = "toolStripMenuItemEnvStaff";
+			this.toolStripMenuItemEnvStaff.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItemEnvStaff.Text = "担当者の登録";
+			this.toolStripMenuItemEnvStaff.Click += new System.EventHandler(this.toolStripMenuItemEnvStaff_Click);
+			// 
+			// toolStripMenuItemEnvRemark
+			// 
+			this.toolStripMenuItemEnvRemark.Name = "toolStripMenuItemEnvRemark";
+			this.toolStripMenuItemEnvRemark.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItemEnvRemark.Text = "備考の登録";
+			this.toolStripMenuItemEnvRemark.Click += new System.EventHandler(this.toolStripMenuItemEnvRemark_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(141, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
 			// 
 			// toolStripMenuItemVersion
 			// 
 			this.toolStripMenuItemVersion.Name = "toolStripMenuItemVersion";
-			this.toolStripMenuItemVersion.Size = new System.Drawing.Size(144, 22);
+			this.toolStripMenuItemVersion.Size = new System.Drawing.Size(152, 22);
 			this.toolStripMenuItemVersion.Text = "バージョン情報";
 			this.toolStripMenuItemVersion.Click += new System.EventHandler(this.toolStripMenuItemVersion_Click);
 			// 
 			// buttonPrintOrder
 			// 
-			this.buttonPrintOrder.Location = new System.Drawing.Point(394, 266);
+			this.buttonPrintOrder.Location = new System.Drawing.Point(395, 309);
 			this.buttonPrintOrder.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonPrintOrder.Name = "buttonPrintOrder";
 			this.buttonPrintOrder.Size = new System.Drawing.Size(99, 45);
@@ -225,11 +235,23 @@
 			this.buttonPrintOrder.UseVisualStyleBackColor = true;
 			this.buttonPrintOrder.Click += new System.EventHandler(this.buttonPrintOrder_Click);
 			// 
+			// buttonCopy
+			// 
+			this.buttonCopy.Location = new System.Drawing.Point(394, 223);
+			this.buttonCopy.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+			this.buttonCopy.Name = "buttonCopy";
+			this.buttonCopy.Size = new System.Drawing.Size(99, 33);
+			this.buttonCopy.TabIndex = 6;
+			this.buttonCopy.Text = "見積書コピー";
+			this.buttonCopy.UseVisualStyleBackColor = true;
+			this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(507, 561);
+			this.Controls.Add(this.buttonCopy);
 			this.Controls.Add(this.buttonPrintOrder);
 			this.Controls.Add(this.comboBoxStaff);
 			this.Controls.Add(this.comboBoxBranch);
@@ -277,10 +299,12 @@
 		private System.Windows.Forms.ComboBox comboBoxStaff;
 		private System.Windows.Forms.MenuStrip menuStripMainForm;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEnvironmant;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEnvStaff;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemVersion;
 		private System.Windows.Forms.Button buttonPrintOrder;
+		private System.Windows.Forms.Button buttonCopy;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEnvRemark;
 	}
 }
 

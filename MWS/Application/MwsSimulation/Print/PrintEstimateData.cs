@@ -38,7 +38,7 @@ namespace MwsSimulation.Print
 		/// <summary>
 		/// 契約期間
 		/// </summary>
-		public Span AgreementSpan { get; set; }
+		public Span AgreeSpan { get; set; }
 
 		/// <summary>
 		/// 備考
@@ -57,6 +57,18 @@ namespace MwsSimulation.Print
 		List<List<EstimateData>> PageList { get; set; }
 
 		/// <summary>
+		/// 印刷枚数の取得
+		/// </summary>
+		/// <returns>印刷枚数</returns>
+		public int GetMaxPage
+		{
+			get
+			{
+				return PageList.Count;
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public PrintEstimateData()
@@ -64,9 +76,11 @@ namespace MwsSimulation.Print
 			EstimateID = 0;
 			Destination = string.Empty;
 			PrintDate = Date.Today;
-			AgreementSpan = Span.Nothing;
 			Remark = new List<string>();
 			PageList = new List<List<EstimateData>>();
+
+			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+			AgreeSpan = Span.Nothing;
 
 			// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 			NotUsedMessrs = 0;
@@ -85,22 +99,13 @@ namespace MwsSimulation.Print
 			Destination = est.Destination;
 			PrintDate = est.PrintDate;
 
+			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+			//Date endDate = est.AgreeStartDate.PlusMonths(est.AgreeMonthes - 1);
+			AgreeSpan = est.AgreeSpan;
+
 			// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 			NotUsedMessrs = est.NotUsedMessrs;
 
-			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-			//Date endDate = est.AgreeStartDate.PlusMonths(est.AgreeMonthes - 1);
-			Date endDate;
-			if (0 == est.AgreeMonthes)
-			{
-				endDate = est.AgreeEndDate;
-			}
-			else
-			{
-				endDate = est.AgreeStartDate.PlusMonths(est.AgreeMonthes - 1);
-			}
-
-			AgreementSpan = new Span(est.AgreeStartDate, new Date(endDate.Year, endDate.Month, endDate.ToYearMonth().GetDays()));
 			Remark = est.Remark;
 			if (0 < est.ServiceList.Count)
 			{
@@ -144,15 +149,6 @@ namespace MwsSimulation.Print
 					}
 				}
 			}
-			return PageList.Count;
-		}
-
-		/// <summary>
-		/// 印刷枚数の取得
-		/// </summary>
-		/// <returns>印刷枚数</returns>
-		public int GetMaxPage()
-		{
 			return PageList.Count;
 		}
 

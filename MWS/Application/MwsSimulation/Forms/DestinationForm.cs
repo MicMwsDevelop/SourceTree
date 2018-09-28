@@ -32,7 +32,7 @@ namespace MwsSimulation.Forms
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public DestinationForm()
+		private DestinationForm()
 		{
 			InitializeComponent();
 

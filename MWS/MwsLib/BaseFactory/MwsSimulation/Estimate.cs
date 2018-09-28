@@ -20,6 +20,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 	/// <summary>
 	/// 見積書情報
 	/// </summary>
+	[Serializable]
 	public class Estimate : IEquatable<Estimate>
 	{
 		/// <summary>
@@ -38,15 +39,10 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		public Date PrintDate { get; set; }
 
 		/// <summary>
-		/// 契約開始日
-		/// </summary>
-		public Date AgreeStartDate { get; set; }
-
-		/// <summary>
-		/// 契約終了日
+		/// 契約期間
 		/// </summary>
 		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-		public Date AgreeEndDate { get; set; }
+		public Span AgreeSpan { get; set; }
 
 		/// <summary>
 		/// 契約月数
@@ -93,13 +89,14 @@ namespace MwsLib.BaseFactory.MwsSimulation
 			EstimateID = 0;
 			Destination = string.Empty;
 			PrintDate = Date.Today;
-			AgreeStartDate = Date.MinValue;
 			AgreeMonthes = 1;
 			Remark = new List<string>();
 			ServiceList = new List<EstimateService>();
 
 			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-			AgreeEndDate = Date.MinValue;
+			AgreeSpan = Span.Nothing;
+
+			// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 			NotUsedMessrs = 0;
 		}
 
@@ -232,8 +229,6 @@ namespace MwsLib.BaseFactory.MwsSimulation
 					return false;
 				if (PrintDate != other.PrintDate)
 					return false;
-				if (AgreeStartDate != other.AgreeStartDate)
-					return false;
 				if (AgreeMonthes != other.AgreeMonthes)
 					return false;
 				if (false == Remark.SequenceEqual(other.Remark))
@@ -241,8 +236,9 @@ namespace MwsLib.BaseFactory.MwsSimulation
 				if (false == ServiceList.SequenceEqual(other.ServiceList))
 					return false;
 				// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-				if (AgreeEndDate != other.AgreeEndDate)
+				if (AgreeSpan != other.AgreeSpan)
 					return false;
+				// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 				if (NotUsedMessrs != other.NotUsedMessrs)
 					return false;
 				return true;
@@ -290,6 +286,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 	/// <summary>
 	/// 見積サービス情報
 	/// </summary>
+	[Serializable]
 	public class EstimateService : IEquatable<EstimateService>
 	{
 		/// <summary>

@@ -82,6 +82,7 @@
 			this.labelAgreeSpan = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
 			this.textBoxTotalPrice = new System.Windows.Forms.TextBox();
+			this.buttonRemarkTemplate = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -128,7 +129,7 @@
 			this.label1.Location = new System.Drawing.Point(863, 649);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(90, 17);
-			this.label1.TabIndex = 28;
+			this.label1.TabIndex = 29;
 			this.label1.Text = "サービス利用料";
 			// 
 			// textBoxServicePrice
@@ -139,7 +140,7 @@
 			this.textBoxServicePrice.Name = "textBoxServicePrice";
 			this.textBoxServicePrice.ReadOnly = true;
 			this.textBoxServicePrice.Size = new System.Drawing.Size(159, 24);
-			this.textBoxServicePrice.TabIndex = 29;
+			this.textBoxServicePrice.TabIndex = 30;
 			this.textBoxServicePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textBoxServicePrice.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxTotalPrice_MouseDoubleClick);
 			// 
@@ -150,7 +151,7 @@
 			this.label2.Location = new System.Drawing.Point(827, 619);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(126, 17);
-			this.label2.TabIndex = 26;
+			this.label2.TabIndex = 27;
 			this.label2.Text = "プラットフォーム利用料";
 			// 
 			// textBoxPlatformPrice
@@ -161,7 +162,7 @@
 			this.textBoxPlatformPrice.Name = "textBoxPlatformPrice";
 			this.textBoxPlatformPrice.ReadOnly = true;
 			this.textBoxPlatformPrice.Size = new System.Drawing.Size(159, 24);
-			this.textBoxPlatformPrice.TabIndex = 27;
+			this.textBoxPlatformPrice.TabIndex = 28;
 			this.textBoxPlatformPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// buttonOK
@@ -170,7 +171,7 @@
 			this.buttonOK.Location = new System.Drawing.Point(907, 729);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(102, 36);
-			this.buttonOK.TabIndex = 34;
+			this.buttonOK.TabIndex = 35;
 			this.buttonOK.Text = "保存";
 			this.buttonOK.UseVisualStyleBackColor = true;
 			this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -182,7 +183,7 @@
 			this.buttonCancel.Location = new System.Drawing.Point(1015, 729);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(102, 36);
-			this.buttonCancel.TabIndex = 35;
+			this.buttonCancel.TabIndex = 36;
 			this.buttonCancel.Text = "破棄";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -195,10 +196,10 @@
             this.columnHeaderSetPrice});
 			this.listViewSetPlan.FullRowSelect = true;
 			this.listViewSetPlan.HideSelection = false;
-			this.listViewSetPlan.Location = new System.Drawing.Point(702, 388);
+			this.listViewSetPlan.Location = new System.Drawing.Point(702, 498);
 			this.listViewSetPlan.Name = "listViewSetPlan";
 			this.listViewSetPlan.Size = new System.Drawing.Size(415, 94);
-			this.listViewSetPlan.TabIndex = 16;
+			this.listViewSetPlan.TabIndex = 19;
 			this.listViewSetPlan.UseCompatibleStateImageBehavior = false;
 			this.listViewSetPlan.View = System.Windows.Forms.View.Details;
 			this.listViewSetPlan.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listViewSet_ItemChecked);
@@ -216,10 +217,10 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(703, 368);
+			this.label3.Location = new System.Drawing.Point(703, 478);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(141, 17);
-			this.label3.TabIndex = 15;
+			this.label3.TabIndex = 18;
 			this.label3.Text = "■セット割サービス申込み";
 			// 
 			// groupBox1
@@ -249,7 +250,7 @@
 			this.label6.Location = new System.Drawing.Point(295, 37);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(63, 17);
-			this.label6.TabIndex = 3;
+			this.label6.TabIndex = 2;
 			this.label6.Text = "プラン割引";
 			// 
 			// label5
@@ -258,7 +259,7 @@
 			this.label5.Location = new System.Drawing.Point(190, 37);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(34, 17);
-			this.label5.TabIndex = 2;
+			this.label5.TabIndex = 1;
 			this.label5.Text = "料金";
 			// 
 			// textBoxFree36
@@ -370,7 +371,7 @@
 			this.radioButtonGroup12.Location = new System.Drawing.Point(16, 59);
 			this.radioButtonGroup12.Name = "radioButtonGroup12";
 			this.radioButtonGroup12.Size = new System.Drawing.Size(132, 21);
-			this.radioButtonGroup12.TabIndex = 1;
+			this.radioButtonGroup12.TabIndex = 3;
 			this.radioButtonGroup12.Text = "おまとめプラン12ヵ月";
 			this.radioButtonGroup12.UseVisualStyleBackColor = true;
 			this.radioButtonGroup12.CheckedChanged += new System.EventHandler(this.radioButtonGroup12_CheckedChanged);
@@ -425,7 +426,7 @@
 			this.labelGroupPlanMessage.Location = new System.Drawing.Point(699, 706);
 			this.labelGroupPlanMessage.Name = "labelGroupPlanMessage";
 			this.labelGroupPlanMessage.Size = new System.Drawing.Size(418, 17);
-			this.labelGroupPlanMessage.TabIndex = 32;
+			this.labelGroupPlanMessage.TabIndex = 33;
 			this.labelGroupPlanMessage.Text = "※おまとめプラン割引が適用できます。";
 			this.labelGroupPlanMessage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -433,10 +434,10 @@
 			// 
 			this.labelDebugNormal.AutoSize = true;
 			this.labelDebugNormal.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.labelDebugNormal.Location = new System.Drawing.Point(704, 600);
+			this.labelDebugNormal.Location = new System.Drawing.Point(732, 627);
 			this.labelDebugNormal.Name = "labelDebugNormal";
 			this.labelDebugNormal.Size = new System.Drawing.Size(18, 7);
-			this.labelDebugNormal.TabIndex = 19;
+			this.labelDebugNormal.TabIndex = 20;
 			this.labelDebugNormal.Text = "通常";
 			this.labelDebugNormal.Visible = false;
 			// 
@@ -444,11 +445,11 @@
 			// 
 			this.textBoxDebugNormal.BackColor = System.Drawing.Color.White;
 			this.textBoxDebugNormal.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxDebugNormal.Location = new System.Drawing.Point(725, 595);
+			this.textBoxDebugNormal.Location = new System.Drawing.Point(753, 622);
 			this.textBoxDebugNormal.Name = "textBoxDebugNormal";
 			this.textBoxDebugNormal.ReadOnly = true;
 			this.textBoxDebugNormal.Size = new System.Drawing.Size(58, 16);
-			this.textBoxDebugNormal.TabIndex = 20;
+			this.textBoxDebugNormal.TabIndex = 21;
 			this.textBoxDebugNormal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textBoxDebugNormal.Visible = false;
 			// 
@@ -456,10 +457,10 @@
 			// 
 			this.labelDebugSet.AutoSize = true;
 			this.labelDebugSet.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.labelDebugSet.Location = new System.Drawing.Point(789, 600);
+			this.labelDebugSet.Location = new System.Drawing.Point(720, 648);
 			this.labelDebugSet.Name = "labelDebugSet";
 			this.labelDebugSet.Size = new System.Drawing.Size(27, 7);
-			this.labelDebugSet.TabIndex = 21;
+			this.labelDebugSet.TabIndex = 22;
 			this.labelDebugSet.Text = "セット割";
 			this.labelDebugSet.Visible = false;
 			// 
@@ -467,10 +468,10 @@
 			// 
 			this.labelDebugGroup.AutoSize = true;
 			this.labelDebugGroup.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.labelDebugGroup.Location = new System.Drawing.Point(886, 600);
+			this.labelDebugGroup.Location = new System.Drawing.Point(697, 670);
 			this.labelDebugGroup.Name = "labelDebugGroup";
 			this.labelDebugGroup.Size = new System.Drawing.Size(50, 7);
-			this.labelDebugGroup.TabIndex = 23;
+			this.labelDebugGroup.TabIndex = 24;
 			this.labelDebugGroup.Text = "おまとめプラン";
 			this.labelDebugGroup.Visible = false;
 			// 
@@ -478,11 +479,11 @@
 			// 
 			this.textBoxDebugSet.BackColor = System.Drawing.Color.White;
 			this.textBoxDebugSet.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxDebugSet.Location = new System.Drawing.Point(822, 595);
+			this.textBoxDebugSet.Location = new System.Drawing.Point(753, 643);
 			this.textBoxDebugSet.Name = "textBoxDebugSet";
 			this.textBoxDebugSet.ReadOnly = true;
 			this.textBoxDebugSet.Size = new System.Drawing.Size(58, 16);
-			this.textBoxDebugSet.TabIndex = 22;
+			this.textBoxDebugSet.TabIndex = 23;
 			this.textBoxDebugSet.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textBoxDebugSet.Visible = false;
 			// 
@@ -490,11 +491,11 @@
 			// 
 			this.textBoxDebugGroup.BackColor = System.Drawing.Color.White;
 			this.textBoxDebugGroup.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxDebugGroup.Location = new System.Drawing.Point(942, 595);
+			this.textBoxDebugGroup.Location = new System.Drawing.Point(753, 665);
 			this.textBoxDebugGroup.Name = "textBoxDebugGroup";
 			this.textBoxDebugGroup.ReadOnly = true;
 			this.textBoxDebugGroup.Size = new System.Drawing.Size(58, 16);
-			this.textBoxDebugGroup.TabIndex = 24;
+			this.textBoxDebugGroup.TabIndex = 25;
 			this.textBoxDebugGroup.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textBoxDebugGroup.Visible = false;
 			// 
@@ -502,11 +503,11 @@
 			// 
 			this.textBoxDebugTotal.BackColor = System.Drawing.Color.White;
 			this.textBoxDebugTotal.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxDebugTotal.Location = new System.Drawing.Point(1006, 595);
+			this.textBoxDebugTotal.Location = new System.Drawing.Point(753, 687);
 			this.textBoxDebugTotal.Name = "textBoxDebugTotal";
 			this.textBoxDebugTotal.ReadOnly = true;
 			this.textBoxDebugTotal.Size = new System.Drawing.Size(58, 16);
-			this.textBoxDebugTotal.TabIndex = 25;
+			this.textBoxDebugTotal.TabIndex = 26;
 			this.textBoxDebugTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textBoxDebugTotal.Visible = false;
 			// 
@@ -533,7 +534,7 @@
 			this.buttonPrint.Location = new System.Drawing.Point(702, 729);
 			this.buttonPrint.Name = "buttonPrint";
 			this.buttonPrint.Size = new System.Drawing.Size(102, 36);
-			this.buttonPrint.TabIndex = 33;
+			this.buttonPrint.TabIndex = 34;
 			this.buttonPrint.Text = "見積書印刷";
 			this.buttonPrint.UseVisualStyleBackColor = true;
 			this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
@@ -550,19 +551,19 @@
 			// textBoxRemark
 			// 
 			this.textBoxRemark.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-			this.textBoxRemark.Location = new System.Drawing.Point(702, 510);
+			this.textBoxRemark.Location = new System.Drawing.Point(702, 393);
 			this.textBoxRemark.Multiline = true;
 			this.textBoxRemark.Name = "textBoxRemark";
 			this.textBoxRemark.Size = new System.Drawing.Size(415, 81);
-			this.textBoxRemark.TabIndex = 18;
+			this.textBoxRemark.TabIndex = 16;
 			// 
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(703, 490);
+			this.label8.Location = new System.Drawing.Point(703, 373);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(47, 17);
-			this.label8.TabIndex = 17;
+			this.label8.TabIndex = 15;
 			this.label8.Text = "■備考";
 			// 
 			// label9
@@ -642,7 +643,7 @@
 			this.label10.Location = new System.Drawing.Point(880, 679);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(73, 17);
-			this.label10.TabIndex = 30;
+			this.label10.TabIndex = 31;
 			this.label10.Text = "月額利用料";
 			// 
 			// textBoxTotalPrice
@@ -653,14 +654,25 @@
 			this.textBoxTotalPrice.Name = "textBoxTotalPrice";
 			this.textBoxTotalPrice.ReadOnly = true;
 			this.textBoxTotalPrice.Size = new System.Drawing.Size(159, 24);
-			this.textBoxTotalPrice.TabIndex = 31;
+			this.textBoxTotalPrice.TabIndex = 32;
 			this.textBoxTotalPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// buttonRemarkTemplate
+			// 
+			this.buttonRemarkTemplate.Location = new System.Drawing.Point(1042, 365);
+			this.buttonRemarkTemplate.Name = "buttonRemarkTemplate";
+			this.buttonRemarkTemplate.Size = new System.Drawing.Size(75, 27);
+			this.buttonRemarkTemplate.TabIndex = 17;
+			this.buttonRemarkTemplate.Text = "定型文";
+			this.buttonRemarkTemplate.UseVisualStyleBackColor = true;
+			this.buttonRemarkTemplate.Click += new System.EventHandler(this.buttonRemarkTemplate_Click);
 			// 
 			// SimulationForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1129, 781);
+			this.Controls.Add(this.buttonRemarkTemplate);
 			this.Controls.Add(this.textBoxTotalPrice);
 			this.Controls.Add(this.label10);
 			this.Controls.Add(this.labelAgreeSpan);
@@ -766,5 +778,6 @@
 		private System.Windows.Forms.Label labelAgreeSpan;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.TextBox textBoxTotalPrice;
+		private System.Windows.Forms.Button buttonRemarkTemplate;
 	}
 }

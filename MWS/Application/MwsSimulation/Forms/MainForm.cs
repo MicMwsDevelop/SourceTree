@@ -10,6 +10,8 @@
 // Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
 // Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
 // Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+// Ver1.050 見積書のコピー機能を追加(2018/09/27 勝呂)
+// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
 // 
 using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
@@ -222,7 +224,7 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// 追加
+		/// 見積書の追加
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -243,7 +245,7 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// 変更
+		/// 見積書の変更
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -253,7 +255,7 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// 変更
+		/// 見積書の変更
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -279,7 +281,7 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// 削除
+		/// 見積書の削除
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -308,7 +310,7 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// 宛先変更
+		/// 見積書の宛先変更
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -359,7 +361,48 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// 見積書印刷
+		/// 見積書のコピー
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.050 見積書のコピー機能を追加(2018/09/27 勝呂)
+		private void buttonCopy_Click(object sender, EventArgs e)
+		{
+			if (-1 != listBoxEstimate.SelectedIndex)
+			{
+				Estimate src = EstimateList[listBoxEstimate.SelectedIndex];
+				if (DialogResult.Yes == MessageBox.Show(string.Format("[{0}] のコピーを作成します。よろしいですか？", src.Destination), this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+				{
+					Estimate copy = src.CloneDeep();
+					try
+					{
+						// 次回見積書情報番号の取得
+						copy.EstimateID = SQLiteMwsSimulationAccess.GetLastEstimateNumber(Program.GetDataFolder());
+
+						// 宛先の変更
+						copy.Destination = string.Format("{0} - コピー", copy.Destination);
+						EstimateList.Add(copy);
+
+						// 見積書情報の追加
+						if (-1 == SQLiteMwsSimulationSetIO.InsertIntoEstimate(Program.GetDataFolder(), copy))
+						{
+							return;
+						}
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(ex.Message, "見積書情報追加エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+					}
+					// 見積書情報リストボックスの設定
+					this.SetListBoxEstimate();
+
+					listBoxEstimate.SelectedIndex = EstimateList.Count - 1;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 見積書の印刷
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -376,7 +419,7 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// 注文請/注文請書印刷
+		/// 注文請/注文請書の印刷
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -425,26 +468,13 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// バージョン情報
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void toolStripMenuItemVersion_Click(object sender, EventArgs e)
-		{
-			using (VersionInfoForm form = new VersionInfoForm())
-			{
-				form.ShowDialog();
-			}
-		}
-
-		/// <summary>
 		/// 担当者の登録
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void toolStripMenuItemEnvironmant_Click(object sender, EventArgs e)
+		private void toolStripMenuItemEnvStaff_Click(object sender, EventArgs e)
 		{
-			using (EnvironmentForm form = new EnvironmentForm(gSettings.StaffList))
+			using (EnvironmentStaffForm form = new EnvironmentStaffForm(gSettings.StaffList))
 			{
 				if (DialogResult.OK == form.ShowDialog())
 				{
@@ -460,6 +490,36 @@ namespace MwsSimulation.Forms
 						comboBoxStaff.SelectedIndex = 0;
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// 備考の登録
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
+		private void toolStripMenuItemEnvRemark_Click(object sender, EventArgs e)
+		{
+			using (EnvironmentRemarkForm form = new EnvironmentRemarkForm(gSettings.RemarkList))
+			{
+				if (DialogResult.OK == form.ShowDialog())
+				{
+
+				}
+			}
+		}
+
+		/// <summary>
+		/// バージョン情報
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void toolStripMenuItemVersion_Click(object sender, EventArgs e)
+		{
+			using (VersionInfoForm form = new VersionInfoForm())
+			{
+				form.ShowDialog();
 			}
 		}
 
@@ -606,7 +666,7 @@ namespace MwsSimulation.Forms
 				// 印刷プレビューダイアログ生成
 				using (PrintPreviewForm pf = new PrintPreviewForm())
 				{
-					MaxPage = PrintInfo.GetMaxPage();
+					MaxPage = PrintInfo.GetMaxPage;
 
 					// 印刷処理開始イベントハンドラの追加
 					pf.BeginPrint += new PrintPreviewForm.PrintEventHandler(PrintPreviewForm_BeginPrint);

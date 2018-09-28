@@ -13,6 +13,7 @@
 // Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 // Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 // Ver1.050 月額利用料の表示の追加(2018/09/27 勝呂)
+// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
 // 
 using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
@@ -74,13 +75,18 @@ namespace MwsSimulation.Forms
 		/// 契約期間
 		/// </summary>
 		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-		public Span AgreeSpan { get; set; }
+		private Span AgreeSpan { get; set; }
 
 		/// <summary>
 		/// 契約月数
 		/// </summary>
 		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-		public int AgreeMonthes { get; set; }
+		private int AgreeMonthes { get; set; }
+
+		/// <summary>
+		/// 契約月数リスト
+		/// </summary>
+		private List<Tuple<int, string>> AgreeMonthesList { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -94,6 +100,7 @@ namespace MwsSimulation.Forms
 			PrintInfo = new PrintEstimate();
 			PrintDocument = new PrintDocument();
 			MaxPage = 0;
+			AgreeMonthesList = new List<Tuple<int, string>>();
 
 			// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
 			ExistGroupPlan12 = false;
@@ -117,6 +124,7 @@ namespace MwsSimulation.Forms
 			PrintInfo = new PrintEstimate();
 			PrintDocument = new PrintDocument();
 			MaxPage = 0;
+			AgreeMonthesList = new List<Tuple<int, string>>();
 
 			// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
 			ExistGroupPlan12 = false;
@@ -124,7 +132,7 @@ namespace MwsSimulation.Forms
 			ExistGroupPlan36 = false;
 
 			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-			AgreeSpan = new Span(est.AgreeStartDate, est.AgreeEndDate);
+			AgreeSpan = est.AgreeSpan;
 			AgreeMonthes = est.AgreeMonthes;
 		}
 
@@ -179,11 +187,14 @@ namespace MwsSimulation.Forms
 			listViewService.EndUpdate();
 
 			// 契約期間コンボボックスの設定
-			comboBoxTerm.Items.Add("１か月");
-			comboBoxTerm.Items.Add("１２か月");
-			comboBoxTerm.Items.Add("２４か月");
-			comboBoxTerm.Items.Add("３６か月");
-			comboBoxTerm.SelectedIndex = 0;
+			AgreeMonthesList.Add(new Tuple<int, string>(1, "１か月"));
+			AgreeMonthesList.Add(new Tuple<int, string>(12, "１２か月"));
+			AgreeMonthesList.Add(new Tuple<int, string>(24, "２４か月"));
+			AgreeMonthesList.Add(new Tuple<int, string>(36, "３６か月"));
+			comboBoxTerm.DisplayMember = "Item2";
+			comboBoxTerm.ValueMember = "Item1";
+			comboBoxTerm.DataSource = AgreeMonthesList;
+			comboBoxTerm.SelectedValue = AgreeMonthes;
 
 			// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
 			if (MainForm.gGroupPlanList.IsExistKeiyakuMonth(12))
@@ -243,30 +254,9 @@ namespace MwsSimulation.Forms
 				{
 					radioSama.Checked = true;
 				}
-
 				// 発行日の設定
 				dateTimePickerPrintDate.Value = EstimateData.PrintDate.ToDateTime();
 
-				// 契約期間の設定
-				// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-				AgreeSpan = new Span(EstimateData.AgreeStartDate, EstimateData.AgreeEndDate);
-
-				// 契約月数の設定
-				switch (EstimateData.AgreeMonthes)
-				{
-					case 1:
-						comboBoxTerm.SelectedIndex = 0;
-						break;
-					case 12:
-						comboBoxTerm.SelectedIndex = 1;
-						break;
-					case 24:
-						comboBoxTerm.SelectedIndex = 2;
-						break;
-					case 36:
-						comboBoxTerm.SelectedIndex = 3;
-						break;
-				}
 				// 備考
 				textBoxRemark.Lines = EstimateData.GetRemark();
 
@@ -452,22 +442,10 @@ namespace MwsSimulation.Forms
 		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 		private void comboBoxTerm_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			switch (comboBoxTerm.SelectedIndex)
-			{
-				case 0:
-					AgreeMonthes = 1;
-					break;
-				case 1:
-					AgreeMonthes = 12;
-					break;
-				case 2:
-					AgreeMonthes = 24;
-					break;
-				case 3:
-					AgreeMonthes = 36;
-					break;
-			}
+			AgreeMonthes = (int)comboBoxTerm.SelectedValue;
 			AgreeSpan = new Span(AgreeSpan.Start, Estimate.GetAgreeEndDate(AgreeSpan.Start, AgreeMonthes));
+
+			// 契約期間の表示
 			DrawAgreeSpan();
 		}
 
@@ -536,7 +514,7 @@ namespace MwsSimulation.Forms
 		private void radioButtonGroupNone_CheckedChanged(object sender, EventArgs e)
 		{
 			// 契約月数を１か月に変更
-			comboBoxTerm.SelectedIndex = 0;
+			comboBoxTerm.SelectedValue = 1;
 
 			// サービス使用料の表示
 			this.DrawServicePrice();
@@ -550,7 +528,7 @@ namespace MwsSimulation.Forms
 		private void radioButtonGroup12_CheckedChanged(object sender, EventArgs e)
 		{
 			// 契約月数を１２か月に変更
-			comboBoxTerm.SelectedIndex = 1;
+			comboBoxTerm.SelectedValue = 12;
 
 			// サービス使用料の表示
 			this.DrawServicePrice();
@@ -564,7 +542,7 @@ namespace MwsSimulation.Forms
 		private void radioButtonGroup24_CheckedChanged(object sender, EventArgs e)
 		{
 			// 契約月数を２４か月に変更
-			comboBoxTerm.SelectedIndex = 2;
+			comboBoxTerm.SelectedValue = 24;
 
 			// サービス使用料の表示
 			this.DrawServicePrice();
@@ -578,7 +556,7 @@ namespace MwsSimulation.Forms
 		private void radioButtonGroup36_CheckedChanged(object sender, EventArgs e)
 		{
 			// 契約月数を３６か月に変更
-			comboBoxTerm.SelectedIndex = 3;
+			comboBoxTerm.SelectedValue = 36;
 
 			// サービス使用料の表示
 			this.DrawServicePrice();
@@ -614,6 +592,23 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
+		/// 定型文からの備考入力
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
+		private void buttonRemarkTemplate_Click(object sender, EventArgs e)
+		{
+			using (SelectRemarkForm form = new SelectRemarkForm())
+			{
+				if (DialogResult.OK == form.ShowDialog())
+				{
+					textBoxRemark.Text += form.Remark;
+				}
+			}
+		}
+
+		/// <summary>
 		/// 見積書印刷
 		/// </summary>
 		/// <param name="sender"></param>
@@ -635,7 +630,7 @@ namespace MwsSimulation.Forms
 			if (radioButtonGroupNone.Checked)
 			{
 				// おまとめプランなし
-				if (0 != comboBoxTerm.SelectedIndex)
+				if (1 != (int)comboBoxTerm.SelectedValue)
 				{
 					MessageBox.Show("契約期間は１か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					comboBoxTerm.Focus();
@@ -645,7 +640,7 @@ namespace MwsSimulation.Forms
 			else if (radioButtonGroup12.Checked)
 			{
 				// おまとめプラン12ヵ月
-				if (1 != comboBoxTerm.SelectedIndex)
+				if (12 != (int)comboBoxTerm.SelectedValue)
 				{
 					MessageBox.Show("契約期間は１２か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					comboBoxTerm.Focus();
@@ -655,7 +650,7 @@ namespace MwsSimulation.Forms
 			else if (radioButtonGroup24.Checked)
 			{
 				// おまとめプラン24ヵ月
-				if (2 != comboBoxTerm.SelectedIndex)
+				if (24 != (int)comboBoxTerm.SelectedValue)
 				{
 					MessageBox.Show("契約期間は２４か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					comboBoxTerm.Focus();
@@ -665,7 +660,7 @@ namespace MwsSimulation.Forms
 			else if (radioButtonGroup36.Checked)
 			{
 				// おまとめプラン36ヵ月
-				if (3 != comboBoxTerm.SelectedIndex)
+				if (36 != (int)comboBoxTerm.SelectedValue)
 				{
 					MessageBox.Show("契約期間は３６か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					comboBoxTerm.Focus();
@@ -701,25 +696,11 @@ namespace MwsSimulation.Forms
 
 				// 契約期間の設定
 				// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-				est.AgreeStartDate = AgreeSpan.Start;
-				est.AgreeEndDate = AgreeSpan.End;
+				est.AgreeSpan = AgreeSpan;
 
 				// 契約月数の設定
-				switch (comboBoxTerm.SelectedIndex)
-				{
-					case 0:
-						est.AgreeMonthes = 1;
-						break;
-					case 1:
-						est.AgreeMonthes = 12;
-						break;
-					case 2:
-						est.AgreeMonthes = 24;
-						break;
-					case 3:
-						est.AgreeMonthes = 36;
-						break;
-				}
+				est.AgreeMonthes = (int)comboBoxTerm.SelectedValue;
+
 				// 備考
 				est.SetRemark(textBoxRemark.Lines);
 
@@ -758,7 +739,7 @@ namespace MwsSimulation.Forms
 			if (radioButtonGroupNone.Checked)
 			{
 				// おまとめプランなし
-				if (0 != comboBoxTerm.SelectedIndex)
+				if (1 != (int)comboBoxTerm.SelectedValue)
 				{
 					MessageBox.Show("契約期間は１か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					comboBoxTerm.Focus();
@@ -768,7 +749,7 @@ namespace MwsSimulation.Forms
 			else if (radioButtonGroup12.Checked)
 			{
 				// おまとめプラン12ヵ月
-				if (1 != comboBoxTerm.SelectedIndex)
+				if (12 != (int)comboBoxTerm.SelectedValue)
 				{
 					MessageBox.Show("契約期間は１２か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					comboBoxTerm.Focus();
@@ -778,7 +759,7 @@ namespace MwsSimulation.Forms
 			else if (radioButtonGroup24.Checked)
 			{
 				// おまとめプラン24ヵ月
-				if (2 != comboBoxTerm.SelectedIndex)
+				if (24 != (int)comboBoxTerm.SelectedValue)
 				{
 					MessageBox.Show("契約期間は２４か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					comboBoxTerm.Focus();
@@ -788,7 +769,7 @@ namespace MwsSimulation.Forms
 			else if (radioButtonGroup36.Checked)
 			{
 				// おまとめプラン36ヵ月
-				if (3 != comboBoxTerm.SelectedIndex)
+				if (36 != (int)comboBoxTerm.SelectedValue)
 				{
 					MessageBox.Show("契約期間は３６か月を指定してください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					comboBoxTerm.Focus();
@@ -849,25 +830,11 @@ namespace MwsSimulation.Forms
 
 					// 契約期間
 					// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-					EstimateData.AgreeStartDate = AgreeSpan.Start;
-					EstimateData.AgreeEndDate = AgreeSpan.End;
+					EstimateData.AgreeSpan = AgreeSpan;
 
 					// 契約月数の設定
-					switch (comboBoxTerm.SelectedIndex)
-					{
-						case 0:
-							EstimateData.AgreeMonthes = 1;
-							break;
-						case 1:
-							EstimateData.AgreeMonthes = 12;
-							break;
-						case 2:
-							EstimateData.AgreeMonthes = 24;
-							break;
-						case 3:
-							EstimateData.AgreeMonthes = 36;
-							break;
-					}
+					EstimateData.AgreeMonthes = (int)comboBoxTerm.SelectedValue;
+
 					// 次回見積書情報番号の取得
 					EstimateData.EstimateID = SQLiteMwsSimulationAccess.GetLastEstimateNumber(dataFolder);
 
@@ -925,25 +892,11 @@ namespace MwsSimulation.Forms
 
 					// 契約期間
 					// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-					EstimateData.AgreeStartDate = AgreeSpan.Start;
-					EstimateData.AgreeEndDate = AgreeSpan.End;
+					EstimateData.AgreeSpan = AgreeSpan;
 
 					// 契約月数の設定
-					switch (comboBoxTerm.SelectedIndex)
-					{
-						case 0:
-							EstimateData.AgreeMonthes = 1;
-							break;
-						case 1:
-							EstimateData.AgreeMonthes = 12;
-							break;
-						case 2:
-							EstimateData.AgreeMonthes = 24;
-							break;
-						case 3:
-							EstimateData.AgreeMonthes = 36;
-							break;
-					}
+					EstimateData.AgreeMonthes = (int)comboBoxTerm.SelectedValue;
+
 					// 見積書情報の設定
 					// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
 					//EstimateData.SetEstimateData(serviceList, groupList);
@@ -1461,7 +1414,7 @@ namespace MwsSimulation.Forms
 		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 		private void DrawAgreeSpan()
 		{
-			labelAgreeSpan.Text = string.Format("{0}～{1}", AgreeSpan.Start.ToString(), AgreeSpan.End.ToString());
+			labelAgreeSpan.Text = AgreeSpan.GetJapaneseANString("～", true, '0', true);
 		}
 
 
@@ -1488,7 +1441,7 @@ namespace MwsSimulation.Forms
 				// 印刷プレビューダイアログ生成
 				using (PrintPreviewForm pf = new PrintPreviewForm())
 				{
-					MaxPage = PrintInfo.GetMaxPage();
+					MaxPage = PrintInfo.GetMaxPage;
 
 					// 印刷処理開始イベントハンドラの追加
 					pf.BeginPrint += new PrintPreviewForm.PrintEventHandler(PrintPreviewForm_BeginPrint);

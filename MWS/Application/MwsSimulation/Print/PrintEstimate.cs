@@ -62,6 +62,19 @@ namespace MwsSimulation.Print
 		}
 
 		/// <summary>
+		/// 最大ページ数の取得
+		/// </summary>
+		/// <param name="est">見積書情報</param>
+		/// <returns>最大ページ数</returns>
+		public int GetMaxPage
+		{
+			get
+			{
+				return PrintData.GetMaxPage;
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public PrintEstimate()
@@ -120,16 +133,6 @@ namespace MwsSimulation.Print
 		}
 
 		/// <summary>
-		/// 最大ページ数の取得
-		/// </summary>
-		/// <param name="est">見積書情報</param>
-		/// <returns>最大ページ数</returns>
-		public int GetMaxPage()
-		{
-			return PrintData.GetMaxPage();
-		}
-
-		/// <summary>
 		/// MIC WEB SERVICEお見積書の印刷
 		/// </summary>
 		/// <param name="g">Graphics</param>
@@ -139,7 +142,7 @@ namespace MwsSimulation.Print
 		public void PrintEstimateData(Graphics g, Point offset, int curPage, bool printRect)
 		{
 			Color formColor = Color.Black;
-			int maxPage = this.GetMaxPage();
+			int maxPage = this.GetMaxPage;
 
 			BranchSettings branch;
 			if (MainForm.gSettings.CurrentBranchIndex < MainForm.gSettings.BranchList.Count)
@@ -352,7 +355,7 @@ namespace MwsSimulation.Print
 						}
 						else if ("<有効期限>" == para.Entry)
 						{
-							if (false == PrintData.AgreementSpan.IsNothing())
+							if (false == PrintData.AgreeSpan.IsNothing())
 							{
 								// 発行日の２週間後
 								Date limitDate = PrintData.PrintDate + 13;
@@ -361,10 +364,10 @@ namespace MwsSimulation.Print
 						}
 						else if ("<契約期間>" == para.Entry)
 						{
-							if (false == PrintData.AgreementSpan.IsNothing())
+							if (false == PrintData.AgreeSpan.IsNothing())
 							{
 								// 2018/01/01～2018/02/01
-								para.PrintString(g, offset, PrintData.AgreementSpan.GetJapaneseANString("～", true, '0', true));
+								para.PrintString(g, offset, PrintData.AgreeSpan.GetJapaneseANString("～", true, '0', true));
 							}
 						}
 						else if ("<備考>" == para.Entry)

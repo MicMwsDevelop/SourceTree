@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
+// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
 //
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,12 @@ namespace MwsSimulation.Settings
 		public int CurrentStaffIndex;
 
 		/// <summary>
+		/// 備考リスト
+		/// </summary>
+		// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
+		public StringCollection RemarkList;
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public MwsSimulationSettings()
@@ -61,6 +68,9 @@ namespace MwsSimulation.Settings
 			StaffList = new StringCollection();
 			CurrentBranchIndex = 0;
 			CurrentStaffIndex = 0;
+
+			// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
+			RemarkList = new StringCollection();
 		}
 
 		/// <summary>
@@ -87,7 +97,10 @@ namespace MwsSimulation.Settings
 					&& BranchList.Equals(other.BranchList)
 					&& StaffList.Equals(other.StaffList)
 					&& CurrentBranchIndex == other.CurrentBranchIndex
-					&& CurrentStaffIndex == other.CurrentStaffIndex)
+					&& CurrentStaffIndex == other.CurrentStaffIndex
+
+					// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
+					&& RemarkList.Equals(other.RemarkList))
 				{
 					return true;
 				}

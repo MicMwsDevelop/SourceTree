@@ -107,11 +107,29 @@
     <Compile Include="Forms\DestinationForm.Designer.cs">
       <DependentUpon>DestinationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SelectRemarkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SelectRemarkForm.Designer.cs">
+      <DependentUpon>SelectRemarkForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EnvironmentRemarkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EnvironmentRemarkForm.Designer.cs">
+      <DependentUpon>EnvironmentRemarkForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SetRemarkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SetRemarkForm.Designer.cs">
+      <DependentUpon>SetRemarkForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SetStaffForm.cs">
       <SubType>Form</SubType>
@@ -125,11 +143,11 @@
     <Compile Include="Forms\SimulationForm.Designer.cs">
       <DependentUpon>SimulationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\EnvironmentForm.cs">
+    <Compile Include="Forms\EnvironmentStaffForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\EnvironmentForm.Designer.cs">
-      <DependentUpon>EnvironmentForm.cs</DependentUpon>
+    <Compile Include="Forms\EnvironmentStaffForm.Designer.cs">
+      <DependentUpon>EnvironmentStaffForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\VersionInfoForm.cs">
       <SubType>Form</SubType>
@@ -155,8 +173,17 @@
     <EmbeddedResource Include="Forms\DestinationForm.resx">
       <DependentUpon>DestinationForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SelectRemarkForm.resx">
+      <DependentUpon>SelectRemarkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EnvironmentRemarkForm.resx">
+      <DependentUpon>EnvironmentRemarkForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SetRemarkForm.resx">
+      <DependentUpon>SetRemarkForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SetStaffForm.resx">
       <DependentUpon>SetStaffForm.cs</DependentUpon>
@@ -164,8 +191,8 @@
     <EmbeddedResource Include="Forms\SimulationForm.resx">
       <DependentUpon>SimulationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\EnvironmentForm.resx">
-      <DependentUpon>EnvironmentForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\EnvironmentStaffForm.resx">
+      <DependentUpon>EnvironmentStaffForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\VersionInfoForm.resx">
       <DependentUpon>VersionInfoForm.cs</DependentUpon>

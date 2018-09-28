@@ -542,7 +542,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			SQLiteParameter[] param = { new SQLiteParameter("@1", est.EstimateID),
 										new SQLiteParameter("@2", est.Destination),
 										new SQLiteParameter("@3", est.PrintDate.ToIntYMD()),
-										new SQLiteParameter("@4", est.AgreeStartDate.ToIntYMD()),
+										new SQLiteParameter("@4", est.AgreeSpan.Start.ToIntYMD()),
 										new SQLiteParameter("@5", est.AgreeMonthes),
 										new SQLiteParameter("@6", (0 < est.Remark.Count) ? est.Remark[0]: ""),
 										new SQLiteParameter("@7", (1 < est.Remark.Count) ? est.Remark[1]: ""),
@@ -550,7 +550,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 										new SQLiteParameter("@9", (3 < est.Remark.Count) ? est.Remark[3]: ""),
 
 										// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-										new SQLiteParameter("@10", est.AgreeEndDate.ToIntYMD()),
+										new SQLiteParameter("@10", est.AgreeSpan.End.ToIntYMD()),
 
 										// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 										new SQLiteParameter("@11", est.NotUsedMessrs) };

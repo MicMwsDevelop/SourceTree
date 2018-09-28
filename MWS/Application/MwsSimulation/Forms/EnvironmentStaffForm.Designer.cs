@@ -1,6 +1,6 @@
 ﻿namespace MwsSimulation.Forms
 {
-	partial class EnvironmentForm
+	partial class EnvironmentStaffForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -40,7 +40,7 @@
 			// buttonCancel
 			// 
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(231, 294);
+			this.buttonCancel.Location = new System.Drawing.Point(164, 294);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(102, 36);
 			this.buttonCancel.TabIndex = 6;
@@ -50,7 +50,7 @@
 			// buttonOK
 			// 
 			this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonOK.Location = new System.Drawing.Point(123, 294);
+			this.buttonOK.Location = new System.Drawing.Point(56, 294);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(102, 36);
 			this.buttonOK.TabIndex = 5;
@@ -107,7 +107,7 @@
 			this.buttonModify.UseVisualStyleBackColor = true;
 			this.buttonModify.Click += new System.EventHandler(this.buttonModify_Click);
 			// 
-			// EnvironmentForm
+			// EnvironmentStaffForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -124,7 +124,7 @@
 			this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "EnvironmentForm";
+			this.Name = "EnvironmentStaffForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "担当者の登録";
 			this.Load += new System.EventHandler(this.EnvironmentForm_Load);

@@ -1,7 +1,7 @@
 ﻿//
-// EnvironmentForm.cs
+// EnvironmentStaffForm.cs
 //
-// 担当者設定画面
+// 担当者登録画面
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -14,9 +14,9 @@ using System.Windows.Forms;
 namespace MwsSimulation.Forms
 {
 	/// <summary>
-	/// 担当者の登録
+	/// 担当者登録画面
 	/// </summary>
-	public partial class EnvironmentForm : Form
+	public partial class EnvironmentStaffForm : Form
 	{
 		/// <summary>
 		/// 担当者リスト
@@ -26,7 +26,7 @@ namespace MwsSimulation.Forms
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public EnvironmentForm()
+		private EnvironmentStaffForm()
 		{
 			InitializeComponent();
 
@@ -37,7 +37,7 @@ namespace MwsSimulation.Forms
 		/// コンストラクタ
 		/// </summary>
 		/// <param name="staff">担当者リスト</param>
-		public EnvironmentForm(StringCollection staff)
+		public EnvironmentStaffForm(StringCollection staff)
 		{
 			InitializeComponent();
 
