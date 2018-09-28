@@ -7,6 +7,7 @@
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
 // Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
+// Ver1.050 プラン割引、月額利用額をＭＷＳサイトに合わせ、100円未満切り捨てる(2018/09/21 勝呂)
 //
 using System;
 using System.Collections.Generic;
@@ -65,12 +66,17 @@ namespace MwsLib.BaseFactory.MwsSimulation
 
 		/// <summary>
 		/// おまとめプラン月額料金の取得
+		/// 100円未満切り捨て（MWSサイトに合わせる）
 		/// </summary>
 		/// <param name="price">おまとめプラン対象利用料</param>
 		/// <returns>おまとめプラン月額料金</returns>
+		// Ver1.050 プラン割引、月額利用額をＭＷＳサイトに合わせ、100円未満切り捨てる(2018/09/21 勝呂)
 		public int GetGroupPlanPrice(int price)
 		{
-			return (price * (KeiyakuMonth - FreeMonth)) / KeiyakuMonth;
+			// Ver1.050 プラン割引、月額利用額をＭＷＳサイトに合わせ、100円未満切り捨てる(2018/09/21 勝呂)
+			//return (price * (KeiyakuMonth - FreeMonth)) / KeiyakuMonth;
+			int work = (price * (KeiyakuMonth - FreeMonth)) / KeiyakuMonth;
+			return (work / 100) * 100;
 		}
 
 		/// <summary>
@@ -260,15 +266,20 @@ namespace MwsLib.BaseFactory.MwsSimulation
 
 		/// <summary>
 		/// 無償利用期間の取得
+		/// 100円未満切り捨て（MWSサイトに合わせる）
 		/// </summary>
 		/// <param name="month">契約月数</param>
 		/// <param name="standardPrice">MWS WEB SERVICE プラットフォーム利用料</param>
 		/// <param name="normalPrice">通常のサービス利用料</param>
 		/// <param name="groupPrice">おまとめプランサービス利用料</param>
 		/// <returns>無償利用期間</returns>
+		// Ver1.050 プラン割引、月額利用額をＭＷＳサイトに合わせ、100円未満切り捨てる(2018/09/21 勝呂)
 		public static int GetGroupPlanMonthlyFreePrice(int month, int standardPrice, int normalPrice, int groupPrice)
 		{
-			return (GetNormalTotalPrice(month, standardPrice, normalPrice) - groupPrice) / month;
+			// Ver1.050 プラン割引、月額利用額をＭＷＳサイトに合わせ、100円未満切り捨てる(2018/09/21 勝呂)
+			//return (GetNormalTotalPrice(month, standardPrice, normalPrice) - groupPrice) / month;
+			int price = (GetNormalTotalPrice(month, standardPrice, normalPrice) - groupPrice) / month;
+			return (price / 100) * 100;
 		}
 
 		/// <summary>

@@ -6,6 +6,8 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
+// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 //
 using MwsLib.BaseFactory.MwsSimulation;
 using MwsLib.Common;
@@ -91,7 +93,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 					service.GoodsKubun = DataBaseValue.ConvObjectToInt(row["GoodsKubun"]);
 					if (SQLiteMwsSimulationDef.MWS_STANDARD_GOODSID == service.GoodsID)
 					{
-						result.Standard = service;
+						result.Platform = service;
 					}
 					else
 					{
@@ -147,6 +149,19 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 					est.Remark.Add(row["Remark2"].ToString());
 					est.Remark.Add(row["Remark3"].ToString());
 					est.Remark.Add(row["Remark4"].ToString());
+
+					// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+					if (0 == DataBaseValue.ConvObjectToInt(row["AgreeEndDate"]))
+					{
+						est.AgreeEndDate = Estimate.GetAgreeEndDate(est.AgreeStartDate, est.AgreeMonthes);
+					}
+					else
+					{
+						est.AgreeEndDate = DataBaseValue.ConvObjectToDate(row["AgreeEndDate"]);
+					}
+					// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+					est.NotUsedMessrs = DataBaseValue.ConvObjectToInt(row["NotUsedMessrs"]);
+
 					result.Add(est);
 				}
 			}

@@ -48,7 +48,7 @@
 			this.buttonOK = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.buttonList = new System.Windows.Forms.Button();
-			this.checkBoxNotPaletteUser = new System.Windows.Forms.CheckBox();
+			this.checkBoxNonPaletteUser = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -63,7 +63,7 @@
 			// 
 			// textBoxTokuisakiID
 			// 
-			this.textBoxTokuisakiID.ImeMode = System.Windows.Forms.ImeMode.Off;
+			this.textBoxTokuisakiID.ImeMode = System.Windows.Forms.ImeMode.Disable;
 			this.textBoxTokuisakiID.Location = new System.Drawing.Point(86, 47);
 			this.textBoxTokuisakiID.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxTokuisakiID.MaxLength = 6;
@@ -74,9 +74,9 @@
 			// 
 			// buttonSearch
 			// 
-			this.buttonSearch.Location = new System.Drawing.Point(225, 48);
+			this.buttonSearch.Location = new System.Drawing.Point(225, 47);
 			this.buttonSearch.Name = "buttonSearch";
-			this.buttonSearch.Size = new System.Drawing.Size(75, 23);
+			this.buttonSearch.Size = new System.Drawing.Size(75, 24);
 			this.buttonSearch.TabIndex = 3;
 			this.buttonSearch.Text = "検索";
 			this.buttonSearch.UseVisualStyleBackColor = true;
@@ -84,9 +84,9 @@
 			// 
 			// buttonClear
 			// 
-			this.buttonClear.Location = new System.Drawing.Point(306, 48);
+			this.buttonClear.Location = new System.Drawing.Point(306, 47);
 			this.buttonClear.Name = "buttonClear";
-			this.buttonClear.Size = new System.Drawing.Size(75, 23);
+			this.buttonClear.Size = new System.Drawing.Size(75, 24);
 			this.buttonClear.TabIndex = 4;
 			this.buttonClear.Text = "クリア";
 			this.buttonClear.UseVisualStyleBackColor = true;
@@ -114,7 +114,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(13, 120);
+			this.label3.Location = new System.Drawing.Point(13, 112);
 			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(47, 17);
@@ -124,7 +124,7 @@
 			// comboBoxFinishedMonth
 			// 
 			this.comboBoxFinishedMonth.FormattingEnabled = true;
-			this.comboBoxFinishedMonth.Location = new System.Drawing.Point(86, 117);
+			this.comboBoxFinishedMonth.Location = new System.Drawing.Point(86, 109);
 			this.comboBoxFinishedMonth.Name = "comboBoxFinishedMonth";
 			this.comboBoxFinishedMonth.Size = new System.Drawing.Size(121, 25);
 			this.comboBoxFinishedMonth.TabIndex = 8;
@@ -132,7 +132,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(222, 120);
+			this.label4.Location = new System.Drawing.Point(222, 112);
 			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(86, 17);
@@ -141,7 +141,7 @@
 			// 
 			// dateTimePickerAcceptDate
 			// 
-			this.dateTimePickerAcceptDate.Location = new System.Drawing.Point(315, 118);
+			this.dateTimePickerAcceptDate.Location = new System.Drawing.Point(315, 110);
 			this.dateTimePickerAcceptDate.Name = "dateTimePickerAcceptDate";
 			this.dateTimePickerAcceptDate.Size = new System.Drawing.Size(149, 24);
 			this.dateTimePickerAcceptDate.TabIndex = 10;
@@ -149,7 +149,7 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(13, 179);
+			this.label5.Location = new System.Drawing.Point(13, 170);
 			this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(57, 17);
@@ -160,7 +160,7 @@
 			// 
 			this.comboBoxReplace.FormattingEnabled = true;
 			this.comboBoxReplace.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-			this.comboBoxReplace.Location = new System.Drawing.Point(86, 176);
+			this.comboBoxReplace.Location = new System.Drawing.Point(86, 167);
 			this.comboBoxReplace.MaxLength = 50;
 			this.comboBoxReplace.Name = "comboBoxReplace";
 			this.comboBoxReplace.Size = new System.Drawing.Size(182, 25);
@@ -184,7 +184,7 @@
             "２．閉院",
             "３．手書きなどに変更",
             "４．その他"});
-			this.comboBoxFinishedReason.Location = new System.Drawing.Point(86, 207);
+			this.comboBoxFinishedReason.Location = new System.Drawing.Point(86, 198);
 			this.comboBoxFinishedReason.MaxLength = 50;
 			this.comboBoxFinishedReason.Name = "comboBoxFinishedReason";
 			this.comboBoxFinishedReason.Size = new System.Drawing.Size(378, 25);
@@ -193,7 +193,7 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(13, 210);
+			this.label6.Location = new System.Drawing.Point(13, 201);
 			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(60, 17);
@@ -203,7 +203,7 @@
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(13, 243);
+			this.label7.Location = new System.Drawing.Point(13, 232);
 			this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(34, 17);
@@ -213,7 +213,7 @@
 			// textBoxReason
 			// 
 			this.textBoxReason.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-			this.textBoxReason.Location = new System.Drawing.Point(86, 240);
+			this.textBoxReason.Location = new System.Drawing.Point(86, 229);
 			this.textBoxReason.Multiline = true;
 			this.textBoxReason.Name = "textBoxReason";
 			this.textBoxReason.Size = new System.Drawing.Size(378, 121);
@@ -221,7 +221,7 @@
 			// 
 			// buttonOK
 			// 
-			this.buttonOK.Location = new System.Drawing.Point(86, 367);
+			this.buttonOK.Location = new System.Drawing.Point(86, 356);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 42);
 			this.buttonOK.TabIndex = 18;
@@ -231,7 +231,7 @@
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(389, 367);
+			this.buttonClose.Location = new System.Drawing.Point(389, 356);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 42);
 			this.buttonClose.TabIndex = 20;
@@ -241,7 +241,7 @@
 			// 
 			// buttonList
 			// 
-			this.buttonList.Location = new System.Drawing.Point(167, 367);
+			this.buttonList.Location = new System.Drawing.Point(167, 356);
 			this.buttonList.Name = "buttonList";
 			this.buttonList.Size = new System.Drawing.Size(75, 42);
 			this.buttonList.TabIndex = 19;
@@ -249,22 +249,22 @@
 			this.buttonList.UseVisualStyleBackColor = true;
 			this.buttonList.Click += new System.EventHandler(this.buttonList_Click);
 			// 
-			// checkBoxNotPaletteUser
+			// checkBoxNonPaletteUser
 			// 
-			this.checkBoxNotPaletteUser.AutoSize = true;
-			this.checkBoxNotPaletteUser.Location = new System.Drawing.Point(86, 149);
-			this.checkBoxNotPaletteUser.Name = "checkBoxNotPaletteUser";
-			this.checkBoxNotPaletteUser.Size = new System.Drawing.Size(182, 21);
-			this.checkBoxNotPaletteUser.TabIndex = 11;
-			this.checkBoxNotPaletteUser.Text = "非paletteユーザーとして使用";
-			this.checkBoxNotPaletteUser.UseVisualStyleBackColor = true;
+			this.checkBoxNonPaletteUser.AutoSize = true;
+			this.checkBoxNonPaletteUser.Location = new System.Drawing.Point(86, 140);
+			this.checkBoxNonPaletteUser.Name = "checkBoxNonPaletteUser";
+			this.checkBoxNonPaletteUser.Size = new System.Drawing.Size(182, 21);
+			this.checkBoxNonPaletteUser.TabIndex = 11;
+			this.checkBoxNonPaletteUser.Text = "非paletteユーザーとして使用";
+			this.checkBoxNonPaletteUser.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(480, 423);
-			this.Controls.Add(this.checkBoxNotPaletteUser);
+			this.ClientSize = new System.Drawing.Size(480, 411);
+			this.Controls.Add(this.checkBoxNonPaletteUser);
 			this.Controls.Add(this.buttonList);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.buttonOK);
@@ -320,7 +320,7 @@
 		private System.Windows.Forms.Button buttonOK;
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonList;
-		private System.Windows.Forms.CheckBox checkBoxNotPaletteUser;
+		private System.Windows.Forms.CheckBox checkBoxNonPaletteUser;
 	}
 }
 

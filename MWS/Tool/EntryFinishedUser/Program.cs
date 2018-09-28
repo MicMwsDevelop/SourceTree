@@ -6,6 +6,11 @@ namespace EntryFinishedUser
 	static class Program
 	{
 		/// <summary>
+		/// データベース接続先 CT環境
+		/// </summary>
+		public const bool DATABACE_ACCEPT_CT = true;
+
+		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
 		/// </summary>
 		[STAThread]

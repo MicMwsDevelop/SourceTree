@@ -4,6 +4,8 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
+// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 // 
 using MwsLib.BaseFactory.MwsSimulation;
 using MwsLib.Common;
@@ -44,6 +46,12 @@ namespace MwsSimulation.Print
 		public List<string> Remark { get; set; }
 
 		/// <summary>
+		/// 宛先に様を使用
+		/// </summary>
+		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+		public int NotUsedMessrs { get; set; }
+
+		/// <summary>
 		/// 見積ページ情報リスト
 		/// </summary>
 		List<List<EstimateData>> PageList { get; set; }
@@ -59,6 +67,9 @@ namespace MwsSimulation.Print
 			AgreementSpan = Span.Nothing;
 			Remark = new List<string>();
 			PageList = new List<List<EstimateData>>();
+
+			// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+			NotUsedMessrs = 0;
 		}
 
 		/// <summary>
@@ -74,7 +85,21 @@ namespace MwsSimulation.Print
 			Destination = est.Destination;
 			PrintDate = est.PrintDate;
 
-			Date endDate = est.AgreeStartDate.PlusMonths(est.AgreeMonthes - 1);
+			// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+			NotUsedMessrs = est.NotUsedMessrs;
+
+			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+			//Date endDate = est.AgreeStartDate.PlusMonths(est.AgreeMonthes - 1);
+			Date endDate;
+			if (0 == est.AgreeMonthes)
+			{
+				endDate = est.AgreeEndDate;
+			}
+			else
+			{
+				endDate = est.AgreeStartDate.PlusMonths(est.AgreeMonthes - 1);
+			}
+
 			AgreementSpan = new Span(est.AgreeStartDate, new Date(endDate.Year, endDate.Month, endDate.ToYearMonth().GetDays()));
 			Remark = est.Remark;
 			if (0 < est.ServiceList.Count)

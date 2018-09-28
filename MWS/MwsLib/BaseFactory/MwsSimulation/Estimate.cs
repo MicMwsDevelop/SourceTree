@@ -6,6 +6,8 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
+// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 //
 using MwsLib.Common;
 using MwsLib.DB.SQLite.MwsSimulation;
@@ -41,6 +43,12 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		public Date AgreeStartDate { get; set; }
 
 		/// <summary>
+		/// 契約終了日
+		/// </summary>
+		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+		public Date AgreeEndDate { get; set; }
+
+		/// <summary>
 		/// 契約月数
 		/// </summary>
 		public int AgreeMonthes { get; set; }
@@ -49,6 +57,12 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		/// 備考
 		/// </summary>
 		public List<string> Remark { get; set; }
+
+		/// <summary>
+		/// 宛先に御中ではなく様を使用
+		/// </summary>
+		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+		public int NotUsedMessrs { get; set; }
 
 		/// <summary>
 		/// 見積サービス情報リスト
@@ -83,12 +97,16 @@ namespace MwsLib.BaseFactory.MwsSimulation
 			AgreeMonthes = 1;
 			Remark = new List<string>();
 			ServiceList = new List<EstimateService>();
+
+			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+			AgreeEndDate = Date.MinValue;
+			NotUsedMessrs = 0;
 		}
 
 		/// <summary>
 		/// 備考の取得
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>備考</returns>
 		public string[] GetRemark()
 		{
 			return Remark.ToArray();
@@ -97,7 +115,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		/// <summary>
 		/// 備考の設定
 		/// </summary>
-		/// <param name="remark"></param>
+		/// <param name="remark">備考</param>
 		public void SetRemark(string[] remark)
 		{
 			Remark.Clear();
@@ -105,11 +123,48 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		}
 
 		/// <summary>
+		/// 宛先の御中または様を取得
+		/// </summary>
+		/// <param name="notUsedMessrs">宛先に御中ではなく様を使用</param>
+		/// <returns>宛先の御中または様</returns>
+		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+		public static string DestinationTitle(int notUsedMessrs)
+		{
+			return (0 == notUsedMessrs) ? "御中" : "様";
+		}
+
+		/// <summary>
+		/// 宛先文字列の取得
+		/// </summary>
+		/// <returns>宛先文字列</returns>
+		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+		public string DestinationDispString()
+		{
+			return string.Format("{0} {1}", Destination, Estimate.DestinationTitle(NotUsedMessrs));
+		}
+
+		/// <summary>
+		/// 契約開始日と契約月数から契約終了日を取得
+		/// </summary>
+		/// <param name="startDate">契約開始日</param>
+		/// <param name="monthes">契約月数</param>
+		/// <returns>契約終了日</returns>
+		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+		public static Date GetAgreeEndDate(Date startDate, int monthes)
+		{
+			Date endDate = startDate.PlusMonths(monthes);
+			return new Date(endDate.Year, endDate.Month, endDate.ToYearMonth().GetDays());
+		}
+
+		/// <summary>
 		/// 見積書情報の設定
 		/// </summary>
 		/// <param name="serviceList">申込サービス情報リスト</param>
 		/// <param name="groupList">おまとめプラン・セット割サービスリスト</param>
-		public void SetEstimateData(List<ServiceInfo> serviceList, List<GroupService> groupList)
+		/// <param name="chartComputeCode">電子カルテ標準サービスサービスコード</param>
+		/// <param name="tabletViewerCode">TABLETビューワサービスコード</param>
+		// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
+		public void SetEstimateData(List<ServiceInfo> serviceList, List<GroupService> groupList, string chartComputeCode, string tabletViewerCode)
 		{
 			this.ServiceList.Clear();
 
@@ -127,13 +182,37 @@ namespace MwsLib.BaseFactory.MwsSimulation
 				}
 				this.ServiceList.Add(estSvr);
 			}
+			// 電子カルテ標準サービスとTABLETビューワの存在確認
+			// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
+			bool existChartCompute = false;
+			bool existTabletViewer = false;
+			foreach (ServiceInfo service in serviceList)
+			{
+				if (chartComputeCode == service.ServiceCode)
+				{
+					existChartCompute = true;
+				}
+				else if (tabletViewerCode == service.ServiceCode)
+				{
+					existTabletViewer = true;
+				}
+			}
 			// サービスの設定
 			foreach (ServiceInfo service in serviceList)
 			{
 				EstimateService estSvr = new EstimateService();
 				estSvr.GoodsID = service.GoodsID;
 				estSvr.ServiceName = service.ServiceName;
-				estSvr.Price = service.Price;
+
+				// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
+				if (tabletViewerCode == service.ServiceCode && true == existChartCompute && true == existTabletViewer)
+				{
+					estSvr.Price = 0;
+				}
+				else
+				{
+					estSvr.Price = service.Price;
+				}
 				this.ServiceList.Add(estSvr);
 			}
 		}
@@ -160,6 +239,11 @@ namespace MwsLib.BaseFactory.MwsSimulation
 				if (false == Remark.SequenceEqual(other.Remark))
 					return false;
 				if (false == ServiceList.SequenceEqual(other.ServiceList))
+					return false;
+				// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+				if (AgreeEndDate != other.AgreeEndDate)
+					return false;
+				if (NotUsedMessrs != other.NotUsedMessrs)
 					return false;
 				return true;
 			}

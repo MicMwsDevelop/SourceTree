@@ -6,6 +6,8 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
+// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 //
 using MwsLib.BaseFactory.MwsSimulation;
 using MwsLib.Common;
@@ -536,7 +538,7 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 		private static int InsertIntoEstimateHeader(SQLiteConnection con, SQLiteTransaction tran, Estimate est)
 		{
 			int result = -1;
-			string sqlString = string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9)", SQLiteMwsSimulationDef.ESTIMATE_HEADER_TABLE_NAME);
+			string sqlString = string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11)", SQLiteMwsSimulationDef.ESTIMATE_HEADER_TABLE_NAME);
 			SQLiteParameter[] param = { new SQLiteParameter("@1", est.EstimateID),
 										new SQLiteParameter("@2", est.Destination),
 										new SQLiteParameter("@3", est.PrintDate.ToIntYMD()),
@@ -545,7 +547,14 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 										new SQLiteParameter("@6", (0 < est.Remark.Count) ? est.Remark[0]: ""),
 										new SQLiteParameter("@7", (1 < est.Remark.Count) ? est.Remark[1]: ""),
 										new SQLiteParameter("@8", (2 < est.Remark.Count) ? est.Remark[2]: ""),
-										new SQLiteParameter("@9", (3 < est.Remark.Count) ? est.Remark[3]: "") };
+										new SQLiteParameter("@9", (3 < est.Remark.Count) ? est.Remark[3]: ""),
+
+										// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+										new SQLiteParameter("@10", est.AgreeEndDate.ToIntYMD()),
+
+										// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+										new SQLiteParameter("@11", est.NotUsedMessrs) };
+
 			// 実行
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)
@@ -617,8 +626,11 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 		/// <param name="dbPath">データベース格納フォルダ</param>
 		/// <param name="estimateID">見積書ID</param>
 		/// <param name="destination">宛先</param>
+		/// <param name="notUsedMessrs">様</param>
 		/// <returns>影響行数</returns>
-		public static int UpdateEstimateHeaderDestination(string dbPath, int estimateID, string destination)
+		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+		//public static int UpdateEstimateHeaderDestination(string dbPath, int estimateID, string destination)
+		public static int UpdateEstimateHeaderDestination(string dbPath, int estimateID, string destination, int notUsedMessrs)
 		{
 			int rowCount = -1;
 
@@ -635,7 +647,9 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 						try
 						{
 							// 更新
-							rowCount = UpdateEstimateHeaderDestination(con, tran, estimateID, destination);
+							// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+							//rowCount = UpdateEstimateHeaderDestination(con, tran, estimateID, destination);
+							rowCount = UpdateEstimateHeaderDestination(con, tran, estimateID, destination, notUsedMessrs);
 
 							// コミット
 							tran.Commit();
@@ -662,6 +676,36 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 				}
 			}
 			return rowCount;
+		}
+
+		/// <summary>
+		/// 見積書情報の宛先変更
+		/// </summary>
+		/// <param name="con">SQLite接続</param>
+		/// <param name="tran">トランザクション</param>
+		/// <param name="estimateID">見積書番号</param>
+		/// <param name="destination">宛先</param>
+		/// <param name="notUsedMessrs">様</param>
+		/// <returns>影響行数、失敗時はException</returns>
+		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+		//private static int UpdateEstimateHeaderDestination(SQLiteConnection con, SQLiteTransaction tran, int estimateID, string destination)
+		private static int UpdateEstimateHeaderDestination(SQLiteConnection con, SQLiteTransaction tran, int estimateID, string destination, int notUsedMessrs)
+		{
+			int result = -1;
+
+			string sqlString = string.Format(@"UPDATE {0} SET Destination = @1, NotUsedMessrs = @2 WHERE EstimateID = {1}", SQLiteMwsSimulationDef.ESTIMATE_HEADER_TABLE_NAME, estimateID);
+			SQLiteParameter[] param = { new SQLiteParameter("@1", destination),
+
+										// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+										new SQLiteParameter("@2", notUsedMessrs) };
+
+			// 実行
+			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
+			if (result <= -1)
+			{
+				throw new ApplicationException("見積書情報宛先更新エラー");
+			}
+			return result;
 		}
 
 		/// <summary>
@@ -742,30 +786,6 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 				}
 			}
 			return rowCount;
-		}
-
-		/// <summary>
-		/// 見積書情報の宛先変更
-		/// </summary>
-		/// <param name="con">SQLite接続</param>
-		/// <param name="tran">トランザクション</param>
-		/// <param name="estimateID">見積書番号</param>
-		/// <param name="destination">宛先</param>
-		/// <returns>影響行数、失敗時はException</returns>
-		private static int UpdateEstimateHeaderDestination(SQLiteConnection con, SQLiteTransaction tran, int estimateID, string destination)
-		{
-			int result = -1;
-
-			string sqlString = string.Format(@"UPDATE {0} SET Destination = @1 WHERE EstimateID = {1}", SQLiteMwsSimulationDef.ESTIMATE_HEADER_TABLE_NAME, estimateID);
-			SQLiteParameter[] param = { new SQLiteParameter("@1", destination) };
-
-			// 実行
-			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
-			if (result <= -1)
-			{
-				throw new ApplicationException("見積書情報宛先更新エラー");
-			}
-			return result;
 		}
 
 		/// <summary>
@@ -921,10 +941,10 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 							rowCount = DeleteAllServiceInfo(con, tran);
 
 							// サービス情報の追加
-							if (null != list.Standard)
+							if (null != list.Platform)
 							{
 								// ＭＩＣ ＷＥＢ ＳＥＲＶＩＣＥ 標準機能の追加
-								InsertIntoServiceInfo(con, tran, list.Standard);
+								InsertIntoServiceInfo(con, tran, list.Platform);
 							}
 							foreach (ServiceInfo service in list)
 							{
@@ -1290,6 +1310,69 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			if (result <= -1)
 			{
 				throw new ApplicationException("セット割サービス情報追加エラー");
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// 見積書ヘッダ情報のカラム追加
+		/// AgreeEndDataとMrFlag
+		/// </summary>
+		/// <param name="dbPath">データベース格納フォルダ</param>
+		/// <returns>判定</returns>
+		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+		public static int AlterTableEstimateHeaderAgreeEndDataAndNotUsedMessrs(string dbPath)
+		{
+			int result = -1;
+
+			using (SQLiteConnection con = new SQLiteConnection(SQLiteAccess.CreateConnectionString(Path.Combine(dbPath, SQLiteMwsSimulationDef.MWS_SIMULATION_USER_DATABASE_NAME))))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					// トランザクション開始
+					using (SQLiteTransaction tran = con.BeginTransaction(IsolationLevel.Serializable))
+					{
+						try
+						{
+							string strSql = string.Format(@"ALTER TABLE {0} ADD COLUMN AgreeEndDate INTEGER DEFAULT 0", SQLiteMwsSimulationDef.ESTIMATE_HEADER_TABLE_NAME);
+							result = SQLiteController.SqlExecuteCommand(con, tran, strSql);
+							if (result <= -1)
+							{
+								throw new ApplicationException("ESTIMATE HEADER カラム追加エラー(AgreeEndDate)");
+							}
+							strSql = string.Format(@"ALTER TABLE {0} ADD COLUMN NotUsedMessrs INTEGER DEFAULT 0", SQLiteMwsSimulationDef.ESTIMATE_HEADER_TABLE_NAME);
+							result = SQLiteController.SqlExecuteCommand(con, tran, strSql);
+							if (result <= -1)
+							{
+								throw new ApplicationException("ESTIMATE HEADER カラム追加エラー(NotUsedMessrs)");
+							}
+							// コミット
+							tran.Commit();
+						}
+						catch
+						{
+							// ロールバック
+							tran.Rollback();
+							throw;
+						}
+					}
+				}
+				catch
+				{
+					throw;
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
 			}
 			return result;
 		}

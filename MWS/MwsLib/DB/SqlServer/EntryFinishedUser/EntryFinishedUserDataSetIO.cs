@@ -40,7 +40,7 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString, param);
 							if (rowCount <= -1)
 							{
-								throw new ApplicationException("");
+								throw new ApplicationException("InsertIntoEntryFinishedUserData() Error!");
 							}
 							// コミット
 							tran.Commit();
@@ -102,7 +102,7 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString, param);
 							if (rowCount <= -1)
 							{
-								throw new ApplicationException("");
+								throw new ApplicationException("UpdateEntryFinishedUserData() Error!");
 							}
 							// コミット
 							tran.Commit();
@@ -184,7 +184,7 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString, param);
 							if (rowCount <= -1)
 							{
-								throw new ApplicationException("");
+								throw new ApplicationException("InsertIntoMemo() Error!");
 							}
 							// コミット
 							tran.Commit();

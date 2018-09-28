@@ -95,6 +95,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\AgreeSpanForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AgreeSpanForm.Designer.cs">
+      <DependentUpon>AgreeSpanForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\DestinationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +149,9 @@
     <None Include="Image\mic_logo.png" />
     <Content Include="Doc\MwsSimulationSettings.xml" />
     <Content Include="MwsSimulation.ico" />
+    <EmbeddedResource Include="Forms\AgreeSpanForm.resx">
+      <DependentUpon>AgreeSpanForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\DestinationForm.resx">
       <DependentUpon>DestinationForm.cs</DependentUpon>
     </EmbeddedResource>

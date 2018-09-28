@@ -45,7 +45,7 @@ namespace MwsLib.DB.SqlServer.MwsSimulation
 					service.GoodsKubun = DataBaseValue.ConvObjectToInt(row["GoodsKubun"]);
 					if (SQLiteMwsSimulationDef.MWS_STANDARD_GOODSID == service.GoodsID)
 					{
-						result.Standard = service;
+						result.Platform = service;
 					}
 					else
 					{

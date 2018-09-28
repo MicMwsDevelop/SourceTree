@@ -34,24 +34,22 @@
 			// 
 			// dataGridViewUser
 			// 
-			this.dataGridViewUser.AllowUserToAddRows = false;
 			this.dataGridViewUser.AllowUserToDeleteRows = false;
 			this.dataGridViewUser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridViewUser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewUser.Location = new System.Drawing.Point(13, 13);
+			this.dataGridViewUser.Location = new System.Drawing.Point(13, 12);
 			this.dataGridViewUser.Name = "dataGridViewUser";
-			this.dataGridViewUser.RowHeadersVisible = false;
 			this.dataGridViewUser.RowTemplate.Height = 21;
-			this.dataGridViewUser.Size = new System.Drawing.Size(1239, 784);
+			this.dataGridViewUser.Size = new System.Drawing.Size(1239, 842);
 			this.dataGridViewUser.TabIndex = 0;
 			// 
 			// ShowListForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1264, 809);
+			this.ClientSize = new System.Drawing.Size(1264, 866);
 			this.Controls.Add(this.dataGridViewUser);
 			this.Name = "ShowListForm";
 			this.Text = "リスト参照";

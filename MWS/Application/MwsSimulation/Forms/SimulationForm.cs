@@ -8,7 +8,11 @@
 // Ver1.000 新規作成(2018/08/01 勝呂)
 // Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
 // Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
-// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
+// Ver1.050 おまとめプランが１円から適用できるように修正(2018/09/18 勝呂)
+// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
+// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+// Ver1.050 月額利用料の表示の追加(2018/09/27 勝呂)
 // 
 using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
@@ -49,24 +53,6 @@ namespace MwsSimulation.Forms
 		public Estimate EstimateData { get; set; }
 
 		/// <summary>
-		/// 電子カルテ標準サービス サービスコード
-		/// </summary>
-		// Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
-		private const string SERVICE_CODE_CHART_COMPUTE = "1042100";
-
-		/// <summary>
-		/// １号カルテ標準サービス サービスコード
-		/// </summary>
-		// Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
-		private const string SERVICE_CODE_CHART1_STD = "1012100";
-
-		/// <summary>
-		/// ２号カルテ標準サービス サービスコード
-		/// </summary>
-		// Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
-		private const string SERVICE_CODE_CHART2_STD = "1014100";
-
-		/// <summary>
 		/// おまとめプラン１２ヵ月がマスターに存在する
 		/// </summary>
 		// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
@@ -85,6 +71,18 @@ namespace MwsSimulation.Forms
 		private bool ExistGroupPlan36 { get; set; }
 
 		/// <summary>
+		/// 契約期間
+		/// </summary>
+		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+		public Span AgreeSpan { get; set; }
+
+		/// <summary>
+		/// 契約月数
+		/// </summary>
+		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+		public int AgreeMonthes { get; set; }
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public SimulationForm()
@@ -101,6 +99,10 @@ namespace MwsSimulation.Forms
 			ExistGroupPlan12 = false;
 			ExistGroupPlan24 = false;
 			ExistGroupPlan36 = false;
+
+			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+			AgreeMonthes = 1;
+			AgreeSpan = new Span(Date.Today, Estimate.GetAgreeEndDate(Date.Today, AgreeMonthes));
 		}
 
 		/// <summary>
@@ -120,6 +122,10 @@ namespace MwsSimulation.Forms
 			ExistGroupPlan12 = false;
 			ExistGroupPlan24 = false;
 			ExistGroupPlan36 = false;
+
+			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+			AgreeSpan = new Span(est.AgreeStartDate, est.AgreeEndDate);
+			AgreeMonthes = est.AgreeMonthes;
 		}
 
 		/// <summary>
@@ -223,8 +229,8 @@ namespace MwsSimulation.Forms
 				lvItem.Tag = set;
 				listViewSetPlan.Items.Add(lvItem);
 			}
-			// MIC WEB SERVICEプラットフォーム利用料の設定
-			textBoxStandardPrice.Text = "\\" + StringUtil.CommaEdit(MainForm.gServiceList.Standard.Price);
+			// プラットフォーム利用料の設定
+			textBoxPlatformPrice.Text = @"\" + StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price);
 
 			int groupPlanMonth = 0;
 			if (null != EstimateData)
@@ -232,11 +238,20 @@ namespace MwsSimulation.Forms
 				// 宛先の設定
 				textBoxDestination.Text = EstimateData.Destination;
 
+				// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+				if (0 != EstimateData.NotUsedMessrs)
+				{
+					radioSama.Checked = true;
+				}
+
 				// 発行日の設定
 				dateTimePickerPrintDate.Value = EstimateData.PrintDate.ToDateTime();
 
 				// 契約期間の設定
-				dateTimePickerStartDate.Value = EstimateData.AgreeStartDate.ToDateTime();
+				// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+				AgreeSpan = new Span(EstimateData.AgreeStartDate, EstimateData.AgreeEndDate);
+
+				// 契約月数の設定
 				switch (EstimateData.AgreeMonthes)
 				{
 					case 1:
@@ -318,7 +333,7 @@ namespace MwsSimulation.Forms
 					}
 				}
 			}
-			// ご利用のサービスの月額利用額
+			// サービス利用料及び月額利用料の表示
 			this.DrawServicePrice();
 
 			// おまとめプラン チェックボックスの制御
@@ -334,6 +349,10 @@ namespace MwsSimulation.Forms
 					radioButtonGroup36.Checked = true;
 					break;
 			}
+			// 契約期間の表示
+			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+			this.DrawAgreeSpan();
+			
 			// カーソルを元に戻す
 			Cursor.Current = preCursor;
 		}
@@ -380,13 +399,76 @@ namespace MwsSimulation.Forms
 			if (e.Item.Checked)
 			{
 				service.Select = true;
+
+				// Ver1.050 電子カルテ標準サービス選択時に１号カルテ標準サービスと２号カルテ標準サービスを選択状態にする(2018/09/26 勝呂)
+				if (Program.SERVICE_CODE_CHART_COMPUTE == service.ServiceCode)
+				{
+					// 電子カルテ標準サービス
+					foreach (ListViewItem item in listViewService.Items)
+					{
+						if (false == item.Checked)
+						{
+							ServiceInfo svr = item.Tag as ServiceInfo;
+							if (Program.SERVICE_CODE_CHART1_STD == svr.ServiceCode || Program.SERVICE_CODE_CHART2_STD == svr.ServiceCode)
+							{
+								// １号カルテ標準サービス or ２号カルテ標準サービス
+								item.Checked = true;
+							}
+						}
+					}
+				}
 			}
 			else
 			{
 				service.Select = false;
 			}
-			// ご利用のサービスの月額利用額の表示
+			// サービス利用料及び月額利用料の表示
 			this.DrawServicePrice();
+		}
+
+		/// <summary>
+		/// 契約期間の変更
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+		private void buttonChangeAgreeSpan_Click(object sender, EventArgs e)
+		{
+			using (AgreeSpanForm form = new AgreeSpanForm(AgreeSpan, AgreeMonthes))
+			{
+				if (DialogResult.OK == form.ShowDialog())
+				{
+					AgreeSpan = form.AgreeSpan;
+					this.DrawAgreeSpan();
+				}
+			}
+		}
+
+		/// <summary>
+		/// 契約月数の変更
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+		private void comboBoxTerm_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			switch (comboBoxTerm.SelectedIndex)
+			{
+				case 0:
+					AgreeMonthes = 1;
+					break;
+				case 1:
+					AgreeMonthes = 12;
+					break;
+				case 2:
+					AgreeMonthes = 24;
+					break;
+				case 3:
+					AgreeMonthes = 36;
+					break;
+			}
+			AgreeSpan = new Span(AgreeSpan.Start, Estimate.GetAgreeEndDate(AgreeSpan.Start, AgreeMonthes));
+			DrawAgreeSpan();
 		}
 
 		/// <summary>
@@ -527,7 +609,7 @@ namespace MwsSimulation.Forms
 					}
 				}
 			}
-			// ご利用のサービスの月額利用額の表示
+			// サービス利用料及び月額利用料の表示
 			this.DrawServicePrice();
 		}
 
@@ -608,11 +690,21 @@ namespace MwsSimulation.Forms
 				// 宛先
 				est.Destination = textBoxDestination.Text;
 
+				// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+				if (radioSama.Checked)
+				{
+					est.NotUsedMessrs = 1;
+				}
+
 				// 発行日
 				est.PrintDate = new Date(dateTimePickerPrintDate.Value);
 
-				// 契約期間
-				est.AgreeStartDate = new Date(dateTimePickerStartDate.Value);
+				// 契約期間の設定
+				// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+				est.AgreeStartDate = AgreeSpan.Start;
+				est.AgreeEndDate = AgreeSpan.End;
+
+				// 契約月数の設定
 				switch (comboBoxTerm.SelectedIndex)
 				{
 					case 0:
@@ -632,7 +724,9 @@ namespace MwsSimulation.Forms
 				est.SetRemark(textBoxRemark.Lines);
 
 				// 見積書情報の設定
-				est.SetEstimateData(serviceList, groupList);
+				// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
+				//est.SetEstimateData(serviceList, groupList);
+				est.SetEstimateData(serviceList, groupList, Program.SERVICE_CODE_CHART_COMPUTE, Program.SERVICE_CODE_TABLETVIEWER);
 
 				// 見積書印刷
 				this.PrintEstimate(PrintEstimateDef.MwsPaperType.Estimate, est, false);
@@ -718,7 +812,7 @@ namespace MwsSimulation.Forms
 				if (null == EstimateData)
 				{
 					// 見積書情報の新規追加
-					if (new Date(dateTimePickerStartDate.Value) < new Date(dateTimePickerPrintDate.Value))
+					if (AgreeSpan.Start < new Date(dateTimePickerPrintDate.Value))
 					{
 						MessageBox.Show("契約開始日が発行日より前の日付になっています。ご確認ください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 						return;
@@ -744,11 +838,21 @@ namespace MwsSimulation.Forms
 					// 宛先の設定
 					EstimateData.Destination = textBoxDestination.Text;
 
+					// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+					if (radioSama.Checked)
+					{
+						EstimateData.NotUsedMessrs = 1;
+					}
+
 					// 発行日の設定
 					EstimateData.PrintDate = new Date(dateTimePickerPrintDate.Value);
 
 					// 契約期間
-					EstimateData.AgreeStartDate = new Date(dateTimePickerStartDate.Value);
+					// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+					EstimateData.AgreeStartDate = AgreeSpan.Start;
+					EstimateData.AgreeEndDate = AgreeSpan.End;
+
+					// 契約月数の設定
 					switch (comboBoxTerm.SelectedIndex)
 					{
 						case 0:
@@ -768,7 +872,9 @@ namespace MwsSimulation.Forms
 					EstimateData.EstimateID = SQLiteMwsSimulationAccess.GetLastEstimateNumber(dataFolder);
 
 					// 見積書情報の設定
-					EstimateData.SetEstimateData(serviceList, groupList);
+					// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
+					//EstimateData.SetEstimateData(serviceList, groupList);
+					EstimateData.SetEstimateData(serviceList, groupList, Program.SERVICE_CODE_CHART_COMPUTE, Program.SERVICE_CODE_TABLETVIEWER);
 
 					// 備考
 					EstimateData.SetRemark(textBoxRemark.Lines);
@@ -789,7 +895,7 @@ namespace MwsSimulation.Forms
 				else
 				{
 					// 見積書情報の更新
-					if (new Date(dateTimePickerStartDate.Value) < new Date(dateTimePickerPrintDate.Value))
+					if (AgreeSpan.Start < new Date(dateTimePickerPrintDate.Value))
 					{
 						MessageBox.Show("契約開始日が発行日より前の日付になっています。ご確認ください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 						return;
@@ -804,11 +910,25 @@ namespace MwsSimulation.Forms
 					// 宛先の設定
 					EstimateData.Destination = textBoxDestination.Text;
 
+					// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+					if (radioSama.Checked)
+					{
+						EstimateData.NotUsedMessrs = 1;
+					}
+					else
+					{
+						EstimateData.NotUsedMessrs = 0;
+					}
+
 					// 発行日の設定
 					EstimateData.PrintDate = new Date(dateTimePickerPrintDate.Value);
 
 					// 契約期間
-					EstimateData.AgreeStartDate = new Date(dateTimePickerStartDate.Value);
+					// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+					EstimateData.AgreeStartDate = AgreeSpan.Start;
+					EstimateData.AgreeEndDate = AgreeSpan.End;
+
+					// 契約月数の設定
 					switch (comboBoxTerm.SelectedIndex)
 					{
 						case 0:
@@ -825,7 +945,9 @@ namespace MwsSimulation.Forms
 							break;
 					}
 					// 見積書情報の設定
-					EstimateData.SetEstimateData(serviceList, groupList);
+					// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
+					//EstimateData.SetEstimateData(serviceList, groupList);
+					EstimateData.SetEstimateData(serviceList, groupList, Program.SERVICE_CODE_CHART_COMPUTE, Program.SERVICE_CODE_TABLETVIEWER);
 
 					// 備考
 					EstimateData.SetRemark(textBoxRemark.Lines);
@@ -927,17 +1049,17 @@ namespace MwsSimulation.Forms
 					ServiceInfo srcService = srcItem.Tag as ServiceInfo;
 
 					// Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
-					if (SERVICE_CODE_CHART_COMPUTE == srcService.ServiceCode)
+					if (Program.SERVICE_CODE_CHART_COMPUTE == srcService.ServiceCode)
 					{
 						// 電子カルテ標準サービス
 						orderChartComputeIndex = i;
 					}
-					else if (SERVICE_CODE_CHART1_STD == srcService.ServiceCode)
+					else if (Program.SERVICE_CODE_CHART1_STD == srcService.ServiceCode)
 					{
 						// １号カルテ標準サービス
 						orderChart1Std = true;
 					}
-					else if (SERVICE_CODE_CHART2_STD == srcService.ServiceCode)
+					else if (Program.SERVICE_CODE_CHART2_STD == srcService.ServiceCode)
 					{
 						// ２号カルテ標準サービス
 						orderChart2Std = true;
@@ -1001,6 +1123,20 @@ namespace MwsSimulation.Forms
 					}
 				}
 			}
+			// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
+			bool isChartCompute = false;
+			foreach (ListViewItem item in listViewService.Items)
+			{
+				ServiceInfo service = item.Tag as ServiceInfo;
+				if (Program.SERVICE_CODE_CHART_COMPUTE == service.ServiceCode)
+				{
+					if (item.Checked)
+					{
+						isChartCompute = true;
+					}
+					break;
+				}
+			}
 			foreach (ListViewItem item in listViewService.Items)
 			{
 				ServiceInfo service = item.Tag as ServiceInfo;
@@ -1008,14 +1144,35 @@ namespace MwsSimulation.Forms
 				{
 					if (false == codeList.Contains(service.GoodsID))
 					{
-						if (service.IsGroupPlanService)
+						// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
+						if (isChartCompute)
 						{
-							// おまとめプラン対象サービス
-							groupPrice += service.Price;
+							// 電子カルテ標準サービス選択済
+							if (Program.SERVICE_CODE_TABLETVIEWER != service.ServiceCode)
+							{
+								// TABLETビューワ
+								if (service.IsGroupPlanService)
+								{
+									// おまとめプラン対象サービス
+									groupPrice += service.Price;
+								}
+								else
+								{
+									normalPrice += service.Price;
+								}
+							}
 						}
 						else
 						{
-							normalPrice += service.Price;
+							if (service.IsGroupPlanService)
+							{
+								// おまとめプラン対象サービス
+								groupPrice += service.Price;
+							}
+							else
+							{
+								normalPrice += service.Price;
+							}
 						}
 					}
 				}
@@ -1060,6 +1217,7 @@ namespace MwsSimulation.Forms
 			int groupPrice;     // おまとめプラン対象サービス使用料
 			this.GetServicePrice(out normalPrice, out setPrice, out groupPrice);
 
+			int servicePrice = 0;
 			if (MainForm.gMinAmmount <= groupPrice)
 			{
 				// おまとめプラン適用
@@ -1069,70 +1227,74 @@ namespace MwsSimulation.Forms
 					radioButtonGroup12.Enabled = true;
 
 					// おまとめプラン料金の表示
-					GroupPlan targetPlan12 = MainForm.gGroupPlanList.GetMachGroupPlan(12, groupPrice);
-					textBoxPrice12.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan12.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice)));
-					textBoxPrice12.Tag = string.Format("{0}*12+{1}*(12-{2})", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan12.FreeMonth);
+					GroupPlan plan = MainForm.gGroupPlanList.GetMachGroupPlan(12, groupPrice);
+					textBoxPrice12.Text = string.Format(@"\{0}", StringUtil.CommaEdit(plan.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, groupPrice)));
+					textBoxPrice12.Tag = string.Format("{0}*12+{1}*(12-{2})", MainForm.gServiceList.Platform.Price, groupPrice, plan.FreeMonth);
 
 					// おまとめプラン無償利用期間の表示
-					int totalGroupPrice12 = targetPlan12.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice);
-					textBoxFree12.Text = string.Format("\\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(12, MainForm.gServiceList.Standard.Price, groupPrice, totalGroupPrice12)));
-					textBoxFree12.Tag = string.Format("(({0}*12+{1}*12) - ({0}*12+{1}*(12-{2}))) / 12", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan12.FreeMonth);
+					int price = plan.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, groupPrice);
+					textBoxFree12.Text = string.Format(@"\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(12, MainForm.gServiceList.Platform.Price, groupPrice, price)));
+					textBoxFree12.Tag = string.Format("(({0}*12+{1}*12) - ({0}*12+{1}*(12-{2}))) / 12", MainForm.gServiceList.Platform.Price, groupPrice, plan.FreeMonth);
 				}
 				if (ExistGroupPlan24)
 				{
 					radioButtonGroup24.Enabled = true;
 
 					// おまとめプラン料金の表示
-					GroupPlan targetPlan24 = MainForm.gGroupPlanList.GetMachGroupPlan(24, groupPrice);
-					textBoxPrice24.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan24.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice)));
-					textBoxPrice24.Tag = string.Format("{0}*24+{1}*(24-{2})", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan24.FreeMonth);
+					GroupPlan plan = MainForm.gGroupPlanList.GetMachGroupPlan(24, groupPrice);
+					textBoxPrice24.Text = string.Format(@"\{0}", StringUtil.CommaEdit(plan.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, groupPrice)));
+					textBoxPrice24.Tag = string.Format("{0}*24+{1}*(24-{2})", MainForm.gServiceList.Platform.Price, groupPrice, plan.FreeMonth);
 
 					// おまとめプラン無償利用期間の表示
-					int totalGroupPrice24 = targetPlan24.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice);
-					textBoxFree24.Text = string.Format("\\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(24, MainForm.gServiceList.Standard.Price, groupPrice, totalGroupPrice24)));
-					textBoxFree24.Tag = string.Format("(({0}*24+{1}*24) - ({0}*24+{1}*(24-{2}))) / 24", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan24.FreeMonth);
+					int price = plan.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, groupPrice);
+					textBoxFree24.Text = string.Format(@"\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(24, MainForm.gServiceList.Platform.Price, groupPrice, price)));
+					textBoxFree24.Tag = string.Format("(({0}*24+{1}*24) - ({0}*24+{1}*(24-{2}))) / 24", MainForm.gServiceList.Platform.Price, groupPrice, plan.FreeMonth);
 				}
 				if (ExistGroupPlan36)
 				{
 					radioButtonGroup36.Enabled = true;
 
 					// おまとめプラン料金の表示
-					GroupPlan targetPlan36 = MainForm.gGroupPlanList.GetMachGroupPlan(36, groupPrice);
-					textBoxPrice36.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan36.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice)));
-					textBoxPrice36.Tag = string.Format("{0}*36+{1}*(36-{2})", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan36.FreeMonth);
+					GroupPlan plan = MainForm.gGroupPlanList.GetMachGroupPlan(36, groupPrice);
+					textBoxPrice36.Text = string.Format(@"\{0}", StringUtil.CommaEdit(plan.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, groupPrice)));
+					textBoxPrice36.Tag = string.Format("{0}*36+{1}*(36-{2})", MainForm.gServiceList.Platform.Price, groupPrice, plan.FreeMonth);
 
 					// おまとめプラン無償利用期間の表示
-					int totalGroupPrice36 = targetPlan36.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice);
-					textBoxFree36.Text = string.Format("\\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(36, MainForm.gServiceList.Standard.Price, groupPrice, totalGroupPrice36)));
-					textBoxFree36.Tag = string.Format("(({0}*36+{1}*36) - ({0}*36+{1}*(36-{2}))) / 36", MainForm.gServiceList.Standard.Price, groupPrice, targetPlan36.FreeMonth);
+					int price = plan.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, groupPrice);
+					textBoxFree36.Text = string.Format(@"\{0}", StringUtil.CommaEdit(GroupPlanList.GetGroupPlanMonthlyFreePrice(36, MainForm.gServiceList.Platform.Price, groupPrice, price)));
+					textBoxFree36.Tag = string.Format("(({0}*36+{1}*36) - ({0}*36+{1}*(36-{2}))) / 36", MainForm.gServiceList.Platform.Price, groupPrice, plan.FreeMonth);
 				}
-				// ご利用のサービスの月額利用額の表示
+				// サービス利用料の表示
 				if (radioButtonGroupNone.Checked)
 				{
 					// おまとめプラン なし
-					textBoxTotalPrice.Text = string.Format("\\{0}", StringUtil.CommaEdit(normalPrice + setPrice + groupPrice));
-					textBoxTotalPrice.Tag = string.Format("normal:{0}+ set:{1}+ group:{2}", normalPrice, setPrice, groupPrice);
+					servicePrice = normalPrice + setPrice + groupPrice;
+					textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(servicePrice));
+					textBoxServicePrice.Tag = string.Format("normal:{0}+ set:{1}+ group:{2}", normalPrice, setPrice, groupPrice);
 				}
 				else if (radioButtonGroup12.Checked)
 				{
 					// おまとめプラン12ヵ月
 					GroupPlan targetPlan12 = MainForm.gGroupPlanList.GetMachGroupPlan(12, groupPrice);
-					textBoxTotalPrice.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan12.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice));
-					textBoxTotalPrice.Tag = string.Format("group:({0}*(12-{1})) / 12 + normal:{2} + set:{3}", groupPrice, targetPlan12.FreeMonth, normalPrice, setPrice);
+					servicePrice = targetPlan12.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice;
+					textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(servicePrice));
+					textBoxServicePrice.Tag = string.Format("group:({0}*(12-{1})) / 12 + normal:{2} + set:{3}", groupPrice, targetPlan12.FreeMonth, normalPrice, setPrice);
 				}
 				else if (radioButtonGroup24.Checked)
 				{
 					// おまとめプラン24ヵ月
 					GroupPlan targetPlan24 = MainForm.gGroupPlanList.GetMachGroupPlan(24, groupPrice);
-					textBoxTotalPrice.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan24.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice));
-					textBoxTotalPrice.Tag = string.Format("group:({0}*(24-{1})) / 24 + normal:{2} + set:{3}", groupPrice, targetPlan24.FreeMonth, normalPrice, setPrice);
+					servicePrice = targetPlan24.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice;
+					textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(servicePrice));
+					textBoxServicePrice.Tag = string.Format("group:({0}*(24-{1})) / 24 + normal:{2} + set:{3}", groupPrice, targetPlan24.FreeMonth, normalPrice, setPrice);
 				}
 				else if (radioButtonGroup36.Checked)
 				{
 					// おまとめプラン36ヵ月
 					GroupPlan targetPlan36 = MainForm.gGroupPlanList.GetMachGroupPlan(36, groupPrice);
-					textBoxTotalPrice.Text = string.Format("\\{0}", StringUtil.CommaEdit(targetPlan36.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice));
-					textBoxTotalPrice.Tag = string.Format("group:({0}*(36-{1})) / 36 + normal:{2} + set:{3}", groupPrice, targetPlan36.FreeMonth, normalPrice, setPrice);
+					servicePrice = targetPlan36.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice;
+					textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(servicePrice));
+					textBoxServicePrice.Tag = string.Format("group:({0}*(36-{1})) / 36 + normal:{2} + set:{3}", groupPrice, targetPlan36.FreeMonth, normalPrice, setPrice);
 				}
 			}
 			else
@@ -1144,27 +1306,32 @@ namespace MwsSimulation.Forms
 				radioButtonGroup36.Enabled = false;
 
 				// おまとめプラン料金の表示
-				textBoxPrice12.Text = "\\0";
-				textBoxPrice24.Text = "\\0";
-				textBoxPrice36.Text = "\\0";
+				textBoxPrice12.Text = @"\0";
+				textBoxPrice24.Text = @"\0";
+				textBoxPrice36.Text = @"\0";
 
 				// おまとめプラン無償利用期間の表示
-				textBoxFree12.Text = "\\0";
-				textBoxFree24.Text = "\\0";
-				textBoxFree36.Text = "\\0";
+				textBoxFree12.Text = @"\0";
+				textBoxFree24.Text = @"\0";
+				textBoxFree36.Text = @"\0";
 
-				// ご利用のサービスの月額利用額の表示
-				textBoxTotalPrice.Text = string.Format("\\{0}", StringUtil.CommaEdit(normalPrice + setPrice + groupPrice));
-				textBoxTotalPrice.Tag = string.Format("normal:{0}+ set:{1}+ group:{2}", normalPrice, setPrice, groupPrice);
+				// サービス利用料の表示
+				servicePrice = normalPrice + setPrice + groupPrice;
+				textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(servicePrice));
+				textBoxServicePrice.Tag = string.Format("normal:{0}+ set:{1}+ group:{2}", normalPrice, setPrice, groupPrice);
 			}
-			// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
+			// 月額利用料の表示
+			// Ver1.050 月額利用料の表示の追加(2018/09/27 勝呂)
+			textBoxTotalPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + servicePrice));
+
+			// Ver1.050 おまとめプランが１円から適用できるように修正(2018/09/18 勝呂)
 			if (MainForm.gMinFreeMonthMinAmmount <= groupPrice)
 			{
 				labelGroupPlanMessage.Text = "※おまとめプラン割引が適用できます。";
 			}
 			else
 			{
-				labelGroupPlanMessage.Text = string.Format("※あと \\{0} でおまとめプラン割引が適用できます。", StringUtil.CommaEdit(MainForm.gMinFreeMonthMinAmmount - groupPrice));
+				labelGroupPlanMessage.Text = string.Format(@"※あと \{0} でおまとめプラン割引が適用できます。", StringUtil.CommaEdit(MainForm.gMinFreeMonthMinAmmount - groupPrice));
 			}
 #if DEBUG
 			if (radioButtonGroupNone.Checked)
@@ -1227,8 +1394,8 @@ namespace MwsSimulation.Forms
 								groupService = new GroupService();
 								groupService.Mode = SQLiteMwsSimulationDef.ServiceMode.Group;
 
-								// MIC WEB SERVICEプラットフォーム利用料を含める
-								groupService.ServiceCodeList.Add(new Tuple<string, string>(MainForm.gServiceList.Standard.GoodsID, MainForm.gServiceList.Standard.ServiceName));
+								// MIC WEB SERVICE 標準機能(1001)を含める
+								groupService.ServiceCodeList.Add(new Tuple<string, string>(MainForm.gServiceList.Platform.GoodsID, MainForm.gServiceList.Platform.ServiceName));
 							}
 							if (-1 == groupList.FindIndex(p => p.ServiceCodeList.Contains(new Tuple<string, string>(service.GoodsID, service.ServiceName))))
 							{
@@ -1262,7 +1429,7 @@ namespace MwsSimulation.Forms
 					}
 					groupService.GoodsID = targetPlan.GoodsID;
 					groupService.GoodsName = targetPlan.GoodsName;
-					groupService.Price = targetPlan.GetGroupPlanTotalPrice(MainForm.gServiceList.Standard.Price, groupPrice);
+					groupService.Price = targetPlan.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, groupPrice);
 					groupList.Insert(0, groupService);
 				}
 			}
@@ -1286,6 +1453,15 @@ namespace MwsSimulation.Forms
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// 契約期間の表示
+		/// </summary>
+		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+		private void DrawAgreeSpan()
+		{
+			labelAgreeSpan.Text = string.Format("{0}～{1}", AgreeSpan.Start.ToString(), AgreeSpan.End.ToString());
 		}
 
 
@@ -1515,9 +1691,9 @@ namespace MwsSimulation.Forms
 		private void textBoxTotalPrice_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 #if DEBUG
-			if (null != textBoxTotalPrice.Tag)
+			if (null != textBoxServicePrice.Tag)
 			{
-				MessageBox.Show(textBoxTotalPrice.Tag as string);
+				MessageBox.Show(textBoxServicePrice.Tag as string);
 			}
 #endif
 		}

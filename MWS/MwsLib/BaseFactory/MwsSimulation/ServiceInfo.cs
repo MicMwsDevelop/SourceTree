@@ -202,14 +202,14 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		/// <summary>
 		/// ＭＩＣ ＷＥＢ ＳＥＲＶＩＣＥ 標準機能 
 		/// </summary>
-		public ServiceInfo Standard { get; set; }
+		public ServiceInfo Platform { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public ServiceInfoList()
 		{
-			Standard = null;
+			Platform = null;
 		}
 
 		/// <summary>
@@ -255,12 +255,12 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		{
 			if (null != other)
 			{
-				if (null != Standard && null != other.Standard)
+				if (null != Platform && null != other.Platform)
 				{
 					if (this.SequenceEqual(other))
 						return true;
 				}
-				else if (null == Standard && null == other.Standard)
+				else if (null == Platform && null == other.Platform)
 				{
 					if (this.SequenceEqual(other))
 						return true;

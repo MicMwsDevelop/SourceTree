@@ -7,7 +7,7 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 	public static class EntryFinishedUserDataAccess
 	{
 		/// <summary>
-		/// 
+		/// 顧客情報リストの取得
 		/// </summary>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
 		/// <returns>顧客情報リスト</returns>
@@ -18,7 +18,7 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 		}
 
 		/// <summary>
-		/// 得意先Noに該当する顧客情報を朱徳
+		/// 得意先Noに該当する顧客情報を取得
 		/// </summary>
 		/// <param name="tokuisakiID">得意先No</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>

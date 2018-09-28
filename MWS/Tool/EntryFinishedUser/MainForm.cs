@@ -7,13 +7,11 @@ using System.Windows.Forms;
 
 namespace EntryFinishedUser
 {
+	/// <summary>
+	/// 終了ユーザー登録
+	/// </summary>
 	public partial class MainForm : Form
 	{
-		/// <summary>
-		/// データベース接続先 CT環境
-		/// </summary>
-		private const bool DATABACE_ACCEPT_CT = true;
-
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
@@ -36,10 +34,17 @@ namespace EntryFinishedUser
 				comboBoxFinishedMonth.Items.Add(month++);
 			}
 			// リプレース
-			List<string> replace = EntryFinishedUserDataAccess.GetReplaceMakerList(DATABACE_ACCEPT_CT);
-			if (null != replace)
+			try
 			{
-				comboBoxReplace.Items.AddRange(replace.ToArray());
+				List<string> replace = EntryFinishedUserDataAccess.GetReplaceMakerList(Program.DATABACE_ACCEPT_CT);
+				if (null != replace)
+				{
+					comboBoxReplace.Items.AddRange(replace.ToArray());
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "リプレース先メーカーリスト取得エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			}
 		}
 
@@ -56,34 +61,41 @@ namespace EntryFinishedUser
 				textBoxTokuisakiID.Focus();
 				return;
 			}
-			EntryFinishedUserData data = EntryFinishedUserDataAccess.GetEntryFinishedUserData(textBoxTokuisakiID.Text, DATABACE_ACCEPT_CT);
-			if (null == data)
+			try
 			{
-				MessageBox.Show("該当顧客がいません。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				textBoxTokuisakiID.Focus();
-				return;
+				EntryFinishedUserData data = EntryFinishedUserDataAccess.GetEntryFinishedUserData(textBoxTokuisakiID.Text, Program.DATABACE_ACCEPT_CT);
+				if (null == data)
+				{
+					MessageBox.Show("該当顧客がいません。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					textBoxTokuisakiID.Focus();
+					return;
+				}
+				// 顧客名の設定
+				textBoxUserName.Text = data.UserName;
+
+				// 終了月の設定
+				if (data.FinishedYearMonth.HasValue)
+				{
+					comboBoxFinishedMonth.Text = data.FinishedYearMonth.Value.ToString();
+				}
+				// リプレースの設定
+				comboBoxReplace.Text = data.Replace;
+
+				// 終了事由の設定
+				comboBoxFinishedReason.Text = data.FinishedReason;
+
+				// 理由の設定
+				textBoxReason.Text = data.Reason;
+
+				// 終了届受領日の設定
+				if (data.AcceptDate.HasValue)
+				{
+					dateTimePickerAcceptDate.Value = data.AcceptDate.Value.ToDateTime();
+				}
 			}
-			// 顧客名の設定
-			textBoxUserName.Text = data.UserName;
-
-			// 終了月の設定
-			if (data.FinishedYearMonth.HasValue)
+			catch (Exception ex)
 			{
-				comboBoxFinishedMonth.Text = data.FinishedYearMonth.Value.ToString();
-			}
-			// リプレースの設定
-			comboBoxReplace.Text = data.Replace;
-
-			// 終了事由の設定
-			comboBoxFinishedReason.Text = data.FinishedReason;
-
-			// 理由の設定
-			textBoxReason.Text = data.Reason;
-
-			// 終了届受領日の設定
-			if (data.AcceptDate.HasValue)
-			{
-				dateTimePickerAcceptDate.Value = data.AcceptDate.Value.ToDateTime();
+				MessageBox.Show(ex.Message, "顧客情報取得エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			}
 		}
 
@@ -103,7 +115,7 @@ namespace EntryFinishedUser
 			comboBoxFinishedReason.SelectedIndex = -1;
 			comboBoxFinishedReason.Text = string.Empty;
 			textBoxReason.Text = string.Empty;
-			checkBoxNotPaletteUser.Checked = false;
+			checkBoxNonPaletteUser.Checked = false;
 		}
 
 		/// <summary>
@@ -146,40 +158,48 @@ namespace EntryFinishedUser
 					return;
 				}
 			}
-			EntryFinishedUserData data = EntryFinishedUserDataAccess.GetEntryFinishedUserData(textBoxTokuisakiID.Text, DATABACE_ACCEPT_CT);
-			if (null == data)
+			try
 			{
-				// 新規追加
-				data = new EntryFinishedUserData();
-				data.TokuisakiNo = textBoxTokuisakiID.Text;
-				data.FinishedYearMonth = finishedYearMonth;
-				data.AcceptDate = new Date(dateTimePickerAcceptDate.Value);
-				data.FinishedReason = comboBoxFinishedReason.SelectedItem as string;
-				data.Replace = comboBoxReplace.Text;
-				data.Reason = textBoxReason.Text;
-				EntryFinishedUserDataAccess.InsertIntoEntryFinishedUserData(DATABACE_ACCEPT_CT, data);
-			}
-			else
-			{
-				// 更新
-				data.TokuisakiNo = textBoxTokuisakiID.Text;
-				data.FinishedYearMonth = finishedYearMonth;
-				data.AcceptDate = new Date(dateTimePickerAcceptDate.Value);
-				data.FinishedReason = comboBoxFinishedReason.SelectedItem as string;
-				data.Replace = comboBoxReplace.Text;
-				data.Reason = textBoxReason.Text;
-				EntryFinishedUserDataAccess.UpdateEntryFinishedUserData(DATABACE_ACCEPT_CT, data);
-			}
-			MessageBox.Show("登録しました。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-			if (DialogResult.Yes == MessageBox.Show("メモ登録をします", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
-			{
-				EntryFinishedUserDataAccess.InsertIntoMemo(DATABACE_ACCEPT_CT, data);
+				EntryFinishedUserData data = EntryFinishedUserDataAccess.GetEntryFinishedUserData(textBoxTokuisakiID.Text, Program.DATABACE_ACCEPT_CT);
+				if (null == data)
+				{
+					// 新規追加
+					data = new EntryFinishedUserData();
+					data.TokuisakiNo = textBoxTokuisakiID.Text;
+					data.FinishedYearMonth = finishedYearMonth;
+					data.AcceptDate = new Date(dateTimePickerAcceptDate.Value);
+					data.FinishedReason = comboBoxFinishedReason.SelectedItem as string;
+					data.Replace = comboBoxReplace.Text;
+					data.Reason = textBoxReason.Text;
+					EntryFinishedUserDataAccess.InsertIntoEntryFinishedUserData(Program.DATABACE_ACCEPT_CT, data);
+				}
+				else
+				{
+					// 更新
+					data.TokuisakiNo = textBoxTokuisakiID.Text;
+					data.FinishedYearMonth = finishedYearMonth;
+					data.AcceptDate = new Date(dateTimePickerAcceptDate.Value);
+					data.FinishedReason = comboBoxFinishedReason.SelectedItem as string;
+					data.Replace = comboBoxReplace.Text;
+					data.Reason = textBoxReason.Text;
+					EntryFinishedUserDataAccess.UpdateEntryFinishedUserData(Program.DATABACE_ACCEPT_CT, data);
+				}
+				MessageBox.Show("登録しました。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-				MessageBox.Show("メモ登録をしました。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				if (DialogResult.Yes == MessageBox.Show("メモ登録をします", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+				{
+					EntryFinishedUserDataAccess.InsertIntoMemo(Program.DATABACE_ACCEPT_CT, data);
+
+					MessageBox.Show("メモ登録をしました。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show("メモ登録をキャンセルしました。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
 			}
-			else
+			catch (Exception ex)
 			{
-				MessageBox.Show("メモ登録をキャンセルしました。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show(ex.Message, "顧客情報更新エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			}
 		}
 
@@ -190,13 +210,17 @@ namespace EntryFinishedUser
 		/// <param name="e"></param>
 		private void buttonList_Click(object sender, EventArgs e)
 		{
-			List<EntryFinishedUserData> list = EntryFinishedUserDataAccess.GetEntryFinishedUserDataList(DATABACE_ACCEPT_CT);
-			if (null != list && 0 < list.Count)
+			//List<EntryFinishedUserData> list = EntryFinishedUserDataAccess.GetEntryFinishedUserDataList(DATABACE_ACCEPT_CT);
+			//if (null != list && 0 < list.Count)
+			//{
+			//	using (ShowListForm form = new ShowListForm(list))
+			//	{
+			//		form.ShowDialog();
+			//	}
+			//}
+			using (ShowListForm form = new ShowListForm())
 			{
-				using (ShowListForm form = new ShowListForm(list))
-				{
-					form.ShowDialog();
-				}
+				form.ShowDialog();
 			}
 		}
 
