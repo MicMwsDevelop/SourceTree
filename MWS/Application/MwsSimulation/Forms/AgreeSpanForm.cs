@@ -14,6 +14,9 @@ using System.Windows.Forms;
 
 namespace MwsSimulation.Forms
 {
+	/// <summary>
+	/// 契約期間入力画面
+	/// </summary>
 	public partial class AgreeSpanForm : Form
 	{
 		/// <summary>
@@ -59,6 +62,18 @@ namespace MwsSimulation.Forms
 		{
 			dateTimePickerStartDate.Value = AgreeSpan.Start.ToDateTime();
 			dateTimePickerEndDate.Value = AgreeSpan.End.ToDateTime();
+		}
+
+		/// <summary>
+		/// 契約開始日の変更
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dateTimePickerStartDate_ValueChanged(object sender, EventArgs e)
+		{
+			// 契約終了日を契約月数に合わせる
+			Date startDate = new Date(dateTimePickerStartDate.Value);
+			dateTimePickerEndDate.Value = Estimate.GetAgreeEndDate(startDate, AgreeMonthes).ToDateTime();
 		}
 
 		/// <summary>

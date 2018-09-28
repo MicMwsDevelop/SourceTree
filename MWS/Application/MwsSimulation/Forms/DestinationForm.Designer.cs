@@ -113,6 +113,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "DestinationForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "宛先の設定";
 			this.Load += new System.EventHandler(this.EstimateNameForm_Load);
 			this.ResumeLayout(false);
