@@ -91,6 +91,22 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		}
 
 		/// <summary>
+		/// 子サービスかどうか？
+		/// </summary>
+		public bool IsChildService
+		{
+			get
+			{
+				if (0 < ParentServiceCode.Length)
+				{
+					return true;
+				}
+				return false;
+			}
+		}
+
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public ServiceInfo()

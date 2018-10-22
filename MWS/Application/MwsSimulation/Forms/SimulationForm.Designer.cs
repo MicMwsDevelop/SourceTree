@@ -126,7 +126,7 @@
 			// 
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label1.Location = new System.Drawing.Point(863, 649);
+			this.label1.Location = new System.Drawing.Point(863, 631);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(90, 17);
 			this.label1.TabIndex = 29;
@@ -136,7 +136,7 @@
 			// 
 			this.textBoxServicePrice.BackColor = System.Drawing.Color.White;
 			this.textBoxServicePrice.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxServicePrice.Location = new System.Drawing.Point(958, 646);
+			this.textBoxServicePrice.Location = new System.Drawing.Point(958, 628);
 			this.textBoxServicePrice.Name = "textBoxServicePrice";
 			this.textBoxServicePrice.ReadOnly = true;
 			this.textBoxServicePrice.Size = new System.Drawing.Size(159, 24);
@@ -148,7 +148,7 @@
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label2.Location = new System.Drawing.Point(827, 619);
+			this.label2.Location = new System.Drawing.Point(827, 601);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(126, 17);
 			this.label2.TabIndex = 27;
@@ -158,7 +158,7 @@
 			// 
 			this.textBoxPlatformPrice.BackColor = System.Drawing.Color.White;
 			this.textBoxPlatformPrice.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxPlatformPrice.Location = new System.Drawing.Point(958, 616);
+			this.textBoxPlatformPrice.Location = new System.Drawing.Point(958, 598);
 			this.textBoxPlatformPrice.Name = "textBoxPlatformPrice";
 			this.textBoxPlatformPrice.ReadOnly = true;
 			this.textBoxPlatformPrice.Size = new System.Drawing.Size(159, 24);
@@ -423,7 +423,7 @@
 			// 
 			this.labelGroupPlanMessage.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.labelGroupPlanMessage.ForeColor = System.Drawing.Color.Red;
-			this.labelGroupPlanMessage.Location = new System.Drawing.Point(699, 706);
+			this.labelGroupPlanMessage.Location = new System.Drawing.Point(699, 688);
 			this.labelGroupPlanMessage.Name = "labelGroupPlanMessage";
 			this.labelGroupPlanMessage.Size = new System.Drawing.Size(418, 17);
 			this.labelGroupPlanMessage.TabIndex = 33;
@@ -434,7 +434,7 @@
 			// 
 			this.labelDebugNormal.AutoSize = true;
 			this.labelDebugNormal.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.labelDebugNormal.Location = new System.Drawing.Point(732, 627);
+			this.labelDebugNormal.Location = new System.Drawing.Point(732, 609);
 			this.labelDebugNormal.Name = "labelDebugNormal";
 			this.labelDebugNormal.Size = new System.Drawing.Size(18, 7);
 			this.labelDebugNormal.TabIndex = 20;
@@ -445,7 +445,7 @@
 			// 
 			this.textBoxDebugNormal.BackColor = System.Drawing.Color.White;
 			this.textBoxDebugNormal.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxDebugNormal.Location = new System.Drawing.Point(753, 622);
+			this.textBoxDebugNormal.Location = new System.Drawing.Point(753, 604);
 			this.textBoxDebugNormal.Name = "textBoxDebugNormal";
 			this.textBoxDebugNormal.ReadOnly = true;
 			this.textBoxDebugNormal.Size = new System.Drawing.Size(58, 16);
@@ -457,7 +457,7 @@
 			// 
 			this.labelDebugSet.AutoSize = true;
 			this.labelDebugSet.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.labelDebugSet.Location = new System.Drawing.Point(720, 648);
+			this.labelDebugSet.Location = new System.Drawing.Point(720, 630);
 			this.labelDebugSet.Name = "labelDebugSet";
 			this.labelDebugSet.Size = new System.Drawing.Size(27, 7);
 			this.labelDebugSet.TabIndex = 22;
@@ -468,7 +468,7 @@
 			// 
 			this.labelDebugGroup.AutoSize = true;
 			this.labelDebugGroup.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.labelDebugGroup.Location = new System.Drawing.Point(697, 670);
+			this.labelDebugGroup.Location = new System.Drawing.Point(697, 652);
 			this.labelDebugGroup.Name = "labelDebugGroup";
 			this.labelDebugGroup.Size = new System.Drawing.Size(50, 7);
 			this.labelDebugGroup.TabIndex = 24;
@@ -479,7 +479,7 @@
 			// 
 			this.textBoxDebugSet.BackColor = System.Drawing.Color.White;
 			this.textBoxDebugSet.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxDebugSet.Location = new System.Drawing.Point(753, 643);
+			this.textBoxDebugSet.Location = new System.Drawing.Point(753, 625);
 			this.textBoxDebugSet.Name = "textBoxDebugSet";
 			this.textBoxDebugSet.ReadOnly = true;
 			this.textBoxDebugSet.Size = new System.Drawing.Size(58, 16);
@@ -491,7 +491,7 @@
 			// 
 			this.textBoxDebugGroup.BackColor = System.Drawing.Color.White;
 			this.textBoxDebugGroup.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxDebugGroup.Location = new System.Drawing.Point(753, 665);
+			this.textBoxDebugGroup.Location = new System.Drawing.Point(753, 647);
 			this.textBoxDebugGroup.Name = "textBoxDebugGroup";
 			this.textBoxDebugGroup.ReadOnly = true;
 			this.textBoxDebugGroup.Size = new System.Drawing.Size(58, 16);
@@ -503,7 +503,7 @@
 			// 
 			this.textBoxDebugTotal.BackColor = System.Drawing.Color.White;
 			this.textBoxDebugTotal.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxDebugTotal.Location = new System.Drawing.Point(753, 687);
+			this.textBoxDebugTotal.Location = new System.Drawing.Point(753, 669);
 			this.textBoxDebugTotal.Name = "textBoxDebugTotal";
 			this.textBoxDebugTotal.ReadOnly = true;
 			this.textBoxDebugTotal.Size = new System.Drawing.Size(58, 16);
@@ -640,7 +640,7 @@
 			// 
 			this.label10.AutoSize = true;
 			this.label10.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label10.Location = new System.Drawing.Point(880, 679);
+			this.label10.Location = new System.Drawing.Point(880, 661);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(73, 17);
 			this.label10.TabIndex = 31;
@@ -650,7 +650,7 @@
 			// 
 			this.textBoxTotalPrice.BackColor = System.Drawing.Color.White;
 			this.textBoxTotalPrice.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxTotalPrice.Location = new System.Drawing.Point(958, 676);
+			this.textBoxTotalPrice.Location = new System.Drawing.Point(958, 658);
 			this.textBoxTotalPrice.Name = "textBoxTotalPrice";
 			this.textBoxTotalPrice.ReadOnly = true;
 			this.textBoxTotalPrice.Size = new System.Drawing.Size(159, 24);

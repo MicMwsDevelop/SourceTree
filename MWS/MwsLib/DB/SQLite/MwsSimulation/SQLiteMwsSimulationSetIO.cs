@@ -538,22 +538,22 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 		private static int InsertIntoEstimateHeader(SQLiteConnection con, SQLiteTransaction tran, Estimate est)
 		{
 			int result = -1;
-			string sqlString = string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11)", SQLiteMwsSimulationDef.ESTIMATE_HEADER_TABLE_NAME);
+			string sqlString = string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13)", SQLiteMwsSimulationDef.ESTIMATE_HEADER_TABLE_NAME);
 			SQLiteParameter[] param = { new SQLiteParameter("@1", est.EstimateID),
 										new SQLiteParameter("@2", est.Destination),
 										new SQLiteParameter("@3", est.PrintDate.ToIntYMD()),
 										new SQLiteParameter("@4", est.AgreeSpan.Start.ToIntYMD()),
-										new SQLiteParameter("@5", est.AgreeMonthes),
-										new SQLiteParameter("@6", (0 < est.Remark.Count) ? est.Remark[0]: ""),
-										new SQLiteParameter("@7", (1 < est.Remark.Count) ? est.Remark[1]: ""),
-										new SQLiteParameter("@8", (2 < est.Remark.Count) ? est.Remark[2]: ""),
-										new SQLiteParameter("@9", (3 < est.Remark.Count) ? est.Remark[3]: ""),
-
 										// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-										new SQLiteParameter("@10", est.AgreeSpan.End.ToIntYMD()),
-
+										new SQLiteParameter("@5", est.AgreeSpan.End.ToIntYMD()),
+										new SQLiteParameter("@6", est.AgreeMonthes),
+										new SQLiteParameter("@7", est.LimitDate.ToIntYMD()),
+										new SQLiteParameter("@8", (0 < est.Remark.Count) ? est.Remark[0]: ""),
+										new SQLiteParameter("@9", (1 < est.Remark.Count) ? est.Remark[1]: ""),
+										new SQLiteParameter("@10", (2 < est.Remark.Count) ? est.Remark[2]: ""),
+										new SQLiteParameter("@11", (3 < est.Remark.Count) ? est.Remark[3]: ""),
 										// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-										new SQLiteParameter("@11", est.NotUsedMessrs) };
+										new SQLiteParameter("@12", est.NotUsedMessrs),
+										new SQLiteParameter("@13", est.Apply) };
 
 			// 実行
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
@@ -1314,67 +1314,67 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			return result;
 		}
 
-		/// <summary>
-		/// 見積書ヘッダ情報のカラム追加
-		/// AgreeEndDataとMrFlag
-		/// </summary>
-		/// <param name="dbPath">データベース格納フォルダ</param>
-		/// <returns>判定</returns>
-		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-		public static int AlterTableEstimateHeaderAgreeEndDataAndNotUsedMessrs(string dbPath)
-		{
-			int result = -1;
+		///// <summary>
+		///// 見積書ヘッダ情報のカラム追加
+		///// AgreeEndDataとMrFlag
+		///// </summary>
+		///// <param name="dbPath">データベース格納フォルダ</param>
+		///// <returns>判定</returns>
+		//// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+		//// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+		//public static int AlterTableEstimateHeaderAgreeEndDataAndNotUsedMessrs(string dbPath)
+		//{
+		//	int result = -1;
 
-			using (SQLiteConnection con = new SQLiteConnection(SQLiteAccess.CreateConnectionString(Path.Combine(dbPath, SQLiteMwsSimulationDef.MWS_SIMULATION_USER_DATABASE_NAME))))
-			{
-				try
-				{
-					// 接続
-					con.Open();
+		//	using (SQLiteConnection con = new SQLiteConnection(SQLiteAccess.CreateConnectionString(Path.Combine(dbPath, SQLiteMwsSimulationDef.MWS_SIMULATION_USER_DATABASE_NAME))))
+		//	{
+		//		try
+		//		{
+		//			// 接続
+		//			con.Open();
 
-					// トランザクション開始
-					using (SQLiteTransaction tran = con.BeginTransaction(IsolationLevel.Serializable))
-					{
-						try
-						{
-							string strSql = string.Format(@"ALTER TABLE {0} ADD COLUMN AgreeEndDate INTEGER DEFAULT 0", SQLiteMwsSimulationDef.ESTIMATE_HEADER_TABLE_NAME);
-							result = SQLiteController.SqlExecuteCommand(con, tran, strSql);
-							if (result <= -1)
-							{
-								throw new ApplicationException("ESTIMATE HEADER カラム追加エラー(AgreeEndDate)");
-							}
-							strSql = string.Format(@"ALTER TABLE {0} ADD COLUMN NotUsedMessrs INTEGER DEFAULT 0", SQLiteMwsSimulationDef.ESTIMATE_HEADER_TABLE_NAME);
-							result = SQLiteController.SqlExecuteCommand(con, tran, strSql);
-							if (result <= -1)
-							{
-								throw new ApplicationException("ESTIMATE HEADER カラム追加エラー(NotUsedMessrs)");
-							}
-							// コミット
-							tran.Commit();
-						}
-						catch
-						{
-							// ロールバック
-							tran.Rollback();
-							throw;
-						}
-					}
-				}
-				catch
-				{
-					throw;
-				}
-				finally
-				{
-					if (null != con)
-					{
-						// 切断
-						con.Close();
-					}
-				}
-			}
-			return result;
-		}
+		//			// トランザクション開始
+		//			using (SQLiteTransaction tran = con.BeginTransaction(IsolationLevel.Serializable))
+		//			{
+		//				try
+		//				{
+		//					string strSql = string.Format(@"ALTER TABLE {0} ADD COLUMN AgreeEndDate INTEGER DEFAULT 0", SQLiteMwsSimulationDef.ESTIMATE_HEADER_TABLE_NAME);
+		//					result = SQLiteController.SqlExecuteCommand(con, tran, strSql);
+		//					if (result <= -1)
+		//					{
+		//						throw new ApplicationException("ESTIMATE HEADER カラム追加エラー(AgreeEndDate)");
+		//					}
+		//					strSql = string.Format(@"ALTER TABLE {0} ADD COLUMN NotUsedMessrs INTEGER DEFAULT 0", SQLiteMwsSimulationDef.ESTIMATE_HEADER_TABLE_NAME);
+		//					result = SQLiteController.SqlExecuteCommand(con, tran, strSql);
+		//					if (result <= -1)
+		//					{
+		//						throw new ApplicationException("ESTIMATE HEADER カラム追加エラー(NotUsedMessrs)");
+		//					}
+		//					// コミット
+		//					tran.Commit();
+		//				}
+		//				catch
+		//				{
+		//					// ロールバック
+		//					tran.Rollback();
+		//					throw;
+		//				}
+		//			}
+		//		}
+		//		catch
+		//		{
+		//			throw;
+		//		}
+		//		finally
+		//		{
+		//			if (null != con)
+		//			{
+		//				// 切断
+		//				con.Close();
+		//			}
+		//		}
+		//	}
+		//	return result;
+		//}
 	}
 }

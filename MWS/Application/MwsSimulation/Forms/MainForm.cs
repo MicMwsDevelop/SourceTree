@@ -136,11 +136,13 @@ namespace MwsSimulation.Forms
 
 			// データファイルの更新
 			string dataFolder = Program.GetDataFolder();
-			if (false == this.UpdateDataFile(dataFolder))
-			{
-				this.Close();
-				return;
-			}
+
+			// @@@ClickOnceマスク
+			//if (false == this.UpdateDataFile(dataFolder))
+			//{
+			//	this.Close();
+			//	return;
+			//}
 			// 環境設定の読み込み
 			gSettings = MwsSimulationSettingsIF.GetMwsSimulationSettings();
 

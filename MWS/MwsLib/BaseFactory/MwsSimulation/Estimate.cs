@@ -24,6 +24,19 @@ namespace MwsLib.BaseFactory.MwsSimulation
 	public class Estimate : IEquatable<Estimate>
 	{
 		/// <summary>
+		/// 申込み種別
+		/// </summary>
+		public enum ApplyType
+		{
+			/// <summary>月額課金</summary>
+			Monthly = 0,
+			/// <summary>まとめ契約なし</summary>
+			MatomeNone,
+			/// <summary>まとめ契約あり</summary>
+			Matome,
+		};
+
+		/// <summary>
 		/// 見積書番号
 		/// </summary>
 		public int EstimateID { get; set; }
@@ -50,6 +63,11 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		public int AgreeMonthes { get; set; }
 
 		/// <summary>
+		/// 有効期限
+		/// </summary>
+		public Date LimitDate { get; set; }
+
+		/// <summary>
 		/// 備考
 		/// </summary>
 		public List<string> Remark { get; set; }
@@ -59,6 +77,11 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		/// </summary>
 		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 		public int NotUsedMessrs { get; set; }
+
+		/// <summary>
+		/// 申込み種別
+		/// </summary>
+		public ApplyType Apply { get; set; }
 
 		/// <summary>
 		/// 見積サービス情報リスト
@@ -75,7 +98,16 @@ namespace MwsLib.BaseFactory.MwsSimulation
 				int price = 0;
 				foreach (EstimateService service in ServiceList)
 				{
-					price += service.Price;
+					if (null != service.GroupServiceList)
+					{
+						// おまとめプラン契約あり or セット割サービス
+						price += service.Price;
+					}
+					else
+					{
+						// おまとめプラン契約なし or 月額課金
+						price += (service.Price * AgreeMonthes);
+					}
 				}
 				return price;
 			}
@@ -89,15 +121,19 @@ namespace MwsLib.BaseFactory.MwsSimulation
 			EstimateID = 0;
 			Destination = string.Empty;
 			PrintDate = Date.Today;
-			AgreeMonthes = 1;
-			Remark = new List<string>();
-			ServiceList = new List<EstimateService>();
 
 			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 			AgreeSpan = Span.Nothing;
 
+			AgreeMonthes = 0;
+			LimitDate = Date.MinValue;
+			Remark = new List<string>();
+			ServiceList = new List<EstimateService>();
+
 			// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 			NotUsedMessrs = 0;
+
+			Apply = ApplyType.Monthly;
 		}
 
 		/// <summary>
@@ -141,16 +177,39 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		}
 
 		/// <summary>
+		/// 発行日と契約月数から契約期間を取得
+		/// </summary>
+		/// <param name="startDate">発行日</param>
+		/// <param name="monthes">契約月数</param>
+		/// <returns>契約期間</returns>
+		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+		public static Span GetAgreeSapn(Date printDate, int monthes)
+		{
+			Date startDate = printDate.PlusMonths(2);
+			Date endDate = startDate.PlusMonths(monthes - 1);
+			return new Span(new Date(startDate.Year, startDate.Month, 1), new Date(endDate.Year, endDate.Month, endDate.ToYearMonth().GetDays()));
+		}
+
+		/// <summary>
 		/// 契約開始日と契約月数から契約終了日を取得
 		/// </summary>
 		/// <param name="startDate">契約開始日</param>
 		/// <param name="monthes">契約月数</param>
 		/// <returns>契約終了日</returns>
-		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 		public static Date GetAgreeEndDate(Date startDate, int monthes)
 		{
-			Date endDate = startDate.PlusMonths(monthes);
+			Date endDate = startDate.PlusMonths(monthes - 1);
 			return new Date(endDate.Year, endDate.Month, endDate.ToYearMonth().GetDays());
+		}
+
+		/// <summary>
+		/// 発行日に対する有効期限を取得
+		/// </summary>
+		/// <param name="printDate">発行日</param>
+		/// <returns>有効期限</returns>
+		public static Date GetLimitDate(Date printDate)
+		{
+			return printDate + 13;
 		}
 
 		/// <summary>
@@ -160,8 +219,9 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		/// <param name="groupList">おまとめプラン・セット割サービスリスト</param>
 		/// <param name="chartComputeCode">電子カルテ標準サービスサービスコード</param>
 		/// <param name="tabletViewerCode">TABLETビューワサービスコード</param>
+		/// <param name="platform">プラットフォーム利用料</param>
 		// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
-		public void SetEstimateData(List<ServiceInfo> serviceList, List<GroupService> groupList, string chartComputeCode, string tabletViewerCode)
+		public void SetEstimateData(List<ServiceInfo> serviceList, List<GroupService> groupList, string chartComputeCode, string tabletViewerCode, ServiceInfo platform = null)
 		{
 			this.ServiceList.Clear();
 
@@ -212,6 +272,15 @@ namespace MwsLib.BaseFactory.MwsSimulation
 				}
 				this.ServiceList.Add(estSvr);
 			}
+			if (null != platform)
+			{
+				// MIC WEB SERVICE標準サービス
+				EstimateService estSvr = new EstimateService();
+				estSvr.GoodsID = platform.GoodsID;
+				estSvr.ServiceName = platform.ServiceName;
+				estSvr.Price = platform.Price;
+				this.ServiceList.Insert(0, estSvr);
+			}
 		}
 
 		/// <summary>
@@ -229,19 +298,23 @@ namespace MwsLib.BaseFactory.MwsSimulation
 					return false;
 				if (PrintDate != other.PrintDate)
 					return false;
-				if (AgreeMonthes != other.AgreeMonthes)
-					return false;
-				if (false == Remark.SequenceEqual(other.Remark))
-					return false;
-				if (false == ServiceList.SequenceEqual(other.ServiceList))
-					return false;
 				// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 				if (AgreeSpan != other.AgreeSpan)
+					return false;
+				if (AgreeMonthes != other.AgreeMonthes)
+					return false;
+				if (LimitDate != other.LimitDate)
+					return false;
+				if (false == Remark.SequenceEqual(other.Remark))
 					return false;
 				// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 				if (NotUsedMessrs != other.NotUsedMessrs)
 					return false;
+				if (Apply != other.Apply)
+					return false;
 				return true;
+				if (false == ServiceList.SequenceEqual(other.ServiceList))
+					return false;
 			}
 			return false;
 		}

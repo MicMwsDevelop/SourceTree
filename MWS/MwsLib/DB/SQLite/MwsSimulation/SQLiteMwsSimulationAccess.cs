@@ -186,14 +186,14 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 		public static List<Estimate> GetEstimateList(string dbPath)
 		{
 			DataTable table = SQLiteMwsSimulationGetIO.GetEstimateHeader(dbPath);
-			if (9 == table.Columns.Count)
-			{
-				// 旧バージョンのテーブル構造なのでフィールドを追加
-				// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-				// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-				SQLiteMwsSimulationSetIO.AlterTableEstimateHeaderAgreeEndDataAndNotUsedMessrs(dbPath);
-				table = SQLiteMwsSimulationGetIO.GetEstimateHeader(dbPath);
-			}
+			//if (9 == table.Columns.Count)
+			//{
+			//	// 旧バージョンのテーブル構造なのでフィールドを追加
+			//	// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+			//	// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+			//	SQLiteMwsSimulationSetIO.AlterTableEstimateHeaderAgreeEndDataAndNotUsedMessrs(dbPath);
+			//	table = SQLiteMwsSimulationGetIO.GetEstimateHeader(dbPath);
+			//}
 			List<Estimate> result = SQLiteMwsSimulationController.ConvertEstimateHeader(table);
 			foreach (Estimate est in result)
 			{

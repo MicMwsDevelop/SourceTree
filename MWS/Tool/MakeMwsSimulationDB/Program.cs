@@ -1,7 +1,7 @@
 ﻿//
 // Program.cs
 // 
-// MWS課金シミュレーションデータファイル更新コンソールアプリケーション
+// ＭＷＳ課金シミュレーションマスターファイル更新コンソールアプリケーション
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -28,10 +28,14 @@ namespace MakeMwsSimulationDB
 		private const string SERVER_DATA_FOLDER = @"\\storage\公開データ\サポート課公開用\02_Tools類\その他\MwsSimulation";
 #endif
 
+		/// <summary>
+		/// ＭＷＳ課金シミュレーションマスターファイル更新
+		/// </summary>
+		/// <param name="args"></param>
 		static void Main(string[] args)
 		{
 			// メンテナンス開始ログ出力
-			MainteLogger.MainLine("MWS課金シミュレーションデータファイル更新：開始");
+			MainteLogger.MainLine("ＭＷＳ課金シミュレーションマスターファイル更新：開始");
 
 			// サービス情報
 			ServiceInfoList oldServiceInfoList = null;
@@ -39,7 +43,7 @@ namespace MakeMwsSimulationDB
 			try
 			{
 				oldServiceInfoList = SQLiteMwsSimulationAccess.GetServiceInfo(SERVER_DATA_FOLDER);
-				newServiceInfoList = MwsSimulationAccess.GetServiceInfo();
+				newServiceInfoList = MwsSimulationAccess.GetServiceInfo(/*true*/);
 
 				// 下記のサービスは削除
 				// 1030120 ３ＤｅｎｔＭＯＶＩＥ
@@ -62,7 +66,7 @@ namespace MakeMwsSimulationDB
 			catch (Exception ex)
 			{
 				MainteLogger.SubLine(string.Format("サービス情報読込エラー：{0}", ex.Message));
-				MainteLogger.MainLine("MWS課金シミュレーションデータファイル更新：異常終了");
+				MainteLogger.MainLine("ＭＷＳ課金シミュレーションマスターファイル更新：異常終了");
 				return;
 			}
 			// おススメセット情報
@@ -76,7 +80,7 @@ namespace MakeMwsSimulationDB
 			catch (Exception ex)
 			{
 				MainteLogger.SubLine(string.Format("おススメセット情報読込エラー：{0}", ex.Message));
-				MainteLogger.MainLine("MWS課金シミュレーションデータファイル更新：異常終了");
+				MainteLogger.MainLine("ＭＷＳ課金シミュレーションマスターファイル更新：異常終了");
 				return;
 			}
 			// おまとめプラン情報
@@ -90,7 +94,7 @@ namespace MakeMwsSimulationDB
 			catch (Exception ex)
 			{
 				MainteLogger.SubLine(string.Format("おまとめプラン情報読込エラー：{0}", ex.Message));
-				MainteLogger.MainLine("MWS課金シミュレーションデータファイル更新：異常終了");
+				MainteLogger.MainLine("ＭＷＳ課金シミュレーションマスターファイル更新：異常終了");
 				return;
 			}
 			// セット割サービス情報
@@ -99,12 +103,12 @@ namespace MakeMwsSimulationDB
 			try
 			{
 				oldSetPlanList = SQLiteMwsSimulationAccess.GetSetPlanList(SERVER_DATA_FOLDER);
-				newSetPlanList = MwsSimulationAccess.GetSetPlanList();
+				newSetPlanList = MwsSimulationAccess.GetSetPlanList(/*true*/);
 			}
 			catch (Exception ex)
 			{
 				MainteLogger.SubLine(string.Format("セット割サービス情報読込エラー：{0}", ex.Message));
-				MainteLogger.MainLine("MWS課金シミュレーションデータファイル更新：異常終了");
+				MainteLogger.MainLine("ＭＷＳ課金シミュレーションマスターファイル更新：異常終了");
 				return;
 			}
 			// サービス情報の比較
@@ -192,7 +196,7 @@ namespace MakeMwsSimulationDB
 				catch (Exception ex)
 				{
 					MainteLogger.SubLine(string.Format("サービス情報更新エラー：{0}", ex.Message));
-					MainteLogger.MainLine("MWS課金シミュレーションデータファイル更新：異常終了");
+					MainteLogger.MainLine("ＭＷＳ課金シミュレーションマスターファイル更新：異常終了");
 					return;
 				}
 			}
@@ -207,7 +211,7 @@ namespace MakeMwsSimulationDB
 				catch (Exception ex)
 				{
 					MainteLogger.SubLine(string.Format("おススメセット情報更新エラー：{0}", ex.Message));
-					MainteLogger.MainLine("MWS課金シミュレーションデータファイル更新：異常終了");
+					MainteLogger.MainLine("ＭＷＳ課金シミュレーションマスターファイル更新：異常終了");
 					return;
 				}
 			}
@@ -222,7 +226,7 @@ namespace MakeMwsSimulationDB
 				catch (Exception ex)
 				{
 					MainteLogger.SubLine(string.Format("おまとめプラン情報更新エラー：{0}", ex.Message));
-					MainteLogger.MainLine("MWS課金シミュレーションデータファイル更新：異常終了");
+					MainteLogger.MainLine("ＭＷＳ課金シミュレーションマスターファイル更新：異常終了");
 					return;
 				}
 			}
@@ -237,7 +241,7 @@ namespace MakeMwsSimulationDB
 				catch (Exception ex)
 				{
 					MainteLogger.SubLine(string.Format("セット割サービス情報更新エラー：{0}", ex.Message));
-					MainteLogger.MainLine("MWS課金シミュレーションデータファイル更新：異常終了");
+					MainteLogger.MainLine("ＭＷＳ課金シミュレーションマスターファイル更新：異常終了");
 					return;
 				}
 			}
@@ -255,13 +259,13 @@ namespace MakeMwsSimulationDB
 					catch (Exception ex)
 					{
 						MainteLogger.SubLine(string.Format("バージョン情報更新エラー：{0}", ex.Message));
-						MainteLogger.MainLine("MWS課金シミュレーションデータファイル更新：異常終了");
+						MainteLogger.MainLine("ＭＷＳ課金シミュレーションマスターファイル更新：異常終了");
 						return;
 					}
 				}
 			}
 			// メンテナンス正常終了ログ出力
-			MainteLogger.MainLine("MWS課金シミュレーションデータファイル更新：正常終了");
+			MainteLogger.MainLine("ＭＷＳ課金シミュレーションマスターファイル更新：正常終了");
 		}
 	}
 }

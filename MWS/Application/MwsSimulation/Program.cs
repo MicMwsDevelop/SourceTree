@@ -79,8 +79,10 @@ namespace MwsSimulation
 		/// <returns>カレントデータフォルダ</returns>
 		public static string GetDataFolder()
 		{
-			string systemDrive = Environment.GetEnvironmentVariable("SystemDrive");
-			return string.Format("{0}\\{1}", systemDrive, CURRENT_DATA_FOLDER);
+			// @@@ClickOnceマスク
+			//string systemDrive = Environment.GetEnvironmentVariable("SystemDrive");
+			//return string.Format("{0}\\{1}", systemDrive, CURRENT_DATA_FOLDER);
+			return System.IO.Directory.GetCurrentDirectory();
 		}
 	}
 }

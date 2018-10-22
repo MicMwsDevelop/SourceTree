@@ -142,28 +142,21 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 					Estimate est = new Estimate();
 					est.EstimateID = DataBaseValue.ConvObjectToInt(row["EstimateID"]);
 					est.Destination = row["Destination"].ToString();
-					Date startDate = DataBaseValue.ConvObjectToDate(row["AgreeStartDate"]);
-					est.AgreeMonthes = DataBaseValue.ConvObjectToInt(row["AgreeMonthes"]);
 					est.PrintDate = DataBaseValue.ConvObjectToDate(row["PrintDate"]);
+					Date startDate = DataBaseValue.ConvObjectToDate(row["AgreeStartDate"]);
+					Date endDate = DataBaseValue.ConvObjectToDate(row["AgreeEndDate"]);
+					est.AgreeSpan = new Span(startDate, endDate);
+					est.AgreeMonthes = DataBaseValue.ConvObjectToInt(row["AgreeMonthes"]);
+					est.LimitDate = DataBaseValue.ConvObjectToDate(row["LimitDate"]);
 					est.Remark.Add(row["Remark1"].ToString());
 					est.Remark.Add(row["Remark2"].ToString());
 					est.Remark.Add(row["Remark3"].ToString());
 					est.Remark.Add(row["Remark4"].ToString());
 
-					// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-					Date endDate;
-					if (0 == DataBaseValue.ConvObjectToInt(row["AgreeEndDate"]))
-					{
-						endDate = Estimate.GetAgreeEndDate(startDate, est.AgreeMonthes);
-					}
-					else
-					{
-						endDate = DataBaseValue.ConvObjectToDate(row["AgreeEndDate"]);
-					}
-					est.AgreeSpan = new Span(startDate, endDate);
-
 					// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 					est.NotUsedMessrs = DataBaseValue.ConvObjectToInt(row["NotUsedMessrs"]);
+
+					est.Apply = (Estimate.ApplyType)DataBaseValue.ConvObjectToInt(row["ApplyType"]);
 
 					result.Add(est);
 				}

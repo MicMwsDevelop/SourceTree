@@ -64,19 +64,32 @@ namespace MwsLib.BaseFactory.MwsSimulation
 			MaxAmmount = null;
 		}
 
+		///// <summary>
+		///// おまとめプラン月額料金の取得
+		///// 100円未満切り捨て（MWSサイトに合わせる）
+		///// </summary>
+		///// <param name="price">おまとめプラン対象利用料</param>
+		///// <returns>おまとめプラン月額料金</returns>
+		//// Ver1.050 プラン割引、月額利用額をＭＷＳサイトに合わせ、100円未満切り捨てる(2018/09/21 勝呂)
+		//public int GetGroupPlanPrice(int price)
+		//{
+		//	// Ver1.050 プラン割引、月額利用額をＭＷＳサイトに合わせ、100円未満切り捨てる(2018/09/21 勝呂)
+		//	//return (price * (KeiyakuMonth - FreeMonth)) / KeiyakuMonth;
+		//	int work = (price * (KeiyakuMonth - FreeMonth)) / KeiyakuMonth;
+		//	return (work / 100) * 100;
+		//}
+
 		/// <summary>
 		/// おまとめプラン月額料金の取得
-		/// 100円未満切り捨て（MWSサイトに合わせる）
+		/// 端数四捨五入
 		/// </summary>
 		/// <param name="price">おまとめプラン対象利用料</param>
 		/// <returns>おまとめプラン月額料金</returns>
-		// Ver1.050 プラン割引、月額利用額をＭＷＳサイトに合わせ、100円未満切り捨てる(2018/09/21 勝呂)
 		public int GetGroupPlanPrice(int price)
 		{
-			// Ver1.050 プラン割引、月額利用額をＭＷＳサイトに合わせ、100円未満切り捨てる(2018/09/21 勝呂)
-			//return (price * (KeiyakuMonth - FreeMonth)) / KeiyakuMonth;
-			int work = (price * (KeiyakuMonth - FreeMonth)) / KeiyakuMonth;
-			return (work / 100) * 100;
+			double aaa = price;
+			double work = (aaa * (KeiyakuMonth - FreeMonth)) / KeiyakuMonth;
+			return (int)Math.Round(work, MidpointRounding.AwayFromZero);
 		}
 
 		/// <summary>
@@ -265,7 +278,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		}
 
 		/// <summary>
-		/// 無償利用期間の取得
+		/// プラン割引料金の取得
 		/// 100円未満切り捨て（MWSサイトに合わせる）
 		/// </summary>
 		/// <param name="month">契約月数</param>

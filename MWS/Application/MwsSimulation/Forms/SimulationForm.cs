@@ -240,9 +240,6 @@ namespace MwsSimulation.Forms
 				lvItem.Tag = set;
 				listViewSetPlan.Items.Add(lvItem);
 			}
-			// プラットフォーム利用料の設定
-			textBoxPlatformPrice.Text = @"\" + StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price);
-
 			int groupPlanMonth = 0;
 			if (null != EstimateData)
 			{
@@ -323,9 +320,6 @@ namespace MwsSimulation.Forms
 					}
 				}
 			}
-			// サービス利用料及び月額利用料の表示
-			this.DrawServicePrice();
-
 			// おまとめプラン チェックボックスの制御
 			switch (groupPlanMonth)
 			{
@@ -339,6 +333,9 @@ namespace MwsSimulation.Forms
 					radioButtonGroup36.Checked = true;
 					break;
 			}
+			// サービス利用料及び月額利用料の表示
+			this.DrawServicePrice();
+
 			// 契約期間の表示
 			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 			this.DrawAgreeSpan();
@@ -1170,7 +1167,6 @@ namespace MwsSimulation.Forms
 			int groupPrice;     // おまとめプラン対象サービス使用料
 			this.GetServicePrice(out normalPrice, out setPrice, out groupPrice);
 
-			int servicePrice = 0;
 			if (MainForm.gMinAmmount <= groupPrice)
 			{
 				// おまとめプラン適用
@@ -1221,33 +1217,61 @@ namespace MwsSimulation.Forms
 				if (radioButtonGroupNone.Checked)
 				{
 					// おまとめプラン なし
-					servicePrice = normalPrice + setPrice + groupPrice;
+					int servicePrice = normalPrice + setPrice + groupPrice;
 					textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(servicePrice));
 					textBoxServicePrice.Tag = string.Format("normal:{0}+ set:{1}+ group:{2}", normalPrice, setPrice, groupPrice);
+
+					// プラットフォーム利用料の設定
+					textBoxPlatformPrice.Text = @"\0";
+
+					// 月額利用料の表示
+					// Ver1.050 月額利用料の表示の追加(2018/09/27 勝呂)
+					textBoxTotalPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(servicePrice));
 				}
 				else if (radioButtonGroup12.Checked)
 				{
 					// おまとめプラン12ヵ月
 					GroupPlan targetPlan12 = MainForm.gGroupPlanList.GetMachGroupPlan(12, groupPrice);
-					servicePrice = targetPlan12.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice;
+					int servicePrice = targetPlan12.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice;
 					textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(servicePrice));
 					textBoxServicePrice.Tag = string.Format("group:({0}*(12-{1})) / 12 + normal:{2} + set:{3}", groupPrice, targetPlan12.FreeMonth, normalPrice, setPrice);
+
+					// プラットフォーム利用料の設定
+					textBoxPlatformPrice.Text = @"\" + StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price);
+
+					// 月額利用料の表示
+					// Ver1.050 月額利用料の表示の追加(2018/09/27 勝呂)
+					textBoxTotalPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + servicePrice));
 				}
 				else if (radioButtonGroup24.Checked)
 				{
 					// おまとめプラン24ヵ月
 					GroupPlan targetPlan24 = MainForm.gGroupPlanList.GetMachGroupPlan(24, groupPrice);
-					servicePrice = targetPlan24.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice;
+					int servicePrice = targetPlan24.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice;
 					textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(servicePrice));
 					textBoxServicePrice.Tag = string.Format("group:({0}*(24-{1})) / 24 + normal:{2} + set:{3}", groupPrice, targetPlan24.FreeMonth, normalPrice, setPrice);
+
+					// プラットフォーム利用料の設定
+					textBoxPlatformPrice.Text = @"\" + StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price);
+
+					// 月額利用料の表示
+					// Ver1.050 月額利用料の表示の追加(2018/09/27 勝呂)
+					textBoxTotalPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + servicePrice));
 				}
 				else if (radioButtonGroup36.Checked)
 				{
 					// おまとめプラン36ヵ月
 					GroupPlan targetPlan36 = MainForm.gGroupPlanList.GetMachGroupPlan(36, groupPrice);
-					servicePrice = targetPlan36.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice;
+					int servicePrice = targetPlan36.GetGroupPlanPrice(groupPrice) + normalPrice + setPrice;
 					textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(servicePrice));
 					textBoxServicePrice.Tag = string.Format("group:({0}*(36-{1})) / 36 + normal:{2} + set:{3}", groupPrice, targetPlan36.FreeMonth, normalPrice, setPrice);
+
+					// プラットフォーム利用料の設定
+					textBoxPlatformPrice.Text = @"\" + StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price);
+
+					// 月額利用料の表示
+					// Ver1.050 月額利用料の表示の追加(2018/09/27 勝呂)
+					textBoxTotalPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + servicePrice));
 				}
 			}
 			else
@@ -1268,15 +1292,18 @@ namespace MwsSimulation.Forms
 				textBoxFree24.Text = @"\0";
 				textBoxFree36.Text = @"\0";
 
+				// プラットフォーム利用料の設定
+				textBoxPlatformPrice.Text = @"\0";
+
 				// サービス利用料の表示
-				servicePrice = normalPrice + setPrice + groupPrice;
+				int servicePrice = normalPrice + setPrice + groupPrice;
 				textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(servicePrice));
 				textBoxServicePrice.Tag = string.Format("normal:{0}+ set:{1}+ group:{2}", normalPrice, setPrice, groupPrice);
-			}
-			// 月額利用料の表示
-			// Ver1.050 月額利用料の表示の追加(2018/09/27 勝呂)
-			textBoxTotalPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + servicePrice));
 
+				// 月額利用料の表示
+				// Ver1.050 月額利用料の表示の追加(2018/09/27 勝呂)
+				textBoxTotalPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(servicePrice));
+			}
 			// Ver1.050 おまとめプランが１円から適用できるように修正(2018/09/18 勝呂)
 			if (MainForm.gMinFreeMonthMinAmmount <= groupPrice)
 			{
