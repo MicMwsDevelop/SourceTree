@@ -189,7 +189,7 @@ namespace MwsSimulation.Forms
 							}
 							if (SQLiteMwsSimulationDef.ServiceMode.Set == estService.Mode)
 							{
-								// セット割サービス
+								// 該当するセット割サービスを選択状態にする
 								foreach (ListViewItem item in listViewSetPlan.Items)
 								{
 									SetPlan plan = item.Tag as SetPlan;
@@ -202,9 +202,11 @@ namespace MwsSimulation.Forms
 								foreach (ListViewItem item in listViewService.Items)
 								{
 									ServiceInfo service = item.Tag as ServiceInfo;
-									if (service.GoodsID == estService.GoodsID)
+									if (group.Item1 == service.GoodsID)
 									{
+										// セット割サービスに含まれるサービスを選択状態にする
 										item.Checked = true;
+										item.BackColor = Color.DarkGray;
 										break;
 									}
 								}

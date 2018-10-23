@@ -274,7 +274,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 			}
 			if (null != platform)
 			{
-				// MIC WEB SERVICE標準サービス
+				// MIC WEB SERVICE標準サービスを先頭に格納
 				EstimateService estSvr = new EstimateService();
 				estSvr.GoodsID = platform.GoodsID;
 				estSvr.ServiceName = platform.ServiceName;

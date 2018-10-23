@@ -436,7 +436,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "SimulationMonthlyForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "MIC WEB SERVICE 御見積書作成（月額課金/セット割サービス）";
+			this.Text = "MIC WEB SERVICE 御見積書作成（月額課金）";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SimulationMonthlyForm_FormClosed);
 			this.Load += new System.EventHandler(this.SimulationMonthlyForm_Load);
 			this.ResumeLayout(false);
