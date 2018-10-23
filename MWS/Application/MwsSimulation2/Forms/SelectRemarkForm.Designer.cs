@@ -38,7 +38,7 @@
 			// buttonCancel
 			// 
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(325, 294);
+			this.buttonCancel.Location = new System.Drawing.Point(248, 294);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(102, 36);
 			this.buttonCancel.TabIndex = 4;
@@ -47,7 +47,7 @@
 			// 
 			// buttonOK
 			// 
-			this.buttonOK.Location = new System.Drawing.Point(217, 294);
+			this.buttonOK.Location = new System.Drawing.Point(140, 294);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(102, 36);
 			this.buttonOK.TabIndex = 3;
@@ -61,7 +61,7 @@
 			this.listBoxRemark.ItemHeight = 17;
 			this.listBoxRemark.Location = new System.Drawing.Point(12, 46);
 			this.listBoxRemark.Name = "listBoxRemark";
-			this.listBoxRemark.Size = new System.Drawing.Size(415, 242);
+			this.listBoxRemark.Size = new System.Drawing.Size(338, 242);
 			this.listBoxRemark.TabIndex = 1;
 			this.listBoxRemark.SelectedIndexChanged += new System.EventHandler(this.listBoxRemark_SelectedIndexChanged);
 			this.listBoxRemark.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxRemark_MouseDoubleClick);
@@ -70,7 +70,7 @@
 			// 
 			this.buttonRegist.Location = new System.Drawing.Point(12, 294);
 			this.buttonRegist.Name = "buttonRegist";
-			this.buttonRegist.Size = new System.Drawing.Size(61, 36);
+			this.buttonRegist.Size = new System.Drawing.Size(78, 36);
 			this.buttonRegist.TabIndex = 2;
 			this.buttonRegist.Text = "登録";
 			this.buttonRegist.UseVisualStyleBackColor = true;
@@ -81,14 +81,14 @@
 			this.textBoxRemark.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
 			this.textBoxRemark.Location = new System.Drawing.Point(13, 13);
 			this.textBoxRemark.Name = "textBoxRemark";
-			this.textBoxRemark.Size = new System.Drawing.Size(414, 24);
+			this.textBoxRemark.Size = new System.Drawing.Size(338, 24);
 			this.textBoxRemark.TabIndex = 0;
 			// 
 			// SelectRemarkForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(443, 342);
+			this.ClientSize = new System.Drawing.Size(366, 342);
 			this.Controls.Add(this.textBoxRemark);
 			this.Controls.Add(this.buttonRegist);
 			this.Controls.Add(this.listBoxRemark);

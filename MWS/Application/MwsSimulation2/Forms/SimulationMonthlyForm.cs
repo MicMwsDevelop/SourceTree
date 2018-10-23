@@ -60,11 +60,10 @@ namespace MwsSimulation.Forms
 		{
 			InitializeComponent();
 
-			EstimateData = null;
-
 			PrintInfo = new PrintEstimate();
 			PrintDocument = new PrintDocument();
 			MaxPage = 0;
+			EstimateData = null;
 		}
 
 		/// <summary>
@@ -74,11 +73,10 @@ namespace MwsSimulation.Forms
 		{
 			InitializeComponent();
 
-			EstimateData = est;
-
 			PrintInfo = new PrintEstimate();
 			PrintDocument = new PrintDocument();
 			MaxPage = 0;
+			EstimateData = est;
 		}
 
 		/// <summary>
@@ -219,7 +217,7 @@ namespace MwsSimulation.Forms
 			else
 			{
 				// 契約期間の設定
-				labelAgreeSpan.Tag = Estimate.GetAgreeSapn(Date.Today, 1);
+				labelAgreeSpan.Tag = Estimate.GetAgreeSapn(false, Date.Today, 1);
 
 				// 有効期限の設定
 				dateTimePickerLimitDate.Value = Estimate.GetLimitDate(Date.Today).ToDateTime();
@@ -355,7 +353,7 @@ namespace MwsSimulation.Forms
 			Date printDate = new Date(dateTimePickerPrintDate.Value);
 
 			// 発行日に対する契約期間の変更
-			labelAgreeSpan.Tag = Estimate.GetAgreeSapn(printDate, 1);
+			labelAgreeSpan.Tag = Estimate.GetAgreeSapn(false, printDate, 1);
 
 			// 契約期間の表示
 			DrawAgreeSpan((Span)labelAgreeSpan.Tag);

@@ -75,13 +75,13 @@ namespace MwsSimulation.Forms
 		{
 			InitializeComponent();
 
-			EstimateData = null;
 			PrintInfo = new PrintEstimate();
 			PrintDocument = new PrintDocument();
 			MaxPage = 0;
 			ExistMatome12 = false;
 			ExistMatome24 = false;
 			ExistMatome36 = false;
+			EstimateData = null;
 		}
 
 		/// <summary>
@@ -91,13 +91,13 @@ namespace MwsSimulation.Forms
 		{
 			InitializeComponent();
 
-			EstimateData = est;
 			PrintInfo = new PrintEstimate();
 			PrintDocument = new PrintDocument();
 			MaxPage = 0;
 			ExistMatome12 = false;
 			ExistMatome24 = false;
 			ExistMatome36 = false;
+			EstimateData = est;
 		}
 
 		/// <summary>
@@ -203,6 +203,7 @@ namespace MwsSimulation.Forms
 
 				if (Estimate.ApplyType.Matome == EstimateData.Apply)
 				{
+					// おまとめプラン契約あり
 					switch (EstimateData.AgreeMonthes)
 					{
 						case 12:
@@ -268,7 +269,7 @@ namespace MwsSimulation.Forms
 				radioButtonNormal12.Checked = true;
 
 				// 契約期間の設定
-				labelAgreeSpan.Tag = Estimate.GetAgreeSapn(Date.Today, 12);
+				labelAgreeSpan.Tag = Estimate.GetAgreeSapn(true, Date.Today, 12);
 
 				// 有効期限の設定
 				dateTimePickerLimitDate.Value  = Estimate.GetLimitDate(Date.Today).ToDateTime();
@@ -395,7 +396,7 @@ namespace MwsSimulation.Forms
 			Date printDate = new Date(dateTimePickerPrintDate.Value);
 
 			// 発行日に対する契約期間の変更
-			labelAgreeSpan.Tag = Estimate.GetAgreeSapn(printDate, this.GetAgreeMonthes());
+			labelAgreeSpan.Tag = Estimate.GetAgreeSapn(true, printDate, this.GetAgreeMonthes());
 
 			// 契約期間の表示
 			DrawAgreeSpan((Span)labelAgreeSpan.Tag);
@@ -457,7 +458,7 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// おまとめプランなし 12ヵ月
+		/// 12ヵ月
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -476,9 +477,8 @@ namespace MwsSimulation.Forms
 			this.DrawServicePrice();
 		}
 
-
 		/// <summary>
-		/// おまとめプランなし 24ヵ月
+		/// 24ヵ月
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -498,7 +498,7 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// おまとめプランなし 36ヵ月
+		/// 36ヵ月
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -518,7 +518,7 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// おまとめプラン 12ヵ月
+		/// 12ヵ月プラン
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -538,7 +538,7 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// おまとめプラン 24ヵ月
+		/// 24ヵ月プラン
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -558,7 +558,7 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
-		/// おまとめプラン 36ヵ月
+		/// 36ヵ月プラン
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

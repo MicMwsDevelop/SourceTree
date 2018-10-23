@@ -178,16 +178,26 @@ namespace MwsLib.BaseFactory.MwsSimulation
 
 		/// <summary>
 		/// 発行日と契約月数から契約期間を取得
+		/// まとめ：発行日の翌々月初日
+		/// 月額：発行日の翌月初日
 		/// </summary>
-		/// <param name="startDate">発行日</param>
+		/// <param name="matome">まとめ契約かどうか？</param>
+		/// <param name="printDate">発行日</param>
 		/// <param name="monthes">契約月数</param>
 		/// <returns>契約期間</returns>
 		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-		public static Span GetAgreeSapn(Date printDate, int monthes)
+		public static Span GetAgreeSapn(bool matome, Date printDate, int monthes)
 		{
-			Date startDate = printDate.PlusMonths(2);
-			Date endDate = startDate.PlusMonths(monthes - 1);
-			return new Span(new Date(startDate.Year, startDate.Month, 1), new Date(endDate.Year, endDate.Month, endDate.ToYearMonth().GetDays()));
+			if (matome)
+			{
+				// まとめ契約
+				Date startDate = printDate.PlusMonths(2);
+				Date endDate = startDate.PlusMonths(monthes - 1);
+				return new Span(new Date(startDate.Year, startDate.Month, 1), new Date(endDate.Year, endDate.Month, endDate.ToYearMonth().GetDays()));
+			}
+			// 月額課金
+			Date date = printDate.PlusMonths(1);
+			return new Span(new Date(date.Year, date.Month, 1), new Date(date.Year, date.Month, date.ToYearMonth().GetDays()));
 		}
 
 		/// <summary>

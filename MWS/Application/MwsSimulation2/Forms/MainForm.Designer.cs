@@ -60,7 +60,7 @@
 			// 
 			// buttonNew
 			// 
-			this.buttonNew.Location = new System.Drawing.Point(425, 68);
+			this.buttonNew.Location = new System.Drawing.Point(425, 65);
 			this.buttonNew.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonNew.Name = "buttonNew";
 			this.buttonNew.Size = new System.Drawing.Size(99, 33);
@@ -71,7 +71,7 @@
 			// 
 			// buttonModify
 			// 
-			this.buttonModify.Location = new System.Drawing.Point(425, 111);
+			this.buttonModify.Location = new System.Drawing.Point(425, 108);
 			this.buttonModify.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonModify.Name = "buttonModify";
 			this.buttonModify.Size = new System.Drawing.Size(99, 33);
@@ -82,7 +82,7 @@
 			// 
 			// buttonDelete
 			// 
-			this.buttonDelete.Location = new System.Drawing.Point(425, 154);
+			this.buttonDelete.Location = new System.Drawing.Point(425, 151);
 			this.buttonDelete.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonDelete.Name = "buttonDelete";
 			this.buttonDelete.Size = new System.Drawing.Size(99, 33);
@@ -93,7 +93,7 @@
 			// 
 			// buttonDestinationChange
 			// 
-			this.buttonDestinationChange.Location = new System.Drawing.Point(425, 197);
+			this.buttonDestinationChange.Location = new System.Drawing.Point(426, 194);
 			this.buttonDestinationChange.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonDestinationChange.Name = "buttonDestinationChange";
 			this.buttonDestinationChange.Size = new System.Drawing.Size(99, 33);
@@ -115,7 +115,7 @@
 			// buttonClose
 			// 
 			this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonClose.Location = new System.Drawing.Point(425, 543);
+			this.buttonClose.Location = new System.Drawing.Point(426, 499);
 			this.buttonClose.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(99, 33);
@@ -126,7 +126,7 @@
 			// 
 			// buttonPrintEstimate
 			// 
-			this.buttonPrintEstimate.Location = new System.Drawing.Point(426, 283);
+			this.buttonPrintEstimate.Location = new System.Drawing.Point(426, 280);
 			this.buttonPrintEstimate.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonPrintEstimate.Name = "buttonPrintEstimate";
 			this.buttonPrintEstimate.Size = new System.Drawing.Size(99, 33);
@@ -138,7 +138,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(14, 479);
+			this.label1.Location = new System.Drawing.Point(10, 479);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(60, 17);
 			this.label1.TabIndex = 9;
@@ -147,7 +147,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(14, 510);
+			this.label2.Location = new System.Drawing.Point(10, 510);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(73, 17);
 			this.label2.TabIndex = 11;
@@ -157,9 +157,9 @@
 			// 
 			this.comboBoxBranch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxBranch.FormattingEnabled = true;
-			this.comboBoxBranch.Location = new System.Drawing.Point(124, 476);
+			this.comboBoxBranch.Location = new System.Drawing.Point(87, 476);
 			this.comboBoxBranch.Name = "comboBoxBranch";
-			this.comboBoxBranch.Size = new System.Drawing.Size(399, 25);
+			this.comboBoxBranch.Size = new System.Drawing.Size(163, 25);
 			this.comboBoxBranch.TabIndex = 10;
 			this.comboBoxBranch.SelectedIndexChanged += new System.EventHandler(this.comboBoxBranch_SelectedIndexChanged);
 			// 
@@ -168,9 +168,9 @@
 			this.comboBoxStaff.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxStaff.FormattingEnabled = true;
 			this.comboBoxStaff.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-			this.comboBoxStaff.Location = new System.Drawing.Point(123, 507);
+			this.comboBoxStaff.Location = new System.Drawing.Point(87, 507);
 			this.comboBoxStaff.Name = "comboBoxStaff";
-			this.comboBoxStaff.Size = new System.Drawing.Size(399, 25);
+			this.comboBoxStaff.Size = new System.Drawing.Size(164, 25);
 			this.comboBoxStaff.TabIndex = 12;
 			this.comboBoxStaff.SelectedIndexChanged += new System.EventHandler(this.comboBoxStaff_SelectedIndexChanged);
 			// 
@@ -224,7 +224,7 @@
 			// 
 			// buttonPrintOrder
 			// 
-			this.buttonPrintOrder.Location = new System.Drawing.Point(426, 326);
+			this.buttonPrintOrder.Location = new System.Drawing.Point(426, 323);
 			this.buttonPrintOrder.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonPrintOrder.Name = "buttonPrintOrder";
 			this.buttonPrintOrder.Size = new System.Drawing.Size(99, 45);
@@ -235,7 +235,7 @@
 			// 
 			// buttonCopy
 			// 
-			this.buttonCopy.Location = new System.Drawing.Point(425, 240);
+			this.buttonCopy.Location = new System.Drawing.Point(426, 237);
 			this.buttonCopy.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonCopy.Name = "buttonCopy";
 			this.buttonCopy.Size = new System.Drawing.Size(99, 33);
@@ -290,7 +290,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(545, 588);
+			this.ClientSize = new System.Drawing.Size(545, 541);
 			this.Controls.Add(this.tabControlEstimate);
 			this.Controls.Add(this.buttonCopy);
 			this.Controls.Add(this.buttonPrintOrder);

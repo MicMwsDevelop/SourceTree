@@ -79,8 +79,8 @@
 			this.listViewService.HideSelection = false;
 			this.listViewService.Location = new System.Drawing.Point(14, 44);
 			this.listViewService.Name = "listViewService";
-			this.listViewService.Size = new System.Drawing.Size(676, 598);
-			this.listViewService.TabIndex = 6;
+			this.listViewService.Size = new System.Drawing.Size(546, 556);
+			this.listViewService.TabIndex = 4;
 			this.listViewService.UseCompatibleStateImageBehavior = false;
 			this.listViewService.View = System.Windows.Forms.View.Details;
 			this.listViewService.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.listViewService_ItemCheck);
@@ -89,22 +89,22 @@
 			// columnHeaderServiceTypeName
 			// 
 			this.columnHeaderServiceTypeName.Text = "サービス種別";
-			this.columnHeaderServiceTypeName.Width = 180;
+			this.columnHeaderServiceTypeName.Width = 120;
 			// 
 			// columnHeaderServiceName
 			// 
 			this.columnHeaderServiceName.Text = "サービス名";
-			this.columnHeaderServiceName.Width = 350;
+			this.columnHeaderServiceName.Width = 300;
 			// 
 			// columnHeaderPrice
 			// 
 			this.columnHeaderPrice.Text = "価格";
-			this.columnHeaderPrice.Width = 120;
+			this.columnHeaderPrice.Width = 100;
 			// 
 			// buttonOK
 			// 
 			this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonOK.Location = new System.Drawing.Point(907, 606);
+			this.buttonOK.Location = new System.Drawing.Point(696, 564);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(102, 36);
 			this.buttonOK.TabIndex = 27;
@@ -116,7 +116,7 @@
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(1015, 606);
+			this.buttonCancel.Location = new System.Drawing.Point(804, 564);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(102, 36);
 			this.buttonCancel.TabIndex = 28;
@@ -132,9 +132,9 @@
             this.columnHeaderSetPrice});
 			this.listViewSetPlan.FullRowSelect = true;
 			this.listViewSetPlan.HideSelection = false;
-			this.listViewSetPlan.Location = new System.Drawing.Point(699, 98);
+			this.listViewSetPlan.Location = new System.Drawing.Point(568, 123);
 			this.listViewSetPlan.Name = "listViewSetPlan";
-			this.listViewSetPlan.Size = new System.Drawing.Size(415, 94);
+			this.listViewSetPlan.Size = new System.Drawing.Size(338, 94);
 			this.listViewSetPlan.TabIndex = 12;
 			this.listViewSetPlan.UseCompatibleStateImageBehavior = false;
 			this.listViewSetPlan.View = System.Windows.Forms.View.Details;
@@ -143,17 +143,17 @@
 			// columnHeaderSetName
 			// 
 			this.columnHeaderSetName.Text = "セット名";
-			this.columnHeaderSetName.Width = 300;
+			this.columnHeaderSetName.Width = 240;
 			// 
 			// columnHeaderSetPrice
 			// 
 			this.columnHeaderSetPrice.Text = "価格";
-			this.columnHeaderSetPrice.Width = 100;
+			this.columnHeaderSetPrice.Width = 80;
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(700, 78);
+			this.label3.Location = new System.Drawing.Point(569, 103);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(103, 17);
 			this.label3.TabIndex = 11;
@@ -162,7 +162,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(14, 17);
+			this.label4.Location = new System.Drawing.Point(14, 13);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(47, 17);
 			this.label4.TabIndex = 0;
@@ -171,7 +171,7 @@
 			// textBoxDestination
 			// 
 			this.textBoxDestination.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-			this.textBoxDestination.Location = new System.Drawing.Point(67, 14);
+			this.textBoxDestination.Location = new System.Drawing.Point(65, 10);
 			this.textBoxDestination.Name = "textBoxDestination";
 			this.textBoxDestination.Size = new System.Drawing.Size(301, 24);
 			this.textBoxDestination.TabIndex = 1;
@@ -179,7 +179,7 @@
 			// buttonPrint
 			// 
 			this.buttonPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonPrint.Location = new System.Drawing.Point(696, 606);
+			this.buttonPrint.Location = new System.Drawing.Point(566, 564);
 			this.buttonPrint.Name = "buttonPrint";
 			this.buttonPrint.Size = new System.Drawing.Size(102, 36);
 			this.buttonPrint.TabIndex = 26;
@@ -190,16 +190,16 @@
 			// textBoxRemark
 			// 
 			this.textBoxRemark.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-			this.textBoxRemark.Location = new System.Drawing.Point(699, 234);
+			this.textBoxRemark.Location = new System.Drawing.Point(568, 251);
 			this.textBoxRemark.Multiline = true;
 			this.textBoxRemark.Name = "textBoxRemark";
-			this.textBoxRemark.Size = new System.Drawing.Size(415, 81);
+			this.textBoxRemark.Size = new System.Drawing.Size(338, 81);
 			this.textBoxRemark.TabIndex = 14;
 			// 
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(700, 214);
+			this.label8.Location = new System.Drawing.Point(569, 231);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(47, 17);
 			this.label8.TabIndex = 13;
@@ -208,24 +208,24 @@
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(483, 17);
+			this.label9.Location = new System.Drawing.Point(569, 13);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(60, 17);
-			this.label9.TabIndex = 4;
+			this.label9.TabIndex = 5;
 			this.label9.Text = "■発行日";
 			// 
 			// dateTimePickerPrintDate
 			// 
-			this.dateTimePickerPrintDate.Location = new System.Drawing.Point(549, 14);
+			this.dateTimePickerPrintDate.Location = new System.Drawing.Point(649, 10);
 			this.dateTimePickerPrintDate.Name = "dateTimePickerPrintDate";
 			this.dateTimePickerPrintDate.Size = new System.Drawing.Size(141, 24);
-			this.dateTimePickerPrintDate.TabIndex = 5;
+			this.dateTimePickerPrintDate.TabIndex = 6;
 			this.dateTimePickerPrintDate.ValueChanged += new System.EventHandler(this.dateTimePickerPrintDate_ValueChanged);
 			// 
 			// radioSama
 			// 
 			this.radioSama.AutoSize = true;
-			this.radioSama.Location = new System.Drawing.Point(429, 15);
+			this.radioSama.Location = new System.Drawing.Point(429, 11);
 			this.radioSama.Name = "radioSama";
 			this.radioSama.Size = new System.Drawing.Size(39, 21);
 			this.radioSama.TabIndex = 3;
@@ -237,7 +237,7 @@
 			// 
 			this.radioOnchu.AutoSize = true;
 			this.radioOnchu.Checked = true;
-			this.radioOnchu.Location = new System.Drawing.Point(374, 15);
+			this.radioOnchu.Location = new System.Drawing.Point(374, 11);
 			this.radioOnchu.Name = "radioOnchu";
 			this.radioOnchu.Size = new System.Drawing.Size(52, 21);
 			this.radioOnchu.TabIndex = 2;
@@ -247,10 +247,10 @@
 			// 
 			// buttonChangeAgreeSpan
 			// 
-			this.buttonChangeAgreeSpan.Location = new System.Drawing.Point(699, 14);
+			this.buttonChangeAgreeSpan.Location = new System.Drawing.Point(566, 70);
 			this.buttonChangeAgreeSpan.Name = "buttonChangeAgreeSpan";
-			this.buttonChangeAgreeSpan.Size = new System.Drawing.Size(92, 25);
-			this.buttonChangeAgreeSpan.TabIndex = 7;
+			this.buttonChangeAgreeSpan.Size = new System.Drawing.Size(82, 25);
+			this.buttonChangeAgreeSpan.TabIndex = 9;
 			this.buttonChangeAgreeSpan.Text = "■契約期間";
 			this.buttonChangeAgreeSpan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.buttonChangeAgreeSpan.UseVisualStyleBackColor = true;
@@ -260,15 +260,15 @@
 			// 
 			this.labelAgreeSpan.BackColor = System.Drawing.Color.White;
 			this.labelAgreeSpan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.labelAgreeSpan.Location = new System.Drawing.Point(797, 14);
+			this.labelAgreeSpan.Location = new System.Drawing.Point(649, 70);
 			this.labelAgreeSpan.Name = "labelAgreeSpan";
 			this.labelAgreeSpan.Size = new System.Drawing.Size(177, 25);
-			this.labelAgreeSpan.TabIndex = 8;
+			this.labelAgreeSpan.TabIndex = 10;
 			this.labelAgreeSpan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// buttonRemarkTemplate
 			// 
-			this.buttonRemarkTemplate.Location = new System.Drawing.Point(1039, 207);
+			this.buttonRemarkTemplate.Location = new System.Drawing.Point(831, 224);
 			this.buttonRemarkTemplate.Name = "buttonRemarkTemplate";
 			this.buttonRemarkTemplate.Size = new System.Drawing.Size(75, 27);
 			this.buttonRemarkTemplate.TabIndex = 15;
@@ -279,7 +279,7 @@
 			// buttonAllOff
 			// 
 			this.buttonAllOff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonAllOff.Location = new System.Drawing.Point(696, 564);
+			this.buttonAllOff.Location = new System.Drawing.Point(566, 522);
 			this.buttonAllOff.Name = "buttonAllOff";
 			this.buttonAllOff.Size = new System.Drawing.Size(102, 36);
 			this.buttonAllOff.TabIndex = 25;
@@ -290,7 +290,7 @@
 			// buttonAllOn
 			// 
 			this.buttonAllOn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonAllOn.Location = new System.Drawing.Point(696, 522);
+			this.buttonAllOn.Location = new System.Drawing.Point(566, 480);
 			this.buttonAllOn.Name = "buttonAllOn";
 			this.buttonAllOn.Size = new System.Drawing.Size(102, 36);
 			this.buttonAllOn.TabIndex = 24;
@@ -300,25 +300,25 @@
 			// 
 			// dateTimePickerLimitDate
 			// 
-			this.dateTimePickerLimitDate.Location = new System.Drawing.Point(797, 44);
+			this.dateTimePickerLimitDate.Location = new System.Drawing.Point(649, 40);
 			this.dateTimePickerLimitDate.Name = "dateTimePickerLimitDate";
 			this.dateTimePickerLimitDate.Size = new System.Drawing.Size(141, 24);
-			this.dateTimePickerLimitDate.TabIndex = 10;
+			this.dateTimePickerLimitDate.TabIndex = 8;
 			// 
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(700, 50);
+			this.label7.Location = new System.Drawing.Point(569, 42);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(73, 17);
-			this.label7.TabIndex = 9;
+			this.label7.TabIndex = 7;
 			this.label7.Text = "■有効期限";
 			// 
 			// label17
 			// 
 			this.label17.AutoSize = true;
 			this.label17.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label17.Location = new System.Drawing.Point(986, 355);
+			this.label17.Location = new System.Drawing.Point(791, 363);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(21, 17);
 			this.label17.TabIndex = 21;
@@ -328,7 +328,7 @@
 			// 
 			this.label16.AutoSize = true;
 			this.label16.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label16.Location = new System.Drawing.Point(860, 355);
+			this.label16.Location = new System.Drawing.Point(674, 363);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(21, 17);
 			this.label16.TabIndex = 18;
@@ -338,7 +338,7 @@
 			// 
 			this.textBoxTotalPrice.BackColor = System.Drawing.Color.White;
 			this.textBoxTotalPrice.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxTotalPrice.Location = new System.Drawing.Point(1013, 352);
+			this.textBoxTotalPrice.Location = new System.Drawing.Point(812, 360);
 			this.textBoxTotalPrice.Name = "textBoxTotalPrice";
 			this.textBoxTotalPrice.ReadOnly = true;
 			this.textBoxTotalPrice.Size = new System.Drawing.Size(93, 24);
@@ -349,7 +349,7 @@
 			// 
 			this.label5.AutoSize = true;
 			this.label5.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label5.Location = new System.Drawing.Point(1010, 332);
+			this.label5.Location = new System.Drawing.Point(820, 340);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(73, 17);
 			this.label5.TabIndex = 22;
@@ -359,7 +359,7 @@
 			// 
 			this.textBoxPlatformPrice.BackColor = System.Drawing.Color.White;
 			this.textBoxPlatformPrice.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxPlatformPrice.Location = new System.Drawing.Point(761, 352);
+			this.textBoxPlatformPrice.Location = new System.Drawing.Point(580, 360);
 			this.textBoxPlatformPrice.Name = "textBoxPlatformPrice";
 			this.textBoxPlatformPrice.ReadOnly = true;
 			this.textBoxPlatformPrice.Size = new System.Drawing.Size(93, 24);
@@ -370,7 +370,7 @@
 			// 
 			this.label6.AutoSize = true;
 			this.label6.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label6.Location = new System.Drawing.Point(728, 332);
+			this.label6.Location = new System.Drawing.Point(569, 340);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(126, 17);
 			this.label6.TabIndex = 16;
@@ -380,7 +380,7 @@
 			// 
 			this.textBoxServicePrice.BackColor = System.Drawing.Color.White;
 			this.textBoxServicePrice.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxServicePrice.Location = new System.Drawing.Point(887, 352);
+			this.textBoxServicePrice.Location = new System.Drawing.Point(695, 360);
 			this.textBoxServicePrice.Name = "textBoxServicePrice";
 			this.textBoxServicePrice.ReadOnly = true;
 			this.textBoxServicePrice.Size = new System.Drawing.Size(93, 24);
@@ -392,7 +392,7 @@
 			// 
 			this.label11.AutoSize = true;
 			this.label11.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label11.Location = new System.Drawing.Point(884, 332);
+			this.label11.Location = new System.Drawing.Point(696, 340);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(90, 17);
 			this.label11.TabIndex = 19;
@@ -402,7 +402,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1129, 652);
+			this.ClientSize = new System.Drawing.Size(918, 609);
 			this.Controls.Add(this.label17);
 			this.Controls.Add(this.label16);
 			this.Controls.Add(this.textBoxTotalPrice);

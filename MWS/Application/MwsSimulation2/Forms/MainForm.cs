@@ -799,47 +799,65 @@ namespace MwsSimulation.Forms
 		/// <param name="dataFolder">データフォルダ</param>
 		private bool UpdateDataFile(string dataFolder)
 		{
-			if (ApplicationDeployment.IsNetworkDeployed)
+			//if (ApplicationDeployment.IsNetworkDeployed)
+			//{
+			//	// オンライン
+			//	if (Directory.Exists(Program.SERVER_DATA_FOLDER))
+			//	{
+			//		string srcMasterDB = Path.Combine(Program.SERVER_DATA_FOLDER, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
+			//		string dstMasterDB = Path.Combine(dataFolder, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
+			//		if (false == Directory.Exists(dataFolder))
+			//		{
+			//			// カレントデータフォルダの作成
+			//			Directory.CreateDirectory(dataFolder);
+
+			//			// MwsSimulationMaster.dbのコピー
+			//			File.Copy(srcMasterDB, dstMasterDB, true);
+
+			//			// MwsSimulationUser.dbのコピー
+			//			string srcUserDB = Path.Combine(Program.SERVER_DATA_FOLDER, SQLiteMwsSimulationDef.MWS_SIMULATION_USER_DATABASE_NAME);
+			//			string dstUserDB = Path.Combine(dataFolder, SQLiteMwsSimulationDef.MWS_SIMULATION_USER_DATABASE_NAME);
+			//			File.Copy(srcUserDB, dstUserDB, true);
+
+			//			// MwsSimulationSettings.xmlのコピー
+			//			string srcSettings = Path.Combine(Program.SERVER_DATA_FOLDER, MwsSimulationSettingsIF.SETTINGS_CLIENT_FILE_NAME);
+			//			string dstSettings = Path.Combine(dataFolder, MwsSimulationSettingsIF.SETTINGS_CLIENT_FILE_NAME);
+			//			File.Copy(srcSettings, dstSettings, true);
+			//		}
+			//		else
+			//		{
+			//			DateTime srcUpdateDate = File.GetLastWriteTime(srcMasterDB);
+			//			DateTime dstUpdateDate = File.GetLastWriteTime(dstMasterDB);
+			//			if (dstUpdateDate < srcUpdateDate)
+			//			{
+			//				// MwsSimulationMaster.dbの更新
+			//				File.Copy(srcMasterDB, dstMasterDB, true);
+			//			}
+			//		}
+			//	}
+			//	else if (false == Directory.Exists(dataFolder))
+			//	{
+			//		MessageBox.Show(string.Format("{0}が見つかりません。", dataFolder), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+			//		return false;
+			//	}
+			//}
+			string srcMasterDB = Path.Combine(Program.SERVER_DATA_FOLDER, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
+			string dstMasterDB = Path.Combine(dataFolder, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
+			DateTime srcUpdateDate = File.GetLastWriteTime(srcMasterDB);
+			DateTime dstUpdateDate = File.GetLastWriteTime(dstMasterDB);
+			if (dstUpdateDate < srcUpdateDate)
 			{
-				// オンライン
-				if (Directory.Exists(Program.SERVER_DATA_FOLDER))
-				{
-					string srcMasterDB = Path.Combine(Program.SERVER_DATA_FOLDER, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
-					string dstMasterDB = Path.Combine(dataFolder, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
-					if (false == Directory.Exists(dataFolder))
-					{
-						// カレントデータフォルダの作成
-						Directory.CreateDirectory(dataFolder);
-
-						// MwsSimulationMaster.dbのコピー
-						File.Copy(srcMasterDB, dstMasterDB, true);
-
-						// MwsSimulationUser.dbのコピー
-						string srcUserDB = Path.Combine(Program.SERVER_DATA_FOLDER, SQLiteMwsSimulationDef.MWS_SIMULATION_USER_DATABASE_NAME);
-						string dstUserDB = Path.Combine(dataFolder, SQLiteMwsSimulationDef.MWS_SIMULATION_USER_DATABASE_NAME);
-						File.Copy(srcUserDB, dstUserDB, true);
-
-						// MwsSimulationSettings.xmlのコピー
-						string srcSettings = Path.Combine(Program.SERVER_DATA_FOLDER, MwsSimulationSettingsIF.SETTINGS_CLIENT_FILE_NAME);
-						string dstSettings = Path.Combine(dataFolder, MwsSimulationSettingsIF.SETTINGS_CLIENT_FILE_NAME);
-						File.Copy(srcSettings, dstSettings, true);
-					}
-					else
-					{
-						DateTime srcUpdateDate = File.GetLastWriteTime(srcMasterDB);
-						DateTime dstUpdateDate = File.GetLastWriteTime(dstMasterDB);
-						if (dstUpdateDate < srcUpdateDate)
-						{
-							// MwsSimulationMaster.dbの更新
-							File.Copy(srcMasterDB, dstMasterDB, true);
-						}
-					}
-				}
-				else if (false == Directory.Exists(dataFolder))
-				{
-					MessageBox.Show(string.Format("{0}が見つかりません。", dataFolder), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Stop);
-					return false;
-				}
+				// MwsSimulationMaster.dbの更新
+				File.Copy(srcMasterDB, dstMasterDB, true);
+			}
+			string srcPara = Path.Combine(Program.SERVER_DATA_FOLDER, PrintEstimateDef.PARAMETER_FILENAME);
+			string dstPara = Path.Combine(dataFolder, PrintEstimateDef.PARAMETER_FILENAME);
+			srcUpdateDate = File.GetLastWriteTime(srcPara);
+			dstUpdateDate = File.GetLastWriteTime(dstPara);
+			if (dstUpdateDate < srcUpdateDate)
+			{
+				// MWS_ORDER_01.PRMの更新
+				File.Copy(srcPara, dstPara, true);
 			}
 			return true;
 		}

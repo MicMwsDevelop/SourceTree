@@ -37,7 +37,7 @@
 			// buttonCancel
 			// 
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(546, 59);
+			this.buttonCancel.Location = new System.Drawing.Point(251, 59);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(102, 36);
 			this.buttonCancel.TabIndex = 3;
@@ -46,7 +46,7 @@
 			// 
 			// buttonOK
 			// 
-			this.buttonOK.Location = new System.Drawing.Point(438, 59);
+			this.buttonOK.Location = new System.Drawing.Point(143, 59);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(102, 36);
 			this.buttonOK.TabIndex = 2;
@@ -68,14 +68,14 @@
 			this.textBoxRemark.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
 			this.textBoxRemark.Location = new System.Drawing.Point(15, 29);
 			this.textBoxRemark.Name = "textBoxRemark";
-			this.textBoxRemark.Size = new System.Drawing.Size(633, 24);
+			this.textBoxRemark.Size = new System.Drawing.Size(338, 24);
 			this.textBoxRemark.TabIndex = 1;
 			// 
 			// SetRemarkForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(660, 106);
+			this.ClientSize = new System.Drawing.Size(371, 106);
 			this.Controls.Add(this.textBoxRemark);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.buttonCancel);
