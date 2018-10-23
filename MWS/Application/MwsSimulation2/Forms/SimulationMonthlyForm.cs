@@ -94,14 +94,17 @@ namespace MwsSimulation.Forms
 			// カーソルを待機カーソルに変更
 			Cursor.Current = Cursors.WaitCursor;
 
+			// イベントハンドラ削除
+			listViewService.ItemCheck -= new ItemCheckEventHandler(listViewService_ItemCheck);
+			listViewService.ItemChecked -= new ItemCheckedEventHandler(listViewService_ItemChecked);
+			listViewSetPlan.ItemChecked -= new ItemCheckedEventHandler(listViewSetPlan_ItemChecked);
+			dateTimePickerPrintDate.ValueChanged -= new EventHandler(dateTimePickerPrintDate_ValueChanged);
+
 			// ウィンドウサイズの変更
 			this.Width = MainForm.gSettings.SimulationMonthlyFormSize.Width;
 			this.Height = MainForm.gSettings.SimulationMonthlyFormSize.Height;
 
 			// サービス情報リストビューの設定
-			listViewService.ItemCheck -= new ItemCheckEventHandler(listViewService_ItemCheck);
-			listViewService.ItemChecked -= new ItemCheckedEventHandler(listViewService_ItemChecked);
-			listViewSetPlan.ItemChecked -= new ItemCheckedEventHandler(listViewSetPlan_ItemChecked);
 			listViewService.BeginUpdate();
 
 			// MIC WEB SERVICE標準サービスを設定
@@ -137,15 +140,13 @@ namespace MwsSimulation.Forms
 				// 宛先の設定
 				textBoxDestination.Text = EstimateData.Destination;
 
-				// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+				// 御中/様
 				if (0 != EstimateData.NotUsedMessrs)
 				{
 					radioSama.Checked = true;
 				}
 				// 発行日の設定
-				dateTimePickerPrintDate.ValueChanged -= new System.EventHandler(dateTimePickerPrintDate_ValueChanged);
 				dateTimePickerPrintDate.Value = EstimateData.PrintDate.ToDateTime();
-				dateTimePickerPrintDate.ValueChanged += new System.EventHandler(dateTimePickerPrintDate_ValueChanged);
 
 				// 契約期間の設定
 				labelAgreeSpan.Tag = EstimateData.AgreeSpan;
@@ -227,12 +228,13 @@ namespace MwsSimulation.Forms
 			this.DrawServicePrice();
 
 			// 契約期間の表示
-			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 			this.DrawAgreeSpan((Span)labelAgreeSpan.Tag);
 
+			// イベントハンドラ追加
 			listViewService.ItemCheck += new ItemCheckEventHandler(listViewService_ItemCheck);
 			listViewService.ItemChecked += new ItemCheckedEventHandler(listViewService_ItemChecked);
 			listViewSetPlan.ItemChecked += new ItemCheckedEventHandler(listViewSetPlan_ItemChecked);
+			dateTimePickerPrintDate.ValueChanged += new EventHandler(dateTimePickerPrintDate_ValueChanged);
 
 			// カーソルを元に戻す
 			Cursor.Current = preCursor;
@@ -303,8 +305,6 @@ namespace MwsSimulation.Forms
 			if (e.Item.Checked)
 			{
 				targetService.Select = true;
-
-				// Ver1.050 電子カルテ標準サービス選択時に１号カルテ標準サービスと２号カルテ標準サービスを選択状態にする(2018/09/26 勝呂)
 				if (Program.SERVICE_CODE_CHART_COMPUTE == targetService.ServiceCode)
 				{
 					// 電子カルテ標準サービス
@@ -369,7 +369,6 @@ namespace MwsSimulation.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 		private void buttonChangeAgreeSpan_Click(object sender, EventArgs e)
 		{
 			using (AgreeSpanForm form = new AgreeSpanForm((Span)labelAgreeSpan.Tag, 1))
@@ -424,7 +423,6 @@ namespace MwsSimulation.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
 		private void buttonRemarkTemplate_Click(object sender, EventArgs e)
 		{
 			using (SelectRemarkForm form = new SelectRemarkForm())
@@ -497,8 +495,6 @@ namespace MwsSimulation.Forms
 			{
 				MessageBox.Show(msg, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				listViewService.Items[errIndex].Selected = true;
-
-				// Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
 				listViewService.EnsureVisible(errIndex);
 				return;
 			}
@@ -521,7 +517,7 @@ namespace MwsSimulation.Forms
 				// 宛先
 				est.Destination = textBoxDestination.Text;
 
-				// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+				// 御中/様
 				if (radioSama.Checked)
 				{
 					est.NotUsedMessrs = 1;
@@ -530,7 +526,6 @@ namespace MwsSimulation.Forms
 				est.PrintDate = new Date(dateTimePickerPrintDate.Value);
 
 				// 契約期間の設定
-				// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 				est.AgreeSpan = labelAgreeSpan.Tag as Span;
 
 				// 契約月数の設定
@@ -546,7 +541,6 @@ namespace MwsSimulation.Forms
 				est.Apply = Estimate.ApplyType.Monthly;
 
 				// 見積書情報の設定
-				// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
 				est.SetEstimateData(serviceList, groupList, Program.SERVICE_CODE_CHART_COMPUTE, Program.SERVICE_CODE_TABLETVIEWER, platform);
 
 				// 見積書印刷
@@ -571,8 +565,6 @@ namespace MwsSimulation.Forms
 			{
 				MessageBox.Show(msg, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				listViewService.Items[errIndex].Selected = true;
-
-				// Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
 				listViewService.EnsureVisible(errIndex);
 				return;
 			}
@@ -622,17 +614,15 @@ namespace MwsSimulation.Forms
 					// 宛先の設定
 					EstimateData.Destination = textBoxDestination.Text;
 
-					// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+					// 御中/様
 					if (radioSama.Checked)
 					{
 						EstimateData.NotUsedMessrs = 1;
 					}
-
 					// 発行日の設定
 					EstimateData.PrintDate = new Date(dateTimePickerPrintDate.Value);
 
 					// 契約期間
-					// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 					EstimateData.AgreeSpan = agreeSpan;
 
 					// 契約月数の設定
@@ -651,8 +641,6 @@ namespace MwsSimulation.Forms
 					EstimateData.EstimateID = SQLiteMwsSimulationAccess.GetLastEstimateNumber(dataFolder);
 
 					// 見積書情報の設定
-					// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
-					//EstimateData.SetEstimateData(serviceList, groupList);
 					EstimateData.SetEstimateData(serviceList, groupList, Program.SERVICE_CODE_CHART_COMPUTE, Program.SERVICE_CODE_TABLETVIEWER, platform);
 
 					try
@@ -686,7 +674,7 @@ namespace MwsSimulation.Forms
 					// 宛先の設定
 					EstimateData.Destination = textBoxDestination.Text;
 
-					// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+					// 御中/様
 					if (radioSama.Checked)
 					{
 						EstimateData.NotUsedMessrs = 1;
@@ -699,7 +687,6 @@ namespace MwsSimulation.Forms
 					EstimateData.PrintDate = new Date(dateTimePickerPrintDate.Value);
 
 					// 契約期間
-					// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 					EstimateData.AgreeSpan = agreeSpan;
 
 					// 契約月数の設定
@@ -715,8 +702,6 @@ namespace MwsSimulation.Forms
 					EstimateData.Apply = Estimate.ApplyType.Monthly;
 
 					// 見積書情報の設定
-					// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
-					//EstimateData.SetEstimateData(serviceList, groupList);
 					EstimateData.SetEstimateData(serviceList, groupList, Program.SERVICE_CODE_CHART_COMPUTE, Program.SERVICE_CODE_TABLETVIEWER, platform);
 
 					try
@@ -814,8 +799,6 @@ namespace MwsSimulation.Forms
 				if (srcItem.Checked)
 				{
 					ServiceInfo srcService = srcItem.Tag as ServiceInfo;
-
-					// Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
 					if (Program.SERVICE_CODE_CHART_COMPUTE == srcService.ServiceCode)
 					{
 						// 電子カルテ標準サービス
@@ -831,28 +814,10 @@ namespace MwsSimulation.Forms
 						// ２号カルテ標準サービス
 						orderChart2Std = true;
 					}
-					//if (0 < srcService.ParentServiceCode.Length)
-					//{
-					//	// 親サービスが必須
-					//	foreach (ListViewItem dstItem in listViewService.Items)
-					//	{
-					//		ServiceInfo dstService = dstItem.Tag as ServiceInfo;
-					//		if (dstService.ServiceCode == srcService.ParentServiceCode)
-					//		{
-					//			// 子サービスに対する親サービス
-					//			if (false == dstItem.Checked)
-					//			{
-					//				msg = string.Format("[{0}] には親サービスに [{1}] の申込が必要です", srcService.ServiceName, dstService.ServiceName);
-					//				return i;
-					//			}
-					//		}
-					//	}
-					//}
 				}
 				i++;
 			}
 			// 電子カルテ標準サービスには１号カルテ標準サービスおよび２号カルテ標準サービスが必須
-			// Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
 			if (-1 != orderChartComputeIndex)
 			{
 				// 電子カルテ標準サービス申込み有り
@@ -889,7 +854,6 @@ namespace MwsSimulation.Forms
 					}
 				}
 			}
-			// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
 			bool isChartCompute = false;
 			foreach (ListViewItem item in listViewService.Items)
 			{
@@ -918,7 +882,6 @@ namespace MwsSimulation.Forms
 						}
 						else
 						{
-							// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
 							if (isChartCompute)
 							{
 								// 電子カルテ標準サービス選択済
@@ -957,7 +920,6 @@ namespace MwsSimulation.Forms
 			textBoxServicePrice.Tag = string.Format("normal:{0} set:{1}", normalPrice, setPrice);
 
 			// 月額利用料の表示
-			// Ver1.050 月額利用料の表示の追加(2018/09/27 勝呂)
 			textBoxTotalPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(platformPrice + normalPrice + setPrice));
 		}
 
@@ -1020,7 +982,6 @@ namespace MwsSimulation.Forms
 		/// 契約期間の表示
 		/// </summary>
 		/// <param name="agreeSpan">契約期間</param>
-		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 		private void DrawAgreeSpan(Span agreeSpan)
 		{
 			labelAgreeSpan.Text = agreeSpan.GetJapaneseANString("～", true, '0', true);
