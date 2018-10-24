@@ -5,9 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2018/08/01 勝呂)
-// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+// Ver2.000 新規作成(2018/10/24 勝呂)
 //
 using MwsLib.BaseFactory.MwsSimulation;
 using MwsLib.Common;
@@ -152,12 +150,8 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 					est.Remark.Add(row["Remark2"].ToString());
 					est.Remark.Add(row["Remark3"].ToString());
 					est.Remark.Add(row["Remark4"].ToString());
-
-					// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 					est.NotUsedMessrs = DataBaseValue.ConvObjectToInt(row["NotUsedMessrs"]);
-
 					est.Apply = (Estimate.ApplyType)DataBaseValue.ConvObjectToInt(row["ApplyType"]);
-
 					result.Add(est);
 				}
 			}

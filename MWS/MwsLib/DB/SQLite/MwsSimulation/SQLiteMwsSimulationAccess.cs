@@ -5,9 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2018/08/01 勝呂)
-// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
+// Ver2.000 新規作成(2018/10/24 勝呂)
 //
 using MwsLib.BaseFactory.MwsSimulation;
 using MwsLib.Common;
@@ -189,8 +187,6 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			//if (9 == table.Columns.Count)
 			//{
 			//	// 旧バージョンのテーブル構造なのでフィールドを追加
-			//	// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-			//	// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 			//	SQLiteMwsSimulationSetIO.AlterTableEstimateHeaderAgreeEndDataAndNotUsedMessrs(dbPath);
 			//	table = SQLiteMwsSimulationGetIO.GetEstimateHeader(dbPath);
 			//}
@@ -219,12 +215,8 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 		/// <param name="destination">宛先</param>
 		/// <param name="notUsedMessrs">様</param>
 		/// <returns>判定</returns>
-		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-		//public static int UpdateEstimateHeaderDestination(string dbPath, int estimateID, string destination)
 		public static int UpdateEstimateHeaderDestination(string dbPath, int estimateID, string destination, int notUsedMessrs)
 		{
-			// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-			//return SQLiteMwsSimulationSetIO.UpdateEstimateHeaderDestination(dbPath, estimateID, destination);
 			return SQLiteMwsSimulationSetIO.UpdateEstimateHeaderDestination(dbPath, estimateID, destination, notUsedMessrs);
 		}
 

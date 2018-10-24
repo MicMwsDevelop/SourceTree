@@ -3,9 +3,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2018/08/01 勝呂)
-// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+// Ver2.000 新規作成(2018/10/24 勝呂)
 // 
 using MwsLib.BaseFactory.MwsSimulation;
 using MwsLib.Common;
@@ -43,7 +41,6 @@ namespace MwsSimulation.Print
 		/// <summary>
 		/// 契約月数
 		/// </summary>
-		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 		public int AgreeMonthes { get; set; }
 
 		/// <summary>
@@ -59,7 +56,6 @@ namespace MwsSimulation.Print
 		/// <summary>
 		/// 宛先に様を使用
 		/// </summary>
-		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 		public int NotUsedMessrs { get; set; }
 
 		/// <summary>
@@ -94,14 +90,9 @@ namespace MwsSimulation.Print
 			PrintDate = Date.Today;
 			Remark = new List<string>();
 			PageList = new List<List<PrintEstimateLine>>();
-
-			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 			AgreeSpan = Span.Nothing;
 			AgreeMonthes = 0;
-
-			// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 			NotUsedMessrs = 0;
-
 			Apply = Estimate.ApplyType.Monthly;
 			LimitDate = Date.MinValue;
 		}
@@ -114,24 +105,15 @@ namespace MwsSimulation.Print
 		public int SetEstimateData(Estimate est)
 		{
 			PageList.Clear();
-
 			EstimateID = est.EstimateID;
 			Destination = est.Destination;
 			PrintDate = est.PrintDate;
-
-			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-			//Date endDate = est.AgreeStartDate.PlusMonths(est.AgreeMonthes - 1);
 			AgreeSpan = est.AgreeSpan;
 			AgreeMonthes = est.AgreeMonthes;
-
-			// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 			NotUsedMessrs = est.NotUsedMessrs;
-
 			Remark = est.Remark;
-
 			Apply = est.Apply;
 			LimitDate = est.LimitDate;
-
 			if (0 < est.ServiceList.Count)
 			{
 				List<PrintEstimateLine> page = new List<PrintEstimateLine>();

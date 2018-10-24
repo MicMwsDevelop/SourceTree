@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
+// Ver2.000 新規作成(2018/10/24 勝呂)
 // 
 using System;
 using System.Collections.Specialized;

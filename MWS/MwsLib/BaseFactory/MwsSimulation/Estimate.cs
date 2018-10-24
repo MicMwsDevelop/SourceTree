@@ -5,9 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2018/08/01 勝呂)
-// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
+// Ver2.000 新規作成(2018/10/24 勝呂)
 //
 using MwsLib.Common;
 using MwsLib.DB.SQLite.MwsSimulation;
@@ -54,7 +52,6 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		/// <summary>
 		/// 契約期間
 		/// </summary>
-		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 		public Span AgreeSpan { get; set; }
 
 		/// <summary>
@@ -75,7 +72,6 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		/// <summary>
 		/// 宛先に御中ではなく様を使用
 		/// </summary>
-		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 		public int NotUsedMessrs { get; set; }
 
 		/// <summary>
@@ -121,18 +117,12 @@ namespace MwsLib.BaseFactory.MwsSimulation
 			EstimateID = 0;
 			Destination = string.Empty;
 			PrintDate = Date.Today;
-
-			// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 			AgreeSpan = Span.Nothing;
-
 			AgreeMonthes = 0;
 			LimitDate = Date.MinValue;
 			Remark = new List<string>();
 			ServiceList = new List<EstimateService>();
-
-			// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 			NotUsedMessrs = 0;
-
 			Apply = ApplyType.Monthly;
 		}
 
@@ -160,7 +150,6 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		/// </summary>
 		/// <param name="notUsedMessrs">宛先に御中ではなく様を使用</param>
 		/// <returns>宛先の御中または様</returns>
-		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 		public static string DestinationTitle(int notUsedMessrs)
 		{
 			return (0 == notUsedMessrs) ? "御中" : "様";
@@ -170,7 +159,6 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		/// 宛先文字列の取得
 		/// </summary>
 		/// <returns>宛先文字列</returns>
-		// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 		public string DestinationDispString()
 		{
 			return string.Format("{0} {1}", Destination, Estimate.DestinationTitle(NotUsedMessrs));
@@ -185,7 +173,6 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		/// <param name="printDate">発行日</param>
 		/// <param name="monthes">契約月数</param>
 		/// <returns>契約期間</returns>
-		// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 		public static Span GetAgreeSapn(bool matome, Date printDate, int monthes)
 		{
 			if (matome)
@@ -230,7 +217,6 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		/// <param name="chartComputeCode">電子カルテ標準サービスサービスコード</param>
 		/// <param name="tabletViewerCode">TABLETビューワサービスコード</param>
 		/// <param name="platform">プラットフォーム利用料</param>
-		// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
 		public void SetEstimateData(List<ServiceInfo> serviceList, List<GroupService> groupList, string chartComputeCode, string tabletViewerCode, ServiceInfo platform = null)
 		{
 			this.ServiceList.Clear();
@@ -250,7 +236,6 @@ namespace MwsLib.BaseFactory.MwsSimulation
 				this.ServiceList.Add(estSvr);
 			}
 			// 電子カルテ標準サービスとTABLETビューワの存在確認
-			// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
 			bool existChartCompute = false;
 			bool existTabletViewer = false;
 			foreach (ServiceInfo service in serviceList)
@@ -270,8 +255,6 @@ namespace MwsLib.BaseFactory.MwsSimulation
 				EstimateService estSvr = new EstimateService();
 				estSvr.GoodsID = service.GoodsID;
 				estSvr.ServiceName = service.ServiceName;
-
-				// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
 				if (tabletViewerCode == service.ServiceCode && true == existChartCompute && true == existTabletViewer)
 				{
 					estSvr.Price = 0;
@@ -308,7 +291,6 @@ namespace MwsLib.BaseFactory.MwsSimulation
 					return false;
 				if (PrintDate != other.PrintDate)
 					return false;
-				// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
 				if (AgreeSpan != other.AgreeSpan)
 					return false;
 				if (AgreeMonthes != other.AgreeMonthes)
@@ -317,14 +299,13 @@ namespace MwsLib.BaseFactory.MwsSimulation
 					return false;
 				if (false == Remark.SequenceEqual(other.Remark))
 					return false;
-				// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 				if (NotUsedMessrs != other.NotUsedMessrs)
 					return false;
 				if (Apply != other.Apply)
 					return false;
-				return true;
 				if (false == ServiceList.SequenceEqual(other.ServiceList))
 					return false;
+				return true;
 			}
 			return false;
 		}

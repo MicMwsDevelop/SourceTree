@@ -5,15 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2018/08/01 勝呂)
-// Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
-// Ver1.040 おまとめプランのマスターの存在によっておまとめプラン申込みボタンを制御する(2018/08/24 勝呂)
-// Ver1.050 おまとめプランが１円から適用できるように修正(2018/09/18 勝呂)
-// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
-// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-// Ver1.050 契約終了日の変更可能に対応(2018/09/27 勝呂)
-// Ver1.050 月額利用料の表示の追加(2018/09/27 勝呂)
-// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
+// Ver2.000 新規作成(2018/10/24 勝呂)
 // 
 using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
@@ -348,15 +340,15 @@ namespace MwsSimulation.Forms
 				targetService.Select = true;
 				if (Program.SERVICE_CODE_CHART_COMPUTE == targetService.ServiceCode)
 				{
-					// 電子カルテ標準サービス
+					// 電子カルテ標準サービス選択時には１号カルテ標準サービス、２号カルテ標準サービス、TABLETビューワ、paletteアカウントのサービスを選択状態にする
 					foreach (ListViewItem item in listViewService.Items)
 					{
 						if (false == item.Checked)
 						{
 							ServiceInfo svr = item.Tag as ServiceInfo;
-							if (Program.SERVICE_CODE_CHART1_STD == svr.ServiceCode || Program.SERVICE_CODE_CHART2_STD == svr.ServiceCode)
+							if (Program.SERVICE_CODE_CHART1_STD == svr.ServiceCode || Program.SERVICE_CODE_CHART2_STD == svr.ServiceCode || Program.SERVICE_CODE_TABLETVIEWER == svr.ServiceCode || Program.SERVICE_CODE_PALETTE_ACCOUNT == svr.ServiceCode)
 							{
-								// １号カルテ標準サービス or ２号カルテ標準サービス
+								// １号カルテ標準サービス、２号カルテ標準サービス、TABLETビューワ、paletteアカウント
 								item.Checked = true;
 							}
 						}

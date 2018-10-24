@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2018/08/01 勝呂)
+// Ver2.000 新規作成(2018/10/24 勝呂)
 // 
 using System.IO;
 using System.Text.RegularExpressions;

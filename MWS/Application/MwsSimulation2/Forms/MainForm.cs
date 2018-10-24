@@ -5,13 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2018/08/01 勝呂)
-// Ver1.030 電子カルテ標準サービス申込時に、１号カルテ標準サービスと２号カルテ標準サービスの申込をチェックする(2018/08/10 勝呂)
-// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
-// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
-// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-// Ver1.050 見積書のコピー機能を追加(2018/09/27 勝呂)
-// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
+// Ver2.000 新規作成(2018/10/24 勝呂)
 // 
 using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
@@ -21,7 +15,6 @@ using MwsSimulation.Print;
 using MwsSimulation.Settings;
 using System;
 using System.Collections.Generic;
-using System.Deployment.Application;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
@@ -185,16 +178,13 @@ namespace MwsSimulation.Forms
 				gMinAmmount = gGroupPlanList.GetMinAmmount();
 
 				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）
-				// Ver1.050 おまとめプランが０円から適用できるように修正(2018/09/18 勝呂)
 				gMinFreeMonthMinAmmount = gGroupPlanList.GetMinFreeMonthMinAmmount();
 
-				// Ver1.050 電子カルテ標準サービス選択時にはTABLETビューワのサービス利用料の500円は加算しない(2018/09/26 勝呂)
 				ServiceInfo tabletViewer = gServiceList.Find(p => p.ServiceCode == Program.SERVICE_CODE_TABLETVIEWER);
 				if (null != tabletViewer)
 				{
 					gTabletViewerPrice = tabletViewer.Price;
 				}
-
 				// 見積書情報リストの取得
 				List<Estimate> estimateList = SQLiteMwsSimulationAccess.GetEstimateList(dataFolder);
 				foreach (Estimate est in estimateList)
@@ -242,8 +232,6 @@ namespace MwsSimulation.Forms
 			{
 				foreach (Estimate est in EstimateMatomeList)
 				{
-					// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-					//listBoxEstimate.Items.Add(est.Destination);
 					listBoxMatome.Items.Add(est.DestinationDispString());
 				}
 			}
@@ -259,8 +247,6 @@ namespace MwsSimulation.Forms
 			{
 				foreach (Estimate est in EstimateMonthlyList)
 				{
-					// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-					//listBoxEstimate.Items.Add(est.Destination);
 					listBoxMonthly.Items.Add(est.DestinationDispString());
 				}
 			}
@@ -451,9 +437,6 @@ namespace MwsSimulation.Forms
 
 					// 宛先の設定
 					Estimate est = EstimateMatomeList[listBoxMatome.SelectedIndex];
-
-					// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-					//using (DestinationForm form = new DestinationForm(est.Destination))
 					using (DestinationForm form = new DestinationForm(est.Destination, est.NotUsedMessrs))
 					{
 						if (DialogResult.OK == form.ShowDialog())
@@ -464,15 +447,11 @@ namespace MwsSimulation.Forms
 								return;
 							}
 							est.Destination = form.Destination;
-
-							// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 							est.NotUsedMessrs = form.NotUsedMessrs;
 
 							try
 							{
 								// 宛先の更新
-								// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-								//SQLiteMwsSimulationAccess.UpdateEstimateHeaderDestination(Program.GetDataFolder(), est.EstimateID, est.Destination);
 								SQLiteMwsSimulationAccess.UpdateEstimateHeaderDestination(Program.GetDataFolder(), est.EstimateID, est.Destination, est.NotUsedMessrs);
 							}
 							catch (Exception ex)
@@ -497,9 +476,6 @@ namespace MwsSimulation.Forms
 
 					// 宛先の設定
 					Estimate est = EstimateMonthlyList[listBoxMonthly.SelectedIndex];
-
-					// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-					//using (DestinationForm form = new DestinationForm(est.Destination))
 					using (DestinationForm form = new DestinationForm(est.Destination, est.NotUsedMessrs))
 					{
 						if (DialogResult.OK == form.ShowDialog())
@@ -510,15 +486,11 @@ namespace MwsSimulation.Forms
 								return;
 							}
 							est.Destination = form.Destination;
-
-							// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
 							est.NotUsedMessrs = form.NotUsedMessrs;
 
 							try
 							{
 								// 宛先の更新
-								// Ver1.050 見積書および注文書の宛先を「御中」と「様」を変更可能にする(2018/09/26 勝呂)
-								//SQLiteMwsSimulationAccess.UpdateEstimateHeaderDestination(Program.GetDataFolder(), est.EstimateID, est.Destination);
 								SQLiteMwsSimulationAccess.UpdateEstimateHeaderDestination(Program.GetDataFolder(), est.EstimateID, est.Destination, est.NotUsedMessrs);
 							}
 							catch (Exception ex)
@@ -541,7 +513,6 @@ namespace MwsSimulation.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		// Ver1.050 見積書のコピー機能を追加(2018/09/27 勝呂)
 		private void buttonCopy_Click(object sender, EventArgs e)
 		{
 			if (0 == tabControlEstimate.SelectedIndex)
@@ -739,15 +710,11 @@ namespace MwsSimulation.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		// Ver1.050 備考の定型文登録機能を追加(2018/09/27 勝呂)
 		private void toolStripMenuItemEnvRemark_Click(object sender, EventArgs e)
 		{
 			using (EnvironmentRemarkForm form = new EnvironmentRemarkForm(gSettings.RemarkList))
 			{
-				if (DialogResult.OK == form.ShowDialog())
-				{
-
-				}
+				form.ShowDialog();
 			}
 		}
 
