@@ -60,6 +60,9 @@
     <Compile Include="BaseFactory\MwsSimulation\ServiceInfo.cs" />
     <Compile Include="BaseFactory\MwsSimulation\SetPlan.cs" />
     <Compile Include="BaseFactory\CalcTax.cs" />
+    <Compile Include="BaseFactory\PcSafetySupport\PcSupportControl.cs" />
+    <Compile Include="BaseFactory\PcSafetySupport\PcSupportMale.cs" />
+    <Compile Include="BaseFactory\PcSafetySupport\SoftMaintenanceContract.cs" />
     <Compile Include="Common\CharConversion.cs" />
     <Compile Include="Common\Date.cs" />
     <Compile Include="Common\DateConversion.cs" />
@@ -110,6 +113,10 @@
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationAccess.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationController.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationGetIO.cs" />
+    <Compile Include="DB\SqlServer\PcSafetySupport\PcSafetySupportAccess.cs" />
+    <Compile Include="DB\SqlServer\PcSafetySupport\PcSafetySupportController.cs" />
+    <Compile Include="DB\SqlServer\PcSafetySupport\PcSafetySupportGetIO.cs" />
+    <Compile Include="DB\SqlServer\PcSafetySupport\PcSafetySupportSetIO.cs" />
     <Compile Include="Log\ErrorLogger.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Log\MainteLogger.cs" />
@@ -122,6 +129,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Release" copy $(TargetFileName) ..\..\..\_EXE

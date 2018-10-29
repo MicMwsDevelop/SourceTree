@@ -578,6 +578,11 @@ namespace MwsSimulation.Forms
 				if (null == EstimateData)
 				{
 					// 見積書情報の新規追加
+					if (new Date(dateTimePickerLimitDate.Value) < new Date(dateTimePickerPrintDate.Value))
+					{
+						MessageBox.Show("有効期限が発行日より前の日付になっています。ご確認ください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						return;
+					}
 					if (agreeSpan.Start < new Date(dateTimePickerPrintDate.Value))
 					{
 						MessageBox.Show("契約開始日が発行日より前の日付になっています。ご確認ください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -649,6 +654,11 @@ namespace MwsSimulation.Forms
 				else
 				{
 					// 見積書情報の更新
+					if (new Date(dateTimePickerLimitDate.Value) < new Date(dateTimePickerPrintDate.Value))
+					{
+						MessageBox.Show("有効期限が発行日より前の日付になっています。ご確認ください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						return;
+					}
 					if (agreeSpan.Start < new Date(dateTimePickerPrintDate.Value))
 					{
 						MessageBox.Show("契約開始日が発行日より前の日付になっています。ご確認ください。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);

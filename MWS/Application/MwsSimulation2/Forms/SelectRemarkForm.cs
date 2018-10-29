@@ -90,6 +90,7 @@ namespace MwsSimulation.Forms
 					}
 				}
 				MainForm.gSettings.RemarkList.Add(textBoxRemark.Text);
+				listBoxRemark.Items.Clear();
 				foreach (string name in MainForm.gSettings.RemarkList)
 				{
 					listBoxRemark.Items.Add(name);

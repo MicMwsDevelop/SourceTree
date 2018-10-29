@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <MwsSimulationSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SimulationMatomeFormSize>
-    <Width>1145</Width>
-    <Height>818</Height>
+    <Width>1111</Width>
+    <Height>622</Height>
   </SimulationMatomeFormSize>
   <SimulationMonthlyFormSize>
-    <Width>1145</Width>
-    <Height>818</Height>
+    <Width>935</Width>
+    <Height>560</Height>
   </SimulationMonthlyFormSize>
   <PaperOffset>
     <X>50</X>
@@ -119,4 +119,5 @@
   </StaffList>
   <CurrentBranchIndex>5</CurrentBranchIndex>
   <CurrentStaffIndex>1</CurrentStaffIndex>
+  <RemarkList />
 </MwsSimulationSettings>
