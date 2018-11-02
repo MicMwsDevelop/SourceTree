@@ -4,7 +4,8 @@ using System;
 namespace MwsLib.BaseFactory.PcSafetySupport
 {
 	/// <summary>
-	/// PC安心サポート送信メール情報（T_PC_SUPPORT_MALE）
+	/// PC安心サポート送信メール情報
+	/// [Charlie].[dbo].[T_PC_SUPPORT_MALE]
 	/// </summary>
 	[Serializable]
 	public class PcSupportMale : IEquatable<PcSupportMale>

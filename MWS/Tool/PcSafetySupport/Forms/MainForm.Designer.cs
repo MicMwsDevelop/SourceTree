@@ -39,9 +39,10 @@
 			// 
 			// buttonDaily
 			// 
-			this.buttonDaily.Location = new System.Drawing.Point(16, 138);
+			this.buttonDaily.Location = new System.Drawing.Point(19, 172);
+			this.buttonDaily.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonDaily.Name = "buttonDaily";
-			this.buttonDaily.Size = new System.Drawing.Size(313, 38);
+			this.buttonDaily.Size = new System.Drawing.Size(365, 48);
 			this.buttonDaily.TabIndex = 0;
 			this.buttonDaily.Text = "日時処理";
 			this.buttonDaily.UseVisualStyleBackColor = true;
@@ -50,25 +51,27 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(14, 16);
+			this.label1.Location = new System.Drawing.Point(16, 20);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(79, 12);
+			this.label1.Size = new System.Drawing.Size(81, 15);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "■システム日付";
 			// 
 			// dateTimePickerSystemDate
 			// 
-			this.dateTimePickerSystemDate.Location = new System.Drawing.Point(99, 13);
+			this.dateTimePickerSystemDate.Location = new System.Drawing.Point(115, 16);
+			this.dateTimePickerSystemDate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.dateTimePickerSystemDate.Name = "dateTimePickerSystemDate";
-			this.dateTimePickerSystemDate.Size = new System.Drawing.Size(123, 19);
+			this.dateTimePickerSystemDate.Size = new System.Drawing.Size(143, 23);
 			this.dateTimePickerSystemDate.TabIndex = 2;
 			this.dateTimePickerSystemDate.ValueChanged += new System.EventHandler(this.dateTimePickerSystemDate_ValueChanged);
 			// 
 			// buttonMonthly
 			// 
-			this.buttonMonthly.Location = new System.Drawing.Point(16, 182);
+			this.buttonMonthly.Location = new System.Drawing.Point(19, 228);
+			this.buttonMonthly.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonMonthly.Name = "buttonMonthly";
-			this.buttonMonthly.Size = new System.Drawing.Size(313, 38);
+			this.buttonMonthly.Size = new System.Drawing.Size(365, 48);
 			this.buttonMonthly.TabIndex = 3;
 			this.buttonMonthly.Text = "月時処理";
 			this.buttonMonthly.UseVisualStyleBackColor = true;
@@ -76,9 +79,10 @@
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(254, 226);
+			this.buttonClose.Location = new System.Drawing.Point(296, 282);
+			this.buttonClose.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonClose.Name = "buttonClose";
-			this.buttonClose.Size = new System.Drawing.Size(75, 38);
+			this.buttonClose.Size = new System.Drawing.Size(87, 48);
 			this.buttonClose.TabIndex = 4;
 			this.buttonClose.Text = "閉じる";
 			this.buttonClose.UseVisualStyleBackColor = true;
@@ -86,9 +90,10 @@
 			// 
 			// buttonControl
 			// 
-			this.buttonControl.Location = new System.Drawing.Point(16, 50);
+			this.buttonControl.Location = new System.Drawing.Point(19, 62);
+			this.buttonControl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonControl.Name = "buttonControl";
-			this.buttonControl.Size = new System.Drawing.Size(313, 38);
+			this.buttonControl.Size = new System.Drawing.Size(365, 48);
 			this.buttonControl.TabIndex = 5;
 			this.buttonControl.Text = "管理情報登録";
 			this.buttonControl.UseVisualStyleBackColor = true;
@@ -96,9 +101,10 @@
 			// 
 			// buttonMale
 			// 
-			this.buttonMale.Location = new System.Drawing.Point(16, 94);
+			this.buttonMale.Location = new System.Drawing.Point(19, 118);
+			this.buttonMale.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonMale.Name = "buttonMale";
-			this.buttonMale.Size = new System.Drawing.Size(313, 38);
+			this.buttonMale.Size = new System.Drawing.Size(365, 48);
 			this.buttonMale.TabIndex = 6;
 			this.buttonMale.Text = "送信メール情報";
 			this.buttonMale.UseVisualStyleBackColor = true;
@@ -106,9 +112,9 @@
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(347, 278);
+			this.ClientSize = new System.Drawing.Size(405, 348);
 			this.Controls.Add(this.buttonMale);
 			this.Controls.Add(this.buttonControl);
 			this.Controls.Add(this.buttonClose);
@@ -116,7 +122,9 @@
 			this.Controls.Add(this.dateTimePickerSystemDate);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.buttonDaily);
+			this.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MainForm";

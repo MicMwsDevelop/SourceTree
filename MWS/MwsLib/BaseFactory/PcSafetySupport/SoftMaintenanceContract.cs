@@ -36,12 +36,12 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		/// <summary>
 		/// fhsSメンテ契約開始
 		/// </summary>
-		public Date? StartDate { get; set; }
+		public YearMonth? StartYM { get; set; }
 
 		/// <summary>
 		/// fhsSメンテ契約終了
 		/// </summary>
-		public Date? EndDate { get; set; }
+		public YearMonth? EndYM { get; set; }
 
 		/// <summary>
 		/// fhsSメンテ契約備考1
@@ -63,8 +63,8 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 			CollectionDate = null;
 			AgreeYear = 0;
 			Price = 0;
-			StartDate = null;
-			EndDate = null;
+			StartYM = null;
+			EndYM = null;
 			Remark1 = string.Empty;
 			Remark2 = string.Empty;
 		}
@@ -88,9 +88,9 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 					return false;
 				if (Price != other.Price)
 					return false;
-				if (StartDate != other.StartDate)
+				if (StartYM != other.StartYM)
 					return false;
-				if (EndDate != other.EndDate)
+				if (EndYM != other.EndYM)
 					return false;
 				if (Remark1 != other.Remark1)
 					return false;

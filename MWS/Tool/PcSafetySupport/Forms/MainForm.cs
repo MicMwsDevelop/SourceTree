@@ -8,11 +8,33 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MwsLib.Common;
+using MwsLib.BaseFactory.PcSafetySupport;
+using MwsLib.DB.SqlServer.PcSafetySupport;
 
 namespace PcSafetySupport.Forms
 {
 	public partial class MainForm : Form
 	{
+		/// <summary>
+		/// プログラム名
+		/// </summary>
+		public const string PROGRAM_NAME = "PC安心サポート管理ツール";
+
+		/// <summary>
+		/// システム日付
+		/// </summary>
+		public static Date gSystemDate;
+
+		/// <summary>
+		/// 拠店営業員情報リスト
+		/// </summary>
+		public static List<BranchInfo> gBranchList;
+
+		/// <summary>
+		/// 商品情報リスト
+		/// </summary>
+		public static List<PcSupportGoodsInfo> gPcSupportGoodsList;
+
 		/// <summary>
 		/// ＰＣ安心サポート管理ツール
 		/// </summary>
@@ -28,7 +50,19 @@ namespace PcSafetySupport.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			dateTimePickerSystemDate.Value = Program.SystemDate.ToDateTime();
+			try
+			{
+				gBranchList = PcSafetySupportAccess.GetBranchEmployeeInfo(true);
+				gPcSupportGoodsList = PcSafetySupportAccess.GetPcSupportGoodsInfo(true);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "読込エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				return;
+			}
+			// システム日付
+			gSystemDate = Date.Today;
+			dateTimePickerSystemDate.Value = gSystemDate.ToDateTime();
 		}
 
 		/// <summary>
@@ -38,7 +72,7 @@ namespace PcSafetySupport.Forms
 		/// <param name="e"></param>
 		private void dateTimePickerSystemDate_ValueChanged(object sender, EventArgs e)
 		{
-			Program.SystemDate = new Date(dateTimePickerSystemDate.Value);
+			gSystemDate = new Date(dateTimePickerSystemDate.Value);
 		}
 
 		/// <summary>

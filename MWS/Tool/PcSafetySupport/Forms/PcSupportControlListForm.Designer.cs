@@ -36,15 +36,20 @@
 			// 
 			// dataGridViewControl
 			// 
+			this.dataGridViewControl.AllowUserToAddRows = false;
 			this.dataGridViewControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridViewControl.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewControl.Location = new System.Drawing.Point(12, 37);
+			this.dataGridViewControl.MultiSelect = false;
 			this.dataGridViewControl.Name = "dataGridViewControl";
+			this.dataGridViewControl.RowHeadersVisible = false;
 			this.dataGridViewControl.RowTemplate.Height = 21;
+			this.dataGridViewControl.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewControl.Size = new System.Drawing.Size(1176, 698);
 			this.dataGridViewControl.TabIndex = 0;
+			this.dataGridViewControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewControl_MouseDoubleClick);
 			// 
 			// label1
 			// 
@@ -58,6 +63,7 @@
 			// textBoxCustomerID
 			// 
 			this.textBoxCustomerID.Location = new System.Drawing.Point(73, 12);
+			this.textBoxCustomerID.MaxLength = 8;
 			this.textBoxCustomerID.Name = "textBoxCustomerID";
 			this.textBoxCustomerID.Size = new System.Drawing.Size(156, 19);
 			this.textBoxCustomerID.TabIndex = 3;

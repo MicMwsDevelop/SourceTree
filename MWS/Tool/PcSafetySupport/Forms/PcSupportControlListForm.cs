@@ -13,10 +13,19 @@ using MwsLib.BaseFactory.PcSafetySupport;
 
 namespace PcSafetySupport.Forms
 {
+	/// <summary>
+	/// PC安心サポート管理情報登録画面
+	/// </summary>
 	public partial class PcSupportControlListForm : Form
 	{
+		/// <summary>
+		/// PC安心サポート管理情報リスト
+		/// </summary>
 		private List<PcSupportControl> PcSupportControlList;
 
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
 		public PcSupportControlListForm()
 		{
 			InitializeComponent();
@@ -38,8 +47,6 @@ namespace PcSafetySupport.Forms
 			dataGridViewControl.ReadOnly = true;
 
 			DataTable dataTable = PcSafetySupportAccess.GetPcSupportControl("", true);
-			PcSupportControlList = PcSafetySupportController.ConvertPcSupportControl(dataTable);
-
 			BindingSource dataSource = new BindingSource(dataTable, null);
 			dataGridViewControl.DataSource = dataSource;
 
@@ -53,7 +60,7 @@ namespace PcSafetySupport.Forms
 			dataGridViewControl.Columns["PRICE"].HeaderText = "料金";
 			dataGridViewControl.Columns["MARKETING_SPECIALIST_ID"].HeaderText = "営業担当者ID";
 			dataGridViewControl.Columns["BRANCH_ID"].HeaderText = "支店ID";
-			dataGridViewControl.Columns["APPLY_DATE"].HeaderText = "申込日時";
+			dataGridViewControl.Columns["APPLY_DATE"].HeaderText = "申込日付";
 			dataGridViewControl.Columns["APPLY_REPORT_ACCEPT"].HeaderText = "申込用紙有無";
 			dataGridViewControl.Columns["MALE_ADDRESS"].HeaderText = "メールアドレス";
 			dataGridViewControl.Columns["REMARK1"].HeaderText = "備考１";
@@ -71,6 +78,8 @@ namespace PcSafetySupport.Forms
 			dataGridViewControl.Columns["WW_RENEWAL_FLAG"].HeaderText = "WonderWeb更新フラグ";
 
 			dataGridViewControl.ResumeLayout();
+
+			PcSupportControlList = PcSafetySupportController.ConvertPcSupportControl(dataTable);
 		}
 
 		/// <summary>
@@ -103,10 +112,47 @@ namespace PcSafetySupport.Forms
 				if (null != control)
 				{
 					// 変更
+					using (PcSupportControlForm form = new PcSupportControlForm(control))
+					{
+						if (DialogResult.OK == form.ShowDialog())
+						{
+							DataTable dataTable = PcSafetySupportAccess.GetPcSupportControl("", true);
+							BindingSource dataSource = new BindingSource(dataTable, null);
+							dataGridViewControl.DataSource = dataSource;
+						}
+					}
 				}
 				else
 				{
 					// 追加
+					using (PcSupportControlForm form = new PcSupportControlForm(textBoxCustomerID.Text))
+					{
+						if (DialogResult.OK == form.ShowDialog())
+						{
+							DataTable dataTable = PcSafetySupportAccess.GetPcSupportControl("", true);
+							BindingSource dataSource = new BindingSource(dataTable, null);
+							dataGridViewControl.DataSource = dataSource;
+						}
+					}
+				}
+			}
+		}
+
+		private void dataGridViewControl_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			int customerID = (int)dataGridViewControl.CurrentRow.Cells[0].Value;
+			PcSupportControl control = PcSupportControlList.Find(p => p.CustomerID == customerID.ToString());
+			if (null != control)
+			{
+				// 変更
+				using (PcSupportControlForm form = new PcSupportControlForm(control))
+				{
+					if (DialogResult.OK == form.ShowDialog())
+					{
+						DataTable dataTable = PcSafetySupportAccess.GetPcSupportControl("", true);
+						BindingSource dataSource = new BindingSource(dataTable, null);
+						dataGridViewControl.DataSource = dataSource;
+					}
 				}
 			}
 		}

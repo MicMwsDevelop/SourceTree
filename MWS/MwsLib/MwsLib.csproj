@@ -60,7 +60,9 @@
     <Compile Include="BaseFactory\MwsSimulation\ServiceInfo.cs" />
     <Compile Include="BaseFactory\MwsSimulation\SetPlan.cs" />
     <Compile Include="BaseFactory\CalcTax.cs" />
+    <Compile Include="BaseFactory\PcSafetySupport\BranchEmployeeInfo.cs" />
     <Compile Include="BaseFactory\PcSafetySupport\PcSupportControl.cs" />
+    <Compile Include="BaseFactory\PcSafetySupport\PcSupportGoodsInfo.cs" />
     <Compile Include="BaseFactory\PcSafetySupport\PcSupportMale.cs" />
     <Compile Include="BaseFactory\PcSafetySupport\SoftMaintenanceContract.cs" />
     <Compile Include="Common\CharConversion.cs" />
@@ -102,6 +104,9 @@
     <Compile Include="DB\SQLite\MwsSimulation\SQLiteMwsSimulationSetIO.cs" />
     <Compile Include="DB\SQLite\SQLiteAccess.cs" />
     <Compile Include="DB\SQLite\SQLiteController.cs" />
+    <Compile Include="DB\SqlServer\CalcBusinessConsignCommission\CalcBusinessConsignCommissionAccess.cs" />
+    <Compile Include="DB\SqlServer\CalcBusinessConsignCommission\CalcBusinessConsignCommissionController.cs" />
+    <Compile Include="DB\SqlServer\CalcBusinessConsignCommission\CalcBusinessConsignCommissionGetIO.cs" />
     <Compile Include="DB\SqlServer\DataBaseAccess.cs" />
     <Compile Include="DB\SqlServer\DataBaseController.cs" />
     <Compile Include="DB\SqlServer\DataBaseTableSQL.cs" />
