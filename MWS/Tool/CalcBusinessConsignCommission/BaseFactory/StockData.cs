@@ -1,8 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//
+// StockData.cs
+//
+// 仕入データ情報
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/05 勝呂)
+// 
 using MwsLib.Common;
+using System;
+using System.Collections.Generic;
 
 namespace CalcBusinessConsignCommission.BaseFactory
 {
@@ -158,7 +165,7 @@ namespace CalcBusinessConsignCommission.BaseFactory
 	}
 
 	/// <summary>
-	/// 仕入データ
+	/// 仕入データ情報
 	/// </summary>
 	public class StockData
 	{

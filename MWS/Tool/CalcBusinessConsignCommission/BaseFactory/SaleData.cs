@@ -1,8 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//
+// SaleData.cs
+//
+// 売上データ情報
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/05 勝呂)
+// 
 using MwsLib.Common;
+using System;
+using System.Collections.Generic;
 
 namespace CalcBusinessConsignCommission.BaseFactory
 {
@@ -161,7 +168,7 @@ namespace CalcBusinessConsignCommission.BaseFactory
 	}
 
 	/// <summary>
-	/// 売上データ
+	/// 売上データ情報
 	/// </summary>
 	public class SaleData
 	{

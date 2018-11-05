@@ -37,3 +37,6 @@
 /MWS/Application/MwsSimulation2/bin
 /MWS/Tool/PcSafetySupport/bin/Debug
 /MWS/Tool/PcSafetySupport/obj
+/MWS/Tool/CalcBusinessConsignCommission/bin/Debug/仕入データ-修正後.csv
+/MWS/Tool/CalcBusinessConsignCommission/bin/Debug/org仕入データ-修正後.csv
+/MWS/Tool/CalcBusinessConsignCommission/bin/Debug/CalcBusinessConsignCommission.vshost.exe.manifest
