@@ -30,7 +30,8 @@
 		{
 			this.dataGridViewControl = new System.Windows.Forms.DataGridView();
 			this.label1 = new System.Windows.Forms.Label();
-			this.textBoxCustomerID = new System.Windows.Forms.TextBox();
+			this.textBoxOrderNo = new System.Windows.Forms.TextBox();
+			this.buttonSearch = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewControl)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -41,14 +42,15 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridViewControl.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewControl.Location = new System.Drawing.Point(12, 37);
+			this.dataGridViewControl.Location = new System.Drawing.Point(12, 41);
 			this.dataGridViewControl.MultiSelect = false;
 			this.dataGridViewControl.Name = "dataGridViewControl";
+			this.dataGridViewControl.ReadOnly = true;
 			this.dataGridViewControl.RowHeadersVisible = false;
 			this.dataGridViewControl.RowTemplate.Height = 21;
 			this.dataGridViewControl.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridViewControl.Size = new System.Drawing.Size(1176, 698);
-			this.dataGridViewControl.TabIndex = 0;
+			this.dataGridViewControl.Size = new System.Drawing.Size(1176, 694);
+			this.dataGridViewControl.TabIndex = 3;
 			this.dataGridViewControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewControl_MouseDoubleClick);
 			// 
 			// label1
@@ -57,24 +59,34 @@
 			this.label1.Location = new System.Drawing.Point(12, 15);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(55, 12);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "■顧客No";
+			this.label1.TabIndex = 0;
+			this.label1.Text = "■受注No";
 			// 
-			// textBoxCustomerID
+			// textBoxOrderNo
 			// 
-			this.textBoxCustomerID.Location = new System.Drawing.Point(73, 12);
-			this.textBoxCustomerID.MaxLength = 8;
-			this.textBoxCustomerID.Name = "textBoxCustomerID";
-			this.textBoxCustomerID.Size = new System.Drawing.Size(156, 19);
-			this.textBoxCustomerID.TabIndex = 3;
-			this.textBoxCustomerID.TextChanged += new System.EventHandler(this.textBoxCustomerID_TextChanged);
+			this.textBoxOrderNo.Location = new System.Drawing.Point(73, 12);
+			this.textBoxOrderNo.MaxLength = 8;
+			this.textBoxOrderNo.Name = "textBoxOrderNo";
+			this.textBoxOrderNo.Size = new System.Drawing.Size(156, 19);
+			this.textBoxOrderNo.TabIndex = 1;
+			// 
+			// buttonSearch
+			// 
+			this.buttonSearch.Location = new System.Drawing.Point(235, 10);
+			this.buttonSearch.Name = "buttonSearch";
+			this.buttonSearch.Size = new System.Drawing.Size(75, 23);
+			this.buttonSearch.TabIndex = 2;
+			this.buttonSearch.Text = "検索";
+			this.buttonSearch.UseVisualStyleBackColor = true;
+			this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
 			// 
 			// PcSupportControlListForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1201, 750);
-			this.Controls.Add(this.textBoxCustomerID);
+			this.Controls.Add(this.buttonSearch);
+			this.Controls.Add(this.textBoxOrderNo);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.dataGridViewControl);
 			this.Name = "PcSupportControlListForm";
@@ -90,6 +102,7 @@
 
 		private System.Windows.Forms.DataGridView dataGridViewControl;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox textBoxCustomerID;
+		private System.Windows.Forms.TextBox textBoxOrderNo;
+		private System.Windows.Forms.Button buttonSearch;
 	}
 }

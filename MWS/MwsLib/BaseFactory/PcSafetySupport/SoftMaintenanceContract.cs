@@ -9,9 +9,9 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 	public class SoftMaintenanceContract
 	{
 		/// <summary>
-		/// 顧客ID
+		/// 顧客No
 		/// </summary>
-		public string CustomerID { get; set; }
+		public int CustomerNo { get; set; }
 
 		/// <summary>
 		/// fhsS保守
@@ -58,7 +58,7 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		/// </summary>
 		public SoftMaintenanceContract()
 		{
-			CustomerID = string.Empty;
+			CustomerNo = 0;
 			Subscription = false;
 			CollectionDate = null;
 			AgreeYear = 0;
@@ -78,7 +78,7 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		{
 			if (null != other)
 			{
-				if (CustomerID != other.CustomerID)
+				if (CustomerNo != other.CustomerNo)
 					return false;
 				if (Subscription != other.Subscription)
 					return false;
@@ -134,7 +134,7 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		/// <returns>出力レコード</returns>
 		public override string ToString()
 		{
-			return CustomerID + Subscription.ToString() + AgreeYear.ToString() + Price.ToString() + Remark1 + Remark2;
+			return CustomerNo.ToString() + Subscription.ToString() + AgreeYear.ToString() + Price.ToString() + Remark1 + Remark2;
 		}
 	}
 }

@@ -5,15 +5,15 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 {
 	/// <summary>
 	/// PC安心サポート送信メール情報
-	/// [Charlie].[dbo].[T_PC_SUPPORT_MALE]
+	/// [Charlie].[dbo].[T_PC_SUPPORT_MAIL]
 	/// </summary>
 	[Serializable]
-	public class PcSupportMale : IEquatable<PcSupportMale>
+	public class PcSupportMail : IEquatable<PcSupportMail>
 	{
 		/// <summary>
 		/// 送信メール種別
 		/// </summary>
-		public enum MaleType
+		public enum MailType
 		{
 			/// <summary>初期値</summary>
 			None = 0,
@@ -28,17 +28,22 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		/// <summary>
 		/// メールNo
 		/// </summary>
-		public int MaleNo { get; set; }
+		public int MailNo { get; set; }
 
 		/// <summary>
 		/// 送信メール種別
 		/// </summary>
-		public MaleType SendMaleType { get; set; }
+		public MailType SendMailType { get; set; }
 
 		/// <summary>
-		/// 顧客ID
+		/// 顧客No
 		/// </summary>
-		public string CustomerID { get; set; }
+		public int CustomerNo { get; set; }
+
+		/// <summary>
+		/// 受注No
+		/// </summary>
+		public string OrderNo { get; set; }
 
 		/// <summary>
 		/// 商品ID
@@ -76,28 +81,29 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		public string BranchID { get; set; }
 
 		/// <summary>
-		/// 申込日時
+		/// 受注日
 		/// </summary>
-		public Date? ApplyDate { get; set; }
+		public Date? OrderDate { get; set; }
 
 		/// <summary>
 		/// メールアドレス
 		/// </summary>
-		public string MaleAddress { get; set; }
+		public string MailAddress { get; set; }
 
 		/// <summary>
 		/// 送信日時
 		/// </summary>
-		public Date? SendDate { get; set; }
+		public DateTime? SendDateTime { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public PcSupportMale()
+		public PcSupportMail()
 		{
-			MaleNo = 0;
-			SendMaleType = MaleType.None;
-			CustomerID = string.Empty;
+			MailNo = 0;
+			SendMailType = MailType.None;
+			CustomerNo = 0;
+			OrderNo = string.Empty;
 			GoodsID = string.Empty;
 			StartDate = null;
 			EndDate = null;
@@ -105,25 +111,50 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 			Price = 0;
 			SalesmanID = string.Empty;
 			BranchID = string.Empty;
-			ApplyDate = null;
-			MaleAddress = string.Empty;
-			SendDate = null;
+			OrderDate = null;
+			MailAddress = string.Empty;
+			SendDateTime = null;
+		}
+
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
+		/// <param name="mailType">メール種別</param>
+		/// <param name="pc">PC安心サポート管理情報</param>
+		public PcSupportMail(MailType mailType, PcSupportControl pc)
+		{
+			MailNo = 0;
+			SendMailType = mailType;
+			CustomerNo = pc.CustomerNo;
+			OrderNo = pc.OrderNo;
+			GoodsID = pc.GoodsID;
+			StartDate = pc.StartDate;
+			EndDate = pc.EndDate;
+			AgreeYear = pc.AgreeYear;
+			Price = pc.Price;
+			SalesmanID = pc.SalesmanID;
+			BranchID = pc.BranchID;
+			OrderDate = pc.OrderDate;
+			MailAddress = pc.MailAddress;
+			SendDateTime = null;
 		}
 
 		/// <summary>
 		/// 同一かどうかを判断する
 		/// </summary>
-		/// <param name="other">比較するPcSupportMale</param>
+		/// <param name="other">比較するPcSupportMail</param>
 		/// <returns>判定</returns>
-		public bool Equals(PcSupportMale other)
+		public bool Equals(PcSupportMail other)
 		{
 			if (null != other)
 			{
-				if (MaleNo != other.MaleNo)
+				if (MailNo != other.MailNo)
 					return false;
-				if (SendMaleType != other.SendMaleType)
+				if (SendMailType != other.SendMailType)
 					return false;
-				if (CustomerID != other.CustomerID)
+				if (CustomerNo != other.CustomerNo)
+					return false;
+				if (OrderNo != other.OrderNo)
 					return false;
 				if (GoodsID != other.GoodsID)
 					return false;
@@ -139,11 +170,11 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 					return false;
 				if (BranchID != other.BranchID)
 					return false;
-				if (ApplyDate != other.ApplyDate)
+				if (OrderDate != other.OrderDate)
 					return false;
-				if (MaleAddress != other.MaleAddress)
+				if (MailAddress != other.MailAddress)
 					return false;
-				if (SendDate != other.SendDate)
+				if (SendDateTime != other.SendDateTime)
 					return false;
 				return true;
 			}
@@ -154,13 +185,13 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		/// このインスタンスと、指定したオブジェクトの値が同一かどうかを判断する
 		/// (Object.Equals(Object)をオーバーライドする)
 		/// </summary>
-		/// <param name="obj">比較するPcSupportControlオブジェクト</param>
+		/// <param name="obj">比較するPcSupportMailオブジェクト</param>
 		/// <returns>判定</returns>
 		public override bool Equals(object obj)
 		{
-			if (obj is PcSupportControl)
+			if (obj is PcSupportMail)
 			{
-				return this.Equals((PcSupportControl)obj);
+				return this.Equals((PcSupportMail)obj);
 			}
 			else
 			{
@@ -183,7 +214,7 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		/// <returns>出力レコード</returns>
 		public override string ToString()
 		{
-			return CustomerID + GoodsID + SalesmanID + BranchID + MaleAddress;
+			return CustomerNo.ToString() + OrderNo + GoodsID + SalesmanID + BranchID + MailAddress;
 		}
 	}
 }

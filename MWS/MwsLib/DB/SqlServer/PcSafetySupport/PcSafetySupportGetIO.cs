@@ -12,10 +12,10 @@ namespace MwsLib.DB.SqlServer.PcSafetySupport
 		/// <summary>
 		/// ソフト保守情報の取得
 		/// </summary>
-		/// <param name="customerID">顧客ID</param>
+		/// <param name="customerNo">顧客No</param>
 		/// <param name="sqlsv2">CT環境</param>
 		/// <returns>レコード数</returns>
-		public static DataTable GetSoftMaintenanceContract(string customerID = "", bool sqlsv2 = false)
+		public static DataTable GetSoftMaintenanceContract(int customerNo = 0, bool sqlsv2 = false)
 		{
 			DataTable result = null;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpConnectionString(sqlsv2)))
@@ -33,9 +33,9 @@ namespace MwsLib.DB.SqlServer.PcSafetySupport
 								+ ", fhsSメンテ契約開始"
 								+ ", fhsSメンテ契約終了"
 								+ " FROM tMik保守契約";
-					if (0 < customerID.Length)
+					if (0 < customerNo)
 					{
-						strSQL += string.Format(" WHERE fhsCliMicID = {0}", customerID);
+						strSQL += string.Format(" WHERE fhsCliMicID = {0}", customerNo);
 					}
 					else
 					{
@@ -162,10 +162,10 @@ namespace MwsLib.DB.SqlServer.PcSafetySupport
 		/// <summary>
 		/// PC安心サポート管理情報の取得
 		/// </summary>
-		/// <param name="customerID">顧客ID</param>
+		/// <param name="orderNo">受注No</param>
 		/// <param name="sqlsv2">CT環境</param>
 		/// <returns>レコード数</returns>
-		public static DataTable GetPcSupportControl(string customerID = "", bool sqlsv2 = false)
+		public static DataTable GetPcSupportControl(string orderNo = "", bool sqlsv2 = false)
 		{
 			DataTable result = null;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieConnectionString(sqlsv2)))
@@ -175,15 +175,107 @@ namespace MwsLib.DB.SqlServer.PcSafetySupport
 					// 接続
 					con.Open();
 
-					string strSQL = @"SELECT * FROM T_PC_SUPPORT_CONTROL";
-					if (0 < customerID.Length)
+					string strSQL = @"SELECT PSC.*, CS.顧客名１ + CS.顧客名２ AS CLINIC_NAME FROM T_PC_SUPPORT_CONTROL AS PSC LEFT JOIN 顧客マスタ参照ビュー AS CS ON PSC.CUSTOMER_ID = CS.顧客ＩＤ";
+					if (0 < orderNo.Length)
 					{
-						strSQL += string.Format(" WHERE CUSTOMER_ID = '{0}'", customerID);
+						strSQL += string.Format(" WHERE ORDER_NO = '{0}'", orderNo);
 					}
 					else
 					{
-						strSQL += " ORDER BY CUSTOMER_ID ASC";
+						strSQL += " ORDER BY ORDER_NO ASC";
 					}
+					using (SqlCommand cmd = new SqlCommand(strSQL, con))
+					{
+						using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+						{
+							result = new DataTable();
+							da.Fill(result);
+						}
+					}
+				}
+				catch
+				{
+					throw;
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// PC安心サポート送信メール情報の取得
+		/// </summary>
+		/// <param name="orderNo">受注No</param>
+		/// <param name="sqlsv2">CT環境</param>
+		/// <returns>レコード数</returns>
+		public static DataTable GetPcSupportMail(string orderNo = "", bool sqlsv2 = false)
+		{
+			DataTable result = null;
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieConnectionString(sqlsv2)))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					string strSQL = @"SELECT * FROM T_PC_SUPPORT_MAIL";
+					if (0 < orderNo.Length)
+					{
+						strSQL += string.Format(" WHERE ORDER_NO = '{0}'", orderNo);
+					}
+					else
+					{
+						strSQL += " ORDER BY ORDER_NO ASC";
+					}
+					using (SqlCommand cmd = new SqlCommand(strSQL, con))
+					{
+						using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+						{
+							result = new DataTable();
+							da.Fill(result);
+						}
+					}
+				}
+				catch
+				{
+					throw;
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// 医院名の取得
+		/// </summary>
+		/// <param name="customerNo">顧客No</param>
+		/// <param name="sqlsv2">CT環境</param>
+		/// <returns>レコード数</returns>
+		public static DataTable GetClinicName(int customerNo, bool sqlsv2 = false)
+		{
+			DataTable result = null;
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieConnectionString(sqlsv2)))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					string strSQL = string.Format(@"SELECT 顧客名１ + 顧客名２ AS CLINIC_NAME FROM 顧客マスタ参照ビュー WHERE 顧客ＩＤ = {0}", customerNo);
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
 						using (SqlDataAdapter da = new SqlDataAdapter(cmd))

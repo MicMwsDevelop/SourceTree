@@ -26,7 +26,7 @@ namespace MwsLib.DB.SqlServer.PcSafetySupport
 				foreach (DataRow row in table.Rows)
 				{
 					SoftMaintenanceContract contract = new SoftMaintenanceContract();
-					contract.CustomerID = row["fhsCliMicID"].ToString();
+					contract.CustomerNo = DataBaseValue.ConvObjectToInt(row["fhsCliMicID"]);
 					contract.Subscription = DataBaseValue.ConvObjectToBool(row["fhsS保守"]);
 					string dateStr = row["fhsS契約書回収年月"].ToString();
 					if (0 < dateStr.Length)
@@ -146,7 +146,9 @@ namespace MwsLib.DB.SqlServer.PcSafetySupport
 				foreach (DataRow row in table.Rows)
 				{
 					PcSupportControl control = new PcSupportControl();
-					control.CustomerID = row["CUSTOMER_ID"].ToString();
+					control.OrderNo = row["ORDER_NO"].ToString();
+					control.CustomerNo = DataBaseValue.ConvObjectToInt(row["CUSTOMER_ID"]);
+					control.ClinicName = row["CLINIC_NAME"].ToString();
 					control.GoodsID = row["GOODS_ID"].ToString();
 					control.StartDate = DataBaseValue.ConvObjectToDateNullByDate(row["START_DATE"]);
 					control.EndDate = DataBaseValue.ConvObjectToDateNullByDate(row["END_DATE"]);
@@ -155,26 +157,91 @@ namespace MwsLib.DB.SqlServer.PcSafetySupport
 					control.Price = DataBaseValue.ConvObjectToInt(row["PRICE"]);
 					control.SalesmanID = row["MARKETING_SPECIALIST_ID"].ToString();
 					control.BranchID = row["BRANCH_ID"].ToString();
-					control.ApplyDate = DataBaseValue.ConvObjectToDateNull(row["APPLY_DATE"]);
-					control.ApplyReportAccept = (1 == DataBaseValue.ConvObjectToInt(row["APPLY_REPORT_ACCEPT"])) ? true : false;
-					control.MaleAddress = row["MALE_ADDRESS"].ToString();
+					control.OrderDate = DataBaseValue.ConvObjectToDateNullByDate(row["ORDER_DATE"]);
+					control.OrderReportAccept = (1 == DataBaseValue.ConvObjectToInt(row["ORDER_REPORT_ACCEPT"])) ? true : false;
+					control.OrderApprovalDate = DataBaseValue.ConvObjectToDateNullByDate(row["ORDER_APPROVAL_DATE"]);
+					control.MailAddress = row["MAIL_ADDRESS"].ToString();
 					control.Remark1 = row["REMARK1"].ToString();
 					control.Remark2 = row["REMARK2"].ToString();
-					control.StartMaleDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["START_MALE_DATE"]);
-					control.GuideMaleDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["GUIDE_MALE_DATE"]);
-					control.UpdateMaleDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["UPDATE_MALE_DATE"]);
+					control.StartMailDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["START_MAIL_DATE"]);
+					control.GuideMailDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["GUIDE_MAIL_DATE"]);
+					control.UpdateMailDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["UPDATE_MAIL_DATE"]);
 					control.CancelDate = DataBaseValue.ConvObjectToDateNullByDate(row["CANCEL_DATE"]);
 					control.CancelReportAccept = (1 == DataBaseValue.ConvObjectToInt(row["CANCEL_REPORT_ACCEPT"])) ? true : false;
 					control.CancelReason = row["CANCEL_REASON"].ToString();
+					control.DisableFlag = (1 == DataBaseValue.ConvObjectToInt(row["DISABLE_FLAG"])) ? true : false;
+					control.WonderWebRenewalFlag = (1 == DataBaseValue.ConvObjectToInt(row["WW_RENEWAL_FLAG"])) ? true : false;
 					control.CreateDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["CREATE_DATE"]);
 					control.CreatePerson = row["CREATE_PERSON"].ToString();
 					control.UpdateDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["UPDATE_DATE"]);
 					control.UpdatePerson = row["UPDATE_PERSON"].ToString();
-					control.WonderWebRenewalFlag = (1 == DataBaseValue.ConvObjectToInt(row["WW_RENEWAL_FLAG"])) ? true : false;
 					result.Add(control);
 				}
 			}
 			return result;
+		}
+
+		/// <summary>
+		/// PC安心サポートメール送信情報の詰め替え
+		/// [Charlie].[dbo].[T_PC_SUPPORT_MAIL]
+		/// </summary>
+		/// <param name="table">データテーブル</param>
+		/// <returns>PC安心サポートメール送信情報リスト</returns>
+		public static List<PcSupportMail> ConvertPcSupportMail(DataTable table)
+		{
+			List<PcSupportMail> result = null;
+			if (null != table)
+			{
+				result = new List<PcSupportMail>();
+				foreach (DataRow row in table.Rows)
+				{
+					PcSupportMail mail = new PcSupportMail();
+					mail.OrderNo = row["ORDER_NO"].ToString();
+					mail.CustomerNo = DataBaseValue.ConvObjectToInt(row["CUSTOMER_ID"]);
+					string sendMailType = row["SEND_MAIL_TYPE"].ToString();
+					if ("1" == sendMailType)
+					{
+						mail.SendMailType = PcSupportMail.MailType.Start;
+					}
+					else if ("2" == sendMailType)
+					{
+						mail.SendMailType = PcSupportMail.MailType.Guide;
+					}
+					else if ("3" == sendMailType)
+					{
+						mail.SendMailType = PcSupportMail.MailType.Update;
+					}
+					mail.GoodsID = row["GOODS_ID"].ToString();
+					mail.StartDate = DataBaseValue.ConvObjectToDateNullByDate(row["START_DATE"]);
+					mail.EndDate = DataBaseValue.ConvObjectToDateNullByDate(row["END_DATE"]);
+					mail.AgreeYear = DataBaseValue.ConvObjectToInt(row["AGREE_YEAR"]);
+					mail.Price = DataBaseValue.ConvObjectToInt(row["PRICE"]);
+					mail.SalesmanID = row["MARKETING_SPECIALIST_ID"].ToString();
+					mail.BranchID = row["BRANCH_ID"].ToString();
+					mail.OrderDate = DataBaseValue.ConvObjectToDateNullByDate(row["ORDER_DATE"]);
+					mail.MailAddress = row["MAIL_ADDRESS"].ToString();
+					mail.SendDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["SEND_DATE"]);
+					result.Add(mail);
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// 医院名の取得
+		/// </summary>
+		/// <param name="table">データテーブル</param>
+		/// <returns>医院名</returns>
+		public static string ConvertClinicName(DataTable table)
+		{
+			if (null != table)
+			{
+				if (0 < table.Rows.Count)
+				{
+					return table.Rows[0]["CLINIC_NAME"].ToString();
+				}
+			}
+			return string.Empty;
 		}
 	}
 }

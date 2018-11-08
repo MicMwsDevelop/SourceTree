@@ -11,9 +11,19 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 	public class PcSupportControl : IEquatable<PcSupportControl>
 	{
 		/// <summary>
-		/// 顧客ID
+		/// 受注No
 		/// </summary>
-		public string CustomerID { get; set; }
+		public string OrderNo { get; set; }
+
+		/// <summary>
+		/// 顧客No
+		/// </summary>
+		public int CustomerNo { get; set; }
+
+		/// <summary>
+		/// 医院名
+		/// </summary>
+		public string ClinicName { get; set; }
 
 		/// <summary>
 		/// 商品ID
@@ -56,19 +66,24 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		public string BranchID { get; set; }
 
 		/// <summary>
-		/// 申込日時
+		/// 受注日
 		/// </summary>
-		public Date? ApplyDate { get; set; }
+		public Date? OrderDate { get; set; }
 
 		/// <summary>
 		/// 申込用紙有無
 		/// </summary>
-		public bool ApplyReportAccept { get; set; }
+		public bool OrderReportAccept { get; set; }
+
+		/// <summary>
+		/// 受注承認日
+		/// </summary>
+		public Date? OrderApprovalDate { get; set; }
 
 		/// <summary>
 		/// メールアドレス
 		/// </summary>
-		public string MaleAddress { get; set; }
+		public string MailAddress { get; set; }
 
 		/// <summary>
 		/// 備考１
@@ -83,17 +98,17 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		/// <summary>
 		/// 開始メール送信日時
 		/// </summary>
-		public DateTime? StartMaleDateTime { get; set; }
+		public DateTime? StartMailDateTime { get; set; }
 
 		/// <summary>
 		/// 契約更新案内メール送信日時
 		/// </summary>
-		public DateTime? GuideMaleDateTime { get; set; }
+		public DateTime? GuideMailDateTime { get; set; }
 
 		/// <summary>
 		/// 契約更新メール送信日時
 		/// </summary>
-		public DateTime? UpdateMaleDateTime { get; set; }
+		public DateTime? UpdateMailDateTime { get; set; }
 
 		/// <summary>
 		/// 解約日
@@ -109,6 +124,16 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		/// 解約事由
 		/// </summary>
 		public string CancelReason { get; set; }
+
+		/// <summary>
+		/// 無効フラグ
+		/// </summary>
+		public bool DisableFlag { get; set; }
+
+		/// <summary>
+		/// WonderWeb更新フラグ
+		/// </summary>
+		public bool WonderWebRenewalFlag { get; set; }
 
 		/// <summary>
 		/// 作成日
@@ -131,16 +156,13 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		public string UpdatePerson { get; set; }
 
 		/// <summary>
-		/// WonderWeb更新フラグ
-		/// </summary>
-		public bool WonderWebRenewalFlag { get; set; }
-
-		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public PcSupportControl()
 		{
-			CustomerID = string.Empty;
+			OrderNo = string.Empty;
+			CustomerNo = 0;
+			ClinicName = string.Empty;
 			GoodsID = string.Empty;
 			StartDate = null;
 			EndDate = null;
@@ -149,23 +171,63 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 			Price = 0;
 			SalesmanID = string.Empty;
 			BranchID = string.Empty;
-			ApplyDate = null;
-			ApplyReportAccept = false;
-			MaleAddress = string.Empty;
+			OrderDate = null;
+			OrderReportAccept = false;
+			OrderApprovalDate = null;
+			MailAddress = string.Empty;
 			Remark1 = string.Empty;
 			Remark2 = string.Empty;
-			StartMaleDateTime = null;
-			GuideMaleDateTime = null;
-			UpdateMaleDateTime = null;
+			StartMailDateTime = null;
+			GuideMailDateTime = null;
+			UpdateMailDateTime = null;
 			CancelDate = null;
 			CancelReportAccept = false;
 			CancelReason = string.Empty;
+			DisableFlag = false;
+			WonderWebRenewalFlag = false;
 			CreateDateTime = null;
 			CreatePerson = string.Empty;
 			UpdateDateTime = null;
 			UpdatePerson = string.Empty;
-			WonderWebRenewalFlag = false;
-	}
+		}
+
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
+		/// <param name="other">PcSupportControl</param>
+
+		public PcSupportControl(PcSupportControl other)
+		{
+			OrderNo = other.OrderNo;
+			CustomerNo = other.CustomerNo;
+			ClinicName = other.ClinicName;
+			GoodsID = other.GoodsID;
+			StartDate = other.StartDate;
+			EndDate = other.EndDate;
+			PeriodEndDate = other.PeriodEndDate;
+			AgreeYear = other.AgreeYear;
+			Price = other.Price;
+			SalesmanID = other.SalesmanID;
+			BranchID = other.BranchID;
+			OrderDate = other.OrderDate;
+			OrderReportAccept = other.OrderReportAccept;
+			OrderApprovalDate = other.OrderApprovalDate;
+			MailAddress = other.MailAddress;
+			Remark1 = other.Remark1;
+			Remark2 = other.Remark2;
+			StartMailDateTime = other.StartMailDateTime;
+			GuideMailDateTime = other.GuideMailDateTime;
+			UpdateMailDateTime = other.UpdateMailDateTime;
+			CancelDate = other.CancelDate;
+			CancelReportAccept = other.CancelReportAccept;
+			CancelReason = other.CancelReason;
+			DisableFlag = other.DisableFlag;
+			WonderWebRenewalFlag = other.WonderWebRenewalFlag;
+			CreateDateTime = other.CreateDateTime;
+			CreatePerson = other.CreatePerson;
+			UpdateDateTime = other.UpdateDateTime;
+			UpdatePerson = other.UpdatePerson;
+		}
 
 		/// <summary>
 		/// 同一かどうかを判断する
@@ -176,7 +238,11 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		{
 			if (null != other)
 			{
-				if (CustomerID != other.CustomerID)
+				if (OrderNo != other.OrderNo)
+					return false;
+				if (CustomerNo != other.CustomerNo)
+					return false;
+				if (ClinicName != other.ClinicName)
 					return false;
 				if (GoodsID != other.GoodsID)
 					return false;
@@ -194,27 +260,33 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 					return false;
 				if (BranchID != other.BranchID)
 					return false;
-				if (ApplyDate != other.ApplyDate)
+				if (OrderDate != other.OrderDate)
 					return false;
-				if (ApplyReportAccept != other.ApplyReportAccept)
+				if (OrderReportAccept != other.OrderReportAccept)
 					return false;
-				if (MaleAddress != other.MaleAddress)
+				if (OrderApprovalDate != other.OrderApprovalDate)
+					return false;
+				if (MailAddress != other.MailAddress)
 					return false;
 				if (Remark1 != other.Remark1)
 					return false;
 				if (Remark2 != other.Remark2)
 					return false;
-				if (StartMaleDateTime != other.StartMaleDateTime)
+				if (StartMailDateTime != other.StartMailDateTime)
 					return false;
-				if (GuideMaleDateTime != other.GuideMaleDateTime)
+				if (GuideMailDateTime != other.GuideMailDateTime)
 					return false;
-				if (UpdateMaleDateTime != other.UpdateMaleDateTime)
+				if (UpdateMailDateTime != other.UpdateMailDateTime)
 					return false;
 				if (CancelDate != other.CancelDate)
 					return false;
 				if (CancelReportAccept != other.CancelReportAccept)
 					return false;
 				if (CancelReason != other.CancelReason)
+					return false;
+				if (DisableFlag != other.DisableFlag)
+					return false;
+				if (WonderWebRenewalFlag != other.WonderWebRenewalFlag)
 					return false;
 				if (CreateDateTime != other.CreateDateTime)
 					return false;
@@ -223,8 +295,6 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 				if (UpdateDateTime != other.UpdateDateTime)
 					return false;
 				if (UpdatePerson != other.UpdatePerson)
-					return false;
-				if (WonderWebRenewalFlag != other.WonderWebRenewalFlag)
 					return false;
 				return true;
 			}
@@ -264,7 +334,7 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		/// <returns>出力レコード</returns>
 		public override string ToString()
 		{
-			return CustomerID + GoodsID + SalesmanID + BranchID + MaleAddress + Remark1 + Remark2 + CancelReason + CreatePerson + UpdatePerson;
+			return OrderNo + CustomerNo.ToString() + ClinicName + GoodsID + SalesmanID + BranchID + MailAddress + Remark1 + Remark2 + CancelReason + CreatePerson + UpdatePerson;
 		}
 
 		/// <summary>
@@ -286,9 +356,14 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		public bool IsAcceptComputeData(out string msg)
 		{
 			msg = string.Empty;
-			if (0 == CustomerID.Length)
+			if (0 == OrderNo.Length)
 			{
-				msg = "顧客IDが設定されていません。";
+				msg = "受注Noが設定されていません。";
+				return false;
+			}
+			if (0 == CustomerNo)
+			{
+				msg = "顧客Noが設定されていません。";
 				return false;
 			}
 			if (0 == GoodsID.Length)
@@ -326,7 +401,12 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 				msg = "担当営業員が設定されていません。";
 				return false;
 			}
-			if (0 == MaleAddress.Length)
+			if (false == OrderApprovalDate.HasValue)
+			{
+				msg = "受注承認日が設定されていません。";
+				return false;
+			}
+			if (0 == MailAddress.Length)
 			{
 				msg = "メールアドレスが設定されていません。";
 				return false;
@@ -339,9 +419,13 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		/// </summary>
 		/// <param name="date">当日</param>
 		/// <returns>判定</returns>
-		public bool IsSendStartMale(Date date)
+		public bool IsSendStartMail(Date date)
 		{
-			if (StartMaleDateTime.HasValue)
+			if (DisableFlag)
+				return false;
+			if (OrderApprovalDate.HasValue)
+				return false;
+			if (StartMailDateTime.HasValue)
 				return false;
 			if (date < StartDate.Value)
 				return false;
@@ -355,9 +439,11 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		/// </summary>
 		/// <param name="date">当日</param>
 		/// <returns>判定</returns>
-		public bool IsSendGuideMale(Date date)
+		public bool IsSendGuideMail(Date date)
 		{
-			if (false == PeriodEndDate.HasValue && false == GuideMaleDateTime.HasValue)
+			if (DisableFlag)
+				return false;
+			if (false == PeriodEndDate.HasValue && false == GuideMailDateTime.HasValue)
 			{
 				if (EndDate.HasValue)
 				{
@@ -378,9 +464,11 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		/// </summary>
 		/// <param name="date">当日</param>
 		/// <returns>判定</returns>
-		public bool IsSendUpdateMale(Date date)
+		public bool IsSendUpdateMail(Date date)
 		{
-			if (false == PeriodEndDate.HasValue && false == UpdateMaleDateTime.HasValue)
+			if (DisableFlag)
+				return false;
+			if (false == PeriodEndDate.HasValue && false == UpdateMailDateTime.HasValue)
 			{
 				if (EndDate.HasValue)
 				{
@@ -410,9 +498,13 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 				return true;
 			if (PeriodEndDate != prev.PeriodEndDate)
 				return true;
+			if (OrderDate != prev.OrderDate)
+				return true;
 			if (Remark1 != prev.Remark1)
 				return true;
 			if (Remark2 != prev.Remark2)
+				return true;
+			if (DisableFlag != prev.DisableFlag)
 				return true;
 			return false;
 		}
@@ -425,7 +517,7 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		public SoftMaintenanceContract GetSoftMaintenanceContract(Date date)
 		{
 			SoftMaintenanceContract contract = new SoftMaintenanceContract();
-			contract.CustomerID = CustomerID;
+			contract.CustomerNo = CustomerNo;
 			contract.Subscription = true;
 			if (PeriodEndDate.HasValue)
 			{
@@ -441,7 +533,7 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 					contract.Subscription = false;
 				}
 			}
-			contract.CollectionDate = ApplyDate;
+			contract.CollectionDate = OrderDate;
 			contract.AgreeYear = AgreeYear;
 			contract.Price = Price;
 			if (StartDate.HasValue)

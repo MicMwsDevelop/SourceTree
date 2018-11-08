@@ -8,6 +8,8 @@ namespace PcSafetySupport
 {
 	static class Program
 	{
+		public static bool SQLSV2 = false;
+
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
 		/// </summary>

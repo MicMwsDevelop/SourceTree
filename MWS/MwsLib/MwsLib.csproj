@@ -63,7 +63,7 @@
     <Compile Include="BaseFactory\PcSafetySupport\BranchEmployeeInfo.cs" />
     <Compile Include="BaseFactory\PcSafetySupport\PcSupportControl.cs" />
     <Compile Include="BaseFactory\PcSafetySupport\PcSupportGoodsInfo.cs" />
-    <Compile Include="BaseFactory\PcSafetySupport\PcSupportMale.cs" />
+    <Compile Include="BaseFactory\PcSafetySupport\PcSupportMail.cs" />
     <Compile Include="BaseFactory\PcSafetySupport\SoftMaintenanceContract.cs" />
     <Compile Include="Common\CharConversion.cs" />
     <Compile Include="Common\Date.cs" />
@@ -93,6 +93,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Component\PrintPreviewPictureBox.Designer.cs" />
+    <Compile Include="Component\YearMonthPicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DB\SQLite\MwsServiceFrequency\SQLiteMwsServiceFrequencyAccess.cs" />
     <Compile Include="DB\SQLite\MwsServiceFrequency\SQLiteMwsServiceFrequencyDef.cs" />
     <Compile Include="DB\SQLite\MwsServiceFrequency\SQLiteMwsServiceFrequencyGetIO.cs" />

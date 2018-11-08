@@ -52,8 +52,8 @@ namespace PcSafetySupport.Forms
 		{
 			try
 			{
-				gBranchList = PcSafetySupportAccess.GetBranchEmployeeInfo(true);
-				gPcSupportGoodsList = PcSafetySupportAccess.GetPcSupportGoodsInfo(true);
+				gBranchList = PcSafetySupportAccess.GetBranchEmployeeInfo(Program.SQLSV2);
+				gPcSupportGoodsList = PcSafetySupportAccess.GetPcSupportGoodsInfo(Program.SQLSV2);
 			}
 			catch (Exception ex)
 			{
@@ -95,7 +95,10 @@ namespace PcSafetySupport.Forms
 		/// <param name="e"></param>
 		private void buttonMale_Click(object sender, EventArgs e)
 		{
-
+			using (SendMailForm form = new SendMailForm())
+			{
+				form.ShowDialog();
+			}
 		}
 
 		/// <summary>

@@ -19,9 +19,9 @@ namespace PcSafetySupport.Forms
 	public partial class PcSupportControlForm : Form
 	{
 		/// <summary>
-		/// 顧客ID
+		/// 受注No
 		/// </summary>
-		private string CustomerID { get; set; }
+		private string OrderNo { get; set; }
 
 		/// <summary>
 		/// PC安心サポート管理情報保存領域
@@ -35,19 +35,19 @@ namespace PcSafetySupport.Forms
 		{
 			InitializeComponent();
 
-			CustomerID = string.Empty;
+			OrderNo = string.Empty;
 			OrgPcSupport = null;
 		}
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		/// <param name="customerID">顧客ID</param>
-		public PcSupportControlForm(string customerID)
+		/// <param name="orderNo">受注No</param>
+		public PcSupportControlForm(string orderNo)
 		{
 			InitializeComponent();
 
-			CustomerID = customerID;
+			OrderNo = orderNo;
 			OrgPcSupport = null;
 		}
 
@@ -59,7 +59,7 @@ namespace PcSafetySupport.Forms
 		{
 			InitializeComponent();
 
-			CustomerID = string.Empty;
+			OrderNo = string.Empty;
 			OrgPcSupport = pcSupport;
 		}
 
@@ -70,9 +70,14 @@ namespace PcSafetySupport.Forms
 		/// <param name="e"></param>
 		private void PcSupportControlForm_Load(object sender, EventArgs e)
 		{
+			// 元のカーソルを保持
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
 			// イベントハンドラ削除
 			comboBoxGoods.SelectedIndexChanged -= new EventHandler(comboBoxGoods_SelectedIndexChanged);
-			dateTimePickerStartDate.ValueChanged -= new EventHandler(dateTimePickerStartDate_ValueChanged);
 			checkBoxPeriodEndDate.CheckedChanged -= new EventHandler(checkBoxPeriodEndDate_CheckedChanged);
 			comboBoxBranch.SelectedIndexChanged -= new EventHandler(comboBoxBranch_SelectedIndexChanged);
 			checkBoxPeriodEndDate.CheckedChanged -= new EventHandler(checkBoxPeriodEndDate_CheckedChanged);
@@ -96,8 +101,18 @@ namespace PcSafetySupport.Forms
 				// 変更
 				comboBoxEmployee.DataSource = MainForm.gBranchList[0].EmployeeList;
 
-				// 顧客ID
-				textBoxCustomerID.Text = OrgPcSupport.CustomerID;
+				// 無効フラグを有効
+				checkBoxDisable.Enabled = true;
+
+				// 医院名
+				textBoxClinicName.Text = OrgPcSupport.ClinicName;
+
+				// 受注No
+				textBoxOrderNo.Text = OrgPcSupport.OrderNo;
+
+				// 顧客No
+				textBoxCustomerNo.Text = OrgPcSupport.CustomerNo.ToString();
+				textBoxCustomerNo.ReadOnly = true;
 
 				// 商品名
 				comboBoxGoods.SelectedValue = OrgPcSupport.GoodsID;
@@ -121,16 +136,18 @@ namespace PcSafetySupport.Forms
 				{
 					dateTimePickerStartDate.Value = OrgPcSupport.StartDate.Value.ToDateTime();
 				}
-				// 契約終了日
-				if (OrgPcSupport.EndDate.HasValue)
-				{
-					dateTimePickerEndDate.Value = OrgPcSupport.EndDate.Value.ToDateTime();
-				}
 				// 申込用紙有無
-				checkBoxApplyReportAccept.Checked = OrgPcSupport.ApplyReportAccept;
+				checkBoxOrderReportAccept.Checked = OrgPcSupport.OrderReportAccept;
 
+				// 受注承認日
+				if (OrgPcSupport.OrderApprovalDate.HasValue)
+				{
+					checkBoxOrderApprovalDate.Checked = true;
+					dateTimePickerOrderApprovalDate.Enabled = true;
+					dateTimePickerOrderApprovalDate.Value = OrgPcSupport.OrderApprovalDate.Value.ToDateTime();
+				}
 				// メールアドレス
-				textBoxMaleAdderss.Text = OrgPcSupport.MaleAddress;
+				textBoxMailAdderss.Text = OrgPcSupport.MailAddress;
 
 				// 備考１
 				textBoxRemark1.Text = OrgPcSupport.Remark1;
@@ -138,12 +155,11 @@ namespace PcSafetySupport.Forms
 				// 備考２
 				textBoxRemark2.Text = OrgPcSupport.Remark2;
 
-				// 申込日付
-				if (OrgPcSupport.ApplyDate.HasValue)
+				// 受注日
+				if (OrgPcSupport.OrderDate.HasValue)
 				{
-					dateTimePickerAcceptDate.Value = OrgPcSupport.ApplyDate.Value.ToDateTime();
+					dateTimePickerOrderDate.Value = OrgPcSupport.OrderDate.Value.ToDateTime();
 				}
-
 				checkBoxPeriodEndDate.Enabled = true;
 				if (OrgPcSupport.PeriodEndDate.HasValue)
 				{
@@ -166,8 +182,8 @@ namespace PcSafetySupport.Forms
 				// 新規
 				comboBoxEmployee.DataSource = MainForm.gBranchList[0].EmployeeList;
 
-				// 顧客ID
-				textBoxCustomerID.Text = CustomerID;
+				// 受注No
+				textBoxOrderNo.Text = OrderNo;
 
 				// 商品名
 				comboBoxGoods.SelectedValue = MainForm.gPcSupportGoodsList[0].GoodsID;
@@ -181,24 +197,51 @@ namespace PcSafetySupport.Forms
 				// 契約開始日
 				dateTimePickerStartDate.Value = MainForm.gSystemDate.ToDateTime();
 
-				// 契約終了日
-				dateTimePickerEndDate.Value = PcSupportControl.GetEndDate(MainForm.gSystemDate, MainForm.gPcSupportGoodsList[0].AgreeYear).ToDateTime();
-
 				// 拠店
 				comboBoxBranch.SelectedValue = MainForm.gBranchList[0].BranchCode3;
 
 				// 営業担当員
 				comboBoxEmployee.SelectedValue = MainForm.gBranchList[0].EmployeeList[0].UserID;
 
-				// 申込日付
-				dateTimePickerAcceptDate.Value = MainForm.gSystemDate.ToDateTime();
+				// 受注日
+				dateTimePickerOrderDate.Value = MainForm.gSystemDate.ToDateTime();
 			}
 			// イベントハンドラ追加
 			comboBoxGoods.SelectedIndexChanged += new EventHandler(comboBoxGoods_SelectedIndexChanged);
-			dateTimePickerStartDate.ValueChanged += new EventHandler(dateTimePickerStartDate_ValueChanged);
 			checkBoxPeriodEndDate.CheckedChanged += new EventHandler(checkBoxPeriodEndDate_CheckedChanged);
 			comboBoxBranch.SelectedIndexChanged += new EventHandler(comboBoxBranch_SelectedIndexChanged);
 			checkBoxPeriodEndDate.CheckedChanged += new EventHandler(checkBoxPeriodEndDate_CheckedChanged);
+
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
+		}
+
+		/// <summary>
+		/// 顧客Noの変更
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void textBoxCustomerNo_TextChanged(object sender, EventArgs e)
+		{
+			if (8 == textBoxCustomerNo.Text.Length)
+			{
+				int customerNo;
+				if (int.TryParse(textBoxCustomerNo.Text, out customerNo))
+				{
+					try
+					{
+						textBoxClinicName.Text = PcSafetySupportAccess.GetClinicName(customerNo, Program.SQLSV2);
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(string.Format("PcSafetySupportAccess.GetClinicName() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+					}
+				}
+				else
+				{
+					MessageBox.Show("顧客Noが正しく入力されていません。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
+			}
 		}
 
 		/// <summary>
@@ -218,25 +261,6 @@ namespace PcSafetySupport.Forms
 
 				// 料金の変更
 				textBoxPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(goodsInfo.Price));
-
-				// 契約終了日の変更
-				dateTimePickerEndDate.Value = PcSupportControl.GetEndDate(new Date(dateTimePickerStartDate.Value), goodsInfo.AgreeYear).ToDateTime();
-			}
-		}
-
-		/// <summary>
-		/// 契約開始日の変更
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void dateTimePickerStartDate_ValueChanged(object sender, EventArgs e)
-		{
-			string goodsID = comboBoxGoods.SelectedValue as string;
-			if (0 < goodsID.Length)
-			{
-				// 契約終了日の変更
-				PcSupportGoodsInfo goodsInfo = MainForm.gPcSupportGoodsList.Find(p => p.GoodsID == goodsID);
-				dateTimePickerEndDate.Value = PcSupportControl.GetEndDate(new Date(dateTimePickerStartDate.Value), goodsInfo.AgreeYear).ToDateTime();
 			}
 		}
 
@@ -254,6 +278,23 @@ namespace PcSafetySupport.Forms
 				BranchInfo branch = MainForm.gBranchList.Find(p => p.BranchCode3 == branchID);
 				comboBoxEmployee.DataSource = branch.EmployeeList;
 				comboBoxEmployee.SelectedValue = branch.EmployeeList[0].UserID;
+			}
+		}
+
+		/// <summary>
+		/// 受注承認日
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void checkBoxOrderApprovalDate_CheckedChanged(object sender, EventArgs e)
+		{
+			if (checkBoxOrderApprovalDate.Checked)
+			{
+				dateTimePickerOrderApprovalDate.Enabled = true;
+			}
+			else
+			{
+				dateTimePickerOrderApprovalDate.Enabled = false;
 			}
 		}
 
@@ -285,29 +326,49 @@ namespace PcSafetySupport.Forms
 		/// <param name="e"></param>
 		private void buttonOK_Click(object sender, EventArgs e)
 		{
-			PcSupportControl pc = new PcSupportControl();
+			if (0 == textBoxMailAdderss.Text.Length)
+			{
+				if (DialogResult.No == MessageBox.Show("メールアドレスが設定されていません。よろしいですか？", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+				{
+					textBoxMailAdderss.Focus();
+					return;
+				}
+			}
+			// 元のカーソルを保持
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
 			if (null == OrgPcSupport)
 			{
 				// 新規
+				PcSupportControl pc = new PcSupportControl();
 
-				// 顧客ID
-				pc.CustomerID = CustomerID;
+				// 医院名
+				pc.ClinicName = textBoxClinicName.Text;
+
+				// 受注No
+				pc.OrderNo = OrderNo;
+
+				// 顧客No
+				pc.CustomerNo = int.Parse(textBoxCustomerNo.Text);
 
 				// 商品ID
 				pc.GoodsID = comboBoxGoods.SelectedValue as string;
 
 				// 契約年数
-				PcSupportGoodsInfo goods = MainForm.gPcSupportGoodsList.Find(p => p.GoodsID == pc.GoodsID);
-				pc.AgreeYear = goods.AgreeYear;
+				PcSupportGoodsInfo goodsInfo = MainForm.gPcSupportGoodsList.Find(p => p.GoodsID == pc.GoodsID);
+				pc.AgreeYear = goodsInfo.AgreeYear;
 
 				// 料金
-				pc.Price = goods.Price;
+				pc.Price = goodsInfo.Price;
 
 				// 契約開始日
 				pc.StartDate = new Date(dateTimePickerStartDate.Value);
 
 				// 契約終了日
-				pc.EndDate = new Date(dateTimePickerEndDate.Value);
+				pc.EndDate = PcSupportControl.GetEndDate(pc.StartDate.Value, goodsInfo.AgreeYear);
 
 				// 拠店
 				pc.BranchID = comboBoxBranch.SelectedValue as string;
@@ -316,20 +377,25 @@ namespace PcSafetySupport.Forms
 				pc.SalesmanID = comboBoxEmployee.SelectedValue as string;
 
 				// メールアドレス
-				pc.MaleAddress = textBoxMaleAdderss.Text;
+				pc.MailAddress = textBoxMailAdderss.Text.Trim();
 
 				// 備考１
-				pc.Remark1 = textBoxRemark1.Text;
+				pc.Remark1 = textBoxRemark1.Text.Trim();
 
 				// 備考２
-				pc.Remark2 = textBoxRemark2.Text;
+				pc.Remark2 = textBoxRemark2.Text.Trim();
+
+				// 受注日
+				pc.OrderDate = new Date(dateTimePickerOrderDate.Value);
 
 				// 申込用紙有無
-				pc.ApplyReportAccept = checkBoxApplyReportAccept.Checked;
+				pc.OrderReportAccept = checkBoxOrderReportAccept.Checked;
 
-				// 申込日時
-				pc.ApplyDate = new Date(dateTimePickerAcceptDate.Value);
-
+				// 受注承認日
+				if (checkBoxOrderApprovalDate.Checked)
+				{
+					pc.OrderApprovalDate = new Date(dateTimePickerOrderApprovalDate.Value);
+				}
 				// 作成日時
 				pc.CreateDateTime = DateTime.Now;
 
@@ -339,48 +405,36 @@ namespace PcSafetySupport.Forms
 				// WonderWeb更新フラグ
 				pc.WonderWebRenewalFlag = true;
 
-				string msg;
-				if (pc.IsAcceptComputeData(out msg))
+				try
 				{
-					try
-					{
-						PcSafetySupportAccess.SetPcSupportControl(pc, true);
-					}
-					catch (Exception ex)
-					{
-						MessageBox.Show(ex.Message, "PC安心サポート管理情報登録エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-						base.DialogResult = DialogResult.Cancel;
-						return;
-					}
-					base.DialogResult = DialogResult.OK;
+					PcSafetySupportAccess.SetPcSupportControl(pc, Program.SQLSV2);
+					base.DialogResult = DialogResult.Cancel;
 				}
-				else
+				catch (Exception ex)
 				{
-					MessageBox.Show(msg, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					MessageBox.Show(string.Format("PcSafetySupportAccess.SetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 				}
 			}
 			else
 			{
 				// 更新
-
-				// 顧客ID
-				pc.CustomerID = OrgPcSupport.CustomerID;
+				PcSupportControl pc = new PcSupportControl(OrgPcSupport);
 
 				// 商品ID
 				pc.GoodsID = comboBoxGoods.SelectedValue as string;
 
 				// 契約年数
-				PcSupportGoodsInfo goods = MainForm.gPcSupportGoodsList.Find(p => p.GoodsID == pc.GoodsID);
-				pc.AgreeYear = goods.AgreeYear;
+				PcSupportGoodsInfo goodsInfo = MainForm.gPcSupportGoodsList.Find(p => p.GoodsID == pc.GoodsID);
+				pc.AgreeYear = goodsInfo.AgreeYear;
 
 				// 料金
-				pc.Price = goods.Price;
+				pc.Price = goodsInfo.Price;
 
 				// 契約開始日
 				pc.StartDate = new Date(dateTimePickerStartDate.Value);
 
 				// 契約終了日
-				pc.EndDate = new Date(dateTimePickerEndDate.Value);
+				pc.EndDate = PcSupportControl.GetEndDate(pc.StartDate.Value, goodsInfo.AgreeYear);
 
 				// 拠店
 				pc.BranchID = comboBoxBranch.SelectedValue as string;
@@ -389,17 +443,29 @@ namespace PcSafetySupport.Forms
 				pc.SalesmanID = comboBoxEmployee.SelectedValue as string;
 
 				// メールアドレス
-				pc.MaleAddress = textBoxMaleAdderss.Text;
+				pc.MailAddress = textBoxMailAdderss.Text.Trim();
 
 				// 備考１
-				pc.Remark1 = textBoxRemark1.Text;
+				pc.Remark1 = textBoxRemark1.Text.Trim();
 
 				// 備考２
-				pc.Remark2 = textBoxRemark2.Text;
+				pc.Remark2 = textBoxRemark2.Text.Trim();
+
+				// 受注日
+				pc.OrderDate = new Date(dateTimePickerOrderDate.Value);
 
 				// 申込用紙有無
-				pc.ApplyReportAccept = checkBoxApplyReportAccept.Checked;
+				pc.OrderReportAccept = checkBoxOrderReportAccept.Checked;
 
+				// 受注承認日
+				if (checkBoxOrderApprovalDate.Checked)
+				{
+					pc.OrderApprovalDate = new Date(dateTimePickerOrderApprovalDate.Value);
+				}
+				else
+				{
+					pc.OrderApprovalDate = null;
+				}
 				// 解約情報
 				if (checkBoxPeriodEndDate.Enabled && checkBoxPeriodEndDate.Checked)
 				{
@@ -413,7 +479,21 @@ namespace PcSafetySupport.Forms
 					pc.CancelReportAccept = checkBoxCancelReportAccept.Checked;
 
 					// 解約事由
-					pc.CancelReason = textBoxCancelReason.Text;
+					pc.CancelReason = textBoxCancelReason.Text.Trim();
+				}
+				else
+				{
+					// 利用期限日
+					pc.PeriodEndDate = null;
+
+					// 解約日時
+					pc.CancelDate = null;
+
+					// 解約届有無
+					pc.CancelReportAccept = false;
+
+					// 解約事由
+					pc.CancelReason = string.Empty;
 				}
 				// 更新日時
 				pc.UpdateDateTime = DateTime.Now;
@@ -421,31 +501,26 @@ namespace PcSafetySupport.Forms
 				// 更新者
 				pc.UpdatePerson = MainForm.PROGRAM_NAME;
 
-				string msg;
-				if (pc.IsAcceptComputeData(out msg))
+				// 無効
+				pc.DisableFlag = checkBoxDisable.Checked;
+
+				// WonderWeb更新フラグ
+				if (false == OrgPcSupport.WonderWebRenewalFlag)
 				{
-					// WonderWeb更新フラグ
-					if (false == OrgPcSupport.WonderWebRenewalFlag)
-					{
-						pc.WonderWebRenewalFlag = pc.IsWonderWebRenewal(OrgPcSupport);
-					}
-					try
-					{
-						PcSafetySupportAccess.SetPcSupportControl(pc, true);
-					}
-					catch (Exception ex)
-					{
-						MessageBox.Show(ex.Message, "PC安心サポート管理情報登録エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-						base.DialogResult = DialogResult.Cancel;
-						return;
-					}
+					pc.WonderWebRenewalFlag = pc.IsWonderWebRenewal(OrgPcSupport);
+				}
+				try
+				{
+					PcSafetySupportAccess.SetPcSupportControl(pc, Program.SQLSV2);
 					base.DialogResult = DialogResult.OK;
 				}
-				else
+				catch (Exception ex)
 				{
-					MessageBox.Show(msg, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					MessageBox.Show(string.Format("PcSafetySupportAccess.SetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 				}
 			}
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
 		}
 	}
 }
