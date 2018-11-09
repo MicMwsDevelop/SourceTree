@@ -1,14 +1,13 @@
 ﻿using MwsLib.Common;
 using System;
 
-namespace MwsLib.BaseFactory.PcSafetySupport
+namespace MwsLib.BaseFactory.PcSupportTool
 {
 	/// <summary>
 	/// PC安心サポート管理情報
 	/// [Charlie].[dbo].[T_PC_SUPPORT_CONTORL]
 	/// </summary>
-	[Serializable]
-	public class PcSupportControl : IEquatable<PcSupportControl>
+	public class PcSupportControl
 	{
 		/// <summary>
 		/// 受注No
@@ -31,6 +30,21 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		public string GoodsID { get; set; }
 
 		/// <summary>
+		/// 商品名
+		/// </summary>
+		public string GoodsName { get; set; }
+
+		/// <summary>
+		/// 料金
+		/// </summary>
+		public int Price { get; set; }
+
+		/// <summary>
+		/// 契約年数
+		/// </summary>
+		public int AgreeYear { get; set; }
+
+		/// <summary>
 		/// 契約開始日
 		/// </summary>
 		public Date? StartDate { get; set; }
@@ -46,24 +60,24 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		public Date? PeriodEndDate { get; set; }
 
 		/// <summary>
-		/// 契約年数
+		/// 拠店ID
 		/// </summary>
-		public int AgreeYear { get; set; }
+		public string BranchID { get; set; }
 
 		/// <summary>
-		/// 料金
+		/// 拠店名
 		/// </summary>
-		public int Price { get; set; }
+		public string BranchName { get; set; }
 
 		/// <summary>
-		/// 営業担当者ID
+		/// 担当者ID
 		/// </summary>
 		public string SalesmanID { get; set; }
 
 		/// <summary>
-		/// 拠店ID
+		/// 担当者名
 		/// </summary>
-		public string BranchID { get; set; }
+		public string SalesmanName { get; set; }
 
 		/// <summary>
 		/// 受注日
@@ -86,14 +100,9 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		public string MailAddress { get; set; }
 
 		/// <summary>
-		/// 備考１
+		/// 備考
 		/// </summary>
-		public string Remark1 { get; set; }
-
-		/// <summary>
-		/// 備考２
-		/// </summary>
-		public string Remark2 { get; set; }
+		public string Remark { get; set; }
 
 		/// <summary>
 		/// 開始メール送信日時
@@ -164,19 +173,21 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 			CustomerNo = 0;
 			ClinicName = string.Empty;
 			GoodsID = string.Empty;
+			GoodsName = string.Empty;
+			Price = 0;
+			AgreeYear = 0;
 			StartDate = null;
 			EndDate = null;
 			PeriodEndDate = null;
-			AgreeYear = 0;
-			Price = 0;
-			SalesmanID = string.Empty;
 			BranchID = string.Empty;
+			BranchName = string.Empty;
+			SalesmanID = string.Empty;
+			SalesmanName = string.Empty;
 			OrderDate = null;
 			OrderReportAccept = false;
 			OrderApprovalDate = null;
 			MailAddress = string.Empty;
-			Remark1 = string.Empty;
-			Remark2 = string.Empty;
+			Remark = string.Empty;
 			StartMailDateTime = null;
 			GuideMailDateTime = null;
 			UpdateMailDateTime = null;
@@ -191,7 +202,6 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 			UpdatePerson = string.Empty;
 		}
 
-		/// <summary>
 		/// コンストラクタ
 		/// </summary>
 		/// <param name="other">PcSupportControl</param>
@@ -202,19 +212,21 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 			CustomerNo = other.CustomerNo;
 			ClinicName = other.ClinicName;
 			GoodsID = other.GoodsID;
+			GoodsName = other.GoodsName;
+			Price = other.Price;
+			AgreeYear = other.AgreeYear;
 			StartDate = other.StartDate;
 			EndDate = other.EndDate;
 			PeriodEndDate = other.PeriodEndDate;
-			AgreeYear = other.AgreeYear;
-			Price = other.Price;
-			SalesmanID = other.SalesmanID;
 			BranchID = other.BranchID;
+			BranchName = other.BranchName;
+			SalesmanID = other.SalesmanID;
+			SalesmanName = other.SalesmanName;
 			OrderDate = other.OrderDate;
 			OrderReportAccept = other.OrderReportAccept;
 			OrderApprovalDate = other.OrderApprovalDate;
 			MailAddress = other.MailAddress;
-			Remark1 = other.Remark1;
-			Remark2 = other.Remark2;
+			Remark = other.Remark;
 			StartMailDateTime = other.StartMailDateTime;
 			GuideMailDateTime = other.GuideMailDateTime;
 			UpdateMailDateTime = other.UpdateMailDateTime;
@@ -230,112 +242,211 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 		}
 
 		/// <summary>
-		/// 同一かどうかを判断する
+		/// コンストラクタ
 		/// </summary>
-		/// <param name="other">比較するPcSupportControl</param>
-		/// <returns>判定</returns>
-		public bool Equals(PcSupportControl other)
+		/// <param name="order">受注情報</param>
+
+		public PcSupportControl(OrderInfo order, string mailAddress)
 		{
-			if (null != other)
-			{
-				if (OrderNo != other.OrderNo)
-					return false;
-				if (CustomerNo != other.CustomerNo)
-					return false;
-				if (ClinicName != other.ClinicName)
-					return false;
-				if (GoodsID != other.GoodsID)
-					return false;
-				if (StartDate != other.StartDate)
-					return false;
-				if (EndDate != other.EndDate)
-					return false;
-				if (PeriodEndDate != other.PeriodEndDate)
-					return false;
-				if (AgreeYear != other.AgreeYear)
-					return false;
-				if (Price != other.Price)
-					return false;
-				if (SalesmanID != other.SalesmanID)
-					return false;
-				if (BranchID != other.BranchID)
-					return false;
-				if (OrderDate != other.OrderDate)
-					return false;
-				if (OrderReportAccept != other.OrderReportAccept)
-					return false;
-				if (OrderApprovalDate != other.OrderApprovalDate)
-					return false;
-				if (MailAddress != other.MailAddress)
-					return false;
-				if (Remark1 != other.Remark1)
-					return false;
-				if (Remark2 != other.Remark2)
-					return false;
-				if (StartMailDateTime != other.StartMailDateTime)
-					return false;
-				if (GuideMailDateTime != other.GuideMailDateTime)
-					return false;
-				if (UpdateMailDateTime != other.UpdateMailDateTime)
-					return false;
-				if (CancelDate != other.CancelDate)
-					return false;
-				if (CancelReportAccept != other.CancelReportAccept)
-					return false;
-				if (CancelReason != other.CancelReason)
-					return false;
-				if (DisableFlag != other.DisableFlag)
-					return false;
-				if (WonderWebRenewalFlag != other.WonderWebRenewalFlag)
-					return false;
-				if (CreateDateTime != other.CreateDateTime)
-					return false;
-				if (CreatePerson != other.CreatePerson)
-					return false;
-				if (UpdateDateTime != other.UpdateDateTime)
-					return false;
-				if (UpdatePerson != other.UpdatePerson)
-					return false;
+			this.SetOrderInfo(order, mailAddress);
+			StartDate = null;
+			EndDate = null;
+			PeriodEndDate = null;
+			OrderReportAccept = false;
+			StartMailDateTime = null;
+			GuideMailDateTime = null;
+			UpdateMailDateTime = null;
+			CancelDate = null;
+			CancelReportAccept = false;
+			CancelReason = string.Empty;
+			DisableFlag = false;
+			CreateDateTime = null;
+			CreatePerson = string.Empty;
+			UpdateDateTime = null;
+			UpdatePerson = string.Empty;
+		}
+
+		/// <summary>
+		/// 受注情報からの変更があるかどうか？
+		/// </summary>
+		/// <param name="order">受注情報</param>
+		/// <returns>判定</returns>
+		public bool IsUpdateOrderData(OrderInfo order, string mailAddress)
+		{
+			if (OrderNo != order.OrderNo)
 				return true;
-			}
+			if (CustomerNo != order.CustomerNo)
+				return true;
+			if (ClinicName != order.ClinicName)
+				return true;
+			if (GoodsID != order.GoodsID)
+				return true;
+			if (GoodsName != order.GoodsName)
+				return true;
+			if (Price != order.Price)
+				return true;
+			if (AgreeYear != order.AgreeYear)
+				return true;
+			if (BranchID != order.BranchID)
+				return true;
+			if (BranchName != order.BranchName)
+				return true;
+			if (SalesmanID != order.SalesmanID)
+				return true;
+			if (SalesmanName != order.SalesmanName)
+				return true;
+			if (OrderDate != order.OrderDate)
+				return true;
+			if (OrderApprovalDate != order.OrderApprovalDate)
+				return true;
+			if (MailAddress != mailAddress)
+				return true;
+			if (Remark != order.Remark)
+				return true;
 			return false;
 		}
 
 		/// <summary>
-		/// このインスタンスと、指定したオブジェクトの値が同一かどうかを判断する
-		/// (Object.Equals(Object)をオーバーライドする)
+		/// 受注情報の格納
 		/// </summary>
-		/// <param name="obj">比較するPcSupportControlオブジェクト</param>
-		/// <returns>判定</returns>
-		public override bool Equals(object obj)
+		/// <param name="order">受注情報</param>
+		public void SetOrderInfo(OrderInfo order, string mailAddress)
 		{
-			if (obj is PcSupportControl)
+			bool wwFlag = false;
+			if (GoodsID != order.GoodsID)
+				wwFlag = true;
+			if (OrderDate != order.OrderDate)
+				wwFlag = true;
+			if (Remark != order.Remark)
+				wwFlag = true;
+			OrderNo = order.OrderNo;
+			CustomerNo = order.CustomerNo;
+			ClinicName = order.ClinicName;
+			GoodsID = order.GoodsID;
+			GoodsName = order.GoodsName;
+			Price = order.Price;
+			AgreeYear = order.AgreeYear;
+			BranchID = order.BranchID;
+			BranchName = order.BranchName;
+			SalesmanID = order.SalesmanID;
+			SalesmanName = order.SalesmanName;
+			OrderDate = order.OrderDate;
+			OrderApprovalDate = order.OrderApprovalDate;
+			MailAddress = mailAddress;
+			Remark = order.Remark;
+			if (false == WonderWebRenewalFlag)
 			{
-				return this.Equals((PcSupportControl)obj);
-			}
-			else
-			{
-				return base.Equals(obj);
+				WonderWebRenewalFlag = wwFlag;
 			}
 		}
 
-		/// <summary>
-		/// ハッシュコードを返す
-		/// </summary>
-		/// <returns>ハッシュコード</returns>
-		public override int GetHashCode()
-		{
-			return ToString().GetHashCode();
-		}
+		///// <summary>
+		///// 同一かどうかを判断する
+		///// </summary>
+		///// <param name="other">比較するPcSupportControl</param>
+		///// <returns>判定</returns>
+		//public bool Equals(PcSupportControl other)
+		//{
+		//	if (null != other)
+		//	{
+		//		if (OrderNo != other.OrderNo)
+		//			return false;
+		//		if (CustomerNo != other.CustomerNo)
+		//			return false;
+		//		if (ClinicName != other.ClinicName)
+		//			return false;
+		//		if (GoodsID != other.GoodsID)
+		//			return false;
+		//		if (StartDate != other.StartDate)
+		//			return false;
+		//		if (EndDate != other.EndDate)
+		//			return false;
+		//		if (PeriodEndDate != other.PeriodEndDate)
+		//			return false;
+		//		if (AgreeYear != other.AgreeYear)
+		//			return false;
+		//		if (Price != other.Price)
+		//			return false;
+		//		if (SalesmanID != other.SalesmanID)
+		//			return false;
+		//		if (BranchID != other.BranchID)
+		//			return false;
+		//		if (OrderDate != other.OrderDate)
+		//			return false;
+		//		if (OrderReportAccept != other.OrderReportAccept)
+		//			return false;
+		//		if (OrderApprovalDate != other.OrderApprovalDate)
+		//			return false;
+		//		if (MailAddress != other.MailAddress)
+		//			return false;
+		//		if (Remark1 != other.Remark1)
+		//			return false;
+		//		if (Remark2 != other.Remark2)
+		//			return false;
+		//		if (StartMailDateTime != other.StartMailDateTime)
+		//			return false;
+		//		if (GuideMailDateTime != other.GuideMailDateTime)
+		//			return false;
+		//		if (UpdateMailDateTime != other.UpdateMailDateTime)
+		//			return false;
+		//		if (CancelDate != other.CancelDate)
+		//			return false;
+		//		if (CancelReportAccept != other.CancelReportAccept)
+		//			return false;
+		//		if (CancelReason != other.CancelReason)
+		//			return false;
+		//		if (DisableFlag != other.DisableFlag)
+		//			return false;
+		//		if (WonderWebRenewalFlag != other.WonderWebRenewalFlag)
+		//			return false;
+		//		if (CreateDateTime != other.CreateDateTime)
+		//			return false;
+		//		if (CreatePerson != other.CreatePerson)
+		//			return false;
+		//		if (UpdateDateTime != other.UpdateDateTime)
+		//			return false;
+		//		if (UpdatePerson != other.UpdatePerson)
+		//			return false;
+		//		return true;
+		//	}
+		//	return false;
+		//}
 
-		/// <summary>
-		/// 出力レコードの取得
-		/// </summary>
-		/// <returns>出力レコード</returns>
-		public override string ToString()
-		{
-			return OrderNo + CustomerNo.ToString() + ClinicName + GoodsID + SalesmanID + BranchID + MailAddress + Remark1 + Remark2 + CancelReason + CreatePerson + UpdatePerson;
-		}
+		///// <summary>
+		///// このインスタンスと、指定したオブジェクトの値が同一かどうかを判断する
+		///// (Object.Equals(Object)をオーバーライドする)
+		///// </summary>
+		///// <param name="obj">比較するPcSupportControlオブジェクト</param>
+		///// <returns>判定</returns>
+		//public override bool Equals(object obj)
+		//{
+		//	if (obj is PcSupportControl)
+		//	{
+		//		return this.Equals((PcSupportControl)obj);
+		//	}
+		//	else
+		//	{
+		//		return base.Equals(obj);
+		//	}
+		//}
+
+		///// <summary>
+		///// ハッシュコードを返す
+		///// </summary>
+		///// <returns>ハッシュコード</returns>
+		//public override int GetHashCode()
+		//{
+		//	return ToString().GetHashCode();
+		//}
+
+		///// <summary>
+		///// 出力レコードの取得
+		///// </summary>
+		///// <returns>出力レコード</returns>
+		//public override string ToString()
+		//{
+		//	return OrderNo + CustomerNo.ToString() + ClinicName + GoodsID + SalesmanID + BranchID + MailAddress + Remark1 + Remark2 + CancelReason + CreatePerson + UpdatePerson;
+		//}
 
 		/// <summary>
 		/// 契約開始日と契約年数に対する契約終了日の取得
@@ -500,9 +611,7 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 				return true;
 			if (OrderDate != prev.OrderDate)
 				return true;
-			if (Remark1 != prev.Remark1)
-				return true;
-			if (Remark2 != prev.Remark2)
+			if (Remark != prev.Remark)
 				return true;
 			if (DisableFlag != prev.DisableFlag)
 				return true;
@@ -544,8 +653,7 @@ namespace MwsLib.BaseFactory.PcSafetySupport
 			{
 				contract.EndYM = EndDate.Value.ToYearMonth();
 			}
-			contract.Remark1 = Remark1;
-			contract.Remark2 = Remark2;
+			contract.Remark1 = Remark;
 			return contract;
 		}
 	}

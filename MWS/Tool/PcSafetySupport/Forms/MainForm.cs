@@ -93,9 +93,9 @@ namespace PcSafetySupport.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void buttonMale_Click(object sender, EventArgs e)
+		private void buttonSendMaleInfo_Click(object sender, EventArgs e)
 		{
-			using (SendMailForm form = new SendMailForm())
+			using (SendMailInfoForm form = new SendMailInfoForm())
 			{
 				form.ShowDialog();
 			}
@@ -129,6 +129,16 @@ namespace PcSafetySupport.Forms
 		private void buttonClose_Click(object sender, EventArgs e)
 		{
 			this.Close();
+		}
+
+		/// <summary>
+		/// メール送信
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonSendMail_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

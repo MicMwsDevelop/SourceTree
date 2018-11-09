@@ -34,7 +34,8 @@
 			this.buttonMonthly = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.buttonControl = new System.Windows.Forms.Button();
-			this.buttonMale = new System.Windows.Forms.Button();
+			this.buttonSendMaleInfo = new System.Windows.Forms.Button();
+			this.buttonSendMail = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// buttonDaily
@@ -79,7 +80,7 @@
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(296, 282);
+			this.buttonClose.Location = new System.Drawing.Point(297, 340);
 			this.buttonClose.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(87, 48);
@@ -99,23 +100,35 @@
 			this.buttonControl.UseVisualStyleBackColor = true;
 			this.buttonControl.Click += new System.EventHandler(this.buttonControl_Click);
 			// 
-			// buttonMale
+			// buttonSendMaleInfo
 			// 
-			this.buttonMale.Location = new System.Drawing.Point(19, 118);
-			this.buttonMale.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.buttonMale.Name = "buttonMale";
-			this.buttonMale.Size = new System.Drawing.Size(365, 48);
-			this.buttonMale.TabIndex = 6;
-			this.buttonMale.Text = "送信メール情報";
-			this.buttonMale.UseVisualStyleBackColor = true;
-			this.buttonMale.Click += new System.EventHandler(this.buttonMale_Click);
+			this.buttonSendMaleInfo.Location = new System.Drawing.Point(19, 118);
+			this.buttonSendMaleInfo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.buttonSendMaleInfo.Name = "buttonSendMaleInfo";
+			this.buttonSendMaleInfo.Size = new System.Drawing.Size(365, 48);
+			this.buttonSendMaleInfo.TabIndex = 6;
+			this.buttonSendMaleInfo.Text = "送信メール情報";
+			this.buttonSendMaleInfo.UseVisualStyleBackColor = true;
+			this.buttonSendMaleInfo.Click += new System.EventHandler(this.buttonSendMaleInfo_Click);
+			// 
+			// buttonSendMail
+			// 
+			this.buttonSendMail.Location = new System.Drawing.Point(19, 284);
+			this.buttonSendMail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.buttonSendMail.Name = "buttonSendMail";
+			this.buttonSendMail.Size = new System.Drawing.Size(365, 48);
+			this.buttonSendMail.TabIndex = 7;
+			this.buttonSendMail.Text = "メール送信";
+			this.buttonSendMail.UseVisualStyleBackColor = true;
+			this.buttonSendMail.Click += new System.EventHandler(this.buttonSendMail_Click);
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(405, 348);
-			this.Controls.Add(this.buttonMale);
+			this.ClientSize = new System.Drawing.Size(405, 400);
+			this.Controls.Add(this.buttonSendMail);
+			this.Controls.Add(this.buttonSendMaleInfo);
 			this.Controls.Add(this.buttonControl);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.buttonMonthly);
@@ -129,7 +142,7 @@
 			this.MinimizeBox = false;
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "ＰＣ安心サポート管理ツール";
+			this.Text = "PC安心サポート管理ツール";
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -144,7 +157,8 @@
 		private System.Windows.Forms.Button buttonMonthly;
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonControl;
-		private System.Windows.Forms.Button buttonMale;
+		private System.Windows.Forms.Button buttonSendMaleInfo;
+		private System.Windows.Forms.Button buttonSendMail;
 	}
 }
 

@@ -60,13 +60,13 @@ namespace PcSafetySupport.Forms
 				dataGridViewControl.Columns["CUSTOMER_ID"].HeaderText = "顧客No";
 				dataGridViewControl.Columns["CLINIC_NAME"].HeaderText = "医院名";
 				dataGridViewControl.Columns["GOODS_ID"].HeaderText = "商品ID";
+				dataGridViewControl.Columns["AGREE_YEAR"].HeaderText = "契約年数";
+				dataGridViewControl.Columns["PRICE"].HeaderText = "料金";
 				dataGridViewControl.Columns["START_DATE"].HeaderText = "契約開始日";
 				dataGridViewControl.Columns["END_DATE"].HeaderText = "契約終了日";
 				dataGridViewControl.Columns["PERIOD_END_DATE"].HeaderText = "利用期限日";
-				dataGridViewControl.Columns["AGREE_YEAR"].HeaderText = "契約年数";
-				dataGridViewControl.Columns["PRICE"].HeaderText = "料金";
 				dataGridViewControl.Columns["MARKETING_SPECIALIST_ID"].HeaderText = "営業担当者ID";
-				dataGridViewControl.Columns["BRANCH_ID"].HeaderText = "支店ID";
+				dataGridViewControl.Columns["BRANCH_ID"].HeaderText = "拠店ID";
 				dataGridViewControl.Columns["ORDER_DATE"].HeaderText = "受注日";
 				dataGridViewControl.Columns["ORDER_REPORT_ACCEPT"].HeaderText = "申込用紙有無";
 				dataGridViewControl.Columns["ORDER_APPROVAL_DATE"].HeaderText = "受注承認日";
@@ -91,11 +91,11 @@ namespace PcSafetySupport.Forms
 				dataGridViewControl.Columns["CUSTOMER_ID"].DisplayIndex = 1;
 				dataGridViewControl.Columns["CLINIC_NAME"].DisplayIndex = 2;
 				dataGridViewControl.Columns["GOODS_ID"].DisplayIndex = 3;
-				dataGridViewControl.Columns["START_DATE"].DisplayIndex = 4;
-				dataGridViewControl.Columns["END_DATE"].DisplayIndex = 5;
-				dataGridViewControl.Columns["PERIOD_END_DATE"].DisplayIndex = 6;
-				dataGridViewControl.Columns["AGREE_YEAR"].DisplayIndex = 7;
-				dataGridViewControl.Columns["PRICE"].DisplayIndex = 8;
+				dataGridViewControl.Columns["AGREE_YEAR"].DisplayIndex = 4;
+				dataGridViewControl.Columns["PRICE"].DisplayIndex = 5;
+				dataGridViewControl.Columns["START_DATE"].DisplayIndex = 6;
+				dataGridViewControl.Columns["END_DATE"].DisplayIndex = 7;
+				dataGridViewControl.Columns["PERIOD_END_DATE"].DisplayIndex = 8;
 				dataGridViewControl.Columns["MARKETING_SPECIALIST_ID"].DisplayIndex = 9;
 				dataGridViewControl.Columns["BRANCH_ID"].DisplayIndex = 10;
 				dataGridViewControl.Columns["ORDER_DATE"].DisplayIndex = 11;
@@ -162,26 +162,33 @@ namespace PcSafetySupport.Forms
 				if (null != control)
 				{
 					// 変更
-					for (int i = 0; i < dataGridViewControl.Rows.Count; i++)
-					{
-						DataRowView drv = dataGridViewControl.Rows[i].DataBoundItem as DataRowView;
-						DataRow dataRow = drv.Row as DataRow;
-						if (control.OrderNo == (string)dataRow.ItemArray[0])
-						{
-							dataGridViewControl.Rows[i].Selected = true;
-							break;
-						}
-					}
 					using (PcSupportControlForm form = new PcSupportControlForm(control))
 					{
 						if (DialogResult.OK == form.ShowDialog())
 						{
 							try
 							{
+								// DataSourceのクリア
+								((DataTable)DataGridViewControlBindingSource.DataSource).Clear();
+
 								DataTable dataTable = PcSafetySupportAccess.GetPcSupportControl("", Program.SQLSV2);
 								DataGridViewControlBindingSource = new BindingSource(dataTable, null);
 								dataGridViewControl.DataSource = DataGridViewControlBindingSource;
 								PcSupportControlList = PcSafetySupportController.ConvertPcSupportControl(dataTable);
+
+								for (int i = 0; i < dataGridViewControl.Rows.Count; i++)
+								{
+									DataRowView drv = dataGridViewControl.Rows[i].DataBoundItem as DataRowView;
+									DataRow dataRow = drv.Row as DataRow;
+									if (control.OrderNo == (string)dataRow.ItemArray[0])
+									{
+										dataGridViewControl.Rows[i].Selected = true;
+
+										// 先頭の行までスクロールする
+										dataGridViewControl.FirstDisplayedScrollingRowIndex = i;
+										break;
+									}
+								}
 							}
 							catch (Exception ex)
 							{
@@ -199,6 +206,9 @@ namespace PcSafetySupport.Forms
 						{
 							try
 							{
+								// DataSourceのクリア
+								((DataTable)DataGridViewControlBindingSource.DataSource).Clear();
+
 								DataTable dataTable = PcSafetySupportAccess.GetPcSupportControl("", Program.SQLSV2);
 								DataGridViewControlBindingSource = new BindingSource(dataTable, null);
 								dataGridViewControl.DataSource = DataGridViewControlBindingSource;
@@ -211,6 +221,9 @@ namespace PcSafetySupport.Forms
 									if (textBoxOrderNo.Text == (string)dataRow.ItemArray[0])
 									{
 										dataGridViewControl.Rows[i].Selected = true;
+
+										// 先頭の行までスクロールする
+										dataGridViewControl.FirstDisplayedScrollingRowIndex = i;
 										break;
 									}
 								}
@@ -222,6 +235,7 @@ namespace PcSafetySupport.Forms
 						}
 					}
 				}
+				textBoxOrderNo.Text = string.Empty;
 			}
 		}
 
@@ -243,10 +257,27 @@ namespace PcSafetySupport.Forms
 					{
 						try
 						{
+							// DataSourceのクリア
+							((DataTable)DataGridViewControlBindingSource.DataSource).Clear();
+
 							DataTable dataTable = PcSafetySupportAccess.GetPcSupportControl("", Program.SQLSV2);
 							DataGridViewControlBindingSource = new BindingSource(dataTable, null);
 							dataGridViewControl.DataSource = DataGridViewControlBindingSource;
 							PcSupportControlList = PcSafetySupportController.ConvertPcSupportControl(dataTable);
+
+							for (int i = 0; i < dataGridViewControl.Rows.Count; i++)
+							{
+								DataRowView drv = dataGridViewControl.Rows[i].DataBoundItem as DataRowView;
+								DataRow dataRow = drv.Row as DataRow;
+								if (control.OrderNo == (string)dataRow.ItemArray[0])
+								{
+									dataGridViewControl.Rows[i].Selected = true;
+
+									// 先頭の行までスクロールする
+									dataGridViewControl.FirstDisplayedScrollingRowIndex = i;
+									break;
+								}
+							}
 						}
 						catch (Exception ex)
 						{
