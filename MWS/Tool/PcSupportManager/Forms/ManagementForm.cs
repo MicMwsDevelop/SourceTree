@@ -1,16 +1,11 @@
-﻿using System;
+﻿using DataGridViewAutoFilter;
+using MwsLib.BaseFactory.PcSupportManager;
+using MwsLib.DB.SqlServer.PcSupportManager;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using MwsLib.BaseFactory.PcSupportManager;
-using DataGridViewAutoFilter;
-using MwsLib.DB.SqlServer.PcSupportManager;
-using MwsLib.Common;
 
 namespace PcSupportManager.Forms
 {
@@ -195,7 +190,7 @@ namespace PcSupportManager.Forms
 		/// <param name="e"></param>
 		private void radioButtonInputed_CheckedChanged(object sender, EventArgs e)
 		{
-			dataGridViewManagerBindingSource.Filter = "START_DATE is not null AND 0 < LEN(MAIL_ADDRESS) AND ORDER_REPORT_ACCEPT <> '0'";
+			dataGridViewManagerBindingSource.Filter = "START_DATE is not null AND 0 < LEN(MAIL_ADDRESS) AND ORDER_REPORT_ACCEPT <> '0' AND DISABLE_FLAG = '0'";
 
 			// 背景色の設定
 			this.SetDataGridViewManagerCellBackColor();
@@ -216,10 +211,10 @@ namespace PcSupportManager.Forms
 			try
 			{
 				List<Tuple<int, string>> mailAddressList = PcSupportManagerAccess.GetMailAddress();
-
 				List<OrderInfo> orderInfoList = PcSupportManagerAccess.GetOrderInfoList();
 				PcSupportControlList = PcSupportManagerAccess.GetPcSupportControl();
 
+				bool modifyFlag = false;
 				foreach (OrderInfo order in orderInfoList)
 				{
 					string mailAddress = string.Empty;
@@ -235,6 +230,7 @@ namespace PcSupportManager.Forms
 						{
 							control.SetOrderInfo(order, mailAddress);
 							PcSupportManagerAccess.SetPcSupportControl(control);
+							modifyFlag = true;
 						}
 					}
 					else
@@ -242,18 +238,28 @@ namespace PcSupportManager.Forms
 						control = new PcSupportControl(order, mailAddress);
 						PcSupportControlList.Add(control);
 						PcSupportManagerAccess.SetPcSupportControl(control);
+						modifyFlag = true;
 					}
 				}
-				// DataSourceのクリア
-				((DataTable)dataGridViewManagerBindingSource.DataSource).Clear();
+				if (modifyFlag)
+				{
+					// DataSourceのクリア
+					((DataTable)dataGridViewManagerBindingSource.DataSource).Clear();
 
-				DataTable dataTable = PcSupportManagerAccess.GetDataTablePcSupportControl();
-				dataGridViewManagerBindingSource = new BindingSource(dataTable, null);
-				dataGridViewManager.DataSource = dataGridViewManagerBindingSource;
-				PcSupportControlList = PcSupportManagerController.ConvertPcSupportControl(dataTable);
+					DataTable dataTable = PcSupportManagerAccess.GetDataTablePcSupportControl();
+					dataGridViewManagerBindingSource = new BindingSource(dataTable, null);
+					dataGridViewManager.DataSource = dataGridViewManagerBindingSource;
+					PcSupportControlList = PcSupportManagerController.ConvertPcSupportControl(dataTable);
 
-				// 背景色の設定
-				this.SetDataGridViewManagerCellBackColor();
+					// 背景色の設定
+					this.SetDataGridViewManagerCellBackColor();
+
+					MessageBox.Show("変更および追加がありました。", "受注情報からの読込み", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show("変更および追加はありません。", "受注情報からの読込み", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -324,18 +330,18 @@ namespace PcSupportManager.Forms
 				DateTime? startDateTime = dataGridViewManager.Rows[i].Cells[7].Value as DateTime?;
 				if (false == startDateTime.HasValue)
 				{
-					dataGridViewManager.Rows[i].Cells[7].Style.BackColor = Color.Red;
-					dataGridViewManager.Rows[i].Cells[8].Style.BackColor = Color.Red;
+					dataGridViewManager.Rows[i].Cells[7].Style.BackColor = Color.Pink;
+					dataGridViewManager.Rows[i].Cells[8].Style.BackColor = Color.Pink;
 				}
 				string accept = dataGridViewManager.Rows[i].Cells[15].Value as string;
 				if ("0" == accept)
 				{
-					dataGridViewManager.Rows[i].Cells[15].Style.BackColor = Color.Red;
+					dataGridViewManager.Rows[i].Cells[15].Style.BackColor = Color.Pink;
 				}
 				string mailAddress = dataGridViewManager.Rows[i].Cells[17].Value as string;
 				if (0 == mailAddress.Length)
 				{
-					dataGridViewManager.Rows[i].Cells[17].Style.BackColor = Color.Red;
+					dataGridViewManager.Rows[i].Cells[17].Style.BackColor = Color.Pink;
 				}
 			}
 		}

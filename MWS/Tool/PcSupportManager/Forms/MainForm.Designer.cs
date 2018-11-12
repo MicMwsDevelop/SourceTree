@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.buttonManagement = new System.Windows.Forms.Button();
+			this.buttonSendMail = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// buttonManagement
@@ -41,11 +42,22 @@
 			this.buttonManagement.UseVisualStyleBackColor = true;
 			this.buttonManagement.Click += new System.EventHandler(this.buttonManagement_Click);
 			// 
+			// buttonSendMail
+			// 
+			this.buttonSendMail.Location = new System.Drawing.Point(23, 78);
+			this.buttonSendMail.Name = "buttonSendMail";
+			this.buttonSendMail.Size = new System.Drawing.Size(313, 45);
+			this.buttonSendMail.TabIndex = 1;
+			this.buttonSendMail.Text = "メール送信";
+			this.buttonSendMail.UseVisualStyleBackColor = true;
+			this.buttonSendMail.Click += new System.EventHandler(this.buttonSendMail_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(484, 312);
+			this.Controls.Add(this.buttonSendMail);
 			this.Controls.Add(this.buttonManagement);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
@@ -60,6 +72,7 @@
 		#endregion
 
 		private System.Windows.Forms.Button buttonManagement;
+		private System.Windows.Forms.Button buttonSendMail;
 	}
 }
 

@@ -384,7 +384,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		/// <param name="list">PC安心サポート送信メール情報リスト</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int InsertIntoPcSupportMailList(List<PcSupportMail> list, bool sqlsv2)
+		public static int InsertIntoPcSupportMailList(List<PcSupportMail> list, bool sqlsv2 = false)
 		{
 			int rowCount = -1;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(sqlsv2)))

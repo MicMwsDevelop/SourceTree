@@ -75,6 +75,12 @@
     <Compile Include="Forms\PcSupportControlForm.designer.cs">
       <DependentUpon>PcSupportControlForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SendMailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SendMailForm.Designer.cs">
+      <DependentUpon>SendMailForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mail\SendMailControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,6 +92,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PcSupportControlForm.resx">
       <DependentUpon>PcSupportControlForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SendMailForm.resx">
+      <DependentUpon>SendMailForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -71,5 +71,18 @@ namespace PcSupportManager.Forms
 				form.ShowDialog();
 			}
 		}
+
+		/// <summary>
+		/// メール送信
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonSendMail_Click(object sender, EventArgs e)
+		{
+			using (SendMailForm form = new SendMailForm())
+			{
+				form.ShowDialog();
+			}
+		}
 	}
 }

@@ -131,5 +131,17 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 			DataTable dt = PcSupportManagerGetIO.GetMailAddress(sqlsv2);
 			return PcSupportManagerController.ConvertMailAddress(dt);
 		}
+
+		/// <summary>
+		/// PC安心サポート送信メール情報リストの追加
+		/// [Charlie].[dbo].[T_PC_SUPPORT_MAIL]
+		/// </summary>
+		/// <param name="list">PC安心サポート送信メール情報リスト</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>影響行数</returns>
+		public static int InsertIntoPcSupportMailList(List<PcSupportMail> list, bool sqlsv2 = false)
+		{
+			return PcSupportManagerSetIO.InsertIntoPcSupportMailList(list);
+		}
 	}
 }

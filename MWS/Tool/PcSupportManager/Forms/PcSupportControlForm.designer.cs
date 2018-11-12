@@ -118,15 +118,16 @@
 			// 
 			// dateTimePickerStartDate
 			// 
+			this.dateTimePickerStartDate.Checked = false;
 			this.dateTimePickerStartDate.CustomFormat = "yyyy年MM月";
 			this.dateTimePickerStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.dateTimePickerStartDate.Checked = false;
 			this.dateTimePickerStartDate.Location = new System.Drawing.Point(117, 199);
 			this.dateTimePickerStartDate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.dateTimePickerStartDate.Name = "dateTimePickerStartDate";
 			this.dateTimePickerStartDate.ShowCheckBox = true;
 			this.dateTimePickerStartDate.Size = new System.Drawing.Size(140, 23);
 			this.dateTimePickerStartDate.TabIndex = 13;
+			this.dateTimePickerStartDate.Value = new System.DateTime(2018, 11, 12, 17, 39, 27, 930);
 			// 
 			// dateTimePickerPeriodEndDate
 			// 
@@ -323,7 +324,7 @@
 			this.label10.Location = new System.Drawing.Point(14, 28);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(79, 15);
-			this.label10.TabIndex = 32;
+			this.label10.TabIndex = 0;
 			this.label10.Text = "■利用期限日";
 			// 
 			// checkBoxDisable
@@ -436,7 +437,7 @@
 			this.label4.Location = new System.Drawing.Point(14, 392);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(79, 15);
-			this.label4.TabIndex = 31;
+			this.label4.TabIndex = 25;
 			this.label4.Text = "■受注承認日";
 			// 
 			// PcSupportControlForm

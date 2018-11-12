@@ -120,7 +120,8 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// </summary>
 		/// <param name="mailType">メール種別</param>
 		/// <param name="pc">PC安心サポート管理情報</param>
-		public PcSupportMail(MailType mailType, PcSupportControl pc)
+		/// <param name="dt">送信日時</param>
+		public PcSupportMail(MailType mailType, PcSupportControl pc, DateTime dt)
 		{
 			MailNo = 0;
 			SendMailType = mailType;
@@ -135,7 +136,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			BranchID = pc.BranchID;
 			OrderDate = pc.OrderDate;
 			MailAddress = pc.MailAddress;
-			SendDateTime = null;
+			SendDateTime = dt;
 		}
 	}
 }

@@ -247,10 +247,23 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// </summary>
 		/// <param name="order">受注情報</param>
 		/// <param name="mailAddress">メールアドレス</param>
-
 		public PcSupportControl(OrderInfo order, string mailAddress)
 		{
-			this.SetOrderInfo(order, mailAddress);
+			OrderNo = order.OrderNo;
+			CustomerNo = order.CustomerNo;
+			ClinicName = order.ClinicName;
+			GoodsID = order.GoodsID;
+			GoodsName = order.GoodsName;
+			Price = order.Price;
+			AgreeYear = order.AgreeYear;
+			BranchID = order.BranchID;
+			BranchName = order.BranchName;
+			SalesmanID = order.SalesmanID;
+			SalesmanName = order.SalesmanName;
+			OrderDate = order.OrderDate;
+			OrderApprovalDate = order.OrderApprovalDate;
+			MailAddress = mailAddress;
+			Remark = order.Remark;
 			StartDate = null;
 			EndDate = null;
 			PeriodEndDate = null;
@@ -262,6 +275,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			CancelReportAccept = false;
 			CancelReason = string.Empty;
 			DisableFlag = false;
+			WonderWebRenewalFlag = false;
 			CreateDateTime = null;
 			CreatePerson = string.Empty;
 			UpdateDateTime = null;
@@ -341,11 +355,19 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			SalesmanName = order.SalesmanName;
 			OrderDate = order.OrderDate;
 			OrderApprovalDate = order.OrderApprovalDate;
-			if (0 == MailAddress.Length)
+			if (null == MailAddress)
 			{
 				MailAddress = mailAddress;
 			}
-			if (0 == Remark.Length)
+			else if (0 == MailAddress.Length)
+			{
+				MailAddress = mailAddress;
+			}
+			if (null == Remark)
+			{
+				Remark = order.Remark;
+			}
+			else if (0 == Remark.Length)
 			{
 				Remark = order.Remark;
 			}
@@ -354,114 +376,6 @@ namespace MwsLib.BaseFactory.PcSupportManager
 				WonderWebRenewalFlag = wwFlag;
 			}
 		}
-
-		///// <summary>
-		///// 同一かどうかを判断する
-		///// </summary>
-		///// <param name="other">比較するPcSupportControl</param>
-		///// <returns>判定</returns>
-		//public bool Equals(PcSupportControl other)
-		//{
-		//	if (null != other)
-		//	{
-		//		if (OrderNo != other.OrderNo)
-		//			return false;
-		//		if (CustomerNo != other.CustomerNo)
-		//			return false;
-		//		if (ClinicName != other.ClinicName)
-		//			return false;
-		//		if (GoodsID != other.GoodsID)
-		//			return false;
-		//		if (StartDate != other.StartDate)
-		//			return false;
-		//		if (EndDate != other.EndDate)
-		//			return false;
-		//		if (PeriodEndDate != other.PeriodEndDate)
-		//			return false;
-		//		if (AgreeYear != other.AgreeYear)
-		//			return false;
-		//		if (Price != other.Price)
-		//			return false;
-		//		if (SalesmanID != other.SalesmanID)
-		//			return false;
-		//		if (BranchID != other.BranchID)
-		//			return false;
-		//		if (OrderDate != other.OrderDate)
-		//			return false;
-		//		if (OrderReportAccept != other.OrderReportAccept)
-		//			return false;
-		//		if (OrderApprovalDate != other.OrderApprovalDate)
-		//			return false;
-		//		if (MailAddress != other.MailAddress)
-		//			return false;
-		//		if (Remark1 != other.Remark1)
-		//			return false;
-		//		if (Remark2 != other.Remark2)
-		//			return false;
-		//		if (StartMailDateTime != other.StartMailDateTime)
-		//			return false;
-		//		if (GuideMailDateTime != other.GuideMailDateTime)
-		//			return false;
-		//		if (UpdateMailDateTime != other.UpdateMailDateTime)
-		//			return false;
-		//		if (CancelDate != other.CancelDate)
-		//			return false;
-		//		if (CancelReportAccept != other.CancelReportAccept)
-		//			return false;
-		//		if (CancelReason != other.CancelReason)
-		//			return false;
-		//		if (DisableFlag != other.DisableFlag)
-		//			return false;
-		//		if (WonderWebRenewalFlag != other.WonderWebRenewalFlag)
-		//			return false;
-		//		if (CreateDateTime != other.CreateDateTime)
-		//			return false;
-		//		if (CreatePerson != other.CreatePerson)
-		//			return false;
-		//		if (UpdateDateTime != other.UpdateDateTime)
-		//			return false;
-		//		if (UpdatePerson != other.UpdatePerson)
-		//			return false;
-		//		return true;
-		//	}
-		//	return false;
-		//}
-
-		///// <summary>
-		///// このインスタンスと、指定したオブジェクトの値が同一かどうかを判断する
-		///// (Object.Equals(Object)をオーバーライドする)
-		///// </summary>
-		///// <param name="obj">比較するPcSupportControlオブジェクト</param>
-		///// <returns>判定</returns>
-		//public override bool Equals(object obj)
-		//{
-		//	if (obj is PcSupportControl)
-		//	{
-		//		return this.Equals((PcSupportControl)obj);
-		//	}
-		//	else
-		//	{
-		//		return base.Equals(obj);
-		//	}
-		//}
-
-		///// <summary>
-		///// ハッシュコードを返す
-		///// </summary>
-		///// <returns>ハッシュコード</returns>
-		//public override int GetHashCode()
-		//{
-		//	return ToString().GetHashCode();
-		//}
-
-		///// <summary>
-		///// 出力レコードの取得
-		///// </summary>
-		///// <returns>出力レコード</returns>
-		//public override string ToString()
-		//{
-		//	return OrderNo + CustomerNo.ToString() + ClinicName + GoodsID + SalesmanID + BranchID + MailAddress + Remark1 + Remark2 + CancelReason + CreatePerson + UpdatePerson;
-		//}
 
 		/// <summary>
 		/// 契約開始日と契約年数に対する契約終了日の取得
