@@ -116,6 +116,8 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 			DataTable dt = PcSupportManagerGetIO.GetPcSupportControl(data.OrderNo, sqlsv2);
 			if (0 < dt.Rows.Count)
 			{
+
+
 				return PcSupportManagerSetIO.UpdatePcSupportControl(data, sqlsv2);
 			}
 			return PcSupportManagerSetIO.InsertIntoPcSupportControl(data, sqlsv2);

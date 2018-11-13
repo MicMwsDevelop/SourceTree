@@ -10,6 +10,11 @@ namespace MwsLib.BaseFactory.PcSupportManager
 	public class PcSupportControl
 	{
 		/// <summary>
+		/// 作成者
+		/// </summary>
+		public const string PERSON_NAME = "PC安心サポート管理";
+
+		/// <summary>
 		/// 受注No
 		/// </summary>
 		public string OrderNo { get; set; }
@@ -276,8 +281,8 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			CancelReason = string.Empty;
 			DisableFlag = false;
 			WonderWebRenewalFlag = false;
-			CreateDateTime = null;
-			CreatePerson = string.Empty;
+			CreateDateTime = DateTime.Now;
+			CreatePerson = PERSON_NAME;
 			UpdateDateTime = null;
 			UpdatePerson = string.Empty;
 		}
@@ -375,6 +380,8 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			{
 				WonderWebRenewalFlag = wwFlag;
 			}
+			UpdateDateTime = DateTime.Now;
+			UpdatePerson = PERSON_NAME;
 		}
 
 		/// <summary>

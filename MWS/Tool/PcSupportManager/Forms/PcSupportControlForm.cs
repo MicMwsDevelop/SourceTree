@@ -346,7 +346,7 @@ namespace PcSupportManager.Forms
 				pc.CreateDateTime = DateTime.Now;
 
 				// 作成者
-				pc.CreatePerson = MainForm.PROGRAM_NAME;
+				pc.CreatePerson = PcSupportControl.PERSON_NAME;
 
 				// WonderWeb更新フラグ
 				pc.WonderWebRenewalFlag = true;
@@ -431,7 +431,7 @@ namespace PcSupportManager.Forms
 					pc.OrderApprovalDate = null;
 				}
 				// 解約情報
-				if (dateTimePickerOrderApprovalDate.Checked)
+				if (dateTimePickerPeriodEndDate.Checked)
 				{
 					// 利用期限日
 					pc.PeriodEndDate = new Date(dateTimePickerPeriodEndDate.Value);
@@ -451,19 +451,19 @@ namespace PcSupportManager.Forms
 					pc.PeriodEndDate = null;
 
 					// 解約日時
-					pc.CancelDate = null;
+					//pc.CancelDate = null;
 
 					// 解約届有無
-					pc.CancelReportAccept = false;
+					pc.CancelReportAccept = checkBoxCancelReportAccept.Checked;
 
 					// 解約事由
-					pc.CancelReason = string.Empty;
+					pc.CancelReason = textBoxCancelReason.Text.Trim();
 				}
 				// 更新日時
 				pc.UpdateDateTime = DateTime.Now;
 
 				// 更新者
-				pc.UpdatePerson = MainForm.PROGRAM_NAME;
+				pc.UpdatePerson = PcSupportControl.PERSON_NAME;
 
 				// 無効
 				pc.DisableFlag = checkBoxDisable.Checked;

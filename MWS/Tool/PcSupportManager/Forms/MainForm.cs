@@ -20,7 +20,7 @@ namespace PcSupportManager.Forms
 		/// <summary>
 		/// プログラム名
 		/// </summary>
-		public const string PROGRAM_NAME = "PC安心サポート管理ツール";
+		public const string PROGRAM_NAME = "PC安心サポート管理";
 
 		/// <summary>
 		/// 拠店営業員情報リスト

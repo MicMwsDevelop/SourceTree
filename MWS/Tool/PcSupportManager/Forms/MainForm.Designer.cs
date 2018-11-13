@@ -56,7 +56,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(484, 312);
+			this.ClientSize = new System.Drawing.Size(382, 146);
 			this.Controls.Add(this.buttonSendMail);
 			this.Controls.Add(this.buttonManagement);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

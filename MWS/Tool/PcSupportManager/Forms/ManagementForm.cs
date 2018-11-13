@@ -210,19 +210,13 @@ namespace PcSupportManager.Forms
 			Cursor.Current = Cursors.WaitCursor;
 			try
 			{
-				List<Tuple<int, string>> mailAddressList = PcSupportManagerAccess.GetMailAddress();
 				List<OrderInfo> orderInfoList = PcSupportManagerAccess.GetOrderInfoList();
 				PcSupportControlList = PcSupportManagerAccess.GetPcSupportControl();
 
 				bool modifyFlag = false;
 				foreach (OrderInfo order in orderInfoList)
 				{
-					string mailAddress = string.Empty;
-					Tuple<int, string> mail = mailAddressList.Find(p => p.Item1 == order.CustomerNo);
-					if (null != mail)
-					{
-						mailAddress = mail.Item2;
-					}
+					string mailAddress = this.GetMailAddress(order.CustomerNo);
 					PcSupportControl control = PcSupportControlList.Find(p => p.OrderNo == order.OrderNo);
 					if (null != control)
 					{
@@ -254,11 +248,11 @@ namespace PcSupportManager.Forms
 					// 背景色の設定
 					this.SetDataGridViewManagerCellBackColor();
 
-					MessageBox.Show("変更および追加がありました。", "受注情報からの読込み", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show("受注情報に変更がありましたので、再読込を行いました。", "受注情報からの読込み", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
 				else
 				{
-					MessageBox.Show("変更および追加はありません。", "受注情報からの読込み", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show("受注情報に変更はありません。", "受注情報からの読込み", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
 			}
 			catch (Exception ex)
@@ -280,10 +274,27 @@ namespace PcSupportManager.Forms
 			PcSupportControl control = PcSupportControlList.Find(p => p.OrderNo == orderNo);
 			if (null != control)
 			{
-				// 変更
+				int customerNo = (int)dataGridViewManager.CurrentRow.Cells[1].Value;
+				OrderInfo orderInfo = PcSupportManagerAccess.GetOrderInfo(customerNo);
+				string mailAddress = this.GetMailAddress(customerNo);
+				bool modify = false;
+				if (control.IsUpdateOrderData(orderInfo, mailAddress))
+				{
+					control.SetOrderInfo(orderInfo, mailAddress);
+					try
+					{
+						PcSupportManagerAccess.SetPcSupportControl(control);
+						modify = true;
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(string.Format("PcSupportManagerAccess.SetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+					}
+				}
 				using (PcSupportControlForm form = new PcSupportControlForm(control))
 				{
-					if (DialogResult.OK == form.ShowDialog())
+					DialogResult ret = form.ShowDialog();
+					if (modify || DialogResult.OK == ret)
 					{
 						try
 						{
@@ -321,6 +332,114 @@ namespace PcSupportManager.Forms
 		}
 
 		/// <summary>
+		/// 顧客Noによる検索
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonSearch_Click(object sender, EventArgs e)
+		{
+			if (8 == textBoxCustomerNo.Text.Length)
+			{
+				int customerNo;
+				if (int.TryParse(textBoxCustomerNo.Text, out customerNo))
+				{
+					OrderInfo orderInfo = PcSupportManagerAccess.GetOrderInfo(customerNo);
+					if (null != orderInfo)
+					{
+						string mailAddress = this.GetMailAddress(customerNo);
+						PcSupportControl control = PcSupportControlList.Find(p => p.OrderNo == orderInfo.OrderNo);
+						bool modify = false;
+						try
+						{
+							if (null != control)
+							{
+								if (control.IsUpdateOrderData(orderInfo, mailAddress))
+								{
+									control.SetOrderInfo(orderInfo, mailAddress);
+									PcSupportManagerAccess.SetPcSupportControl(control);
+									modify = true;
+								}
+							}
+							else
+							{
+								control = new PcSupportControl(orderInfo, mailAddress);
+								PcSupportManagerAccess.SetPcSupportControl(control);
+								modify = true;
+							}
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(string.Format("PcSupportManagerAccess.SetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+							return;
+						}
+						using (PcSupportControlForm form = new PcSupportControlForm(control))
+						{
+							DialogResult ret = form.ShowDialog();
+							if (modify || DialogResult.OK == ret)
+							{
+								try
+								{
+									// DataSourceのクリア
+									((DataTable)dataGridViewManagerBindingSource.DataSource).Clear();
+
+									DataTable dataTable = PcSupportManagerAccess.GetDataTablePcSupportControl();
+									dataGridViewManagerBindingSource = new BindingSource(dataTable, null);
+									dataGridViewManager.DataSource = dataGridViewManagerBindingSource;
+									PcSupportControlList = PcSupportManagerController.ConvertPcSupportControl(dataTable);
+
+									// 背景色の設定
+									this.SetDataGridViewManagerCellBackColor();
+								}
+								catch (Exception ex)
+								{
+									MessageBox.Show(string.Format("PcSupportManagerAccess.GetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+								}
+							}
+							for (int i = 0; i < dataGridViewManager.Rows.Count; i++)
+							{
+								DataRowView drv = dataGridViewManager.Rows[i].DataBoundItem as DataRowView;
+								DataRow dataRow = drv.Row as DataRow;
+								if (control.OrderNo == (string)dataRow.ItemArray[0])
+								{
+									dataGridViewManager.Rows[i].Selected = true;
+
+									// 先頭の行までスクロールする
+									dataGridViewManager.FirstDisplayedScrollingRowIndex = i;
+									break;
+								}
+							}
+						}
+					}
+					else
+					{
+						MessageBox.Show("顧客Noに該当する受注情報はありませんでした。", "検索", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					}
+				}
+			}
+			else
+			{
+				MessageBox.Show("顧客Noを正しく入力してください。", "検索", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+		}
+
+		/// <summary>
+		/// 顧客Noからメールアドレスの取得
+		/// </summary>
+		/// <param name="customerNo">顧客No</param>
+		/// <returns>メールアドレス</returns>
+		private string GetMailAddress(int customerNo)
+		{
+			List<Tuple<int, string>> mailAddressList = PcSupportManagerAccess.GetMailAddress();
+			string mailAddress = string.Empty;
+			Tuple<int, string> mail = mailAddressList.Find(p => p.Item1 == customerNo);
+			if (null != mail)
+			{
+				return mail.Item2;
+			}
+			return string.Empty;
+		}
+
+		/// <summary>
 		/// 背景色の設定
 		/// </summary>
 		private void SetDataGridViewManagerCellBackColor()
@@ -342,78 +461,6 @@ namespace PcSupportManager.Forms
 				if (0 == mailAddress.Length)
 				{
 					dataGridViewManager.Rows[i].Cells[17].Style.BackColor = Color.Pink;
-				}
-			}
-		}
-
-		/// <summary>
-		/// 顧客Noによる検索
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void buttonSearch_Click(object sender, EventArgs e)
-		{
-			if (8 == textBoxCustomerNo.Text.Length)
-			{
-				int customerNo;
-				if (int.TryParse(textBoxCustomerNo.Text, out customerNo))
-				{
-					OrderInfo orderInfo = PcSupportManagerAccess.GetOrderInfo(customerNo);
-					if (null != orderInfo)
-					{
-						for (int i = 0; i < dataGridViewManager.Rows.Count; i++)
-						{
-							string orderNo = dataGridViewManager.Rows[i].Cells[0].Value as string;
-							if (orderInfo.OrderNo == orderNo)
-							{
-								PcSupportControl control = PcSupportControlList.Find(p => p.OrderNo == orderNo);
-								if (null != control)
-								{
-									using (PcSupportControlForm form = new PcSupportControlForm(control))
-									{
-										if (DialogResult.OK == form.ShowDialog())
-										{
-											try
-											{
-												// DataSourceのクリア
-												((DataTable)dataGridViewManagerBindingSource.DataSource).Clear();
-
-												DataTable dataTable = PcSupportManagerAccess.GetDataTablePcSupportControl();
-												dataGridViewManagerBindingSource = new BindingSource(dataTable, null);
-												dataGridViewManager.DataSource = dataGridViewManagerBindingSource;
-												PcSupportControlList = PcSupportManagerController.ConvertPcSupportControl(dataTable);
-
-												for (int j = 0; j < dataGridViewManager.Rows.Count; j++)
-												{
-													DataRowView drv = dataGridViewManager.Rows[j].DataBoundItem as DataRowView;
-													DataRow dataRow = drv.Row as DataRow;
-													if (control.OrderNo == (string)dataRow.ItemArray[0])
-													{
-														dataGridViewManager.Rows[j].Selected = true;
-
-														// 先頭の行までスクロールする
-														dataGridViewManager.FirstDisplayedScrollingRowIndex = j;
-														break;
-													}
-												}
-												// 背景色の設定
-												this.SetDataGridViewManagerCellBackColor();
-											}
-											catch (Exception ex)
-											{
-												MessageBox.Show(string.Format("PcSupportManagerAccess.GetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-											}
-										}
-									}
-								}
-								break;
-							}
-						}
-					}
-					else
-					{
-						MessageBox.Show("顧客Noに該当する受注情報はありませんでした。", "検索", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					}
 				}
 			}
 		}

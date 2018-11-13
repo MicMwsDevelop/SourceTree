@@ -54,7 +54,11 @@ namespace PcSupportManager.Forms
 
 				// DataTableにチェックボックス列を追加
 				dataTable.Columns.Add(column);
-
+				for (int i = 0; i < dataTable.Rows.Count; i++)
+				{
+					// 値を予め格納していないと参照時にエラーになる
+					dataTable.Rows[i]["SEND_MAIL"] = false;
+				}
 				dataGridViewMailBindingSource = new BindingSource(dataTable, null);
 				dataGridViewMail.DataSource = dataGridViewMailBindingSource;
 				PcSupportControlList = PcSupportManagerController.ConvertPcSupportControl(dataTable);
