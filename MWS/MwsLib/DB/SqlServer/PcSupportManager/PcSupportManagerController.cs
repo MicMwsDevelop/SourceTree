@@ -53,7 +53,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		/// </summary>
 		/// <param name="table">データテーブル</param>
 		/// <returns>ソフト保守情報リスト</returns>
-		public static List<SoftMaintenanceContract> ConvertServiceInfoList(DataTable table)
+		public static List<SoftMaintenanceContract> ConvertSoftMaintenanceContractList(DataTable table)
 		{
 			List<SoftMaintenanceContract> result = null;
 			if (null != table)
@@ -63,7 +63,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 				{
 					SoftMaintenanceContract contract = new SoftMaintenanceContract();
 					contract.CustomerNo = DataBaseValue.ConvObjectToInt(row["fhsCliMicID"]);
-					contract.Subscription = DataBaseValue.ConvObjectToBool(row["fhsS保守"]);
+					contract.Subscription = ("1" == row["fhsS保守"].ToString()) ? true : false;
 					string dateStr = row["fhsS契約書回収年月"].ToString().Trim();
 					if (0 < dateStr.Length)
 					{
@@ -81,6 +81,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					{
 						contract.EndYM = YearMonth.Parse(ymStr);
 					}
+					contract.Remark1 = row["fhsSメンテ契約備考1"].ToString();
 					result.Add(contract);
 				}
 			}
@@ -197,7 +198,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					control.SalesmanID = row["SALESMAN_ID"].ToString().Trim();
 					control.SalesmanName = row["SALESMAN_NAME"].ToString().Trim();
 					control.OrderDate = DataBaseValue.ConvObjectToDateNullByDate(row["ORDER_DATE"]);
-					control.OrderReportAccept = (1 == DataBaseValue.ConvObjectToInt(row["ORDER_REPORT_ACCEPT"])) ? true : false;
+					control.OrderReportAccept = ("1" == row["ORDER_REPORT_ACCEPT"].ToString()) ? true : false;
 					control.OrderApprovalDate = DataBaseValue.ConvObjectToDateNullByDate(row["ORDER_APPROVAL_DATE"]);
 					control.MailAddress = row["MAIL_ADDRESS"].ToString().Trim();
 					control.Remark = row["REMARK"].ToString().Trim();
@@ -205,10 +206,10 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					control.GuideMailDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["GUIDE_MAIL_DATE"]);
 					control.UpdateMailDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["UPDATE_MAIL_DATE"]);
 					control.CancelDate = DataBaseValue.ConvObjectToDateNullByDate(row["CANCEL_DATE"]);
-					control.CancelReportAccept = (1 == DataBaseValue.ConvObjectToInt(row["CANCEL_REPORT_ACCEPT"])) ? true : false;
+					control.CancelReportAccept = ("1" == row["CANCEL_REPORT_ACCEPT"].ToString()) ? true : false;
 					control.CancelReason = row["CANCEL_REASON"].ToString().Trim();
-					control.DisableFlag = (1 == DataBaseValue.ConvObjectToInt(row["DISABLE_FLAG"])) ? true : false;
-					control.WonderWebRenewalFlag = (1 == DataBaseValue.ConvObjectToInt(row["WW_RENEWAL_FLAG"])) ? true : false;
+					control.DisableFlag = ("1" == row["DISABLE_FLAG"].ToString()) ? true : false;
+					control.WonderWebRenewalFlag = ("1" == row["WW_RENEWAL_FLAG"].ToString()) ? true : false;
 					control.CreateDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["CREATE_DATE"]);
 					control.CreatePerson = row["CREATE_PERSON"].ToString().Trim();
 					control.UpdateDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["UPDATE_DATE"]);
@@ -220,11 +221,11 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		}
 
 		/// <summary>
-		/// メールアドレスの取得
+		/// 顧客メールアドレスの取得
 		/// </summary>
-		/// <param name="table"></param>
-		/// <returns></returns>
-		public static List<Tuple<int, string>> ConvertMailAddress(DataTable table)
+		/// <param name="table">DataTable</param>
+		/// <returns>顧客メールアドレス</returns>
+		public static List<Tuple<int, string>> ConvertCustomerMailAddress(DataTable table)
 		{
 			List<Tuple<int, string>> result = null;
 			if (null != table)
@@ -232,10 +233,31 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 				result = new List<Tuple<int, string>>();
 				foreach (DataRow row in table.Rows)
 				{
-					PcSupportControl control = new PcSupportControl();
 					int customerID = DataBaseValue.ConvObjectToInt(row["顧客ＩＤ"]);
 					string mailAddress = row["メールアドレス"].ToString().Trim();
 					result.Add(new Tuple<int, string>(customerID, mailAddress));
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// 拠店メールアドレスの取得
+		/// </summary>
+		/// <param name="table">DataTable</param>
+		/// <returns>拠店メールアドレス</returns>
+		public static List<Tuple<string, string>> ConvertBranchMailAddress(DataTable table)
+		{
+			List<Tuple<string, string>> result = null;
+			if (null != table)
+			{
+				result = new List<Tuple<string, string>>();
+				foreach (DataRow row in table.Rows)
+				{
+					PcSupportControl control = new PcSupportControl();
+					string branchID = row["支店ＩＤ"].ToString();
+					string mailAddress = row["支店メールアドレス"].ToString().Trim();
+					result.Add(new Tuple<string, string>(branchID, mailAddress));
 				}
 			}
 			return result;

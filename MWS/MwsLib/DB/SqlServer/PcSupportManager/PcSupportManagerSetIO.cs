@@ -66,7 +66,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 													new SqlParameter("@30", null),									// fhsH卸BM先名
 													new SqlParameter("@31", null),									// fhsH金額
 													new SqlParameter("@32", DateTime.Now),							// fhs更新日
-													new SqlParameter("@33", "PcSupportTool") };						// fhs更新者
+													new SqlParameter("@33", PcSupportControl.PERSON_NAME) };		// fhs更新者
 
 							// 実行
 							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString, param);
@@ -132,7 +132,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 													new SqlParameter("@6", (data.EndYM.HasValue) ? data.EndYM.Value.ToString() : string.Empty),
 													new SqlParameter("@7", data.Remark1),
 													new SqlParameter("@8", DateTime.Now),
-													new SqlParameter("@9", "PcSupportTool") };
+													new SqlParameter("@9", PcSupportControl.PERSON_NAME) };
 							// 実行
 							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString, param);
 							if (rowCount <= -1)

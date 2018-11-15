@@ -154,6 +154,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 								+ ", fhsSメンテ料金"
 								+ ", fhsSメンテ契約開始"
 								+ ", fhsSメンテ契約終了"
+								+ ", fhsSメンテ契約備考1"
 								+ " FROM tMik保守契約";
 					if (0 < customerNo)
 					{
@@ -161,7 +162,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					}
 					else
 					{
-						strSQL += " OREDER BY fhsCliMicID ASC";
+						strSQL += " ORDER BY fhsCliMicID ASC";
 					}
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
@@ -247,9 +248,9 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					// 接続
 					con.Open();
 
-					string strSQL = @"SELECT sms_scd, sms_mei, sms_hyo FROM JunpDB.dbo.vMicPCA商品マスタ"
-									+ " WHERE sms_scd = '001871' OR sms_scd = '001872'"
-									+ " ORDER BY sms_scd ASC";
+					string strSQL = string.Format(@"SELECT sms_scd, sms_mei, sms_hyo FROM JunpDB.dbo.vMicPCA商品マスタ"
+									+ " WHERE sms_scd = '{0}' OR sms_scd = '{1}'"
+									+ " ORDER BY sms_scd ASC", PcSupportGoodsInfo.PC_SUPPORT3_GOODS_ID, PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID);
 
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
@@ -333,11 +334,11 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		}
 
 		/// <summary>
-		/// メールアドレスの取得
+		/// 顧客メールアドレスの取得
 		/// </summary>
 		/// <param name="sqlsv2">CT環境</param>
 		/// <returns></returns>
-		public static DataTable GetMailAddress(bool sqlsv2 = false)
+		public static DataTable GetCustomerMailAddress(bool sqlsv2 = false)
 		{
 			DataTable result = null;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieConnectionString(sqlsv2)))
@@ -348,6 +349,47 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					con.Open();
 
 					string strSQL = @"SELECT 顧客ＩＤ, メールアドレス FROM 顧客マスタ参照ビュー ORDER BY 顧客ＩＤ ASC";
+					using (SqlCommand cmd = new SqlCommand(strSQL, con))
+					{
+						using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+						{
+							result = new DataTable();
+							da.Fill(result);
+						}
+					}
+				}
+				catch
+				{
+					throw;
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// 拠店メールアドレスの取得
+		/// </summary>
+		/// <param name="sqlsv2">CT環境</param>
+		/// <returns></returns>
+		public static DataTable GetBranchMailAddress(bool sqlsv2 = false)
+		{
+			DataTable result = null;
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieConnectionString(sqlsv2)))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					string strSQL = @"SELECT 支店ＩＤ, 支店メールアドレス FROM 支店情報参照ビュー ORDER BY 支店ＩＤ ASC";
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
 						using (SqlDataAdapter da = new SqlDataAdapter(cmd))

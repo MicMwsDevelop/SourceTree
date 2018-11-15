@@ -39,10 +39,6 @@
     <Reference Include="DataGridViewAutoFilter">
       <HintPath>..\..\DevelopmentKit\DataGridViewAutoFilter\DataGridViewAutoFilter.dll</HintPath>
     </Reference>
-    <Reference Include="Metroit.45, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Metroit.45.1.0.5\lib\net45\Metroit.45.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -75,6 +71,12 @@
     <Compile Include="Forms\PcSupportControlForm.designer.cs">
       <DependentUpon>PcSupportControlForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SoftMainteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SoftMainteForm.Designer.cs">
+      <DependentUpon>SoftMainteForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SendMailForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +95,9 @@
     <EmbeddedResource Include="Forms\PcSupportControlForm.resx">
       <DependentUpon>PcSupportControlForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SoftMainteForm.resx">
+      <DependentUpon>SoftMainteForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\SendMailForm.resx">
       <DependentUpon>SendMailForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -106,7 +111,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -128,7 +132,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="StartMailTemplate.txt" />
+    <Content Include="GuideMailTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StartMailTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UpdateMailTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -63,72 +63,85 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			Remark1 = string.Empty;
 		}
 
-		///// <summary>
-		///// 同一かどうかを判断する
-		///// </summary>
-		///// <param name="other">比較するEstimate</param>
-		///// <returns>判定</returns>
-		//public bool Equals(SoftMaintenanceContract other)
-		//{
-		//	if (null != other)
-		//	{
-		//		if (CustomerNo != other.CustomerNo)
-		//			return false;
-		//		if (Subscription != other.Subscription)
-		//			return false;
-		//		if (CollectionDate != other.CollectionDate)
-		//			return false;
-		//		if (AgreeYear != other.AgreeYear)
-		//			return false;
-		//		if (Price != other.Price)
-		//			return false;
-		//		if (StartYM != other.StartYM)
-		//			return false;
-		//		if (EndYM != other.EndYM)
-		//			return false;
-		//		if (Remark1 != other.Remark1)
-		//			return false;
-		//		if (Remark2 != other.Remark2)
-		//			return false;
-		//		return true;
-		//	}
-		//	return false;
-		//}
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
+		/// <param name="control">PC安心サポート管理情報</param>
+		/// <param name="subscription">fhsS保守</param>
+		public SoftMaintenanceContract(PcSupportControl control, bool subscription)
+		{
+			CustomerNo = control.CustomerNo;
+			Subscription = subscription;
+			CollectionDate = control.OrderDate;
+			AgreeYear = control.AgreeYear;
+			Price = control.Price;
+			StartYM = control.StartDate.Value.ToYearMonth();
+			if (control.PeriodEndDate.HasValue)
+			{
+				EndYM = control.PeriodEndDate.Value.ToYearMonth();
+			}
+			else
+			{
+				EndYM = control.EndDate.Value.ToYearMonth();
+			}
+			Remark1 = control.Remark;
+		}
 
-		///// <summary>
-		///// このインスタンスと、指定したオブジェクトの値が同一かどうかを判断する
-		///// (Object.Equals(Object)をオーバーライドする)
-		///// </summary>
-		///// <param name="obj">比較するSoftMaintenanceContractオブジェクト</param>
-		///// <returns>判定</returns>
-		//public override bool Equals(object obj)
-		//{
-		//	if (obj is SoftMaintenanceContract)
-		//	{
-		//		return this.Equals((SoftMaintenanceContract)obj);
-		//	}
-		//	else
-		//	{
-		//		return base.Equals(obj);
-		//	}
-		//}
+		/// <summary>
+		/// PC安心サポート管理情報から格納
+		/// </summary>
+		/// <param name="PcSupportControl">PC安心サポート管理情報</param>
+		/// <param name="subscription">fhsS保守</param>
+		public void SetPcSupportControl(PcSupportControl control, bool subscription)
+		{
+			Subscription = subscription;
+			CollectionDate = control.OrderDate;
+			AgreeYear = control.AgreeYear;
+			Price = control.Price;
+			StartYM = control.StartDate.Value.ToYearMonth();
+			if (control.PeriodEndDate.HasValue)
+			{
+				EndYM = control.PeriodEndDate.Value.ToYearMonth();
+			}
+			else
+			{
+				EndYM = control.EndDate.Value.ToYearMonth();
+			}
+			Remark1 = control.Remark;
+		}
 
-		///// <summary>
-		///// ハッシュコードを返す
-		///// </summary>
-		///// <returns>ハッシュコード</returns>
-		//public override int GetHashCode()
-		//{
-		//	return ToString().GetHashCode();
-		//}
+		/// <summary>
+		/// ログ出力文字列の取得
+		/// </summary>
+		/// <param name="pc">PC安心サポート管理情報</param>
+		/// <returns>ログ出力文字列</returns>
+		public string ToLog(PcSupportControl pc)
+		{
+			string[] log = new string[10];
+			log[0] = CustomerNo.ToString();
+			log[1] = pc.ClinicName;
+			log[2] = (Subscription) ? "保守": "未保守";
+			log[4] = (CollectionDate.HasValue) ? CollectionDate.ToString() : "";
+			log[5] = AgreeYear.ToString();
+			log[6] = Price.ToString();
+			log[7] = (StartYM.HasValue) ? StartYM.ToString() : "";
+			log[8] = (EndYM.HasValue) ? EndYM.ToString() : "";
+			log[9] = Remark1;
+			return string.Join(",", log);
+		}
 
-		///// <summary>
-		///// 出力レコードの取得
-		///// </summary>
-		///// <returns>出力レコード</returns>
-		//public override string ToString()
-		//{
-		//	return CustomerNo.ToString() + Subscription.ToString() + AgreeYear.ToString() + Price.ToString() + Remark1 + Remark2;
-		//}
+		/// <summary>
+		/// ソフト保守メンテナンス情報を初期化
+		/// </summary>
+		public void Reset()
+		{
+			Subscription = false;
+			CollectionDate = null;
+			AgreeYear = 0;
+			Price = 0;
+			StartYM = null;
+			EndYM = null;
+			Remark1 = string.Empty;
+		}
 	}
 }

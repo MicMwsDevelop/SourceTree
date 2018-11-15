@@ -48,7 +48,7 @@ namespace PcSupportManager.Forms
 
 			try
 			{
-				DataTable dataTable = PcSupportManagerAccess.GetDataTablePcSupportControl();
+				DataTable dataTable = PcSupportManagerGetIO.GetPcSupportControl();
 				dataGridViewManagerBindingSource = new BindingSource(dataTable, null);
 				dataGridViewManager.DataSource = dataGridViewManagerBindingSource;
 
@@ -216,20 +216,20 @@ namespace PcSupportManager.Forms
 				bool modifyFlag = false;
 				foreach (OrderInfo order in orderInfoList)
 				{
-					string mailAddress = this.GetMailAddress(order.CustomerNo);
+					string mailAddress = this.GetCustomerMailAddress(order.CustomerNo);
 					PcSupportControl control = PcSupportControlList.Find(p => p.OrderNo == order.OrderNo);
 					if (null != control)
 					{
 						if (control.IsUpdateOrderData(order, mailAddress))
 						{
-							control.SetOrderInfo(order, mailAddress);
+							control.SetOrderInfo(order, mailAddress, Program.SystemDate);
 							PcSupportManagerAccess.SetPcSupportControl(control);
 							modifyFlag = true;
 						}
 					}
 					else
 					{
-						control = new PcSupportControl(order, mailAddress);
+						control = new PcSupportControl(order, mailAddress, Program.SystemDate);
 						PcSupportControlList.Add(control);
 						PcSupportManagerAccess.SetPcSupportControl(control);
 						modifyFlag = true;
@@ -240,7 +240,7 @@ namespace PcSupportManager.Forms
 					// DataSourceのクリア
 					((DataTable)dataGridViewManagerBindingSource.DataSource).Clear();
 
-					DataTable dataTable = PcSupportManagerAccess.GetDataTablePcSupportControl();
+					DataTable dataTable = PcSupportManagerGetIO.GetPcSupportControl();
 					dataGridViewManagerBindingSource = new BindingSource(dataTable, null);
 					dataGridViewManager.DataSource = dataGridViewManagerBindingSource;
 					PcSupportControlList = PcSupportManagerController.ConvertPcSupportControl(dataTable);
@@ -276,11 +276,11 @@ namespace PcSupportManager.Forms
 			{
 				int customerNo = (int)dataGridViewManager.CurrentRow.Cells[1].Value;
 				OrderInfo orderInfo = PcSupportManagerAccess.GetOrderInfo(customerNo);
-				string mailAddress = this.GetMailAddress(customerNo);
+				string mailAddress = this.GetCustomerMailAddress(customerNo);
 				bool modify = false;
 				if (control.IsUpdateOrderData(orderInfo, mailAddress))
 				{
-					control.SetOrderInfo(orderInfo, mailAddress);
+					control.SetOrderInfo(orderInfo, mailAddress, Program.SystemDate);
 					try
 					{
 						PcSupportManagerAccess.SetPcSupportControl(control);
@@ -301,10 +301,10 @@ namespace PcSupportManager.Forms
 							// DataSourceのクリア
 							((DataTable)dataGridViewManagerBindingSource.DataSource).Clear();
 
-							DataTable dataTable = PcSupportManagerAccess.GetDataTablePcSupportControl();
+							DataTable dataTable = PcSupportManagerGetIO.GetPcSupportControl();
+							PcSupportControlList = PcSupportManagerController.ConvertPcSupportControl(dataTable);
 							dataGridViewManagerBindingSource = new BindingSource(dataTable, null);
 							dataGridViewManager.DataSource = dataGridViewManagerBindingSource;
-							PcSupportControlList = PcSupportManagerController.ConvertPcSupportControl(dataTable);
 
 							for (int i = 0; i < dataGridViewManager.Rows.Count; i++)
 							{
@@ -346,7 +346,7 @@ namespace PcSupportManager.Forms
 					OrderInfo orderInfo = PcSupportManagerAccess.GetOrderInfo(customerNo);
 					if (null != orderInfo)
 					{
-						string mailAddress = this.GetMailAddress(customerNo);
+						string mailAddress = this.GetCustomerMailAddress(customerNo);
 						PcSupportControl control = PcSupportControlList.Find(p => p.OrderNo == orderInfo.OrderNo);
 						bool modify = false;
 						try
@@ -355,14 +355,14 @@ namespace PcSupportManager.Forms
 							{
 								if (control.IsUpdateOrderData(orderInfo, mailAddress))
 								{
-									control.SetOrderInfo(orderInfo, mailAddress);
+									control.SetOrderInfo(orderInfo, mailAddress, Program.SystemDate);
 									PcSupportManagerAccess.SetPcSupportControl(control);
 									modify = true;
 								}
 							}
 							else
 							{
-								control = new PcSupportControl(orderInfo, mailAddress);
+								control = new PcSupportControl(orderInfo, mailAddress, Program.SystemDate);
 								PcSupportManagerAccess.SetPcSupportControl(control);
 								modify = true;
 							}
@@ -382,10 +382,10 @@ namespace PcSupportManager.Forms
 									// DataSourceのクリア
 									((DataTable)dataGridViewManagerBindingSource.DataSource).Clear();
 
-									DataTable dataTable = PcSupportManagerAccess.GetDataTablePcSupportControl();
+									DataTable dataTable = PcSupportManagerGetIO.GetPcSupportControl();
+									PcSupportControlList = PcSupportManagerController.ConvertPcSupportControl(dataTable);
 									dataGridViewManagerBindingSource = new BindingSource(dataTable, null);
 									dataGridViewManager.DataSource = dataGridViewManagerBindingSource;
-									PcSupportControlList = PcSupportManagerController.ConvertPcSupportControl(dataTable);
 
 									// 背景色の設定
 									this.SetDataGridViewManagerCellBackColor();
@@ -427,10 +427,9 @@ namespace PcSupportManager.Forms
 		/// </summary>
 		/// <param name="customerNo">顧客No</param>
 		/// <returns>メールアドレス</returns>
-		private string GetMailAddress(int customerNo)
+		private string GetCustomerMailAddress(int customerNo)
 		{
-			List<Tuple<int, string>> mailAddressList = PcSupportManagerAccess.GetMailAddress();
-			string mailAddress = string.Empty;
+			List<Tuple<int, string>> mailAddressList = PcSupportManagerAccess.GetCustomerMailAddress();
 			Tuple<int, string> mail = mailAddressList.Find(p => p.Item1 == customerNo);
 			if (null != mail)
 			{
@@ -461,6 +460,11 @@ namespace PcSupportManager.Forms
 				if (0 == mailAddress.Length)
 				{
 					dataGridViewManager.Rows[i].Cells[17].Style.BackColor = Color.Pink;
+				}
+				string disable = dataGridViewManager.Rows[i].Cells[25].Value as string;
+				if ("1" == disable)
+				{
+					dataGridViewManager.Rows[i].Cells[25].Style.BackColor = Color.DarkGray;
 				}
 			}
 		}

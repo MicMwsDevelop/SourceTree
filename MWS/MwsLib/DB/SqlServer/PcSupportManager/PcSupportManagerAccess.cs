@@ -62,6 +62,17 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		}
 
 		/// <summary>
+		/// ソフト保守メンテナンス情報の取得
+		/// </summary>
+		/// <param name="sqlsv2">CT環境</param>
+		/// <returns>PC安心サポート商品情報</returns>
+		public static List<SoftMaintenanceContract> GetSoftMaintenanceContract(bool sqlsv2 = false)
+		{
+			DataTable dt = PcSupportManagerGetIO.GetSoftMaintenanceContract(0, sqlsv2);
+			return PcSupportManagerController.ConvertSoftMaintenanceContractList(dt);
+		}
+
+		/// <summary>
 		/// ソフト保守メンテナンス情報の格納
 		/// </summary>
 		/// <param name="data">ソフト保守メンテナンス情報</param>
@@ -87,17 +98,6 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		/// </summary>
 		/// <param name="orderNo">受注No</param>
 		/// <param name="sqlsv2">CT環境</param>
-		/// <returns>レコード数</returns>
-		public static DataTable GetDataTablePcSupportControl(string orderNo = "", bool sqlsv2 = false)
-		{
-			return PcSupportManagerGetIO.GetPcSupportControl(orderNo, sqlsv2);
-		}
-
-		/// <summary>
-		/// PC安心サポート管理情報の取得
-		/// </summary>
-		/// <param name="orderNo">受注No</param>
-		/// <param name="sqlsv2">CT環境</param>
 		/// <returns>PC安心サポート管理情報</returns>
 		public static List<PcSupportControl> GetPcSupportControl(string orderNo = "", bool sqlsv2 = false)
 		{
@@ -116,22 +116,31 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 			DataTable dt = PcSupportManagerGetIO.GetPcSupportControl(data.OrderNo, sqlsv2);
 			if (0 < dt.Rows.Count)
 			{
-
-
 				return PcSupportManagerSetIO.UpdatePcSupportControl(data, sqlsv2);
 			}
 			return PcSupportManagerSetIO.InsertIntoPcSupportControl(data, sqlsv2);
 		}
 
 		/// <summary>
-		/// メールアドレスの取得
+		/// 顧客メールアドレスの取得
 		/// </summary>
 		/// <param name="sqlsv2">CT環境</param>
-		/// <returns>メールアドレス</returns>
-		public static List<Tuple<int, string>> GetMailAddress(bool sqlsv2 = false)
+		/// <returns>顧客メールアドレス</returns>
+		public static List<Tuple<int, string>> GetCustomerMailAddress(bool sqlsv2 = false)
 		{
-			DataTable dt = PcSupportManagerGetIO.GetMailAddress(sqlsv2);
-			return PcSupportManagerController.ConvertMailAddress(dt);
+			DataTable dt = PcSupportManagerGetIO.GetCustomerMailAddress(sqlsv2);
+			return PcSupportManagerController.ConvertCustomerMailAddress(dt);
+		}
+
+		/// <summary>
+		/// 拠店メールアドレスの取得
+		/// </summary>
+		/// <param name="sqlsv2">CT環境</param>
+		/// <returns>拠店メールアドレス</returns>
+		public static List<Tuple<string, string>> GetBranchMailAddress(bool sqlsv2 = false)
+		{
+			DataTable dt = PcSupportManagerGetIO.GetBranchMailAddress(sqlsv2);
+			return PcSupportManagerController.ConvertBranchMailAddress(dt);
 		}
 
 		/// <summary>

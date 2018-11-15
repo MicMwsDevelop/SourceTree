@@ -343,7 +343,7 @@ namespace PcSupportManager.Forms
 					pc.OrderApprovalDate = new Date(dateTimePickerOrderApprovalDate.Value);
 				}
 				// 作成日時
-				pc.CreateDateTime = DateTime.Now;
+				pc.CreateDateTime = Program.SystemDate.ToDateTime();
 
 				// 作成者
 				pc.CreatePerson = PcSupportControl.PERSON_NAME;

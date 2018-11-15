@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MwsLib.DB.SqlServer.PcSupportManager;
 using MwsLib.BaseFactory.PcSupportManager;
+using MwsLib.Common;
 
 namespace PcSupportManager.Forms
 {
@@ -17,11 +18,6 @@ namespace PcSupportManager.Forms
 	/// </summary>
 	public partial class MainForm : Form
 	{
-		/// <summary>
-		/// プログラム名
-		/// </summary>
-		public const string PROGRAM_NAME = "PC安心サポート管理";
-
 		/// <summary>
 		/// 拠店営業員情報リスト
 		/// </summary>
@@ -60,6 +56,16 @@ namespace PcSupportManager.Forms
 		}
 
 		/// <summary>
+		/// システム日付の変更
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dateTimePickerSystemDate_ValueChanged(object sender, EventArgs e)
+		{
+			Program.SystemDate = new Date(dateTimePickerSystemDate.Value);
+		}
+
+		/// <summary>
 		/// 管理情報登録
 		/// </summary>
 		/// <param name="sender"></param>
@@ -83,6 +89,29 @@ namespace PcSupportManager.Forms
 			{
 				form.ShowDialog();
 			}
+		}
+
+		/// <summary>
+		/// ソフト保守メンテナンス情報更新
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonSoftMainte_Click(object sender, EventArgs e)
+		{
+			using (SoftMainteForm form = new SoftMainteForm())
+			{
+				form.ShowDialog();
+			}
+		}
+
+		/// <summary>
+		/// 閉じる
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonClose_Click(object sender, EventArgs e)
+		{
+			base.Close();
 		}
 	}
 }

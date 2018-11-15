@@ -252,7 +252,8 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// </summary>
 		/// <param name="order">受注情報</param>
 		/// <param name="mailAddress">メールアドレス</param>
-		public PcSupportControl(OrderInfo order, string mailAddress)
+		/// <param name="now">更新日時</param>
+		public PcSupportControl(OrderInfo order, string mailAddress, Date now)
 		{
 			OrderNo = order.OrderNo;
 			CustomerNo = order.CustomerNo;
@@ -281,7 +282,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			CancelReason = string.Empty;
 			DisableFlag = false;
 			WonderWebRenewalFlag = false;
-			CreateDateTime = DateTime.Now;
+			CreateDateTime = now.ToDateTime();
 			CreatePerson = PERSON_NAME;
 			UpdateDateTime = null;
 			UpdatePerson = string.Empty;
@@ -338,7 +339,9 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// 受注情報の格納
 		/// </summary>
 		/// <param name="order">受注情報</param>
-		public void SetOrderInfo(OrderInfo order, string mailAddress)
+		/// <param name="mailAddress">メールアドレス</param>
+		/// <param name="now">更新日時</param>
+		public void SetOrderInfo(OrderInfo order, string mailAddress, Date now)
 		{
 			bool wwFlag = false;
 			if (GoodsID != order.GoodsID)
@@ -380,7 +383,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			{
 				WonderWebRenewalFlag = wwFlag;
 			}
-			UpdateDateTime = DateTime.Now;
+			UpdateDateTime = now.ToDateTime();
 			UpdatePerson = PERSON_NAME;
 		}
 
@@ -392,97 +395,68 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// <returns>契約終了日</returns>
 		public static Date GetEndDate(Date start, int agreeYear)
 		{
-			Date end = start.PlusMonths((agreeYear * 12) - 1);
-			return new Date(end.Year, end.Month, end.GetDaysInMonth());
+			return start.PlusMonths((agreeYear * 12) - 1).ToYearMonth().Last;
 		}
 
 		/// <summary>
 		/// 申込情報が揃っているかどうか？
 		/// </summary>
 		/// <returns>判定</returns>
-		public bool IsAcceptComputeData(out string msg)
+		public bool IsOrderInfoCompleted()
 		{
-			msg = string.Empty;
 			if (0 == OrderNo.Length)
-			{
-				msg = "受注Noが設定されていません。";
 				return false;
-			}
 			if (0 == CustomerNo)
-			{
-				msg = "顧客Noが設定されていません。";
 				return false;
-			}
 			if (0 == GoodsID.Length)
-			{
-				msg = "商品が設定されていません。";
 				return false;
-			}
 			if (false == StartDate.HasValue)
-			{
-				msg = "契約開始日が設定されていません。";
 				return false;
-			}
 			if (false == EndDate.HasValue)
-			{
-				msg = "契約終了日が設定されていません。";
 				return false;
-			}
 			if (0 == AgreeYear)
-			{
-				msg = "契約年数が設定されていません。";
 				return false;
-			}
 			if (0 == Price)
-			{
-				msg = "料金が設定されていません。";
 				return false;
-			}
 			if (0 == BranchID.Length)
-			{
-				msg = "拠店名が設定されていません。";
 				return false;
-			}
 			if (0 == SalesmanID.Length)
-			{
-				msg = "担当営業員が設定されていません。";
 				return false;
-			}
 			if (false == OrderApprovalDate.HasValue)
-			{
-				msg = "受注承認日が設定されていません。";
 				return false;
-			}
 			if (0 == MailAddress.Length)
-			{
-				msg = "メールアドレスが設定されていません。";
 				return false;
-			}
 			return true;
 		}
 
 		/// <summary>
 		/// 開始メール送信対象かどうか？
+		/// 送信条件：契約開始日が当月末以前
 		/// </summary>
 		/// <param name="date">当日</param>
 		/// <returns>判定</returns>
 		public bool IsSendStartMail(Date date)
 		{
-			if (DisableFlag)
-				return false;
-			if (OrderApprovalDate.HasValue)
-				return false;
-			if (StartMailDateTime.HasValue)
-				return false;
-			if (date < StartDate.Value)
-				return false;
-			string msg;
-			return this.IsAcceptComputeData(out msg);
+			if (this.IsOrderInfoCompleted())
+			{
+				if (DisableFlag)
+					return false;
+				if (StartMailDateTime.HasValue)
+					return false;
+				if (PeriodEndDate.HasValue)
+					return false;
+				if (StartDate <= date.ToYearMonth().Last)
+				{
+					// 契約開始日が当月末まで
+					return true;
+				}
+			}
+			return false;
 		}
 
 		/// <summary>
 		/// 契約更新案内メール送信対象かどうか？
-		/// 送信条件：契約終了日の２か月前
+		/// 送信条件：契約終了月が当月の２か月後
 		/// </summary>
 		/// <param name="date">当日</param>
 		/// <returns>判定</returns>
@@ -490,16 +464,16 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		{
 			if (DisableFlag)
 				return false;
-			if (false == PeriodEndDate.HasValue && false == GuideMailDateTime.HasValue)
+			if (GuideMailDateTime.HasValue)
+				return false;
+			if (PeriodEndDate.HasValue)
+				return false;
+			if (EndDate.HasValue)
 			{
-				if (EndDate.HasValue)
+				if (EndDate.Value.ToYearMonth() == date.PlusMonths(2).ToYearMonth())
 				{
-					Date guideDate = EndDate.Value.PlusMonths(-2);
-					guideDate = new Date(guideDate.Year, guideDate.Month, 1);
-					if (guideDate <= date)
-					{
-						return true;
-					}
+					// 契約終了月が当月の２か月後
+					return true;
 				}
 			}
 			return false;
@@ -507,7 +481,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 
 		/// <summary>
 		/// 契約更新メール送信対象かどうか？
-		/// 送信条件：契約終了月の来月の初日以降
+		/// 送信条件：契約終了月が先月
 		/// </summary>
 		/// <param name="date">当日</param>
 		/// <returns>判定</returns>
@@ -515,16 +489,16 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		{
 			if (DisableFlag)
 				return false;
-			if (false == PeriodEndDate.HasValue && false == UpdateMailDateTime.HasValue)
+			if (UpdateMailDateTime.HasValue)
+				return false;
+			if (PeriodEndDate.HasValue)
+				return false;
+			if (EndDate.HasValue)
 			{
-				if (EndDate.HasValue)
+				if (EndDate.Value.ToYearMonth() == date.PlusMonths(-1).ToYearMonth())
 				{
-					Date updateDate = EndDate.Value.PlusMonths(1);
-					updateDate = new Date(updateDate.Year, updateDate.Month, 1);
-					if (updateDate <= date)
-					{
-						return true;
-					}
+					// 契約終了月が先月
+					return true;
 				}
 			}
 			return false;

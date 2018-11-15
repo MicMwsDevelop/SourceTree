@@ -30,11 +30,13 @@
 		{
 			this.dataGridViewMail = new System.Windows.Forms.DataGridView();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.radioButtonAll = new System.Windows.Forms.RadioButton();
 			this.radioButtonStartMail = new System.Windows.Forms.RadioButton();
 			this.radioButtonMailUpdate = new System.Windows.Forms.RadioButton();
 			this.radioButtonMailGuide = new System.Windows.Forms.RadioButton();
 			this.buttonSend = new System.Windows.Forms.Button();
-			this.radioButtonAll = new System.Windows.Forms.RadioButton();
+			this.label1 = new System.Windows.Forms.Label();
+			this.textBoxSpan = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewMail)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
@@ -68,6 +70,17 @@
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "メール送信種別";
+			// 
+			// radioButtonAll
+			// 
+			this.radioButtonAll.AutoSize = true;
+			this.radioButtonAll.Location = new System.Drawing.Point(15, 18);
+			this.radioButtonAll.Name = "radioButtonAll";
+			this.radioButtonAll.Size = new System.Drawing.Size(44, 16);
+			this.radioButtonAll.TabIndex = 0;
+			this.radioButtonAll.Text = "全て";
+			this.radioButtonAll.UseVisualStyleBackColor = true;
+			this.radioButtonAll.CheckedChanged += new System.EventHandler(this.radioButtonAll_CheckedChanged);
 			// 
 			// radioButtonStartMail
 			// 
@@ -104,7 +117,7 @@
 			// 
 			// buttonSend
 			// 
-			this.buttonSend.Location = new System.Drawing.Point(407, 12);
+			this.buttonSend.Location = new System.Drawing.Point(752, 12);
 			this.buttonSend.Name = "buttonSend";
 			this.buttonSend.Size = new System.Drawing.Size(105, 44);
 			this.buttonSend.TabIndex = 2;
@@ -112,22 +125,31 @@
 			this.buttonSend.UseVisualStyleBackColor = true;
 			this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
 			// 
-			// radioButtonAll
+			// label1
 			// 
-			this.radioButtonAll.AutoSize = true;
-			this.radioButtonAll.Location = new System.Drawing.Point(15, 18);
-			this.radioButtonAll.Name = "radioButtonAll";
-			this.radioButtonAll.Size = new System.Drawing.Size(44, 16);
-			this.radioButtonAll.TabIndex = 0;
-			this.radioButtonAll.Text = "全て";
-			this.radioButtonAll.UseVisualStyleBackColor = true;
-			this.radioButtonAll.CheckedChanged += new System.EventHandler(this.radioButtonAll_CheckedChanged);
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(408, 33);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(89, 12);
+			this.label1.TabIndex = 3;
+			this.label1.Text = "■送信対象期間";
+			// 
+			// textBoxSpan
+			// 
+			this.textBoxSpan.BackColor = System.Drawing.Color.White;
+			this.textBoxSpan.Location = new System.Drawing.Point(504, 30);
+			this.textBoxSpan.Name = "textBoxSpan";
+			this.textBoxSpan.ReadOnly = true;
+			this.textBoxSpan.Size = new System.Drawing.Size(242, 19);
+			this.textBoxSpan.TabIndex = 4;
 			// 
 			// SendMailForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1259, 741);
+			this.Controls.Add(this.textBoxSpan);
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.buttonSend);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.dataGridViewMail);
@@ -139,6 +161,7 @@
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -151,5 +174,7 @@
 		private System.Windows.Forms.RadioButton radioButtonMailGuide;
 		private System.Windows.Forms.Button buttonSend;
 		private System.Windows.Forms.RadioButton radioButtonAll;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TextBox textBoxSpan;
 	}
 }

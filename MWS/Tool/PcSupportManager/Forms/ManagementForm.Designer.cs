@@ -91,9 +91,9 @@
 			// 
 			// buttonSearch
 			// 
-			this.buttonSearch.Location = new System.Drawing.Point(214, 34);
+			this.buttonSearch.Location = new System.Drawing.Point(214, 13);
 			this.buttonSearch.Name = "buttonSearch";
-			this.buttonSearch.Size = new System.Drawing.Size(75, 23);
+			this.buttonSearch.Size = new System.Drawing.Size(75, 44);
 			this.buttonSearch.TabIndex = 2;
 			this.buttonSearch.Text = "検索";
 			this.buttonSearch.UseVisualStyleBackColor = true;
@@ -148,6 +148,7 @@
 			// 
 			// ManagementForm
 			// 
+			this.AcceptButton = this.buttonSearch;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1135, 666);

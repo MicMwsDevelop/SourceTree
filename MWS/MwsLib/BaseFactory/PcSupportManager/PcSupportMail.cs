@@ -120,8 +120,8 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// </summary>
 		/// <param name="mailType">メール種別</param>
 		/// <param name="pc">PC安心サポート管理情報</param>
-		/// <param name="dt">送信日時</param>
-		public PcSupportMail(MailType mailType, PcSupportControl pc, DateTime dt)
+		/// <param name="now">送信日時</param>
+		public PcSupportMail(MailType mailType, PcSupportControl pc, Date now)
 		{
 			MailNo = 0;
 			SendMailType = mailType;
@@ -136,7 +136,29 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			BranchID = pc.BranchID;
 			OrderDate = pc.OrderDate;
 			MailAddress = pc.MailAddress;
-			SendDateTime = dt;
+			SendDateTime = now.ToDateTime();
+		}
+
+		/// <summary>
+		/// ログ出力文字列の取得
+		/// </summary>
+		/// <param name="pc">PC安心サポート管理情報</param>
+		/// <returns>ログ出力文字列</returns>
+		public string ToLog(PcSupportControl pc)
+		{
+			string[] log = new string[11];
+			log[0] = OrderNo;
+			log[1] = CustomerNo.ToString();
+			log[2] = pc.ClinicName;
+			log[3] = pc.GoodsName;
+			log[4] = StartDate.ToString();
+			log[5] = EndDate.ToString();
+			log[6] = pc.BranchName;
+			log[7] = pc.SalesmanName;
+			log[8] = OrderDate.ToString();
+			log[9] = MailAddress;
+			log[10] = SendDateTime.ToString();
+			return string.Join(",", log);
 		}
 	}
 }
