@@ -402,7 +402,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// 申込情報が揃っているかどうか？
 		/// </summary>
 		/// <returns>判定</returns>
-		public bool IsOrderInfoCompleted()
+		public bool IsOrderInfoCompleted(bool sendMail)
 		{
 			if (0 == OrderNo.Length)
 				return false;
@@ -424,8 +424,11 @@ namespace MwsLib.BaseFactory.PcSupportManager
 				return false;
 			if (false == OrderApprovalDate.HasValue)
 				return false;
-			if (0 == MailAddress.Length)
-				return false;
+			if (sendMail)
+			{
+				if (0 == MailAddress.Length)
+					return false;
+			}
 			return true;
 		}
 
@@ -437,7 +440,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// <returns>判定</returns>
 		public bool IsSendStartMail(Date date)
 		{
-			if (this.IsOrderInfoCompleted())
+			if (this.IsOrderInfoCompleted(true))
 			{
 				if (DisableFlag)
 					return false;

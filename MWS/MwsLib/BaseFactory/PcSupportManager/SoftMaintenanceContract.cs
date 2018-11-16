@@ -84,7 +84,15 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			{
 				EndYM = control.EndDate.Value.ToYearMonth();
 			}
-			Remark1 = control.Remark;
+			// 文字列を400で切る
+			if (400 < control.Remark.GetMultiByteLength())
+			{
+				Remark1 = control.Remark.CutByMultiByteLength(400);
+			}
+			else
+			{
+				Remark1 = control.Remark;
+			}
 		}
 
 		/// <summary>
@@ -107,7 +115,15 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			{
 				EndYM = control.EndDate.Value.ToYearMonth();
 			}
-			Remark1 = control.Remark;
+			// 文字列を400で切る
+			if (400 < control.Remark.GetMultiByteLength())
+			{
+				Remark1 = control.Remark.CutByMultiByteLength(400);
+			}
+			else
+			{
+				Remark1 = control.Remark;
+			}
 		}
 
 		/// <summary>

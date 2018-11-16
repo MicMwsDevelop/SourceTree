@@ -33,6 +33,8 @@
 			this.radioButtonSoftMainte = new System.Windows.Forms.RadioButton();
 			this.radioButtonPcSupport = new System.Windows.Forms.RadioButton();
 			this.buttonUpdateSoftMainte = new System.Windows.Forms.Button();
+			this.textBoxSpan = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewSoft)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
@@ -46,13 +48,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridViewSoft.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewSoft.Location = new System.Drawing.Point(12, 62);
-			this.dataGridViewSoft.MultiSelect = false;
 			this.dataGridViewSoft.Name = "dataGridViewSoft";
-			this.dataGridViewSoft.RowHeadersVisible = false;
 			this.dataGridViewSoft.RowTemplate.Height = 21;
 			this.dataGridViewSoft.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewSoft.Size = new System.Drawing.Size(1235, 667);
-			this.dataGridViewSoft.TabIndex = 2;
+			this.dataGridViewSoft.TabIndex = 4;
 			// 
 			// groupBox1
 			// 
@@ -91,17 +91,37 @@
 			// 
 			this.buttonUpdateSoftMainte.Location = new System.Drawing.Point(348, 12);
 			this.buttonUpdateSoftMainte.Name = "buttonUpdateSoftMainte";
-			this.buttonUpdateSoftMainte.Size = new System.Drawing.Size(165, 44);
+			this.buttonUpdateSoftMainte.Size = new System.Drawing.Size(189, 44);
 			this.buttonUpdateSoftMainte.TabIndex = 1;
 			this.buttonUpdateSoftMainte.Text = "ソフト保守メンテナンス情報更新";
 			this.buttonUpdateSoftMainte.UseVisualStyleBackColor = true;
 			this.buttonUpdateSoftMainte.Click += new System.EventHandler(this.buttonUpdateSoftMainte_Click);
+			// 
+			// textBoxSpan
+			// 
+			this.textBoxSpan.BackColor = System.Drawing.Color.White;
+			this.textBoxSpan.Location = new System.Drawing.Point(623, 29);
+			this.textBoxSpan.Name = "textBoxSpan";
+			this.textBoxSpan.ReadOnly = true;
+			this.textBoxSpan.Size = new System.Drawing.Size(181, 19);
+			this.textBoxSpan.TabIndex = 3;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(552, 32);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(65, 12);
+			this.label1.TabIndex = 2;
+			this.label1.Text = "■検索対象";
 			// 
 			// SoftMainteForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1259, 741);
+			this.Controls.Add(this.textBoxSpan);
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.buttonUpdateSoftMainte);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.dataGridViewSoft);
@@ -113,6 +133,7 @@
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -123,5 +144,7 @@
 		private System.Windows.Forms.RadioButton radioButtonPcSupport;
 		private System.Windows.Forms.Button buttonUpdateSoftMainte;
 		private System.Windows.Forms.RadioButton radioButtonSoftMainte;
+		private System.Windows.Forms.TextBox textBoxSpan;
+		private System.Windows.Forms.Label label1;
 	}
 }

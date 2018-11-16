@@ -50,10 +50,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridViewManager.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewManager.Location = new System.Drawing.Point(12, 63);
-			this.dataGridViewManager.MultiSelect = false;
 			this.dataGridViewManager.Name = "dataGridViewManager";
 			this.dataGridViewManager.ReadOnly = true;
-			this.dataGridViewManager.RowHeadersVisible = false;
 			this.dataGridViewManager.RowTemplate.Height = 21;
 			this.dataGridViewManager.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewManager.Size = new System.Drawing.Size(1111, 591);
@@ -104,7 +102,7 @@
 			this.groupBox1.Controls.Add(this.radioButtonInputAll);
 			this.groupBox1.Controls.Add(this.radioButtonInputed);
 			this.groupBox1.Controls.Add(this.radioButtonNotInput);
-			this.groupBox1.Location = new System.Drawing.Point(312, 13);
+			this.groupBox1.Location = new System.Drawing.Point(295, 13);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(261, 44);
 			this.groupBox1.TabIndex = 3;

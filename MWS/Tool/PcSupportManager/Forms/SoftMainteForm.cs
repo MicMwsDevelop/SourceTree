@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Data;
+using MwsLib.Common;
 
 namespace PcSupportManager.Forms
 {
@@ -114,7 +115,8 @@ namespace PcSupportManager.Forms
 				dataTable.Rows[i]["SOFT_MAINTE"] = false;
 			}
 			dataGridViewControlBindingSource = new BindingSource(dataTable, null);
-			dataGridViewControlBindingSource.Filter = "WW_RENEWAL_FLAG = '1' AND DISABLE_FLAG = '0' AND START_DATE is not null AND ORDER_APPROVAL_DATE is not null";
+			Date limit = Program.SystemDate.ToYearMonth().Last;
+			dataGridViewControlBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND WW_RENEWAL_FLAG = '1' AND ORDER_APPROVAL_DATE is not null AND START_DATE is not null AND START_DATE <= '{0}'", limit.ToSqlDateTimeString());
 			dataGridViewSoft.DataSource = dataGridViewControlBindingSource;
 
 			// カラム名の変更
@@ -181,6 +183,9 @@ namespace PcSupportManager.Forms
 			dataGridViewSoft.Columns["WW_RENEWAL_FLAG"].ReadOnly = true;
 
 			dataGridViewSoft.ResumeLayout();
+
+			textBoxSpan.Text = string.Format("契約開始日が{0}以前", limit.ToString());
+			buttonUpdateSoftMainte.Enabled = true;
 		}
 
 		/// <summary>
@@ -219,6 +224,9 @@ namespace PcSupportManager.Forms
 			dataGridViewSoft.Columns["fhsSメンテ契約備考1"].HeaderText = "契約備考１";
 
 			dataGridViewSoft.ResumeLayout();
+
+			textBoxSpan.Text = string.Empty;
+			buttonUpdateSoftMainte.Enabled = false;
 		}
 
 		/// <summary>
@@ -228,6 +236,12 @@ namespace PcSupportManager.Forms
 		/// <param name="e"></param>
 		private void buttonUpdateSoftMainte_Click(object sender, EventArgs e)
 		{
+			// 元のカーソルを保持
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
 			PcSupportControlList = PcSupportManagerAccess.GetPcSupportControl();
 			SoftMaintenanceContractList = PcSupportManagerAccess.GetSoftMaintenanceContract();
 
@@ -276,10 +290,32 @@ namespace PcSupportManager.Forms
 					}
 				}
 			}
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
+
 			if (0 < updateCount)
 			{
 				MessageBox.Show(string.Format("{0}件のソフト保守メンテナンス情報を更新しました。", updateCount), "ソフト保守メンテナンス情報更新", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
+			// DataSourceのクリア
+			((DataTable)dataGridViewControlBindingSource.DataSource).Clear();
+
+			DataTable dataTable = PcSupportManagerGetIO.GetPcSupportControl();
+
+			// チェックボックス列を作成
+			DataColumn column = new DataColumn("SOFT_MAINTE", typeof(Boolean));
+
+			// DataTableにチェックボックス列を追加
+			dataTable.Columns.Add(column);
+			for (int i = 0; i < dataTable.Rows.Count; i++)
+			{
+				// 値を予め格納していないと参照時にエラーになる
+				dataTable.Rows[i]["SOFT_MAINTE"] = false;
+			}
+			dataGridViewControlBindingSource = new BindingSource(dataTable, null);
+			Date limit = Program.SystemDate.ToYearMonth().Last;
+			dataGridViewControlBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND WW_RENEWAL_FLAG = '1' AND ORDER_APPROVAL_DATE is not null AND START_DATE is not null AND START_DATE <= '{0}'", limit.ToSqlDateTimeString());
+			dataGridViewSoft.DataSource = dataGridViewControlBindingSource;
 		}
 	}
 }

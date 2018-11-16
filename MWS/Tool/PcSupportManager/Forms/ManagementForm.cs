@@ -130,7 +130,6 @@ namespace PcSupportManager.Forms
 			{
 				MessageBox.Show(string.Format("PcSupportManagerAccess.GetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			}
-
 			// カーソルを元に戻す
 			Cursor.Current = preCursor;
 		}

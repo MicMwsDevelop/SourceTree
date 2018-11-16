@@ -50,9 +50,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridViewMail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewMail.Location = new System.Drawing.Point(12, 62);
-			this.dataGridViewMail.MultiSelect = false;
 			this.dataGridViewMail.Name = "dataGridViewMail";
-			this.dataGridViewMail.RowHeadersVisible = false;
 			this.dataGridViewMail.RowTemplate.Height = 21;
 			this.dataGridViewMail.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewMail.Size = new System.Drawing.Size(1235, 667);
@@ -117,7 +115,7 @@
 			// 
 			// buttonSend
 			// 
-			this.buttonSend.Location = new System.Drawing.Point(752, 12);
+			this.buttonSend.Location = new System.Drawing.Point(407, 12);
 			this.buttonSend.Name = "buttonSend";
 			this.buttonSend.Size = new System.Drawing.Size(105, 44);
 			this.buttonSend.TabIndex = 2;
@@ -128,16 +126,16 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(408, 33);
+			this.label1.Location = new System.Drawing.Point(518, 34);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(89, 12);
+			this.label1.Size = new System.Drawing.Size(65, 12);
 			this.label1.TabIndex = 3;
-			this.label1.Text = "■送信対象期間";
+			this.label1.Text = "■送信対象";
 			// 
 			// textBoxSpan
 			// 
 			this.textBoxSpan.BackColor = System.Drawing.Color.White;
-			this.textBoxSpan.Location = new System.Drawing.Point(504, 30);
+			this.textBoxSpan.Location = new System.Drawing.Point(589, 31);
 			this.textBoxSpan.Name = "textBoxSpan";
 			this.textBoxSpan.ReadOnly = true;
 			this.textBoxSpan.Size = new System.Drawing.Size(242, 19);

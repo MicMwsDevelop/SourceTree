@@ -36,35 +36,35 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 							string sqlString = @"INSERT INTO tMik保守契約 VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26, @27, @28, @29, @30, @31, @32, @33)";
 							SqlParameter[] param = { new SqlParameter("@1", data.CustomerNo),						// fhsCliMicID
 													new SqlParameter("@2", (data.Subscription) ? '1': '0'),			// fhsS保守
-													new SqlParameter("@3", (data.CollectionDate.HasValue) ? data.CollectionDate.Value.ToString() : string.Empty),	// fhsS契約書回収年月
-													new SqlParameter("@4", null),									// fhsS売計上
+													new SqlParameter("@3", (data.CollectionDate.HasValue) ? data.CollectionDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),	// fhsS契約書回収年月
+													new SqlParameter("@4", '0'),									// fhsS売計上
 													new SqlParameter("@5", data.AgreeYear),							// fhsS契約年数
 													new SqlParameter("@6", data.Price),								// fhsSメンテ料金
-													new SqlParameter("@7", (data.StartYM.HasValue) ? data.StartYM.Value.ToString() : string.Empty),		// fhsSメンテ契約開始
-													new SqlParameter("@8", (data.EndYM.HasValue) ? data.EndYM.Value.ToString() : string.Empty),			// fhsSメンテ契約終了
+													new SqlParameter("@7", (data.StartYM.HasValue) ? data.StartYM.Value.ToString() : System.Data.SqlTypes.SqlString.Null),	// fhsSメンテ契約開始
+													new SqlParameter("@8", (data.EndYM.HasValue) ? data.EndYM.Value.ToString() : System.Data.SqlTypes.SqlString.Null),		// fhsSメンテ契約終了
 													new SqlParameter("@9", data.Remark1),							// fhsSメンテ契約備考1
-													new SqlParameter("@10", null),									// fhsSメンテ契約備考2
-													new SqlParameter("@11", null),									// fhsS契約名義
-													new SqlParameter("@12", null),									// fhsSメンテ請求先コード
-													new SqlParameter("@13", null),									// fhsSメンテ請求先名
-													new SqlParameter("@14", 0),										// fhsSメンテ区分
-													new SqlParameter("@15", null),									// fhsS卸BM先名
-													new SqlParameter("@16", 0),										// fhsS金額
+													new SqlParameter("@10", System.Data.SqlTypes.SqlString.Null),	// fhsSメンテ契約備考2
+													new SqlParameter("@11", System.Data.SqlTypes.SqlString.Null),	// fhsS契約名義
+													new SqlParameter("@12", System.Data.SqlTypes.SqlString.Null),	// fhsSメンテ請求先コード
+													new SqlParameter("@13", System.Data.SqlTypes.SqlString.Null),	// fhsSメンテ請求先名
+													new SqlParameter("@14", '0'),									// fhsSメンテ区分
+													new SqlParameter("@15", System.Data.SqlTypes.SqlString.Null),	// fhsS卸BM先名
+													new SqlParameter("@16", (System.Data.SqlTypes.SqlInt32)0),		// fhsS金額
 													new SqlParameter("@17", '0'),									// fhsH保守
-													new SqlParameter("@18", null),									// fhsH契約書回収年月
+													new SqlParameter("@18", System.Data.SqlTypes.SqlString.Null),	// fhsH契約書回収年月
 													new SqlParameter("@19", '0'),									// fhsH売計上
-													new SqlParameter("@20", null),									// fhsH契約年数
-													new SqlParameter("@21", null),									// fhsHメンテ料金
-													new SqlParameter("@22", null),									// fhsHメンテ契約開始
-													new SqlParameter("@23", null),									// fhsHメンテ契約終了
-													new SqlParameter("@24", null),									// fhsHメンテ契約備考1
-													new SqlParameter("@25", null),									// fhsHメンテ契約備考2
-													new SqlParameter("@26", null),									// fhsH契約名義
-													new SqlParameter("@27", null),									// fhsHメンテ請求先コード
-													new SqlParameter("@28", null),									// fhsHメンテ請求先名
+													new SqlParameter("@20", (System.Data.SqlTypes.SqlInt32)0),		// fhsH契約年数
+													new SqlParameter("@21", (System.Data.SqlTypes.SqlInt32)0),		// fhsHメンテ料金
+													new SqlParameter("@22", System.Data.SqlTypes.SqlString.Null),	// fhsHメンテ契約開始
+													new SqlParameter("@23", System.Data.SqlTypes.SqlString.Null),	// fhsHメンテ契約終了
+													new SqlParameter("@24", System.Data.SqlTypes.SqlString.Null),	// fhsHメンテ契約備考1
+													new SqlParameter("@25", System.Data.SqlTypes.SqlString.Null),	// fhsHメンテ契約備考2
+													new SqlParameter("@26", System.Data.SqlTypes.SqlString.Null),	// fhsH契約名義
+													new SqlParameter("@27", System.Data.SqlTypes.SqlString.Null),	// fhsHメンテ請求先コード
+													new SqlParameter("@28", System.Data.SqlTypes.SqlString.Null),	// fhsHメンテ請求先名
 													new SqlParameter("@29", '0'),									// fhsHメンテ区分
-													new SqlParameter("@30", null),									// fhsH卸BM先名
-													new SqlParameter("@31", null),									// fhsH金額
+													new SqlParameter("@30", System.Data.SqlTypes.SqlString.Null),	// fhsH卸BM先名
+													new SqlParameter("@31", (System.Data.SqlTypes.SqlInt32)0),		// fhsH金額
 													new SqlParameter("@32", DateTime.Now),							// fhs更新日
 													new SqlParameter("@33", PcSupportControl.PERSON_NAME) };		// fhs更新者
 
@@ -125,11 +125,11 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 						{
 							string sqlString = string.Format(@"UPDATE tMik保守契約 SET fhsS保守 = @1, fhsS契約書回収年月 = @2, fhsS契約年数 = @3, fhsSメンテ料金 = @4, fhsSメンテ契約開始 = @5, fhsSメンテ契約終了 = @6, fhsSメンテ契約備考1 = @7, fhs更新日 = @8, fhs更新者 = @9 WHERE fhsCliMicID = {0}", data.CustomerNo);
 							SqlParameter[] param = { new SqlParameter("@1", (data.Subscription) ? '1': '0'),
-													new SqlParameter("@2", (data.CollectionDate.HasValue) ? data.CollectionDate.Value.ToString() : string.Empty),
+													new SqlParameter("@2", (data.CollectionDate.HasValue) ? data.CollectionDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 													new SqlParameter("@3", data.AgreeYear),
 													new SqlParameter("@4", data.Price),
-													new SqlParameter("@5", (data.StartYM.HasValue) ? data.StartYM.Value.ToString() : string.Empty),
-													new SqlParameter("@6", (data.EndYM.HasValue) ? data.EndYM.Value.ToString() : string.Empty),
+													new SqlParameter("@5", (data.StartYM.HasValue) ? data.StartYM.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+													new SqlParameter("@6", (data.EndYM.HasValue) ? data.EndYM.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 													new SqlParameter("@7", data.Remark1),
 													new SqlParameter("@8", DateTime.Now),
 													new SqlParameter("@9", PcSupportControl.PERSON_NAME) };

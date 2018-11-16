@@ -177,7 +177,6 @@ namespace MwsLib.Common
             }
         }
 
-
         /// <summary>
         /// 年月からYYYYMM形式の整数値に変換
         /// </summary>
@@ -195,6 +194,14 @@ namespace MwsLib.Common
                 return 0;
             }
         }
-    }
 
+		/// <summary>
+		/// 日付からSQL DateTime文字列に変換
+		/// </summary>
+		/// <returns>DateTime文字列</returns>
+		public static string ToSqlDateTimeString(this Date date)
+		{
+			return string.Format("{0:D4}-{1:D2}-{2:D2} 00:00:00.000", date.Year, date.Month, date.Day);
+		}
+    }
 }

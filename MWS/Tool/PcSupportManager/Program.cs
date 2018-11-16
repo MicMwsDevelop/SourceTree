@@ -228,7 +228,7 @@ namespace PcSupportManager
 					}
 					else
 					{
-						if (pc.IsOrderInfoCompleted())
+						if (pc.IsOrderInfoCompleted(false))
 						{
 							if (pc.StartDate.Value <= date)
 							{
@@ -283,7 +283,7 @@ namespace PcSupportManager
 				{
 					if (false == pc.DisableFlag)
 					{
-						if (pc.IsOrderInfoCompleted())
+						if (pc.IsOrderInfoCompleted(false))
 						{
 							if (pc.StartDate.Value <= date)
 							{

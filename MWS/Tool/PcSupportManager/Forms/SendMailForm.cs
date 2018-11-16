@@ -195,7 +195,7 @@ namespace PcSupportManager.Forms
 		{
 			// 契約開始日が当月末以前
 			Date limit = Program.SystemDate.ToYearMonth().Last;
-			dataGridViewMailBindingSource.Filter = string.Format(@"START_MAIL_DATE is null AND ORDER_APPROVAL_DATE is not null AND START_DATE is not null AND DISABLE_FLAG = '0' AND 0 < LEN(MAIL_ADDRESS) AND Convert(START_DATE, System.String) <= '{0}'", limit.ToIntYMD());
+			dataGridViewMailBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND 0 < LEN(MAIL_ADDRESS) AND START_MAIL_DATE is null AND ORDER_APPROVAL_DATE is not null AND START_DATE is not null AND START_DATE <= '{0}'", limit.ToSqlDateTimeString());
 			textBoxSpan.Text = string.Format("契約開始日が{0}以前", limit.ToString());
 			buttonSend.Enabled = true;
 		}
@@ -208,7 +208,8 @@ namespace PcSupportManager.Forms
 		private void radioButtonMailGuide_CheckedChanged(object sender, EventArgs e)
 		{
 			// 契約終了月が当月の２か月後
-			YearMonth limit = Program.SystemDate.PlusMonths(2).ToYearMonth();
+			Date limit = Program.SystemDate.PlusMonths(2).ToYearMonth().Last;
+			dataGridViewMailBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND 0 < LEN(MAIL_ADDRESS) AND GUIDE_MAIL_DATE is null AND ORDER_APPROVAL_DATE is not null AND END_DATE is not null AND END_DATE = '{0}'", limit.ToSqlDateTimeString());
 			textBoxSpan.Text = string.Format("契約終了月が{0}", limit.ToString());
 			buttonSend.Enabled = true;
 		}
@@ -221,7 +222,8 @@ namespace PcSupportManager.Forms
 		private void radioButtonMailUpdate_CheckedChanged(object sender, EventArgs e)
 		{
 			// 契約終了月が先月
-			YearMonth limit = Program.SystemDate.PlusMonths(-1).ToYearMonth();
+			Date limit = Program.SystemDate.PlusMonths(-1).ToYearMonth().Last;
+			dataGridViewMailBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND 0 < LEN(MAIL_ADDRESS) AND GUIDE_MAIL_DATE is null AND ORDER_APPROVAL_DATE is not null AND END_DATE is not null AND END_DATE = '{0}'", limit.ToSqlDateTimeString());
 			textBoxSpan.Text = string.Format("契約終了月が{0}", limit.ToString());
 			buttonSend.Enabled = true;
 		}
