@@ -3,9 +3,9 @@
 namespace MwsLib.BaseFactory.PcSupportManager
 {
 	/// <summary>
-	/// 拠店員情報
+	/// 拠店従業員情報
 	/// </summary>
-	public class BranchInfo
+	public class BranchEmployeeInfo
 	{
 		/// <summary>
 		/// 拠店コード２
@@ -35,7 +35,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public BranchInfo()
+		public BranchEmployeeInfo()
 		{
 			BranchCode2 = string.Empty;
 			BranchName2 = string.Empty;
@@ -73,6 +73,37 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			UserID = string.Empty;
 			UserName = string.Empty;
 			BranchCode3 = string.Empty;
+		}
+	}
+
+	/// <summary>
+	/// 拠店情報
+	/// </summary>
+	public class BranchInfo
+	{
+		/// <summary>
+		/// 拠店ID
+		/// </summary>
+		public string BranchID { get; set; }
+
+		/// <summary>
+		/// 拠店名
+		/// </summary>
+		public string BranchName { get; set; }
+
+		/// <summary>
+		/// 拠店メールアドレス
+		/// </summary>
+		public string MailAddress { get; set; }
+
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
+		public BranchInfo()
+		{
+			BranchID = string.Empty;
+			BranchName = string.Empty;
+			MailAddress = string.Empty;
 		}
 	}
 }

@@ -375,11 +375,11 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		}
 
 		/// <summary>
-		/// 拠店メールアドレスの取得
+		/// 拠店情報の取得
 		/// </summary>
 		/// <param name="sqlsv2">CT環境</param>
 		/// <returns></returns>
-		public static DataTable GetBranchMailAddress(bool sqlsv2 = false)
+		public static DataTable GetBranchInfo(bool sqlsv2 = false)
 		{
 			DataTable result = null;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieConnectionString(sqlsv2)))
@@ -389,7 +389,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					// 接続
 					con.Open();
 
-					string strSQL = @"SELECT 支店ＩＤ, 支店メールアドレス FROM 支店情報参照ビュー ORDER BY 支店ＩＤ ASC";
+					string strSQL = @"SELECT 支店ＩＤ, 支店名, 支店メールアドレス FROM 支店情報参照ビュー WHERE 支店メールアドレス is not null AND 支店ＩＤ <> '32' ORDER BY 支店ＩＤ ASC";
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
 						using (SqlDataAdapter da = new SqlDataAdapter(cmd))

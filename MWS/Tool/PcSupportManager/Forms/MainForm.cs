@@ -21,7 +21,7 @@ namespace PcSupportManager.Forms
 		/// <summary>
 		/// 拠店営業員情報リスト
 		/// </summary>
-		public static List<BranchInfo> gBranchList;
+		public static List<BranchEmployeeInfo> gBranchEmployeeList;
 
 		/// <summary>
 		/// 商品情報リスト
@@ -45,7 +45,7 @@ namespace PcSupportManager.Forms
 		{
 			try
 			{
-				gBranchList = PcSupportManagerAccess.GetBranchEmployeeInfo();
+				gBranchEmployeeList = PcSupportManagerAccess.GetBranchEmployeeInfo();
 				gPcSupportGoodsList = PcSupportManagerAccess.GetPcSupportGoodsInfo();
 			}
 			catch (Exception ex)

@@ -26,11 +26,6 @@ namespace PcSupportManager.Forms
 		private List<PcSupportControl> PcSupportControlList;
 
 		/// <summary>
-		/// 拠店メールアドレスリスト
-		/// </summary>
-		private List<Tuple<string, string>> BranchMailAddressList;
-
-		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public SendMailForm()
@@ -39,7 +34,6 @@ namespace PcSupportManager.Forms
 
 			dataGridViewMailBindingSource = null;
 			PcSupportControlList = null;
-			BranchMailAddressList = null;
 			dataGridViewMail.BindingContextChanged += new EventHandler(dataGridViewMail_BindingContextChanged);
 		}
 
@@ -55,9 +49,6 @@ namespace PcSupportManager.Forms
 
 			// カーソルを待機カーソルに変更
 			Cursor.Current = Cursors.WaitCursor;
-
-			// 拠店メールアドレスの取得
-			BranchMailAddressList = PcSupportManagerAccess.GetBranchMailAddress();
 
 			DataTable dataTable = PcSupportManagerGetIO.GetPcSupportControl();
 			PcSupportControlList = PcSupportManagerController.ConvertPcSupportControl(dataTable);
@@ -207,8 +198,8 @@ namespace PcSupportManager.Forms
 		/// <param name="e"></param>
 		private void radioButtonMailGuide_CheckedChanged(object sender, EventArgs e)
 		{
-			// 契約終了月が当月の２か月後
-			Date limit = Program.SystemDate.PlusMonths(2).ToYearMonth().Last;
+			// 契約終了月が翌月
+			Date limit = Program.SystemDate.PlusMonths(1).ToYearMonth().Last;
 			dataGridViewMailBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND 0 < LEN(MAIL_ADDRESS) AND GUIDE_MAIL_DATE is null AND ORDER_APPROVAL_DATE is not null AND END_DATE is not null AND END_DATE = '{0}'", limit.ToSqlDateTimeString());
 			textBoxSpan.Text = string.Format("契約終了月が{0}", limit.ToString());
 			buttonSend.Enabled = true;
@@ -247,112 +238,108 @@ namespace PcSupportManager.Forms
 					PcSupportControl pc = PcSupportControlList.Find(p => p.OrderNo == orderNo);
 					if (null != pc)
 					{
-						Tuple<string, string> branchMailAddress = BranchMailAddressList.Find(p => p.Item1 == pc.BranchID);
-						if (null != branchMailAddress)
+						if (radioButtonStartMail.Checked)
 						{
-							if (radioButtonStartMail.Checked)
+							// 開始メール
+							pc.StartMailDateTime = today;
+							pc.UpdateDateTime = today;
+							pc.UpdatePerson = Program.PROGRAM_NAME;
+							PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Start, pc, Program.SystemDate);
+							mailList.Add(mail);
+							try
 							{
-								// 開始メール
-								pc.StartMailDateTime = today;
-								pc.UpdateDateTime = today;
-								pc.UpdatePerson = Program.PROGRAM_NAME;
-								PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Start, pc, Program.SystemDate);
-								mailList.Add(mail);
-								try
-								{
-									// 開始メール送信処理
-									SendMailControl.SendStartMail(mail, pc.ClinicName, branchMailAddress.Item2);
-								}
-								catch (Exception ex)
-								{
-									MessageBox.Show(string.Format("SendMailControl.SendStartMail() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-									return;
-								}
-								try
-								{
-									PcSupportManagerAccess.SetPcSupportControl(pc);
-								}
-								catch (Exception ex)
-								{
-									MessageBox.Show(string.Format("PcSupportManagerAccess.SetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-									return;
-								}
+								// 開始メール送信処理
+								SendMailControl.SendStartMail(mail, pc.ClinicName);
 							}
-							else if (radioButtonMailGuide.Checked)
+							catch (Exception ex)
 							{
-								// 契約更新案内メール
-
-								// メール送信前データ格納
-								pc.GuideMailDateTime = today;
-								pc.UpdateDateTime = today;
-								pc.UpdatePerson = Program.PROGRAM_NAME;
-
-								// メール送信処理
-								PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Start, pc, Program.SystemDate);
-								mailList.Add(mail);
-								try
-								{
-									SendMailControl.SendGuideMail(mail, pc.ClinicName, branchMailAddress.Item2);
-								}
-								catch (Exception ex)
-								{
-									MessageBox.Show(string.Format("SendMailControl.SendStartMail() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-									return;
-								}
-								// メール送信後データ格納
-								pc.UpdateMailDateTime = null;
-								try
-								{
-									PcSupportManagerAccess.SetPcSupportControl(pc);
-								}
-								catch (Exception ex)
-								{
-									MessageBox.Show(string.Format("PcSupportManagerAccess.SetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-									return;
-								}
+								MessageBox.Show(string.Format("SendMailControl.SendStartMail() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+								return;
 							}
-							else
+							try
 							{
-								// 契約更新メール
-								string goodsName = "PC安心ｻﾎﾟｰﾄ(1年契約)";
-								PcSupportGoodsInfo goods = MainForm.gPcSupportGoodsList.Find(p => p.GoodsID == PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID);
-								if (null != goods)
-								{
-									goodsName = goods.GoodsName;
-								}
-								// メール送信前データ格納
-								pc.UpdateMailDateTime = today;
-								pc.UpdateDateTime = today;
-								pc.UpdatePerson = Program.PROGRAM_NAME;
+								PcSupportManagerAccess.SetPcSupportControl(pc);
+							}
+							catch (Exception ex)
+							{
+								MessageBox.Show(string.Format("PcSupportManagerAccess.SetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+								return;
+							}
+						}
+						else if (radioButtonMailGuide.Checked)
+						{
+							// 契約更新案内メール
 
-								// メール送信処理
-								PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Start, pc, Program.SystemDate);
-								mailList.Add(mail);
-								try
-								{
-									SendMailControl.SendUpdateMail(mail, pc.ClinicName, branchMailAddress.Item2);
-								}
-								catch (Exception ex)
-								{
-									MessageBox.Show(string.Format("SendMailControl.SendStartMail() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-									return;
-								}
-								// メール送信後データ格納
-								pc.GuideMailDateTime = null;
-								pc.GoodsID = PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID;
-								pc.GoodsName = goodsName;
-								pc.AgreeYear = 1;
-								pc.StartDate = pc.EndDate.Value.PlusMonths(1).ToYearMonth().First;
-								pc.EndDate = PcSupportControl.GetEndDate(pc.StartDate.Value, pc.AgreeYear);
-								try
-								{
-									PcSupportManagerAccess.SetPcSupportControl(pc);
-								}
-								catch (Exception ex)
-								{
-									MessageBox.Show(string.Format("PcSupportManagerAccess.SetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-									return;
-								}
+							// メール送信前データ格納
+							pc.GuideMailDateTime = today;
+							pc.UpdateDateTime = today;
+							pc.UpdatePerson = Program.PROGRAM_NAME;
+
+							// メール送信処理
+							PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Start, pc, Program.SystemDate);
+							mailList.Add(mail);
+							try
+							{
+								SendMailControl.SendGuideMail(mail, pc.ClinicName);
+							}
+							catch (Exception ex)
+							{
+								MessageBox.Show(string.Format("SendMailControl.SendStartMail() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+								return;
+							}
+							// メール送信後データ格納
+							pc.UpdateMailDateTime = null;
+							try
+							{
+								PcSupportManagerAccess.SetPcSupportControl(pc);
+							}
+							catch (Exception ex)
+							{
+								MessageBox.Show(string.Format("PcSupportManagerAccess.SetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+								return;
+							}
+						}
+						else
+						{
+							// 契約更新メール
+							string goodsName = "PC安心ｻﾎﾟｰﾄ(1年契約)";
+							PcSupportGoodsInfo goods = MainForm.gPcSupportGoodsList.Find(p => p.GoodsID == PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID);
+							if (null != goods)
+							{
+								goodsName = goods.GoodsName;
+							}
+							// メール送信前データ格納
+							pc.UpdateMailDateTime = today;
+							pc.UpdateDateTime = today;
+							pc.UpdatePerson = Program.PROGRAM_NAME;
+
+							// メール送信処理
+							PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Start, pc, Program.SystemDate);
+							mailList.Add(mail);
+							try
+							{
+								SendMailControl.SendUpdateMail(mail, pc.ClinicName);
+							}
+							catch (Exception ex)
+							{
+								MessageBox.Show(string.Format("SendMailControl.SendStartMail() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+								return;
+							}
+							// メール送信後データ格納
+							pc.GuideMailDateTime = null;
+							pc.GoodsID = PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID;
+							pc.GoodsName = goodsName;
+							pc.AgreeYear = 1;
+							pc.StartDate = pc.EndDate.Value.PlusMonths(1).ToYearMonth().First;
+							pc.EndDate = PcSupportControl.GetEndDate(pc.StartDate.Value, pc.AgreeYear);
+							try
+							{
+								PcSupportManagerAccess.SetPcSupportControl(pc);
+							}
+							catch (Exception ex)
+							{
+								MessageBox.Show(string.Format("PcSupportManagerAccess.SetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+								return;
 							}
 						}
 					}

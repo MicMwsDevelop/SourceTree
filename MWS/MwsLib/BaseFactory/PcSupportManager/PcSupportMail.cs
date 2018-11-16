@@ -22,6 +22,8 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			Guide,
 			/// <summary>契約更新メール</summary>
 			Update,
+			/// <summary>サポート情報ソフト保守</summary>
+			SoftMainte,
 		};
 
 		/// <summary>

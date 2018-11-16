@@ -94,12 +94,12 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		/// </summary>
 		/// <param name="table">データテーブル</param>
 		/// <returns>拠店従業員情報リスト</returns>
-		public static List<BranchInfo> ConvertBranchEmployeeInfo(DataTable table)
+		public static List<BranchEmployeeInfo> ConvertBranchEmployeeInfo(DataTable table)
 		{
-			List<BranchInfo> result = null;
+			List<BranchEmployeeInfo> result = null;
 			if (null != table)
 			{
-				result = new List<BranchInfo>();
+				result = new List<BranchEmployeeInfo>();
 				foreach (DataRow row in table.Rows)
 				{
 					EmployeeInfo employee = new EmployeeInfo();
@@ -108,10 +108,10 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					employee.BranchCode3 = row["fBshCode3"].ToString().Trim();
 					if (0 < employee.BranchCode3.Length)
 					{
-						BranchInfo branch = result.Find(p => p.BranchCode3 == employee.BranchCode3);
+						BranchEmployeeInfo branch = result.Find(p => p.BranchCode3 == employee.BranchCode3);
 						if (null == branch)
 						{
-							branch = new BranchInfo();
+							branch = new BranchEmployeeInfo();
 							branch.BranchCode2 = row["fBshCode2"].ToString().Trim();
 							branch.BranchName2 = row["fBshName2"].ToString().Trim();
 							branch.BranchCode3 = employee.BranchCode3;
@@ -127,7 +127,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					else
 					{
 						string branchCode2 = row["fBshCode2"].ToString().Trim();
-						BranchInfo branch = result.Find(p => p.BranchCode2 == branchCode2);
+						BranchEmployeeInfo branch = result.Find(p => p.BranchCode2 == branchCode2);
 						if (null != branch)
 						{
 							employee.BranchCode3 = branch.BranchCode2;
@@ -242,22 +242,23 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		}
 
 		/// <summary>
-		/// 拠店メールアドレスの取得
+		/// 拠店情報の取得
 		/// </summary>
 		/// <param name="table">DataTable</param>
-		/// <returns>拠店メールアドレス</returns>
-		public static List<Tuple<string, string>> ConvertBranchMailAddress(DataTable table)
+		/// <returns>拠店情報</returns>
+		public static List<BranchInfo> ConvertBranchInfo(DataTable table)
 		{
-			List<Tuple<string, string>> result = null;
+			List<BranchInfo> result = null;
 			if (null != table)
 			{
-				result = new List<Tuple<string, string>>();
+				result = new List<BranchInfo>();
 				foreach (DataRow row in table.Rows)
 				{
-					PcSupportControl control = new PcSupportControl();
-					string branchID = row["支店ＩＤ"].ToString();
-					string mailAddress = row["支店メールアドレス"].ToString().Trim();
-					result.Add(new Tuple<string, string>(branchID, mailAddress));
+					BranchInfo branch = new BranchInfo();
+					branch.BranchID = row["支店ＩＤ"].ToString();
+					branch.BranchName = row["支店名"].ToString();
+					branch.MailAddress = row["支店メールアドレス"].ToString().Trim();
+					result.Add(branch);
 				}
 			}
 			return result;

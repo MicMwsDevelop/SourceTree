@@ -132,45 +132,65 @@ namespace PcSupportManager
 			List<PcSupportControl> pcList = srcList.Where(p => true == p.IsSendStartMail(date)).ToList();
 			if (0 < pcList.Count)
 			{
-				// 拠店メールアドレスの取得
-				List<Tuple<string, string>> branchMailAddressList = PcSupportManagerAccess.GetBranchMailAddress();
 				List<PcSupportMail> mailList = new List<PcSupportMail>();
 				foreach (PcSupportControl pc in pcList)
 				{
-					Tuple<string, string> branchMailAddress = branchMailAddressList.Find(p => p.Item1 == pc.BranchID);
-					if (null != branchMailAddress)
+					// メール送信処理
+					pc.StartMailDateTime = date.ToDateTime();
+					pc.UpdateDateTime = date.ToDateTime();
+					pc.UpdatePerson = Program.PROGRAM_NAME;
+					PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Start, pc, date);
+					mailList.Add(mail);
+					try
 					{
-						// メール送信処理
-						pc.StartMailDateTime = date.ToDateTime();
-						pc.UpdateDateTime = date.ToDateTime();
-						pc.UpdatePerson = Program.PROGRAM_NAME;
-						PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Start, pc, date);
-						mailList.Add(mail);
+						//SendMailControl.SendStartMail(mail, pc.ClinicName);
+					}
+					catch (Exception ex)
+					{
+						Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendStartMail ({0})", ex.Message));
+						Logger.Out(logPathname, string.Format("{0} {1}:開始メール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+						return;
+					}
+					Logger.Out(logPathname, mail.ToLog(pc));
+					if (!DebugMode)
+					{
 						try
 						{
-							SendMailControl.SendStartMail(mail, pc.ClinicName, branchMailAddress.Item2);
+							PcSupportManagerAccess.SetPcSupportControl(pc);
 						}
 						catch (Exception ex)
 						{
-							Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendStartMail ({0})", ex.Message));
+							Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetPcSupportControl ({0})", ex.Message));
 							Logger.Out(logPathname, string.Format("{0} {1}:開始メール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 							return;
 						}
-						Logger.Out(logPathname, mail.ToLog(pc));
-						if (!DebugMode)
-						{
-							try
-							{
-								PcSupportManagerAccess.SetPcSupportControl(pc);
-							}
-							catch (Exception ex)
-							{
-								Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetPcSupportControl ({0})", ex.Message));
-								Logger.Out(logPathname, string.Format("{0} {1}:開始メール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
-								return;
-							}
-						}
 					}
+				}
+				try
+				{
+					// 営業管理部にメール
+					SendMailControl.SendEigyoKanriMail(PcSupportMail.MailType.Start, mailList, pcList);
+				}
+				catch (Exception ex)
+				{
+					// プログラムは止めない
+					Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendEigyoKanriMail ({0})", ex.Message));
+				}
+				try
+				{
+					// 各拠点にメール
+					List<BranchInfo> branchInfoList = PcSupportManagerAccess.GetBranchInfo();
+					foreach (BranchInfo branch in branchInfoList)
+					{
+						List<PcSupportMail> branchMailList = mailList.Where(p => p.BranchID == branch.BranchID).ToList();
+						List<PcSupportControl> branchPcList = pcList.Where(p => p.BranchID == branch.BranchID).ToList();
+						SendMailControl.SendBranchMail(PcSupportMail.MailType.Start, branch, branchMailList, branchPcList);
+					}
+				}
+				catch (Exception ex)
+				{
+					// プログラムは止めない
+					Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendBranchMail ({0})", ex.Message));
 				}
 				if (0 < mailList.Count)
 				{
@@ -187,6 +207,33 @@ namespace PcSupportManager
 							return;
 						}
 					}
+				}
+			}
+			else
+			{
+				// 営業管理部にメール
+				try
+				{
+					SendMailControl.SendEigyoKanriMail(PcSupportMail.MailType.Start, new List<PcSupportMail>(), pcList);
+				}
+				catch (Exception ex)
+				{
+					// プログラムは止めない
+					Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendEigyoKanriMail ({0})", ex.Message));
+				}
+				try
+				{
+					// 各拠点にメール
+					List<BranchInfo> branchInfoList = PcSupportManagerAccess.GetBranchInfo();
+					foreach (BranchInfo branch in branchInfoList)
+					{
+						SendMailControl.SendBranchMail(PcSupportMail.MailType.Start, branch, new List<PcSupportMail>(), pcList);
+					}
+				}
+				catch (Exception ex)
+				{
+					// プログラムは止めない
+					Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendBranchMail ({0})", ex.Message));
 				}
 			}
 			Logger.Out(logPathname, string.Format("{0},{1},開始メール送信 正常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
@@ -346,50 +393,43 @@ namespace PcSupportManager
 
 			Logger.Out(logPathname, string.Format("{0}:契約更新案内メール送信処理 開始", DateTime.Now.ToString()));
 
-			// 拠店メールアドレスの取得
-			List<Tuple<string, string>> branchMailAddressList = PcSupportManagerAccess.GetBranchMailAddress();
-
 			List<PcSupportControl> guidePcList = pcList.Where(p => true == p.IsSendGuideMail(date)).ToList();
 			List<PcSupportMail> mailList = new List<PcSupportMail>();
 			foreach (PcSupportControl pc in guidePcList)
 			{
-				Tuple<string, string> branchMailAddress = branchMailAddressList.Find(p => p.Item1 == pc.BranchID);
-				if (null != branchMailAddress)
-				{
-					// メール送信前データ格納
-					pc.GuideMailDateTime = date.ToDateTime();
-					pc.UpdateDateTime = date.ToDateTime();
-					pc.UpdatePerson = Program.PROGRAM_NAME;
+				// メール送信前データ格納
+				pc.GuideMailDateTime = date.ToDateTime();
+				pc.UpdateDateTime = date.ToDateTime();
+				pc.UpdatePerson = Program.PROGRAM_NAME;
 
-					// メール送信処理
-					PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Start, pc, date);
-					mailList.Add(mail);
+				// メール送信処理
+				PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Start, pc, date);
+				mailList.Add(mail);
+				try
+				{
+					SendMailControl.SendGuideMail(mail, pc.ClinicName);
+				}
+				catch (Exception ex)
+				{
+					Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendGuideMail ({0})", ex.Message));
+					Logger.Out(logPathname, string.Format("{0} {1}:月次処理 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+					return;
+				}
+				Logger.Out(logPathname, mail.ToLog(pc));
+
+				// メール送信後データ格納
+				pc.UpdateMailDateTime = null;
+				if (!DebugMode)
+				{
 					try
 					{
-						SendMailControl.SendGuideMail(mail, pc.ClinicName, branchMailAddress.Item2);
+						PcSupportManagerAccess.SetPcSupportControl(pc);
 					}
 					catch (Exception ex)
 					{
-						Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendGuideMail ({0})", ex.Message));
+						Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetPcSupportControl ({0})", ex.Message));
 						Logger.Out(logPathname, string.Format("{0} {1}:月次処理 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 						return;
-					}
-					Logger.Out(logPathname, mail.ToLog(pc));
-
-					// メール送信後データ格納
-					pc.UpdateMailDateTime = null;
-					if (!DebugMode)
-					{
-						try
-						{
-							PcSupportManagerAccess.SetPcSupportControl(pc);
-						}
-						catch (Exception ex)
-						{
-							Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetPcSupportControl ({0})", ex.Message));
-							Logger.Out(logPathname, string.Format("{0} {1}:月次処理 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
-							return;
-						}
 					}
 				}
 			}
@@ -411,6 +451,7 @@ namespace PcSupportManager
 			}
 			Logger.Out(logPathname, string.Format("{0}:契約更新案内メール送信処理 正常終了", DateTime.Now.ToString()));
 
+
 			/////////////////////////////////////////////
 			// 契約更新メール送信処理
 			/////////////////////////////////////////////
@@ -428,48 +469,44 @@ namespace PcSupportManager
 			List<PcSupportControl> updatePcList = pcList.Where(p => true == p.IsSendUpdateMail(date)).ToList();
 			foreach (PcSupportControl pc in updatePcList)
 			{
-				Tuple<string, string> branchMailAddress = branchMailAddressList.Find(p => p.Item1 == pc.BranchID);
-				if (null != branchMailAddress)
-				{
-					// メール送信前データ格納
-					pc.UpdateMailDateTime = date.ToDateTime();
-					pc.UpdateDateTime = date.ToDateTime();
-					pc.UpdatePerson = Program.PROGRAM_NAME;
+				// メール送信前データ格納
+				pc.UpdateMailDateTime = date.ToDateTime();
+				pc.UpdateDateTime = date.ToDateTime();
+				pc.UpdatePerson = Program.PROGRAM_NAME;
 
-					// メール送信処理
-					PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Start, pc, date);
-					mailList.Add(mail);
+				// メール送信処理
+				PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Start, pc, date);
+				mailList.Add(mail);
+				try
+				{
+					SendMailControl.SendUpdateMail(mail, pc.ClinicName);
+				}
+				catch (Exception ex)
+				{
+					Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendUpdateMail ({0})", ex.Message));
+					Logger.Out(logPathname, string.Format("{0} {1}:月次処理 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+					return;
+				}
+				Logger.Out(logPathname, mail.ToLog(pc));
+
+				// メール送信後データ格納
+				pc.GuideMailDateTime = null;
+				pc.GoodsID = PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID;
+				pc.GoodsName = goodsName;
+				pc.AgreeYear = 1;
+				pc.StartDate = pc.EndDate.Value.PlusMonths(1).ToYearMonth().First;
+				pc.EndDate = PcSupportControl.GetEndDate(pc.StartDate.Value, pc.AgreeYear);
+				if (!DebugMode)
+				{
 					try
 					{
-						SendMailControl.SendUpdateMail(mail, pc.ClinicName, branchMailAddress.Item2);
+						PcSupportManagerAccess.SetPcSupportControl(pc);
 					}
 					catch (Exception ex)
 					{
-						Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendUpdateMail ({0})", ex.Message));
+						Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetPcSupportControl ({0})", ex.Message));
 						Logger.Out(logPathname, string.Format("{0} {1}:月次処理 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 						return;
-					}
-					Logger.Out(logPathname, mail.ToLog(pc));
-
-					// メール送信後データ格納
-					pc.GuideMailDateTime = null;
-					pc.GoodsID = PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID;
-					pc.GoodsName = goodsName;
-					pc.AgreeYear = 1;
-					pc.StartDate = pc.EndDate.Value.PlusMonths(1).ToYearMonth().First;
-					pc.EndDate = PcSupportControl.GetEndDate(pc.StartDate.Value, pc.AgreeYear);
-					if (!DebugMode)
-					{
-						try
-						{
-							PcSupportManagerAccess.SetPcSupportControl(pc);
-						}
-						catch (Exception ex)
-						{
-							Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetPcSupportControl ({0})", ex.Message));
-							Logger.Out(logPathname, string.Format("{0} {1}:月次処理 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
-							return;
-						}
 					}
 				}
 			}

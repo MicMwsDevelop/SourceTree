@@ -44,7 +44,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		/// </summary>
 		/// <param name="sqlsv2">CT環境</param>
 		/// <returns>拠店情報</returns>
-		public static List<BranchInfo> GetBranchEmployeeInfo(bool sqlsv2 = false)
+		public static List<BranchEmployeeInfo> GetBranchEmployeeInfo(bool sqlsv2 = false)
 		{
 			DataTable dt = PcSupportManagerGetIO.GetBranchEmployeeInfo(sqlsv2);
 			return PcSupportManagerController.ConvertBranchEmployeeInfo(dt);
@@ -133,14 +133,14 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		}
 
 		/// <summary>
-		/// 拠店メールアドレスの取得
+		/// 拠店情報の取得
 		/// </summary>
 		/// <param name="sqlsv2">CT環境</param>
-		/// <returns>拠店メールアドレス</returns>
-		public static List<Tuple<string, string>> GetBranchMailAddress(bool sqlsv2 = false)
+		/// <returns>拠店拠店情報</returns>
+		public static List<BranchInfo> GetBranchInfo(bool sqlsv2 = false)
 		{
-			DataTable dt = PcSupportManagerGetIO.GetBranchMailAddress(sqlsv2);
-			return PcSupportManagerController.ConvertBranchMailAddress(dt);
+			DataTable dt = PcSupportManagerGetIO.GetBranchInfo(sqlsv2);
+			return PcSupportManagerController.ConvertBranchInfo(dt);
 		}
 
 		/// <summary>

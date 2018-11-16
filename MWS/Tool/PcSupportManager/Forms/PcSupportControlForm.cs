@@ -88,7 +88,7 @@ namespace PcSupportManager.Forms
 			// 拠店コンボボックスの設定
 			comboBoxBranch.DisplayMember = "BranchName3";
 			comboBoxBranch.ValueMember = "BranchCode3";
-			comboBoxBranch.DataSource = MainForm.gBranchList;
+			comboBoxBranch.DataSource = MainForm.gBranchEmployeeList;
 
 			// 営業担当員コンボボックスの設定
 			comboBoxEmployee.DisplayMember = "UserName";
@@ -97,7 +97,7 @@ namespace PcSupportManager.Forms
 			if (null != OrgPcSupport)
 			{
 				// 変更
-				comboBoxEmployee.DataSource = MainForm.gBranchList[0].EmployeeList;
+				comboBoxEmployee.DataSource = MainForm.gBranchEmployeeList[0].EmployeeList;
 
 				// 無効フラグを有効
 				checkBoxDisable.Enabled = true;
@@ -125,7 +125,7 @@ namespace PcSupportManager.Forms
 				comboBoxBranch.SelectedValue = OrgPcSupport.BranchID;
 
 				// 営業担当員
-				BranchInfo branch = MainForm.gBranchList.Find(p => p.BranchCode3 == OrgPcSupport.BranchID);
+				BranchEmployeeInfo branch = MainForm.gBranchEmployeeList.Find(p => p.BranchCode3 == OrgPcSupport.BranchID);
 				comboBoxEmployee.DataSource = branch.EmployeeList;
 				comboBoxEmployee.SelectedValue = OrgPcSupport.SalesmanID;
 
@@ -171,7 +171,7 @@ namespace PcSupportManager.Forms
 			else
 			{
 				// 新規
-				comboBoxEmployee.DataSource = MainForm.gBranchList[0].EmployeeList;
+				comboBoxEmployee.DataSource = MainForm.gBranchEmployeeList[0].EmployeeList;
 
 				// 受注No
 				textBoxOrderNo.Text = OrderNo;
@@ -186,10 +186,10 @@ namespace PcSupportManager.Forms
 				textBoxPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gPcSupportGoodsList[0].Price));
 
 				// 拠店
-				comboBoxBranch.SelectedValue = MainForm.gBranchList[0].BranchCode3;
+				comboBoxBranch.SelectedValue = MainForm.gBranchEmployeeList[0].BranchCode3;
 
 				// 営業担当員
-				comboBoxEmployee.SelectedValue = MainForm.gBranchList[0].EmployeeList[0].UserID;
+				comboBoxEmployee.SelectedValue = MainForm.gBranchEmployeeList[0].EmployeeList[0].UserID;
 			}
 			// イベントハンドラ追加
 			comboBoxGoods.SelectedIndexChanged += new EventHandler(comboBoxGoods_SelectedIndexChanged);
@@ -230,7 +230,7 @@ namespace PcSupportManager.Forms
 			if (0 < branchID.Length)
 			{
 				// 営業担当員コンボボックスの設定
-				BranchInfo branch = MainForm.gBranchList.Find(p => p.BranchCode3 == branchID);
+				BranchEmployeeInfo branch = MainForm.gBranchEmployeeList.Find(p => p.BranchCode3 == branchID);
 				comboBoxEmployee.DataSource = branch.EmployeeList;
 				comboBoxEmployee.SelectedValue = branch.EmployeeList[0].UserID;
 			}
@@ -315,7 +315,7 @@ namespace PcSupportManager.Forms
 				pc.BranchID = comboBoxBranch.SelectedValue as string;
 
 				// 拠店名
-				BranchInfo branch = comboBoxBranch.SelectedItem as BranchInfo;
+				BranchEmployeeInfo branch = comboBoxBranch.SelectedItem as BranchEmployeeInfo;
 				pc.BranchName = branch.BranchName3;
 
 				// 担当者ID
@@ -399,7 +399,7 @@ namespace PcSupportManager.Forms
 				pc.BranchID = comboBoxBranch.SelectedValue as string;
 
 				// 拠店名
-				BranchInfo branch = comboBoxBranch.SelectedItem as BranchInfo;
+				BranchEmployeeInfo branch = comboBoxBranch.SelectedItem as BranchEmployeeInfo;
 				pc.BranchName = branch.BranchName3;
 
 				// 担当者ID

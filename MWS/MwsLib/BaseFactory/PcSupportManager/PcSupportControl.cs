@@ -459,7 +459,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 
 		/// <summary>
 		/// 契約更新案内メール送信対象かどうか？
-		/// 送信条件：契約終了月が当月の２か月後
+		/// 送信条件：契約終了月が当月の翌月
 		/// </summary>
 		/// <param name="date">当日</param>
 		/// <returns>判定</returns>
@@ -473,9 +473,9 @@ namespace MwsLib.BaseFactory.PcSupportManager
 				return false;
 			if (EndDate.HasValue)
 			{
-				if (EndDate.Value.ToYearMonth() == date.PlusMonths(2).ToYearMonth())
+				if (EndDate.Value.ToYearMonth() == date.PlusMonths(1).ToYearMonth())
 				{
-					// 契約終了月が当月の２か月後
+					// 契約終了月が当月の翌月
 					return true;
 				}
 			}

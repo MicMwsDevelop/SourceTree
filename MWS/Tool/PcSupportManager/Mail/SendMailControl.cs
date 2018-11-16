@@ -21,8 +21,7 @@ namespace PcSupportManager.Mail
 		/// </summary>
 		/// <param name="mail">PC安心サポート送信メール情報</param>
 		/// <param name="clinicName">医院名</param>
-		/// <param name="branchMailAddress">拠店メールアドレス</param>
-		public static void SendStartMail(PcSupportMail mail, string clinicName, string branchMailAddress)
+		public static void SendStartMail(PcSupportMail mail, string clinicName)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -43,7 +42,7 @@ namespace PcSupportManager.Mail
 					msg.Body = sr.ReadToEnd().Replace("%CLINIC_NAME%", clinicName).Replace("%AGREE_YEAR%", mail.AgreeYear.ToString()).Replace("%START_YM%", mail.StartDate.Value.ToYearMonth().ToString()).Replace("%END_YM%", mail.EndDate.Value.ToYearMonth().ToString());
 				}
 				// メール送信
-				SendMailControl.SendMail(msg, mail.MailAddress, branchMailAddress, conf);
+				SendMailControl.SendMail(msg, conf, mail.MailAddress);
 			}
 		}
 
@@ -52,8 +51,7 @@ namespace PcSupportManager.Mail
 		/// </summary>
 		/// <param name="mail">PC安心サポート送信メール情報</param>
 		/// <param name="clinicName">医院名</param>
-		/// <param name="branchMailAddress">拠店メールアドレス</param>
-		public static void SendGuideMail(PcSupportMail mail, string clinicName, string branchMailAddress)
+		public static void SendGuideMail(PcSupportMail mail, string clinicName)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -74,7 +72,7 @@ namespace PcSupportManager.Mail
 					msg.Body = sr.ReadToEnd().Replace("%CLINIC_NAME%", clinicName).Replace("%AGREE_YEAR%", mail.AgreeYear.ToString()).Replace("%END_YM%", mail.EndDate.Value.ToYearMonth().ToString());
 				}
 				// メール送信
-				SendMailControl.SendMail(msg, mail.MailAddress, branchMailAddress, conf);
+				SendMailControl.SendMail(msg, conf, mail.MailAddress);
 			}
 		}
 
@@ -83,8 +81,7 @@ namespace PcSupportManager.Mail
 		/// </summary>
 		/// <param name="mail">PC安心サポート送信メール情報</param>
 		/// <param name="clinicName">医院名</param>
-		/// <param name="branchMailAddress">拠店メールアドレス</param>
-		public static void SendUpdateMail(PcSupportMail mail, string clinicName, string branchMailAddress)
+		public static void SendUpdateMail(PcSupportMail mail, string clinicName)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -105,7 +102,182 @@ namespace PcSupportManager.Mail
 					msg.Body = sr.ReadToEnd().Replace("%CLINIC_NAME%", clinicName).Replace("%AGREE_YEAR%", mail.AgreeYear.ToString()).Replace("%START_YM%", mail.StartDate.Value.ToYearMonth().ToString()).Replace("%END_YM%", mail.EndDate.Value.ToYearMonth().ToString());
 				}
 				// メール送信
-				SendMailControl.SendMail(msg, mail.MailAddress, branchMailAddress, conf);
+				SendMailControl.SendMail(msg, conf, mail.MailAddress);
+			}
+		}
+
+		/// <summary>
+		/// メール送信（営業管理部宛て）
+		/// </summary>
+		/// <param name="mailType">メール種別</param>
+		/// <param name="mailList">送信メール情報</param>
+		/// <param name="pcList">PC安心サポート管理情報</param>
+		public static void SendEigyoKanriMail(PcSupportMail.MailType mailType, List<PcSupportMail> mailList, List<PcSupportControl> pcList)
+		{
+			using (MailMessage msg = new MailMessage())
+			{
+				Encoding enc = Encoding.GetEncoding("shift_jis");
+				msg.SubjectEncoding = enc;
+				msg.BodyEncoding = enc;
+
+				// App.configの読込み
+				Dictionary<string, string> conf = SendMailControl.ReadConfig();
+
+				msg.IsBodyHtml = true;
+				msg.Body = @"<html>"
+							+ @"<head><meta http-equiv=Content-Type content=""text/html; charset=iso-2022-jp""></head>"
+							+ @"<body>"
+							+ @"<font face=""MS UI Gothic"" size=""2"">";
+
+				string yearMonthStr = Date.Today.ToYearMonth().GetJapaneseString(false, '0', true, true);
+				switch (mailType)
+				{
+					// 開始メール
+					case PcSupportMail.MailType.Start:
+						// 件名
+						msg.Subject = string.Format(@"{0} PC安心サポート 開始メールを送信しました", yearMonthStr);
+
+						// 本文
+						msg.Body += string.Format(@"<div>"
+									+ @"<p>営業管理部</p>"
+									+ @"<p>{0} PC安心サポート 送信対象ユーザーに開始メールを送信しました。<br>"
+									+ @"</div>", yearMonthStr);
+						if (0 < mailList.Count)
+						{
+							msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
+										+ @"<tr>"
+										+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>拠店名</font></th>"
+										+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
+										+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
+										+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>商品名</font></th>"
+										+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>契約開始日</font></th>"
+										+ @"</tr>";
+							foreach (PcSupportMail mail in mailList)
+							{
+								PcSupportControl pc = pcList.Find(p => p.CustomerNo == mail.CustomerNo);
+								if (null != pc)
+								{
+									msg.Body += string.Format(@"<tr>"
+												+ @"<td><font size=2>{0}</font></td>"
+												+ @"<td><font size=2>{1}</font></td>"
+												+ @"<td><font size=2>{2}</font></td>"
+												+ @"<td><font size=2>{3}</font></td>"
+												+ @"<td><font size=2>{4}</font></td>"
+												+ @"</tr>", pc.BranchName, pc.CustomerNo, pc.ClinicName, pc.GoodsName, pc.StartDate.Value.ToString());
+								}
+							}
+							msg.Body += @"</table>";
+						}
+						else
+						{
+							msg.Body += @"<br><p>PC安心サポート 開始メール送信対象ユーザーはいませんでした。</p>";
+						}
+						break;
+					case PcSupportMail.MailType.Guide:
+						break;
+					case PcSupportMail.MailType.Update:
+						break;
+					case PcSupportMail.MailType.SoftMainte:
+						break;
+				}
+				msg.Body += @"</div>"
+							+ @"<div>"
+							+ @"<p>以上、よろしくお願いいたします。<br>営業管理部</p>"
+							+ @"</div>"
+							+ @"</font>"
+							+ @"</body>"
+							+ @"</html>";
+
+				// メール送信
+				SendMailControl.SendMail(msg, conf, conf["to"]);
+			}
+		}
+
+		/// <summary>
+		/// メール送信（拠店宛て）
+		/// </summary>
+		/// <param name="mailType">メール種別</param>
+		/// <param name="branch">拠店情報</param>
+		/// <param name="mailList">送信メール情報</param>
+		/// <param name="pcList">PC安心サポート管理情報</param>
+		public static void SendBranchMail(PcSupportMail.MailType mailType, BranchInfo branch, List<PcSupportMail> mailList, List<PcSupportControl> pcList)
+		{
+			using (MailMessage msg = new MailMessage())
+			{
+				Encoding enc = Encoding.GetEncoding("shift_jis");
+				msg.SubjectEncoding = enc;
+				msg.BodyEncoding = enc;
+
+				// App.configの読込み
+				Dictionary<string, string> conf = SendMailControl.ReadConfig();
+
+				msg.IsBodyHtml = true;
+				msg.Body = @"<html>"
+							+ @"<head><meta http-equiv=Content-Type content=""text/html; charset=iso-2022-jp""></head>"
+							+ @"<body>"
+							+ @"<font face=""MS UI Gothic"" size=""2"">";
+
+				string yearMonthStr = Date.Today.ToYearMonth().GetJapaneseString(false, '0', true, true);
+				switch (mailType)
+				{
+					// 開始メール
+					case PcSupportMail.MailType.Start:
+						// 件名
+						msg.Subject = string.Format(@"【{0}】{1} PC安心サポート 開始対象ユーザー", branch.BranchName, yearMonthStr);
+
+						// 本文
+						msg.Body += string.Format(@"<div>"
+									+ @"<p>{0}</p>"
+									+ @"<p>{1} PC安心サポート 開始対象ユーザーをご連絡いたします。<br>"
+									+ @"</div>", branch.BranchName, yearMonthStr);
+						if (0 < mailList.Count)
+						{
+							msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
+										+ @"<tr>"
+										+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>拠店名</font></th>"
+										+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
+										+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
+										+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>商品名</font></th>"
+										+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>契約開始日</font></th>"
+										+ @"</tr>";
+							foreach (PcSupportMail mail in mailList)
+							{
+								PcSupportControl pc = pcList.Find(p => p.CustomerNo == mail.CustomerNo);
+								if (null != pc)
+								{
+									msg.Body += string.Format(@"<tr>"
+												+ @"<td><font size=2>{0}</font></td>"
+												+ @"<td><font size=2>{1}</font></td>"
+												+ @"<td><font size=2>{2}</font></td>"
+												+ @"<td><font size=2>{3}</font></td>"
+												+ @"<td><font size=2>{4}</font></td>"
+												+ @"</tr>", branch.BranchName, pc.CustomerNo, pc.ClinicName, pc.GoodsName, pc.StartDate.Value.ToString());
+								}
+							}
+							msg.Body += @"</table>";
+						}
+						else
+						{
+							msg.Body += @"<br><p>PC安心サポート 開始対象ユーザーはいませんでした。</p>";
+						}
+						break;
+					case PcSupportMail.MailType.Guide:
+						break;
+					case PcSupportMail.MailType.Update:
+						break;
+					case PcSupportMail.MailType.SoftMainte:
+						break;
+				}
+				msg.Body += @"</div>"
+							+ @"<div>"
+							+ @"<p>以上、よろしくお願いいたします。<br>営業管理部</p>"
+							+ @"</div>"
+							+ @"</font>"
+							+ @"</body>"
+							+ @"</html>";
+
+				// メール送信
+				SendMailControl.SendMail(msg, conf, branch.MailAddress, conf["to"]);
 			}
 		}
 
@@ -128,17 +300,17 @@ namespace PcSupportManager.Mail
 		/// メール送信
 		/// </summary>
 		/// <param name="msg"></param>
-		/// <param name="customerMailAddress">顧客メールアドレス</param>
-		/// <param name="branchMailAddress">拠店メールアドレス</param>
+		/// <param name="to">送信先メールアドレス</param>
+		/// <param name="cc">CCメールアドレス</param>
 		/// <param name="conf">App.config</param>
-		private static void SendMail(MailMessage msg, string customerMailAddress, string branchMailAddress, Dictionary<string, string> conf)
+		private static void SendMail(MailMessage msg, Dictionary<string, string> conf, string to, string cc = "")
 		{
 			if (Program.DebugMode)
 			{
 				// 差出人（From）
 				msg.From = new MailAddress(conf["test_from"]);		// suguro@mic.jp
 
-				// 宛先（To）を複数登録する
+				// 宛先（To）を登録する
 				msg.To.Add(new MailAddress(conf["test_to"]));       // suguro@mic.jp
 			}
 			else
@@ -146,10 +318,14 @@ namespace PcSupportManager.Mail
 				// 差出人（From）
 				msg.From = new MailAddress(conf["from"]);           // 営業管理部
 
-				// 宛先（To）を複数登録する
-				msg.To.Add(new MailAddress(customerMailAddress));	// 医院
-				msg.To.Add(new MailAddress(branchMailAddress));		// 拠店
-				msg.To.Add(new MailAddress(conf["to"]));			// 営業管理部
+				// 宛先（To）を登録する
+				msg.To.Add(new MailAddress(to));
+
+				if (0 < cc.Length)
+				{
+					// CCを登録する
+					msg.CC.Add(new MailAddress(cc));
+				}
 			}
 			// SMTPサーバの設定
 			using (SmtpClient smtp = new SmtpClient())
