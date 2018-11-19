@@ -1,4 +1,13 @@
-﻿using System.Collections.Generic;
+﻿//
+// BranchEmployeeInfo.cs
+//
+// 拠店従業員情報
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
+using System.Collections.Generic;
 
 namespace MwsLib.BaseFactory.PcSupportManager
 {

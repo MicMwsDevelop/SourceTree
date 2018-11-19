@@ -79,7 +79,7 @@
 			this.buttonSoftMainte.Name = "buttonSoftMainte";
 			this.buttonSoftMainte.Size = new System.Drawing.Size(313, 45);
 			this.buttonSoftMainte.TabIndex = 4;
-			this.buttonSoftMainte.Text = "ソフト保守メンテナンス情報更新";
+			this.buttonSoftMainte.Text = "製品サポート情報ソフト保守更新";
 			this.buttonSoftMainte.UseVisualStyleBackColor = true;
 			this.buttonSoftMainte.Click += new System.EventHandler(this.buttonSoftMainte_Click);
 			// 

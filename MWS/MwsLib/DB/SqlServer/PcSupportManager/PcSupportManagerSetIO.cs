@@ -1,10 +1,22 @@
-﻿using MwsLib.BaseFactory.PcSupportManager;
+﻿//
+// PcSupportManagerSetIO.cs
+//
+// PC安心サポート管理 データ格納クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
+using MwsLib.BaseFactory.PcSupportManager;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace MwsLib.DB.SqlServer.PcSupportManager
 {
+	/// <summary>
+	/// PC安心サポート管理 データ格納クラス
+	/// </summary>
 	public static class PcSupportManagerSetIO
 	{
 		//////////////////////////////////////////////////////////////////
@@ -12,10 +24,10 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		//////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// ソフト保守メンテナンス情報の追加
+		/// 製品サポート情報ソフト保守情報の追加
 		/// [JunpDB].[dbo].[tMik保守契約]
 		/// </summary>
-		/// <param name="data">ソフト保守メンテナンス情報</param>
+		/// <param name="data">製品サポート情報ソフト保守情報</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
 		public static int InsertIntoSoftMaintenanceContract(SoftMaintenanceContract data, bool sqlsv2)
@@ -74,6 +86,16 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 							{
 								throw new ApplicationException("InsertIntoSoftMaintenanceContract() Error!");
 							}
+							// tMikユーザのfusS保守契約の格納
+							string sqlString2 = string.Format(@"UPDATE tMikユーザ SET fusS保守契約 = @1 WHERE fusCliMicID = {0}", data.CustomerNo);
+							SqlParameter[] param2 = { new SqlParameter("@1", (data.Subscription) ? '1' : '0') };
+
+							// 実行
+							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString2, param2);
+							if (rowCount <= -1)
+							{
+								throw new ApplicationException("UpdateSoftMaintenanceContract() Error!");
+							}
 							// コミット
 							tran.Commit();
 						}
@@ -102,10 +124,10 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		}
 
 		/// <summary>
-		/// ソフト保守メンテナンス情報の更新
+		/// 製品サポート情報ソフト保守の更新
 		/// [JunpDB].[dbo].[tMik保守契約]
 		/// </summary>
-		/// <param name="data">ソフト保守メンテナンス情報</param>
+		/// <param name="data">製品サポート情報ソフト保守情報</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
 		public static int UpdateSoftMaintenanceContract(SoftMaintenanceContract data, bool sqlsv2)
@@ -135,6 +157,16 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 													new SqlParameter("@9", PcSupportControl.PERSON_NAME) };
 							// 実行
 							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString, param);
+							if (rowCount <= -1)
+							{
+								throw new ApplicationException("UpdateSoftMaintenanceContract() Error!");
+							}
+							// tMikユーザのfusS保守契約の格納
+							string sqlString2 = string.Format(@"UPDATE tMikユーザ SET fusS保守契約 = @1 WHERE fusCliMicID = {0}", data.CustomerNo);
+							SqlParameter[] param2 = { new SqlParameter("@1", (data.Subscription) ? '1': '0') };
+
+							// 実行
+							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString2, param2);
 							if (rowCount <= -1)
 							{
 								throw new ApplicationException("UpdateSoftMaintenanceContract() Error!");

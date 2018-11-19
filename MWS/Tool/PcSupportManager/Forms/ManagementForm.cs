@@ -123,8 +123,8 @@ namespace PcSupportManager.Forms
 
 				PcSupportControlList = PcSupportManagerController.ConvertPcSupportControl(dataTable);
 
-				// 背景色の設定
-				this.SetDataGridViewManagerCellBackColor();
+				// 入力状態絞り込み すべて
+				radioButtonInputAll.Checked = true;
 			}
 			catch (Exception ex)
 			{
@@ -157,7 +157,7 @@ namespace PcSupportManager.Forms
 		}
 
 		/// <summary>
-		/// 全て
+		/// 入力状態絞り込み 全て
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -165,12 +165,15 @@ namespace PcSupportManager.Forms
 		{
 			dataGridViewManagerBindingSource.Filter = null;
 
+			// レコード件数の表示
+			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
+
 			// 背景色の設定
 			this.SetDataGridViewManagerCellBackColor();
 		}
 
 		/// <summary>
-		/// 入力途中
+		/// 入力状態絞り込み 入力途中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -178,18 +181,24 @@ namespace PcSupportManager.Forms
 		{
 			dataGridViewManagerBindingSource.Filter = "START_DATE is null OR 0 = LEN(MAIL_ADDRESS) OR ORDER_REPORT_ACCEPT = '0'";
 
+			// レコード件数の表示
+			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
+
 			// 背景色の設定
 			this.SetDataGridViewManagerCellBackColor();
 		}
 
 		/// <summary>
-		/// 入力済み
+		/// 入力状態絞り込み 入力済み
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void radioButtonInputed_CheckedChanged(object sender, EventArgs e)
 		{
 			dataGridViewManagerBindingSource.Filter = "START_DATE is not null AND 0 < LEN(MAIL_ADDRESS) AND ORDER_REPORT_ACCEPT <> '0' AND DISABLE_FLAG = '0'";
+
+			// レコード件数の表示
+			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
 
 			// 背景色の設定
 			this.SetDataGridViewManagerCellBackColor();
@@ -212,7 +221,8 @@ namespace PcSupportManager.Forms
 				List<OrderInfo> orderInfoList = PcSupportManagerAccess.GetOrderInfoList();
 				PcSupportControlList = PcSupportManagerAccess.GetPcSupportControl();
 
-				bool modifyFlag = false;
+				int insertIntoCount = 0;
+				int updateCount = 0;
 				foreach (OrderInfo order in orderInfoList)
 				{
 					string mailAddress = this.GetCustomerMailAddress(order.CustomerNo);
@@ -223,7 +233,7 @@ namespace PcSupportManager.Forms
 						{
 							control.SetOrderInfo(order, mailAddress, Program.SystemDate);
 							PcSupportManagerAccess.SetPcSupportControl(control);
-							modifyFlag = true;
+							updateCount++;
 						}
 					}
 					else
@@ -231,10 +241,10 @@ namespace PcSupportManager.Forms
 						control = new PcSupportControl(order, mailAddress, Program.SystemDate);
 						PcSupportControlList.Add(control);
 						PcSupportManagerAccess.SetPcSupportControl(control);
-						modifyFlag = true;
+						insertIntoCount++;
 					}
 				}
-				if (modifyFlag)
+				if (0 < insertIntoCount + updateCount)
 				{
 					// DataSourceのクリア
 					((DataTable)dataGridViewManagerBindingSource.DataSource).Clear();
@@ -247,7 +257,7 @@ namespace PcSupportManager.Forms
 					// 背景色の設定
 					this.SetDataGridViewManagerCellBackColor();
 
-					MessageBox.Show("受注情報に変更がありましたので、再読込を行いました。", "受注情報からの読込み", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show(string.Format("受注情報に変更がありましたので、再読込を行いました。(追加:{0} 変更:{1})", insertIntoCount, updateCount), "受注情報からの読込み", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
 				else
 				{

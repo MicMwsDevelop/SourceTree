@@ -1,4 +1,13 @@
-﻿using MwsLib.Common;
+﻿//
+// OrderInfo.cs
+//
+// 受注情報
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
+using MwsLib.Common;
 
 namespace MwsLib.BaseFactory.PcSupportManager
 {

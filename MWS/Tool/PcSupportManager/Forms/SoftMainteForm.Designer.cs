@@ -35,6 +35,8 @@
 			this.buttonUpdateSoftMainte = new System.Windows.Forms.Button();
 			this.textBoxSpan = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
+			this.textBoxCount = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewSoft)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
@@ -52,7 +54,7 @@
 			this.dataGridViewSoft.RowTemplate.Height = 21;
 			this.dataGridViewSoft.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewSoft.Size = new System.Drawing.Size(1235, 667);
-			this.dataGridViewSoft.TabIndex = 4;
+			this.dataGridViewSoft.TabIndex = 6;
 			// 
 			// groupBox1
 			// 
@@ -70,9 +72,9 @@
 			this.radioButtonSoftMainte.AutoSize = true;
 			this.radioButtonSoftMainte.Location = new System.Drawing.Point(169, 18);
 			this.radioButtonSoftMainte.Name = "radioButtonSoftMainte";
-			this.radioButtonSoftMainte.Size = new System.Drawing.Size(150, 16);
+			this.radioButtonSoftMainte.Size = new System.Drawing.Size(158, 16);
 			this.radioButtonSoftMainte.TabIndex = 1;
-			this.radioButtonSoftMainte.Text = "ソフト保守メンテナンス情報";
+			this.radioButtonSoftMainte.Text = "製品サポート情報ソフト保守";
 			this.radioButtonSoftMainte.UseVisualStyleBackColor = true;
 			this.radioButtonSoftMainte.CheckedChanged += new System.EventHandler(this.radioButtonSoftMainte_CheckedChanged);
 			// 
@@ -93,7 +95,7 @@
 			this.buttonUpdateSoftMainte.Name = "buttonUpdateSoftMainte";
 			this.buttonUpdateSoftMainte.Size = new System.Drawing.Size(189, 44);
 			this.buttonUpdateSoftMainte.TabIndex = 1;
-			this.buttonUpdateSoftMainte.Text = "ソフト保守メンテナンス情報更新";
+			this.buttonUpdateSoftMainte.Text = "製品サポート情報ソフト保守更新";
 			this.buttonUpdateSoftMainte.UseVisualStyleBackColor = true;
 			this.buttonUpdateSoftMainte.Click += new System.EventHandler(this.buttonUpdateSoftMainte_Click);
 			// 
@@ -115,11 +117,32 @@
 			this.label1.TabIndex = 2;
 			this.label1.Text = "■検索対象";
 			// 
+			// textBoxCount
+			// 
+			this.textBoxCount.BackColor = System.Drawing.Color.White;
+			this.textBoxCount.Location = new System.Drawing.Point(858, 29);
+			this.textBoxCount.Name = "textBoxCount";
+			this.textBoxCount.ReadOnly = true;
+			this.textBoxCount.Size = new System.Drawing.Size(100, 19);
+			this.textBoxCount.TabIndex = 5;
+			this.textBoxCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(810, 32);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(41, 12);
+			this.label2.TabIndex = 4;
+			this.label2.Text = "■件数";
+			// 
 			// SoftMainteForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1259, 741);
+			this.Controls.Add(this.textBoxCount);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.textBoxSpan);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.buttonUpdateSoftMainte);
@@ -127,7 +150,7 @@
 			this.Controls.Add(this.dataGridViewSoft);
 			this.Name = "SoftMainteForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "ソフト保守メンテナンス情報更新";
+			this.Text = "製品サポート情報ソフト保守更新";
 			this.Load += new System.EventHandler(this.SoftMainteForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewSoft)).EndInit();
 			this.groupBox1.ResumeLayout(false);
@@ -146,5 +169,7 @@
 		private System.Windows.Forms.RadioButton radioButtonSoftMainte;
 		private System.Windows.Forms.TextBox textBoxSpan;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TextBox textBoxCount;
+		private System.Windows.Forms.Label label2;
 	}
 }

@@ -37,6 +37,8 @@
 			this.radioButtonInputAll = new System.Windows.Forms.RadioButton();
 			this.radioButtonInputed = new System.Windows.Forms.RadioButton();
 			this.radioButtonNotInput = new System.Windows.Forms.RadioButton();
+			this.label2 = new System.Windows.Forms.Label();
+			this.textBoxCount = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewManager)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
@@ -55,7 +57,7 @@
 			this.dataGridViewManager.RowTemplate.Height = 21;
 			this.dataGridViewManager.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewManager.Size = new System.Drawing.Size(1111, 591);
-			this.dataGridViewManager.TabIndex = 4;
+			this.dataGridViewManager.TabIndex = 6;
 			this.dataGridViewManager.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewManager_MouseDoubleClick);
 			// 
 			// buttonReadOrderInfo
@@ -64,7 +66,7 @@
 			this.buttonReadOrderInfo.Location = new System.Drawing.Point(966, 12);
 			this.buttonReadOrderInfo.Name = "buttonReadOrderInfo";
 			this.buttonReadOrderInfo.Size = new System.Drawing.Size(157, 45);
-			this.buttonReadOrderInfo.TabIndex = 5;
+			this.buttonReadOrderInfo.TabIndex = 7;
 			this.buttonReadOrderInfo.Text = "受注情報からの読込み";
 			this.buttonReadOrderInfo.UseVisualStyleBackColor = true;
 			this.buttonReadOrderInfo.Click += new System.EventHandler(this.buttonReadOrderInfo_Click);
@@ -112,13 +114,11 @@
 			// radioButtonInputAll
 			// 
 			this.radioButtonInputAll.AutoSize = true;
-			this.radioButtonInputAll.Checked = true;
 			this.radioButtonInputAll.Location = new System.Drawing.Point(17, 18);
 			this.radioButtonInputAll.Name = "radioButtonInputAll";
-			this.radioButtonInputAll.Size = new System.Drawing.Size(44, 16);
+			this.radioButtonInputAll.Size = new System.Drawing.Size(52, 16);
 			this.radioButtonInputAll.TabIndex = 0;
-			this.radioButtonInputAll.TabStop = true;
-			this.radioButtonInputAll.Text = "全て";
+			this.radioButtonInputAll.Text = "すべて";
 			this.radioButtonInputAll.UseVisualStyleBackColor = true;
 			this.radioButtonInputAll.CheckedChanged += new System.EventHandler(this.radioButtonInputAll_CheckedChanged);
 			// 
@@ -144,12 +144,33 @@
 			this.radioButtonNotInput.UseVisualStyleBackColor = true;
 			this.radioButtonNotInput.CheckedChanged += new System.EventHandler(this.radioButtonNotInput_CheckedChanged);
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(562, 37);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(41, 12);
+			this.label2.TabIndex = 4;
+			this.label2.Text = "■件数";
+			// 
+			// textBoxCount
+			// 
+			this.textBoxCount.BackColor = System.Drawing.Color.White;
+			this.textBoxCount.Location = new System.Drawing.Point(610, 34);
+			this.textBoxCount.Name = "textBoxCount";
+			this.textBoxCount.ReadOnly = true;
+			this.textBoxCount.Size = new System.Drawing.Size(100, 19);
+			this.textBoxCount.TabIndex = 5;
+			this.textBoxCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
 			// ManagementForm
 			// 
 			this.AcceptButton = this.buttonSearch;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1135, 666);
+			this.Controls.Add(this.textBoxCount);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.buttonSearch);
 			this.Controls.Add(this.textBoxCustomerNo);
@@ -158,7 +179,7 @@
 			this.Controls.Add(this.dataGridViewManager);
 			this.Name = "ManagementForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "管理情報登録";
+			this.Text = "PC安心サポート管理情報登録";
 			this.Load += new System.EventHandler(this.ManagementForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewManager)).EndInit();
 			this.groupBox1.ResumeLayout(false);
@@ -179,5 +200,7 @@
 		private System.Windows.Forms.RadioButton radioButtonInputed;
 		private System.Windows.Forms.RadioButton radioButtonNotInput;
 		private System.Windows.Forms.RadioButton radioButtonInputAll;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.TextBox textBoxCount;
 	}
 }

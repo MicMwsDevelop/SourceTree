@@ -1,9 +1,21 @@
-﻿using MwsLib.BaseFactory.PcSupportManager;
+﻿//
+// PcSupportManagerGetIO.cs
+//
+// PC安心サポート管理 データ取得クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
+using MwsLib.BaseFactory.PcSupportManager;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace MwsLib.DB.SqlServer.PcSupportManager
 {
+	/// <summary>
+	/// PC安心サポート管理 データ取得クラス
+	/// </summary>
 	public static class PcSupportManagerGetIO
 	{
 		//////////////////////////////////////////////////////////////////
@@ -132,7 +144,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		}
 
 		/// <summary>
-		/// ソフト保守情報の取得
+		/// 製品サポート情報ソフト保守情報の取得
 		/// </summary>
 		/// <param name="customerNo">顧客No</param>
 		/// <param name="sqlsv2">CT環境</param>

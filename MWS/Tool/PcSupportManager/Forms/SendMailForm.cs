@@ -1,12 +1,21 @@
-﻿using DataGridViewAutoFilter;
+﻿//
+// SendMailForm.cs
+//
+// PC安心サポート管理 メール送信画面
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
+using DataGridViewAutoFilter;
 using MwsLib.BaseFactory.PcSupportManager;
+using MwsLib.Common;
 using MwsLib.DB.SqlServer.PcSupportManager;
+using PcSupportManager.Mail;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Data;
-using PcSupportManager.Mail;
-using MwsLib.Common;
+using System.Windows.Forms;
 
 namespace PcSupportManager.Forms
 {
@@ -137,6 +146,7 @@ namespace PcSupportManager.Forms
 
 			dataGridViewMail.ResumeLayout();
 
+			// メール送信種別 すべて
 			radioButtonAll.Checked = true;
 
 			// カーソルを元に戻す
@@ -166,19 +176,26 @@ namespace PcSupportManager.Forms
 		}
 
 		/// <summary>
-		/// 全て
+		/// メール送信種別 すべて
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void radioButtonAll_CheckedChanged(object sender, EventArgs e)
 		{
 			dataGridViewMailBindingSource.Filter = @"DISABLE_FLAG = '0'";
+
+			// 送信対象
 			textBoxSpan.Text = string.Empty;
+
+			// 送信ボタン無効
 			buttonSend.Enabled = false;
+
+			// レコード件数の表示
+			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewMailBindingSource.Count, PcSupportControlList.Count);
 		}
 
 		/// <summary>
-		/// 開始メール
+		/// メール送信種別 開始メール
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -187,12 +204,19 @@ namespace PcSupportManager.Forms
 			// 契約開始日が当月末以前
 			Date limit = Program.SystemDate.ToYearMonth().Last;
 			dataGridViewMailBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND 0 < LEN(MAIL_ADDRESS) AND START_MAIL_DATE is null AND ORDER_APPROVAL_DATE is not null AND START_DATE is not null AND START_DATE <= '{0}'", limit.ToSqlDateTimeString());
+
+			// 送信対象
 			textBoxSpan.Text = string.Format("契約開始日が{0}以前", limit.ToString());
+
+			// 送信ボタン有効
 			buttonSend.Enabled = true;
+
+			// レコード件数の表示
+			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewMailBindingSource.Count, PcSupportControlList.Count);
 		}
 
 		/// <summary>
-		/// 契約更新案内メール
+		/// メール送信種別 契約更新案内メール
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -201,12 +225,19 @@ namespace PcSupportManager.Forms
 			// 契約終了月が翌月
 			Date limit = Program.SystemDate.PlusMonths(1).ToYearMonth().Last;
 			dataGridViewMailBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND 0 < LEN(MAIL_ADDRESS) AND GUIDE_MAIL_DATE is null AND ORDER_APPROVAL_DATE is not null AND END_DATE is not null AND END_DATE = '{0}'", limit.ToSqlDateTimeString());
+
+			// 送信対象
 			textBoxSpan.Text = string.Format("契約終了月が{0}", limit.ToString());
+
+			// 送信ボタン有効
 			buttonSend.Enabled = true;
+
+			// レコード件数の表示
+			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewMailBindingSource.Count, PcSupportControlList.Count);
 		}
 
 		/// <summary>
-		/// 契約更新メール
+		/// メール送信種別 契約更新メール
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -215,8 +246,15 @@ namespace PcSupportManager.Forms
 			// 契約終了月が先月
 			Date limit = Program.SystemDate.PlusMonths(-1).ToYearMonth().Last;
 			dataGridViewMailBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND 0 < LEN(MAIL_ADDRESS) AND GUIDE_MAIL_DATE is null AND ORDER_APPROVAL_DATE is not null AND END_DATE is not null AND END_DATE = '{0}'", limit.ToSqlDateTimeString());
+
+			// 送信対象
 			textBoxSpan.Text = string.Format("契約終了月が{0}", limit.ToString());
+
+			// 送信ボタン有効
 			buttonSend.Enabled = true;
+
+			// レコード件数の表示
+			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewMailBindingSource.Count, PcSupportControlList.Count);
 		}
 
 		/// <summary>

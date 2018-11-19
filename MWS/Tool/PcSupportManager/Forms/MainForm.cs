@@ -1,20 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using MwsLib.DB.SqlServer.PcSupportManager;
+﻿//
+// MainForm.cs
+//
+// PC安心サポート管理 メイン画面
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
 using MwsLib.BaseFactory.PcSupportManager;
 using MwsLib.Common;
+using MwsLib.DB.SqlServer.PcSupportManager;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace PcSupportManager.Forms
 {
 	/// <summary>
-	/// ＰＣ安心サポート管理ツール メイン画面
+	/// ＰＣ安心サポート管理 メイン画面
 	/// </summary>
 	public partial class MainForm : Form
 	{
@@ -92,7 +95,7 @@ namespace PcSupportManager.Forms
 		}
 
 		/// <summary>
-		/// ソフト保守メンテナンス情報更新
+		/// 製品サポート情報ソフト保守更新
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

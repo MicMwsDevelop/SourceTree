@@ -1,16 +1,25 @@
-﻿using DataGridViewAutoFilter;
+﻿//
+// SendMailForm.cs
+//
+// PC安心サポート管理 製品サポート情報ソフト保守更新画面
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
+using DataGridViewAutoFilter;
 using MwsLib.BaseFactory.PcSupportManager;
+using MwsLib.Common;
 using MwsLib.DB.SqlServer.PcSupportManager;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Data;
-using MwsLib.Common;
+using System.Windows.Forms;
 
 namespace PcSupportManager.Forms
 {
 	/// <summary>
-	/// ソフト保守メンテナンス情報更新画面
+	/// 製品サポート情報ソフト保守更新画面
 	/// </summary>
 	public partial class SoftMainteForm : Form
 	{
@@ -25,12 +34,12 @@ namespace PcSupportManager.Forms
 		private List<PcSupportControl> PcSupportControlList;
 
 		/// <summary>
-		/// ソフト保守メンテナンス情報リスト DataSource
+		/// 製品サポート情報ソフト保守情報リスト DataSource
 		/// </summary>
 		private BindingSource dataGridViewSoftBindingSource;
 
 		/// <summary>
-		///  ソフト保守メンテナンス情報リスト
+		/// 製品サポート情報ソフト保守情報リスト
 		/// </summary>
 		private List<SoftMaintenanceContract> SoftMaintenanceContractList;
 
@@ -184,12 +193,18 @@ namespace PcSupportManager.Forms
 
 			dataGridViewSoft.ResumeLayout();
 
+			// 検索対象
 			textBoxSpan.Text = string.Format("契約開始日が{0}以前", limit.ToString());
+
+			// 製品サポート情報ソフト保守更新を有効
 			buttonUpdateSoftMainte.Enabled = true;
+
+			// レコード件数の表示
+			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewControlBindingSource.Count, PcSupportControlList.Count);
 		}
 
 		/// <summary>
-		/// ソフト保守メンテナンス情報
+		/// 製品サポート情報ソフト保守
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -211,6 +226,7 @@ namespace PcSupportManager.Forms
 			DataTable dataTable = PcSupportManagerGetIO.GetSoftMaintenanceContract();
 			SoftMaintenanceContractList = PcSupportManagerController.ConvertSoftMaintenanceContractList(dataTable);
 			dataGridViewSoftBindingSource = new BindingSource(dataTable, null);
+			dataGridViewSoftBindingSource.Filter = @"fhsSメンテ契約開始 is not null AND 0 < LEN(fhsSメンテ契約開始)";
 			dataGridViewSoft.DataSource = dataGridViewSoftBindingSource;
 
 			// カラム名の変更
@@ -225,12 +241,18 @@ namespace PcSupportManager.Forms
 
 			dataGridViewSoft.ResumeLayout();
 
+			// 検索対象
 			textBoxSpan.Text = string.Empty;
+
+			// 製品サポート情報ソフト保守更新を無効
 			buttonUpdateSoftMainte.Enabled = false;
+
+			// レコード件数の表示
+			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewSoftBindingSource.Count, SoftMaintenanceContractList.Count);
 		}
 
 		/// <summary>
-		/// ソフト保守メンテナンス情報更新
+		/// 製品サポート情報ソフト保守更新
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -295,7 +317,7 @@ namespace PcSupportManager.Forms
 
 			if (0 < updateCount)
 			{
-				MessageBox.Show(string.Format("{0}件のソフト保守メンテナンス情報を更新しました。", updateCount), "ソフト保守メンテナンス情報更新", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show(string.Format("{0}件の製品サポート情報ソフト保守情報を更新しました。", updateCount), "製品サポート情報ソフト保守情報更新", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			// DataSourceのクリア
 			((DataTable)dataGridViewControlBindingSource.DataSource).Clear();
@@ -316,6 +338,9 @@ namespace PcSupportManager.Forms
 			Date limit = Program.SystemDate.ToYearMonth().Last;
 			dataGridViewControlBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND WW_RENEWAL_FLAG = '1' AND ORDER_APPROVAL_DATE is not null AND START_DATE is not null AND START_DATE <= '{0}'", limit.ToSqlDateTimeString());
 			dataGridViewSoft.DataSource = dataGridViewControlBindingSource;
+
+			// レコード件数の表示
+			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewControlBindingSource.Count, PcSupportControlList.Count);
 		}
 	}
 }

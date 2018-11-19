@@ -1,4 +1,13 @@
-﻿namespace MwsLib.BaseFactory.PcSupportManager
+﻿//
+// PcSupportGoodsInfo.cs
+//
+// PC安心サポート商品情報
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
+namespace MwsLib.BaseFactory.PcSupportManager
 {
 	/// <summary>
 	/// PC安心サポート商品情報

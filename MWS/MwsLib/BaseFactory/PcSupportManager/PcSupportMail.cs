@@ -1,4 +1,13 @@
-﻿using MwsLib.Common;
+﻿//
+// PcSupportMail.cs
+//
+// PC安心サポート送信メール情報
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
+using MwsLib.Common;
 using System;
 
 namespace MwsLib.BaseFactory.PcSupportManager
@@ -22,8 +31,6 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			Guide,
 			/// <summary>契約更新メール</summary>
 			Update,
-			/// <summary>サポート情報ソフト保守</summary>
-			SoftMainte,
 		};
 
 		/// <summary>

@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿//
+// PcSupportControlForm.cs
+//
+// PC安心サポート管理 管理情報登録画面
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
 using MwsLib.BaseFactory.PcSupportManager;
 using MwsLib.Common;
 using MwsLib.DB.SqlServer.PcSupportManager;
+using System;
+using System.Windows.Forms;
 
 namespace PcSupportManager.Forms
 {

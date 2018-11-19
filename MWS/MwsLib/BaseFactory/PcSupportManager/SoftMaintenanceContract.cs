@@ -1,9 +1,18 @@
-﻿using MwsLib.Common;
+﻿//
+// SoftMaintenanceContract.cs
+//
+// 製品サポート情報ソフト保守情報
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
+using MwsLib.Common;
 
 namespace MwsLib.BaseFactory.PcSupportManager
 {
 	/// <summary>
-	/// ソフト保守メンテナンス情報
+	/// 製品サポート情報ソフト保守
 	/// [JunpDB].[dbo].[tMik保守契約]
 	/// </summary>
 	public class SoftMaintenanceContract
@@ -147,7 +156,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		}
 
 		/// <summary>
-		/// ソフト保守メンテナンス情報を初期化
+		/// 製品サポート情報ソフト保守情報を初期化
 		/// </summary>
 		public void Reset()
 		{

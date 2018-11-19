@@ -1,10 +1,22 @@
-﻿using MwsLib.BaseFactory.PcSupportManager;
+﻿//
+// PcSupportManagerAccess.cs
+//
+// PC安心サポート管理 ファイルアクセスクラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
+using MwsLib.BaseFactory.PcSupportManager;
 using System;
 using System.Collections.Generic;
 using System.Data;
 
 namespace MwsLib.DB.SqlServer.PcSupportManager
 {
+	/// <summary>
+	/// PC安心サポート管理 ファイルアクセスクラス
+	/// </summary>
 	public static class PcSupportManagerAccess
 	{
 		//////////////////////////////////////////////////////////////////
@@ -62,7 +74,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		}
 
 		/// <summary>
-		/// ソフト保守メンテナンス情報の取得
+		/// 製品サポート情報ソフト保守情報の取得
 		/// </summary>
 		/// <param name="sqlsv2">CT環境</param>
 		/// <returns>PC安心サポート商品情報</returns>
@@ -73,7 +85,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		}
 
 		/// <summary>
-		/// ソフト保守メンテナンス情報の格納
+		/// 製品サポート情報ソフト保守情報の格納
 		/// </summary>
 		/// <param name="data">ソフト保守メンテナンス情報</param>
 		/// <param name="sqlsv2">CT環境</param>

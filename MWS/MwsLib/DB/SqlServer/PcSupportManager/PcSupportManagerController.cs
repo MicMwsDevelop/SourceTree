@@ -1,4 +1,13 @@
-﻿using MwsLib.BaseFactory.PcSupportManager;
+﻿//
+// PcSupportManagerController.cs
+//
+// PC安心サポート管理 データテーブル詰め替えクラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// 
+using MwsLib.BaseFactory.PcSupportManager;
 using MwsLib.Common;
 using System;
 using System.Collections.Generic;
@@ -6,6 +15,9 @@ using System.Data;
 
 namespace MwsLib.DB.SqlServer.PcSupportManager
 {
+	/// <summary>
+	/// PC安心サポート管理 データテーブル詰め替えクラス
+	/// </summary>
 	public static class PcSupportManagerController
 	{
 		//////////////////////////////////////////////////////////////////
@@ -48,11 +60,11 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		}
 
 		/// <summary>
-		/// ソフト保守情報の詰め替え
+		/// 製品サポート情報ソフト保守情報の詰め替え
 		/// [JunpDB].[dbo].[tMik保守契約]
 		/// </summary>
 		/// <param name="table">データテーブル</param>
-		/// <returns>ソフト保守情報リスト</returns>
+		/// <returns>製品サポート情報ソフト保守情報リスト</returns>
 		public static List<SoftMaintenanceContract> ConvertSoftMaintenanceContractList(DataTable table)
 		{
 			List<SoftMaintenanceContract> result = null;
