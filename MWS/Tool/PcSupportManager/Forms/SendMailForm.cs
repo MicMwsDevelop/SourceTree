@@ -105,7 +105,6 @@ namespace PcSupportManager.Forms
 			dataGridViewMail.Columns["CANCEL_REPORT_ACCEPT"].Visible = false;
 			dataGridViewMail.Columns["CANCEL_REASON"].Visible = false;
 			dataGridViewMail.Columns["DISABLE_FLAG"].Visible = false;
-			dataGridViewMail.Columns["WW_RENEWAL_FLAG"].Visible = false;
 			dataGridViewMail.Columns["CREATE_DATE"].Visible = false;
 			dataGridViewMail.Columns["CREATE_PERSON"].Visible = false;
 			dataGridViewMail.Columns["UPDATE_DATE"].Visible = false;

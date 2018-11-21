@@ -121,7 +121,7 @@ namespace PcSupportManager.Mail
 		/// <param name="mailType">メール種別</param>
 		/// <param name="mailList">送信メール情報</param>
 		/// <param name="pcList">PC安心サポート管理情報</param>
-		public static void SendEigyoKanriMail(PcSupportMail.MailType mailType, List<PcSupportMail> mailList, List<PcSupportControl> pcList)
+		public static void SendEigyoKanriMail(PcSupportMail.MailType mailType, List<PcSupportMail> mailList, List<PcSupportControl> pcList, List<PcSupportControl> errList = null)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -176,6 +176,36 @@ namespace PcSupportManager.Mail
 								}
 							}
 							msg.Body += @"</table>";
+
+							if (0 < errList.Count)
+							{
+								msg.Body += "<br>";
+								msg.Body += "<br>";
+								msg.Body += "<p>必須データが欠落している送信対象ユーザー</p>";
+								msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
+											+ @"<tr>"
+											+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>拠店名</font></th>"
+											+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
+											+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
+											+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>商品名</font></th>"
+											+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>受注承認日</font></th>"
+											+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>契約開始日</font></th>"
+											+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>メールアドレス</font></th>"
+											+ @"</tr>";
+								foreach (PcSupportControl pc in errList)
+								{
+									msg.Body += string.Format(@"<tr>"
+												+ @"<td><font size=2>{0}</font></td>"
+												+ @"<td><font size=2>{1}</font></td>"
+												+ @"<td><font size=2>{2}</font></td>"
+												+ @"<td><font size=2>{3}</font></td>"
+												+ @"<td><font size=2>{4}</font></td>"
+												+ @"<td><font size=2>{5}</font></td>"
+												+ @"<td><font size=2>{6}</font></td>"
+												+ @"</tr>", pc.BranchName, pc.CustomerNo, pc.ClinicName, pc.GoodsName, pc.OrderApprovalDate.Value.ToString(), (pc.StartDate.HasValue) ? pc.StartDate.Value.ToString() : "", pc.MailAddress);
+								}
+								msg.Body += @"</table>";
+							}
 						}
 						else
 						{
@@ -482,6 +512,8 @@ namespace PcSupportManager.Mail
 				// 宛先（To）を登録する
 				msg.To.Add(new MailAddress(to));
 
+				// CC
+				msg.CC.Add(new MailAddress(conf["test_to"]));       // suguro@mic.jp
 				if (0 < cc.Length)
 				{
 					// CCを登録する

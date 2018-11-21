@@ -76,11 +76,10 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// コンストラクタ
 		/// </summary>
 		/// <param name="control">PC安心サポート管理情報</param>
-		/// <param name="subscription">fhsS保守</param>
-		public SoftMaintenanceContract(PcSupportControl control, bool subscription)
+		public SoftMaintenanceContract(PcSupportControl control)
 		{
 			CustomerNo = control.CustomerNo;
-			Subscription = subscription;
+			Subscription = false;
 			CollectionDate = control.OrderDate;
 			AgreeYear = control.AgreeYear;
 			Price = control.Price;
@@ -108,31 +107,64 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// PC安心サポート管理情報から格納
 		/// </summary>
 		/// <param name="PcSupportControl">PC安心サポート管理情報</param>
-		/// <param name="subscription">fhsS保守</param>
-		public void SetPcSupportControl(PcSupportControl control, bool subscription)
+		/// <returns>変更の可否</returns>
+		public bool SetPcSupportControl(PcSupportControl control)
 		{
-			Subscription = subscription;
-			CollectionDate = control.OrderDate;
-			AgreeYear = control.AgreeYear;
-			Price = control.Price;
-			StartYM = control.StartDate.Value.ToYearMonth();
+			bool ret = false;
+			if (CollectionDate != control.OrderDate)
+			{
+				CollectionDate = control.OrderDate;
+				ret = true;
+			}
+			if (AgreeYear != control.AgreeYear)
+			{
+				AgreeYear = control.AgreeYear;
+				ret = true;
+			}
+			if (Price != control.Price)
+			{
+				Price = control.Price;
+				ret = true;
+			}
+			if (StartYM != control.StartDate.Value.ToYearMonth())
+			{
+				StartYM = control.StartDate.Value.ToYearMonth();
+				ret = true;
+			}
 			if (control.PeriodEndDate.HasValue)
 			{
-				EndYM = control.PeriodEndDate.Value.ToYearMonth();
+				if (EndYM != control.PeriodEndDate.Value.ToYearMonth())
+				{
+					EndYM = control.PeriodEndDate.Value.ToYearMonth();
+					ret = true;
+				}
 			}
 			else
 			{
-				EndYM = control.EndDate.Value.ToYearMonth();
+				if (EndYM != control.EndDate.Value.ToYearMonth())
+				{
+					EndYM = control.EndDate.Value.ToYearMonth();
+					ret = true;
+				}
 			}
-			// 文字列を400で切る
 			if (400 < control.Remark.GetMultiByteLength())
 			{
-				Remark1 = control.Remark.CutByMultiByteLength(400);
+				string remark = control.Remark.CutByMultiByteLength(400);
+				if (Remark1 != remark)
+				{
+					Remark1 = remark;
+					ret = true;
+				}
 			}
 			else
 			{
-				Remark1 = control.Remark;
+				if (Remark1 != control.Remark)
+				{
+					Remark1 = control.Remark;
+					ret = true;
+				}
 			}
+			return ret;
 		}
 
 		/// <summary>

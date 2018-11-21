@@ -79,7 +79,6 @@ namespace PcSupportManager.Forms
 				dataGridViewManager.Columns["CANCEL_REPORT_ACCEPT"].HeaderText = "解約届有無";
 				dataGridViewManager.Columns["CANCEL_REASON"].HeaderText = "解約事由";
 				dataGridViewManager.Columns["DISABLE_FLAG"].HeaderText = "無効フラグ";
-				dataGridViewManager.Columns["WW_RENEWAL_FLAG"].HeaderText = "WonderWeb更新フラグ";
 				dataGridViewManager.Columns["CREATE_DATE"].HeaderText = "作成日時";
 				dataGridViewManager.Columns["CREATE_PERSON"].HeaderText = "作成者";
 				dataGridViewManager.Columns["UPDATE_DATE"].HeaderText = "更新日時";
@@ -97,7 +96,6 @@ namespace PcSupportManager.Forms
 				dataGridViewManager.Columns["CANCEL_DATE"].Visible = false;
 				dataGridViewManager.Columns["CANCEL_REPORT_ACCEPT"].Visible = false;
 				dataGridViewManager.Columns["CANCEL_REASON"].Visible = false;
-				dataGridViewManager.Columns["WW_RENEWAL_FLAG"].Visible = false;
 				dataGridViewManager.Columns["CREATE_DATE"].Visible = false;
 				dataGridViewManager.Columns["CREATE_PERSON"].Visible = false;
 				dataGridViewManager.Columns["UPDATE_DATE"].Visible = false;
@@ -223,29 +221,38 @@ namespace PcSupportManager.Forms
 
 				int insertIntoCount = 0;
 				int updateCount = 0;
+				List<PcSupportControl> updatePcList = new List<PcSupportControl>();
 				foreach (OrderInfo order in orderInfoList)
 				{
-					string mailAddress = this.GetCustomerMailAddress(order.CustomerNo);
+					string mailAddress = MainForm.GetCustomerMailAddress(order.CustomerNo); ;
 					PcSupportControl control = PcSupportControlList.Find(p => p.OrderNo == order.OrderNo);
 					if (null != control)
 					{
 						if (control.IsUpdateOrderData(order, mailAddress))
 						{
 							control.SetOrderInfo(order, mailAddress, Program.SystemDate);
-							PcSupportManagerAccess.SetPcSupportControl(control);
+							updatePcList.Add(control);
 							updateCount++;
 						}
 					}
 					else
 					{
 						control = new PcSupportControl(order, mailAddress, Program.SystemDate);
-						PcSupportControlList.Add(control);
-						PcSupportManagerAccess.SetPcSupportControl(control);
+						updatePcList.Add(control);
 						insertIntoCount++;
 					}
 				}
-				if (0 < insertIntoCount + updateCount)
+				if (0 < updatePcList.Count)
 				{
+					try
+					{
+						PcSupportManagerAccess.SetPcSupportControlList(updatePcList);
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(string.Format("PcSupportManagerAccess.SetPcSupportControlList() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+						return;
+					}
 					// DataSourceのクリア
 					((DataTable)dataGridViewManagerBindingSource.DataSource).Clear();
 
@@ -266,7 +273,7 @@ namespace PcSupportManager.Forms
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(string.Format("PcSupportManagerAccess.GetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				MessageBox.Show(string.Format("PcSupportManagerAccess.GetOrderInfoList() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			}
 			// カーソルを元に戻す
 			Cursor.Current = preCursor;
@@ -285,7 +292,7 @@ namespace PcSupportManager.Forms
 			{
 				int customerNo = (int)dataGridViewManager.CurrentRow.Cells[1].Value;
 				OrderInfo orderInfo = PcSupportManagerAccess.GetOrderInfo(customerNo);
-				string mailAddress = this.GetCustomerMailAddress(customerNo);
+				string mailAddress = MainForm.GetCustomerMailAddress(customerNo);
 				bool modify = false;
 				if (control.IsUpdateOrderData(orderInfo, mailAddress))
 				{
@@ -355,7 +362,7 @@ namespace PcSupportManager.Forms
 					OrderInfo orderInfo = PcSupportManagerAccess.GetOrderInfo(customerNo);
 					if (null != orderInfo)
 					{
-						string mailAddress = this.GetCustomerMailAddress(customerNo);
+						string mailAddress = MainForm.GetCustomerMailAddress(customerNo);
 						PcSupportControl control = PcSupportControlList.Find(p => p.OrderNo == orderInfo.OrderNo);
 						bool modify = false;
 						try
@@ -429,22 +436,6 @@ namespace PcSupportManager.Forms
 			{
 				MessageBox.Show("顧客Noを正しく入力してください。", "検索", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
-		}
-
-		/// <summary>
-		/// 顧客Noからメールアドレスの取得
-		/// </summary>
-		/// <param name="customerNo">顧客No</param>
-		/// <returns>メールアドレス</returns>
-		private string GetCustomerMailAddress(int customerNo)
-		{
-			List<Tuple<int, string>> mailAddressList = PcSupportManagerAccess.GetCustomerMailAddress();
-			Tuple<int, string> mail = mailAddressList.Find(p => p.Item1 == customerNo);
-			if (null != mail)
-			{
-				return mail.Item2;
-			}
-			return string.Empty;
 		}
 
 		/// <summary>

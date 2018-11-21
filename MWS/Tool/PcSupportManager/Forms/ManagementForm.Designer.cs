@@ -52,6 +52,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridViewManager.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewManager.Location = new System.Drawing.Point(12, 63);
+			this.dataGridViewManager.MultiSelect = false;
 			this.dataGridViewManager.Name = "dataGridViewManager";
 			this.dataGridViewManager.ReadOnly = true;
 			this.dataGridViewManager.RowTemplate.Height = 21;
@@ -82,11 +83,12 @@
 			// 
 			// textBoxCustomerNo
 			// 
+			this.textBoxCustomerNo.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxCustomerNo.ImeMode = System.Windows.Forms.ImeMode.Off;
-			this.textBoxCustomerNo.Location = new System.Drawing.Point(75, 34);
+			this.textBoxCustomerNo.Location = new System.Drawing.Point(71, 31);
 			this.textBoxCustomerNo.MaxLength = 8;
 			this.textBoxCustomerNo.Name = "textBoxCustomerNo";
-			this.textBoxCustomerNo.Size = new System.Drawing.Size(132, 19);
+			this.textBoxCustomerNo.Size = new System.Drawing.Size(132, 26);
 			this.textBoxCustomerNo.TabIndex = 1;
 			// 
 			// buttonSearch
@@ -156,10 +158,11 @@
 			// textBoxCount
 			// 
 			this.textBoxCount.BackColor = System.Drawing.Color.White;
-			this.textBoxCount.Location = new System.Drawing.Point(610, 34);
+			this.textBoxCount.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.textBoxCount.Location = new System.Drawing.Point(609, 30);
 			this.textBoxCount.Name = "textBoxCount";
 			this.textBoxCount.ReadOnly = true;
-			this.textBoxCount.Size = new System.Drawing.Size(100, 19);
+			this.textBoxCount.Size = new System.Drawing.Size(100, 23);
 			this.textBoxCount.TabIndex = 5;
 			this.textBoxCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 

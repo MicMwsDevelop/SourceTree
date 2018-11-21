@@ -11,6 +11,7 @@ using MwsLib.BaseFactory.PcSupportManager;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace MwsLib.DB.SqlServer.PcSupportManager
 {
@@ -86,16 +87,6 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 							{
 								throw new ApplicationException("InsertIntoSoftMaintenanceContract() Error!");
 							}
-							// tMikユーザのfusS保守契約の格納
-							string sqlString2 = string.Format(@"UPDATE tMikユーザ SET fusS保守契約 = @1 WHERE fusCliMicID = {0}", data.CustomerNo);
-							SqlParameter[] param2 = { new SqlParameter("@1", (data.Subscription) ? '1' : '0') };
-
-							// 実行
-							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString2, param2);
-							if (rowCount <= -1)
-							{
-								throw new ApplicationException("UpdateSoftMaintenanceContract() Error!");
-							}
 							// コミット
 							tran.Commit();
 						}
@@ -161,16 +152,6 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 							{
 								throw new ApplicationException("UpdateSoftMaintenanceContract() Error!");
 							}
-							// tMikユーザのfusS保守契約の格納
-							string sqlString2 = string.Format(@"UPDATE tMikユーザ SET fusS保守契約 = @1 WHERE fusCliMicID = {0}", data.CustomerNo);
-							SqlParameter[] param2 = { new SqlParameter("@1", (data.Subscription) ? '1': '0') };
-
-							// 実行
-							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString2, param2);
-							if (rowCount <= -1)
-							{
-								throw new ApplicationException("UpdateSoftMaintenanceContract() Error!");
-							}
 							// コミット
 							tran.Commit();
 						}
@@ -225,7 +206,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					{
 						try
 						{
-							string sqlString = @"INSERT INTO T_PC_SUPPORT_CONTROL VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26, @27, @28, @29, @30, @31)";
+							string sqlString = @"INSERT INTO T_PC_SUPPORT_CONTROL VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26, @27, @28, @29, @30)";
 							SqlParameter[] param = { new SqlParameter("@1", data.OrderNo),								// ORDER_NO
 													new SqlParameter("@2", data.CustomerNo),							// CUSTOMER_ID
 													new SqlParameter("@3", data.ClinicName),							// CLINIC_NAME
@@ -252,11 +233,10 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 													new SqlParameter("@24", (data.CancelReportAccept) ? '1' : '0'),		// CANCEL_REPORT_ACCEPT
 													new SqlParameter("@25", data.CancelReason),							// CANCEL_REASON
 													new SqlParameter("@26", (data.DisableFlag) ? '1' : '0'),			// DISABLE_FLAG
-													new SqlParameter("@27", (data.WonderWebRenewalFlag) ? '1' : '0'),	// WW_RENEWAL_FLAG
-													new SqlParameter("@28", (data.CreateDateTime.HasValue) ? data.CreateDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),			// CREATE_DATE
-													new SqlParameter("@29", data.CreatePerson),							// CREATE_PERSON
-													new SqlParameter("@30", (data.UpdateDateTime.HasValue) ? data.UpdateDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),			// UPDATE_DATE
-													new SqlParameter("@31", data.UpdatePerson) };						// UPDATE_PERSON
+													new SqlParameter("@27", (data.CreateDateTime.HasValue) ? data.CreateDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),			// CREATE_DATE
+													new SqlParameter("@28", data.CreatePerson),							// CREATE_PERSON
+													new SqlParameter("@29", (data.UpdateDateTime.HasValue) ? data.UpdateDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),			// UPDATE_DATE
+													new SqlParameter("@30", data.UpdatePerson) };						// UPDATE_PERSON
 
 							// 実行
 							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString, param);
@@ -339,11 +319,10 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 																+ ", CANCEL_REPORT_ACCEPT = @23"
 																+ ", CANCEL_REASON = @24"
 																+ ", DISABLE_FLAG = @25"
-																+ ", WW_RENEWAL_FLAG = @26"
-																+ ", CREATE_DATE = @27"
-																+ ", CREATE_PERSON = @28"
-																+ ", UPDATE_DATE = @29"
-																+ ", UPDATE_PERSON = @30"
+																+ ", CREATE_DATE = @26"
+																+ ", CREATE_PERSON = @27"
+																+ ", UPDATE_DATE = @28"
+																+ ", UPDATE_PERSON = @29"
 																+ " WHERE ORDER_NO = '{0}'", data.OrderNo);
 
 							SqlParameter[] param = { new SqlParameter("@1", data.CustomerNo),
@@ -371,16 +350,193 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 													new SqlParameter("@23", (data.CancelReportAccept) ? '1' : '0'),
 													new SqlParameter("@24", data.CancelReason),
 													new SqlParameter("@25", (data.DisableFlag) ? '1' : '0'),
-													new SqlParameter("@26", (data.WonderWebRenewalFlag) ? '1' : '0'),
-													new SqlParameter("@27", (data.CreateDateTime.HasValue) ? data.CreateDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),
-													new SqlParameter("@28", data.CreatePerson),
-													new SqlParameter("@29", (data.UpdateDateTime.HasValue) ? data.UpdateDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),
-													new SqlParameter("@30", data.UpdatePerson) };
+													new SqlParameter("@26", (data.CreateDateTime.HasValue) ? data.CreateDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),
+													new SqlParameter("@27", data.CreatePerson),
+													new SqlParameter("@28", (data.UpdateDateTime.HasValue) ? data.UpdateDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),
+													new SqlParameter("@29", data.UpdatePerson) };
 							// 実行
 							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString, param);
 							if (rowCount <= -1)
 							{
 								throw new ApplicationException("UpdatePcSupportControl() Error!");
+							}
+							// コミット
+							tran.Commit();
+						}
+						catch
+						{
+							// ロールバック
+							tran.Rollback();
+							throw;
+						}
+					}
+				}
+				catch
+				{
+					throw;
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return rowCount;
+		}
+
+		/// <summary>
+		/// PC安心サポート管理情報の格納
+		/// [Charlie].[dbo].[T_PC_SUPPORT_CONTORL]
+		/// </summary>
+		/// <param name="list">PC安心サポート管理情報リスト</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>影響行数</returns>
+		public static int SetPcSupportControlList(List<PcSupportControl> list, bool sqlsv2)
+		{
+			int rowCount = -1;
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(sqlsv2)))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					// トランザクション開始
+					using (SqlTransaction tran = con.BeginTransaction())
+					{
+						try
+						{
+							foreach (PcSupportControl pc in list)
+							{
+								bool existFlag = false;
+								string getSQL = string.Format(@"SELECT ORDER_NO AS CNT FROM T_PC_SUPPORT_CONTROL WHERE ORDER_NO = {0}", pc.OrderNo);
+								using (SqlCommand cmd = new SqlCommand(getSQL, con, tran))
+								{
+									
+									using (SqlDataReader reader = cmd.ExecuteReader())
+									{
+										if (reader.HasRows)
+										{
+											existFlag = true;
+										}
+									}
+								}
+								if (existFlag)
+								{
+									// 更新
+									string updateSQL = string.Format(@"UPDATE T_PC_SUPPORT_CONTROL SET"
+															+ " CUSTOMER_ID = @1"
+															+ ", CLINIC_NAME = @2"
+															+ ", GOODS_ID = @3"
+															+ ", GOODS_NAME = @4"
+															+ ", PRICE = @5"
+															+ ", AGREE_YEAR = @6"
+															+ ", START_DATE = @7"
+															+ ", END_DATE = @8"
+															+ ", PERIOD_END_DATE = @9"
+															+ ", BRANCH_ID = @10"
+															+ ", BRANCH_NAME = @11"
+															+ ", SALESMAN_ID = @12"
+															+ ", SALESMAN_NAME = @13"
+															+ ", ORDER_DATE = @14"
+															+ ", ORDER_REPORT_ACCEPT = @15"
+															+ ", ORDER_APPROVAL_DATE = @16"
+															+ ", MAIL_ADDRESS = @17"
+															+ ", REMARK = @18"
+															+ ", START_MAIL_DATE = @19"
+															+ ", GUIDE_MAIL_DATE = @20"
+															+ ", UPDATE_MAIL_DATE = @21"
+															+ ", CANCEL_DATE = @22"
+															+ ", CANCEL_REPORT_ACCEPT = @23"
+															+ ", CANCEL_REASON = @24"
+															+ ", DISABLE_FLAG = @25"
+															+ ", CREATE_DATE = @26"
+															+ ", CREATE_PERSON = @27"
+															+ ", UPDATE_DATE = @28"
+															+ ", UPDATE_PERSON = @29"
+															+ " WHERE ORDER_NO = '{0}'", pc.OrderNo);
+
+									SqlParameter[] param = { new SqlParameter("@1", pc.CustomerNo),
+																	new SqlParameter("@2", pc.ClinicName),
+																	new SqlParameter("@3", pc.GoodsID),
+																	new SqlParameter("@4", pc.GoodsName),
+																	new SqlParameter("@5", pc.Price),
+																	new SqlParameter("@6", pc.AgreeYear),
+																	new SqlParameter("@7", (pc.StartDate.HasValue) ? pc.StartDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),
+																	new SqlParameter("@8", (pc.EndDate.HasValue) ? pc.EndDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),
+																	new SqlParameter("@9", (pc.PeriodEndDate.HasValue) ? pc.PeriodEndDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),
+																	new SqlParameter("@10", pc.BranchID),
+																	new SqlParameter("@11", pc.BranchName),
+																	new SqlParameter("@12", pc.SalesmanID),
+																	new SqlParameter("@13", pc.SalesmanName),
+																	new SqlParameter("@14", (pc.OrderDate.HasValue) ? pc.OrderDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),
+																	new SqlParameter("@15", (pc.OrderReportAccept) ? '1' : '0'),
+																	new SqlParameter("@16", (pc.OrderApprovalDate.HasValue) ? pc.OrderApprovalDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),
+																	new SqlParameter("@17", pc.MailAddress),
+																	new SqlParameter("@18", pc.Remark),
+																	new SqlParameter("@19", (pc.StartMailDateTime.HasValue) ? pc.StartMailDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),
+																	new SqlParameter("@20", (pc.GuideMailDateTime.HasValue) ? pc.GuideMailDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),
+																	new SqlParameter("@21", (pc.UpdateMailDateTime.HasValue) ? pc.UpdateMailDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),
+																	new SqlParameter("@22", (pc.CancelDate.HasValue) ? pc.CancelDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),
+																	new SqlParameter("@23", (pc.CancelReportAccept) ? '1' : '0'),
+																	new SqlParameter("@24", pc.CancelReason),
+																	new SqlParameter("@25", (pc.DisableFlag) ? '1' : '0'),
+																	new SqlParameter("@26", (pc.CreateDateTime.HasValue) ? pc.CreateDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),
+																	new SqlParameter("@27", pc.CreatePerson),
+																	new SqlParameter("@28", (pc.UpdateDateTime.HasValue) ? pc.UpdateDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),
+																	new SqlParameter("@29", pc.UpdatePerson) };
+									// 実行
+									rowCount = DataBaseController.SqlExecuteCommand(con, tran, updateSQL, param);
+									if (rowCount <= -1)
+									{
+										throw new ApplicationException("UpdatePcSupportControl() Error!");
+									}
+								}
+								else
+								{
+									// 追加
+									string insertSQL = @"INSERT INTO T_PC_SUPPORT_CONTROL VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26, @27, @28, @29, @30)";
+									SqlParameter[] param = { new SqlParameter("@1", pc.OrderNo),							// ORDER_NO
+																	new SqlParameter("@2", pc.CustomerNo),							// CUSTOMER_ID
+																	new SqlParameter("@3", pc.ClinicName),							// CLINIC_NAME
+																	new SqlParameter("@4", pc.GoodsID),								// GOODS_ID
+																	new SqlParameter("@5", pc.GoodsName),							// GOODS_NAME
+																	new SqlParameter("@6", pc.Price),								// PRICE
+																	new SqlParameter("@7", pc.AgreeYear),							// AGREE_YEAR
+																	new SqlParameter("@8", (pc.StartDate.HasValue) ? pc.StartDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),			// START_DATE
+																	new SqlParameter("@9", (pc.EndDate.HasValue) ? pc.EndDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),				// END_DATE
+																	new SqlParameter("@10", (pc.PeriodEndDate.HasValue) ? pc.PeriodEndDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),	// PERIOD_END_DATE
+																	new SqlParameter("@11", pc.BranchID),							// BRANCH_ID
+																	new SqlParameter("@12", pc.BranchName),							// BRANCH_NAME
+																	new SqlParameter("@13", pc.SalesmanID),							// SALESMAN_ID
+																	new SqlParameter("@14", pc.SalesmanName),						// SALESMAN_NAME
+																	new SqlParameter("@15", (pc.OrderDate.HasValue) ? pc.OrderDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),			// ORDER_DATE
+																	new SqlParameter("@16", (pc.OrderReportAccept) ? '1' : '0'),	// ORDER_REPORT_ACCEPT
+																	new SqlParameter("@17", (pc.OrderApprovalDate.HasValue) ? pc.OrderApprovalDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),	// ORDER_APPROVAL_DATE
+																	new SqlParameter("@18", pc.MailAddress),						// MAIL_ADDRESS
+																	new SqlParameter("@19", pc.Remark),								// REMARK
+																	new SqlParameter("@20", (pc.StartMailDateTime.HasValue) ? pc.StartMailDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),		// START_MAIL_DATE
+																	new SqlParameter("@21", (pc.GuideMailDateTime.HasValue) ? pc.GuideMailDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),		// GUIDE_MAIL_DATE
+																	new SqlParameter("@22", (pc.UpdateMailDateTime.HasValue) ? pc.UpdateMailDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),	// UPDATE_MAIL_DATE
+																	new SqlParameter("@23", (pc.CancelDate.HasValue) ? pc.CancelDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),		// CANCEL_DATE
+																	new SqlParameter("@24", (pc.CancelReportAccept) ? '1' : '0'),	// CANCEL_REPORT_ACCEPT
+																	new SqlParameter("@25", pc.CancelReason),						// CANCEL_REASON
+																	new SqlParameter("@26", (pc.DisableFlag) ? '1' : '0'),			// DISABLE_FLAG
+																	new SqlParameter("@27", (pc.CreateDateTime.HasValue) ? pc.CreateDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),			// CREATE_DATE
+																	new SqlParameter("@28", pc.CreatePerson),						// CREATE_PERSON
+																	new SqlParameter("@29", (pc.UpdateDateTime.HasValue) ? pc.UpdateDateTime.Value : System.Data.SqlTypes.SqlDateTime.Null),			// UPDATE_DATE
+																	new SqlParameter("@30", pc.UpdatePerson) };                      // UPDATE_PERSON
+
+									// 実行
+									rowCount = DataBaseController.SqlExecuteCommand(con, tran, insertSQL, param);
+									if (rowCount <= -1)
+									{
+										throw new ApplicationException("InsertIntoPcSupportControl() Error!");
+									}
+								}
 							}
 							// コミット
 							tran.Commit();

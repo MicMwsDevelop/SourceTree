@@ -137,19 +137,21 @@
 			// textBoxSpan
 			// 
 			this.textBoxSpan.BackColor = System.Drawing.Color.White;
-			this.textBoxSpan.Location = new System.Drawing.Point(589, 31);
+			this.textBoxSpan.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.textBoxSpan.Location = new System.Drawing.Point(589, 27);
 			this.textBoxSpan.Name = "textBoxSpan";
 			this.textBoxSpan.ReadOnly = true;
-			this.textBoxSpan.Size = new System.Drawing.Size(242, 19);
+			this.textBoxSpan.Size = new System.Drawing.Size(242, 23);
 			this.textBoxSpan.TabIndex = 3;
 			// 
 			// textBoxCount
 			// 
 			this.textBoxCount.BackColor = System.Drawing.Color.White;
-			this.textBoxCount.Location = new System.Drawing.Point(889, 31);
+			this.textBoxCount.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.textBoxCount.Location = new System.Drawing.Point(888, 27);
 			this.textBoxCount.Name = "textBoxCount";
 			this.textBoxCount.ReadOnly = true;
-			this.textBoxCount.Size = new System.Drawing.Size(100, 19);
+			this.textBoxCount.Size = new System.Drawing.Size(100, 23);
 			this.textBoxCount.TabIndex = 5;
 			this.textBoxCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 

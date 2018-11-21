@@ -60,11 +60,6 @@
     <Compile Include="BaseFactory\MwsSimulation\ServiceInfo.cs" />
     <Compile Include="BaseFactory\MwsSimulation\SetPlan.cs" />
     <Compile Include="BaseFactory\CalcTax.cs" />
-    <Compile Include="BaseFactory\PcSafetySupport\BranchEmployeeInfo.cs" />
-    <Compile Include="BaseFactory\PcSafetySupport\PcSupportControl.cs" />
-    <Compile Include="BaseFactory\PcSafetySupport\PcSupportGoodsInfo.cs" />
-    <Compile Include="BaseFactory\PcSafetySupport\PcSupportMail.cs" />
-    <Compile Include="BaseFactory\PcSafetySupport\SoftMaintenanceContract.cs" />
     <Compile Include="BaseFactory\PcSupportManager\BranchEmployeeInfo.cs" />
     <Compile Include="BaseFactory\PcSupportManager\OrderInfo.cs" />
     <Compile Include="BaseFactory\PcSupportManager\PcSupportControl.cs" />
@@ -79,9 +74,11 @@
     <Compile Include="Common\DayOfWeekHelper.cs" />
     <Compile Include="Common\DeepCopy.cs" />
     <Compile Include="Common\EnumDictionary.cs" />
+    <Compile Include="Common\EquinoxDay.cs" />
     <Compile Include="Common\GengoID.cs" />
     <Compile Include="Common\GengoInformation.cs" />
     <Compile Include="Common\GengoYear.cs" />
+    <Compile Include="Common\HolidayInfo.cs" />
     <Compile Include="Common\MultiByteStrings.cs" />
     <Compile Include="Common\Span.cs" />
     <Compile Include="Common\SpanHelper.cs" />
@@ -127,10 +124,6 @@
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationAccess.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationController.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationGetIO.cs" />
-    <Compile Include="DB\SqlServer\PcSafetySupport\PcSafetySupportAccess.cs" />
-    <Compile Include="DB\SqlServer\PcSafetySupport\PcSafetySupportController.cs" />
-    <Compile Include="DB\SqlServer\PcSafetySupport\PcSafetySupportGetIO.cs" />
-    <Compile Include="DB\SqlServer\PcSafetySupport\PcSafetySupportSetIO.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerSetIO.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerAccess.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerController.cs" />

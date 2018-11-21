@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using PcSupportManager.Settings;
 
 namespace PcSupportManager
 {
@@ -82,7 +83,7 @@ namespace PcSupportManager
 			// コマンドライン引数を配列で取得する
 			BootType = ProgramBootType.Menu;
 			string[] cmds = Environment.GetCommandLineArgs();
-			Date date = Date.Today;
+			Date today = Date.Today;
 			if (2 <= cmds.Length)
 			{
 				if ("1" == cmds[1])
@@ -95,9 +96,32 @@ namespace PcSupportManager
 				}
 				if (3 == cmds.Length)
 				{
-					date = Date.Parse(int.Parse(cmds[2]));
+					today = Date.Parse(int.Parse(cmds[2]));
 				}
 			}
+
+			//// 休日テスト
+			//PcSupportManagerSettings xml = PcSupportManagerSettingsIF.GetPcSupportManagerSettings();
+			//CompanyHoliday.SetHoliday(xml.WeeklyHoliday, xml.NationalHoliday, xml.HappyMonday, xml.SpecialHoliday);
+			//Span span = new Span(new Date(2019, 1, 1), new Date(2019, 12, 31));
+			//Date date = span.Start;
+			//for (int i = 0; i < 365; i++)
+			//{
+			//	if (!span.IsInside(date))
+			//	{
+			//		break;
+			//	}
+			//	if (CompanyHoliday.IsHoliday(date))
+			//	{
+			//		Console.WriteLine(string.Format(@"{0}:×", date.ToString()));
+			//	}
+			//	else
+			//	{
+			//		Console.WriteLine(string.Format(@"{0}:○", date.ToString()));
+			//	}
+			//	date++;
+			//}
+
 			switch (BootType)
 			{
 				// メイン画面起動
@@ -106,11 +130,23 @@ namespace PcSupportManager
 					break;
 				// 製品サポート情報ソフト保守更新
 				case ProgramBootType.SoftMainte:
-					Program.SoftMainte(date);
+					Program.SoftMainte(today);
 					break;
 				// PC安心サポートメール送信
 				case ProgramBootType.SendMail:
-					Program.SendMail(date);
+					{
+						PcSupportManagerSettings xml = PcSupportManagerSettingsIF.GetPcSupportManagerSettings();
+						if (xml.IsExec(today))
+						{
+							CompanyHoliday.SetHoliday(xml.WeeklyHoliday, xml.NationalHoliday, xml.HappyMonday, xml.SpecialHoliday);
+							if (false == CompanyHoliday.IsHoliday(today))
+							{
+								Program.SendMail(today);
+								xml.PrevExecDate = today.ToDateTime();
+								PcSupportManagerSettingsIF.SetPcSupportManagerSettings(xml);
+							}
+						}
+					}
 					break;
 			}
 		}
@@ -133,6 +169,17 @@ namespace PcSupportManager
 			string logPathname = Program.GetLogPathname();
 			Logger.Out(logPathname, string.Format("{0} {1}:製品サポート情報ソフト保守情報更新 開始", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 
+			/////////////////////////////////////////////
+			// 受注情報からの読込み
+			/////////////////////////////////////////////
+
+			Program.ReadOrderInfo(logPathname);
+
+
+			/////////////////////////////////////////////
+			// 製品サポート情報ソフト保守更新
+			/////////////////////////////////////////////
+
 			// PC安心サポート管理情報リストの取得
 			List<PcSupportControl> pcList = PcSupportManagerAccess.GetPcSupportControl();
 
@@ -140,32 +187,15 @@ namespace PcSupportManager
 			List<SoftMaintenanceContract> softList = PcSupportManagerAccess.GetSoftMaintenanceContract();
 			foreach (PcSupportControl pc in pcList)
 			{
-				SoftMaintenanceContract soft = softList.Find(p => p.CustomerNo == pc.CustomerNo);
-				if (null != soft)
+				if (false == pc.DisableFlag)
 				{
-					if (pc.DisableFlag)
-					{
-						// ソフト保守メンテナンス情報を初期化
-						soft.Reset();
-					}
-					else
+					SoftMaintenanceContract soft = softList.Find(p => p.CustomerNo == pc.CustomerNo);
+					if (null != soft)
 					{
 						if (pc.IsOrderInfoCompleted(false))
 						{
-							if (pc.StartDate.Value <= date)
+							if (soft.SetPcSupportControl(pc))
 							{
-								bool subscription = true;
-								if (pc.PeriodEndDate.HasValue && pc.PeriodEndDate.Value < date)
-								{
-									// 保守→未保守
-									subscription = false;
-								}
-								else if (pc.EndDate.Value < date)
-								{
-									// 保守→未保守
-									subscription = false;
-								}
-								soft.SetPcSupportControl(pc, subscription);
 								if (!DebugMode)
 								{
 									try
@@ -180,81 +210,28 @@ namespace PcSupportManager
 									}
 								}
 								Logger.Out(logPathname, soft.ToLog(pc));
-
-								pc.WonderWebRenewalFlag = false;
-								pc.UpdateDateTime = date.ToDateTime();
-								pc.UpdatePerson = Program.PROGRAM_NAME;
-								if (!DebugMode)
-								{
-									try
-									{
-										PcSupportManagerAccess.SetPcSupportControl(pc);
-									}
-									catch (Exception ex)
-									{
-										Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetPcSupportControl ({0})", ex.Message));
-										Logger.Out(logPathname, string.Format("{0} {1}:製品サポート情報ソフト保守情報更新 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
-										return;
-									}
-								}
 							}
 						}
 					}
-				}
-				else
-				{
-					if (false == pc.DisableFlag)
+					else
 					{
 						if (pc.IsOrderInfoCompleted(false))
 						{
-							if (pc.StartDate.Value <= date)
+							soft = new SoftMaintenanceContract(pc);
+							if (!DebugMode)
 							{
-								if (pc.PeriodEndDate.HasValue)
+								try
 								{
-									if (date <= pc.PeriodEndDate.Value)
-									{
-										soft = new SoftMaintenanceContract(pc, true);
-									}
+									PcSupportManagerAccess.SetSoftMaintenanceContract(soft);
 								}
-								else
+								catch (Exception ex)
 								{
-									soft = new SoftMaintenanceContract(pc, true);
+									Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetSoftMaintenanceContract ({0})", ex.Message));
+									Logger.Out(logPathname, string.Format("{0} {1}:製品サポート情報ソフト保守情報更新 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+									return;
 								}
 							}
-						}
-					}
-					if (null != soft)
-					{
-						if (!DebugMode)
-						{
-							try
-							{
-								PcSupportManagerAccess.SetSoftMaintenanceContract(soft);
-							}
-							catch (Exception ex)
-							{
-								Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetSoftMaintenanceContract ({0})", ex.Message));
-								Logger.Out(logPathname, string.Format("{0} {1}:製品サポート情報ソフト保守情報更新 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
-								return;
-							}
-						}
-						Logger.Out(logPathname, soft.ToLog(pc));
-
-						pc.WonderWebRenewalFlag = false;
-						pc.UpdateDateTime = date.ToDateTime();
-						pc.UpdatePerson = Program.PROGRAM_NAME;
-						if (!DebugMode)
-						{
-							try
-							{
-								PcSupportManagerAccess.SetPcSupportControl(pc);
-							}
-							catch (Exception ex)
-							{
-								Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetPcSupportControl ({0})", ex.Message));
-								Logger.Out(logPathname, string.Format("{0} {1}:製品サポート情報ソフト保守情報更新 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
-								return;
-							}
+							Logger.Out(logPathname, soft.ToLog(pc));
 						}
 					}
 				}
@@ -270,6 +247,12 @@ namespace PcSupportManager
 		{
 			string logPathname = Program.GetLogPathname();
 			Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 開始", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+
+			/////////////////////////////////////////////
+			// 受注情報からの読込み
+			/////////////////////////////////////////////
+
+			Program.ReadOrderInfo(logPathname);
 
 
 			/////////////////////////////////////////////
@@ -320,7 +303,8 @@ namespace PcSupportManager
 				try
 				{
 					// 営業管理部にメール
-					SendMailControl.SendEigyoKanriMail(PcSupportMail.MailType.Start, startMailList, startPcList);
+					List<PcSupportControl> errPcList = pcList.Where(p => true == p.IsPastApprovalDate(date)).ToList();
+					SendMailControl.SendEigyoKanriMail(PcSupportMail.MailType.Start, startMailList, startPcList, errPcList);
 				}
 				catch (Exception ex)
 				{
@@ -653,6 +637,52 @@ namespace PcSupportManager
 			Logger.Out(logPathname, string.Format("{0}:契約更新メール送信 正常終了", DateTime.Now.ToString()));
 
 			Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 正常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+		}
+
+		/// <summary>
+		/// 受注情報からの読込み
+		/// </summary>
+		/// <param name="logPathname">ログファイルパス名</param>
+		private static bool ReadOrderInfo(string logPathname)
+		{
+			try
+			{
+				List<Tuple<int, string>> mailAddressList = PcSupportManagerAccess.GetCustomerMailAddress();
+				List<OrderInfo> orderInfoList = PcSupportManagerAccess.GetOrderInfoList();
+				List<PcSupportControl> pcList = PcSupportManagerAccess.GetPcSupportControl();
+
+				List<PcSupportControl> updatePcList = new List<PcSupportControl>();
+				foreach (OrderInfo order in orderInfoList)
+				{
+					string mailAddress = string.Empty;
+					Tuple<int, string> mail = mailAddressList.Find(p => p.Item1 == order.CustomerNo);
+					if (null != mail)
+					{
+						mailAddress = mail.Item2;
+					}
+					PcSupportControl control = pcList.Find(p => p.OrderNo == order.OrderNo);
+					if (null != control)
+					{
+						if (control.IsUpdateOrderData(order, mailAddress))
+						{
+							control.SetOrderInfo(order, mailAddress, Program.SystemDate);
+							updatePcList.Add(control);
+						}
+					}
+					else
+					{
+						control = new PcSupportControl(order, mailAddress, Program.SystemDate);
+						updatePcList.Add(control);
+					}
+				}
+				PcSupportManagerAccess.SetPcSupportControlList(updatePcList);
+			}
+			catch (Exception ex)
+			{
+				Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetPcSupportControlList ({0})", ex.Message));
+				return false;
+			}
+			return true;
 		}
 	}
 }

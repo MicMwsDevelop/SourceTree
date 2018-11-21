@@ -125,7 +125,7 @@ namespace PcSupportManager.Forms
 			}
 			dataGridViewControlBindingSource = new BindingSource(dataTable, null);
 			Date limit = Program.SystemDate.ToYearMonth().Last;
-			dataGridViewControlBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND WW_RENEWAL_FLAG = '1' AND ORDER_APPROVAL_DATE is not null AND START_DATE is not null AND START_DATE <= '{0}'", limit.ToSqlDateTimeString());
+			dataGridViewControlBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND ORDER_APPROVAL_DATE is not null AND START_DATE is not null AND START_DATE <= '{0}'", limit.ToSqlDateTimeString());
 			dataGridViewSoft.DataSource = dataGridViewControlBindingSource;
 
 			// カラム名の変更
@@ -140,7 +140,6 @@ namespace PcSupportManager.Forms
 			dataGridViewSoft.Columns["SALESMAN_NAME"].HeaderText = "担当者名";
 			dataGridViewSoft.Columns["ORDER_APPROVAL_DATE"].HeaderText = "受注承認日";
 			dataGridViewSoft.Columns["ORDER_REPORT_ACCEPT"].HeaderText = "申込用紙有無";
-			dataGridViewSoft.Columns["WW_RENEWAL_FLAG"].HeaderText = "ソフト保守更新フラグ";
 
 			// 非表示
 			dataGridViewSoft.Columns["GOODS_ID"].Visible = false;
@@ -176,7 +175,6 @@ namespace PcSupportManager.Forms
 			dataGridViewSoft.Columns["SALESMAN_NAME"].DisplayIndex = 8;
 			dataGridViewSoft.Columns["ORDER_APPROVAL_DATE"].DisplayIndex = 9;
 			dataGridViewSoft.Columns["ORDER_REPORT_ACCEPT"].DisplayIndex = 10;
-			dataGridViewSoft.Columns["WW_RENEWAL_FLAG"].DisplayIndex = 11;
 
 			// 編集不可
 			dataGridViewSoft.Columns["ORDER_NO"].ReadOnly = true;
@@ -189,7 +187,6 @@ namespace PcSupportManager.Forms
 			dataGridViewSoft.Columns["SALESMAN_NAME"].ReadOnly = true;
 			dataGridViewSoft.Columns["ORDER_APPROVAL_DATE"].ReadOnly = true;
 			dataGridViewSoft.Columns["ORDER_REPORT_ACCEPT"].ReadOnly = true;
-			dataGridViewSoft.Columns["WW_RENEWAL_FLAG"].ReadOnly = true;
 
 			dataGridViewSoft.ResumeLayout();
 
@@ -281,11 +278,11 @@ namespace PcSupportManager.Forms
 						SoftMaintenanceContract soft = SoftMaintenanceContractList.Find(p => p.CustomerNo == pc.CustomerNo);
 						if (null != soft)
 						{
-							soft.SetPcSupportControl(pc, true);
+							soft.SetPcSupportControl(pc);
 						}
 						else
 						{
-							soft = new SoftMaintenanceContract(pc, true);
+							soft = new SoftMaintenanceContract(pc);
 						}
 						try
 						{
@@ -295,18 +292,6 @@ namespace PcSupportManager.Forms
 						catch (Exception ex)
 						{
 							MessageBox.Show(string.Format("PcSupportManagerAccess.SetSoftMaintenanceContract() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-							return;
-						}
-						pc.WonderWebRenewalFlag = false;
-						pc.UpdateDateTime = DateTime.Now;
-						pc.UpdatePerson = PcSupportControl.PERSON_NAME;
-						try
-						{
-							PcSupportManagerAccess.SetPcSupportControl(pc);
-						}
-						catch (Exception ex)
-						{
-							MessageBox.Show(string.Format("PcSupportManagerAccess.SetPcSupportControl() Error({0})", ex.Message), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 							return;
 						}
 					}
@@ -336,7 +321,7 @@ namespace PcSupportManager.Forms
 			}
 			dataGridViewControlBindingSource = new BindingSource(dataTable, null);
 			Date limit = Program.SystemDate.ToYearMonth().Last;
-			dataGridViewControlBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND WW_RENEWAL_FLAG = '1' AND ORDER_APPROVAL_DATE is not null AND START_DATE is not null AND START_DATE <= '{0}'", limit.ToSqlDateTimeString());
+			dataGridViewControlBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND ORDER_APPROVAL_DATE is not null AND START_DATE is not null AND START_DATE <= '{0}'", limit.ToSqlDateTimeString());
 			dataGridViewSoft.DataSource = dataGridViewControlBindingSource;
 
 			// レコード件数の表示

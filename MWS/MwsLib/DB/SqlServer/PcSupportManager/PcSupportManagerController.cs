@@ -221,7 +221,6 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					control.CancelReportAccept = ("1" == row["CANCEL_REPORT_ACCEPT"].ToString()) ? true : false;
 					control.CancelReason = row["CANCEL_REASON"].ToString().Trim();
 					control.DisableFlag = ("1" == row["DISABLE_FLAG"].ToString()) ? true : false;
-					control.WonderWebRenewalFlag = ("1" == row["WW_RENEWAL_FLAG"].ToString()) ? true : false;
 					control.CreateDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["CREATE_DATE"]);
 					control.CreatePerson = row["CREATE_PERSON"].ToString().Trim();
 					control.UpdateDateTime = DataBaseValue.ConvObjectToDateTimeNull(row["UPDATE_DATE"]);

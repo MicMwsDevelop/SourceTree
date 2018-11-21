@@ -134,6 +134,17 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 		}
 
 		/// <summary>
+		/// PC安心サポート管理情報リストの格納
+		/// </summary>
+		/// <param name="list">PC安心サポート管理情報リスト</param>
+		/// <param name="sqlsv2">CT環境</param>
+		/// <returns>レコード数</returns>
+		public static int SetPcSupportControlList(List<PcSupportControl> list, bool sqlsv2 = false)
+		{
+			return PcSupportManagerSetIO.SetPcSupportControlList(list, sqlsv2);
+		}
+
+		/// <summary>
 		/// 顧客メールアドレスの取得
 		/// </summary>
 		/// <param name="sqlsv2">CT環境</param>

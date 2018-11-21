@@ -156,7 +156,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// <summary>
 		/// WonderWeb更新フラグ
 		/// </summary>
-		public bool WonderWebRenewalFlag { get; set; }
+		//public bool WonderWebRenewalFlag { get; set; }
 
 		/// <summary>
 		/// 作成日時
@@ -209,7 +209,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			CancelReportAccept = false;
 			CancelReason = string.Empty;
 			DisableFlag = false;
-			WonderWebRenewalFlag = false;
+			//WonderWebRenewalFlag = false;
 			CreateDateTime = null;
 			CreatePerson = string.Empty;
 			UpdateDateTime = null;
@@ -249,7 +249,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			CancelReportAccept = other.CancelReportAccept;
 			CancelReason = other.CancelReason;
 			DisableFlag = other.DisableFlag;
-			WonderWebRenewalFlag = other.WonderWebRenewalFlag;
+			//WonderWebRenewalFlag = other.WonderWebRenewalFlag;
 			CreateDateTime = other.CreateDateTime;
 			CreatePerson = other.CreatePerson;
 			UpdateDateTime = other.UpdateDateTime;
@@ -290,7 +290,7 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			CancelReportAccept = false;
 			CancelReason = string.Empty;
 			DisableFlag = false;
-			WonderWebRenewalFlag = false;
+			//WonderWebRenewalFlag = false;
 			CreateDateTime = now.ToDateTime();
 			CreatePerson = PERSON_NAME;
 			UpdateDateTime = null;
@@ -352,13 +352,13 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// <param name="now">更新日時</param>
 		public void SetOrderInfo(OrderInfo order, string mailAddress, Date now)
 		{
-			bool wwFlag = false;
-			if (GoodsID != order.GoodsID)
-				wwFlag = true;
-			if (OrderDate != order.OrderDate)
-				wwFlag = true;
-			if (Remark != order.Remark)
-				wwFlag = true;
+			//bool wwFlag = false;
+			//if (GoodsID != order.GoodsID)
+			//	wwFlag = true;
+			//if (OrderDate != order.OrderDate)
+			//	wwFlag = true;
+			//if (Remark != order.Remark)
+			//	wwFlag = true;
 			OrderNo = order.OrderNo;
 			CustomerNo = order.CustomerNo;
 			ClinicName = order.ClinicName;
@@ -388,10 +388,10 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			{
 				Remark = order.Remark;
 			}
-			if (false == WonderWebRenewalFlag)
-			{
-				WonderWebRenewalFlag = wwFlag;
-			}
+			//if (false == WonderWebRenewalFlag)
+			//{
+			//	WonderWebRenewalFlag = wwFlag;
+			//}
 			UpdateDateTime = now.ToDateTime();
 			UpdatePerson = PERSON_NAME;
 		}
@@ -461,6 +461,38 @@ namespace MwsLib.BaseFactory.PcSupportManager
 				{
 					// 契約開始日が当月末まで
 					return true;
+				}
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// 受注承認日が過ぎているのに、必須データが欠落しているかどうか？
+		/// </summary>
+		/// <param name="date">当日</param>
+		/// <returns>判定</returns>
+		public bool IsPastApprovalDate(Date date)
+		{
+			if (DisableFlag)
+				return false;
+			if (PeriodEndDate.HasValue)
+				return false;
+			if (OrderApprovalDate.HasValue)
+			{
+				if (OrderApprovalDate < date)
+				{
+					if (false == StartDate.HasValue)
+					{
+						return true;
+					}
+					if (StartDate <= date.ToYearMonth().Last)
+					{
+						// 契約開始日が当月末まで
+						if (0 == MailAddress.Length)
+						{
+							return true;
+						}
+					}
 				}
 			}
 			return false;
@@ -540,44 +572,44 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			return false;
 		}
 
-		/// <summary>
-		/// PC安心サポート管理情報からソフト保守メンテナンス情報を取得
-		/// </summary>
-		/// <param name="date">当日</param>
-		/// <returns>ソフト保守メンテナンス情報</returns>
-		public SoftMaintenanceContract GetSoftMaintenanceContract(Date date)
-		{
-			SoftMaintenanceContract contract = new SoftMaintenanceContract();
-			contract.CustomerNo = CustomerNo;
-			contract.Subscription = true;
-			if (PeriodEndDate.HasValue)
-			{
-				if (PeriodEndDate <= date)
-				{
-					contract.Subscription = false;
-				}
-			}
-			if (EndDate.HasValue)
-			{
-				if (EndDate <= date)
-				{
-					contract.Subscription = false;
-				}
-			}
-			contract.CollectionDate = OrderDate;
-			contract.AgreeYear = AgreeYear;
-			contract.Price = Price;
-			if (StartDate.HasValue)
-			{
-				contract.StartYM = StartDate.Value.ToYearMonth();
-			}
-			if (EndDate.HasValue)
-			{
-				contract.EndYM = EndDate.Value.ToYearMonth();
-			}
-			contract.Remark1 = Remark;
-			return contract;
-		}
+		///// <summary>
+		///// PC安心サポート管理情報からソフト保守メンテナンス情報を取得
+		///// </summary>
+		///// <param name="date">当日</param>
+		///// <returns>ソフト保守メンテナンス情報</returns>
+		//public SoftMaintenanceContract GetSoftMaintenanceContract(Date date)
+		//{
+		//	SoftMaintenanceContract contract = new SoftMaintenanceContract();
+		//	contract.CustomerNo = CustomerNo;
+		//	contract.Subscription = true;
+		//	if (PeriodEndDate.HasValue)
+		//	{
+		//		if (PeriodEndDate <= date)
+		//		{
+		//			contract.Subscription = false;
+		//		}
+		//	}
+		//	if (EndDate.HasValue)
+		//	{
+		//		if (EndDate <= date)
+		//		{
+		//			contract.Subscription = false;
+		//		}
+		//	}
+		//	contract.CollectionDate = OrderDate;
+		//	contract.AgreeYear = AgreeYear;
+		//	contract.Price = Price;
+		//	if (StartDate.HasValue)
+		//	{
+		//		contract.StartYM = StartDate.Value.ToYearMonth();
+		//	}
+		//	if (EndDate.HasValue)
+		//	{
+		//		contract.EndYM = EndDate.Value.ToYearMonth();
+		//	}
+		//	contract.Remark1 = Remark;
+		//	return contract;
+		//}
 	}
 }
 

@@ -21,3 +21,4 @@ D:\SourceTree\MWS\Tool\PcSupportManager\bin\Release\GuideMailTemplate.txt
 D:\SourceTree\MWS\Tool\PcSupportManager\bin\Release\StartMailTemplate.txt
 D:\SourceTree\MWS\Tool\PcSupportManager\bin\Release\UpdateMailTemplate.txt
 D:\SourceTree\MWS\Tool\PcSupportManager\obj\Release\PcSupportManager.Forms.SoftMainteForm.resources
+D:\SourceTree\MWS\Tool\PcSupportManager\bin\Release\Settings\PcSupportManagerSettings.xml
