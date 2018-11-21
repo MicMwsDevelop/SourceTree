@@ -431,17 +431,20 @@ namespace MwsSimulation.Forms
 		/// <param name="e"></param>
 		private void buttonAllOn_Click(object sender, EventArgs e)
 		{
-			listViewService.ItemCheck -= new ItemCheckEventHandler(listViewService_ItemCheck);
-			listViewService.ItemChecked -= new ItemCheckedEventHandler(listViewService_ItemChecked);
-			foreach (ListViewItem item in listViewService.Items)
+			if (DialogResult.Yes == MessageBox.Show("すべてのサービスを選択します。よろしいですか？", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question))
 			{
-				item.Checked = true;
-			}
-			listViewService.ItemCheck += new ItemCheckEventHandler(listViewService_ItemCheck);
-			listViewService.ItemChecked += new ItemCheckedEventHandler(listViewService_ItemChecked);
+				listViewService.ItemCheck -= new ItemCheckEventHandler(listViewService_ItemCheck);
+				listViewService.ItemChecked -= new ItemCheckedEventHandler(listViewService_ItemChecked);
+				foreach (ListViewItem item in listViewService.Items)
+				{
+					item.Checked = true;
+				}
+				listViewService.ItemCheck += new ItemCheckEventHandler(listViewService_ItemCheck);
+				listViewService.ItemChecked += new ItemCheckedEventHandler(listViewService_ItemChecked);
 
-			// サービス利用料及び月額利用料の表示
-			this.DrawServicePrice();
+				// サービス利用料及び月額利用料の表示
+				this.DrawServicePrice();
+			}
 		}
 
 		/// <summary>
@@ -451,24 +454,27 @@ namespace MwsSimulation.Forms
 		/// <param name="e"></param>
 		private void buttonAllOff_Click(object sender, EventArgs e)
 		{
-			listViewService.ItemCheck -= new ItemCheckEventHandler(listViewService_ItemCheck);
-			listViewService.ItemChecked -= new ItemCheckedEventHandler(listViewService_ItemChecked);
-			listViewSetPlan.ItemChecked -= new ItemCheckedEventHandler(listViewSetPlan_ItemChecked);
-			foreach (ListViewItem item in listViewService.Items)
+			if (DialogResult.Yes == MessageBox.Show("すべてのサービスを解除します。よろしいですか？", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question))
 			{
-				item.Checked = false;
-				item.BackColor = Color.White;
-			}
-			foreach (ListViewItem item in listViewSetPlan.Items)
-			{
-				item.Checked = false;
-			}
-			listViewService.ItemCheck += new ItemCheckEventHandler(listViewService_ItemCheck);
-			listViewService.ItemChecked += new ItemCheckedEventHandler(listViewService_ItemChecked);
-			listViewSetPlan.ItemChecked += new ItemCheckedEventHandler(listViewSetPlan_ItemChecked);
+				listViewService.ItemCheck -= new ItemCheckEventHandler(listViewService_ItemCheck);
+				listViewService.ItemChecked -= new ItemCheckedEventHandler(listViewService_ItemChecked);
+				listViewSetPlan.ItemChecked -= new ItemCheckedEventHandler(listViewSetPlan_ItemChecked);
+				foreach (ListViewItem item in listViewService.Items)
+				{
+					item.Checked = false;
+					item.BackColor = Color.White;
+				}
+				foreach (ListViewItem item in listViewSetPlan.Items)
+				{
+					item.Checked = false;
+				}
+				listViewService.ItemCheck += new ItemCheckEventHandler(listViewService_ItemCheck);
+				listViewService.ItemChecked += new ItemCheckedEventHandler(listViewService_ItemChecked);
+				listViewSetPlan.ItemChecked += new ItemCheckedEventHandler(listViewSetPlan_ItemChecked);
 
-			// サービス利用料及び月額利用料の表示
-			this.DrawServicePrice();
+				// サービス利用料及び月額利用料の表示
+				this.DrawServicePrice();
+			}
 		}
 
 		/// <summary>
