@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PcSupportManagerSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ExecDay>10</ExecDay>
-  <PrevExecDate xsi:nil="true" />
+  <StartMailExecDay>10</StartMailExecDay>
+  <StartMailPrevExecDate xsi:nil="true" />
+  <UpdateMailExecDay>1</UpdateMailExecDay>
+  <UpdatteMailPrevExecDate xsi:nil="true" />
   <NationalHoliday>
     <string>2018,0101,0211,0429,0503,0504,0505,0923,1103,1123,1223</string>
     <string>2019,0101,0211,0429,0430,0501,0502,0503,0504,0505,0923,1103,1123,1223</string>

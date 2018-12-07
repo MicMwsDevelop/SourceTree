@@ -66,6 +66,7 @@
     <Compile Include="BaseFactory\PcSupportManager\PcSupportGoodsInfo.cs" />
     <Compile Include="BaseFactory\PcSupportManager\PcSupportMail.cs" />
     <Compile Include="BaseFactory\PcSupportManager\SoftMaintenanceContract.cs" />
+    <Compile Include="BaseFactory\ScanImageData\ScanImageDataFileInfo.cs" />
     <Compile Include="Common\CharConversion.cs" />
     <Compile Include="Common\Date.cs" />
     <Compile Include="Common\DateConversion.cs" />
@@ -89,6 +90,18 @@
     <Compile Include="Common\TimeString.cs" />
     <Compile Include="Common\YearMonth.cs" />
     <Compile Include="Common\YearMonthString.cs" />
+    <Compile Include="Component\ExplorerListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Component\ExplorerListView.Designer.cs">
+      <DependentUpon>ExplorerListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Component\ExplorerTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Component\ExplorerTreeView.Designer.cs">
+      <DependentUpon>ExplorerTreeView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Component\PercentageProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -96,6 +109,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Component\PrintPreviewPictureBox.Designer.cs" />
+    <Compile Include="Component\ShellItem.cs" />
+    <Compile Include="Component\ShellNamespaceManager.cs" />
+    <Compile Include="Component\SystemImageList.cs" />
+    <Compile Include="Component\WindowsAPI.cs" />
     <Compile Include="Component\YearMonthPicker.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -108,6 +125,7 @@
     <Compile Include="DB\SQLite\MwsSimulation\SQLiteMwsSimulationDef.cs" />
     <Compile Include="DB\SQLite\MwsSimulation\SQLiteMwsSimulationGetIO.cs" />
     <Compile Include="DB\SQLite\MwsSimulation\SQLiteMwsSimulationSetIO.cs" />
+    <Compile Include="BaseFactory\ScanImageData\ScanImageDataDef.cs" />
     <Compile Include="DB\SQLite\SQLiteAccess.cs" />
     <Compile Include="DB\SQLite\SQLiteController.cs" />
     <Compile Include="DB\SqlServer\CalcBusinessConsignCommission\CalcBusinessConsignCommissionAccess.cs" />
@@ -117,10 +135,10 @@
     <Compile Include="DB\SqlServer\DataBaseController.cs" />
     <Compile Include="DB\SqlServer\DataBaseTableSQL.cs" />
     <Compile Include="DB\DataBaseValue.cs" />
-    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserDataAccess.cs" />
-    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserDataController.cs" />
-    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserDataGetIO.cs" />
-    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserDataSetIO.cs" />
+    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserAccess.cs" />
+    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserController.cs" />
+    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserGetIO.cs" />
+    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserSetIO.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationAccess.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationController.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationGetIO.cs" />
@@ -128,6 +146,11 @@
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerAccess.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerController.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerGetIO.cs" />
+    <Compile Include="DB\SqlServer\ScanImageData\ScanImageDataAccess.cs" />
+    <Compile Include="DB\SqlServer\ScanImageData\ScanImageDataController.cs" />
+    <Compile Include="DB\SqlServer\ScanImageData\ScanImageDataGetIO.cs" />
+    <Compile Include="DB\SQLite\ScanImageData\SQLiteScanImageDataSetIO.cs" />
+    <Compile Include="DB\SqlServer\ScanImageData\ScanImageDataSetIO.cs" />
     <Compile Include="Log\ErrorLogger.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Log\MainteLogger.cs" />
@@ -140,7 +163,11 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Component\ExplorerTreeView.resx">
+      <DependentUpon>ExplorerTreeView.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Release" copy $(TargetFileName) ..\..\..\_EXE

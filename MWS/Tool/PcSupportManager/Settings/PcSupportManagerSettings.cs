@@ -20,14 +20,24 @@ namespace PcSupportManager.Settings
 	public class PcSupportManagerSettings : ICloneable, IEquatable<PcSupportManagerSettings>
 	{
 		/// <summary>
-		/// 実行日
+		/// 開始メール送信実行日
 		/// </summary>
-		public int ExecDay;
+		public int StartMailExecDay;
 
 		/// <summary>
-		/// 前回実行日
+		/// 開始メール送信前回実行日
 		/// </summary>
-		public DateTime? PrevExecDate;
+		public DateTime? StartMailPrevExecDate;
+
+		/// <summary>
+		/// 契約更新案内/契約更新メール送信実行日
+		/// </summary>
+		public int UpdateMailExecDay;
+
+		/// <summary>
+		/// 契約更新案内/契約更新メール送信前回実行日
+		/// </summary>
+		public DateTime? UpdatteMailPrevExecDate;
 
 		/// <summary>
 		/// 祝日
@@ -54,8 +64,10 @@ namespace PcSupportManager.Settings
 		/// </summary>
 		public PcSupportManagerSettings()
         {
-			ExecDay = 0;
-			PrevExecDate = null;
+			StartMailExecDay = 0;
+			StartMailPrevExecDate = null;
+			UpdateMailExecDay = 0;
+			UpdatteMailPrevExecDate = null;
 			NationalHoliday = new StringCollection();
 			HappyMonday = new StringCollection();
 			SpecialHoliday = new StringCollection();
@@ -81,8 +93,10 @@ namespace PcSupportManager.Settings
 		{
 			if (other != null)
 			{
-				if (ExecDay == other.ExecDay
-					&& PrevExecDate == other.PrevExecDate
+				if (StartMailExecDay == other.StartMailExecDay
+					&& StartMailPrevExecDate == other.StartMailPrevExecDate
+					&& UpdateMailExecDay == other.UpdateMailExecDay
+					&& UpdatteMailPrevExecDate == other.UpdatteMailPrevExecDate
 					&& NationalHoliday.Equals(other.NationalHoliday)
 					&& HappyMonday.Equals(other.HappyMonday)
 					&& SpecialHoliday.Equals(other.SpecialHoliday)
@@ -122,17 +136,41 @@ namespace PcSupportManager.Settings
 		}
 
 		/// <summary>
-		/// 実行可能かどうか？
+		/// 開始メール送信実行可能かどうか？
 		/// </summary>
 		/// <param name="today">当日</param>
 		/// <returns>判定</returns>
-		public bool IsExec(Date today)
+		public bool IsStartMailExec(Date today)
 		{
-			if (ExecDay <= today.Day)
+			if (StartMailExecDay <= today.Day)
 			{
-				if (PrevExecDate.HasValue)
+				if (StartMailPrevExecDate.HasValue)
 				{
-					if (new Date(PrevExecDate.Value).ToYearMonth() < today.ToYearMonth())
+					if (new Date(StartMailPrevExecDate.Value).ToYearMonth() < today.ToYearMonth())
+					{
+						return true;
+					}
+				}
+				else
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// 契約更新案内/契約更新メール送信実行可能かどうか？
+		/// </summary>
+		/// <param name="today">当日</param>
+		/// <returns>判定</returns>
+		public bool IsUpdateMailExec(Date today)
+		{
+			if (UpdateMailExecDay <= today.Day)
+			{
+				if (UpdatteMailPrevExecDate.HasValue)
+				{
+					if (new Date(UpdatteMailPrevExecDate.Value).ToYearMonth() < today.ToYearMonth())
 					{
 						return true;
 					}

@@ -33,10 +33,10 @@
 			this.radioButtonSoftMainte = new System.Windows.Forms.RadioButton();
 			this.radioButtonPcSupport = new System.Windows.Forms.RadioButton();
 			this.buttonUpdateSoftMainte = new System.Windows.Forms.Button();
-			this.textBoxSpan = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
 			this.textBoxCount = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
+			this.buttonAllSelect = new System.Windows.Forms.Button();
+			this.buttonAllHide = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewSoft)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
@@ -54,7 +54,7 @@
 			this.dataGridViewSoft.RowTemplate.Height = 21;
 			this.dataGridViewSoft.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewSoft.Size = new System.Drawing.Size(1235, 667);
-			this.dataGridViewSoft.TabIndex = 6;
+			this.dataGridViewSoft.TabIndex = 4;
 			// 
 			// groupBox1
 			// 
@@ -99,54 +99,55 @@
 			this.buttonUpdateSoftMainte.UseVisualStyleBackColor = true;
 			this.buttonUpdateSoftMainte.Click += new System.EventHandler(this.buttonUpdateSoftMainte_Click);
 			// 
-			// textBoxSpan
-			// 
-			this.textBoxSpan.BackColor = System.Drawing.Color.White;
-			this.textBoxSpan.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxSpan.Location = new System.Drawing.Point(623, 25);
-			this.textBoxSpan.Name = "textBoxSpan";
-			this.textBoxSpan.ReadOnly = true;
-			this.textBoxSpan.Size = new System.Drawing.Size(242, 23);
-			this.textBoxSpan.TabIndex = 3;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(552, 32);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(65, 12);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "■検索対象";
-			// 
 			// textBoxCount
 			// 
 			this.textBoxCount.BackColor = System.Drawing.Color.White;
 			this.textBoxCount.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxCount.Location = new System.Drawing.Point(918, 25);
+			this.textBoxCount.Location = new System.Drawing.Point(590, 25);
 			this.textBoxCount.Name = "textBoxCount";
 			this.textBoxCount.ReadOnly = true;
 			this.textBoxCount.Size = new System.Drawing.Size(100, 23);
-			this.textBoxCount.TabIndex = 5;
+			this.textBoxCount.TabIndex = 3;
 			this.textBoxCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(871, 32);
+			this.label2.Location = new System.Drawing.Point(543, 32);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(41, 12);
-			this.label2.TabIndex = 4;
+			this.label2.TabIndex = 2;
 			this.label2.Text = "■件数";
+			// 
+			// buttonAllSelect
+			// 
+			this.buttonAllSelect.Location = new System.Drawing.Point(696, 12);
+			this.buttonAllSelect.Name = "buttonAllSelect";
+			this.buttonAllSelect.Size = new System.Drawing.Size(75, 44);
+			this.buttonAllSelect.TabIndex = 5;
+			this.buttonAllSelect.Text = "全選択";
+			this.buttonAllSelect.UseVisualStyleBackColor = true;
+			this.buttonAllSelect.Click += new System.EventHandler(this.buttonAllSelect_Click);
+			// 
+			// buttonAllHide
+			// 
+			this.buttonAllHide.Location = new System.Drawing.Point(777, 12);
+			this.buttonAllHide.Name = "buttonAllHide";
+			this.buttonAllHide.Size = new System.Drawing.Size(75, 44);
+			this.buttonAllHide.TabIndex = 6;
+			this.buttonAllHide.Text = "全解除";
+			this.buttonAllHide.UseVisualStyleBackColor = true;
+			this.buttonAllHide.Click += new System.EventHandler(this.buttonAllHide_Click);
 			// 
 			// SoftMainteForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1259, 741);
+			this.Controls.Add(this.buttonAllHide);
+			this.Controls.Add(this.buttonAllSelect);
 			this.Controls.Add(this.textBoxCount);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.textBoxSpan);
-			this.Controls.Add(this.label1);
 			this.Controls.Add(this.buttonUpdateSoftMainte);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.dataGridViewSoft);
@@ -169,9 +170,9 @@
 		private System.Windows.Forms.RadioButton radioButtonPcSupport;
 		private System.Windows.Forms.Button buttonUpdateSoftMainte;
 		private System.Windows.Forms.RadioButton radioButtonSoftMainte;
-		private System.Windows.Forms.TextBox textBoxSpan;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox textBoxCount;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Button buttonAllSelect;
+		private System.Windows.Forms.Button buttonAllHide;
 	}
 }

@@ -34,14 +34,19 @@ namespace PcSupportManager
 			Menu = 0,
 
 			/// <summary>
-			/// 製品サポート情報ソフト保守更新
+			/// 製品サポート情報ソフト保守自動更新
 			/// </summary>
 			SoftMainte = 1,
 
 			/// <summary>
-			/// PC安心サポートメール送信
+			/// PC安心サポート開始メール自動送信
 			/// </summary>
-			SendMail = 2,
+			SendStartMail = 2,
+
+			/// <summary>
+			/// PC安心サポート契約更新案内/契約更新メール自動送信
+			/// </summary>
+			SendUpdateMail = 3,
 		};
 
 		/// <summary>
@@ -92,7 +97,11 @@ namespace PcSupportManager
 				}
 				else if ("2" == cmds[1])
 				{
-					BootType = ProgramBootType.SendMail;
+					BootType = ProgramBootType.SendStartMail;
+				}
+				else if ("3" == cmds[1])
+				{
+					BootType = ProgramBootType.SendUpdateMail;
 				}
 				if (3 == cmds.Length)
 				{
@@ -128,21 +137,37 @@ namespace PcSupportManager
 				case ProgramBootType.Menu:
 					Application.Run(new Forms.MainForm());
 					break;
-				// 製品サポート情報ソフト保守更新
+				// 製品サポート情報ソフト保守自動更新
 				case ProgramBootType.SoftMainte:
 					Program.SoftMainte(today);
 					break;
-				// PC安心サポートメール送信
-				case ProgramBootType.SendMail:
+				// PC安心サポート開始メール自動送信
+				case ProgramBootType.SendStartMail:
 					{
 						PcSupportManagerSettings xml = PcSupportManagerSettingsIF.GetPcSupportManagerSettings();
-						if (xml.IsExec(today))
+						if (xml.IsStartMailExec(today))
 						{
 							CompanyHoliday.SetHoliday(xml.WeeklyHoliday, xml.NationalHoliday, xml.HappyMonday, xml.SpecialHoliday);
 							if (false == CompanyHoliday.IsHoliday(today))
 							{
-								Program.SendMail(today);
-								xml.PrevExecDate = today.ToDateTime();
+								Program.SendStartMail(today);
+								xml.StartMailPrevExecDate = today.ToDateTime();
+								PcSupportManagerSettingsIF.SetPcSupportManagerSettings(xml);
+							}
+						}
+					}
+					break;
+				// PC安心サポート契約更新案内/契約更新メール自動送信
+				case ProgramBootType.SendUpdateMail:
+					{
+						PcSupportManagerSettings xml = PcSupportManagerSettingsIF.GetPcSupportManagerSettings();
+						if (xml.IsUpdateMailExec(today))
+						{
+							CompanyHoliday.SetHoliday(xml.WeeklyHoliday, xml.NationalHoliday, xml.HappyMonday, xml.SpecialHoliday);
+							if (false == CompanyHoliday.IsHoliday(today))
+							{
+								Program.SendUpdateMail(today);
+								xml.UpdatteMailPrevExecDate = today.ToDateTime();
 								PcSupportManagerSettingsIF.SetPcSupportManagerSettings(xml);
 							}
 						}
@@ -161,7 +186,7 @@ namespace PcSupportManager
 		}
 
 		/// <summary>
-		/// 製品サポート情報ソフト保守更新
+		/// 製品サポート情報ソフト保守自動更新
 		/// </summary>
 		/// <param name="date">当日</param>
 		private static void SoftMainte(Date date)
@@ -170,7 +195,7 @@ namespace PcSupportManager
 			Logger.Out(logPathname, string.Format("{0} {1}:製品サポート情報ソフト保守情報更新 開始", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 
 			/////////////////////////////////////////////
-			// 受注情報からの読込み
+			// 受注情報の読込み
 			/////////////////////////////////////////////
 
 			Program.ReadOrderInfo(logPathname);
@@ -240,16 +265,16 @@ namespace PcSupportManager
 		}
 
 		/// <summary>
-		/// PC安心サポートメール送信
+		/// PC安心サポート開始メール自動送信
 		/// </summary>
 		/// <param name="date">当日</param>
-		private static void SendMail(Date date)
+		private static void SendStartMail(Date date)
 		{
 			string logPathname = Program.GetLogPathname();
-			Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 開始", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+			Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート開始メール送信 開始", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 
 			/////////////////////////////////////////////
-			// 受注情報からの読込み
+			// 受注情報の読込み
 			/////////////////////////////////////////////
 
 			Program.ReadOrderInfo(logPathname);
@@ -259,8 +284,6 @@ namespace PcSupportManager
 			// 開始メール送信処理
 			/////////////////////////////////////////////
 
-			Logger.Out(logPathname, string.Format("{0}:開始メール送信 開始", DateTime.Now.ToString()));
-
 			// PC安心サポート管理情報リストの取得
 			List<PcSupportControl> pcList = PcSupportManagerAccess.GetPcSupportControl();
 			List<PcSupportControl> startPcList = pcList.Where(p => true == p.IsSendStartMail(date)).ToList();
@@ -269,7 +292,7 @@ namespace PcSupportManager
 				List<PcSupportMail> startMailList = new List<PcSupportMail>();
 				foreach (PcSupportControl pc in startPcList)
 				{
-					// メール送信処理
+					// 開始メール送信情報の格納
 					pc.StartMailDateTime = date.ToDateTime();
 					pc.UpdateDateTime = date.ToDateTime();
 					pc.UpdatePerson = Program.PROGRAM_NAME;
@@ -277,12 +300,13 @@ namespace PcSupportManager
 					startMailList.Add(mail);
 					try
 					{
+						// 開始メール送信
 						SendMailControl.SendStartMail(mail, pc.ClinicName);
 					}
 					catch (Exception ex)
 					{
 						Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendStartMail ({0})", ex.Message));
-						Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+						Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート開始メール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 						return;
 					}
 					Logger.Out(logPathname, mail.ToLog(pc));
@@ -290,12 +314,13 @@ namespace PcSupportManager
 					{
 						try
 						{
+							// PC安心サポート管理情報の更新
 							PcSupportManagerAccess.SetPcSupportControl(pc);
 						}
 						catch (Exception ex)
 						{
 							Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetPcSupportControl ({0})", ex.Message));
-							Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+							Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート開始メール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 							return;
 						}
 					}
@@ -336,12 +361,13 @@ namespace PcSupportManager
 					{
 						try
 						{
+							// PC安心サポート送信メール情報の登録
 							PcSupportManagerAccess.InsertIntoPcSupportMailList(startMailList);
 						}
 						catch (Exception e)
 						{
 							Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.InsertIntoPcSupportMailList ({0})", e.Message));
-							Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+							Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート開始メール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 							return;
 						}
 					}
@@ -374,7 +400,23 @@ namespace PcSupportManager
 			//		Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendBranchMail ({0})", ex.Message));
 			//	}
 			//}
-			Logger.Out(logPathname, string.Format("{0}:開始メール送信 正常終了", DateTime.Now.ToString()));
+			Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート開始メール送信 正常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+		}
+
+		/// <summary>
+		/// PC安心サポート契約更新案内/契約更新メール自動送信
+		/// </summary>
+		/// <param name="date">当日</param>
+		private static void SendUpdateMail(Date date)
+		{
+			string logPathname = Program.GetLogPathname();
+			Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート契約更新案内/契約更新メール送信 開始", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+
+			/////////////////////////////////////////////
+			// 受注情報の読込み
+			/////////////////////////////////////////////
+
+			Program.ReadOrderInfo(logPathname);
 
 
 			/////////////////////////////////////////////
@@ -383,44 +425,46 @@ namespace PcSupportManager
 
 			Logger.Out(logPathname, string.Format("{0}:契約更新案内メール送信 開始", DateTime.Now.ToString()));
 
+			List<PcSupportControl> pcList = PcSupportManagerAccess.GetPcSupportControl();
 			List<PcSupportControl> guidePcList = pcList.Where(p => true == p.IsSendGuideMail(date)).ToList();
 			if (0 < guidePcList.Count)
 			{
 				List<PcSupportMail> guideMailList = new List<PcSupportMail>();
 				foreach (PcSupportControl pc in guidePcList)
 				{
-					// メール送信前データ格納
+					// 契約更新案内メール送信情報の格納
 					pc.GuideMailDateTime = date.ToDateTime();
 					pc.UpdateDateTime = date.ToDateTime();
 					pc.UpdatePerson = Program.PROGRAM_NAME;
 
-					// メール送信処理
 					PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Guide, pc, date);
 					guideMailList.Add(mail);
 					try
 					{
+						// 契約更新案内メール送信
 						SendMailControl.SendGuideMail(mail, pc.ClinicName);
 					}
 					catch (Exception ex)
 					{
 						Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendGuideMail ({0})", ex.Message));
-						Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+						Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート契約更新案内/契約更新メール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 						return;
 					}
 					Logger.Out(logPathname, mail.ToLog(pc));
 
-					// メール送信後データ格納
+					// 契約更新メール送信情報をクリア
 					pc.UpdateMailDateTime = null;
 					if (!DebugMode)
 					{
 						try
 						{
+							// PC安心サポート管理情報の更新
 							PcSupportManagerAccess.SetPcSupportControl(pc);
 						}
 						catch (Exception ex)
 						{
 							Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetPcSupportControl ({0})", ex.Message));
-							Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+							Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート契約更新案内/契約更新メール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 							return;
 						}
 					}
@@ -460,12 +504,13 @@ namespace PcSupportManager
 					{
 						try
 						{
+							// PC安心サポート送信メール情報の登録
 							PcSupportManagerAccess.InsertIntoPcSupportMailList(guideMailList);
 						}
 						catch (Exception ex)
 						{
 							Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.InsertIntoPcSupportMailList ({0})", ex.Message));
-							Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+							Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート契約更新案内/契約更新メール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 							return;
 						}
 					}
@@ -520,27 +565,27 @@ namespace PcSupportManager
 				List<PcSupportMail> updateMailList = new List<PcSupportMail>();
 				foreach (PcSupportControl pc in updatePcList)
 				{
-					// メール送信前データ格納
+					// 契約更新メール送信情報の格納
 					pc.UpdateMailDateTime = date.ToDateTime();
 					pc.UpdateDateTime = date.ToDateTime();
 					pc.UpdatePerson = Program.PROGRAM_NAME;
 
-					// メール送信処理
 					PcSupportMail mail = new PcSupportMail(PcSupportMail.MailType.Update, pc, date);
 					updateMailList.Add(mail);
 					try
 					{
+						// 契約更新メール送信
 						SendMailControl.SendUpdateMail(mail, pc.ClinicName);
 					}
 					catch (Exception ex)
 					{
 						Logger.Out(logPathname, string.Format("#ERROR:SendMailControl.SendUpdateMail ({0})", ex.Message));
-						Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+						Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート契約更新案内/契約更新メール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 						return;
 					}
 					Logger.Out(logPathname, mail.ToLog(pc));
 
-					// メール送信後データ格納
+					// 契約更新案内メール送信情報の格納
 					pc.GuideMailDateTime = null;
 					pc.GoodsID = PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID;
 					pc.GoodsName = goodsName;
@@ -551,12 +596,13 @@ namespace PcSupportManager
 					{
 						try
 						{
+							// PC安心サポート管理情報の更新
 							PcSupportManagerAccess.SetPcSupportControl(pc);
 						}
 						catch (Exception ex)
 						{
 							Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.SetPcSupportControl ({0})", ex.Message));
-							Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+							Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート契約更新案内/契約更新メール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 							return;
 						}
 					}
@@ -596,12 +642,13 @@ namespace PcSupportManager
 					{
 						try
 						{
+							// PC安心サポート送信メール情報の登録
 							PcSupportManagerAccess.InsertIntoPcSupportMailList(updateMailList);
 						}
 						catch (Exception ex)
 						{
 							Logger.Out(logPathname, string.Format("#ERROR:PcSupportManagerAccess.InsertIntoPcSupportMailList ({0})", ex.Message));
-							Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+							Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート契約更新案内/契約更新メール送信 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 							return;
 						}
 					}
@@ -636,11 +683,11 @@ namespace PcSupportManager
 			//}
 			Logger.Out(logPathname, string.Format("{0}:契約更新メール送信 正常終了", DateTime.Now.ToString()));
 
-			Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポートメール送信 正常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
+			Logger.Out(logPathname, string.Format("{0} {1}:PC安心サポート契約更新案内/契約更新メール送信 正常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 		}
 
 		/// <summary>
-		/// 受注情報からの読込み
+		/// 受注情報の読込み
 		/// </summary>
 		/// <param name="logPathname">ログファイルパス名</param>
 		private static bool ReadOrderInfo(string logPathname)

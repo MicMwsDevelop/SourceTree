@@ -154,11 +154,6 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		public bool DisableFlag { get; set; }
 
 		/// <summary>
-		/// WonderWeb更新フラグ
-		/// </summary>
-		//public bool WonderWebRenewalFlag { get; set; }
-
-		/// <summary>
 		/// 作成日時
 		/// </summary>
 		public DateTime? CreateDateTime { get; set; }
@@ -209,7 +204,6 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			CancelReportAccept = false;
 			CancelReason = string.Empty;
 			DisableFlag = false;
-			//WonderWebRenewalFlag = false;
 			CreateDateTime = null;
 			CreatePerson = string.Empty;
 			UpdateDateTime = null;
@@ -249,7 +243,6 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			CancelReportAccept = other.CancelReportAccept;
 			CancelReason = other.CancelReason;
 			DisableFlag = other.DisableFlag;
-			//WonderWebRenewalFlag = other.WonderWebRenewalFlag;
 			CreateDateTime = other.CreateDateTime;
 			CreatePerson = other.CreatePerson;
 			UpdateDateTime = other.UpdateDateTime;
@@ -290,7 +283,6 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			CancelReportAccept = false;
 			CancelReason = string.Empty;
 			DisableFlag = false;
-			//WonderWebRenewalFlag = false;
 			CreateDateTime = now.ToDateTime();
 			CreatePerson = PERSON_NAME;
 			UpdateDateTime = null;
@@ -352,13 +344,6 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// <param name="now">更新日時</param>
 		public void SetOrderInfo(OrderInfo order, string mailAddress, Date now)
 		{
-			//bool wwFlag = false;
-			//if (GoodsID != order.GoodsID)
-			//	wwFlag = true;
-			//if (OrderDate != order.OrderDate)
-			//	wwFlag = true;
-			//if (Remark != order.Remark)
-			//	wwFlag = true;
 			OrderNo = order.OrderNo;
 			CustomerNo = order.CustomerNo;
 			ClinicName = order.ClinicName;
@@ -388,10 +373,6 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			{
 				Remark = order.Remark;
 			}
-			//if (false == WonderWebRenewalFlag)
-			//{
-			//	WonderWebRenewalFlag = wwFlag;
-			//}
 			UpdateDateTime = now.ToDateTime();
 			UpdatePerson = PERSON_NAME;
 		}

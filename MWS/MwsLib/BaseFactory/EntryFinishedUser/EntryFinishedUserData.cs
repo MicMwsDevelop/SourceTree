@@ -9,14 +9,14 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 	public class EntryFinishedUserData
 	{
 		/// <summary>
-		/// 顧客No
-		/// </summary>
-		public string CostomerID { get; set; }
-
-		/// <summary>
 		/// 得意先No
 		/// </summary>
 		public string TokuisakiNo { get; set; }
+
+		/// <summary>
+		/// 顧客No
+		/// </summary>
+		public string CostomerID { get; set; }
 
 		/// <summary>
 		/// 顧客名
@@ -99,6 +99,11 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 		public bool NonPaletteUser { get; set; }
 
 		/// <summary>
+		/// 終了フラグユーザー
+		/// </summary>
+		public bool FinishedUser { get; set; }
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public EntryFinishedUserData()
@@ -121,7 +126,49 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 			FinishedYearMonth = null;
 			AcceptDate = null;
 			NonPaletteUser = false;
+			FinishedUser = false;
 		}
+
+		/// <summary>
+		/// 終了通知ユーザーかどうか？
+		/// </summary>
+		/// <param name="ym">当月</param>
+		/// <returns>判定</returns>
+		public bool IsFinishedUser(YearMonth ym)
+		{
+			if (false == FinishedUser && false == NonPaletteUser)
+			{
+				if (FinishedYearMonth.HasValue)
+				{
+					if (FinishedYearMonth.Value < ym)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// 非paletteユーザーかどうか？
+		/// </summary>
+		/// <param name="ym">当月</param>
+		/// <returns>判定</returns>
+		public bool IsNonPaletteUser(YearMonth ym)
+		{
+			if (false == FinishedUser && NonPaletteUser)
+			{
+				if (FinishedYearMonth.HasValue)
+				{
+					if (FinishedYearMonth.Value < ym)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
 
 		//public static string[] ToTitleArray()
 		//{

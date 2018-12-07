@@ -144,12 +144,12 @@ namespace PcSupportManager.Mail
 					// 開始メール
 					case PcSupportMail.MailType.Start:
 						// 件名
-						msg.Subject = string.Format(@"{0} PC安心サポート 開始メールを送信しました", yearMonthStr);
+						msg.Subject = string.Format(@"{0} PC安心サポート 開始メール送信対象ユーザーリスト", yearMonthStr);
 
 						// 本文
 						msg.Body += string.Format(@"<div>"
 									+ @"<p>営業管理部</p>"
-									+ @"<p>{0} PC安心サポート 開始メールを送信対象ユーザーに送信しました。<br>"
+									+ @"<p>{0} PC安心サポート 開始メール送信対象ユーザーリスト<br>"
 									+ @"</div>", yearMonthStr);
 						if (0 < mailList.Count)
 						{
@@ -181,7 +181,7 @@ namespace PcSupportManager.Mail
 							{
 								msg.Body += "<br>";
 								msg.Body += "<br>";
-								msg.Body += "<p>必須データが欠落している送信対象ユーザー</p>";
+								msg.Body += "<p>必須データが欠落している送信対象ユーザーリスト</p>";
 								msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
 											+ @"<tr>"
 											+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>拠店名</font></th>"
@@ -215,12 +215,12 @@ namespace PcSupportManager.Mail
 					// 契約更新案内メール
 					case PcSupportMail.MailType.Guide:
 						// 件名
-						msg.Subject = string.Format(@"{0} PC安心サポート 契約更新案内メールを送信しました", yearMonthStr);
+						msg.Subject = string.Format(@"{0} PC安心サポート 契約更新案内メール送信対象ユーザーリスト", yearMonthStr);
 
 						// 本文
 						msg.Body += string.Format(@"<div>"
 									+ @"<p>営業管理部</p>"
-									+ @"<p>{0} PC安心サポート 契約更新案内メールを送信対象ユーザーに送信しました。<br>"
+									+ @"<p>{0} PC安心サポート 契約更新案内メール送信対象ユーザーリスト<br>"
 									+ @"</div>", yearMonthStr);
 						if (0 < mailList.Count)
 						{
@@ -256,12 +256,12 @@ namespace PcSupportManager.Mail
 					// 契約更新メール
 					case PcSupportMail.MailType.Update:
 						// 件名
-						msg.Subject = string.Format(@"{0} PC安心サポート 契約更新メールを送信しました", yearMonthStr);
+						msg.Subject = string.Format(@"{0} PC安心サポート 契約更新メール送信対象ユーザーリスト", yearMonthStr);
 
 						// 本文
 						msg.Body += string.Format(@"<div>"
 									+ @"<p>営業管理部</p>"
-									+ @"<p>{0} PC安心サポート 契約更新メールを送信対象ユーザーに送信しました。<br>"
+									+ @"<p>{0} PC安心サポート 契約更新メール送信対象ユーザーリスト<br>"
 									+ @"</div>", yearMonthStr);
 						if (0 < mailList.Count)
 						{
@@ -338,7 +338,7 @@ namespace PcSupportManager.Mail
 					// 開始メール
 					case PcSupportMail.MailType.Start:
 						// 件名
-						msg.Subject = string.Format(@"【{0}】{1} PC安心サポート 開始対象ユーザー", branch.BranchName, yearMonthStr);
+						msg.Subject = string.Format(@"【{0}】{1} PC安心サポート 開始対象ユーザーリスト", branch.BranchName, yearMonthStr);
 
 						// 本文
 						msg.Body += string.Format(@"<div>"
@@ -379,7 +379,7 @@ namespace PcSupportManager.Mail
 					// 契約更新案内メール
 					case PcSupportMail.MailType.Guide:
 						// 件名
-						msg.Subject = string.Format(@"【{0}】{1} PC安心サポート 契約更新案内対象ユーザー", branch.BranchName, yearMonthStr);
+						msg.Subject = string.Format(@"【{0}】{1} PC安心サポート 契約更新案内対象ユーザーリスト", branch.BranchName, yearMonthStr);
 
 						// 本文
 						msg.Body += string.Format(@"<div>"
@@ -420,7 +420,7 @@ namespace PcSupportManager.Mail
 					// 契約更新メール
 					case PcSupportMail.MailType.Update:
 						// 件名
-						msg.Subject = string.Format(@"【{0}】{1} PC安心サポート 契約更新対象ユーザー", branch.BranchName, yearMonthStr);
+						msg.Subject = string.Format(@"【{0}】{1} PC安心サポート 契約更新対象ユーザーリスト", branch.BranchName, yearMonthStr);
 
 						// 本文
 						msg.Body += string.Format(@"<div>"

@@ -265,6 +265,9 @@ namespace PcSupportManager.Forms
 					this.SetDataGridViewManagerCellBackColor();
 
 					MessageBox.Show(string.Format("受注情報に変更がありましたので、再読込を行いました。(追加:{0} 変更:{1})", insertIntoCount, updateCount), "受注情報からの読込み", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+					// レコード件数の表示
+					textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
 				}
 				else
 				{
@@ -467,6 +470,16 @@ namespace PcSupportManager.Forms
 					dataGridViewManager.Rows[i].Cells[25].Style.BackColor = Color.DarkGray;
 				}
 			}
+		}
+
+		private void textBoxCustomerNo_TextChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void label1_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

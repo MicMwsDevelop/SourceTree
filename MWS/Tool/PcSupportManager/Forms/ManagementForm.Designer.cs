@@ -80,6 +80,7 @@
 			this.label1.Size = new System.Drawing.Size(55, 12);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "■顧客No";
+			this.label1.Click += new System.EventHandler(this.label1_Click);
 			// 
 			// textBoxCustomerNo
 			// 
@@ -90,6 +91,7 @@
 			this.textBoxCustomerNo.Name = "textBoxCustomerNo";
 			this.textBoxCustomerNo.Size = new System.Drawing.Size(132, 26);
 			this.textBoxCustomerNo.TabIndex = 1;
+			this.textBoxCustomerNo.TextChanged += new System.EventHandler(this.textBoxCustomerNo_TextChanged);
 			// 
 			// buttonSearch
 			// 

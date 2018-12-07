@@ -28,15 +28,18 @@ namespace MwsLib.DB.SqlServer
         /// <param name="table">DataTable</param>
         /// <param name="sqlString">クエリ</param>
         /// <returns>実行結果</returns>
-        internal static int SqlExecuteCommand(SqlConnection con, SqlTransaction tran, string sqlString, SqlParameter[] param)
+        internal static int SqlExecuteCommand(SqlConnection con, SqlTransaction tran, string sqlString, SqlParameter[] param = null)
         {
             int result = -1;
             {
                 using (SqlCommand cmd = new SqlCommand(sqlString, con, tran))
                 {
                     cmd.Parameters.Clear();
-                    cmd.Parameters.AddRange(param);
-                    try
+					if (null != param)
+					{
+						cmd.Parameters.AddRange(param);
+					}
+					try
                     {
                         //実行
                         result = cmd.ExecuteNonQuery();
