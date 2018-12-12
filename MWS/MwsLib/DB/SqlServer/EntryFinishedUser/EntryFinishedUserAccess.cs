@@ -1,4 +1,13 @@
-﻿using MwsLib.BaseFactory.EntryFinishedUser;
+﻿//
+// EntryFinishedUserAccess.cs
+//
+// 終了ユーザー管理 データアクセスクラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/12/12 勝呂)
+// 
+using MwsLib.BaseFactory.EntryFinishedUser;
 using System.Collections.Generic;
 using System.Data;
 
@@ -6,6 +15,10 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 {
 	public static class EntryFinishedUserAccess
 	{
+		//////////////////////////////////////////////////////////////////
+		/// JunpDB
+		//////////////////////////////////////////////////////////////////
+
 		/// <summary>
 		/// 終了ユーザー情報リストの取得
 		/// </summary>
@@ -71,6 +84,23 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 		public static int InsertIntoMemo(EntryFinishedUserData entry, bool sqlsv2)
 		{
 			return EntryFinishedUserSetIO.InsertIntoMemo(entry, sqlsv2);
+		}
+
+
+		//////////////////////////////////////////////////////////////////
+		/// CharlieDB
+		//////////////////////////////////////////////////////////////////
+
+		/// <summary>
+		/// 課金対象外フラグの取得
+		/// </summary>
+		/// <param name="customerID">顧客No</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>リプレース先メーカーリスト</returns>
+		public static List<int> GetPauseEndStatus(int customerID, bool sqlsv2)
+		{
+			DataTable table = EntryFinishedUserGetIO.GetPauseEndStatus(customerID, sqlsv2);
+			return EntryFinishedUserController.ConvertPauseEndStatus(table);
 		}
 	}
 }

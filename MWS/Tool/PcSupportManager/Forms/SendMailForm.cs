@@ -188,9 +188,6 @@ namespace PcSupportManager.Forms
 
 			// 送信ボタン無効
 			buttonSend.Enabled = false;
-
-			// レコード件数の表示
-			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewMailBindingSource.Count, PcSupportControlList.Count);
 		}
 
 		/// <summary>
@@ -209,9 +206,6 @@ namespace PcSupportManager.Forms
 
 			// 送信ボタン有効
 			buttonSend.Enabled = true;
-
-			// レコード件数の表示
-			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewMailBindingSource.Count, PcSupportControlList.Count);
 		}
 
 		/// <summary>
@@ -230,9 +224,6 @@ namespace PcSupportManager.Forms
 
 			// 送信ボタン有効
 			buttonSend.Enabled = true;
-
-			// レコード件数の表示
-			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewMailBindingSource.Count, PcSupportControlList.Count);
 		}
 
 		/// <summary>
@@ -251,9 +242,6 @@ namespace PcSupportManager.Forms
 
 			// 送信ボタン有効
 			buttonSend.Enabled = true;
-
-			// レコード件数の表示
-			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewMailBindingSource.Count, PcSupportControlList.Count);
 		}
 
 		/// <summary>
@@ -398,6 +386,20 @@ namespace PcSupportManager.Forms
 			else
 			{
 				MessageBox.Show("メール送信対象はありませんでした。", "メール送信", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+		}
+
+		/// <summary>
+		/// DataBindingComplete
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dataGridViewMail_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+		{
+			if (null != PcSupportControlList)
+			{
+				// レコード件数の表示
+				textBoxCount.Text = string.Format("{0}/{1}", dataGridViewMailBindingSource.Count, PcSupportControlList.Count);
 			}
 		}
 	}

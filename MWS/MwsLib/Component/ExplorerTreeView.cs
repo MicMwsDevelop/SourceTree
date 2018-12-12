@@ -31,7 +31,7 @@ namespace MwsLib.Component
 		public ExplorerTreeView()
 		{
 			InitializeComponent();
-			Init();
+			init();
 		}
 
 		public ExplorerTreeView(IContainer container)
@@ -39,21 +39,18 @@ namespace MwsLib.Component
 			container.Add(this);
 
 			InitializeComponent();
-			Init();
+			init();
 		}
 
-		private void Init()
+		private void init()
 		{
+			systemImageList = new SystemImageList(false, SystemImageList.SystemIconSize.Small);
+			systemImageList.TreeViewSetImageList(this.Handle);
 			shellNamespaceManager = new ShellNamespaceManager();
 		}
 
 		public void UIInit(string rootPath)
 		{
-			systemImageList = new SystemImageList(false, SystemImageList.SystemIconSize.Small);
-			//this.ImageList = systemImageList;
-			//systemImageList.TreeViewSetImageList(this);
-			systemImageList.TreeViewSetImageList(this.Handle);
-
 			LoadRootNodes(rootPath);
 		}
 
@@ -67,14 +64,12 @@ namespace MwsLib.Component
 			//ShellItem m_shDesktop = shellNamespaceManager.GetDesktopShellItem();
 			ShellItem m_shDesktop = shellNamespaceManager.GetShellItemFromFilePath(rootPath);
 
-
 			// Create the root node.
 			TreeNode tvwRoot = new TreeNode();
 			tvwRoot.Text = m_shDesktop.DisplayName;
 			tvwRoot.ImageIndex = m_shDesktop.IconIndex;
 			tvwRoot.SelectedImageIndex = m_shDesktop.IconIndex;
 			tvwRoot.Tag = m_shDesktop;
-
 
 			// Now we need to add any children to the root node.
 			List<ShellItem> children = m_shDesktop.GetSubFolders(false);
@@ -91,13 +86,10 @@ namespace MwsLib.Component
 					tvwChild.Nodes.Add("PH");
 				tvwRoot.Nodes.Add(tvwChild);
 			}
-
-
 			// Add the root node to the tree.
-			this.Nodes.Clear();
-			this.Nodes.Add(tvwRoot);
+			base.Nodes.Clear();
+			base.Nodes.Add(tvwRoot);
 			tvwRoot.Expand();
-
 		}
 
 		protected override void OnBeforeExpand(TreeViewCancelEventArgs e)
@@ -124,12 +116,9 @@ namespace MwsLib.Component
 					// If this is a folder item and has children then add a place holder node.
 					if (shChild.IsFolder && shChild.HasSubFolder) tvwChild.Nodes.Add("PH");
 					e.Node.Nodes.Add(tvwChild);
-
 				}
 			}
-
 			base.OnBeforeExpand(e);
-
 		}
 
 		protected override void OnAfterSelect(TreeViewEventArgs e)
@@ -141,7 +130,6 @@ namespace MwsLib.Component
 			}
 			base.OnAfterSelect(e);
 		}
-
 	}
 }
 

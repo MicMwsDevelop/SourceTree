@@ -1,4 +1,13 @@
-﻿using DataGridViewAutoFilter;
+﻿//
+// MainForm.cs
+//
+// メイン画面クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/12/12 勝呂)
+// 
+using DataGridViewAutoFilter;
 using MwsLib.BaseFactory.EntryFinishedUser;
 using MwsLib.DB.SqlServer.EntryFinishedUser;
 using System;
@@ -57,13 +66,6 @@ namespace EntryFinishedUser.Forms
 			dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
 			dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
 			FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
-
-			//dataGridViewUser.DataSource = UserList;
-			//string[] title = EntryFinishedUserData.ToTitleArray();
-			//for (int i = 0; i < title.Length; i++)
-			//{
-			//	dataGridViewUser.Columns[i].HeaderText = title[i];
-			//}
 
 			// 拠店コードを非表示
 			dataGridViewFinishedUser.Columns[4].Visible = false;
@@ -151,9 +153,6 @@ namespace EntryFinishedUser.Forms
 						dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
 						dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
 						FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
-
-						// レコード件数の表示
-						textBoxCount.Text = string.Format("{0}/{1}", dataGridViewFinishedUserBindingSource.Count, FinishedUserList.Count);
 					}
 				}
 			}
@@ -184,6 +183,20 @@ namespace EntryFinishedUser.Forms
 						FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// DataBindingComplete
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dataGridViewFinishedUser_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+		{
+			if (null != FinishedUserList)
+			{
+				// レコード件数の表示
+				textBoxCount.Text = string.Format("{0}/{1}", dataGridViewFinishedUserBindingSource.Count, FinishedUserList.Count);
 			}
 		}
 	}

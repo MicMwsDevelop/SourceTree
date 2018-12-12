@@ -59,6 +59,7 @@
 			this.dataGridViewManager.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewManager.Size = new System.Drawing.Size(1111, 591);
 			this.dataGridViewManager.TabIndex = 6;
+			this.dataGridViewManager.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewManager_DataBindingComplete);
 			this.dataGridViewManager.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewManager_MouseDoubleClick);
 			// 
 			// buttonReadOrderInfo
@@ -80,7 +81,6 @@
 			this.label1.Size = new System.Drawing.Size(55, 12);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "■顧客No";
-			this.label1.Click += new System.EventHandler(this.label1_Click);
 			// 
 			// textBoxCustomerNo
 			// 
@@ -91,7 +91,6 @@
 			this.textBoxCustomerNo.Name = "textBoxCustomerNo";
 			this.textBoxCustomerNo.Size = new System.Drawing.Size(132, 26);
 			this.textBoxCustomerNo.TabIndex = 1;
-			this.textBoxCustomerNo.TextChanged += new System.EventHandler(this.textBoxCustomerNo_TextChanged);
 			// 
 			// buttonSearch
 			// 

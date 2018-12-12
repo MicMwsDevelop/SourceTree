@@ -1,4 +1,13 @@
-﻿using MwsLib.BaseFactory.EntryFinishedUser;
+﻿//
+// EntryFinishedUserForm.cs
+//
+// 終了ユーザー登録画面クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/12/12 勝呂)
+// 
+using MwsLib.BaseFactory.EntryFinishedUser;
 using MwsLib.Common;
 using MwsLib.DB.SqlServer.EntryFinishedUser;
 using System;

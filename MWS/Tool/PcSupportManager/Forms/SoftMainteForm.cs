@@ -193,9 +193,6 @@ namespace PcSupportManager.Forms
 
 			// 製品サポート情報ソフト保守更新を有効
 			buttonUpdateSoftMainte.Enabled = true;
-
-			// レコード件数の表示
-			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewControlBindingSource.Count, PcSupportControlList.Count);
 		}
 
 		/// <summary>
@@ -238,9 +235,6 @@ namespace PcSupportManager.Forms
 
 			// 製品サポート情報ソフト保守更新を無効
 			buttonUpdateSoftMainte.Enabled = false;
-
-			// レコード件数の表示
-			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewSoftBindingSource.Count, SoftMaintenanceContractList.Count);
 		}
 
 		/// <summary>
@@ -354,13 +348,24 @@ namespace PcSupportManager.Forms
 				//dataGridViewControlBindingSource.Filter = string.Format(@"DISABLE_FLAG = '0' AND ORDER_APPROVAL_DATE is not null AND START_DATE is not null AND START_DATE <= '{0}'", limit.ToSqlDateTimeString());
 				dataGridViewControlBindingSource.Filter = @"DISABLE_FLAG = '0' AND ORDER_APPROVAL_DATE is not null AND START_DATE is not null";
 				dataGridViewSoft.DataSource = dataGridViewControlBindingSource;
-
-				// レコード件数の表示
-				textBoxCount.Text = string.Format("{0}/{1}", dataGridViewControlBindingSource.Count, PcSupportControlList.Count);
 			}
 			else
 			{
 				MessageBox.Show("製品サポート情報ソフト保守の更新対象はありませんでした。", "製品サポート情報ソフト保守更新", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+		}
+
+		/// <summary>
+		/// DataBindingComplete
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dataGridViewSoft_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+		{
+			if (null != PcSupportControlList)
+			{
+				// レコード件数の表示
+				textBoxCount.Text = string.Format("{0}/{1}", dataGridViewControlBindingSource.Count, PcSupportControlList.Count);
 			}
 		}
 	}

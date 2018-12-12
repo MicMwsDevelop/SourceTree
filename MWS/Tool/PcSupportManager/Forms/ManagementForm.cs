@@ -164,7 +164,7 @@ namespace PcSupportManager.Forms
 			dataGridViewManagerBindingSource.Filter = null;
 
 			// レコード件数の表示
-			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
+			//textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
 
 			// 背景色の設定
 			this.SetDataGridViewManagerCellBackColor();
@@ -180,7 +180,7 @@ namespace PcSupportManager.Forms
 			dataGridViewManagerBindingSource.Filter = "START_DATE is null OR 0 = LEN(MAIL_ADDRESS) OR ORDER_REPORT_ACCEPT = '0'";
 
 			// レコード件数の表示
-			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
+			//textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
 
 			// 背景色の設定
 			this.SetDataGridViewManagerCellBackColor();
@@ -196,7 +196,7 @@ namespace PcSupportManager.Forms
 			dataGridViewManagerBindingSource.Filter = "START_DATE is not null AND 0 < LEN(MAIL_ADDRESS) AND ORDER_REPORT_ACCEPT <> '0' AND DISABLE_FLAG = '0'";
 
 			// レコード件数の表示
-			textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
+			//textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
 
 			// 背景色の設定
 			this.SetDataGridViewManagerCellBackColor();
@@ -267,7 +267,7 @@ namespace PcSupportManager.Forms
 					MessageBox.Show(string.Format("受注情報に変更がありましたので、再読込を行いました。(追加:{0} 変更:{1})", insertIntoCount, updateCount), "受注情報からの読込み", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 					// レコード件数の表示
-					textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
+					//textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
 				}
 				else
 				{
@@ -472,14 +472,18 @@ namespace PcSupportManager.Forms
 			}
 		}
 
-		private void textBoxCustomerNo_TextChanged(object sender, EventArgs e)
+		/// <summary>
+		/// DataBindingComplete
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dataGridViewManager_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
 		{
-
-		}
-
-		private void label1_Click(object sender, EventArgs e)
-		{
-
+			if (null != PcSupportControlList)
+			{
+				// レコード件数の表示
+				textBoxCount.Text = string.Format("{0}/{1}", dataGridViewManagerBindingSource.Count, PcSupportControlList.Count);
+			}
 		}
 	}
 }

@@ -1,5 +1,13 @@
-﻿using MwsLib.Common;
-using System.Collections.Generic;
+﻿//
+// EntryFinishedUserData.cs
+//
+// 終了ユーザー管理情報クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/12/12 勝呂)
+// 
+using MwsLib.Common;
 
 namespace MwsLib.BaseFactory.EntryFinishedUser
 {
@@ -16,7 +24,7 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 		/// <summary>
 		/// 顧客No
 		/// </summary>
-		public string CostomerID { get; set; }
+		public int CustomerID { get; set; }
 
 		/// <summary>
 		/// 顧客名
@@ -108,7 +116,7 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 		/// </summary>
 		public EntryFinishedUserData()
 		{
-			CostomerID = string.Empty;
+			CustomerID = 0;
 			TokuisakiNo = string.Empty;
 			UserName = string.Empty;
 			SystemName = string.Empty;
@@ -130,19 +138,23 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 		}
 
 		/// <summary>
-		/// 終了通知ユーザーかどうか？
+		/// 翌月終了ユーザーかどうか？（palette）
 		/// </summary>
 		/// <param name="ym">当月</param>
 		/// <returns>判定</returns>
-		public bool IsFinishedUser(YearMonth ym)
+		public bool IsNextMonthFinishedUserByPalette(YearMonth ym)
 		{
-			if (false == FinishedUser && false == NonPaletteUser)
+			if (false == FinishedUser)
 			{
 				if (FinishedYearMonth.HasValue)
 				{
-					if (FinishedYearMonth.Value < ym)
+					if (FinishedYearMonth.Value == ym + 1)
 					{
-						return true;
+						// 翌月終了ユーザー
+						if (-1 != SystemName.IndexOf("palette"))
+						{
+							return true;
+						}
 					}
 				}
 			}
@@ -150,69 +162,94 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 		}
 
 		/// <summary>
-		/// 非paletteユーザーかどうか？
+		/// 翌月終了ユーザーかどうか？（旧システム）
 		/// </summary>
 		/// <param name="ym">当月</param>
 		/// <returns>判定</returns>
-		public bool IsNonPaletteUser(YearMonth ym)
+		public bool IsNextMonthFinishedUserByOldSystem(YearMonth ym)
 		{
-			if (false == FinishedUser && NonPaletteUser)
+			if (false == FinishedUser)
 			{
 				if (FinishedYearMonth.HasValue)
 				{
-					if (FinishedYearMonth.Value < ym)
+					if (FinishedYearMonth.Value == ym + 1)
 					{
-						return true;
+						// 翌月終了ユーザー
+						if (-1 == SystemName.IndexOf("palette"))
+						{
+							return true;
+						}
 					}
 				}
 			}
 			return false;
 		}
 
+		/// <summary>
+		/// 前月終了ユーザーかどうか？（palette）
+		/// 非paletteユーザー及び旧システムを除く
+		/// </summary>
+		/// <param name="ym">当月</param>
+		/// <returns>判定</returns>
+		public bool IsPrevMonthFinishedUserByPalette(YearMonth ym)
+		{
+			if (false == FinishedUser && false == NonPaletteUser)
+			{
+				if (FinishedYearMonth.HasValue)
+				{
+					if (FinishedYearMonth.Value == ym - 1)
+					{
+						// 前月終了ユーザー
+						if (-1 != SystemName.IndexOf("palette"))
+						{
+							return true;
+						}
+					}
+				}
+			}
+			return false;
+		}
 
-		//public static string[] ToTitleArray()
+		///// <summary>
+		///// 翌月非paletteユーザーかどうか？
+		///// </summary>
+		///// <param name="ym">当月</param>
+		///// <returns>判定</returns>
+		//public bool IsNextMonthNonPaletteUser(YearMonth ym)
 		//{
-		//	List<string> list = new List<string>();
-		//	list.Add("顧客No");
-		//	list.Add("得意先No");
-		//	list.Add("顧客名");
-		//	list.Add("レセコン名称");
-		//	list.Add("拠点コード");
-		//	list.Add("拠点名");
-		//	list.Add("都道府県名");
-		//	list.Add("終了事由");
-		//	list.Add("リプレース");
-		//	list.Add("理由");
-		//	list.Add("コメント");
-		//	list.Add("有効ユーザーフラグ");
-		//	list.Add("除外");
-		//	list.Add("販売店ID");
-		//	list.Add("販売店名称");
-		//	list.Add("終了月");
-		//	return list.ToArray();
+		//	if (false == FinishedUser && true == NonPaletteUser)
+		//	{
+		//		if (FinishedYearMonth.HasValue)
+		//		{
+		//			if (FinishedYearMonth.Value == ym + 1)
+		//			{
+		//				// 翌月非paletteユーザー
+		//				return true;
+		//			}
+		//		}
+		//	}
+		//	return false;
 		//}
 
-
-		//public string[] ToStringArray()
+		///// <summary>
+		///// 前月非paletteユーザーかどうか？
+		///// </summary>
+		///// <param name="ym">当月</param>
+		///// <returns>判定</returns>
+		//public bool IsPrevMonthNonPaletteUser(YearMonth ym)
 		//{
-		//	List<string> list = new List<string>();
-		//	list.Add(CostomerID);
-		//	list.Add(TokuisakiNo);
-		//	list.Add(SystemName);
-		//	list.Add(AreaCode);
-		//	list.Add(AreaName);
-		//	list.Add(KenName);
-		//	list.Add(FinishedReason);
-		//	list.Add(Replace);
-		//	list.Add(Reason);
-		//	list.Add(Comment);
-		//	list.Add(EnableUserFlag.ToString());
-		//	list.Add(Expcet);
-		//	list.Add(HanbaitenID);
-		//	list.Add(HanbaitenName);
-		//	list.Add(FinishedYearMonth.ToString());
-		//	list.Add("");
-		//	return list.ToArray();
+		//	if (false == FinishedUser && true == NonPaletteUser)
+		//	{
+		//		if (FinishedYearMonth.HasValue)
+		//		{
+		//			if (FinishedYearMonth.Value == ym - 1)
+		//			{
+		//				// 前月非paletteユーザー
+		//				return true;
+		//			}
+		//		}
+		//	}
+		//	return false;
 		//}
 	}
 }

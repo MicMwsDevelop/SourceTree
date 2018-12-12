@@ -39,6 +39,7 @@
 			// 
 			// dataGridViewFinishedUser
 			// 
+			this.dataGridViewFinishedUser.AllowUserToAddRows = false;
 			this.dataGridViewFinishedUser.AllowUserToDeleteRows = false;
 			this.dataGridViewFinishedUser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -52,6 +53,7 @@
 			this.dataGridViewFinishedUser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewFinishedUser.Size = new System.Drawing.Size(1239, 810);
 			this.dataGridViewFinishedUser.TabIndex = 3;
+			this.dataGridViewFinishedUser.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewFinishedUser_DataBindingComplete);
 			this.dataGridViewFinishedUser.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewFinishedUser_MouseDoubleClick);
 			// 
 			// buttonSearch
@@ -93,6 +95,7 @@
 			this.textBoxCount.ReadOnly = true;
 			this.textBoxCount.Size = new System.Drawing.Size(100, 23);
 			this.textBoxCount.TabIndex = 7;
+			this.textBoxCount.TabStop = false;
 			this.textBoxCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// label2

@@ -1,10 +1,23 @@
-﻿using System.Data;
+﻿//
+// EntryFinishedUserGetIO.cs
+//
+// 終了ユーザー管理 データ取得クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/12/12 勝呂)
+// 
+using System.Data;
 using System.Data.SqlClient;
 
 namespace MwsLib.DB.SqlServer.EntryFinishedUser
 {
 	public static class EntryFinishedUserGetIO
 	{
+		//////////////////////////////////////////////////////////////////
+		/// JunpDB
+		//////////////////////////////////////////////////////////////////
+
 		/// <summary>
 		/// 終了ユーザー情報の取得
 		/// </summary>
@@ -113,6 +126,54 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 									+ " FROM [tMikコードマスタ]"
 									+ " WHERE [tMikコードマスタ].fcm名称 Not Like '%不可%' AND [tMikコードマスタ].fcmコード <> '001' AND [tMikコードマスタ].fcmコード種別 = '30'"
 									+ " ORDER BY [tMikコードマスタ].fcmコード ASC";
+					using (SqlCommand cmd = new SqlCommand(strSQL, con))
+					{
+						using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+						{
+							result = new DataTable();
+							da.Fill(result);
+						}
+					}
+				}
+				catch
+				{
+					throw;
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+
+		//////////////////////////////////////////////////////////////////
+		/// CharlieDB
+		//////////////////////////////////////////////////////////////////
+
+		/// <summary>
+		/// 課金対象外フラグの取得
+		/// </summary>
+		/// <param name="customerID">顧客No</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>リプレース先メーカーリスト</returns>
+		public static DataTable GetPauseEndStatus(int customerID, bool sqlsv2)
+		{
+			DataTable result = null;
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(sqlsv2)))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					string strSQL = string.Format(@"SELECT SERVICE_ID FROM T_CUSSTOMER_USE_INFOMATION AS CUI LEFT JOIN vMic_MWSサービス一覧 AS SV ON CUI.[SERVICE_ID] = SV.サービスコード"
+													+ " WHERE CUSTOMER_ID = {0} AND (SV.商品区分 = 201 OR SV.商品区分 = 214) AND DELETE_FLG = '0' AND PAUSE_END_STATUS = '0'", customerID);
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
 						using (SqlDataAdapter da = new SqlDataAdapter(cmd))

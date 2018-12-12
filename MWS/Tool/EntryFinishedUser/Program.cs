@@ -1,10 +1,20 @@
-﻿using System;
-using System.Windows.Forms;
-using MwsLib.Common;
+﻿//
+// Program.cs
+//
+// 終了ユーザー管理プログラムクラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/12/12 勝呂)
+// 
+using EntryFinishedUser.Mail;
 using MwsLib.BaseFactory.EntryFinishedUser;
+using MwsLib.Common;
 using MwsLib.DB.SqlServer.EntryFinishedUser;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace EntryFinishedUser
 {
@@ -21,9 +31,20 @@ namespace EntryFinishedUser
 			Menu = 0,
 
 			/// <summary>
-			/// 終了ユーザーメール送信
+			/// 月末処理
+			/// タイミング：翌月初日のMWS課金データ作成実行前に行う
+			/// ①課金対象外フラグＯＦＦ
+			/// ②終了予定ユーザーリストメール送信
 			/// </summary>
-			SendMail = 1,
+			EndMonth = 1,
+
+			/// <summary>
+			/// 月初処理
+			/// タイミング：当月初日のMWS課金データ作成実行後に行う
+			/// ①終了ユーザー設定
+			/// ②終了ユーザーリストメール送信
+			/// </summary>
+			BeginMonth = 2,
 		}
 
 		/// <summary>
@@ -34,7 +55,7 @@ namespace EntryFinishedUser
 		/// <summary>
 		/// データベース接続先 CT環境
 		/// </summary>
-		public const bool DATABACE_ACCEPT_CT = true;
+		public static bool DATABACE_ACCEPT_CT = true;
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -53,7 +74,11 @@ namespace EntryFinishedUser
 			{
 				if ("1" == cmds[1])
 				{
-					BootType = ProgramBootType.SendMail;
+					BootType = ProgramBootType.EndMonth;
+				}
+				else if ("2" == cmds[1])
+				{
+					BootType = ProgramBootType.BeginMonth;
 				}
 				if (3 == cmds.Length)
 				{
@@ -66,21 +91,87 @@ namespace EntryFinishedUser
 				case ProgramBootType.Menu:
 					Application.Run(new Forms.MainForm());
 					break;
-				// 終了ユーザーメール送信
-				case ProgramBootType.SendMail:
-					Program.SendMail(today);
+				// 月末処理
+				case ProgramBootType.EndMonth:
+					Program.EndMonth(today);
+					break;
+				// 月初処理
+				case ProgramBootType.BeginMonth:
+					Program.BeginMonth(today);
 					break;
 			}
 		}
 
-		private static void SendMail(Date date)
+		/// <summary>
+		/// 月末処理
+		/// ①課金対象外フラグＯＦＦ
+		/// ②終了予定ユーザーリストメール送信
+		/// </summary>
+		/// <param name="date"></param>
+		private static void EndMonth(Date date)
 		{
 			List<EntryFinishedUserData> work = EntryFinishedUserAccess.GetEntryFinishedUserDataList(DATABACE_ACCEPT_CT);
-			List<EntryFinishedUserData> list = work.Where(p => true == p.IsFinishedUser(date.ToYearMonth())).ToList();
-			if (0 < list.Count)
-			{
-				
 
+			YearMonth thisMonth = date.ToYearMonth();
+			List<EntryFinishedUserData> paletteFinishedList = work.Where(p => true == p.IsNextMonthFinishedUserByPalette(thisMonth)).ToList();
+			if (0 < paletteFinishedList.Count)
+			{
+				// 翌月終了ユーザー（palette）
+				// ①課金対象外フラグＯＦＦ
+				List<Tuple<int, int>> list = new List<Tuple<int, int>>();
+				foreach (EntryFinishedUserData user in paletteFinishedList)
+				{
+					List<int> svList = EntryFinishedUserAccess.GetPauseEndStatus(user.CustomerID, DATABACE_ACCEPT_CT);
+					foreach (int sv in svList)
+					{
+						list.Add(new Tuple<int, int>(user.CustomerID, sv));
+					}
+				}
+				if (!DATABACE_ACCEPT_CT)
+				{
+					EntryFinishedUserSetIO.UpdatePauseEndStatus(list, DATABACE_ACCEPT_CT);
+				}
+				if (0 < list.Count)
+				{
+					// ②終了予定ユーザーリストメール送信
+					SendMailControl.SendEigyoKanriMail(paletteFinishedList, false);
+				}
+			}
+			List<EntryFinishedUserData> oldSystemFinishedList = work.Where(p => true == p.IsNextMonthFinishedUserByOldSystem(thisMonth)).ToList();
+			if (0 < oldSystemFinishedList.Count)
+			{
+				// 翌月終了ユーザー（旧システム）
+				// ①終了ユーザー設定
+				if (!DATABACE_ACCEPT_CT)
+				{
+					EntryFinishedUserSetIO.UpdateClientEndFlag(oldSystemFinishedList, DATABACE_ACCEPT_CT);
+				}
+				// ②終了ユーザーリストメール送信
+				SendMailControl.SendEigyoKanriMail(oldSystemFinishedList, true);
+			}
+		}
+
+		/// <summary>
+		/// 月初処理
+		/// ①終了ユーザー設定
+		/// ②終了ユーザーリストメール送信
+		/// </summary>
+		/// <param name="date"></param>
+		private static void BeginMonth(Date date)
+		{
+			List<EntryFinishedUserData> work = EntryFinishedUserAccess.GetEntryFinishedUserDataList(DATABACE_ACCEPT_CT);
+
+			YearMonth thisMonth = date.ToYearMonth();
+			List<EntryFinishedUserData> finishedList = work.Where(p => true == p.IsPrevMonthFinishedUserByPalette(thisMonth)).ToList();
+			if (0 < finishedList.Count)
+			{
+				// 前月終了ユーザー
+				if (!DATABACE_ACCEPT_CT)
+				{
+					EntryFinishedUserSetIO.UpdateClientEndFlag(finishedList, DATABACE_ACCEPT_CT);
+				}
+				// ②終了ユーザーリストメール送信
+				SendMailControl.SendEigyoKanriMail(finishedList, true);
 			}
 		}
 	}

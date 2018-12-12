@@ -57,6 +57,7 @@
 			this.dataGridViewMail.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewMail.Size = new System.Drawing.Size(1235, 667);
 			this.dataGridViewMail.TabIndex = 6;
+			this.dataGridViewMail.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewMail_DataBindingComplete);
 			// 
 			// groupBox1
 			// 
@@ -153,6 +154,7 @@
 			this.textBoxCount.ReadOnly = true;
 			this.textBoxCount.Size = new System.Drawing.Size(100, 23);
 			this.textBoxCount.TabIndex = 5;
+			this.textBoxCount.TabStop = false;
 			this.textBoxCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// label2

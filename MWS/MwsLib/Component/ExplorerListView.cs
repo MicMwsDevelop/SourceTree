@@ -31,43 +31,36 @@ namespace MwsLib.Component
 
 		private void init()
 		{
-			//Items.Clear();
-			shellNamespaceManager = new ShellNamespaceManager();
-			CreateDetailsColumn();
-
-		}
-
-		public void UIInit()
-		{
 			systemImageList_Normal = new SystemImageList(false, SystemImageList.SystemIconSize.ExtraLarge);
 			systemImageList_Normal.ListViewSetImageList(this.Handle, SystemImageList.ListViewIconSetMode.Normal);
-
 			systemImageList_Small = new SystemImageList(false, SystemImageList.SystemIconSize.Small);
 			systemImageList_Small.ListViewSetImageList(this.Handle, SystemImageList.ListViewIconSetMode.Small);
+			shellNamespaceManager = new ShellNamespaceManager();
+			CreateDetailsColumn();
+		}
 
+		public void UIInit(string rootPath)
+		{
 			if (DesignMode == false)
 			{
-				LoadDesktopFolder();
+				LoadDesktopFolder(rootPath);
 			}
 		}
 
-		private void LoadDesktopFolder()
+		private void LoadDesktopFolder(string rootPath)
 		{
-			ShellItem m_shDesktop = shellNamespaceManager.GetDesktopShellItem();
+			base.Items.Clear();
+
+			//ShellItem m_shDesktop = shellNamespaceManager.GetDesktopShellItem();
+			ShellItem m_shDesktop = shellNamespaceManager.GetShellItemFromFilePath(rootPath);
 
 			List<ShellItem> itemList = m_shDesktop.GetSubItems(true);
-
-			this.Items.Clear();
-
 			foreach (ShellItem si in itemList)
 			{
 				ListViewItem lvItem = new ListViewItem();
 				lvItem.Text = si.DisplayName;
 				lvItem.ImageIndex = si.IconIndex;
-				//lvItem.SelectedImageIndex = m_shDesktop.IconIndex;
 				lvItem.Tag = si;
-
-
 				m_shDesktop.GetData(si);
 
 				if ((si.IsStream == true && si.IsFileSystem == true) || (si.IsFolder == true && si.IsFileSystem == true))
@@ -85,14 +78,8 @@ namespace MwsLib.Component
 				{
 					lvItem.SubItems.Add("");
 				}
-
-
-
-				//lvItem.SubItems.Add(si.LastWriteTime.ToString("yyyy-MM-dd HH:mm"));
 				lvItem.SubItems.Add(si.TypeName);
 				lvItem.SubItems.Add(FileSizeToString(si.FileSize));
-
-				//lvItem.SubItems.Add(si.);
 				this.Items.Add(lvItem);
 			}
 		}
@@ -136,33 +123,24 @@ namespace MwsLib.Component
 				}
 				catch (Exception exc)
 				{
+					System.Windows.Forms.MessageBox.Show(exc.Message);
 					return;
 				}
-
 				FillItem(itemList, ssi);
 			}
 		}
 
 		private void FillItem(List<ShellItem> itemList, ShellItem parentShellItem)
 		{
-			this.Items.Clear();
+			base.Items.Clear();
 
 			foreach (ShellItem si in itemList)
 			{
 				ListViewItem lvItem = new ListViewItem();
 				lvItem.Text = si.DisplayName;
 				lvItem.ImageIndex = si.IconIndex;
-				//lvItem.SelectedImageIndex = m_shDesktop.IconIndex;
 				lvItem.Tag = si;
-
-
-				//WindowsAPI.WIN32_FIND_DATA findData = parentShellItem.GetData(si.PIDL_Relative);
-				//System.Diagnostics.Debug.WriteLine(findData.ftCreationTime);
-				//System.Runtime.InteropServices.FILETIME
-
-				//DateTime dt = DateTime.FromFileTime(findData.ftCreationTime);
 				parentShellItem.GetData(si);
-
 				if (si.IsStream == true || si.IsFolder == true)
 				{
 					if (si.LastAccessTime == DateTime.MinValue)
@@ -178,23 +156,18 @@ namespace MwsLib.Component
 				{
 					lvItem.SubItems.Add("");
 				}
-
 				lvItem.SubItems.Add(si.TypeName);
 				lvItem.SubItems.Add(FileSizeToString(si.FileSize));
-
-				this.Items.Add(lvItem);
-
+				base.Items.Add(lvItem);
 			}
-
 		}
 
 		protected virtual void CreateDetailsColumn()
 		{
-			Columns.Add("名前");
-			Columns.Add("更新日時");
-			Columns.Add("種類");
-			Columns.Add("サイズ");
-
+			base.Columns.Add("名前");
+			base.Columns.Add("更新日時");
+			base.Columns.Add("種類");
+			base.Columns.Add("サイズ");
 		}
 
 		private string FileSizeToString(long FileSize)

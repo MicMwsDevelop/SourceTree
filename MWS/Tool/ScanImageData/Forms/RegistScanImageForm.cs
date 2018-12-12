@@ -42,6 +42,11 @@ namespace ScanImageData.Forms
 			radioButtonUser.Checked = true;
 		}
 
+		/// <summary>
+		/// スキャンデータファイルダブルクリック
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void explorerListViewScanImage_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			if (null == explorerTreeViewScanImage.SelectedNode)
@@ -49,14 +54,17 @@ namespace ScanImageData.Forms
 				return;
 			}
 			ExplorerListView targetItem = (ExplorerListView)sender;
-			string ext = Path.GetExtension(targetItem.Items[0].Text);
-			if (0 <= ext.Length)
+			if (0 < targetItem.SelectedItems.Count)
 			{
-				TreeNode node = explorerTreeViewScanImage.SelectedNode;
-				string path = Path.Combine(Directory.GetParent(ScanDataImageFolder).ToString(), node.FullPath);
-				using (DisplayScanImageForm form = new DisplayScanImageForm(Path.Combine(path, targetItem.Items[0].Text)))
+				ListViewItem item = explorerListViewScanImage.SelectedItems[0];
+				ShellItem si = item.Tag as ShellItem;
+				string ext = Path.GetExtension(si.Path);
+				if (0 <= ext.Length)
 				{
-					form.ShowDialog();
+					using (DisplayScanImageForm form = new DisplayScanImageForm(si.Path))
+					{
+						form.ShowDialog();
+					}
 				}
 			}
 		}
@@ -68,14 +76,11 @@ namespace ScanImageData.Forms
 		/// <param name="e"></param>
 		private void radioButtonUser_CheckedChanged(object sender, EventArgs e)
 		{
-			explorerTreeViewScanImage.Nodes.Clear();
-			explorerListViewScanImage.Items.Clear();
-
 			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderUser);
 			explorerTreeViewScanImage.UIInit(ScanDataImageFolder);
-			explorerListViewScanImage.UIInit();
+			explorerListViewScanImage.UIInit(ScanDataImageFolder);
 
-			explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
+			//explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
 		}
 
 		/// <summary>
@@ -85,14 +90,11 @@ namespace ScanImageData.Forms
 		/// <param name="e"></param>
 		private void radioButtonMainte_CheckedChanged(object sender, EventArgs e)
 		{
-			explorerTreeViewScanImage.Nodes.Clear();
-			explorerListViewScanImage.Items.Clear();
-
 			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderMainte);
 			explorerTreeViewScanImage.UIInit(ScanDataImageFolder);
-			explorerListViewScanImage.UIInit();
+			explorerListViewScanImage.UIInit(ScanDataImageFolder);
 
-			explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
+			//explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
 		}
 
 		/// <summary>
@@ -102,14 +104,11 @@ namespace ScanImageData.Forms
 		/// <param name="e"></param>
 		private void radioButtonAccountTransfer_CheckedChanged(object sender, EventArgs e)
 		{
-			explorerTreeViewScanImage.Nodes.Clear();
-			explorerListViewScanImage.Items.Clear();
-
 			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderAccountTransfer);
 			explorerTreeViewScanImage.UIInit(ScanDataImageFolder);
-			explorerListViewScanImage.UIInit();
+			explorerListViewScanImage.UIInit(ScanDataImageFolder);
 
-			explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
+			//explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
 		}
 
 		/// <summary>
@@ -119,14 +118,11 @@ namespace ScanImageData.Forms
 		/// <param name="e"></param>
 		private void radioButtonTransaction_CheckedChanged(object sender, EventArgs e)
 		{
-			explorerTreeViewScanImage.Nodes.Clear();
-			explorerListViewScanImage.Items.Clear();
-
 			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderTransaction);
 			explorerTreeViewScanImage.UIInit(ScanDataImageFolder);
-			explorerListViewScanImage.UIInit();
+			explorerListViewScanImage.UIInit(ScanDataImageFolder);
 
-			explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
+			//explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
 		}
 
 		/// <summary>
@@ -136,14 +132,11 @@ namespace ScanImageData.Forms
 		/// <param name="e"></param>
 		private void radioButtonConsent_CheckedChanged(object sender, EventArgs e)
 		{
-			explorerTreeViewScanImage.Nodes.Clear();
-			explorerListViewScanImage.Items.Clear();
-
 			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderConsent);
 			explorerTreeViewScanImage.UIInit(ScanDataImageFolder);
-			explorerListViewScanImage.UIInit();
+			explorerListViewScanImage.UIInit(ScanDataImageFolder);
 
-			explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
+			//explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
 		}
 	}
 }

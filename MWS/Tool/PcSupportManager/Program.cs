@@ -151,8 +151,11 @@ namespace PcSupportManager
 							if (false == CompanyHoliday.IsHoliday(today))
 							{
 								Program.SendStartMail(today);
-								xml.StartMailPrevExecDate = today.ToDateTime();
-								PcSupportManagerSettingsIF.SetPcSupportManagerSettings(xml);
+								if (!DebugMode)
+								{
+									xml.StartMailPrevExecDate = today.ToDateTime();
+									PcSupportManagerSettingsIF.SetPcSupportManagerSettings(xml);
+								}
 							}
 						}
 					}
@@ -167,8 +170,11 @@ namespace PcSupportManager
 							if (false == CompanyHoliday.IsHoliday(today))
 							{
 								Program.SendUpdateMail(today);
-								xml.UpdatteMailPrevExecDate = today.ToDateTime();
-								PcSupportManagerSettingsIF.SetPcSupportManagerSettings(xml);
+								if (!DebugMode)
+								{
+									xml.UpdatteMailPrevExecDate = today.ToDateTime();
+									PcSupportManagerSettingsIF.SetPcSupportManagerSettings(xml);
+								}
 							}
 						}
 					}

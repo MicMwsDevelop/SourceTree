@@ -1,4 +1,13 @@
-﻿using MwsLib.BaseFactory.EntryFinishedUser;
+﻿//
+// EntryFinishedUserController.cs
+//
+// 終了ユーザー管理 データ詰め替えクラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/12/12 勝呂)
+// 
+using MwsLib.BaseFactory.EntryFinishedUser;
 using MwsLib.Common;
 using System.Collections.Generic;
 using System.Data;
@@ -7,6 +16,10 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 {
 	public static class EntryFinishedUserController
 	{
+		//////////////////////////////////////////////////////////////////
+		/// JunpDB
+		//////////////////////////////////////////////////////////////////
+
 		/// <summary>
 		/// 終了ユーザー情報の詰め替え
 		/// </summary>
@@ -22,7 +35,7 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 				{
 					EntryFinishedUserData entry = new BaseFactory.EntryFinishedUser.EntryFinishedUserData();
 					entry.TokuisakiNo = row["得意先No"].ToString();
-					entry.CostomerID = row["顧客No"].ToString();
+					entry.CustomerID = DataBaseValue.ConvObjectToInt(row["顧客No"]);
 					entry.UserName = row["顧客名"].ToString();
 					entry.SystemName = row["システム名"].ToString();
 					entry.AreaCode = row["拠点コード"].ToString();
@@ -46,7 +59,7 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 					{
 						entry.AcceptDate = workDate;
 					}
-					entry.NonPaletteUser = DataBaseValue.ConvObjectToBool(row["非paletteユーザー"]);
+					entry.NonPaletteUser = ("0" == row["非paletteユーザー"].ToString()) ? false : true;
 					entry.FinishedUser = ("0" == row["終了フラグ"].ToString()) ? false : true;
 
 					result.Add(entry);
@@ -68,7 +81,7 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 				{
 					EntryFinishedUserData entry = new EntryFinishedUserData();
 					entry.TokuisakiNo = table.Rows[0]["得意先No"].ToString();
-					entry.CostomerID = table.Rows[0]["顧客No"].ToString();
+					entry.CustomerID = DataBaseValue.ConvObjectToInt(table.Rows[0]["顧客No"]);
 					entry.UserName = table.Rows[0]["顧客名"].ToString();
 					entry.SystemName = table.Rows[0]["レセコン名称"].ToString();
 					entry.AreaCode = table.Rows[0]["拠点コード"].ToString();
@@ -97,6 +110,30 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 				foreach (DataRow row in table.Rows)
 				{
 					result.Add(row["fcm名称"].ToString());
+				}
+			}
+			return result;
+		}
+
+
+		//////////////////////////////////////////////////////////////////
+		/// CharlieDB
+		//////////////////////////////////////////////////////////////////
+
+		/// <summary>
+		/// 課金対象外フラグの取得
+		/// </summary>
+		/// <param name="table">DataTable</param>
+		/// <returns>リプレース先メーカーリスト</returns>
+		public static List<int> ConvertPauseEndStatus(DataTable table)
+		{
+			List<int> result = null;
+			if (null != table)
+			{
+				result = new List<int>();
+				foreach (DataRow row in table.Rows)
+				{
+					result.Add(DataBaseValue.ConvObjectToInt(row["SERVICE_ID"]));
 				}
 			}
 			return result;
