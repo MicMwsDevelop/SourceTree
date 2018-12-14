@@ -32,9 +32,9 @@ namespace MwsLib.Component
 		private void init()
 		{
 			systemImageList_Normal = new SystemImageList(false, SystemImageList.SystemIconSize.ExtraLarge);
-			systemImageList_Normal.ListViewSetImageList(this.Handle, SystemImageList.ListViewIconSetMode.Normal);
+			systemImageList_Normal.ListViewSetImageList(base.Handle, SystemImageList.ListViewIconSetMode.Normal);
 			systemImageList_Small = new SystemImageList(false, SystemImageList.SystemIconSize.Small);
-			systemImageList_Small.ListViewSetImageList(this.Handle, SystemImageList.ListViewIconSetMode.Small);
+			systemImageList_Small.ListViewSetImageList(base.Handle, SystemImageList.ListViewIconSetMode.Small);
 			shellNamespaceManager = new ShellNamespaceManager();
 			CreateDetailsColumn();
 		}
@@ -49,12 +49,12 @@ namespace MwsLib.Component
 
 		private void LoadDesktopFolder(string rootPath)
 		{
-			base.Items.Clear();
-
 			//ShellItem m_shDesktop = shellNamespaceManager.GetDesktopShellItem();
 			ShellItem m_shDesktop = shellNamespaceManager.GetShellItemFromFilePath(rootPath);
 
 			List<ShellItem> itemList = m_shDesktop.GetSubItems(true);
+
+			base.Items.Clear();
 			foreach (ShellItem si in itemList)
 			{
 				ListViewItem lvItem = new ListViewItem();
@@ -80,7 +80,7 @@ namespace MwsLib.Component
 				}
 				lvItem.SubItems.Add(si.TypeName);
 				lvItem.SubItems.Add(FileSizeToString(si.FileSize));
-				this.Items.Add(lvItem);
+				base.Items.Add(lvItem);
 			}
 		}
 

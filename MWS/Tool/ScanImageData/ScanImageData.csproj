@@ -73,6 +73,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\ScanImageDataSettings.cs" />
+    <Compile Include="Settings\ScanImageDataSettingsIF.cs" />
     <EmbeddedResource Include="Forms\DisplayScanImageForm.resx">
       <DependentUpon>DisplayScanImageForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -133,6 +135,12 @@
       <Isolated>False</Isolated>
     </COMReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="ScanImageDataSettings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

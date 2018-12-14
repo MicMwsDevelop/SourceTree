@@ -1,4 +1,13 @@
-﻿using System;
+﻿//
+// Program.cs
+// 
+// 文書インデックス管理 プログラムクラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/12/13 勝呂)
+//
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +17,7 @@ using MwsLib.DB.SqlServer.ScanImageData;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Text;
+using ScanImageData.Settings;
 
 namespace ScanImageData
 {
@@ -66,19 +76,25 @@ namespace ScanImageData
 					bootType = ProgramBootType.Remake;
 				}
 			}
+			ScanImageDataSettings settings = ScanImageDataSettingsIF.GetScanImageDataSettings();
+			string scanPath = settings.ScanImageDataPath;
+			if (DATABACE_ACCEPT_CT)
+			{
+				scanPath = settings.TestScanImageDataPath;
+			}
 			switch (bootType)
 			{
 				// メイン画面起動
 				case ProgramBootType.Menu:
-					//Application.Run(new Forms.MainForm());
-					Application.Run(new Forms.RegistScanImageForm(@"D:\_●営業管理部\●文書インデックス\ScanImageData"));
+					//Application.Run(new Forms.MainForm(scanPath));
+					Application.Run(new Forms.RegistScanImageForm(scanPath));
 					//Application.Run(new Forms.DisplayScanImageForm(@"D:\_●営業管理部\●文書インデックス\ScanImageData\【終了届】㈱TMP.PDF"));
 					//Application.Run(new Forms.DisplayScanImageForm(@"D:\_●営業管理部\●文書インデックス\ScanImageData\口座振替申込書010003.tif"));
 					break;
 				// スキャンデータ登録情報の再作成
 				case ProgramBootType.Remake:
 					string msg;
-					RemakeScanImageData("", out msg);
+					RemakeScanImageData(scanPath, out msg);
 					break;
 			}
 		}

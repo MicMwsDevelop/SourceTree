@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScanImageDataSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ScanImageDataPath>C:\data保存\ScanImageData</ScanImageDataPath>
+  <TestScanImageDataPath>D:\_●営業管理部\●文書インデックス\ScanImageData</TestScanImageDataPath>
+</ScanImageDataSettings>

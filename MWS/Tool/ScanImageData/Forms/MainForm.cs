@@ -1,4 +1,13 @@
-﻿using System;
+﻿//
+// MainForm.cs
+// 
+// 文書インデックス管理 メイン画面
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/12/13 勝呂)
+//
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,10 +24,16 @@ namespace ScanImageData.Forms
 {
 	public partial class MainForm : Form
 	{
-		public MainForm()
+		private MainForm()
 		{
 			InitializeComponent();
 
+		}
+
+		public MainForm(string scanPath)
+		{
+			InitializeComponent();
+			textBoxScanImageDataPath.Text = scanPath;
 		}
 
 		/// <summary>
@@ -28,9 +43,6 @@ namespace ScanImageData.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			textBoxScanImageDataPath.Text = @"D:\_●営業管理部\●文書インデックス\ScanImageData";
-			//textBoxScanImageDataPath.Text = @"\\sqlsv\data保存\ScanImageData";
-
 		}
 
 		/// <summary>

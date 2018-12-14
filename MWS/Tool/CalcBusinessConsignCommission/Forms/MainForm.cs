@@ -189,7 +189,7 @@ namespace CalcBusinessConsignCommission.Forms
 					// PCA仕入データの読込み
 					try
 					{
-						using (var sr = new StreamReader(StockData.STOCK_FILENAME, Encoding.GetEncoding("Shift_JIS")))
+						using (var sr = new StreamReader(dlg.FileName/*StockData.STOCK_FILENAME*/, Encoding.GetEncoding("Shift_JIS")))
 						{
 							while (!sr.EndOfStream)
 							{

@@ -1,4 +1,13 @@
-﻿using System;
+﻿//
+// DisplayScanImageForm.cs
+// 
+// スキャナーイメージの表示画面クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/12/13 勝呂)
+//
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;

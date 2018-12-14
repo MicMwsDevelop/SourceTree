@@ -148,6 +148,12 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>set fname_new=PcSupportManagerTool$(TargetExt)
+"$(SolutionDir)..\..\DevelopmentKit\ILMerge\ILMerge" /ndebug /out:%25fname_new%25 $(TargetFileName) MwsLib.dll DataGridViewAutoFilter.dll /targetplatform:v4,"%25ProgramFiles%25\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0"
+if "$(ConfigurationName)" == "Release" copy %25fname_new%25 ..\..\..\..\_TOOL
+if "$(ConfigurationName)" == "Debug" copy %25fname_new%25 ..\..\..\..\_TOOL\Debug</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

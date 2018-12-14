@@ -1,0 +1,16 @@
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\bin\Release\CalcBusinessConsignCommission.exe.config
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\bin\Release\CalcBusinessConsignCommission.exe
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\bin\Release\CalcBusinessConsignCommission.pdb
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\bin\Release\MwsLib.dll
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\bin\Release\System.Net.Http.dll
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\bin\Release\JapaneseTextAlignment.dll
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\bin\Release\System.Data.SQLite.dll
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\bin\Release\MwsLib.pdb
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\bin\Release\System.Net.Http.xml
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Release\CalcBusinessConsignCommission.csprojResolveAssemblyReference.cache
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Release\CalcBusinessConsignCommission.Forms.MainForm.resources
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Release\CalcBusinessConsignCommission.Forms.OutputStockForm.resources
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Release\CalcBusinessConsignCommission.Properties.Resources.resources
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Release\CalcBusinessConsignCommission.csproj.GenerateResource.Cache
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Release\CalcBusinessConsignCommission.exe
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Release\CalcBusinessConsignCommission.pdb

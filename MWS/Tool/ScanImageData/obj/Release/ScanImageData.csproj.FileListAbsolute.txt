@@ -19,3 +19,6 @@ D:\SourceTree\MWS\Tool\ScanImageData\obj\Release\AxInterop.AcroPDFLib.dll
 D:\SourceTree\MWS\Tool\ScanImageData\obj\Release\ScanImageData.csproj.ResolveComReference.cache
 D:\SourceTree\MWS\Tool\ScanImageData\obj\Release\ScanImageData.Forms.DisplayScanImageForm.resources
 D:\SourceTree\MWS\Tool\ScanImageData\obj\Release\ScanImageData.Forms.RegistScanImageForm.resources
+D:\SourceTree\MWS\Tool\ScanImageData\bin\Release\ScanImageDataSettings.xml
+D:\SourceTree\MWS\Tool\ScanImageData\bin\Release\Interop.AcroPDFLib.dll
+D:\SourceTree\MWS\Tool\ScanImageData\bin\Release\AxInterop.AcroPDFLib.dll

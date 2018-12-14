@@ -1,4 +1,13 @@
-﻿using System;
+﻿//
+// RegistScanImageForm.cs
+// 
+// スキャナーイメージ登録画面
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/12/13 勝呂)
+//
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +21,9 @@ using MwsLib.BaseFactory.ScanImageData;
 
 namespace ScanImageData.Forms
 {
+	/// <summary>
+	/// スキャナーイメージ登録画面
+	/// </summary>
 	public partial class RegistScanImageForm : Form
 	{
 		public string ScanDataImagePath { get; set; }
