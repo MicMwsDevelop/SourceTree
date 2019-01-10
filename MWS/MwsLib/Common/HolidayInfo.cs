@@ -10,6 +10,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using MwsLib.Settings;
 
 namespace MwsLib.Common
 {
@@ -146,15 +147,12 @@ namespace MwsLib.Common
 		/// <summary>
 		/// 休日の設定
 		/// </summary>
-		/// <param name="weekly"></param>
-		/// <param name="nationalHoliday">祝日</param>
-		/// <param name="happyMonday">ハッピーマンデー</param>
-		/// <param name="specialHoliday">臨時休日</param>
-		public static void SetHoliday(string weekly, StringCollection nationalHoliday, StringCollection happyMonday, StringCollection specialHoliday)
+		/// <param name="settings">MIC休日環境設定</param>
+		public static void SetHoliday(MicHolidaySettings settings)
 		{
 			Empty();
 
-			string[] split = weekly.Split(',');
+			string[] split = settings.WeeklyHoliday.Split(',');
 			if (7 == split.Length)
 			{
 				Sunday = ("1" == split[0]) ? true : false;
@@ -165,7 +163,7 @@ namespace MwsLib.Common
 				Friday = ("1" == split[5]) ? true : false;
 				Saturday = ("1" == split[6]) ? true : false;
 			}
-			foreach (string str in nationalHoliday)
+			foreach (string str in settings.NationalHoliday)
 			{
 				HolidayInfo holiday = new HolidayInfo();
 				holiday.SetHoliday(str);
@@ -174,7 +172,7 @@ namespace MwsLib.Common
 			// ソート(昇順)
 			NationalHoliday.Sort(delegate (HolidayInfo hi1, HolidayInfo hi2) { return hi1.Year - hi2.Year; });
 
-			foreach (string str in happyMonday)
+			foreach (string str in settings.HappyMonday)
 			{
 				HolidayInfo holiday = new HolidayInfo();
 				holiday.SetHoliday(str);
@@ -183,7 +181,7 @@ namespace MwsLib.Common
 			// ソート(昇順)
 			HappyMonday.Sort(delegate (HolidayInfo hi1, HolidayInfo hi2) { return hi1.Year - hi2.Year; });
 
-			foreach (string str in specialHoliday)
+			foreach (string str in settings.SpecialHoliday)
 			{
 				HolidayInfo holiday = new HolidayInfo();
 				holiday.SetHoliday(str);

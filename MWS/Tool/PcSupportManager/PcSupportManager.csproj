@@ -134,16 +134,20 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="GuideMailTemplate.txt">
+    <Content Include="Mail\GuideMailTemplate.txt">
+      <Link>GuideMailTemplate.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="PcSupportManagerSettings.xml">
+    <Content Include="Settings\PcSupportManagerSettings.xml">
+      <Link>PcSupportManagerSettings.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="StartMailTemplate.txt">
+    <Content Include="Mail\StartMailTemplate.txt">
+      <Link>StartMailTemplate.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UpdateMailTemplate.txt">
+    <Content Include="Mail\UpdateMailTemplate.txt">
+      <Link>UpdateMailTemplate.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

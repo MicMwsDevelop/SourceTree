@@ -17,8 +17,9 @@ D:\SourceTree\MWS\Tool\PcSupportManager\obj\Release\PcSupportManager.csproj.Gene
 D:\SourceTree\MWS\Tool\PcSupportManager\obj\Release\PcSupportManager.exe
 D:\SourceTree\MWS\Tool\PcSupportManager\obj\Release\PcSupportManager.pdb
 D:\SourceTree\MWS\Tool\PcSupportManager\obj\Release\PcSupportManager.Forms.SendMailForm.resources
+D:\SourceTree\MWS\Tool\PcSupportManager\obj\Release\PcSupportManager.Forms.SoftMainteForm.resources
 D:\SourceTree\MWS\Tool\PcSupportManager\bin\Release\GuideMailTemplate.txt
+D:\SourceTree\MWS\Tool\PcSupportManager\bin\Release\PcSupportManagerSettings.xml
 D:\SourceTree\MWS\Tool\PcSupportManager\bin\Release\StartMailTemplate.txt
 D:\SourceTree\MWS\Tool\PcSupportManager\bin\Release\UpdateMailTemplate.txt
-D:\SourceTree\MWS\Tool\PcSupportManager\obj\Release\PcSupportManager.Forms.SoftMainteForm.resources
-D:\SourceTree\MWS\Tool\PcSupportManager\bin\Release\PcSupportManagerSettings.xml
+D:\SourceTree\MWS\Tool\PcSupportManager\bin\Release\MicHolidaySettings.xml

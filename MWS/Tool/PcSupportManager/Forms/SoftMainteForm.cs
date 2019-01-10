@@ -6,10 +6,10 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2018/11/19 勝呂)
+// Ver1.020 ソフト保守加入の条件を変更(2019/01/07 勝呂)
 // 
 using DataGridViewAutoFilter;
 using MwsLib.BaseFactory.PcSupportManager;
-using MwsLib.Common;
 using MwsLib.DB.SqlServer.PcSupportManager;
 using System;
 using System.Collections.Generic;
@@ -294,7 +294,8 @@ namespace PcSupportManager.Forms
 						SoftMaintenanceContract soft = SoftMaintenanceContractList.Find(p => p.CustomerNo == pc.CustomerNo);
 						if (null != soft)
 						{
-							if (soft.SetPcSupportControl(pc))
+							// Ver1.020 ソフト保守加入の条件を変更(2019/01/07 勝呂)
+							if (soft.SetPcSupportControl(pc, Program.SystemDate))
 							{
 								updateCount++;
 							}
@@ -306,7 +307,8 @@ namespace PcSupportManager.Forms
 						}
 						else
 						{
-							soft = new SoftMaintenanceContract(pc);
+							// Ver1.020 ソフト保守加入の条件を変更(2019/01/07 勝呂)
+							soft = new SoftMaintenanceContract(pc, Program.SystemDate);
 							addCount++;
 						}
 						try

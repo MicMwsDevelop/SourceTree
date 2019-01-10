@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2018/11/19 勝呂)
+// Ver1.020 ソフト保守加入の条件を変更(2019/01/07 勝呂)
 // 
 using MwsLib.Common;
 
@@ -76,10 +77,10 @@ namespace MwsLib.BaseFactory.PcSupportManager
 		/// コンストラクタ
 		/// </summary>
 		/// <param name="control">PC安心サポート管理情報</param>
-		public SoftMaintenanceContract(PcSupportControl control)
+		/// <param name="today">当日</param>
+		public SoftMaintenanceContract(PcSupportControl control, Date today)
 		{
 			CustomerNo = control.CustomerNo;
-			Subscription = false;
 			CollectionDate = control.OrderDate;
 			AgreeYear = control.AgreeYear;
 			Price = control.Price;
@@ -101,14 +102,25 @@ namespace MwsLib.BaseFactory.PcSupportManager
 			{
 				Remark1 = control.Remark;
 			}
+			// Ver1.020 ソフト保守加入の条件を変更(2019/01/07 勝呂)
+			Span span = new Span(StartYM.Value.ToDate(1), EndYM.Value.ToDate(EndYM.Value.GetDays()));
+			if (span.IsInside(today))
+			{
+				Subscription = true;
+			}
+			else
+			{
+				Subscription = false;
+			}
 		}
 
 		/// <summary>
 		/// PC安心サポート管理情報から格納
 		/// </summary>
 		/// <param name="PcSupportControl">PC安心サポート管理情報</param>
+		/// <param name="today">当日</param>
 		/// <returns>変更の可否</returns>
-		public bool SetPcSupportControl(PcSupportControl control)
+		public bool SetPcSupportControl(PcSupportControl control, Date today)
 		{
 			bool ret = false;
 			if (CollectionDate != control.OrderDate)
@@ -163,6 +175,21 @@ namespace MwsLib.BaseFactory.PcSupportManager
 					Remark1 = control.Remark;
 					ret = true;
 				}
+			}
+			// Ver1.020 ソフト保守加入の条件を変更(2019/01/07 勝呂)
+			bool saveSubscription = Subscription;
+			Span span = new Span(StartYM.Value.ToDate(1), EndYM.Value.ToDate(EndYM.Value.GetDays()));
+			if (span.IsInside(today))
+			{
+				Subscription = true;
+			}
+			else
+			{
+				Subscription = false;
+			}
+			if (saveSubscription != Subscription)
+			{
+				ret = true;
 			}
 			return ret;
 		}

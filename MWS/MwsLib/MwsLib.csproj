@@ -159,6 +159,8 @@
     <Compile Include="Print\PrintParaDef.cs" />
     <Compile Include="Print\PrintParaList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\MicHolidaySettings.cs" />
+    <Compile Include="Settings\MicHolidaySettingsIF.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -167,6 +169,12 @@
     <EmbeddedResource Include="Component\ExplorerTreeView.resx">
       <DependentUpon>ExplorerTreeView.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Settings\MicHolidaySettings.xml">
+      <Link>MicHolidaySettings.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

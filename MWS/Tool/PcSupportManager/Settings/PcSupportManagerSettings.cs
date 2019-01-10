@@ -40,26 +40,6 @@ namespace PcSupportManager.Settings
 		public DateTime? UpdatteMailPrevExecDate;
 
 		/// <summary>
-		/// 祝日
-		/// </summary>
-		public StringCollection NationalHoliday;
-
-		/// <summary>
-		/// ハッピーマンデー
-		/// </summary>
-		public StringCollection HappyMonday;
-
-		/// <summary>
-		/// 臨時休日
-		/// </summary>
-		public StringCollection SpecialHoliday;
-
-		/// <summary>
-		/// 休日
-		/// </summary>
-		public string WeeklyHoliday;
-
-		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public PcSupportManagerSettings()
@@ -68,10 +48,6 @@ namespace PcSupportManager.Settings
 			StartMailPrevExecDate = null;
 			UpdateMailExecDay = 0;
 			UpdatteMailPrevExecDate = null;
-			NationalHoliday = new StringCollection();
-			HappyMonday = new StringCollection();
-			SpecialHoliday = new StringCollection();
-			WeeklyHoliday = string.Empty;
 		}
 
 		/// <summary>
@@ -96,11 +72,7 @@ namespace PcSupportManager.Settings
 				if (StartMailExecDay == other.StartMailExecDay
 					&& StartMailPrevExecDate == other.StartMailPrevExecDate
 					&& UpdateMailExecDay == other.UpdateMailExecDay
-					&& UpdatteMailPrevExecDate == other.UpdatteMailPrevExecDate
-					&& NationalHoliday.Equals(other.NationalHoliday)
-					&& HappyMonday.Equals(other.HappyMonday)
-					&& SpecialHoliday.Equals(other.SpecialHoliday)
-					&& WeeklyHoliday == other.WeeklyHoliday)
+					&& UpdatteMailPrevExecDate == other.UpdatteMailPrevExecDate)
 				{
 					return true;
 				}

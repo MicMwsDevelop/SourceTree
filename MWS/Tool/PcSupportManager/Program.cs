@@ -6,18 +6,20 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2018/11/19 勝呂)
+// Ver1.020 ソフト保守加入の条件を変更(2019/01/07 勝呂)
 // 
 using MwsLib.BaseFactory.PcSupportManager;
 using MwsLib.Common;
 using MwsLib.DB.SqlServer.PcSupportManager;
 using MwsLib.Log;
+using MwsLib.Settings;
 using PcSupportManager.Mail;
+using PcSupportManager.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using PcSupportManager.Settings;
 
 namespace PcSupportManager
 {
@@ -72,7 +74,7 @@ namespace PcSupportManager
 		/// <summary>
 		/// デバッグモード
 		/// </summary>
-		public static bool DebugMode = true;
+		public static bool DebugMode = false;
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -88,7 +90,6 @@ namespace PcSupportManager
 			// コマンドライン引数を配列で取得する
 			BootType = ProgramBootType.Menu;
 			string[] cmds = Environment.GetCommandLineArgs();
-			Date today = Date.Today;
 			if (2 <= cmds.Length)
 			{
 				if ("1" == cmds[1])
@@ -105,7 +106,7 @@ namespace PcSupportManager
 				}
 				if (3 == cmds.Length)
 				{
-					today = Date.Parse(int.Parse(cmds[2]));
+					SystemDate = Date.Parse(int.Parse(cmds[2]));
 				}
 			}
 
@@ -139,21 +140,21 @@ namespace PcSupportManager
 					break;
 				// 製品サポート情報ソフト保守自動更新
 				case ProgramBootType.SoftMainte:
-					Program.SoftMainte(today);
+					Program.SoftMainte(SystemDate);
 					break;
 				// PC安心サポート開始メール自動送信
 				case ProgramBootType.SendStartMail:
 					{
 						PcSupportManagerSettings xml = PcSupportManagerSettingsIF.GetPcSupportManagerSettings();
-						if (xml.IsStartMailExec(today))
+						if (xml.IsStartMailExec(SystemDate))
 						{
-							CompanyHoliday.SetHoliday(xml.WeeklyHoliday, xml.NationalHoliday, xml.HappyMonday, xml.SpecialHoliday);
-							if (false == CompanyHoliday.IsHoliday(today))
+							CompanyHoliday.SetHoliday(MicHolidaySettingsIF.GetMicHolidaySettings());
+							if (false == CompanyHoliday.IsHoliday(SystemDate))
 							{
-								Program.SendStartMail(today);
+								Program.SendStartMail(SystemDate);
 								if (!DebugMode)
 								{
-									xml.StartMailPrevExecDate = today.ToDateTime();
+									xml.StartMailPrevExecDate = SystemDate.ToDateTime();
 									PcSupportManagerSettingsIF.SetPcSupportManagerSettings(xml);
 								}
 							}
@@ -164,15 +165,15 @@ namespace PcSupportManager
 				case ProgramBootType.SendUpdateMail:
 					{
 						PcSupportManagerSettings xml = PcSupportManagerSettingsIF.GetPcSupportManagerSettings();
-						if (xml.IsUpdateMailExec(today))
+						if (xml.IsUpdateMailExec(SystemDate))
 						{
-							CompanyHoliday.SetHoliday(xml.WeeklyHoliday, xml.NationalHoliday, xml.HappyMonday, xml.SpecialHoliday);
-							if (false == CompanyHoliday.IsHoliday(today))
+							CompanyHoliday.SetHoliday(MicHolidaySettingsIF.GetMicHolidaySettings());
+							if (false == CompanyHoliday.IsHoliday(SystemDate))
 							{
-								Program.SendUpdateMail(today);
+								Program.SendUpdateMail(SystemDate);
 								if (!DebugMode)
 								{
-									xml.UpdatteMailPrevExecDate = today.ToDateTime();
+									xml.UpdatteMailPrevExecDate = SystemDate.ToDateTime();
 									PcSupportManagerSettingsIF.SetPcSupportManagerSettings(xml);
 								}
 							}
@@ -225,7 +226,8 @@ namespace PcSupportManager
 					{
 						if (pc.IsOrderInfoCompleted(false))
 						{
-							if (soft.SetPcSupportControl(pc))
+							// Ver1.020 ソフト保守加入の条件を変更(2019/01/07 勝呂)
+							if (soft.SetPcSupportControl(pc, date))
 							{
 								if (!DebugMode)
 								{
@@ -248,7 +250,8 @@ namespace PcSupportManager
 					{
 						if (pc.IsOrderInfoCompleted(false))
 						{
-							soft = new SoftMaintenanceContract(pc);
+							// Ver1.020 ソフト保守加入の条件を変更(2019/01/07 勝呂)
+							soft = new SoftMaintenanceContract(pc, date);
 							if (!DebugMode)
 							{
 								try
