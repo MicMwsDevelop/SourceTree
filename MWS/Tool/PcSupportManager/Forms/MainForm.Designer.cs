@@ -34,11 +34,12 @@
 			this.dateTimePickerSystemDate = new System.Windows.Forms.DateTimePicker();
 			this.buttonSoftMainte = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
+			this.label2 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// buttonManagement
 			// 
-			this.buttonManagement.Location = new System.Drawing.Point(24, 37);
+			this.buttonManagement.Location = new System.Drawing.Point(24, 53);
 			this.buttonManagement.Name = "buttonManagement";
 			this.buttonManagement.Size = new System.Drawing.Size(313, 45);
 			this.buttonManagement.TabIndex = 2;
@@ -48,7 +49,7 @@
 			// 
 			// buttonSendMail
 			// 
-			this.buttonSendMail.Location = new System.Drawing.Point(24, 88);
+			this.buttonSendMail.Location = new System.Drawing.Point(24, 104);
 			this.buttonSendMail.Name = "buttonSendMail";
 			this.buttonSendMail.Size = new System.Drawing.Size(313, 45);
 			this.buttonSendMail.TabIndex = 3;
@@ -59,7 +60,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(22, 16);
+			this.label1.Location = new System.Drawing.Point(22, 32);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(79, 12);
 			this.label1.TabIndex = 0;
@@ -67,7 +68,7 @@
 			// 
 			// dateTimePickerSystemDate
 			// 
-			this.dateTimePickerSystemDate.Location = new System.Drawing.Point(107, 12);
+			this.dateTimePickerSystemDate.Location = new System.Drawing.Point(107, 28);
 			this.dateTimePickerSystemDate.Name = "dateTimePickerSystemDate";
 			this.dateTimePickerSystemDate.Size = new System.Drawing.Size(133, 19);
 			this.dateTimePickerSystemDate.TabIndex = 1;
@@ -75,7 +76,7 @@
 			// 
 			// buttonSoftMainte
 			// 
-			this.buttonSoftMainte.Location = new System.Drawing.Point(24, 139);
+			this.buttonSoftMainte.Location = new System.Drawing.Point(24, 155);
 			this.buttonSoftMainte.Name = "buttonSoftMainte";
 			this.buttonSoftMainte.Size = new System.Drawing.Size(313, 45);
 			this.buttonSoftMainte.TabIndex = 4;
@@ -85,19 +86,29 @@
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(250, 190);
+			this.buttonClose.Location = new System.Drawing.Point(250, 206);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(87, 45);
-			this.buttonClose.TabIndex = 5;
+			this.buttonClose.TabIndex = 6;
 			this.buttonClose.Text = "閉じる";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(22, 222);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(123, 12);
+			this.label2.TabIndex = 5;
+			this.label2.Text = "Ver 1030 (2019/01/21)";
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(361, 251);
+			this.ClientSize = new System.Drawing.Size(361, 265);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.buttonSoftMainte);
 			this.Controls.Add(this.dateTimePickerSystemDate);
@@ -124,6 +135,7 @@
 		private System.Windows.Forms.DateTimePicker dateTimePickerSystemDate;
 		private System.Windows.Forms.Button buttonSoftMainte;
 		private System.Windows.Forms.Button buttonClose;
+		private System.Windows.Forms.Label label2;
 	}
 }
 

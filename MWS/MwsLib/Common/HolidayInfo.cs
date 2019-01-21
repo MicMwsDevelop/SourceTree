@@ -7,10 +7,9 @@
 // 
 // Ver1.000 新規作成(2018/11/19 勝呂)
 // 
+using MwsLib.Settings;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using MwsLib.Settings;
 
 namespace MwsLib.Common
 {

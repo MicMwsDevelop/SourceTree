@@ -9,7 +9,6 @@
 //
 using MwsLib.Common;
 using System;
-using System.Collections.Specialized;
 
 namespace PcSupportManager.Settings
 {

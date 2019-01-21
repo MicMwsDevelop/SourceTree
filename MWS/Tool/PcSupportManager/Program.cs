@@ -7,6 +7,7 @@
 // 
 // Ver1.000 新規作成(2018/11/19 勝呂)
 // Ver1.020 ソフト保守加入の条件を変更(2019/01/07 勝呂)
+// Ver1.030 PC安心サポート管理情報に登録されている受注情報が存在しない時の処理を追加(2019/01/21 勝呂)
 // 
 using MwsLib.BaseFactory.PcSupportManager;
 using MwsLib.Common;

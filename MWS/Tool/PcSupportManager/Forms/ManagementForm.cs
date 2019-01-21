@@ -1,4 +1,14 @@
-﻿using DataGridViewAutoFilter;
+﻿//
+// ManagementForm.cs
+//
+// PC安心サポート管理情報登録画面
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/11/19 勝呂)
+// Ver1.030 PC安心サポート管理情報に登録されている受注情報が存在しない時の処理を追加(2019/01/21 勝呂)
+// 
+using DataGridViewAutoFilter;
 using MwsLib.BaseFactory.PcSupportManager;
 using MwsLib.DB.SqlServer.PcSupportManager;
 using System;
@@ -295,6 +305,14 @@ namespace PcSupportManager.Forms
 			{
 				int customerNo = (int)dataGridViewManager.CurrentRow.Cells[1].Value;
 				OrderInfo orderInfo = PcSupportManagerAccess.GetOrderInfo(customerNo);
+
+				// Ver1.030 PC安心サポート管理情報に登録されている受注情報が存在しない時の処理を追加(2019/01/21 勝呂)
+				if (null == orderInfo)
+				{
+					MessageBox.Show("登録されている受注情報が存在しません。", "受注情報読込エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+
 				string mailAddress = MainForm.GetCustomerMailAddress(customerNo);
 				bool modify = false;
 				if (control.IsUpdateOrderData(orderInfo, mailAddress))
