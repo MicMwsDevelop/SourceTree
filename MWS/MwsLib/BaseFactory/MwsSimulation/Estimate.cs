@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
+// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 //
 using MwsLib.Common;
 using MwsLib.DB.SQLite.MwsSimulation;
@@ -106,6 +107,22 @@ namespace MwsLib.BaseFactory.MwsSimulation
 					}
 				}
 				return price;
+			}
+		}
+
+		/// <summary>
+		/// まとめ旧フォームかどうか？
+		/// </summary>
+		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		public bool IsMatomeOldForm
+		{
+			get
+			{
+				if (12 == AgreeMonthes || 24 == AgreeMonthes)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 

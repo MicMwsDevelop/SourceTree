@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
+// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 // 
 using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
@@ -38,25 +39,44 @@ namespace MwsSimulation.Forms
 		public static List<InitGroupPlan> gInitGroupPlanList { get; set; }
 
 		/// <summary>
-		/// おまとめプラン情報リスト
+		/// おまとめプラン情報リスト（旧版）
 		/// </summary>
-		public static GroupPlanList gGroupPlanList { get; set; }
+		public static GroupPlanList gOldGroupPlanList { get; set; }
+
+		/// <summary>
+		/// おまとめプランの中で下限金額の最小値（旧版）
+		/// </summary>
+		public static int gOldMinAmmount { get; set; }
+
+		/// <summary>
+		/// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（旧版）
+		/// </summary>
+		// Ver1.050 おまとめプランが１円から適用できるように修正(2018/09/18 勝呂)
+		public static int gOldMinFreeMonthMinAmmount { get; set; }
+
+		/// <summary>
+		/// おまとめプラン情報リスト（新版）
+		/// </summary>
+		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		public static GroupPlanList gNewGroupPlanList { get; set; }
+
+		/// <summary>
+		/// おまとめプランの中で下限金額の最小値（新版）
+		/// </summary>
+		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		public static int gNewMinAmmount { get; set; }
+
+		/// <summary>
+		/// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（新版）
+		/// </summary>
+		// Ver1.050 おまとめプランが１円から適用できるように修正(2018/09/18 勝呂)
+		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		public static int gNewMinFreeMonthMinAmmount { get; set; }
 
 		/// <summary>
 		/// セット割サービス情報リスト
 		/// </summary>
 		public static List<SetPlan> gSetPlanList { get; set; }
-
-		/// <summary>
-		/// おまとめプランの中で下限金額の最小値
-		/// </summary>
-		public static int gMinAmmount { get; set; }
-
-		/// <summary>
-		/// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）
-		/// </summary>
-		// Ver1.050 おまとめプランが１円から適用できるように修正(2018/09/18 勝呂)
-		public static int gMinFreeMonthMinAmmount { get; set; }
 
 		/// <summary>
 		/// TABLETビューワのサービス利用料
@@ -107,10 +127,10 @@ namespace MwsSimulation.Forms
 
 			gServiceList = null;
 			gInitGroupPlanList = null;
-			gGroupPlanList = null;
+			gOldGroupPlanList = null;
+			gOldMinAmmount = 0;
+			gOldMinFreeMonthMinAmmount = 0;
 			gSetPlanList = null;
-			gMinAmmount = 0;
-			gMinFreeMonthMinAmmount = 0;
 			gTabletViewerPrice = 0;
 			gSettings = null;
 			EstimateMatomeList = new List<Estimate>();
@@ -118,6 +138,11 @@ namespace MwsSimulation.Forms
 			PrintInfo = new PrintEstimate();
 			PrintDocument = new PrintDocument();
 			MaxPage = 0;
+
+			// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+			gNewGroupPlanList = null;
+			gNewMinAmmount = 0;
+			gNewMinFreeMonthMinAmmount = 0;
 		}
 
 		/// <summary>
@@ -136,12 +161,6 @@ namespace MwsSimulation.Forms
 			// データファイルの更新
 			string dataFolder = Program.GetDataFolder();
 
-			// @@@ClickOnceマスク
-			//if (false == this.UpdateDataFile(dataFolder))
-			//{
-			//	this.Close();
-			//	return;
-			//}
 			// 環境設定の読み込み
 			gSettings = MwsSimulationSettingsIF.GetMwsSimulationSettings();
 
@@ -165,20 +184,32 @@ namespace MwsSimulation.Forms
 				// おススメセット情報リストの取得
 				gInitGroupPlanList = SQLiteMwsSimulationAccess.GetInitGroupPlan(dataFolder);
 
-				// おまとめプラン情報リストの取得
-				gGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder);
+				// おまとめプラン情報リスト（旧版）の取得
+				gOldGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, true);
+
+				// おまとめプランの中で下限金額の最小値（旧版）
+				gOldMinAmmount = gOldGroupPlanList.GetMinAmmount();
+
+				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（旧版）
+				gOldMinFreeMonthMinAmmount = gOldGroupPlanList.GetMinFreeMonthMinAmmount();
+
+				// おまとめプラン情報リスト（新版）の取得
+				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+				gNewGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, false);
+
+				// おまとめプランの中で下限金額の最小値（新版）
+				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+				gNewMinAmmount = gNewGroupPlanList.GetMinAmmount();
+
+				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（新版）
+				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+				gNewMinFreeMonthMinAmmount = gNewGroupPlanList.GetMinFreeMonthMinAmmount();
 
 				// セット割サービス情報リストの設定
 				gSetPlanList = SQLiteMwsSimulationAccess.GetSetPlanList(dataFolder);
 
 				// バージョン情報の取得
 				gVersionInfo = SQLiteMwsSimulationAccess.GetVerionInfo(dataFolder);
-
-				// おまとめプランの中で下限金額の最小値
-				gMinAmmount = gGroupPlanList.GetMinAmmount();
-
-				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）
-				gMinFreeMonthMinAmmount = gGroupPlanList.GetMinFreeMonthMinAmmount();
 
 				ServiceInfo tabletViewer = gServiceList.Find(p => p.ServiceCode == Program.SERVICE_CODE_TABLETVIEWER);
 				if (null != tabletViewer)
@@ -262,7 +293,8 @@ namespace MwsSimulation.Forms
 			if (0 == tabControlEstimate.SelectedIndex)
 			{
 				// おまとめプラン
-				using (SimulationMatomeForm form = new SimulationMatomeForm())
+				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+				using (SimulationMatomeNewForm form = new SimulationMatomeNewForm())
 				{
 					if (DialogResult.OK == form.ShowDialog())
 					{
@@ -327,16 +359,38 @@ namespace MwsSimulation.Forms
 				{
 					int saveIndex = listBoxMatome.SelectedIndex;
 
-					using (SimulationMatomeForm form = new SimulationMatomeForm(EstimateMatomeList[listBoxMatome.SelectedIndex]))
+					// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+					Estimate est = EstimateMatomeList[listBoxMatome.SelectedIndex];
+					if (est.IsMatomeOldForm)
 					{
-						if (DialogResult.OK == form.ShowDialog())
+						// 旧フォーム
+						using (SimulationMatomeOldForm form = new SimulationMatomeOldForm(est))
 						{
-							EstimateMatomeList[listBoxMatome.SelectedIndex] = form.EstimateData;
+							if (DialogResult.OK == form.ShowDialog())
+							{
+								est = form.EstimateData;
 
-							// おまとめプラン見積書情報リストボックスの設定
-							this.SetListBoxMatome();
+								// おまとめプラン見積書情報リストボックスの設定
+								this.SetListBoxMatome();
 
-							listBoxMatome.SelectedIndex = saveIndex;
+								listBoxMatome.SelectedIndex = saveIndex;
+							}
+						}
+					}
+					else
+					{
+						// 新フォーム
+						using (SimulationMatomeNewForm form = new SimulationMatomeNewForm(est))
+						{
+							if (DialogResult.OK == form.ShowDialog())
+							{
+								est = form.EstimateData;
+
+								// おまとめプラン見積書情報リストボックスの設定
+								this.SetListBoxMatome();
+
+								listBoxMatome.SelectedIndex = saveIndex;
+							}
 						}
 					}
 				}
@@ -766,48 +820,6 @@ namespace MwsSimulation.Forms
 		/// <param name="dataFolder">データフォルダ</param>
 		private bool UpdateDataFile(string dataFolder)
 		{
-			//if (ApplicationDeployment.IsNetworkDeployed)
-			//{
-			//	// オンライン
-			//	if (Directory.Exists(Program.SERVER_DATA_FOLDER))
-			//	{
-			//		string srcMasterDB = Path.Combine(Program.SERVER_DATA_FOLDER, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
-			//		string dstMasterDB = Path.Combine(dataFolder, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
-			//		if (false == Directory.Exists(dataFolder))
-			//		{
-			//			// カレントデータフォルダの作成
-			//			Directory.CreateDirectory(dataFolder);
-
-			//			// MwsSimulationMaster.dbのコピー
-			//			File.Copy(srcMasterDB, dstMasterDB, true);
-
-			//			// MwsSimulationUser.dbのコピー
-			//			string srcUserDB = Path.Combine(Program.SERVER_DATA_FOLDER, SQLiteMwsSimulationDef.MWS_SIMULATION_USER_DATABASE_NAME);
-			//			string dstUserDB = Path.Combine(dataFolder, SQLiteMwsSimulationDef.MWS_SIMULATION_USER_DATABASE_NAME);
-			//			File.Copy(srcUserDB, dstUserDB, true);
-
-			//			// MwsSimulationSettings.xmlのコピー
-			//			string srcSettings = Path.Combine(Program.SERVER_DATA_FOLDER, MwsSimulationSettingsIF.SETTINGS_CLIENT_FILE_NAME);
-			//			string dstSettings = Path.Combine(dataFolder, MwsSimulationSettingsIF.SETTINGS_CLIENT_FILE_NAME);
-			//			File.Copy(srcSettings, dstSettings, true);
-			//		}
-			//		else
-			//		{
-			//			DateTime srcUpdateDate = File.GetLastWriteTime(srcMasterDB);
-			//			DateTime dstUpdateDate = File.GetLastWriteTime(dstMasterDB);
-			//			if (dstUpdateDate < srcUpdateDate)
-			//			{
-			//				// MwsSimulationMaster.dbの更新
-			//				File.Copy(srcMasterDB, dstMasterDB, true);
-			//			}
-			//		}
-			//	}
-			//	else if (false == Directory.Exists(dataFolder))
-			//	{
-			//		MessageBox.Show(string.Format("{0}が見つかりません。", dataFolder), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Stop);
-			//		return false;
-			//	}
-			//}
 			string srcMasterDB = Path.Combine(Program.SERVER_DATA_FOLDER, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
 			string dstMasterDB = Path.Combine(dataFolder, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
 			DateTime srcUpdateDate = File.GetLastWriteTime(srcMasterDB);

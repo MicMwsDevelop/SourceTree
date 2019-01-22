@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
+// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 // 
 using MwsSimulation.Forms;
 using System;
@@ -72,9 +73,6 @@ namespace MwsSimulation
 		/// <returns>カレントデータフォルダ</returns>
 		public static string GetDataFolder()
 		{
-			// @@@ClickOnceマスク
-			//string systemDrive = Environment.GetEnvironmentVariable("SystemDrive");
-			//return string.Format("{0}\\{1}", systemDrive, CURRENT_DATA_FOLDER);
 			return System.IO.Directory.GetCurrentDirectory();
 		}
 	}

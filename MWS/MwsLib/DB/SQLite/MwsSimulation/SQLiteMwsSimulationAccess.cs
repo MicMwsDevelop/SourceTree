@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
+// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 //
 using MwsLib.BaseFactory.MwsSimulation;
 using MwsLib.Common;
@@ -67,13 +68,15 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 		}
 
 		/// <summary>
-		/// おまとめプラン情報リストの取得
+		/// おまとめプラン情報リストの取得（旧版）
 		/// </summary>
 		/// <param name="dbPath">データベース格納フォルダ</param>
+		/// <param name="matomeOld">まとめ旧版かどうか？</param>
 		/// <returns>おススメセット情報リスト</returns>
-		public static GroupPlanList GetGroupPlanList(string dbPath)
+		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		public static GroupPlanList GetGroupPlanList(string dbPath, bool matomeOld)
 		{
-			DataTable table = SQLiteMwsSimulationGetIO.GetGroupPlan(dbPath);
+			DataTable table = SQLiteMwsSimulationGetIO.GetGroupPlan(dbPath, matomeOld);
 			return SQLiteMwsSimulationController.ConvertGroupPlan(table);
 		}
 

@@ -1,6 +1,6 @@
 ﻿namespace MwsSimulation.Forms
 {
-	partial class SimulationMatomeForm
+	partial class SimulationMatomeOldForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationMatomeForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationMatomeOldForm));
 			this.listViewService = new System.Windows.Forms.ListView();
 			this.columnHeaderServiceTypeName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderServiceName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -788,8 +788,8 @@
 			this.Name = "SimulationMatomeForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "MIC WEB SERVICE 御見積書作成（おまとめプラン）";
-			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SimulationMatomeForm_FormClosed);
-			this.Load += new System.EventHandler(this.SimulationMatomeForm_Load);
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SimulationMatomeOldForm_FormClosed);
+			this.Load += new System.EventHandler(this.SimulationMatomeOldForm_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);

@@ -1,11 +1,12 @@
 ﻿//
-// SimulationMatomeForm.cs
+// SimulationMatomeOldForm.cs
 //
-// おまとめプラン 御見積書作成画面
+// おまとめプラン御見積書作成画面（旧版）
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
+// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 // 
 using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
@@ -23,7 +24,7 @@ namespace MwsSimulation.Forms
 	/// <summary>
 	/// おまとめプラン 御見積書作成画面
 	/// </summary>
-	public partial class SimulationMatomeForm : Form
+	public partial class SimulationMatomeOldForm : Form
 	{
 		/// <summary>
 		/// 印刷設定保持用
@@ -63,7 +64,7 @@ namespace MwsSimulation.Forms
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public SimulationMatomeForm()
+		public SimulationMatomeOldForm()
 		{
 			InitializeComponent();
 
@@ -79,7 +80,7 @@ namespace MwsSimulation.Forms
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		public SimulationMatomeForm(Estimate est)
+		public SimulationMatomeOldForm(Estimate est)
 		{
 			InitializeComponent();
 
@@ -97,7 +98,7 @@ namespace MwsSimulation.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SimulationMatomeForm_Load(object sender, EventArgs e)
+		private void SimulationMatomeOldForm_Load(object sender, EventArgs e)
 		{
 			// 元のカーソルを保持
 			Cursor preCursor = Cursor.Current;
@@ -134,7 +135,7 @@ namespace MwsSimulation.Forms
 			}
 			listViewService.EndUpdate();
 
-			if (MainForm.gGroupPlanList.IsExistKeiyakuMonth(12))
+			if (MainForm.gOldGroupPlanList.IsExistKeiyakuMonth(12))
 			{
 				// おまとめプラン12ヵ月プランが有効
 				ExistMatome12 = true;
@@ -143,7 +144,7 @@ namespace MwsSimulation.Forms
 				textBoxMatomeTotalPrice12.Enabled = true;
 				textBoxMatomeFree12.Enabled = true;
 			}
-			if (MainForm.gGroupPlanList.IsExistKeiyakuMonth(24))
+			if (MainForm.gOldGroupPlanList.IsExistKeiyakuMonth(24))
 			{
 				// おまとめプラン24ヵ月プランが有効
 				ExistMatome24 = true;
@@ -152,7 +153,7 @@ namespace MwsSimulation.Forms
 				textBoxMatomeTotalPrice24.Enabled = true;
 				textBoxMatomeFree24.Enabled = true;
 			}
-			if (MainForm.gGroupPlanList.IsExistKeiyakuMonth(36))
+			if (MainForm.gOldGroupPlanList.IsExistKeiyakuMonth(36))
 			{
 				// おまとめプラン36ヵ月が有効
 				ExistMatome36 = true;
@@ -902,7 +903,7 @@ namespace MwsSimulation.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SimulationMatomeForm_FormClosed(object sender, FormClosedEventArgs e)
+		private void SimulationMatomeOldForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			MainForm.gSettings.SimulationMatomeFormSize = new Size(this.Width, this.Height);
 		}
@@ -1097,7 +1098,7 @@ namespace MwsSimulation.Forms
 				radioButtonMatome36.Enabled = false;
 				radioButtonNormal12.Checked = true;
 
-				labelMatomeMessage.Text = string.Format(@"※あと \{0} でおまとめプラン割引が適用できます。", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + MainForm.gMinFreeMonthMinAmmount));
+				labelMatomeMessage.Text = string.Format(@"※あと \{0} でおまとめプラン割引が適用できます。", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + MainForm.gOldMinFreeMonthMinAmmount));
 			}
 			else
 			{
@@ -1113,9 +1114,9 @@ namespace MwsSimulation.Forms
 				textBoxNormalMonthlyPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + servicePrice));
 
 				// おまとめプラン契約あり
-				GroupPlan plan12 = MainForm.gGroupPlanList.GetMachGroupPlan(12, servicePrice);
-				GroupPlan plan24 = MainForm.gGroupPlanList.GetMachGroupPlan(24, servicePrice);
-				GroupPlan plan36 = MainForm.gGroupPlanList.GetMachGroupPlan(36, servicePrice);
+				GroupPlan plan12 = MainForm.gOldGroupPlanList.GetMachGroupPlan(12, servicePrice);
+				GroupPlan plan24 = MainForm.gOldGroupPlanList.GetMachGroupPlan(24, servicePrice);
+				GroupPlan plan36 = MainForm.gOldGroupPlanList.GetMachGroupPlan(36, servicePrice);
 				int matomeTotalPrice12 = plan12.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, servicePrice);
 				int matomeTotalPrice24 = plan24.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, servicePrice);
 				int matomeTotalPrice36 = plan36.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, servicePrice);
@@ -1159,15 +1160,15 @@ namespace MwsSimulation.Forms
 					textBoxMatomeTotalPrice36.Tag = string.Format("({0}+{1})x36)", MainForm.gServiceList.Platform.Price, servicePrice);
 					textBoxMatomeFree36.Text = @"\0";
 				}
-				if (MainForm.gMinFreeMonthMinAmmount <= servicePrice)
+				if (MainForm.gOldMinFreeMonthMinAmmount <= servicePrice)
 				{
 					labelMatomeMessage.Text = "※おまとめプラン割引が適用できます。";
 				}
 				else
 				{
-					labelMatomeMessage.Text = string.Format(@"※あと \{0} でおまとめプラン割引が適用できます。", StringUtil.CommaEdit(MainForm.gMinFreeMonthMinAmmount - servicePrice));
+					labelMatomeMessage.Text = string.Format(@"※あと \{0} でおまとめプラン割引が適用できます。", StringUtil.CommaEdit(MainForm.gOldMinFreeMonthMinAmmount - servicePrice));
 				}
-				if (MainForm.gMinAmmount <= servicePrice)
+				if (MainForm.gOldMinAmmount <= servicePrice)
 				{
 					// おまとめプラン適用金額
 					radioButtonMatome12.Enabled = true;
@@ -1261,7 +1262,7 @@ namespace MwsSimulation.Forms
 				if (null != groupService)
 				{
 					int price = this.GetServicePrice();
-					GroupPlan targetPlan = MainForm.gGroupPlanList.GetMachGroupPlan(this.GetAgreeMonthes(), price);
+					GroupPlan targetPlan = MainForm.gOldGroupPlanList.GetMachGroupPlan(this.GetAgreeMonthes(), price);
 					groupService.GoodsID = targetPlan.GoodsID;
 					groupService.GoodsName = targetPlan.GoodsName;
 					groupService.Price = targetPlan.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, price);

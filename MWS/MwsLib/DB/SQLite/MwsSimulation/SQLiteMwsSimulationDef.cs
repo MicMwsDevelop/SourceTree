@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
+// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 //
 
 namespace MwsLib.DB.SQLite.MwsSimulation
@@ -111,5 +112,35 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			/// <summary>セット割サービス</summary>
 			Set = 2,
 		}
+
+		/// <summary>
+		/// おまとめプラン12ヵ月商品ID
+		/// </summary>
+		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		public const string MWS_MATOME12_GOODSID = "800155";
+
+		/// <summary>
+		/// おまとめプラン24ヵ月商品ID
+		/// </summary>
+		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		public const string MWS_MATOME24_GOODSID = "800156";
+
+		/// <summary>
+		/// おまとめプラン36ヵ月商品ID
+		/// </summary>
+		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		public const string MWS_MATOME36_GOODSID = "800157";
+
+		/// <summary>
+		/// おまとめプラン48ヵ月商品ID
+		/// </summary>
+		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		public const string MWS_MATOME48_GOODSID = "800158";
+
+		/// <summary>
+		/// おまとめプラン60ヵ月商品ID
+		/// </summary>
+		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		public const string MWS_MATOME60_GOODSID = "800159";
 	}
 }
