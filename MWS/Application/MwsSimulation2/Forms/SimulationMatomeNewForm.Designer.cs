@@ -149,7 +149,6 @@
 			this.textBoxServicePrice.Size = new System.Drawing.Size(93, 24);
 			this.textBoxServicePrice.TabIndex = 20;
 			this.textBoxServicePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.textBoxServicePrice.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxTotalPrice_MouseDoubleClick);
 			// 
 			// label2
 			// 
@@ -448,7 +447,7 @@
 			this.textBoxMatomeTotalPrice60.Size = new System.Drawing.Size(93, 24);
 			this.textBoxMatomeTotalPrice60.TabIndex = 21;
 			this.textBoxMatomeTotalPrice60.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.textBoxMatomeTotalPrice60.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxPrice60_MouseDoubleClick);
+			this.textBoxMatomeTotalPrice60.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxMatomeTotalPrice60_MouseDoubleClick);
 			// 
 			// textBoxMatomeFree48
 			// 
@@ -473,7 +472,7 @@
 			this.textBoxMatomeTotalPrice48.Size = new System.Drawing.Size(93, 24);
 			this.textBoxMatomeTotalPrice48.TabIndex = 17;
 			this.textBoxMatomeTotalPrice48.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.textBoxMatomeTotalPrice48.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxPrice48_MouseDoubleClick);
+			this.textBoxMatomeTotalPrice48.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxMatomeTotalPrice48_MouseDoubleClick);
 			// 
 			// textBoxMatomeFree36
 			// 
@@ -498,7 +497,7 @@
 			this.textBoxMatomeTotalPrice36.Size = new System.Drawing.Size(93, 24);
 			this.textBoxMatomeTotalPrice36.TabIndex = 11;
 			this.textBoxMatomeTotalPrice36.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.textBoxMatomeTotalPrice36.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxPrice36_MouseDoubleClick);
+			this.textBoxMatomeTotalPrice36.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxMatomeTotalPrice36_MouseDoubleClick);
 			// 
 			// labelMatomeMessage
 			// 

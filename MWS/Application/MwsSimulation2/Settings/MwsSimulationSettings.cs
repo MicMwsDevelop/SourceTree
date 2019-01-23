@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
+// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 //
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,12 @@ namespace MwsSimulation.Settings
 		public StringCollection RemarkList;
 
 		/// <summary>
+		/// おまとめプラン入力新フォーム使用
+		/// </summary>
+		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		public bool UsedNewForm;
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public MwsSimulationSettings()
@@ -73,6 +80,7 @@ namespace MwsSimulation.Settings
 			CurrentBranchIndex = 0;
 			CurrentStaffIndex = 0;
 			RemarkList = new StringCollection();
+			UsedNewForm = false;
 		}
 
 		/// <summary>
@@ -101,6 +109,7 @@ namespace MwsSimulation.Settings
 					&& StaffList.Equals(other.StaffList)
 					&& CurrentBranchIndex == other.CurrentBranchIndex
 					&& CurrentStaffIndex == other.CurrentStaffIndex
+					&& UsedNewForm == other.UsedNewForm
 					&& RemarkList.Equals(other.RemarkList))
 				{
 					return true;

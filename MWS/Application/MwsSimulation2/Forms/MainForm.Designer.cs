@@ -52,6 +52,7 @@
 			this.tabPageMatome = new System.Windows.Forms.TabPage();
 			this.tabPageMonthly = new System.Windows.Forms.TabPage();
 			this.listBoxMonthly = new System.Windows.Forms.ListBox();
+			this.toolStripMenuItemEnvUsedNewForm = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStripMainForm.SuspendLayout();
 			this.tabControlEstimate.SuspendLayout();
 			this.tabPageMatome.SuspendLayout();
@@ -190,6 +191,7 @@
 			this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemEnvStaff,
             this.toolStripMenuItemEnvRemark,
+            this.toolStripMenuItemEnvUsedNewForm,
             this.toolStripSeparator1,
             this.toolStripMenuItemVersion});
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
@@ -199,26 +201,26 @@
 			// toolStripMenuItemEnvStaff
 			// 
 			this.toolStripMenuItemEnvStaff.Name = "toolStripMenuItemEnvStaff";
-			this.toolStripMenuItemEnvStaff.Size = new System.Drawing.Size(144, 22);
+			this.toolStripMenuItemEnvStaff.Size = new System.Drawing.Size(209, 22);
 			this.toolStripMenuItemEnvStaff.Text = "担当者の登録";
 			this.toolStripMenuItemEnvStaff.Click += new System.EventHandler(this.toolStripMenuItemEnvStaff_Click);
 			// 
 			// toolStripMenuItemEnvRemark
 			// 
 			this.toolStripMenuItemEnvRemark.Name = "toolStripMenuItemEnvRemark";
-			this.toolStripMenuItemEnvRemark.Size = new System.Drawing.Size(144, 22);
+			this.toolStripMenuItemEnvRemark.Size = new System.Drawing.Size(209, 22);
 			this.toolStripMenuItemEnvRemark.Text = "備考の登録";
 			this.toolStripMenuItemEnvRemark.Click += new System.EventHandler(this.toolStripMenuItemEnvRemark_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(141, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(206, 6);
 			// 
 			// toolStripMenuItemVersion
 			// 
 			this.toolStripMenuItemVersion.Name = "toolStripMenuItemVersion";
-			this.toolStripMenuItemVersion.Size = new System.Drawing.Size(144, 22);
+			this.toolStripMenuItemVersion.Size = new System.Drawing.Size(209, 22);
 			this.toolStripMenuItemVersion.Text = "バージョン情報";
 			this.toolStripMenuItemVersion.Click += new System.EventHandler(this.toolStripMenuItemVersion_Click);
 			// 
@@ -286,6 +288,14 @@
 			this.listBoxMonthly.TabIndex = 2;
 			this.listBoxMonthly.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxMonthly_MouseDoubleClick);
 			// 
+			// toolStripMenuItemEnvUsedNewForm
+			// 
+			this.toolStripMenuItemEnvUsedNewForm.CheckOnClick = true;
+			this.toolStripMenuItemEnvUsedNewForm.Name = "toolStripMenuItemEnvUsedNewForm";
+			this.toolStripMenuItemEnvUsedNewForm.Size = new System.Drawing.Size(209, 22);
+			this.toolStripMenuItemEnvUsedNewForm.Text = "おまとめプラン新フォーム使用";
+			this.toolStripMenuItemEnvUsedNewForm.Click += new System.EventHandler(this.toolStripMenuItemEnvUsedNewForm_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -350,6 +360,7 @@
 		private System.Windows.Forms.TabPage tabPageMatome;
 		private System.Windows.Forms.TabPage tabPageMonthly;
 		private System.Windows.Forms.ListBox listBoxMonthly;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEnvUsedNewForm;
 	}
 }
 

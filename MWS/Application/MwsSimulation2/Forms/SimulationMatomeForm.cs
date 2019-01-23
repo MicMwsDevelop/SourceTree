@@ -1293,7 +1293,7 @@ namespace MwsSimulation.Forms
 				}
 				else
 				{
-					textBoxMatomeTotalPrice12.Tag = string.Format("({0}+{1})x12)", MainForm.gServiceList.Platform.Price, servicePrice);
+					textBoxMatomeTotalPrice12.Tag = string.Format("({0}+{1})x12", MainForm.gServiceList.Platform.Price, servicePrice);
 					textBoxMatomeFree12.Text = @"\0";
 				}
 				if (0 < plan24.FreeMonth)
@@ -1303,7 +1303,7 @@ namespace MwsSimulation.Forms
 				}
 				else
 				{
-					textBoxMatomeTotalPrice24.Tag = string.Format("({0}+{1})x24)", MainForm.gServiceList.Platform.Price, servicePrice);
+					textBoxMatomeTotalPrice24.Tag = string.Format("({0}+{1})x24", MainForm.gServiceList.Platform.Price, servicePrice);
 					textBoxMatomeFree24.Text = @"\0";
 				}
 				if (0 < plan36.FreeMonth)
@@ -1313,7 +1313,7 @@ namespace MwsSimulation.Forms
 				}
 				else
 				{
-					textBoxMatomeTotalPrice36.Tag = string.Format("({0}+{1})x36)", MainForm.gServiceList.Platform.Price, servicePrice);
+					textBoxMatomeTotalPrice36.Tag = string.Format("({0}+{1})x36", MainForm.gServiceList.Platform.Price, servicePrice);
 					textBoxMatomeFree36.Text = @"\0";
 				}
 				if (0 < plan48.FreeMonth)
@@ -1323,7 +1323,7 @@ namespace MwsSimulation.Forms
 				}
 				else
 				{
-					textBoxMatomeTotalPrice48.Tag = string.Format("({0}+{1})x48)", MainForm.gServiceList.Platform.Price, servicePrice);
+					textBoxMatomeTotalPrice48.Tag = string.Format("({0}+{1})x48", MainForm.gServiceList.Platform.Price, servicePrice);
 					textBoxMatomeFree48.Text = @"\0";
 				}
 				if (0 < plan60.FreeMonth)
@@ -1333,7 +1333,7 @@ namespace MwsSimulation.Forms
 				}
 				else
 				{
-					textBoxMatomeTotalPrice60.Tag = string.Format("({0}+{1})x60)", MainForm.gServiceList.Platform.Price, servicePrice);
+					textBoxMatomeTotalPrice60.Tag = string.Format("({0}+{1})x60", MainForm.gServiceList.Platform.Price, servicePrice);
 					textBoxMatomeFree60.Text = @"\0";
 				}
 				if (MainForm.gMinFreeMonthMinAmmount <= servicePrice)
@@ -1728,16 +1728,6 @@ namespace MwsSimulation.Forms
 			if (null != textBoxMatomeTotalPrice60.Tag)
 			{
 				MessageBox.Show(textBoxMatomeTotalPrice60.Tag as string);
-			}
-#endif
-		}
-
-		private void textBoxServicePrice_MouseDoubleClick(object sender, MouseEventArgs e)
-		{
-#if DEBUG
-			if (null != textBoxServicePrice.Tag)
-			{
-				MessageBox.Show(textBoxServicePrice.Tag as string);
 			}
 #endif
 		}

@@ -1137,7 +1137,7 @@ namespace MwsSimulation.Forms
 				}
 				else
 				{
-					textBoxMatomeTotalPrice12.Tag = string.Format("({0}+{1})x12)", MainForm.gServiceList.Platform.Price, servicePrice);
+					textBoxMatomeTotalPrice12.Tag = string.Format("({0}+{1})x12", MainForm.gServiceList.Platform.Price, servicePrice);
 					textBoxMatomeFree12.Text = @"\0";
 				}
 				if (0 < plan24.FreeMonth)
@@ -1147,7 +1147,7 @@ namespace MwsSimulation.Forms
 				}
 				else
 				{
-					textBoxMatomeTotalPrice24.Tag = string.Format("({0}+{1})x24)", MainForm.gServiceList.Platform.Price, servicePrice);
+					textBoxMatomeTotalPrice24.Tag = string.Format("({0}+{1})x24", MainForm.gServiceList.Platform.Price, servicePrice);
 					textBoxMatomeFree24.Text = @"\0";
 				}
 				if (0 < plan36.FreeMonth)
@@ -1157,7 +1157,7 @@ namespace MwsSimulation.Forms
 				}
 				else
 				{
-					textBoxMatomeTotalPrice36.Tag = string.Format("({0}+{1})x36)", MainForm.gServiceList.Platform.Price, servicePrice);
+					textBoxMatomeTotalPrice36.Tag = string.Format("({0}+{1})x36", MainForm.gServiceList.Platform.Price, servicePrice);
 					textBoxMatomeFree36.Text = @"\0";
 				}
 				if (MainForm.gOldMinFreeMonthMinAmmount <= servicePrice)
@@ -1478,7 +1478,7 @@ namespace MwsSimulation.Forms
 		////////////////////////////////////////////////////////////////////
 		// Debugメソッド
 
-		private void textBoxPrice12_MouseDoubleClick(object sender, MouseEventArgs e)
+		private void textBoxMatomeTotalPrice12_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 #if DEBUG
 			if (null != textBoxMatomeTotalPrice12.Tag)
@@ -1488,7 +1488,7 @@ namespace MwsSimulation.Forms
 #endif
 		}
 
-		private void textBoxPrice24_MouseDoubleClick(object sender, MouseEventArgs e)
+		private void textBoxMatomeTotalPrice24_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 #if DEBUG
 			if (null != textBoxMatomeTotalPrice24.Tag)
@@ -1498,22 +1498,12 @@ namespace MwsSimulation.Forms
 #endif
 		}
 
-		private void textBoxPrice36_MouseDoubleClick(object sender, MouseEventArgs e)
+		private void textBoxMatomeTotalPrice36_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 #if DEBUG
 			if (null != textBoxMatomeTotalPrice36.Tag)
 			{
 				MessageBox.Show(textBoxMatomeTotalPrice36.Tag as string);
-			}
-#endif
-		}
-
-		private void textBoxTotalPrice_MouseDoubleClick(object sender, MouseEventArgs e)
-		{
-#if DEBUG
-			if (null != textBoxServicePrice.Tag)
-			{
-				MessageBox.Show(textBoxServicePrice.Tag as string);
 			}
 #endif
 		}

@@ -161,7 +161,6 @@
 			this.textBoxServicePrice.Size = new System.Drawing.Size(93, 24);
 			this.textBoxServicePrice.TabIndex = 20;
 			this.textBoxServicePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.textBoxServicePrice.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxServicePrice_MouseDoubleClick);
 			// 
 			// label2
 			// 

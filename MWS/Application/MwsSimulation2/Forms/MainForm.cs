@@ -278,6 +278,11 @@ namespace MwsSimulation.Forms
 			{
 				listBoxMonthly.SelectedIndex = 0;
 			}
+			// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+			if (gSettings.UsedNewForm)
+			{
+				toolStripMenuItemEnvUsedNewForm.Checked = true;
+			}
 			// カーソルを元に戻す
 			Cursor.Current = preCursor;
 		}
@@ -323,16 +328,35 @@ namespace MwsSimulation.Forms
 			{
 				// おまとめプラン
 				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-				using (SimulationMatomeForm form = new SimulationMatomeForm())
+				if (gSettings.UsedNewForm)
 				{
-					if (DialogResult.OK == form.ShowDialog())
+					// 新フォーム使用
+					using (SimulationMatomeNewForm form = new SimulationMatomeNewForm())
 					{
-						EstimateMatomeList.Add(form.EstimateData);
+						if (DialogResult.OK == form.ShowDialog())
+						{
+							EstimateMatomeList.Add(form.EstimateData);
 
-						// おまとめプラン見積書情報リストボックスの設定
-						this.SetListBoxMatome();
+							// おまとめプラン見積書情報リストボックスの設定
+							this.SetListBoxMatome();
 
-						listBoxMatome.SelectedIndex = listBoxMatome.Items.Count - 1;
+							listBoxMatome.SelectedIndex = listBoxMatome.Items.Count - 1;
+						}
+					}
+				}
+				else
+				{
+					using (SimulationMatomeForm form = new SimulationMatomeForm())
+					{
+						if (DialogResult.OK == form.ShowDialog())
+						{
+							EstimateMatomeList.Add(form.EstimateData);
+
+							// おまとめプラン見積書情報リストボックスの設定
+							this.SetListBoxMatome();
+
+							listBoxMatome.SelectedIndex = listBoxMatome.Items.Count - 1;
+						}
 					}
 				}
 			}
@@ -390,50 +414,60 @@ namespace MwsSimulation.Forms
 
 					// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 					Estimate est = EstimateMatomeList[listBoxMatome.SelectedIndex];
-					using (SimulationMatomeForm form = new SimulationMatomeForm(est))
+
+					// おまとめプラン
+					// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+					if (gSettings.UsedNewForm)
 					{
-						if (DialogResult.OK == form.ShowDialog())
+						// 新フォーム使用
+						if (est.IsMatomeOldForm)
 						{
-							est = form.EstimateData;
+							// 旧フォーム
+							using (SimulationMatomeOldForm form = new SimulationMatomeOldForm(est))
+							{
+								if (DialogResult.OK == form.ShowDialog())
+								{
+									est = form.EstimateData;
 
-							// おまとめプラン見積書情報リストボックスの設定
-							this.SetListBoxMatome();
+									// おまとめプラン見積書情報リストボックスの設定
+									this.SetListBoxMatome();
 
-							listBoxMatome.SelectedIndex = saveIndex;
+									listBoxMatome.SelectedIndex = saveIndex;
+								}
+							}
+						}
+						else
+						{
+							// 新フォーム
+							using (SimulationMatomeNewForm form = new SimulationMatomeNewForm(est))
+							{
+								if (DialogResult.OK == form.ShowDialog())
+								{
+									est = form.EstimateData;
+
+									// おまとめプラン見積書情報リストボックスの設定
+									this.SetListBoxMatome();
+
+									listBoxMatome.SelectedIndex = saveIndex;
+								}
+							}
 						}
 					}
-					//if (est.IsMatomeOldForm)
-					//{
-					//	// 旧フォーム
-					//	using (SimulationMatomeOldForm form = new SimulationMatomeOldForm(est))
-					//	{
-					//		if (DialogResult.OK == form.ShowDialog())
-					//		{
-					//			est = form.EstimateData;
+					else
+					{
+						using (SimulationMatomeForm form = new SimulationMatomeForm(est))
+						{
+							if (DialogResult.OK == form.ShowDialog())
+							{
+								est = form.EstimateData;
 
-					//			// おまとめプラン見積書情報リストボックスの設定
-					//			this.SetListBoxMatome();
+								// おまとめプラン見積書情報リストボックスの設定
+								this.SetListBoxMatome();
 
-					//			listBoxMatome.SelectedIndex = saveIndex;
-					//		}
-					//	}
-					//}
-					//else
-					//{
-					//	// 新フォーム
-					//	using (SimulationMatomeNewForm form = new SimulationMatomeNewForm(est))
-					//	{
-					//		if (DialogResult.OK == form.ShowDialog())
-					//		{
-					//			est = form.EstimateData;
-
-					//			// おまとめプラン見積書情報リストボックスの設定
-					//			this.SetListBoxMatome();
-
-					//			listBoxMatome.SelectedIndex = saveIndex;
-					//		}
-					//	}
-					//}
+								listBoxMatome.SelectedIndex = saveIndex;
+							}
+						}
+					}
 				}
 			}
 			else
@@ -810,6 +844,24 @@ namespace MwsSimulation.Forms
 			using (EnvironmentRemarkForm form = new EnvironmentRemarkForm(gSettings.RemarkList))
 			{
 				form.ShowDialog();
+			}
+		}
+
+		/// <summary>
+		/// おまとめプラン新フォーム使用
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		private void toolStripMenuItemEnvUsedNewForm_Click(object sender, EventArgs e)
+		{
+			if (toolStripMenuItemEnvUsedNewForm.Checked)
+			{
+				gSettings.UsedNewForm = true;
+			}
+			else
+			{
+				gSettings.UsedNewForm = false;
 			}
 		}
 
