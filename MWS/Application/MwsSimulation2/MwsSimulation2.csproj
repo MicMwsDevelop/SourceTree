@@ -131,6 +131,12 @@
     <Compile Include="Forms\SetStaffForm.Designer.cs">
       <DependentUpon>SetStaffForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SimulationMatomeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SimulationMatomeForm.designer.cs">
+      <DependentUpon>SimulationMatomeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SimulationMatomeNewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -193,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SetStaffForm.resx">
       <DependentUpon>SetStaffForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SimulationMatomeForm.resx">
+      <DependentUpon>SimulationMatomeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SimulationMatomeNewForm.resx">
       <DependentUpon>SimulationMatomeNewForm.cs</DependentUpon>

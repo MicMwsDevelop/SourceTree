@@ -39,6 +39,22 @@ namespace MwsSimulation.Forms
 		public static List<InitGroupPlan> gInitGroupPlanList { get; set; }
 
 		/// <summary>
+		/// おまとめプラン情報リスト
+		/// </summary>
+		public static GroupPlanList gGroupPlanList { get; set; }
+
+		/// <summary>
+		/// おまとめプランの中で下限金額の最小値
+		/// </summary>
+		public static int gMinAmmount { get; set; }
+
+		/// <summary>
+		/// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）
+		/// </summary>
+		// Ver1.050 おまとめプランが１円から適用できるように修正(2018/09/18 勝呂)
+		public static int gMinFreeMonthMinAmmount { get; set; }
+
+		/// <summary>
 		/// おまとめプラン情報リスト（旧版）
 		/// </summary>
 		public static GroupPlanList gOldGroupPlanList { get; set; }
@@ -143,6 +159,10 @@ namespace MwsSimulation.Forms
 			gNewGroupPlanList = null;
 			gNewMinAmmount = 0;
 			gNewMinFreeMonthMinAmmount = 0;
+
+			gGroupPlanList = null;
+			gMinAmmount = 0;
+			gMinFreeMonthMinAmmount = 0;
 		}
 
 		/// <summary>
@@ -184,8 +204,17 @@ namespace MwsSimulation.Forms
 				// おススメセット情報リストの取得
 				gInitGroupPlanList = SQLiteMwsSimulationAccess.GetInitGroupPlan(dataFolder);
 
+				// おまとめプラン情報リストの取得
+				gGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, 0);
+
+				// おまとめプランの中で下限金額の最小値
+				gMinAmmount = gGroupPlanList.GetMinAmmount();
+
+				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）
+				gMinFreeMonthMinAmmount = gGroupPlanList.GetMinFreeMonthMinAmmount();
+
 				// おまとめプラン情報リスト（旧版）の取得
-				gOldGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, true);
+				gOldGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, 1);
 
 				// おまとめプランの中で下限金額の最小値（旧版）
 				gOldMinAmmount = gOldGroupPlanList.GetMinAmmount();
@@ -195,7 +224,7 @@ namespace MwsSimulation.Forms
 
 				// おまとめプラン情報リスト（新版）の取得
 				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-				gNewGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, false);
+				gNewGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, 2);
 
 				// おまとめプランの中で下限金額の最小値（新版）
 				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
@@ -294,7 +323,7 @@ namespace MwsSimulation.Forms
 			{
 				// おまとめプラン
 				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-				using (SimulationMatomeNewForm form = new SimulationMatomeNewForm())
+				using (SimulationMatomeForm form = new SimulationMatomeForm())
 				{
 					if (DialogResult.OK == form.ShowDialog())
 					{
@@ -361,38 +390,50 @@ namespace MwsSimulation.Forms
 
 					// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 					Estimate est = EstimateMatomeList[listBoxMatome.SelectedIndex];
-					if (est.IsMatomeOldForm)
+					using (SimulationMatomeForm form = new SimulationMatomeForm(est))
 					{
-						// 旧フォーム
-						using (SimulationMatomeOldForm form = new SimulationMatomeOldForm(est))
+						if (DialogResult.OK == form.ShowDialog())
 						{
-							if (DialogResult.OK == form.ShowDialog())
-							{
-								est = form.EstimateData;
+							est = form.EstimateData;
 
-								// おまとめプラン見積書情報リストボックスの設定
-								this.SetListBoxMatome();
+							// おまとめプラン見積書情報リストボックスの設定
+							this.SetListBoxMatome();
 
-								listBoxMatome.SelectedIndex = saveIndex;
-							}
+							listBoxMatome.SelectedIndex = saveIndex;
 						}
 					}
-					else
-					{
-						// 新フォーム
-						using (SimulationMatomeNewForm form = new SimulationMatomeNewForm(est))
-						{
-							if (DialogResult.OK == form.ShowDialog())
-							{
-								est = form.EstimateData;
+					//if (est.IsMatomeOldForm)
+					//{
+					//	// 旧フォーム
+					//	using (SimulationMatomeOldForm form = new SimulationMatomeOldForm(est))
+					//	{
+					//		if (DialogResult.OK == form.ShowDialog())
+					//		{
+					//			est = form.EstimateData;
 
-								// おまとめプラン見積書情報リストボックスの設定
-								this.SetListBoxMatome();
+					//			// おまとめプラン見積書情報リストボックスの設定
+					//			this.SetListBoxMatome();
 
-								listBoxMatome.SelectedIndex = saveIndex;
-							}
-						}
-					}
+					//			listBoxMatome.SelectedIndex = saveIndex;
+					//		}
+					//	}
+					//}
+					//else
+					//{
+					//	// 新フォーム
+					//	using (SimulationMatomeNewForm form = new SimulationMatomeNewForm(est))
+					//	{
+					//		if (DialogResult.OK == form.ShowDialog())
+					//		{
+					//			est = form.EstimateData;
+
+					//			// おまとめプラン見積書情報リストボックスの設定
+					//			this.SetListBoxMatome();
+
+					//			listBoxMatome.SelectedIndex = saveIndex;
+					//		}
+					//	}
+					//}
 				}
 			}
 			else

@@ -71,12 +71,12 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 		/// おまとめプラン情報リストの取得（旧版）
 		/// </summary>
 		/// <param name="dbPath">データベース格納フォルダ</param>
-		/// <param name="matomeOld">まとめ旧版かどうか？</param>
+		/// <param name="readType">読込種別</param>
 		/// <returns>おススメセット情報リスト</returns>
 		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-		public static GroupPlanList GetGroupPlanList(string dbPath, bool matomeOld)
+		public static GroupPlanList GetGroupPlanList(string dbPath, int readType)
 		{
-			DataTable table = SQLiteMwsSimulationGetIO.GetGroupPlan(dbPath, matomeOld);
+			DataTable table = SQLiteMwsSimulationGetIO.GetGroupPlan(dbPath, readType);
 			return SQLiteMwsSimulationController.ConvertGroupPlan(table);
 		}
 
