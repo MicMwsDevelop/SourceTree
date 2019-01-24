@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PcSupportManagerSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <StartMailExecDay>10</StartMailExecDay>
-  <StartMailPrevExecDate xsi:nil="true" />
+  <StartMailPrevExecDate>2019-01-24T00:00:00</StartMailPrevExecDate>
   <UpdateMailExecDay>1</UpdateMailExecDay>
   <UpdatteMailPrevExecDate xsi:nil="true" />
 </PcSupportManagerSettings>

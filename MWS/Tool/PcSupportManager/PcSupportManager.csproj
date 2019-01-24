@@ -138,10 +138,6 @@
       <Link>GuideMailTemplate.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Settings\PcSupportManagerSettings.xml">
-      <Link>PcSupportManagerSettings.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Mail\StartMailTemplate.txt">
       <Link>StartMailTemplate.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

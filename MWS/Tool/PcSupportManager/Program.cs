@@ -112,9 +112,10 @@ namespace PcSupportManager
 			}
 
 			//// 休日テスト
-			//PcSupportManagerSettings xml = PcSupportManagerSettingsIF.GetPcSupportManagerSettings();
-			//CompanyHoliday.SetHoliday(xml.WeeklyHoliday, xml.NationalHoliday, xml.HappyMonday, xml.SpecialHoliday);
+			//MicHolidaySettings holidayXML = MicHolidaySettingsIF.GetMicHolidaySettings();
+			//CompanyHoliday.SetHoliday(holidayXML);
 			//Span span = new Span(new Date(2019, 1, 1), new Date(2019, 12, 31));
+			////Span span = new Span(new Date(2020, 1, 1), new Date(2020, 12, 31));
 			//Date date = span.Start;
 			//for (int i = 0; i < 365; i++)
 			//{
@@ -132,6 +133,7 @@ namespace PcSupportManager
 			//	}
 			//	date++;
 			//}
+			//return;
 
 			switch (BootType)
 			{
