@@ -21,7 +21,7 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 		//////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// 終了ユーザー情報の詰め替え
+		/// 終了ユーザー情報リストの詰め替え
 		/// </summary>
 		/// <param name="table">DataTable</param>
 		/// <returns>終了ユーザー情報リスト</returns>
@@ -66,6 +66,51 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 				}
 			}
 			return result;
+		}
+
+		/// <summary>
+		/// 終了ユーザー情報の詰め替え
+		/// </summary>
+		/// <param name="table">DataTable</param>
+		/// <returns>終了ユーザー情報リスト</returns>
+		public static EntryFinishedUserData ConvertEntryFinishedUser(DataTable table)
+		{
+			if (null != table)
+			{
+				if (0 < table.Rows.Count)
+				{
+					EntryFinishedUserData entry = new BaseFactory.EntryFinishedUser.EntryFinishedUserData();
+					entry.TokuisakiNo = table.Rows[0]["得意先No"].ToString();
+					entry.CustomerID = DataBaseValue.ConvObjectToInt(table.Rows[0]["顧客No"]);
+					entry.UserName = table.Rows[0]["顧客名"].ToString();
+					entry.SystemName = table.Rows[0]["システム名"].ToString();
+					entry.AreaCode = table.Rows[0]["拠点コード"].ToString();
+					entry.AreaName = table.Rows[0]["拠点名"].ToString();
+					entry.KenName = table.Rows[0]["都道府県名"].ToString();
+					entry.FinishedReason = table.Rows[0]["終了事由"].ToString();
+					entry.Replace = table.Rows[0]["リプレース"].ToString();
+					entry.Reason = table.Rows[0]["理由"].ToString();
+					entry.Comment = table.Rows[0]["コメント"].ToString();
+					entry.EnableUserFlag = DataBaseValue.ConvObjectToBool(table.Rows[0]["有効ユーザーフラグ"]);
+					entry.Expcet = table.Rows[0]["除外"].ToString();
+					entry.HanbaitenID = table.Rows[0]["販売店ID"].ToString();
+					entry.HanbaitenName = table.Rows[0]["販売店名称"].ToString();
+					YearMonth workYM = new YearMonth();
+					if (YearMonth.TryParse(table.Rows[0]["終了月"].ToString(), out workYM))
+					{
+						entry.FinishedYearMonth = workYM;
+					}
+					Date workDate;
+					if (Date.TryParse(table.Rows[0]["終了届受領日"].ToString(), out workDate))
+					{
+						entry.AcceptDate = workDate;
+					}
+					entry.NonPaletteUser = ("0" == table.Rows[0]["非paletteユーザー"].ToString()) ? false : true;
+					entry.FinishedUser = ("0" == table.Rows[0]["終了フラグ"].ToString()) ? false : true;
+					return entry;
+				}
+			}
+			return null;
 		}
 
 		/// <summary>

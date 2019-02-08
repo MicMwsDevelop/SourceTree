@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="BaseFactory\EntryFinishedUser\EntryFinishedUserData.cs" />
     <Compile Include="BaseFactory\KenNumDef.cs" />
+    <Compile Include="BaseFactory\MwsDefine.cs" />
     <Compile Include="BaseFactory\MwsServiceFrequency\MwsServiceFrequencyData.cs" />
     <Compile Include="BaseFactory\MwsSimulation\Estimate.cs" />
     <Compile Include="BaseFactory\MwsSimulation\GroupPlan.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="BaseFactory\PcSupportManager\PcSupportMail.cs" />
     <Compile Include="BaseFactory\PcSupportManager\SoftMaintenanceContract.cs" />
     <Compile Include="BaseFactory\ScanImageData\ScanImageDataFileInfo.cs" />
+    <Compile Include="BaseFactory\ApplyTypeMatome\ApplyTypeMatomeData.cs" />
     <Compile Include="Common\CharConversion.cs" />
     <Compile Include="Common\Date.cs" />
     <Compile Include="Common\DateConversion.cs" />
@@ -101,6 +103,12 @@
     </Compile>
     <Compile Include="Component\ExplorerTreeView.Designer.cs">
       <DependentUpon>ExplorerTreeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Component\NumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Component\NumericTextBox.Designer.cs">
+      <DependentUpon>NumericTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Component\PercentageProgressBar.cs">
       <SubType>Component</SubType>
@@ -151,6 +159,10 @@
     <Compile Include="DB\SqlServer\ScanImageData\ScanImageDataGetIO.cs" />
     <Compile Include="DB\SQLite\ScanImageData\SQLiteScanImageDataSetIO.cs" />
     <Compile Include="DB\SqlServer\ScanImageData\ScanImageDataSetIO.cs" />
+    <Compile Include="DB\SqlServer\ApplyTypeMatome\ApplyTypeMatomeAccess.cs" />
+    <Compile Include="DB\SqlServer\ApplyTypeMatome\ApplyTypeMatomeController.cs" />
+    <Compile Include="DB\SqlServer\ApplyTypeMatome\ApplyTypeMatomeGetIO.cs" />
+    <Compile Include="DB\SqlServer\ApplyTypeMatome\ApplyTypeMatomeSetIO.cs" />
     <Compile Include="Log\ErrorLogger.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Log\MainteLogger.cs" />

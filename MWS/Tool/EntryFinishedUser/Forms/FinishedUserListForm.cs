@@ -1,7 +1,7 @@
 ﻿//
-// MainForm.cs
+// FinishedUserListForm.cs
 //
-// メイン画面クラス
+// 終了ユーザーリスト参照画面クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -20,7 +20,7 @@ namespace EntryFinishedUser.Forms
 	/// <summary>
 	/// 終了ユーザー管理画面
 	/// </summary>
-	public partial class MainForm : Form
+	public partial class FinishedUserListForm : Form
 	{
 		/// <summary>
 		/// 終了ユーザー情報リスト DataSource
@@ -32,15 +32,11 @@ namespace EntryFinishedUser.Forms
 		/// </summary>
 		private List<EntryFinishedUserData> FinishedUserList { get; set; }
 
-		/// <summary>
-		/// リプレース先リスト
-		/// </summary>
-		public static List<string> gReplaceList;
 
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public MainForm()
+		public FinishedUserListForm()
 		{
 			InitializeComponent();
 
@@ -52,11 +48,8 @@ namespace EntryFinishedUser.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void ShowListForm_Load(object sender, EventArgs e)
+		private void FinishedUserListForm_Load(object sender, EventArgs e)
 		{
-			// リプレース先リストの取得
-			gReplaceList = EntryFinishedUserAccess.GetReplaceMakerList(Program.DATABACE_ACCEPT_CT);
-
 			// 終了ユーザーリストの設定
 			dataGridViewFinishedUser.DataSource = null;
 			dataGridViewFinishedUser.Rows.Clear();
@@ -121,41 +114,41 @@ namespace EntryFinishedUser.Forms
 		/// <param name="e"></param>
 		private void buttonSearch_Click(object sender, EventArgs e)
 		{
-			string tokuisakiNo = textBoxTokuisakiNo.Text.Trim();
-			if (6 == tokuisakiNo.Length)
-			{
-				bool modify = false;
-				EntryFinishedUserData user = FinishedUserList.Find(p => p.TokuisakiNo == tokuisakiNo);
-				if (null != user)
-				{
-					modify = true;
-				}
-				else
-				{
-					try
-					{
-						user = EntryFinishedUserAccess.GetCustomerInfo(tokuisakiNo, Program.DATABACE_ACCEPT_CT);
-					}
-					catch (Exception ex)
-					{
-						MessageBox.Show(ex.Message, "顧客情報取得エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-					}
-				}
-				using (EntryFinishedUserForm form = new EntryFinishedUserForm(user, modify))
-				{
-					if (DialogResult.OK == form.ShowDialog())
-					{
-						// DataSourceのクリア
-						((DataTable)dataGridViewFinishedUserBindingSource.DataSource).Clear();
+			//string tokuisakiNo = textBoxTokuisakiNo.Text.Trim();
+			//if (6 == tokuisakiNo.Length)
+			//{
+			//	//bool modify = false;
+			//	EntryFinishedUserData user = FinishedUserList.Find(p => p.TokuisakiNo == tokuisakiNo);
+			//	if (null != user)
+			//	{
+			//		modify = true;
+			//	}
+			//	else
+			//	{
+			//		try
+			//		{
+			//			user = EntryFinishedUserAccess.GetCustomerInfo(tokuisakiNo, Program.DATABACE_ACCEPT_CT);
+			//		}
+			//		catch (Exception ex)
+			//		{
+			//			MessageBox.Show(ex.Message, "顧客情報取得エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+			//		}
+			//	}
+			//	using (EntryFinishedUserForm form = new EntryFinishedUserForm(user, modify))
+			//	{
+			//		if (DialogResult.OK == form.ShowDialog())
+			//		{
+			//			// DataSourceのクリア
+			//			((DataTable)dataGridViewFinishedUserBindingSource.DataSource).Clear();
 
-						// 終了ユーザーリストの設定
-						DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.DATABACE_ACCEPT_CT);
-						dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
-						dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
-						FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
-					}
-				}
-			}
+			//			// 終了ユーザーリストの設定
+			//			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.DATABACE_ACCEPT_CT);
+			//			dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
+			//			dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
+			//			FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
+			//		}
+			//	}
+			//}
 		}
 
 		/// <summary>
@@ -165,25 +158,25 @@ namespace EntryFinishedUser.Forms
 		/// <param name="e"></param>
 		private void dataGridViewFinishedUser_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			string tokuisakiNo = (string)dataGridViewFinishedUser.CurrentRow.Cells[0].Value;
-			EntryFinishedUserData user = FinishedUserList.Find(p => p.TokuisakiNo == tokuisakiNo);
-			if (null != user)
-			{
-				using (EntryFinishedUserForm form = new EntryFinishedUserForm(user, true))
-				{
-					if (DialogResult.OK == form.ShowDialog())
-					{
-						// DataSourceのクリア
-						((DataTable)dataGridViewFinishedUserBindingSource.DataSource).Clear();
+			//string tokuisakiNo = (string)dataGridViewFinishedUser.CurrentRow.Cells[0].Value;
+			//EntryFinishedUserData user = FinishedUserList.Find(p => p.TokuisakiNo == tokuisakiNo);
+			//if (null != user)
+			//{
+			//	using (EntryFinishedUserForm form = new EntryFinishedUserForm(user, true))
+			//	{
+			//		if (DialogResult.OK == form.ShowDialog())
+			//		{
+			//			// DataSourceのクリア
+			//			((DataTable)dataGridViewFinishedUserBindingSource.DataSource).Clear();
 
-						// 終了ユーザーリストの設定
-						DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.DATABACE_ACCEPT_CT);
-						dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
-						dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
-						FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
-					}
-				}
-			}
+			//			// 終了ユーザーリストの設定
+			//			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.DATABACE_ACCEPT_CT);
+			//			dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
+			//			dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
+			//			FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
+			//		}
+			//	}
+			//}
 		}
 
 		/// <summary>

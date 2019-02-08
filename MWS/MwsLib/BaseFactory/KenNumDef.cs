@@ -117,7 +117,6 @@ namespace MwsLib.BaseFactory
             Okinawa,
         }
 
-        // $パフォーマンス改善$
         /// <summary>
         /// 都道府県名文字列
         /// index[0]で都道府県、[1]は都府県省略

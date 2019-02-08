@@ -31,6 +31,18 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 		}
 
 		/// <summary>
+		/// 得意先Noに該当する終了ユーザー情報の取得
+		/// </summary>
+		/// <param name="tokuisakiID">得意先No</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>顧客情報リスト</returns>
+		public static EntryFinishedUserData GetEntryFinishedUserData(string tokuisakiID, bool sqlsv2)
+		{
+			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUser(tokuisakiID, sqlsv2);
+			return EntryFinishedUserController.ConvertEntryFinishedUser(table);
+		}
+
+		/// <summary>
 		/// 得意先Noに該当する顧客情報を取得
 		/// </summary>
 		/// <param name="tokuisakiID">得意先No</param>

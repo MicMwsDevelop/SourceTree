@@ -17,14 +17,14 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 	public class EntryFinishedUserData
 	{
 		/// <summary>
-		/// 得意先No
-		/// </summary>
-		public string TokuisakiNo { get; set; }
-
-		/// <summary>
 		/// 顧客No
 		/// </summary>
 		public int CustomerID { get; set; }
+
+		/// <summary>
+		/// 得意先No
+		/// </summary>
+		public string TokuisakiNo { get; set; }
 
 		/// <summary>
 		/// 顧客名
@@ -110,6 +110,36 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 		/// 終了フラグユーザー
 		/// </summary>
 		public bool FinishedUser { get; set; }
+
+		/// <summary>
+		/// フィールド名の取得
+		/// </summary>
+		public static string[] FieldName
+		{
+			get
+			{
+				string[] ret = new string[17];
+				ret[0] = "顧客No";
+				ret[1] = "得意先No";
+				ret[2] = "顧客名";
+				ret[3] = "レセコン名称";
+				ret[4] = "拠点コード";
+				ret[5] = "拠点名";
+				ret[6] = "都道府県名";
+				ret[7] = "終了事由";
+				ret[8] = "リプレース";
+				ret[9] = "理由";
+				ret[10] = "コメント";
+				ret[11] = "有効ユーザーフラグ";
+				ret[12] = "除外";
+				ret[13] = "販売店ID";
+				ret[14] = "販売店名称";
+				ret[15] = "終了月";
+				ret[16] = "非paletteユーザー";
+				return ret;
+			}
+		}
+
 
 		/// <summary>
 		/// デフォルトコンストラクタ

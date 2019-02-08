@@ -1,6 +1,6 @@
 ﻿namespace EntryFinishedUser.Forms
 {
-	partial class MainForm
+	partial class FinishedUserListForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -107,7 +107,7 @@
 			this.label2.TabIndex = 6;
 			this.label2.Text = "■件数";
 			// 
-			// MainForm
+			// FinishedUserListForm
 			// 
 			this.AcceptButton = this.buttonSearch;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -119,10 +119,10 @@
 			this.Controls.Add(this.textBoxTokuisakiNo);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.dataGridViewFinishedUser);
-			this.Name = "MainForm";
+			this.Name = "FinishedUserListForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "終了ユーザー管理画面";
-			this.Load += new System.EventHandler(this.ShowListForm_Load);
+			this.Text = "終了ユーザーリスト参照";
+			this.Load += new System.EventHandler(this.FinishedUserListForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFinishedUser)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

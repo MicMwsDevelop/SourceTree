@@ -58,6 +58,11 @@ namespace EntryFinishedUser
 		public static bool DATABACE_ACCEPT_CT = true;
 
 		/// <summary>
+		/// リプレース先リスト
+		/// </summary>
+		public static List<string> gReplaceList;
+
+		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
 		/// </summary>
 		[STAThread]
@@ -89,7 +94,10 @@ namespace EntryFinishedUser
 			{
 				// メイン画面起動
 				case ProgramBootType.Menu:
-					Application.Run(new Forms.MainForm());
+					// リプレース先リストの取得
+					gReplaceList = EntryFinishedUserAccess.GetReplaceMakerList(DATABACE_ACCEPT_CT);
+
+					Application.Run(new Forms.EntryFinishedUserForm());
 					break;
 				// 月末処理
 				case ProgramBootType.EndMonth:
