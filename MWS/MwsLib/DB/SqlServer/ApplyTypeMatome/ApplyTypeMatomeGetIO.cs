@@ -25,7 +25,7 @@ namespace MwsLib.DB.SqlServer.ApplyTypeMatome
 		/// <param name="date">処理日付</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
 		/// <returns>DataTable</returns>
-		public static DataTable GetApplyMatomeList(Date date, bool sqlsv2)
+		public static DataTable GetApplyTypeMatomeList(Date date, bool sqlsv2)
 		{
 			DataTable result = null;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(sqlsv2)))

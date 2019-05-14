@@ -1,7 +1,7 @@
 ﻿//
 // Program.cs
 //
-// 申込種別まとめ情報更新コンソールアプリケーション
+// 申込種別まとめ更新コンソールアプリケーション
 //
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -27,12 +27,12 @@ namespace UpdateApplyTypeMatome
 		/// <summary>
 		/// プログラム名
 		/// </summary>
-		public static readonly string PROGRAM_NAME = "申込種別変更ツール";
+		public static readonly string PROGRAM_NAME = "申込種別まとめ更新ツール";
 
 		/// <summary>
 		/// ログファイル名
 		/// </summary>
-		public static readonly string LOG_FILENAME = "UpdateApplyMatome-{0:D4}{1:D2}{2:D2}{3:D2}{4:D2}.log";
+		public static readonly string LOG_FILENAME = "UpdateApplyTypeMatome-{0:D4}{1:D2}{2:D2}{3:D2}{4:D2}.log";
 
 		/// <summary>
 		/// メイン処理
@@ -44,7 +44,7 @@ namespace UpdateApplyTypeMatome
 			Logger.Out(logPathname, string.Format("{0} {1}:申込種別まとめ更新 開始", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 
 			// 申込種別の取得
-			List<ApplyTypeMatomeData> list = ApplyTypeMatomeAccess.GetApplyMatomeList(Date.Today, DebugMode);
+			List<ApplyTypeMatomeData> list = ApplyTypeMatomeAccess.GetApplyTypeMatomeList(Date.Today, DebugMode);
 
 			List<ApplyTypeMatomeData> org = new List<ApplyTypeMatomeData>();
 			foreach (ApplyTypeMatomeData apply in list)
@@ -57,7 +57,7 @@ namespace UpdateApplyTypeMatome
 			try
 			{
 				// 申込種別の格納
-				ApplyTypeMatomeAccess.SetApplyMatomeType(list, DebugMode);
+				ApplyTypeMatomeAccess.SetApplyTypeMatome(list, DebugMode);
 				foreach (ApplyTypeMatomeData apply in org)
 				{
 					// ログ出力
@@ -66,7 +66,7 @@ namespace UpdateApplyTypeMatome
 			}
 			catch (Exception ex)
 			{
-				Logger.Out(logPathname, string.Format("#ERROR:ApplyMatomeAccess.SetApplyMatomeType ({0})", ex.Message));
+				Logger.Out(logPathname, string.Format("#ERROR:ApplyTypeMatomeAccess.SetApplyTypeMatome ({0})", ex.Message));
 				Logger.Out(logPathname, string.Format("{0} {1}:申込種別まとめ更新 異常終了", Program.PROGRAM_NAME, DateTime.Now.ToString()));
 				return;
 			}

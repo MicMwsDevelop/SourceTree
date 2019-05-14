@@ -26,10 +26,10 @@ namespace MwsLib.DB.SqlServer.ApplyTypeMatome
 		/// <param name="date">処理日付</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
 		/// <returns>申込種別まとめ情報リスト</returns>
-		public static List<ApplyTypeMatomeData> GetApplyMatomeList(Date date, bool sqlsv2)
+		public static List<ApplyTypeMatomeData> GetApplyTypeMatomeList(Date date, bool sqlsv2)
 		{
-			DataTable table = ApplyTypeMatomeGetIO.GetApplyMatomeList(date, sqlsv2);
-			return ApplyTypeMatomeController.ConvertApplyMatomeList(table);
+			DataTable table = ApplyTypeMatomeGetIO.GetApplyTypeMatomeList(date, sqlsv2);
+			return ApplyTypeMatomeController.ConvertApplyTypeMatomeList(table);
 		}
 
 		/// <summary>
@@ -38,9 +38,9 @@ namespace MwsLib.DB.SqlServer.ApplyTypeMatome
 		/// <param name="list">申込種別まとめ情報リスト</param>
 		/// <param name="sqlsv2">CT環境</param>
 		/// <returns>レコード数</returns>
-		public static int SetApplyMatomeType(List<ApplyTypeMatomeData> list, bool sqlsv2 = false)
+		public static int SetApplyTypeMatome(List<ApplyTypeMatomeData> list, bool sqlsv2 = false)
 		{
-			return ApplyTypeMatomeSetIO.UpdateApplyMatomeType(list, sqlsv2);
+			return ApplyTypeMatomeSetIO.UpdateApplyTypeMatome(list, sqlsv2);
 		}
 	}
 }

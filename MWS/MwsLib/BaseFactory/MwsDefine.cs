@@ -9,6 +9,10 @@ using MwsLib.Common;
 
 namespace MwsLib.BaseFactory
 {
+	/// <summary>
+	/// MWS関連定義クラス
+	/// [Charlie].[dbo].[T_CUSTOMER_FOUNDATIONS].APPLY_TYPE
+	/// </summary>
 	public static class MwsDefine
 	{
 		/// <summary>

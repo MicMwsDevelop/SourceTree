@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
 [assembly: AssemblyTitle("UpdateApplyTypeMatome")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("申込種別まとめ変更コンソールアプリケーション")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("MIC 営業管理部")]
 [assembly: AssemblyProduct("UpdateApplyTypeMatome")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]

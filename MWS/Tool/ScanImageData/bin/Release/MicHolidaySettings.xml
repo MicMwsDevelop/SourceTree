@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MicHolidaySettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <NationalHoliday>
+    <string>2018,0101,0211,0429,0503,0504,0505,0811,1103,1123,1223</string>
+    <string>2019,0101,0211,0321,0429,0430,0501,0502,0503,0504,0505,0811,1022,1103,1123,1223</string>
+    <string>2020,0101,0211,0429,0503,0504,0505,0506,0811,1103,1123,1223</string>
+  </NationalHoliday>
+  <HappyMonday>
+    <string>2003,0102,0703,0903,1002</string>
+  </HappyMonday>
+  <SpecialHoliday>
+    <string>2018,0102,0103,0104,0813,0814,0815,0816,0817,1230,1231</string>
+    <string>2019,0102,0103,0104,0813,0814,0815,0816,1230,1231</string>
+    <string>2020,0102,0103,0812,0813,0814,1230,1231</string>
+  </SpecialHoliday>
+  <WeeklyHoliday>1,0,0,0,0,0,1</WeeklyHoliday>
+</MicHolidaySettings>

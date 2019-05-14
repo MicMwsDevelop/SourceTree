@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
+// Ver1.001 新元号令和対応(2019/05/01 勝呂)
 //
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,12 @@ namespace MwsLib.Common
         private static readonly GengoInformation[] m_GengoInformations = new GengoInformation[] {
             new GengoInformation{ ID = GengoID.Meiji, Name = "明治", AlphaName = "M", Span = new Span(new Date(1868, 10, 23), new Date(1912, 7, 29))},
             new GengoInformation{ ID = GengoID.Taisho, Name = "大正", AlphaName = "T", Span = new Span(new Date(1912, 07, 30), new Date(1926, 12, 24))},
-            new GengoInformation{ ID = GengoID.Showa, Name = "昭和", AlphaName = "S", Span = new Span(new Date(1926, 12, 25), new Date(1989, 1, 07))},
-            new GengoInformation{ ID = GengoID.Heisei, Name = "平成", AlphaName = "H", Span = new Span(new Date(1989, 1, 8), Date.MaxValue)},
-        };
+            new GengoInformation{ ID = GengoID.Showa, Name = "昭和", AlphaName = "S", Span = new Span(new Date(1926, 12, 25), new Date(1989, 1, 7))},
+            new GengoInformation{ ID = GengoID.Heisei, Name = "平成", AlphaName = "H", Span = new Span(new Date(1989, 1, 8), new Date(2019, 4, 30))},
+
+			// Ver1.001 新元号令和対応(2019/05/01 勝呂)
+			new GengoInformation{ ID = GengoID.Reiwa, Name = "令和", AlphaName = "R", Span = new Span(new Date(2019, 5, 1), Date.MaxValue)},
+		};
 
         /// <summary>全ての元号</summary>
         public static IEnumerable<GengoInformation> All

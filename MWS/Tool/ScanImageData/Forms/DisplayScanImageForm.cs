@@ -8,26 +8,26 @@
 // Ver1.000 新規作成(2018/12/13 勝呂)
 //
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace ScanImageData.Forms
 {
 	public partial class DisplayScanImageForm : Form
 	{
-		//public string ScanImagePathname { get; set; }
-
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
 		private DisplayScanImageForm()
 		{
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
+		/// <param name="filename"></param>
 		public DisplayScanImageForm(string filename)
 		{
 			InitializeComponent();
@@ -35,6 +35,11 @@ namespace ScanImageData.Forms
 			textBoxFilename.Text = filename;
 		}
 
+		/// <summary>
+		/// Form Load
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void DisplayScanImageForm_Load(object sender, EventArgs e)
 		{
 			string ext = Path.GetExtension(textBoxFilename.Text);

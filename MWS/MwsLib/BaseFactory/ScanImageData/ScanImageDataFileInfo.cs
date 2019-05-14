@@ -144,5 +144,24 @@ namespace MwsLib.BaseFactory.ScanImageData
 		{
 			FolderName = folder.Replace(rootPath + @"\", "");
 		}
+
+		/// <summary>
+		/// ログ出力文字列の取得
+		/// </summary>
+		/// <returns>ログ出力文字列</returns>
+		public string LogOut()
+		{
+			string[] log = new string[9];
+			log[0] = ScanID.ToString();
+			log[1] = Document.ToString();
+			log[2] = CustomerNo.ToString();
+			log[3] = TokuisakiNo;
+			log[4] = ClinicName;
+			log[5] = FolderName;
+			log[6] = FileName;
+			log[7] = FileDateTime.ToString();
+			log[8] = Method.ToString();
+			return string.Join(",", log);
+		}
 	}
 }

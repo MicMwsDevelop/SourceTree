@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace MwsLib.BaseFactory.ScanImageData
 {
+	/// <summary>
+	/// 文書インデックス定義関連
+	/// </summary>
 	public class ScanImageDataDef
 	{
 		/// <summary>
@@ -25,17 +29,17 @@ namespace MwsLib.BaseFactory.ScanImageData
 			/// <summary>
 			/// 登録・変更
 			/// </summary>
-			User = 10,
+			Toroku = 10,
 
 			/// <summary>
 			/// 保守契約
 			/// </summary>
-			Mainte = 20,
+			Hosyu = 20,
 
 			/// <summary>
 			/// 口座振替
 			/// </summary>
-			AccountTransfer = 30,
+			Kofuri = 30,
 
 			/// <summary>
 			/// 取引条件確認書
@@ -50,7 +54,12 @@ namespace MwsLib.BaseFactory.ScanImageData
 			/// <summary>
 			/// リモートサービス利用規約同意書
 			/// </summary>
-			Consent = 60,
+			Remote = 60,
+
+			/// <summary>
+			/// PC安心サポート
+			/// </summary>
+			PcSupport = 70,
 
 			/// <summary>
 			/// その他
@@ -61,26 +70,46 @@ namespace MwsLib.BaseFactory.ScanImageData
 		/// <summary>
 		/// 登録・変更フォルダ名
 		/// </summary>
-		public static readonly string FolderUser = "toroku";
+		public static readonly string FolderToroku = @"Toroku";
 
 		/// <summary>
-		/// 保守契約
+		/// 保守契約フォルダ名
 		/// </summary>
-		public static readonly string FolderMainte = "hosyu";
+		public static readonly string FolderHoshu = @"Hosyu";
 
 		/// <summary>
-		/// 口座振替
+		/// 保守契約解約フォルダ名
 		/// </summary>
-		public static readonly string FolderAccountTransfer = "kofuri";
+		public static readonly string FolderHoshuKaiyaku = Path.Combine(FolderHoshu, @"Kaiyaku");
 
 		/// <summary>
-		/// 取引条件確認書
+		/// 保守契約加入フォルダ名
 		/// </summary>
-		public static readonly string FolderTransaction = "取引条件確認書";
+		public static readonly string FolderHoshuKanyu = Path.Combine(FolderHoshu, @"Kanyu");
 
 		/// <summary>
-		/// リモートサービス利用規約同意書
+		/// 口座振替フォルダ名
 		/// </summary>
-		public static readonly string FolderConsent = "リモートサービス利用規約同意書";
+		public static readonly string FolderKofuri = @"Kofuri";
+
+		/// <summary>
+		/// 取引条件確認書フォルダ名
+		/// </summary>
+		public static readonly string FolderTransaction = @"取引条件確認書";
+
+		/// <summary>
+		/// リモートサービス利用規約同意書フォルダ名
+		/// </summary>
+		public static readonly string FolderRemote = @"リモートサービス利用規約同意書";
+
+		/// <summary>
+		/// PC安心サポートフォルダ名
+		/// </summary>
+		public static readonly string FolderPcSupport = @"PC安心サポート";
+
+		/// <summary>
+		/// 得意先検索
+		/// </summary>
+		public static readonly string TokuisakiSearch = @"得意先検索";
 	}
 }

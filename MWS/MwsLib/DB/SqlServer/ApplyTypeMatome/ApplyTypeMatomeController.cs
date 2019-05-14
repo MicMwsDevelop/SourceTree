@@ -21,7 +21,7 @@ namespace MwsLib.DB.SqlServer.ApplyTypeMatome
 		/// </summary>
 		/// <param name="table">DataTable</param>
 		/// <returns>申込種別まとめ情報リスト</returns>
-		public static List<ApplyTypeMatomeData> ConvertApplyMatomeList(DataTable table)
+		public static List<ApplyTypeMatomeData> ConvertApplyTypeMatomeList(DataTable table)
 		{
 			List<ApplyTypeMatomeData> result = null;
 			if (null != table)

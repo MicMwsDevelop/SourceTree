@@ -8,28 +8,26 @@
 // Ver1.000 新規作成(2018/12/13 勝呂)
 //
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using MwsLib.BaseFactory.ScanImageData;
 using System.IO;
-using MwsLib.DB.SqlServer.ScanImageData;
+using System.Windows.Forms;
 
 namespace ScanImageData.Forms
 {
 	public partial class MainForm : Form
 	{
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
 		private MainForm()
 		{
 			InitializeComponent();
 
 		}
 
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
+		/// <param name="scanPath"></param>
 		public MainForm(string scanPath)
 		{
 			InitializeComponent();
@@ -90,11 +88,10 @@ namespace ScanImageData.Forms
 			// カーソルを待機カーソルに変更
 			Cursor.Current = Cursors.WaitCursor;
 
-			string msg;
-			int ret = Program.RemakeScanImageData(textBoxScanImageDataPath.Text, out msg);
+			int ret = Program.RemakeScanImageData(textBoxScanImageDataPath.Text);
 			if (-1 == ret)
 			{
-				MessageBox.Show(msg, "再作成", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				MessageBox.Show("スキャンデータ登録情報の再作成エラー", "再作成", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			}
 			else if (0 < ret)
 			{

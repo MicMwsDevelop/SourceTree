@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
+﻿//
+// RemakeScanDataForm.cs
+// 
+// スキャンデータ登録情報再作成画面
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2018/12/13 勝呂)
+//
 using MwsLib.BaseFactory.ScanImageData;
 using MwsLib.DB.SqlServer.ScanImageData;
-using MwsLib.DB.SQLite.ScanImageData;
-using MwsLib.Common;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace ScanImageData.Forms
 {
@@ -32,7 +35,6 @@ namespace ScanImageData.Forms
 		public RemakeScanDataForm()
 		{
 			InitializeComponent();
-
 		}
 
 		/// <summary>
@@ -42,8 +44,7 @@ namespace ScanImageData.Forms
 		/// <param name="e"></param>
 		private void RemakeScanDataForm_Load(object sender, EventArgs e)
 		{
-			//textBoxScanImageDataPath.Text = @"D:\_●営業管理部\●文書インデックス\ScanImageData";
-			textBoxScanImageDataPath.Text = @"\\sqlsv\data保存\ScanImageData";
+			textBoxScanImageDataPath.Text = Program.gSettings.ScanImageDataPath;
 
 			// 顧客情報リストの取得
 			CustomerInfoList = ScanImageDataAccess.GetCustomerInfoList();
@@ -109,43 +110,43 @@ namespace ScanImageData.Forms
 			// 登録・変更
 			List<Tuple<string, string>> searchToroku = null;
 			List<string> scanToroku = null;
-			string pathToroku = Path.Combine(textBoxScanImageDataPath.Text, "toroku");
+			string pathToroku = Path.Combine(textBoxScanImageDataPath.Text, ScanImageDataDef.FolderToroku);
 			MakeReadFolderList(pathToroku, out searchToroku, out scanToroku);
 			if (0 < searchToroku.Count + scanToroku.Count)
 			{
-				MakeScanDataFileInfoList(textBoxScanImageDataPath.Text, ScanImageDataDef.ScanDocumentType.User, searchToroku, scanToroku, ref dataList);
+				MakeScanDataFileInfoList(textBoxScanImageDataPath.Text, ScanImageDataDef.ScanDocumentType.Toroku, searchToroku, scanToroku, ref dataList);
 			}
 			// 保守契約（解約）
 			List<Tuple<string, string>> searchKaiyaku = null;
 			List<string> scanKaiyaku = null;
-			string pathKaiyaku = Path.Combine(textBoxScanImageDataPath.Text, @"hosyu\Kaiyaku");
+			string pathKaiyaku = Path.Combine(textBoxScanImageDataPath.Text, ScanImageDataDef.FolderHoshuKaiyaku);
 			MakeReadFolderList(pathKaiyaku, out searchKaiyaku, out scanKaiyaku);
 			if (0 < searchKaiyaku.Count + scanKaiyaku.Count)
 			{
-				MakeScanDataFileInfoList(textBoxScanImageDataPath.Text, ScanImageDataDef.ScanDocumentType.Mainte, searchKaiyaku, scanKaiyaku, ref dataList);
+				MakeScanDataFileInfoList(textBoxScanImageDataPath.Text, ScanImageDataDef.ScanDocumentType.Hosyu, searchKaiyaku, scanKaiyaku, ref dataList);
 			}
 			// 保守契約（加入）
 			List<Tuple<string, string>> searchKanyu = null;
 			List<string> scanKanyu = null;
-			string pathKanyu = Path.Combine(textBoxScanImageDataPath.Text, @"hosyu\Kanyu");
+			string pathKanyu = Path.Combine(textBoxScanImageDataPath.Text, ScanImageDataDef.FolderHoshuKanyu);
 			MakeReadFolderList(pathKanyu, out searchKanyu, out scanKanyu);
 			if (0 < searchKanyu.Count + scanKanyu.Count)
 			{
-				MakeScanDataFileInfoList(textBoxScanImageDataPath.Text, ScanImageDataDef.ScanDocumentType.Mainte, searchKanyu, scanKanyu, ref dataList);
+				MakeScanDataFileInfoList(textBoxScanImageDataPath.Text, ScanImageDataDef.ScanDocumentType.Hosyu, searchKanyu, scanKanyu, ref dataList);
 			}
 			// 口座振替
 			List<Tuple<string, string>> searchKofuri = null;
 			List<string> scanKofuri = null;
-			string pathKofuri = Path.Combine(textBoxScanImageDataPath.Text, @"kofuri");
+			string pathKofuri = Path.Combine(textBoxScanImageDataPath.Text, ScanImageDataDef.FolderKofuri);
 			MakeReadFolderList(pathKofuri, out searchKofuri, out scanKofuri);
 			if (0 < searchKofuri.Count + scanKofuri.Count)
 			{
-				MakeScanDataFileInfoList(textBoxScanImageDataPath.Text, ScanImageDataDef.ScanDocumentType.AccountTransfer, searchKofuri, scanKofuri, ref dataList);
+				MakeScanDataFileInfoList(textBoxScanImageDataPath.Text, ScanImageDataDef.ScanDocumentType.Kofuri, searchKofuri, scanKofuri, ref dataList);
 			}
 			// 取引条件確認書
 			List<Tuple<string, string>> searchTransaction = null;
 			List<string> scanTransaction = null;
-			string transactionPath = Path.Combine(textBoxScanImageDataPath.Text, @"取引条件確認書");
+			string transactionPath = Path.Combine(textBoxScanImageDataPath.Text, ScanImageDataDef.FolderTransaction);
 			MakeReadFolderList(transactionPath, out searchTransaction, out scanTransaction);
 			if (0 < searchTransaction.Count + scanTransaction.Count)
 			{
@@ -154,11 +155,11 @@ namespace ScanImageData.Forms
 			// リモートサービス利用規約同意書
 			List<Tuple<string, string>> searchConcent = null;
 			List<string> scanConcent = null;
-			string pathConcent = Path.Combine(textBoxScanImageDataPath.Text, @"リモートサービス利用規約同意書");
+			string pathConcent = Path.Combine(textBoxScanImageDataPath.Text, ScanImageDataDef.FolderRemote);
 			MakeReadFolderList(pathConcent, out searchConcent, out scanConcent);
 			if (0 < searchConcent.Count + scanConcent.Count)
 			{
-				MakeScanDataFileInfoList(textBoxScanImageDataPath.Text, ScanImageDataDef.ScanDocumentType.Consent, searchConcent, scanConcent, ref dataList);
+				MakeScanDataFileInfoList(textBoxScanImageDataPath.Text, ScanImageDataDef.ScanDocumentType.Remote, searchConcent, scanConcent, ref dataList);
 			}
 			if (0 < dataList.Count)
 			{
@@ -200,7 +201,7 @@ namespace ScanImageData.Forms
 		{
 			// 得意先検索フォルダにある得意先検索ファイルからスキャンデータフォルダ名の取得
 			searchList = new List<Tuple<string, string>>();
-			string searchPath = Path.Combine(path, "得意先検索");
+			string searchPath = Path.Combine(path, ScanImageDataDef.TokuisakiSearch);
 			if (Directory.Exists(searchPath))
 			{
 				// c:\ScanImageData\touroku\得意先検索
@@ -235,13 +236,13 @@ namespace ScanImageData.Forms
 		/// <param name="scanFolders">スキャンデータ登録リスト</param>
 		private void SearchFolder(string path, List<Tuple<string, string>> searchList, ref List<string> scanFolders)
 		{
-			string[] folders = Directory.GetDirectories(path, "*", System.IO.SearchOption.TopDirectoryOnly);
+			string[] folders = Directory.GetDirectories(path, "*", SearchOption.TopDirectoryOnly);
 			if (0 < folders.Count())
 			{
 				foreach (string folder in folders)
 				{
 					// c:\ScanImageData\touroku\01～05 → 01～05
-					if (-1 == searchList.FindIndex(p => p.Item2 == folder) && Path.Combine(path, "得意先検索") != folder)
+					if (-1 == searchList.FindIndex(p => p.Item2 == folder) && Path.Combine(path, ScanImageDataDef.TokuisakiSearch) != folder)
 					{
 						// 得意先検索で設定されていないフォルダ
 						scanFolders.Add(folder);

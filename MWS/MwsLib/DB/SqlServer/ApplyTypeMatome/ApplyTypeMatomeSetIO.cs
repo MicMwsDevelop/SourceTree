@@ -27,7 +27,7 @@ namespace MwsLib.DB.SqlServer.ApplyTypeMatome
 		/// <param name="list">申込種別まとめ情報リスト</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int UpdateApplyMatomeType(List<ApplyTypeMatomeData> list, bool sqlsv2)
+		public static int UpdateApplyTypeMatome(List<ApplyTypeMatomeData> list, bool sqlsv2)
 		{
 			int rowCount = -1;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(sqlsv2)))

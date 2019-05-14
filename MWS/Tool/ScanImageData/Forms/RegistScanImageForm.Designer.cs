@@ -30,11 +30,11 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.radioButtonUser = new System.Windows.Forms.RadioButton();
-			this.radioButtonMainte = new System.Windows.Forms.RadioButton();
-			this.radioButtonAccountTransfer = new System.Windows.Forms.RadioButton();
-			this.radioButtonTransaction = new System.Windows.Forms.RadioButton();
 			this.radioButtonConsent = new System.Windows.Forms.RadioButton();
+			this.radioButtonTransaction = new System.Windows.Forms.RadioButton();
+			this.radioButtonAccountTransfer = new System.Windows.Forms.RadioButton();
+			this.radioButtonMainte = new System.Windows.Forms.RadioButton();
+			this.radioButtonUser = new System.Windows.Forms.RadioButton();
 			this.explorerListViewScanImage = new MwsLib.Component.ExplorerListView(this.components);
 			this.explorerTreeViewScanImage = new MwsLib.Component.ExplorerTreeView(this.components);
 			this.groupBox1.SuspendLayout();
@@ -54,38 +54,16 @@
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "文書種別";
 			// 
-			// radioButtonUser
+			// radioButtonConsent
 			// 
-			this.radioButtonUser.AutoSize = true;
-			this.radioButtonUser.Location = new System.Drawing.Point(18, 28);
-			this.radioButtonUser.Name = "radioButtonUser";
-			this.radioButtonUser.Size = new System.Drawing.Size(77, 16);
-			this.radioButtonUser.TabIndex = 0;
-			this.radioButtonUser.Text = "登録・変更";
-			this.radioButtonUser.UseVisualStyleBackColor = true;
-			this.radioButtonUser.CheckedChanged += new System.EventHandler(this.radioButtonUser_CheckedChanged);
-			// 
-			// radioButtonMainte
-			// 
-			this.radioButtonMainte.AutoSize = true;
-			this.radioButtonMainte.Location = new System.Drawing.Point(101, 28);
-			this.radioButtonMainte.Name = "radioButtonMainte";
-			this.radioButtonMainte.Size = new System.Drawing.Size(71, 16);
-			this.radioButtonMainte.TabIndex = 1;
-			this.radioButtonMainte.Text = "保守契約";
-			this.radioButtonMainte.UseVisualStyleBackColor = true;
-			this.radioButtonMainte.CheckedChanged += new System.EventHandler(this.radioButtonMainte_CheckedChanged);
-			// 
-			// radioButtonAccountTransfer
-			// 
-			this.radioButtonAccountTransfer.AutoSize = true;
-			this.radioButtonAccountTransfer.Location = new System.Drawing.Point(178, 28);
-			this.radioButtonAccountTransfer.Name = "radioButtonAccountTransfer";
-			this.radioButtonAccountTransfer.Size = new System.Drawing.Size(71, 16);
-			this.radioButtonAccountTransfer.TabIndex = 2;
-			this.radioButtonAccountTransfer.Text = "口座振替";
-			this.radioButtonAccountTransfer.UseVisualStyleBackColor = true;
-			this.radioButtonAccountTransfer.CheckedChanged += new System.EventHandler(this.radioButtonAccountTransfer_CheckedChanged);
+			this.radioButtonConsent.AutoSize = true;
+			this.radioButtonConsent.Location = new System.Drawing.Point(368, 28);
+			this.radioButtonConsent.Name = "radioButtonConsent";
+			this.radioButtonConsent.Size = new System.Drawing.Size(178, 16);
+			this.radioButtonConsent.TabIndex = 4;
+			this.radioButtonConsent.Text = "リモートサービス利用規約同意書";
+			this.radioButtonConsent.UseVisualStyleBackColor = true;
+			this.radioButtonConsent.CheckedChanged += new System.EventHandler(this.radioButtonConsent_CheckedChanged);
 			// 
 			// radioButtonTransaction
 			// 
@@ -98,22 +76,45 @@
 			this.radioButtonTransaction.UseVisualStyleBackColor = true;
 			this.radioButtonTransaction.CheckedChanged += new System.EventHandler(this.radioButtonTransaction_CheckedChanged);
 			// 
-			// radioButtonConsent
+			// radioButtonAccountTransfer
 			// 
-			this.radioButtonConsent.AutoSize = true;
-			this.radioButtonConsent.Location = new System.Drawing.Point(368, 28);
-			this.radioButtonConsent.Name = "radioButtonConsent";
-			this.radioButtonConsent.Size = new System.Drawing.Size(178, 16);
-			this.radioButtonConsent.TabIndex = 4;
-			this.radioButtonConsent.Text = "リモートサービス利用規約同意書";
-			this.radioButtonConsent.UseVisualStyleBackColor = true;
-			this.radioButtonConsent.CheckedChanged += new System.EventHandler(this.radioButtonConsent_CheckedChanged);
+			this.radioButtonAccountTransfer.AutoSize = true;
+			this.radioButtonAccountTransfer.Location = new System.Drawing.Point(178, 28);
+			this.radioButtonAccountTransfer.Name = "radioButtonAccountTransfer";
+			this.radioButtonAccountTransfer.Size = new System.Drawing.Size(71, 16);
+			this.radioButtonAccountTransfer.TabIndex = 2;
+			this.radioButtonAccountTransfer.Text = "口座振替";
+			this.radioButtonAccountTransfer.UseVisualStyleBackColor = true;
+			this.radioButtonAccountTransfer.CheckedChanged += new System.EventHandler(this.radioButtonAccountTransfer_CheckedChanged);
+			// 
+			// radioButtonMainte
+			// 
+			this.radioButtonMainte.AutoSize = true;
+			this.radioButtonMainte.Location = new System.Drawing.Point(101, 28);
+			this.radioButtonMainte.Name = "radioButtonMainte";
+			this.radioButtonMainte.Size = new System.Drawing.Size(71, 16);
+			this.radioButtonMainte.TabIndex = 1;
+			this.radioButtonMainte.Text = "保守契約";
+			this.radioButtonMainte.UseVisualStyleBackColor = true;
+			this.radioButtonMainte.CheckedChanged += new System.EventHandler(this.radioButtonMainte_CheckedChanged);
+			// 
+			// radioButtonUser
+			// 
+			this.radioButtonUser.AutoSize = true;
+			this.radioButtonUser.Location = new System.Drawing.Point(18, 28);
+			this.radioButtonUser.Name = "radioButtonUser";
+			this.radioButtonUser.Size = new System.Drawing.Size(77, 16);
+			this.radioButtonUser.TabIndex = 0;
+			this.radioButtonUser.Text = "登録・変更";
+			this.radioButtonUser.UseVisualStyleBackColor = true;
+			this.radioButtonUser.CheckedChanged += new System.EventHandler(this.radioButtonUser_CheckedChanged);
 			// 
 			// explorerListViewScanImage
 			// 
 			this.explorerListViewScanImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.explorerListViewScanImage.HideSelection = false;
 			this.explorerListViewScanImage.Location = new System.Drawing.Point(324, 82);
 			this.explorerListViewScanImage.Name = "explorerListViewScanImage";
 			this.explorerListViewScanImage.Size = new System.Drawing.Size(574, 558);
@@ -126,6 +127,7 @@
 			// 
 			this.explorerTreeViewScanImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+			this.explorerTreeViewScanImage.HideSelection = false;
 			this.explorerTreeViewScanImage.LinkedExplorerListView = this.explorerListViewScanImage;
 			this.explorerTreeViewScanImage.Location = new System.Drawing.Point(13, 82);
 			this.explorerTreeViewScanImage.Name = "explorerTreeViewScanImage";

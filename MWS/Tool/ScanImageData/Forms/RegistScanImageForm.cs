@@ -7,17 +7,11 @@
 // 
 // Ver1.000 新規作成(2018/12/13 勝呂)
 //
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using MwsLib.Component;
-using System.IO;
 using MwsLib.BaseFactory.ScanImageData;
+using MwsLib.Component;
+using System;
+using System.IO;
+using System.Windows.Forms;
 
 namespace ScanImageData.Forms
 {
@@ -31,11 +25,18 @@ namespace ScanImageData.Forms
 		private string ScanDataImageFolder { get; set; }
 
 
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
 		private RegistScanImageForm()
 		{
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
+		/// <param name="path"></param>
 		public RegistScanImageForm(string path)
 		{
 			InitializeComponent();
@@ -88,11 +89,20 @@ namespace ScanImageData.Forms
 		/// <param name="e"></param>
 		private void radioButtonUser_CheckedChanged(object sender, EventArgs e)
 		{
-			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderUser);
+			// 元のカーソルを保持
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
+			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderToroku);
 			explorerTreeViewScanImage.UIInit(ScanDataImageFolder);
 			explorerListViewScanImage.UIInit(ScanDataImageFolder);
 
 			//explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
+
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
 		}
 
 		/// <summary>
@@ -102,11 +112,19 @@ namespace ScanImageData.Forms
 		/// <param name="e"></param>
 		private void radioButtonMainte_CheckedChanged(object sender, EventArgs e)
 		{
-			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderMainte);
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
+			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderHoshu);
 			explorerTreeViewScanImage.UIInit(ScanDataImageFolder);
 			explorerListViewScanImage.UIInit(ScanDataImageFolder);
 
 			//explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
+
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
 		}
 
 		/// <summary>
@@ -116,11 +134,19 @@ namespace ScanImageData.Forms
 		/// <param name="e"></param>
 		private void radioButtonAccountTransfer_CheckedChanged(object sender, EventArgs e)
 		{
-			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderAccountTransfer);
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
+			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderKofuri);
 			explorerTreeViewScanImage.UIInit(ScanDataImageFolder);
 			explorerListViewScanImage.UIInit(ScanDataImageFolder);
 
 			//explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
+
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
 		}
 
 		/// <summary>
@@ -130,11 +156,19 @@ namespace ScanImageData.Forms
 		/// <param name="e"></param>
 		private void radioButtonTransaction_CheckedChanged(object sender, EventArgs e)
 		{
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
 			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderTransaction);
 			explorerTreeViewScanImage.UIInit(ScanDataImageFolder);
 			explorerListViewScanImage.UIInit(ScanDataImageFolder);
 
 			//explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
+
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
 		}
 
 		/// <summary>
@@ -144,11 +178,19 @@ namespace ScanImageData.Forms
 		/// <param name="e"></param>
 		private void radioButtonConsent_CheckedChanged(object sender, EventArgs e)
 		{
-			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderConsent);
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
+			ScanDataImageFolder = Path.Combine(ScanDataImagePath, ScanImageDataDef.FolderRemote);
 			explorerTreeViewScanImage.UIInit(ScanDataImageFolder);
 			explorerListViewScanImage.UIInit(ScanDataImageFolder);
 
 			//explorerTreeViewScanImage.SelectedNode = explorerTreeViewScanImage.TopNode;
+
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
 		}
 	}
 }
