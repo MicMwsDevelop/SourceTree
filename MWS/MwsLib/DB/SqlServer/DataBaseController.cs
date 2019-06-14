@@ -53,14 +53,47 @@ namespace MwsLib.DB.SqlServer
             return result;
         }
 
-        /// <summary>
-        /// BulkCopyの実行
-        /// （100行以上のInsertの時のみ使用する）
-        /// </summary>
-        /// <param name="con">SqlConnection</param>
-        /// <param name="table">DataTable</param>
-        /// <returns>実行結果</returns>
-        internal static int SqlExecuteBulkCopy(SqlConnection con, SqlTransaction tran, DataTable table)
+		/// <summary>
+		/// SQLコマンドの実行
+		/// </summary>
+		/// <param name="con">SqlConnection</param>
+		/// <param name="tran">SqlTransaction</param>
+		/// <param name="table">DataTable</param>
+		/// <param name="sqlString">クエリ</param>
+		/// <returns>実行結果</returns>
+		internal static object SqlExecuteScalar(SqlConnection con, SqlTransaction tran, string sqlString, SqlParameter[] param = null)
+		{
+			object result = null;
+			{
+				using (SqlCommand cmd = new SqlCommand(sqlString, con, tran))
+				{
+					cmd.Parameters.Clear();
+					if (null != param)
+					{
+						cmd.Parameters.AddRange(param);
+					}
+					try
+					{
+						//実行
+						result = cmd.ExecuteScalar();
+					}
+					catch
+					{
+						throw;
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// BulkCopyの実行
+		/// （100行以上のInsertの時のみ使用する）
+		/// </summary>
+		/// <param name="con">SqlConnection</param>
+		/// <param name="table">DataTable</param>
+		/// <returns>実行結果</returns>
+		internal static int SqlExecuteBulkCopy(SqlConnection con, SqlTransaction tran, DataTable table)
         {
             int result = -1;
             {
@@ -421,5 +454,5 @@ namespace MwsLib.DB.SqlServer
             }
             return paramList.ToArray();
         }
-    }
+	}
 }

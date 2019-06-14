@@ -67,5 +67,22 @@ namespace MwsLib.Component
 			}
 			base.WndProc(ref m);
 		}
+
+		/// <summary>
+		/// 数値の取得
+		/// </summary>
+		/// <returns>数値</returns>
+		public int ToInt()
+		{
+			if (0 < this.Text.Length)
+			{
+				int work;
+				if (int.TryParse(this.Text, out work))
+				{
+					return work;
+				}
+			}
+			return 0;
+		}
 	}
 }

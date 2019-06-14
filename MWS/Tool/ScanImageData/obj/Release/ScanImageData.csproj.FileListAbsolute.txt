@@ -23,3 +23,4 @@ D:\SourceTree\MWS\Tool\ScanImageData\obj\Release\ScanImageData.Properties.Resour
 D:\SourceTree\MWS\Tool\ScanImageData\obj\Release\ScanImageData.csproj.GenerateResource.Cache
 D:\SourceTree\MWS\Tool\ScanImageData\obj\Release\ScanImageData.exe
 D:\SourceTree\MWS\Tool\ScanImageData\obj\Release\ScanImageData.pdb
+D:\SourceTree\MWS\Tool\ScanImageData\obj\Release\ScanImageData.Forms.MakeIndexFileForm.resources

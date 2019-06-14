@@ -17,6 +17,11 @@ namespace MwsLib.BaseFactory.ScanImageData
 		public const string SCAN_IMAGE_DATA_DATABASE_NAME = "ScanImageData.db";
 
 		/// <summary>
+		/// サービス情報テーブル名
+		/// </summary>
+		public const string INDEX_FILE_TABLE_NAME = "INDEX_FILE";
+
+		/// <summary>
 		/// 文書種別
 		/// </summary>
 		public enum ScanDocumentType

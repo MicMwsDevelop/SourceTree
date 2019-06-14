@@ -95,7 +95,7 @@ namespace ScanImageData
 				case ProgramBootType.Menu:
 					Application.EnableVisualStyles();
 					Application.SetCompatibleTextRenderingDefault(false);
-					Application.Run(new Forms.RegistScanImageForm(scanPath));
+					Application.Run(new Forms.MainForm(scanPath));
 					break;
 				// スキャンデータ登録情報の再作成
 				case ProgramBootType.Remake:

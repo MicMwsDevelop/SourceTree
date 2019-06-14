@@ -16,7 +16,7 @@ namespace MwsLib.BaseFactory
 	public static class MwsDefine
 	{
 		/// <summary>
-		/// 申込種別
+		/// 申込種別/販売種別
 		/// </summary>
 		public enum ApplyType
 		{
@@ -47,7 +47,7 @@ namespace MwsLib.BaseFactory
 		}
 
 		/// <summary>
-		/// 申込種別文字列
+		/// 申込種別/販売種別文字列
 		/// </summary>
 		public static readonly EnumDictionary<ApplyType, string> ApplyTypeString = new EnumDictionary<ApplyType, string>()
 		{

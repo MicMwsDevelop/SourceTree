@@ -47,9 +47,11 @@
 			this.groupBox1.Controls.Add(this.radioButtonAccountTransfer);
 			this.groupBox1.Controls.Add(this.radioButtonMainte);
 			this.groupBox1.Controls.Add(this.radioButtonUser);
-			this.groupBox1.Location = new System.Drawing.Point(13, 13);
+			this.groupBox1.Location = new System.Drawing.Point(15, 16);
+			this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(563, 62);
+			this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.groupBox1.Size = new System.Drawing.Size(611, 59);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "文書種別";
@@ -57,9 +59,10 @@
 			// radioButtonConsent
 			// 
 			this.radioButtonConsent.AutoSize = true;
-			this.radioButtonConsent.Location = new System.Drawing.Point(368, 28);
+			this.radioButtonConsent.Location = new System.Drawing.Point(419, 24);
+			this.radioButtonConsent.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.radioButtonConsent.Name = "radioButtonConsent";
-			this.radioButtonConsent.Size = new System.Drawing.Size(178, 16);
+			this.radioButtonConsent.Size = new System.Drawing.Size(180, 19);
 			this.radioButtonConsent.TabIndex = 4;
 			this.radioButtonConsent.Text = "リモートサービス利用規約同意書";
 			this.radioButtonConsent.UseVisualStyleBackColor = true;
@@ -68,9 +71,10 @@
 			// radioButtonTransaction
 			// 
 			this.radioButtonTransaction.AutoSize = true;
-			this.radioButtonTransaction.Location = new System.Drawing.Point(255, 28);
+			this.radioButtonTransaction.Location = new System.Drawing.Point(287, 24);
+			this.radioButtonTransaction.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.radioButtonTransaction.Name = "radioButtonTransaction";
-			this.radioButtonTransaction.Size = new System.Drawing.Size(107, 16);
+			this.radioButtonTransaction.Size = new System.Drawing.Size(109, 19);
 			this.radioButtonTransaction.TabIndex = 3;
 			this.radioButtonTransaction.Text = "取引条件確認書";
 			this.radioButtonTransaction.UseVisualStyleBackColor = true;
@@ -79,9 +83,10 @@
 			// radioButtonAccountTransfer
 			// 
 			this.radioButtonAccountTransfer.AutoSize = true;
-			this.radioButtonAccountTransfer.Location = new System.Drawing.Point(178, 28);
+			this.radioButtonAccountTransfer.Location = new System.Drawing.Point(198, 24);
+			this.radioButtonAccountTransfer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.radioButtonAccountTransfer.Name = "radioButtonAccountTransfer";
-			this.radioButtonAccountTransfer.Size = new System.Drawing.Size(71, 16);
+			this.radioButtonAccountTransfer.Size = new System.Drawing.Size(73, 19);
 			this.radioButtonAccountTransfer.TabIndex = 2;
 			this.radioButtonAccountTransfer.Text = "口座振替";
 			this.radioButtonAccountTransfer.UseVisualStyleBackColor = true;
@@ -90,9 +95,10 @@
 			// radioButtonMainte
 			// 
 			this.radioButtonMainte.AutoSize = true;
-			this.radioButtonMainte.Location = new System.Drawing.Point(101, 28);
+			this.radioButtonMainte.Location = new System.Drawing.Point(108, 24);
+			this.radioButtonMainte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.radioButtonMainte.Name = "radioButtonMainte";
-			this.radioButtonMainte.Size = new System.Drawing.Size(71, 16);
+			this.radioButtonMainte.Size = new System.Drawing.Size(73, 19);
 			this.radioButtonMainte.TabIndex = 1;
 			this.radioButtonMainte.Text = "保守契約";
 			this.radioButtonMainte.UseVisualStyleBackColor = true;
@@ -101,9 +107,10 @@
 			// radioButtonUser
 			// 
 			this.radioButtonUser.AutoSize = true;
-			this.radioButtonUser.Location = new System.Drawing.Point(18, 28);
+			this.radioButtonUser.Location = new System.Drawing.Point(11, 24);
+			this.radioButtonUser.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.radioButtonUser.Name = "radioButtonUser";
-			this.radioButtonUser.Size = new System.Drawing.Size(77, 16);
+			this.radioButtonUser.Size = new System.Drawing.Size(79, 19);
 			this.radioButtonUser.TabIndex = 0;
 			this.radioButtonUser.Text = "登録・変更";
 			this.radioButtonUser.UseVisualStyleBackColor = true;
@@ -115,9 +122,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.explorerListViewScanImage.HideSelection = false;
-			this.explorerListViewScanImage.Location = new System.Drawing.Point(324, 82);
+			this.explorerListViewScanImage.Location = new System.Drawing.Point(378, 83);
+			this.explorerListViewScanImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.explorerListViewScanImage.Name = "explorerListViewScanImage";
-			this.explorerListViewScanImage.Size = new System.Drawing.Size(574, 558);
+			this.explorerListViewScanImage.Size = new System.Drawing.Size(669, 719);
 			this.explorerListViewScanImage.TabIndex = 2;
 			this.explorerListViewScanImage.UseCompatibleStateImageBehavior = false;
 			this.explorerListViewScanImage.View = System.Windows.Forms.View.Details;
@@ -129,25 +137,28 @@
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.explorerTreeViewScanImage.HideSelection = false;
 			this.explorerTreeViewScanImage.LinkedExplorerListView = this.explorerListViewScanImage;
-			this.explorerTreeViewScanImage.Location = new System.Drawing.Point(13, 82);
+			this.explorerTreeViewScanImage.Location = new System.Drawing.Point(15, 83);
+			this.explorerTreeViewScanImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.explorerTreeViewScanImage.Name = "explorerTreeViewScanImage";
-			this.explorerTreeViewScanImage.Size = new System.Drawing.Size(311, 558);
+			this.explorerTreeViewScanImage.Size = new System.Drawing.Size(362, 719);
 			this.explorerTreeViewScanImage.TabIndex = 1;
 			// 
 			// RegistScanImageForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(910, 652);
+			this.ClientSize = new System.Drawing.Size(1062, 815);
 			this.Controls.Add(this.explorerListViewScanImage);
 			this.Controls.Add(this.explorerTreeViewScanImage);
 			this.Controls.Add(this.groupBox1);
+			this.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "RegistScanImageForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "スキャナーイメージ登録";
+			this.Text = "スキャナーイメージ参照";
 			this.Load += new System.EventHandler(this.RegistScanImageForm_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();

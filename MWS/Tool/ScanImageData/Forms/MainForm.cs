@@ -104,5 +104,13 @@ namespace ScanImageData.Forms
 			// カーソルを元に戻す
 			Cursor.Current = preCursor;
 		}
+
+		private void buttonMakeIndexFile_Click(object sender, EventArgs e)
+		{
+			using (MakeIndexFileForm form = new MakeIndexFileForm())
+			{
+				form.ShowDialog();
+			}
+		}
 	}
 }
