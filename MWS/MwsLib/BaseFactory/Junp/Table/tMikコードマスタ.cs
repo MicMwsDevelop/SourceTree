@@ -1,0 +1,101 @@
+﻿//
+// tMikコードマスタ.cs
+//
+// tMikコードマスタクラス
+// [JunpDB].[dbo].[tMikコードマスタ]
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2019/06/28 勝呂)
+//
+using MwsLib.DB;
+using System;
+using System.Collections.Generic;
+using System.Data;
+
+namespace MwsLib.BaseFactory.Junp.Table
+{
+	/// <summary>
+	/// [JunpDB].[dbo].[tMikコードマスタ]
+	/// </summary>
+	public class tMikコードマスタ
+	{
+		/// <summary>
+		/// fcmID
+		/// </summary>
+		public int fcmID { get; set; }
+
+		/// <summary>
+		/// fcmコード種別
+		/// </summary>
+		public string fcmコード種別 { get; set; }
+
+		/// <summary>
+		/// fcmコード
+		/// </summary>
+		public string fcmコード { get; set; }
+
+		/// <summary>
+		/// fcm名称
+		/// </summary>
+		public string fcm名称 { get; set; }
+
+		/// <summary>
+		/// fcm更新日
+		/// </summary>
+		public DateTime? fcm更新日 { get; set; }
+
+		/// <summary>
+		/// fcm更新者
+		/// </summary>
+		public string fcm更新者 { get; set; }
+
+		/// <summary>
+		/// fcmサブコード
+		/// </summary>
+		public string fcmサブコード { get; set; }
+
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
+		public tMikコードマスタ()
+		{
+			fcmID = 0;
+			fcmコード種別 = string.Empty;
+			fcmコード = string.Empty;
+			fcm名称 = string.Empty;
+			fcm更新日 = null;
+			fcm更新者 = string.Empty;
+			fcmサブコード = string.Empty;
+		}
+
+		/// <summary>
+		/// DataTable → リスト変換
+		/// </summary>
+		/// <param name="table"></param>
+		/// <returns></returns>
+		public static List<tMikコードマスタ> DataTableToList(DataTable table)
+		{
+			if (null != table && 0 < table.Rows.Count)
+			{
+				List<tMikコードマスタ> result = new List<tMikコードマスタ>();
+				foreach (DataRow row in table.Rows)
+				{
+					tMikコードマスタ data = new tMikコードマスタ
+					{
+						fcmID = DataBaseValue.ConvObjectToInt(row["fcmID"]),
+						fcmコード種別 = row["fcmコード種別"].ToString().Trim(),
+						fcmコード = row["fcmコード"].ToString().Trim(),
+						fcm名称 = row["fcm名称"].ToString().Trim(),
+						fcm更新日 = DataBaseValue.ConvObjectToDateTimeNull(row["fcm更新日"]),
+						fcm更新者 = row["fcm更新者"].ToString().Trim(),
+						fcmサブコード = row["fcmサブコード"].ToString().Trim()
+					};
+					result.Add(data);
+				}
+				return result;
+			}
+			return null;
+		}
+	}
+}

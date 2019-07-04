@@ -353,17 +353,17 @@ namespace MwsLib.Common
             return result;
         }
 
-        /// <summary>
-        /// 文字列を全角→半角に変換する
-        /// </summary>
-        /// <remarks>ShiftJisにない文字は?に変換される</remarks>
-        /// <param name="str">変換対象文字列</param>
-        /// <returns>半角文字列</returns>
-        [Obsolete("理由が無い限りConvertNarrowForUnicodeを使用してください。", false)]
-        public static string ConvertNarrow(string str)
-        {
-            return Strings.StrConv(str, VbStrConv.Narrow);
-        }
+        ///// <summary>
+        ///// 文字列を全角→半角に変換する
+        ///// </summary>
+        ///// <remarks>ShiftJisにない文字は?に変換される</remarks>
+        ///// <param name="str">変換対象文字列</param>
+        ///// <returns>半角文字列</returns>
+        //[Obsolete("理由が無い限りConvertNarrowForUnicodeを使用してください。", false)]
+        //public static string ConvertNarrow(string str)
+        //{
+        //    return Strings.StrConv(str, VbStrConv.Narrow);
+        //}
 
         /// <summary>
         /// 文字列を全角→半角に変換する
@@ -430,17 +430,17 @@ namespace MwsLib.Common
             return ret;
         }
 
-        /// <summary>
-        /// 文字列を半角→全角に変換する
-        /// </summary>
-        /// <remarks>ShiftJisにない文字は？に変換される</remarks>
-        /// <param name="str">変換対象文字列</param>
-        /// <returns>全角文字列</returns>
-        [Obsolete("理由が無い限りConvertWideForUnicodeを使用してください。", false)]
-        public static string ConvertWide(string str)
-        {
-            return Strings.StrConv(str, VbStrConv.Wide);
-        }
+        ///// <summary>
+        ///// 文字列を半角→全角に変換する
+        ///// </summary>
+        ///// <remarks>ShiftJisにない文字は？に変換される</remarks>
+        ///// <param name="str">変換対象文字列</param>
+        ///// <returns>全角文字列</returns>
+        //[Obsolete("理由が無い限りConvertWideForUnicodeを使用してください。", false)]
+        //public static string ConvertWide(string str)
+        //{
+        //    return Strings.StrConv(str, VbStrConv.Wide);
+        //}
 
         /// <summary>
         /// 文字列を半角→全角に変換する

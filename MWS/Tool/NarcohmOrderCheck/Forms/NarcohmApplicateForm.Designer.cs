@@ -76,6 +76,8 @@
 			this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewCalendarColumn2 = new MwsLib.Component.DataGridViewCalendarColumn();
 			this.dataGridViewCalendarColumn3 = new MwsLib.Component.DataGridViewCalendarColumn();
+			this.dateTimePickerKakinStartYM = new MwsLib.Component.YearMonthPicker();
+			this.label12 = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -285,6 +287,7 @@
             this.columnHeader8,
             this.columnHeader9});
 			this.listViewApplicate.FullRowSelect = true;
+			this.listViewApplicate.HideSelection = false;
 			this.listViewApplicate.Location = new System.Drawing.Point(12, 304);
 			this.listViewApplicate.MultiSelect = false;
 			this.listViewApplicate.Name = "listViewApplicate";
@@ -341,7 +344,7 @@
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(307, 212);
+			this.label10.Location = new System.Drawing.Point(520, 211);
 			this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(60, 17);
@@ -353,7 +356,7 @@
 			this.comboBoxSaleType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxSaleType.Enabled = false;
 			this.comboBoxSaleType.FormattingEnabled = true;
-			this.comboBoxSaleType.Location = new System.Drawing.Point(374, 210);
+			this.comboBoxSaleType.Location = new System.Drawing.Point(587, 209);
 			this.comboBoxSaleType.Name = "comboBoxSaleType";
 			this.comboBoxSaleType.Size = new System.Drawing.Size(80, 25);
 			this.comboBoxSaleType.TabIndex = 6;
@@ -511,11 +514,34 @@
 			this.dataGridViewCalendarColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			this.dataGridViewCalendarColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
 			// 
+			// dateTimePickerKakinStartYM
+			// 
+			this.dateTimePickerKakinStartYM.Checked = false;
+			this.dateTimePickerKakinStartYM.CustomFormat = "yyyy年MM月";
+			this.dateTimePickerKakinStartYM.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+			this.dateTimePickerKakinStartYM.Location = new System.Drawing.Point(365, 209);
+			this.dateTimePickerKakinStartYM.Name = "dateTimePickerKakinStartYM";
+			this.dateTimePickerKakinStartYM.ShowCheckBox = true;
+			this.dateTimePickerKakinStartYM.Size = new System.Drawing.Size(135, 24);
+			this.dateTimePickerKakinStartYM.TabIndex = 18;
+			this.dateTimePickerKakinStartYM.Value = new System.DateTime(2019, 6, 1, 12, 7, 41, 946);
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(286, 212);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(73, 17);
+			this.label12.TabIndex = 17;
+			this.label12.Text = "課金開始月";
+			// 
 			// NarcohmApplicateForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(931, 556);
+			this.Controls.Add(this.dateTimePickerKakinStartYM);
+			this.Controls.Add(this.label12);
 			this.Controls.Add(this.textBoxSubject);
 			this.Controls.Add(this.label11);
 			this.Controls.Add(this.label9);
@@ -598,5 +624,7 @@
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.TextBox textBoxSubject;
+		private MwsLib.Component.YearMonthPicker dateTimePickerKakinStartYM;
+		private System.Windows.Forms.Label label12;
 	}
 }

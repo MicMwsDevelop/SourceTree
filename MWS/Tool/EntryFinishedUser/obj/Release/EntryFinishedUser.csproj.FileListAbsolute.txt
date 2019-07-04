@@ -8,10 +8,13 @@ D:\SourceTree\MWS\Tool\EntryFinishedUser\bin\Release\JapaneseTextAlignment.dll
 D:\SourceTree\MWS\Tool\EntryFinishedUser\bin\Release\System.Data.SQLite.dll
 D:\SourceTree\MWS\Tool\EntryFinishedUser\bin\Release\MwsLib.pdb
 D:\SourceTree\MWS\Tool\EntryFinishedUser\bin\Release\System.Net.Http.xml
-D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csprojResolveAssemblyReference.cache
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.Forms.EntryFinishedUserForm.resources
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.Properties.Resources.resources
-D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.Forms.MainForm.resources
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csproj.GenerateResource.Cache
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.exe
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.pdb
+D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.Forms.FinishedUserListForm.resources
+D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csproj.CoreCompileInputs.cache
+D:\SourceTree\MWS\Tool\EntryFinishedUser\bin\Release\MicHolidaySettings.xml
+D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csprojAssemblyReference.cache
+D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csproj.CopyComplete

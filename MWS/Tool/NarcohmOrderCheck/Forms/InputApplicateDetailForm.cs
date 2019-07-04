@@ -9,12 +9,13 @@ using System.Windows.Forms;
 using MwsLib.BaseFactory.NarcohmOrderCheck;
 using MwsLib.Common;
 using MwsLib.DB.SqlServer.NarcohmOrderCheck;
+using MwsLib.BaseFactory.Charlie.Table;
 
 namespace NarcohmOrderCheck.Forms
 {
 	public partial class InputApplicateDetailForm : Form
 	{
-		public NarcohmApplicateDetail ApplicateDetail;
+		public T_NARCOHM_APPLICATE_DETAIL ApplicateDetail;
 
 		public DataTable DetailGoodsDataTable;
 
@@ -70,15 +71,13 @@ namespace NarcohmOrderCheck.Forms
 			}
 			if (ModifyFlag)
 			{
-				comboBoxGoodsName.SelectedIndexChanged -= new EventHandler(comboBoxGoodsName_SelectedIndexChanged);
-
 				// 商品名
+				comboBoxGoodsName.SelectedIndexChanged -= new EventHandler(comboBoxGoodsName_SelectedIndexChanged);
 				comboBoxGoodsName.SelectedValue = ApplicateDetail.GoodsCode;
+				comboBoxGoodsName.SelectedIndexChanged += new EventHandler(comboBoxGoodsName_SelectedIndexChanged);
 
 				// 金額
 				textBoxPrice.Text = ApplicateDetail.Price.ToString();
-
-				comboBoxGoodsName.SelectedIndexChanged += new EventHandler(comboBoxGoodsName_SelectedIndexChanged);
 			}
 			else
 			{

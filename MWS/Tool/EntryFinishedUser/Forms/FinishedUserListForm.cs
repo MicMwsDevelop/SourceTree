@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2018/12/12 勝呂)
+// Ver1.000 新規作成(2019/06/28 勝呂)
 // 
 using DataGridViewAutoFilter;
 using MwsLib.BaseFactory.EntryFinishedUser;
@@ -14,6 +14,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Runtime.InteropServices;
+using System.IO;
+using MwsLib.BaseFactory;
+using MwsLib.DB.SqlServer.Junp;
 
 namespace EntryFinishedUser.Forms
 {
@@ -31,7 +36,6 @@ namespace EntryFinishedUser.Forms
 		/// 終了ユーザーリスト
 		/// </summary>
 		private List<EntryFinishedUserData> FinishedUserList { get; set; }
-
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -60,11 +64,16 @@ namespace EntryFinishedUser.Forms
 			dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
 			FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
 
-			// 拠店コードを非表示
-			dataGridViewFinishedUser.Columns[4].Visible = false;
-
-			// 終了届受領日を非表示
+			// 非表示カラムの設定
+			dataGridViewFinishedUser.Columns[11].Visible = false;
+			dataGridViewFinishedUser.Columns[12].Visible = false;
+			dataGridViewFinishedUser.Columns[13].Visible = false;
+			dataGridViewFinishedUser.Columns[14].Visible = false;
+			dataGridViewFinishedUser.Columns[15].Visible = false;
 			dataGridViewFinishedUser.Columns[16].Visible = false;
+			dataGridViewFinishedUser.Columns[17].Visible = false;
+			dataGridViewFinishedUser.Columns[18].Visible = false;
+			dataGridViewFinishedUser.Columns[19].Visible = false;
 			dataGridViewFinishedUser.ResumeLayout();
 
 			// レコード件数の表示
@@ -94,61 +103,78 @@ namespace EntryFinishedUser.Forms
 		}
 
 		/// <summary>
-		/// 得意先No 入力制限
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void textBoxTokuisakiNo_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			// 0～9と、バックスペース以外の時は、イベントをキャンセルする
-			if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
-			{
-				e.Handled = true;
-			}
-		}
-
-		/// <summary>
 		/// 得意先Noによる検索
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void buttonSearch_Click(object sender, EventArgs e)
 		{
-			//string tokuisakiNo = textBoxTokuisakiNo.Text.Trim();
-			//if (6 == tokuisakiNo.Length)
-			//{
-			//	//bool modify = false;
-			//	EntryFinishedUserData user = FinishedUserList.Find(p => p.TokuisakiNo == tokuisakiNo);
-			//	if (null != user)
-			//	{
-			//		modify = true;
-			//	}
-			//	else
-			//	{
-			//		try
-			//		{
-			//			user = EntryFinishedUserAccess.GetCustomerInfo(tokuisakiNo, Program.DATABACE_ACCEPT_CT);
-			//		}
-			//		catch (Exception ex)
-			//		{
-			//			MessageBox.Show(ex.Message, "顧客情報取得エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-			//		}
-			//	}
-			//	using (EntryFinishedUserForm form = new EntryFinishedUserForm(user, modify))
-			//	{
-			//		if (DialogResult.OK == form.ShowDialog())
-			//		{
-			//			// DataSourceのクリア
-			//			((DataTable)dataGridViewFinishedUserBindingSource.DataSource).Clear();
+			string tokuisakiNo = textBoxTokuisakiNo.Text.Trim();
+			if (MwsDefine.TokuisakiNoLength == tokuisakiNo.Length)
+			{
+				bool modify = false;
+				EntryFinishedUserData user = FinishedUserList.Find(p => p.TokuisakiNo == tokuisakiNo);
+				if (null != user)
+				{
+					modify = true;
 
-			//			// 終了ユーザーリストの設定
-			//			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.DATABACE_ACCEPT_CT);
-			//			dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
-			//			dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
-			//			FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
-			//		}
-			//	}
-			//}
+					// 終了ユーザーの選択
+					int index = dataGridViewFinishedUserBindingSource.Find("顧客No", user.CustomerID);
+					dataGridViewFinishedUser.Rows[index].Selected = true;
+				}
+				else
+				{
+					try
+					{
+						user = EntryFinishedUserAccess.GetCustomerInfo(tokuisakiNo, Program.DATABACE_ACCEPT_CT);
+						if (null == user)
+						{
+							MessageBox.Show("得意先Noに対する顧客は存在しません。", "顧客情報取得エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+							return;
+						}
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(ex.Message, "顧客情報取得エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+						return;
+					}
+					if (false == user.IsEnableSystem)
+					{
+						MessageBox.Show("終了ユーザー管理の対象外のシステムです。ご確認ください。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						return;
+					}
+				}
+				using (EntryFinishedUserForm form = new EntryFinishedUserForm())
+				{
+					form.FinishedUser = user;
+					form.ModifyFlag = modify;
+					if (DialogResult.OK == form.ShowDialog())
+					{
+						// DataSourceのクリア
+						((DataTable)dataGridViewFinishedUserBindingSource.DataSource).Clear();
+
+						// 終了ユーザーリストの設定
+						DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.DATABACE_ACCEPT_CT);
+						dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
+						dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
+						FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
+
+						// 終了ユーザーの選択
+						int index = dataGridViewFinishedUserBindingSource.Find("顧客No", form.FinishedUser.CustomerID);
+						dataGridViewFinishedUser.Rows[index].Selected = true;
+						dataGridViewFinishedUser.FirstDisplayedScrollingRowIndex = index;
+
+						if (false == modify)
+						{
+							// レコード件数の表示
+							if (null != FinishedUserList)
+							{
+								textBoxCount.Text = string.Format("{0}/{1}", dataGridViewFinishedUserBindingSource.Count, FinishedUserList.Count);
+							}
+						}
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -158,25 +184,32 @@ namespace EntryFinishedUser.Forms
 		/// <param name="e"></param>
 		private void dataGridViewFinishedUser_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			//string tokuisakiNo = (string)dataGridViewFinishedUser.CurrentRow.Cells[0].Value;
-			//EntryFinishedUserData user = FinishedUserList.Find(p => p.TokuisakiNo == tokuisakiNo);
-			//if (null != user)
-			//{
-			//	using (EntryFinishedUserForm form = new EntryFinishedUserForm(user, true))
-			//	{
-			//		if (DialogResult.OK == form.ShowDialog())
-			//		{
-			//			// DataSourceのクリア
-			//			((DataTable)dataGridViewFinishedUserBindingSource.DataSource).Clear();
+			string tokuisakiNo = (string)dataGridViewFinishedUser.CurrentRow.Cells[0].Value;
+			EntryFinishedUserData user = FinishedUserList.Find(p => p.TokuisakiNo == tokuisakiNo);
+			if (null != user)
+			{
+				using (EntryFinishedUserForm form = new EntryFinishedUserForm())
+				{
+					form.FinishedUser = user;
+					form.ModifyFlag = true;
+					if (DialogResult.OK == form.ShowDialog())
+					{
+						// DataSourceのクリア
+						((DataTable)dataGridViewFinishedUserBindingSource.DataSource).Clear();
 
-			//			// 終了ユーザーリストの設定
-			//			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.DATABACE_ACCEPT_CT);
-			//			dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
-			//			dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
-			//			FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
-			//		}
-			//	}
-			//}
+						// 終了ユーザーリストの設定
+						DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.DATABACE_ACCEPT_CT);
+						dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
+						dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
+						FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
+
+						// 終了ユーザーの選択
+						int index = dataGridViewFinishedUserBindingSource.Find("顧客No", user.CustomerID);
+						dataGridViewFinishedUser.Rows[index].Selected = true;
+						dataGridViewFinishedUser.FirstDisplayedScrollingRowIndex = index;
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -190,6 +223,160 @@ namespace EntryFinishedUser.Forms
 			{
 				// レコード件数の表示
 				textBoxCount.Text = string.Format("{0}/{1}", dataGridViewFinishedUserBindingSource.Count, FinishedUserList.Count);
+			}
+		}
+
+		/// <summary>
+		/// 削除
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonRemove_Click(object sender, EventArgs e)
+		{
+			if (0 < dataGridViewFinishedUser.SelectedRows.Count)
+			{
+				string tokuisakiNo = dataGridViewFinishedUser.SelectedRows[0].Cells[0].Value as string;
+				if (0 < tokuisakiNo.Length)
+				{
+					if (DialogResult.Yes == MessageBox.Show("本当に削除してもよろしいですか", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+					{
+						EntryFinishedUserData user = FinishedUserList.Find(p => p.TokuisakiNo == tokuisakiNo);
+						JunpDatabaseAccess.Delete_tMic終了ユーザーリスト(user.To_tMic終了ユーザーリスト(), Program.DATABACE_ACCEPT_CT);
+
+						// DataSourceのクリア
+						((DataTable)dataGridViewFinishedUserBindingSource.DataSource).Clear();
+
+						// 終了ユーザーリストの設定
+						DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.DATABACE_ACCEPT_CT);
+						dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
+						dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
+						FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
+						if (null != FinishedUserList)
+						{
+							// レコード件数の表示
+							textBoxCount.Text = string.Format("{0}/{1}", dataGridViewFinishedUserBindingSource.Count, FinishedUserList.Count);
+						}
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// 終了ユーザーリスト参照
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonShowList_Click(object sender, EventArgs e)
+		{
+			List<EntryFinishedUserData> list = EntryFinishedUserAccess.GetEntryFinishedUserDataList(Program.DATABACE_ACCEPT_CT);
+			if (0 < list.Count)
+			{
+				// 元のカーソルを保持
+				Cursor preCursor = Cursor.Current;
+
+				// カーソルを待機カーソルに変更
+				Cursor.Current = Cursors.WaitCursor;
+
+				// Excelオブジェクトの初期化
+				Excel.Application xlApp = null;
+				Excel.Workbooks xlBooks = null;
+				Excel.Workbook xlBook = null;
+				Excel.Sheets xlSheets = null;
+				Excel.Worksheet xlSheet = null;
+
+				try
+				{
+					// Excelシートのインスタンスを作る
+					xlApp = new Excel.Application();
+					xlBooks = xlApp.Workbooks;
+					xlBook = xlBooks.Add();
+					xlSheets = xlBook.Sheets;
+					xlSheet = xlSheets[1];
+					xlSheet.Name = "終了ユーザーリスト";
+					xlSheet.Select(Type.Missing);
+					xlSheet.Cells.NumberFormat = "@";
+
+					xlApp.Visible = false;
+
+					// フィールド名を設定
+					xlSheet.Cells[1, 1].Value2 = EntryFinishedUserData.FieldName[0];
+					xlSheet.Cells[1, 2].Value2 = EntryFinishedUserData.FieldName[1];
+					xlSheet.Cells[1, 3].Value2 = EntryFinishedUserData.FieldName[2];
+					xlSheet.Cells[1, 4].Value2 = EntryFinishedUserData.FieldName[3];
+					xlSheet.Cells[1, 5].Value2 = EntryFinishedUserData.FieldName[4];
+					xlSheet.Cells[1, 6].Value2 = EntryFinishedUserData.FieldName[5];
+					xlSheet.Cells[1, 7].Value2 = EntryFinishedUserData.FieldName[6];
+					xlSheet.Cells[1, 8].Value2 = EntryFinishedUserData.FieldName[7];
+					xlSheet.Cells[1, 9].Value2 = EntryFinishedUserData.FieldName[8];
+					xlSheet.Cells[1, 10].Value2 = EntryFinishedUserData.FieldName[9];
+					xlSheet.Cells[1, 11].Value2 = EntryFinishedUserData.FieldName[10];
+					xlSheet.Cells[1, 12].Value2 = EntryFinishedUserData.FieldName[11];
+					xlSheet.Cells[1, 13].Value2 = EntryFinishedUserData.FieldName[12];
+					xlSheet.Cells[1, 14].Value2 = EntryFinishedUserData.FieldName[13];
+					xlSheet.Cells[1, 15].Value2 = EntryFinishedUserData.FieldName[14];
+					xlSheet.Cells[1, 16].Value2 = EntryFinishedUserData.FieldName[15];
+					xlSheet.Cells[1, 17].Value2 = EntryFinishedUserData.FieldName[16];
+
+					// エクセルファイルにデータをセットする
+					for (int i = 0; i < list.Count; i++)
+					{
+						// Excelのcell指定
+						EntryFinishedUserData data = list[i];
+						xlSheet.Cells[i + 2, 1].Value2 = data.CustomerID;
+						xlSheet.Cells[i + 2, 2].Value2 = data.TokuisakiNo;
+						xlSheet.Cells[i + 2, 3].Value2 = data.UserName;
+						xlSheet.Cells[i + 2, 4].Value2 = data.SystemName;
+						xlSheet.Cells[i + 2, 5].Value2 = data.AreaCode;
+						xlSheet.Cells[i + 2, 6].Value2 = data.AreaName;
+						xlSheet.Cells[i + 2, 7].Value2 = data.KenName;
+						xlSheet.Cells[i + 2, 8].Value2 = data.FinishedReason;
+						xlSheet.Cells[i + 2, 9].Value2 = data.Replace;
+						xlSheet.Cells[i + 2, 10].Value2 = data.Reason;
+						xlSheet.Cells[i + 2, 11].Value2 = data.Comment;
+						xlSheet.Cells[i + 2, 12].Value2 = data.EnableUserFlag;
+						xlSheet.Cells[i + 2, 13].Value2 = data.Expcet;
+						xlSheet.Cells[i + 2, 14].Value2 = data.HanbaitenID;
+						xlSheet.Cells[i + 2, 15].Value2 = data.HanbaitenName;
+						xlSheet.Cells[i + 2, 16].Value2 = data.FinishedYearMonth.ToString();
+						xlSheet.Cells[i + 2, 17].Value2 = data.NonPaletteUser.ToString();
+					}
+					// Excelファイルの保存
+					string xlsPathname = Path.Combine(Directory.GetCurrentDirectory(), @"終了ユーザーリスト.xlsx");
+					xlBook.SaveAs(xlsPathname);
+					//xlBook.Close(false);
+
+					// Excel を表示する
+					xlApp.Visible = true;
+
+					// 1000 ミリ秒 (1秒) 待機する
+					//System.Threading.Thread.Sleep(1000);
+
+					//xlApp.Quit();
+
+					// COM オブジェクトの参照カウントを解放する (正しくは COM オブジェクトの参照カウントを解放する を参照)
+					//Marshal.ReleaseComObject(xlBooks);
+
+					// カーソルを元に戻す
+					Cursor.Current = preCursor;
+
+					//MessageBox.Show(string.Format("エクセルファイルに出力しました。({0})", xlsPathname), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				finally
+				{
+					// Excelのオブジェクトを開放し忘れているとプロセスが落ちないため注意
+					Marshal.ReleaseComObject(xlSheet);
+					Marshal.ReleaseComObject(xlSheets);
+					Marshal.ReleaseComObject(xlBook);
+					Marshal.ReleaseComObject(xlBooks);
+					Marshal.ReleaseComObject(xlApp);
+					xlSheet = null;
+					xlSheets = null;
+					xlBook = null;
+					xlBooks = null;
+					xlApp = null;
+
+					GC.Collect();
+				}
 			}
 		}
 	}

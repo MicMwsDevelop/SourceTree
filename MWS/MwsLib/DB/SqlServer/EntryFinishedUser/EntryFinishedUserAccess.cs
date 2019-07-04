@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2018/12/12 勝呂)
+// Ver1.000 新規作成(2019/06/28 勝呂)
 // 
 using MwsLib.BaseFactory.EntryFinishedUser;
 using System.Collections.Generic;
@@ -31,18 +31,6 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 		}
 
 		/// <summary>
-		/// 得意先Noに該当する終了ユーザー情報の取得
-		/// </summary>
-		/// <param name="tokuisakiID">得意先No</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
-		/// <returns>顧客情報リスト</returns>
-		public static EntryFinishedUserData GetEntryFinishedUserData(string tokuisakiID, bool sqlsv2)
-		{
-			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUser(tokuisakiID, sqlsv2);
-			return EntryFinishedUserController.ConvertEntryFinishedUser(table);
-		}
-
-		/// <summary>
 		/// 得意先Noに該当する顧客情報を取得
 		/// </summary>
 		/// <param name="tokuisakiID">得意先No</param>
@@ -54,49 +42,61 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 			return EntryFinishedUserController.ConvertCustomerInfo(table);
 		}
 
-		/// <summary>
-		/// リプレース先メーカーリストの取得
-		/// </summary>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
-		/// <returns>リプレース先メーカーリスト</returns>
-		public static List<string> GetReplaceMakerList(bool sqlsv2)
-		{
-			DataTable table = EntryFinishedUserGetIO.GetReplaceMakerList(sqlsv2);
-			return EntryFinishedUserController.ConvertReplaceMakerList(table);
-		}
+		///// <summary>
+		///// リプレース先メーカーリストの取得
+		///// </summary>
+		///// <param name="sqlsv2">CT環境かどうか？</param>
+		///// <returns>リプレース先メーカーリスト</returns>
+		//public static List<string> GetReplaceMakerList(bool sqlsv2)
+		//{
+		//	DataTable table = EntryFinishedUserGetIO.GetReplaceMakerList(sqlsv2);
+		//	return EntryFinishedUserController.ConvertReplaceMakerList(table);
+		//}
 
-		/// <summary>
-		/// 終了ユーザー情報の追加
-		/// </summary>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
-		/// <param name="entry">顧客情報</param>
-		/// <returns>影響行数</returns>
-		public static int InsertIntoEntryFinishedUser(EntryFinishedUserData entry, bool sqlsv2)
-		{
-			return EntryFinishedUserSetIO.InsertIntoEntryFinishedUser(entry, sqlsv2);
-		}
+		///// <summary>
+		///// 終了ユーザー情報の追加
+		///// </summary>
+		///// <param name="sqlsv2">CT環境かどうか？</param>
+		///// <param name="entry">顧客情報</param>
+		///// <returns>影響行数</returns>
+		//public static int InsertIntoEntryFinishedUser(EntryFinishedUserData entry, bool sqlsv2)
+		//{
+		//	return EntryFinishedUserSetIO.InsertIntoEntryFinishedUser(entry, sqlsv2);
+		//}
 
-		/// <summary>
-		/// 終了ユーザー情報の更新
-		/// </summary>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
-		/// <param name="entry">終了ユーザー情報</param>
-		/// <returns>影響行数</returns>
-		public static int UpdateEntryFinishedUser(EntryFinishedUserData entry, bool sqlsv2)
-		{
-			return EntryFinishedUserSetIO.UpdateEntryFinishedUser(entry, sqlsv2);
-		}
+		///// <summary>
+		///// 終了ユーザー情報の更新
+		///// </summary>
+		///// <param name="sqlsv2">CT環境かどうか？</param>
+		///// <param name="entry">終了ユーザー情報</param>
+		///// <returns>影響行数</returns>
+		//public static int UpdateEntryFinishedUser(EntryFinishedUserData entry, bool sqlsv2)
+		//{
+		//	return EntryFinishedUserSetIO.UpdateSetEntryFinishedUser(entry, sqlsv2);
+		//}
 
-		/// <summary>
-		/// メモ情報の新規追加
-		/// </summary>
-		/// <param name="entry">終了ユーザー情報</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
-		/// <returns>影響行数</returns>
-		public static int InsertIntoMemo(EntryFinishedUserData entry, bool sqlsv2)
-		{
-			return EntryFinishedUserSetIO.InsertIntoMemo(entry, sqlsv2);
-		}
+		///// <summary>
+		///// 終了ユーザーリスト情報の削除
+		///// [JunpDB].[dbo].[tMic終了ユーザーリスト]
+		///// </summary>
+		///// <param name="tokuisakiNo">得意先No</param>
+		///// <param name="sqlsv2">CT環境かどうか？</param>
+		///// <returns>影響行数</returns>
+		//public static int DeleteEntryFinishedUser(string tokuisakiNo, bool sqlsv2)
+		//{
+		//	return EntryFinishedUserSetIO.DeleteEntryFinishedUser(tokuisakiNo, sqlsv2);
+		//}
+
+		///// <summary>
+		///// メモ情報の新規追加
+		///// </summary>
+		///// <param name="entry">終了ユーザー情報</param>
+		///// <param name="sqlsv2">CT環境かどうか？</param>
+		///// <returns>影響行数</returns>
+		//public static int InsertIntoMemo(EntryFinishedUserData entry, bool sqlsv2)
+		//{
+		//	return EntryFinishedUserSetIO.InsertIntoMemo(entry, sqlsv2);
+		//}
 
 
 		//////////////////////////////////////////////////////////////////
@@ -109,10 +109,10 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 		/// <param name="customerID">顧客No</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
 		/// <returns>リプレース先メーカーリスト</returns>
-		public static List<int> GetPauseEndStatus(int customerID, bool sqlsv2)
-		{
-			DataTable table = EntryFinishedUserGetIO.GetPauseEndStatus(customerID, sqlsv2);
-			return EntryFinishedUserController.ConvertPauseEndStatus(table);
-		}
+		//public static List<int> GetPauseEndStatus(int customerID, bool sqlsv2)
+		//{
+		//	DataTable table = EntryFinishedUserGetIO.GetPauseEndStatus(customerID, sqlsv2);
+		//	return EntryFinishedUserController.ConvertPauseEndStatus(table);
+		//}
 	}
 }

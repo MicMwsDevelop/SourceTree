@@ -1,30 +1,30 @@
-﻿using System;
+﻿using MwsLib.BaseFactory.Charlie.Table;
+using MwsLib.DB.SqlServer.Charlie;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using MwsLib.DB.SqlServer.NarcohmOrderCheck;
-using MwsLib.BaseFactory.NarcohmOrderCheck;
 
 namespace NarcohmOrderCheck.Forms
 {
 	public partial class MainForm : Form
 	{
-		//private List<NarcohmApplicate> ApplicateList;
-
-
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
 		public MainForm()
 		{
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// Form Load
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			List<NarcohmApplicate> list = NarcohmOrderCheckAccess.GetNarcohmApplicateList(true);
-			foreach (NarcohmApplicate header in list)
+			List<T_NARCOHM_APPLICATE_HEADER> list = CharlieDatabaseAccess.Get_T_NARCOHM_APPLICATE_HEADER(true);
+			foreach (T_NARCOHM_APPLICATE_HEADER header in list)
 			{
 				ListViewItem lvItem = new ListViewItem(header.GetListViewData());
 				lvItem.Tag = header;
@@ -46,6 +46,7 @@ namespace NarcohmOrderCheck.Forms
 					ListViewItem lvItem = new ListViewItem(form.ApplicateInfo.GetListViewData());
 					lvItem.Tag = form.ApplicateInfo;
 					listViewApplicate.Items.Add(lvItem);
+					listViewApplicate.Items[listViewApplicate.Items.Count - 1].Selected = true;
 				}
 			}
 		}
@@ -62,7 +63,7 @@ namespace NarcohmOrderCheck.Forms
 				ListViewItem lvItem = listViewApplicate.SelectedItems[0];
 				using (NarcohmApplicateForm form = new NarcohmApplicateForm())
 				{
-					form.ApplicateInfo = lvItem.Tag as NarcohmApplicate;
+					form.ApplicateInfo = lvItem.Tag as T_NARCOHM_APPLICATE_HEADER;
 					if (DialogResult.OK == form.ShowDialog())
 					{
 						lvItem.Tag = form.ApplicateInfo;
@@ -103,7 +104,13 @@ namespace NarcohmOrderCheck.Forms
 		/// <param name="e"></param>
 		private void buttonRemove_Click(object sender, EventArgs e)
 		{
-
+			if (0 < listViewApplicate.SelectedIndices.Count)
+			{
+				if (DialogResult.Yes == MessageBox.Show("本当に削除してもよろしいですか", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+				{
+					listViewApplicate.Items.Remove(listViewApplicate.SelectedItems[0]);
+				}
+			}
 		}
 	}
 }

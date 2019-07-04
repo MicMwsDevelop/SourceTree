@@ -15,6 +15,58 @@ namespace MwsLib.BaseFactory
 	/// </summary>
 	public static class MwsDefine
 	{
+		//////////////////////////////////////////////////////////
+		/// レングス長定義
+
+		/// <summary>
+		/// 顧客No
+		/// </summary>
+		public const int CustomerNoLength = 8;
+
+		/// <summary>
+		/// 得意先No
+		/// </summary>
+		public const int TokuisakiNoLength = 6;
+
+
+		//////////////////////////////////////////////////////////
+		/// システムコード
+
+		/// <summary>
+		/// palette ネットワーク版
+		/// </summary>
+		public const string SystemCodePaletteNetwork = "101";
+
+		/// <summary>
+		/// palette 単体版
+		/// </summary>
+		public const string SystemCodePaletteStandalone = "102";
+
+		/// <summary>
+		/// その他
+		/// </summary>
+		public const string SystemCodeEtc = "999";
+
+
+		//////////////////////////////////////////////////////////
+		/// 商品ID
+
+		/// <summary>
+		/// PC安心サポート３年契約
+		/// </summary>
+		public const string GoodIdPcSafetySupport3 = "001871";
+
+		/// <summary>
+		/// PC安心サポート１年契約
+		/// </summary>
+		public const string GoodIdPcSafetySupport1 = "001872";
+
+		/// <summary>
+		/// PC安心サポート１年契約（更新用）
+		/// </summary>
+		public const string GoodIdPcSafetySupport1Continue = "001874";
+
+
 		/// <summary>
 		/// 申込種別/販売種別
 		/// </summary>
@@ -57,5 +109,42 @@ namespace MwsLib.BaseFactory
 			{ ApplyType.Monthly, "月額" },
 			{ ApplyType.Matome, "まとめ" },
 		};
+
+		/// <summary>
+		/// サービス種別
+		/// </summary>
+		public enum ServiceType
+		{
+			/// <summary>
+			/// 標準機能
+			/// </summary>
+			Standard = 1,
+		}
+
+		/// <summary>
+		/// サービスコード
+		/// </summary>
+		public enum ServiceCode
+		{
+			/// <summary>
+			/// ＭＩＣ ＷＥＢ ＳＥＲＶＩＣＥ 標準機能
+			/// </summary>
+			StandardPalette = 1001,
+
+			/// <summary>
+			/// palette 非ユーザー - 標準サービス
+			/// </summary>
+			StandardNonPalette = 1099,
+
+			/// <summary>
+			/// PC安心ｻﾎﾟｰﾄ(3年契約)
+			/// </summary>
+			PcSafetySupport3 = 6410100,
+
+			/// <summary>
+			/// PC安心ｻﾎﾟｰﾄ(1年契約)
+			/// </summary>
+			PcSafetySupport1 = 6410120,
+		}
 	}
 }

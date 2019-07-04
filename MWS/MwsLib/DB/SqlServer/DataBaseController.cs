@@ -141,6 +141,7 @@ namespace MwsLib.DB.SqlServer
 
             return string.Format("INSERT INTO {0} ({1}) Values ({2});", table.TableName, sbCol.ToString(), sbVal.ToString());
         }
+
         /// <summary>
         /// Updateクエリ作成　PK用
         /// tableの全pkカラム=でwhere句を作成する。
@@ -183,6 +184,7 @@ namespace MwsLib.DB.SqlServer
 
             return string.Format("UPDATE {0} SET {1} Where {2};", table.TableName, sbColumns.ToString(), sbWhere.ToString());
         }
+
         /// <summary>
         /// Updateクエリ作成
         /// </summary>
@@ -239,6 +241,7 @@ namespace MwsLib.DB.SqlServer
 
             return string.Format("UPDATE {0} SET {1} Where {2};", table.TableName, sbColumns.ToString(), sbWhere.ToString());
         }
+
         /// <summary>
         /// Deleteクエリ作成　PK用
         /// tableの全pkカラム=でwhere句を作成する。
@@ -271,6 +274,7 @@ namespace MwsLib.DB.SqlServer
 
             return string.Format("DELETE FROM {0} Where {1};", table.TableName, sbWheres.ToString());
         }
+
         /// <summary>
         /// SqlParameter配列の作成
         /// </summary>
@@ -345,6 +349,7 @@ namespace MwsLib.DB.SqlServer
             strColumns = sbCol.ToString();
             strValues = sbVal.ToString();
         }
+
         /// <summary>
         /// Updateパラメータ作成
         /// </summary>

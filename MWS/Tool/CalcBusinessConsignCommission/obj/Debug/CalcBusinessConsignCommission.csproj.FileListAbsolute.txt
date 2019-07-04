@@ -1,5 +1,4 @@
 D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\bin\Debug\CalcBusinessConsignCommission.exe.config
-D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Debug\CalcBusinessConsignCommission.csprojResolveAssemblyReference.cache
 D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Debug\CalcBusinessConsignCommission.Properties.Resources.resources
 D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Debug\CalcBusinessConsignCommission.csproj.GenerateResource.Cache
 D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\bin\Debug\CalcBusinessConsignCommission.exe
@@ -14,3 +13,7 @@ D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Debug\CalcBusinessConsi
 D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Debug\CalcBusinessConsignCommission.pdb
 D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Debug\CalcBusinessConsignCommission.Forms.MainForm.resources
 D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Debug\CalcBusinessConsignCommission.Forms.OutputStockForm.resources
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\bin\Debug\MicHolidaySettings.xml
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Debug\CalcBusinessConsignCommission.csprojAssemblyReference.cache
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Debug\CalcBusinessConsignCommission.csproj.CoreCompileInputs.cache
+D:\SourceTree\MWS\Tool\CalcBusinessConsignCommission\obj\Debug\CalcBusinessConsignCommission.csproj.CopyComplete

@@ -9,6 +9,7 @@ namespace NarcohmOrderCheck
     {
 		public const string ProductName = "ナルコーム製品申込解約管理";
 
+		public const bool DebugMode = true;
 
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。

@@ -91,7 +91,11 @@ namespace CalcBusinessConsignCommission.Forms
 			{
 				dlg.FileName = SaleData.SALE_FILENAME;
 				dlg.InitialDirectory = Directory.GetCurrentDirectory();
-				dlg.Filter = "CSVファイル(*.csv)|*.csv|すべてのファイル(*.*)|*.*";				dlg.Title = "PCA売上データファイルを選択してください";				dlg.RestoreDirectory = true;				dlg.CheckFileExists = true;				dlg.CheckPathExists = true;
+				dlg.Filter = "CSVファイル(*.csv)|*.csv|すべてのファイル(*.*)|*.*";
+				dlg.Title = "PCA売上データファイルを選択してください";
+				dlg.RestoreDirectory = true;
+				dlg.CheckFileExists = true;
+				dlg.CheckPathExists = true;
 				if (DialogResult.OK == dlg.ShowDialog())
 				{
 					labelSaleFilename.Text = dlg.FileName;
@@ -173,7 +177,11 @@ namespace CalcBusinessConsignCommission.Forms
 			{
 				dlg.FileName = StockData.STOCK_FILENAME;
 				dlg.InitialDirectory = Directory.GetCurrentDirectory();
-				dlg.Filter = "CSVファイル(*.csv)|*.csv|すべてのファイル(*.*)|*.*";				dlg.Title = "PCA仕入データファイルを選択してください";				dlg.RestoreDirectory = true;				dlg.CheckFileExists = true;				dlg.CheckPathExists = true;
+				dlg.Filter = "CSVファイル(*.csv)|*.csv|すべてのファイル(*.*)|*.*";
+				dlg.Title = "PCA仕入データファイルを選択してください";
+				dlg.RestoreDirectory = true;
+				dlg.CheckFileExists = true;
+				dlg.CheckPathExists = true;
 				if (DialogResult.OK == dlg.ShowDialog())
 				{
 					labelStockFilename.Text = dlg.FileName;

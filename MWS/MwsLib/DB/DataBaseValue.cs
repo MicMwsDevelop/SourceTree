@@ -129,42 +129,42 @@ namespace MwsLib.DB
             }
         }
 
-        /// <summary>
-        /// 【旧システム用関数】数値を解析して日付を生成する(DBNull or 0は、null)
-        /// </summary>
-        /// <remarks>
-        /// ※DB上で数値8桁で日付データを保持するint型フィールドからのデータ取得用
-        /// ※月日しかデータが存在しない場合は、年を1として取得する
-        /// </remarks>
-        /// <param name="source">日付に該当する数値</param>
-        /// <returns>数値に該当する日付</returns>
-        public static Date? ConvOldSystemObjectToDateNull(object source)
-        {
-            var data = source as int?;
+        ///// <summary>
+        ///// 【旧システム用関数】数値を解析して日付を生成する(DBNull or 0は、null)
+        ///// </summary>
+        ///// <remarks>
+        ///// ※DB上で数値8桁で日付データを保持するint型フィールドからのデータ取得用
+        ///// ※月日しかデータが存在しない場合は、年を1として取得する
+        ///// </remarks>
+        ///// <param name="source">日付に該当する数値</param>
+        ///// <returns>数値に該当する日付</returns>
+        //public static Date? ConvOldSystemObjectToDateNull(object source)
+        //{
+        //    var data = source as int?;
 
-            if (!data.HasValue || data.Value == 0)
-            {
-                return null;
-            }
-            else
-            {
-                try
-                {
-                    int dateNum = data.Value;
-                    if (dateNum < 10000)
-                    {
-                        // 日付が月日しかない古いデータは、年に仮値(1)を入れる
-                        dateNum += 10000;
-                    }
-                    return Date.Parse(dateNum);
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    // 不正値が入っていた場合はエラーにせず、nullを返す
-                    return null;
-                }
-            }
-        }
+        //    if (!data.HasValue || data.Value == 0)
+        //    {
+        //        return null;
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+        //            int dateNum = data.Value;
+        //            if (dateNum < 10000)
+        //            {
+        //                // 日付が月日しかない古いデータは、年に仮値(1)を入れる
+        //                dateNum += 10000;
+        //            }
+        //            return Date.Parse(dateNum);
+        //        }
+        //        catch (ArgumentOutOfRangeException)
+        //        {
+        //            // 不正値が入っていた場合はエラーにせず、nullを返す
+        //            return null;
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// DB上のDate型の値を解析して日付情報を生成する(DBNullは、日付クラス最少値)
@@ -258,12 +258,26 @@ namespace MwsLib.DB
             }
         }
 
-        /// <summary>
-        /// 値を解析してintに変換する(DBNullは、デフォルト値)
-        /// </summary>
-        /// <param name="source">object値</param>
-        /// <returns>int値</returns>
-        public static int ConvObjectToInt(object source, int defaultNum)
+		/// <summary>
+		/// 値を解析してintに変換する(DBNullは、0)
+		/// </summary>
+		/// <param name="source">object値</param>
+		/// <returns>int値</returns>
+		public static int? ConvObjectToIntNull(object source)
+		{
+			if (DBNull.Value == source)
+			{
+				return null;
+			}
+			return Convert.ToInt32(source);
+		}
+
+		/// <summary>
+		/// 値を解析してintに変換する(DBNullは、デフォルト値)
+		/// </summary>
+		/// <param name="source">object値</param>
+		/// <returns>int値</returns>
+		public static int ConvObjectToInt(object source, int defaultNum)
         {
             if (DBNull.Value == source)
             {

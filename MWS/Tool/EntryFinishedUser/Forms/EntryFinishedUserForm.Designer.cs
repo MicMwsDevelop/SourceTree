@@ -46,37 +46,35 @@
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.checkBoxNonPaletteUser = new System.Windows.Forms.CheckBox();
 			this.dateTimePickerFinishedYearMonth = new System.Windows.Forms.DateTimePicker();
-			this.buttonShowList = new System.Windows.Forms.Button();
-			this.buttonSearch = new System.Windows.Forms.Button();
-			this.buttonClear = new System.Windows.Forms.Button();
+			this.textBoxCustomerNo = new System.Windows.Forms.TextBox();
+			this.label8 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(13, 50);
+			this.label1.Location = new System.Drawing.Point(28, 13);
 			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(65, 17);
-			this.label1.TabIndex = 1;
+			this.label1.TabIndex = 0;
 			this.label1.Text = "得意先No";
 			// 
 			// textBoxTokuisakiID
 			// 
 			this.textBoxTokuisakiID.BackColor = System.Drawing.SystemColors.Window;
-			this.textBoxTokuisakiID.ImeMode = System.Windows.Forms.ImeMode.Disable;
-			this.textBoxTokuisakiID.Location = new System.Drawing.Point(86, 47);
+			this.textBoxTokuisakiID.Location = new System.Drawing.Point(100, 10);
 			this.textBoxTokuisakiID.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxTokuisakiID.MaxLength = 6;
 			this.textBoxTokuisakiID.Name = "textBoxTokuisakiID";
+			this.textBoxTokuisakiID.ReadOnly = true;
 			this.textBoxTokuisakiID.Size = new System.Drawing.Size(132, 24);
-			this.textBoxTokuisakiID.TabIndex = 2;
-			//this.textBoxTokuisakiID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTokuisakiID_KeyPress);
+			this.textBoxTokuisakiID.TabIndex = 1;
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(13, 82);
+			this.label2.Location = new System.Drawing.Point(46, 76);
 			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(47, 17);
@@ -87,7 +85,7 @@
 			// 
 			this.textBoxUserName.BackColor = System.Drawing.SystemColors.Window;
 			this.textBoxUserName.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-			this.textBoxUserName.Location = new System.Drawing.Point(86, 79);
+			this.textBoxUserName.Location = new System.Drawing.Point(100, 73);
 			this.textBoxUserName.Name = "textBoxUserName";
 			this.textBoxUserName.ReadOnly = true;
 			this.textBoxUserName.Size = new System.Drawing.Size(295, 24);
@@ -96,7 +94,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(13, 112);
+			this.label3.Location = new System.Drawing.Point(46, 107);
 			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(47, 17);
@@ -106,7 +104,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(242, 112);
+			this.label4.Location = new System.Drawing.Point(7, 135);
 			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(86, 17);
@@ -116,7 +114,7 @@
 			// dateTimePickerAcceptDate
 			// 
 			this.dateTimePickerAcceptDate.Checked = false;
-			this.dateTimePickerAcceptDate.Location = new System.Drawing.Point(335, 110);
+			this.dateTimePickerAcceptDate.Location = new System.Drawing.Point(100, 133);
 			this.dateTimePickerAcceptDate.Name = "dateTimePickerAcceptDate";
 			this.dateTimePickerAcceptDate.ShowCheckBox = true;
 			this.dateTimePickerAcceptDate.Size = new System.Drawing.Size(149, 24);
@@ -125,31 +123,31 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(13, 144);
+			this.label5.Location = new System.Drawing.Point(36, 197);
 			this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(57, 17);
-			this.label5.TabIndex = 12;
+			this.label5.TabIndex = 13;
 			this.label5.Text = "リプレース";
 			// 
 			// comboBoxReplace
 			// 
 			this.comboBoxReplace.FormattingEnabled = true;
 			this.comboBoxReplace.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-			this.comboBoxReplace.Location = new System.Drawing.Point(86, 141);
+			this.comboBoxReplace.Location = new System.Drawing.Point(100, 194);
 			this.comboBoxReplace.MaxLength = 50;
 			this.comboBoxReplace.Name = "comboBoxReplace";
 			this.comboBoxReplace.Size = new System.Drawing.Size(182, 25);
-			this.comboBoxReplace.TabIndex = 13;
+			this.comboBoxReplace.TabIndex = 14;
 			// 
 			// labelVersion
 			// 
 			this.labelVersion.AutoSize = true;
-			this.labelVersion.Location = new System.Drawing.Point(340, 9);
+			this.labelVersion.Location = new System.Drawing.Point(338, 9);
 			this.labelVersion.Name = "labelVersion";
 			this.labelVersion.Size = new System.Drawing.Size(146, 17);
-			this.labelVersion.TabIndex = 0;
-			this.labelVersion.Text = "Ver 1.00  2019/01/31";
+			this.labelVersion.TabIndex = 2;
+			this.labelVersion.Text = "Ver 1.00  2019/06/28";
 			// 
 			// comboBoxFinishedReason
 			// 
@@ -160,44 +158,44 @@
             "２．閉院",
             "３．手書きなどに変更",
             "４．その他"});
-			this.comboBoxFinishedReason.Location = new System.Drawing.Point(86, 172);
+			this.comboBoxFinishedReason.Location = new System.Drawing.Point(100, 163);
 			this.comboBoxFinishedReason.MaxLength = 50;
 			this.comboBoxFinishedReason.Name = "comboBoxFinishedReason";
-			this.comboBoxFinishedReason.Size = new System.Drawing.Size(398, 25);
-			this.comboBoxFinishedReason.TabIndex = 15;
+			this.comboBoxFinishedReason.Size = new System.Drawing.Size(295, 25);
+			this.comboBoxFinishedReason.TabIndex = 12;
 			// 
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(13, 175);
+			this.label6.Location = new System.Drawing.Point(33, 166);
 			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(60, 17);
-			this.label6.TabIndex = 14;
+			this.label6.TabIndex = 11;
 			this.label6.Text = "終了事由";
 			// 
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(13, 206);
+			this.label7.Location = new System.Drawing.Point(59, 228);
 			this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(34, 17);
-			this.label7.TabIndex = 16;
+			this.label7.TabIndex = 15;
 			this.label7.Text = "理由";
 			// 
 			// textBoxReason
 			// 
 			this.textBoxReason.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-			this.textBoxReason.Location = new System.Drawing.Point(86, 203);
+			this.textBoxReason.Location = new System.Drawing.Point(100, 225);
 			this.textBoxReason.Multiline = true;
 			this.textBoxReason.Name = "textBoxReason";
-			this.textBoxReason.Size = new System.Drawing.Size(398, 121);
-			this.textBoxReason.TabIndex = 17;
+			this.textBoxReason.Size = new System.Drawing.Size(384, 121);
+			this.textBoxReason.TabIndex = 16;
 			// 
 			// buttonOK
 			// 
-			this.buttonOK.Location = new System.Drawing.Point(328, 364);
+			this.buttonOK.Location = new System.Drawing.Point(328, 356);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 42);
 			this.buttonOK.TabIndex = 18;
@@ -208,21 +206,20 @@
 			// buttonCancel
 			// 
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(409, 364);
+			this.buttonCancel.Location = new System.Drawing.Point(409, 356);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 42);
-			this.buttonCancel.TabIndex = 20;
+			this.buttonCancel.TabIndex = 19;
 			this.buttonCancel.Text = "閉じる";
 			this.buttonCancel.UseVisualStyleBackColor = true;
-			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
 			// 
 			// checkBoxNonPaletteUser
 			// 
 			this.checkBoxNonPaletteUser.AutoSize = true;
-			this.checkBoxNonPaletteUser.Location = new System.Drawing.Point(86, 330);
+			this.checkBoxNonPaletteUser.Location = new System.Drawing.Point(100, 356);
 			this.checkBoxNonPaletteUser.Name = "checkBoxNonPaletteUser";
 			this.checkBoxNonPaletteUser.Size = new System.Drawing.Size(182, 21);
-			this.checkBoxNonPaletteUser.TabIndex = 11;
+			this.checkBoxNonPaletteUser.TabIndex = 17;
 			this.checkBoxNonPaletteUser.Text = "非paletteユーザーとして使用";
 			this.checkBoxNonPaletteUser.UseVisualStyleBackColor = true;
 			// 
@@ -231,51 +228,41 @@
 			this.dateTimePickerFinishedYearMonth.Checked = false;
 			this.dateTimePickerFinishedYearMonth.CustomFormat = "yyyy年MM月";
 			this.dateTimePickerFinishedYearMonth.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.dateTimePickerFinishedYearMonth.Location = new System.Drawing.Point(86, 110);
+			this.dateTimePickerFinishedYearMonth.Location = new System.Drawing.Point(100, 103);
 			this.dateTimePickerFinishedYearMonth.Name = "dateTimePickerFinishedYearMonth";
 			this.dateTimePickerFinishedYearMonth.ShowCheckBox = true;
 			this.dateTimePickerFinishedYearMonth.Size = new System.Drawing.Size(149, 24);
-			this.dateTimePickerFinishedYearMonth.TabIndex = 21;
+			this.dateTimePickerFinishedYearMonth.TabIndex = 8;
 			// 
-			// buttonShowList
+			// textBoxCustomerNo
 			// 
-			this.buttonShowList.Location = new System.Drawing.Point(86, 365);
-			this.buttonShowList.Name = "buttonShowList";
-			this.buttonShowList.Size = new System.Drawing.Size(75, 42);
-			this.buttonShowList.TabIndex = 22;
-			this.buttonShowList.Text = "リスト参照";
-			this.buttonShowList.UseVisualStyleBackColor = true;
-			this.buttonShowList.Click += new System.EventHandler(this.buttonShowList_Click);
+			this.textBoxCustomerNo.BackColor = System.Drawing.SystemColors.Window;
+			this.textBoxCustomerNo.Location = new System.Drawing.Point(100, 42);
+			this.textBoxCustomerNo.Margin = new System.Windows.Forms.Padding(4);
+			this.textBoxCustomerNo.MaxLength = 6;
+			this.textBoxCustomerNo.Name = "textBoxCustomerNo";
+			this.textBoxCustomerNo.ReadOnly = true;
+			this.textBoxCustomerNo.Size = new System.Drawing.Size(132, 24);
+			this.textBoxCustomerNo.TabIndex = 4;
 			// 
-			// buttonSearch
+			// label8
 			// 
-			this.buttonSearch.Location = new System.Drawing.Point(218, 45);
-			this.buttonSearch.Name = "buttonSearch";
-			this.buttonSearch.Size = new System.Drawing.Size(75, 28);
-			this.buttonSearch.TabIndex = 23;
-			this.buttonSearch.Text = "検索";
-			this.buttonSearch.UseVisualStyleBackColor = true;
-			this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
-			// 
-			// buttonClear
-			// 
-			this.buttonClear.Location = new System.Drawing.Point(299, 45);
-			this.buttonClear.Name = "buttonClear";
-			this.buttonClear.Size = new System.Drawing.Size(75, 28);
-			this.buttonClear.TabIndex = 24;
-			this.buttonClear.Text = "クリア";
-			this.buttonClear.UseVisualStyleBackColor = true;
-			this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(41, 45);
+			this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(52, 17);
+			this.label8.TabIndex = 3;
+			this.label8.Text = "顧客No";
 			// 
 			// EntryFinishedUserForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(498, 418);
-			this.Controls.Add(this.buttonClear);
-			this.Controls.Add(this.buttonSearch);
-			this.Controls.Add(this.buttonShowList);
+			this.ClientSize = new System.Drawing.Size(498, 411);
+			this.Controls.Add(this.textBoxCustomerNo);
+			this.Controls.Add(this.label8);
 			this.Controls.Add(this.dateTimePickerFinishedYearMonth);
 			this.Controls.Add(this.checkBoxNonPaletteUser);
 			this.Controls.Add(this.buttonCancel);
@@ -328,9 +315,8 @@
 		private System.Windows.Forms.Button buttonCancel;
 		private System.Windows.Forms.CheckBox checkBoxNonPaletteUser;
 		private System.Windows.Forms.DateTimePicker dateTimePickerFinishedYearMonth;
-		private System.Windows.Forms.Button buttonShowList;
-		private System.Windows.Forms.Button buttonSearch;
-		private System.Windows.Forms.Button buttonClear;
+		private System.Windows.Forms.TextBox textBoxCustomerNo;
+		private System.Windows.Forms.Label label8;
 	}
 }
 

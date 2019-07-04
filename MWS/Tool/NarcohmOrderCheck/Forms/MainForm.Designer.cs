@@ -38,6 +38,7 @@
 			this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader15 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -62,18 +63,20 @@
             this.columnHeader6,
             this.columnHeader10,
             this.columnHeader11,
-            this.columnHeader9,
-            this.columnHeader8,
             this.columnHeader7,
+            this.columnHeader8,
+            this.columnHeader9,
+            this.columnHeader15,
             this.columnHeader12,
             this.columnHeader13,
             this.columnHeader14});
 			this.listViewApplicate.FullRowSelect = true;
+			this.listViewApplicate.HideSelection = false;
 			this.listViewApplicate.Location = new System.Drawing.Point(12, 14);
 			this.listViewApplicate.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.listViewApplicate.MultiSelect = false;
 			this.listViewApplicate.Name = "listViewApplicate";
-			this.listViewApplicate.Size = new System.Drawing.Size(1291, 665);
+			this.listViewApplicate.Size = new System.Drawing.Size(1406, 665);
 			this.listViewApplicate.TabIndex = 0;
 			this.listViewApplicate.UseCompatibleStateImageBehavior = false;
 			this.listViewApplicate.View = System.Windows.Forms.View.Details;
@@ -82,27 +85,32 @@
 			// columnHeader1
 			// 
 			this.columnHeader1.Text = "申込番号";
+			this.columnHeader1.Width = 65;
 			// 
 			// columnHeader4
 			// 
 			this.columnHeader4.Text = "受注番号";
+			this.columnHeader4.Width = 65;
 			// 
 			// columnHeader5
 			// 
 			this.columnHeader5.Text = "受注日";
+			this.columnHeader5.Width = 90;
 			// 
 			// columnHeader2
 			// 
 			this.columnHeader2.Text = "顧客No";
+			this.columnHeader2.Width = 80;
 			// 
 			// columnHeader3
 			// 
 			this.columnHeader3.Text = "医院名";
+			this.columnHeader3.Width = 200;
 			// 
 			// columnHeader6
 			// 
 			this.columnHeader6.Text = "件名";
-			this.columnHeader6.Width = 250;
+			this.columnHeader6.Width = 230;
 			// 
 			// columnHeader10
 			// 
@@ -111,20 +119,27 @@
 			// columnHeader11
 			// 
 			this.columnHeader11.Text = "担当者";
+			this.columnHeader11.Width = 80;
 			// 
 			// columnHeader9
 			// 
 			this.columnHeader9.Text = "サービス開始日";
 			this.columnHeader9.Width = 90;
 			// 
+			// columnHeader15
+			// 
+			this.columnHeader15.Text = "課金開始月";
+			this.columnHeader15.Width = 80;
+			// 
 			// columnHeader8
 			// 
 			this.columnHeader8.Text = "販売種別";
+			this.columnHeader8.Width = 65;
 			// 
 			// columnHeader7
 			// 
 			this.columnHeader7.Text = "商品名";
-			this.columnHeader7.Width = 200;
+			this.columnHeader7.Width = 215;
 			// 
 			// columnHeader12
 			// 
@@ -175,7 +190,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1319, 728);
+			this.ClientSize = new System.Drawing.Size(1434, 728);
 			this.Controls.Add(this.buttonRemove);
 			this.Controls.Add(this.buttonModify);
 			this.Controls.Add(this.buttonAdd);
@@ -209,6 +224,7 @@
 		private System.Windows.Forms.Button buttonAdd;
 		private System.Windows.Forms.Button buttonModify;
 		private System.Windows.Forms.Button buttonRemove;
+		private System.Windows.Forms.ColumnHeader columnHeader15;
 	}
 }
 

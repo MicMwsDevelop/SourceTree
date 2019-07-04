@@ -10,6 +10,8 @@ using MwsLib.BaseFactory;
 using MwsLib.DB.SqlServer.NarcohmOrderCheck;
 using MwsLib.BaseFactory.NarcohmOrderCheck;
 using MwsLib.Common;
+using MwsLib.BaseFactory.Charlie.Table;
+using MwsLib.DB.SqlServer.Charlie;
 
 namespace NarcohmOrderCheck.Forms
 {
@@ -20,7 +22,7 @@ namespace NarcohmOrderCheck.Forms
 		private DataTable GoodsDataTable;
 		private DataTable DetailGoodsDataTable;
 
-		public NarcohmApplicate ApplicateInfo;
+		public T_NARCOHM_APPLICATE_HEADER ApplicateInfo;
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -135,7 +137,7 @@ namespace NarcohmOrderCheck.Forms
 			if (null == ApplicateInfo)
 			{
 				// 新規入力
-				ApplicateInfo = new NarcohmApplicate();
+				ApplicateInfo = new T_NARCOHM_APPLICATE_HEADER();
 			}
 			else
 			{
@@ -158,7 +160,7 @@ namespace NarcohmOrderCheck.Forms
 					dateTimePickerServiceStartDate.Value = ApplicateInfo.ServiceStartDate.Value.ToDateTime();
 				}
 				string goodCode = string.Empty;
-				foreach (NarcohmApplicateDetail detail in ApplicateInfo.DetailList)
+				foreach (T_NARCOHM_APPLICATE_DETAIL detail in ApplicateInfo.DetailList)
 				{
 					ListViewItem lvItem = new ListViewItem(detail.GetListViewData());
 					lvItem.Tag = detail;
@@ -171,6 +173,11 @@ namespace NarcohmOrderCheck.Forms
 				if (0 < goodCode.Length)
 				{
 					comboBoxNarcohm.SelectedValue = goodCode;
+				}
+				if (ApplicateInfo.KakinStartYM.HasValue)
+				{
+					dateTimePickerKakinStartYM.Enabled = true;
+					dateTimePickerKakinStartYM.Value = ApplicateInfo.KakinStartYM.Value.ToDate(1).ToDateTime();
 				}
 				if (MwsDefine.ApplyType.Monthly == ApplicateInfo.SaleType)
 				{
@@ -305,7 +312,7 @@ namespace NarcohmOrderCheck.Forms
 							listViewApplicate.Items.Clear();
 							foreach (NarcohmOrderInfo order in form.SelectOrderInfoList)
 							{
-								NarcohmApplicateDetail detail = new NarcohmApplicateDetail();
+								T_NARCOHM_APPLICATE_DETAIL detail = new T_NARCOHM_APPLICATE_DETAIL();
 								detail.SetNarcohmOrderInfo(order);
 								ListViewItem lvItem = new ListViewItem(detail.GetListViewData());
 								lvItem.Tag = detail;
@@ -334,13 +341,14 @@ namespace NarcohmOrderCheck.Forms
 		{
 			using (InputApplicateDetailForm form = new InputApplicateDetailForm())
 			{
-				form.ApplicateDetail = new NarcohmApplicateDetail();
+				form.ApplicateDetail = new T_NARCOHM_APPLICATE_DETAIL();
 				form.DetailGoodsDataTable = DetailGoodsDataTable;
 				if (DialogResult.OK == form.ShowDialog())
 				{
 					ListViewItem lvItem = new ListViewItem(form.ApplicateDetail.GetListViewData());
 					lvItem.Tag = form.ApplicateDetail;
 					listViewApplicate.Items.Add(lvItem);
+					listViewApplicate.Items[listViewApplicate.Items.Count - 1].Selected = true;
 				}
 			}
 		}
@@ -357,7 +365,7 @@ namespace NarcohmOrderCheck.Forms
 				ListViewItem lvItem = listViewApplicate.SelectedItems[0];
 				using (InputApplicateDetailForm form = new InputApplicateDetailForm())
 				{
-					form.ApplicateDetail = lvItem.Tag as NarcohmApplicateDetail;
+					form.ApplicateDetail = lvItem.Tag as T_NARCOHM_APPLICATE_DETAIL;
 					form.DetailGoodsDataTable = DetailGoodsDataTable;
 					form.ModifyFlag = true;
 					if (DialogResult.OK == form.ShowDialog())
@@ -418,6 +426,11 @@ namespace NarcohmOrderCheck.Forms
 				MessageBox.Show("サービス開始日が設定されていません。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
+			if (false == dateTimePickerKakinStartYM.Checked)
+			{
+				MessageBox.Show("課金開始月が設定されていません。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
 			if (0 == listViewApplicate.Items.Count)
 			{
 				MessageBox.Show("申込詳細情報が設定されていません。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -425,6 +438,9 @@ namespace NarcohmOrderCheck.Forms
 			}
 			// サービス開始日
 			ApplicateInfo.ServiceStartDate = new Date(dateTimePickerServiceStartDate.Value);
+
+			// 課金開始月
+			ApplicateInfo.KakinStartYM = new YearMonth(dateTimePickerKakinStartYM.Value.Year, dateTimePickerKakinStartYM.Value.Month);
 
 			// 販売種別
 			if (0 == comboBoxSaleType.SelectedIndex)
@@ -442,26 +458,26 @@ namespace NarcohmOrderCheck.Forms
 			ApplicateInfo.DetailList.Clear();
 			foreach (ListViewItem lvItem in listViewApplicate.Items)
 			{
-				NarcohmApplicateDetail detail = lvItem.Tag as NarcohmApplicateDetail;
+				T_NARCOHM_APPLICATE_DETAIL detail = lvItem.Tag as T_NARCOHM_APPLICATE_DETAIL;
 				ApplicateInfo.DetailList.Add(detail);
 			}
 			if (ModifyFlag)
 			{
 				// 変更
-				ApplicateInfo.UpdateDateTime = DateTime.Now;
+				ApplicateInfo.UpdateDate = DateTime.Now;
 				ApplicateInfo.UpdatePerson = Program.ProductName;
 
 				// 申込情報の変更
-				NarcohmOrderCheckAccess.UpdateNarcohmApplicate(ApplicateInfo, true);
+				CharlieDatabaseAccess.UpdateSet_T_NARCOHM_APPLICATE_HEADER(ApplicateInfo, true);
 			}
 			else
 			{
 				// 新規作成
-				ApplicateInfo.CreateDateTime = DateTime.Now;
+				ApplicateInfo.CreateDate = DateTime.Now;
 				ApplicateInfo.CreatePerson = Program.ProductName;
 
 				// 申込情報の新規追加
-				NarcohmOrderCheckAccess.AddNewNarcohmApplicate(ApplicateInfo, true);
+				CharlieDatabaseAccess.InsertInto_T_NARCOHM_APPLICATE_HEADER(ApplicateInfo, true);
 			}
 			this.DialogResult = DialogResult.OK;
 			this.Close();
