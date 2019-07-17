@@ -313,5 +313,16 @@ namespace MwsLib.DB.SqlServer.Junp
 		// ビュー関連
 		////////////////////////////////////////////////////////////////
 
+		/// <summary>
+		/// [JunpDB].[dbo].[vMicPCA仕入先マスタ]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>vMicPCA仕入先マスタ</returns>
+		public static DataTable Select_vMicPCA仕入先マスタ(string whereStr, string orderStr, bool sqlsv2)
+		{
+			return SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA仕入先マスタ], whereStr, orderStr, sqlsv2);
+		}
 	}
 }

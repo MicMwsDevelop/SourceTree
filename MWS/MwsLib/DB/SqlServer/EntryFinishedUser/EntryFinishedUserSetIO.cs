@@ -318,13 +318,13 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 											replace = list.First().fcmコード;
 										}
 									}
-									// [JunpDB].[dbo].[tMikユーザー].[fusユーザー] = 0（非ユーザー）
-									// [JunpDB].[dbo].[tMikユーザー].[fus前ｼｽﾃﾑ名称] = [JunpDB].[dbo].[tMikユーザー].[fusｼｽﾃﾑ名]
-									// [JunpDB].[dbo].[tMikユーザー].[fusｼｽﾃﾑ名] = '999'（その他）
-									// [JunpDB].[dbo].[tMikユーザー].[fusメーカー名] = リプレース
-									// [JunpDB].[dbo].[tMikユーザー].[fus更新日] = 現在
-									// [JunpDB].[dbo].[tMikユーザー].[fus更新者] = プログラム名
-									string sqlString = string.Format(@"UPDATE tMikユーザー SET fusユーザー = @1, fus前ｼｽﾃﾑ名称 = @2, fusｼｽﾃﾑ名 = @3,  fusメーカー名 = @4,  fus更新日 = @5, fus更新者 = @6 WHERE 顧客No = {0}", user.CustomerID);
+									// [JunpDB].[dbo].[tMikユーザ].[fusユーザー] = 0（非ユーザー）
+									// [JunpDB].[dbo].[tMikユーザ].[fus前ｼｽﾃﾑ名称] = [JunpDB].[dbo].[tMikユーザ].[fusｼｽﾃﾑ名]
+									// [JunpDB].[dbo].[tMikユーザ].[fusｼｽﾃﾑ名] = '999'（その他）
+									// [JunpDB].[dbo].[tMikユーザ].[fusメーカー名] = リプレース
+									// [JunpDB].[dbo].[tMikユーザ].[fus更新日] = 現在
+									// [JunpDB].[dbo].[tMikユーザ].[fus更新者] = プログラム名
+									string sqlString = string.Format(@"UPDATE tMikユーザ SET fusユーザー = @1, fus前ｼｽﾃﾑ名称 = @2, fusシステム名 = @3,  fusメーカー名 = @4,  fus更新日 = @5, fus更新者 = @6 WHERE fusCliMicID = {0}", user.CustomerID);
 									SqlParameter[] param = { new SqlParameter("@1", "0"),
 															new SqlParameter("@2", user.SystemCode),
 															new SqlParameter("@3", MwsDefine.SystemCodeEtc),
@@ -357,13 +357,13 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 									{
 										throw new ApplicationException("UpdateSetPrevMonthFinishedUser() Error!");
 									}
-									// [JunpDB].[dbo].[tMikユーザー].[fusユーザー] = 0（非ユーザー）
-									// [JunpDB].[dbo].[tMikユーザー].[fus前ｼｽﾃﾑ名称] = [JunpDB].[dbo].[tMikユーザー].[fusｼｽﾃﾑ名]
-									// [JunpDB].[dbo].[tMikユーザー].[fusｼｽﾃﾑ名] = ''（空白）
-									// [JunpDB].[dbo].[tMikユーザー].[fusメーカー名] = ''（空白）
-									// [JunpDB].[dbo].[tMikユーザー].[fus更新日] = 現在
-									// [JunpDB].[dbo].[tMikユーザー].[fus更新者] = プログラム名
-									sqlString = string.Format(@"UPDATE tMikユーザー SET fusユーザー = @1, fus前ｼｽﾃﾑ名称 = @2, fusｼｽﾃﾑ名 = @3,  fusメーカー名 = @4,  fus更新日 = @5, fus更新者 = @6 WHERE 顧客No = {0}", user.CustomerID);
+									// [JunpDB].[dbo].[tMikユーザ].[fusユーザー] = 0（非ユーザー）
+									// [JunpDB].[dbo].[tMikユーザ].[fus前ｼｽﾃﾑ名称] = [JunpDB].[dbo].[tMikユーザ].[fusｼｽﾃﾑ名]
+									// [JunpDB].[dbo].[tMikユーザ].[fusｼｽﾃﾑ名] = ''（空白）
+									// [JunpDB].[dbo].[tMikユーザ].[fusメーカー名] = ''（空白）
+									// [JunpDB].[dbo].[tMikユーザ].[fus更新日] = 現在
+									// [JunpDB].[dbo].[tMikユーザ].[fus更新者] = プログラム名
+									sqlString = string.Format(@"UPDATE tMikユーザ SET fusユーザー = @1, fus前ｼｽﾃﾑ名称 = @2, fusシステム名 = @3,  fusメーカー名 = @4,  fus更新日 = @5, fus更新者 = @6 WHERE fusCliMicID = {0}", user.CustomerID);
 									SqlParameter[] param2 = { new SqlParameter("@1", "0"),
 															new SqlParameter("@2", user.SystemCode),
 															new SqlParameter("@3", DBNull.Value),
@@ -372,7 +372,7 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 															new SqlParameter("@6", productName) };
 
 									// 実行
-									rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString, param1);
+									rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlString, param2);
 									if (rowCount <= -1)
 									{
 										throw new ApplicationException("UpdateSetPrevMonthFinishedUser() Error!");

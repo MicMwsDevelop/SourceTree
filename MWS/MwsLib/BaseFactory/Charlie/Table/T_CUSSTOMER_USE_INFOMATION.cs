@@ -120,7 +120,7 @@ namespace MwsLib.BaseFactory.Charlie.Table
 		{
 			get
 			{
-				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16. @17, @18)", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]);
+				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18)", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]);
 			}
 		}
 
@@ -131,11 +131,10 @@ namespace MwsLib.BaseFactory.Charlie.Table
 		{
 			get
 			{
-				return string.Format(@"UPDATE {0} SET SERVICE_TYPE_ID = @1, SERVICE_ID = @2, GOODS_ID = @3, APPLICATION_NO = @4"
-									+ ", KAKIN_START_DATE = @5, USE_START_DATE = @6, USE_END_DATE = @7, CANCELLATION_DAY = @8"
-									+ ", CANCELLATION_PROCESSING_DATE = @9, PAUSE_END_STATUS = @10, DELETE_FLG = @11"
+				return string.Format(@"UPDATE {0} SET GOODS_ID = @1, APPLICATION_NO = @2, KAKIN_START_DATE = @3, USE_START_DATE = @4, USE_END_DATE = @5, CANCELLATION_DAY = @6"
+									+ ", CANCELLATION_PROCESSING_DATE = @7, PAUSE_END_STATUS = @8, DELETE_FLG = @9, CREATE_DATE = @10, CREATE_PERSON = @11"
 									+ ", UPDATE_DATE = @12, UPDATE_PERSON = @13, PERIOD_END_DATE = @14, RENEWAL_FLG = @15"
-									+ " WHERE CUSTOMER_ID = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], CUSTOMER_ID);
+									+ " WHERE CUSTOMER_ID = {1} AND SERVICE_TYPE_ID = {2} AND SERVICE_ID = {3}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], CUSTOMER_ID, SERVICE_TYPE_ID, SERVICE_ID);
 			}
 		}
 
@@ -157,9 +156,9 @@ namespace MwsLib.BaseFactory.Charlie.Table
 			PAUSE_END_STATUS = false;
 			DELETE_FLG = false;
 			CREATE_DATE = null;
-			CREATE_PERSON = string.Empty;
+			CREATE_PERSON = null;
 			UPDATE_DATE = null;
-			UPDATE_PERSON = string.Empty;
+			UPDATE_PERSON = null;
 			PERIOD_END_DATE = null;
 			RENEWAL_FLG = false;
 		}
@@ -174,21 +173,21 @@ namespace MwsLib.BaseFactory.Charlie.Table
 				new SqlParameter("@1", CUSTOMER_ID.ToString()),
 				new SqlParameter("@2", SERVICE_TYPE_ID.ToString()),
 				new SqlParameter("@3", SERVICE_ID.ToString()),
-				new SqlParameter("@4", GOODS_ID),
-				new SqlParameter("@5", APPLICATION_NO),
-				new SqlParameter("@6", KAKIN_START_DATE),
-				new SqlParameter("@7", USE_START_DATE),
-				new SqlParameter("@8", USE_END_DATE),
-				new SqlParameter("@9", CANCELLATION_DAY),
-				new SqlParameter("@10", CANCELLATION_PROCESSING_DATE),
-				new SqlParameter("@11", (PAUSE_END_STATUS) ? "1" : "0"),
-				new SqlParameter("@12", (DELETE_FLG) ? "1" : "0"),
-				new SqlParameter("@13", CREATE_DATE),
-				new SqlParameter("@14", CREATE_PERSON),
-				new SqlParameter("@15", UPDATE_DATE),
-				new SqlParameter("@16", UPDATE_PERSON),
-				new SqlParameter("@17", PERIOD_END_DATE),
-				new SqlParameter("@18", (RENEWAL_FLG) ? "1" : "0")
+				new SqlParameter("@4", GOODS_ID ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@5", APPLICATION_NO ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@6", KAKIN_START_DATE.HasValue ? KAKIN_START_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@7", USE_START_DATE.HasValue ? USE_START_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@8", USE_END_DATE.HasValue ? USE_END_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@9", CANCELLATION_DAY.HasValue ? CANCELLATION_DAY.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@10", CANCELLATION_PROCESSING_DATE.HasValue ? CANCELLATION_PROCESSING_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@11", PAUSE_END_STATUS ? "1" : "0"),
+				new SqlParameter("@12", DELETE_FLG ? "1" : "0"),
+				new SqlParameter("@13", CREATE_DATE.HasValue ? CREATE_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@14", CREATE_PERSON ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@15", UPDATE_DATE.HasValue ? UPDATE_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@16", UPDATE_PERSON ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@17", PERIOD_END_DATE.HasValue ? PERIOD_END_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@18", RENEWAL_FLG ? "1" : "0")
 			};
 			return param;
 		}
@@ -200,30 +199,30 @@ namespace MwsLib.BaseFactory.Charlie.Table
 		public SqlParameter[] GetUpdateSetParameters()
 		{
 			SqlParameter[] param = {
-				new SqlParameter("@1", SERVICE_TYPE_ID.ToString()),
-				new SqlParameter("@2", SERVICE_ID.ToString()),
-				new SqlParameter("@3", GOODS_ID),
-				new SqlParameter("@4", APPLICATION_NO),
-				new SqlParameter("@5", KAKIN_START_DATE),
-				new SqlParameter("@6", USE_START_DATE),
-				new SqlParameter("@7", USE_END_DATE),
-				new SqlParameter("@8", CANCELLATION_DAY),
-				new SqlParameter("@9", CANCELLATION_PROCESSING_DATE),
-				new SqlParameter("@10", (PAUSE_END_STATUS) ? "1" : "0"),
-				new SqlParameter("@11", (DELETE_FLG) ? "1" : "0"),
-				new SqlParameter("@12", UPDATE_DATE),
-				new SqlParameter("@13", UPDATE_PERSON),
-				new SqlParameter("@14", PERIOD_END_DATE),
-				new SqlParameter("@15", (RENEWAL_FLG) ? "1" : "0")
+				new SqlParameter("@1", GOODS_ID ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@2", APPLICATION_NO ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@3", KAKIN_START_DATE.HasValue ? KAKIN_START_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@4", USE_START_DATE.HasValue ? USE_START_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@5", USE_END_DATE.HasValue ? USE_END_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@6", CANCELLATION_DAY.HasValue ? CANCELLATION_DAY.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@7", CANCELLATION_PROCESSING_DATE.HasValue ? CANCELLATION_PROCESSING_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@8", PAUSE_END_STATUS ? "1" : "0"),
+				new SqlParameter("@9", DELETE_FLG ? "1" : "0"),
+				new SqlParameter("@10", CREATE_DATE.HasValue ? CREATE_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@11", CREATE_PERSON ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@12", UPDATE_DATE.HasValue ? UPDATE_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@13", UPDATE_PERSON ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@14", PERIOD_END_DATE.HasValue ? PERIOD_END_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@15", RENEWAL_FLG ? "1" : "0")
 			};
 			return param;
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[支店情報参照ビュー]の詰め替え
+		/// [charlieDB].[dbo].[T_CUSSTOMER_USE_INFOMATION]の詰め替え
 		/// </summary>
 		/// <param name="table">データテーブル</param>
-		/// <returns>支店情報</returns>
+		/// <returns>利用情報</returns>
 		public static List<T_CUSSTOMER_USE_INFOMATION> DataTableToList(DataTable table)
 		{
 			if (null != table && 0 < table.Rows.Count)
@@ -243,14 +242,14 @@ namespace MwsLib.BaseFactory.Charlie.Table
 						USE_END_DATE = DataBaseValue.ConvObjectToDateTimeNull(row["USE_END_DATE"]),
 						CANCELLATION_DAY = DataBaseValue.ConvObjectToDateTimeNull(row["CANCELLATION_DAY"]),
 						CANCELLATION_PROCESSING_DATE = DataBaseValue.ConvObjectToDateTimeNull(row["CANCELLATION_PROCESSING_DATE"]),
-						PAUSE_END_STATUS = DataBaseValue.ConvObjectToBool(row["PAUSE_END_STATUS"]),
-						DELETE_FLG = DataBaseValue.ConvObjectToBool(row["DELETE_FLG"]),
+						PAUSE_END_STATUS = ("0" == row["PAUSE_END_STATUS"].ToString()) ? false : true,
+						DELETE_FLG = ("0" == row["DELETE_FLG"].ToString()) ? false : true,
 						CREATE_DATE = DataBaseValue.ConvObjectToDateTimeNull(row["CREATE_DATE"]),
 						CREATE_PERSON = row["CREATE_PERSON"].ToString().Trim(),
 						UPDATE_DATE = DataBaseValue.ConvObjectToDateTimeNull(row["UPDATE_DATE"]),
 						UPDATE_PERSON = row["UPDATE_PERSON"].ToString().Trim(),
 						PERIOD_END_DATE = DataBaseValue.ConvObjectToDateTimeNull(row["PERIOD_END_DATE"]),
-						RENEWAL_FLG = DataBaseValue.ConvObjectToBool(row["RENEWAL_FLG"])
+						RENEWAL_FLG = ("0" == row["RENEWAL_FLG"].ToString()) ? false : true
 					};
 					result.Add(data);
 				}

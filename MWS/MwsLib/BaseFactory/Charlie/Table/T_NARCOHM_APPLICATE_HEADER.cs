@@ -1,13 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//
+// T_NARCOHM_APPLICATE_HEADER.cs
+//
+// ナルコーム製品申込ヘッダ情報クラス
+// [CharlieDB].[dbo].[T_NARCOHM_APPLICATE_HEADER]
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2019/06/28 勝呂)
+//
+using MwsLib.BaseFactory.NarcohmOrderCheck;
 using MwsLib.Common;
-using System.Data;
 using MwsLib.DB;
 using MwsLib.DB.SqlServer.Charlie;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-using MwsLib.BaseFactory.NarcohmOrderCheck;
 
 namespace MwsLib.BaseFactory.Charlie.Table
 {
@@ -203,24 +211,24 @@ namespace MwsLib.BaseFactory.Charlie.Table
 		{
 			ApplicateID = 0;
 			CustomerNo = 0;
-			TokuisakiNo = string.Empty;
-			ClinicName = string.Empty;
-			Telephone = string.Empty;
-			Subject = string.Empty;
-			SectionCode = string.Empty;
-			SectionName = string.Empty;
-			BranchCode = string.Empty;
-			BranchName = string.Empty;
-			SalesmanCode = string.Empty;
-			SalesmanName = string.Empty;
+			TokuisakiNo = null;
+			ClinicName = null;
+			Telephone = null;
+			Subject = null;
+			SectionCode = null;
+			SectionName = null;
+			BranchCode = null;
+			BranchName = null;
+			SalesmanCode = null;
+			SalesmanName = null;
 			ServiceStartDate = null;
 			KakinStartYM = null;
 			SaleType = MwsDefine.ApplyType.Etc;
 			MailSendDate = null;
 			CreateDate = null;
-			CreatePerson = string.Empty;
+			CreatePerson = null;
 			UpdateDate = null;
-			UpdatePerson = string.Empty;
+			UpdatePerson = null;
 			DetailList = new List<T_NARCOHM_APPLICATE_DETAIL>();
 		}
 
@@ -323,25 +331,25 @@ namespace MwsLib.BaseFactory.Charlie.Table
 		public SqlParameter[] GetInsertIntoParameters()
 		{
 			SqlParameter[] param = {
-				new SqlParameter("@1", CustomerNo),		// [CustomerNo]
-				new SqlParameter("@2", TokuisakiNo),	// [TokuisakiNo] 
-				new SqlParameter("@3", ClinicName),	    // [ClinicName]
-				new SqlParameter("@4", Telephone),		// [Telephone]
-				new SqlParameter("@5", Subject),		// [Subject] 
-				new SqlParameter("@6", SectionCode),	// [SectionCode] 
-				new SqlParameter("@7", SectionName),	// [SectionName] 
-				new SqlParameter("@8", BranchCode),	    // [BranchCode] 
-				new SqlParameter("@9", BranchName),	    // [BranchName] 
-				new SqlParameter("@10", SalesmanCode),	// [SalesmanCode] 
-				new SqlParameter("@11", SalesmanName),	// [SalesmanName] 
-				new SqlParameter("@12", (ServiceStartDate.HasValue) ? ServiceStartDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),		// [ServiceStartDate] 
-				new SqlParameter("@13", (KakinStartYM.HasValue) ? KakinStartYM.Value.ToDate(1).ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),	// [KakinStartYM] 
-				new SqlParameter("@14", SaleType),		// [SaleType] 
-				new SqlParameter("@15", (MailSendDate.HasValue) ? MailSendDate.Value : System.Data.SqlTypes.SqlDateTime.Null),	// [MailSendDate] 
-				new SqlParameter("@16", (CreateDate.HasValue) ? CreateDate.Value : System.Data.SqlTypes.SqlDateTime.Null),	// [CreateDate] 
-				new SqlParameter("@17", CreatePerson),	// [CreatePerson]
-				new SqlParameter("@18", (UpdateDate.HasValue) ? UpdateDate.Value : System.Data.SqlTypes.SqlDateTime.Null),	// [UpdateDate] 
-				new SqlParameter("@19", UpdatePerson)	// [UpdatePerson] 
+				new SqlParameter("@1", CustomerNo),												// [CustomerNo]
+				new SqlParameter("@2", TokuisakiNo ?? System.Data.SqlTypes.SqlString.Null),		// [TokuisakiNo] 
+				new SqlParameter("@3", ClinicName ?? System.Data.SqlTypes.SqlString.Null),	    // [ClinicName]
+				new SqlParameter("@4", Telephone ?? System.Data.SqlTypes.SqlString.Null),		// [Telephone]
+				new SqlParameter("@5", Subject ?? System.Data.SqlTypes.SqlString.Null),			// [Subject] 
+				new SqlParameter("@6", SectionCode ?? System.Data.SqlTypes.SqlString.Null),		// [SectionCode] 
+				new SqlParameter("@7", SectionName ?? System.Data.SqlTypes.SqlString.Null),		// [SectionName] 
+				new SqlParameter("@8", BranchCode ?? System.Data.SqlTypes.SqlString.Null),	    // [BranchCode] 
+				new SqlParameter("@9", BranchName ?? System.Data.SqlTypes.SqlString.Null),	    // [BranchName] 
+				new SqlParameter("@10", SalesmanCode ?? System.Data.SqlTypes.SqlString.Null),	// [SalesmanCode] 
+				new SqlParameter("@11", SalesmanName ?? System.Data.SqlTypes.SqlString.Null),	// [SalesmanName] 
+				new SqlParameter("@12", ServiceStartDate.HasValue ? ServiceStartDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),	// [ServiceStartDate] 
+				new SqlParameter("@13", KakinStartYM.HasValue ? KakinStartYM.Value.ToDate(1).ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),	// [KakinStartYM] 
+				new SqlParameter("@14", SaleType),												// [SaleType] 
+				new SqlParameter("@15", MailSendDate.HasValue ? MailSendDate.Value : System.Data.SqlTypes.SqlDateTime.Null),	// [MailSendDate] 
+				new SqlParameter("@16", CreateDate.HasValue ? CreateDate.Value : System.Data.SqlTypes.SqlDateTime.Null),		// [CreateDate] 
+				new SqlParameter("@17", CreatePerson ?? System.Data.SqlTypes.SqlString.Null),	// [CreatePerson]
+				new SqlParameter("@18", UpdateDate.HasValue ? UpdateDate.Value : System.Data.SqlTypes.SqlDateTime.Null),		// [UpdateDate] 
+				new SqlParameter("@19", UpdatePerson ?? System.Data.SqlTypes.SqlString.Null)	// [UpdatePerson] 
 			};
 			return param;
 		}
@@ -353,25 +361,25 @@ namespace MwsLib.BaseFactory.Charlie.Table
 		public SqlParameter[] GetUpdateSetParameters()
 		{
 			SqlParameter[] param = {
-				new SqlParameter("@1", CustomerNo),		// [CustomerNo]
-				new SqlParameter("@2", TokuisakiNo),	// [TokuisakiNo] 
-				new SqlParameter("@3", ClinicName),	    // [ClinicName]
-				new SqlParameter("@4", Telephone),		// [Telephone]
-				new SqlParameter("@5", Subject),		// [Subject] 
-				new SqlParameter("@6", SectionCode),	// [SectionCode] 
-				new SqlParameter("@7", SectionName),	// [SectionName] 
-				new SqlParameter("@8", BranchCode),		// [BranchCode] 
-				new SqlParameter("@9", BranchName),		// [BranchName] 
-				new SqlParameter("@10", SalesmanCode),	// [SalesmanCode] 
-				new SqlParameter("@11", SalesmanName),	// [SalesmanName] 
-				new SqlParameter("@12", (ServiceStartDate.HasValue) ? ServiceStartDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),		// [ServiceStartDate] 
-				new SqlParameter("@13", (KakinStartYM.HasValue) ? KakinStartYM.Value.ToDate(1).ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),	// [KakinStartYM] 
-				new SqlParameter("@14", SaleType),		// [SaleType] 
-				new SqlParameter("@15", (MailSendDate.HasValue) ? MailSendDate.Value : System.Data.SqlTypes.SqlDateTime.Null),	// [MailSendDate] 
-				new SqlParameter("@16", (CreateDate.HasValue) ? CreateDate.Value : System.Data.SqlTypes.SqlDateTime.Null),		// [CreateDate] 
-				new SqlParameter("@17", CreatePerson),	// [CreatePerson]
-				new SqlParameter("@18", (UpdateDate.HasValue) ? UpdateDate.Value : System.Data.SqlTypes.SqlDateTime.Null),		// [UpdateDate] 
-				new SqlParameter("@19", UpdatePerson)   // [UpdatePerson] 
+				new SqlParameter("@1", CustomerNo),												// [CustomerNo]
+				new SqlParameter("@2", TokuisakiNo ?? System.Data.SqlTypes.SqlString.Null),		// [TokuisakiNo] 
+				new SqlParameter("@3", ClinicName ?? System.Data.SqlTypes.SqlString.Null),	    // [ClinicName]
+				new SqlParameter("@4", Telephone ?? System.Data.SqlTypes.SqlString.Null),		// [Telephone]
+				new SqlParameter("@5", Subject ?? System.Data.SqlTypes.SqlString.Null),			// [Subject] 
+				new SqlParameter("@6", SectionCode ?? System.Data.SqlTypes.SqlString.Null),		// [SectionCode] 
+				new SqlParameter("@7", SectionName ?? System.Data.SqlTypes.SqlString.Null),		// [SectionName] 
+				new SqlParameter("@8", BranchCode ?? System.Data.SqlTypes.SqlString.Null),		// [BranchCode] 
+				new SqlParameter("@9", BranchName ?? System.Data.SqlTypes.SqlString.Null),		// [BranchName] 
+				new SqlParameter("@10", SalesmanCode ?? System.Data.SqlTypes.SqlString.Null),	// [SalesmanCode] 
+				new SqlParameter("@11", SalesmanName ?? System.Data.SqlTypes.SqlString.Null),	// [SalesmanName] 
+				new SqlParameter("@12", ServiceStartDate.HasValue ? ServiceStartDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),	// [ServiceStartDate] 
+				new SqlParameter("@13", KakinStartYM.HasValue ? KakinStartYM.Value.ToDate(1).ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),	// [KakinStartYM] 
+				new SqlParameter("@14", SaleType),												// [SaleType] 
+				new SqlParameter("@15", MailSendDate.HasValue ? MailSendDate.Value : System.Data.SqlTypes.SqlDateTime.Null),	// [MailSendDate] 
+				new SqlParameter("@16", CreateDate.HasValue ? CreateDate.Value : System.Data.SqlTypes.SqlDateTime.Null),		// [CreateDate] 
+				new SqlParameter("@17", CreatePerson ?? System.Data.SqlTypes.SqlString.Null),	// [CreatePerson]
+				new SqlParameter("@18", UpdateDate.HasValue ? UpdateDate.Value : System.Data.SqlTypes.SqlDateTime.Null),		// [UpdateDate] 
+				new SqlParameter("@19", UpdatePerson ?? System.Data.SqlTypes.SqlString.Null)	// [UpdatePerson] 
 			};
 			return param;
 		}

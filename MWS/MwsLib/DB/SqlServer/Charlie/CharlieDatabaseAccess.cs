@@ -298,6 +298,41 @@ namespace MwsLib.DB.SqlServer.Charlie
 		////////////////////////////////////////////////////////////////
 
 		/// <summary>
+		/// [charlieDB].[dbo].[T_PRODUCT_CONTROL]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>製品管理情報リスト</returns>
+		public static List<T_PRODUCT_CONTROL> Select_T_PRODUCT_CONTROL(string whereStr, string orderStr, bool sqlsv2)
+		{
+			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_PRODUCT_CONTROL], whereStr, orderStr, sqlsv2);
+			return T_PRODUCT_CONTROL.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_PRODUCT_CONTROL]の新規追加
+		/// </summary>
+		/// <param name="data">製品管理情報</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>影響行数</returns>
+		public static int InsertInto_T_PRODUCT_CONTROL(T_PRODUCT_CONTROL data, bool sqlsv2)
+		{
+			return InsertIntoCharlieDatabase(T_PRODUCT_CONTROL.InsertIntoSqlString, data.GetInsertIntoParameters(), sqlsv2);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_PRODUCT_CONTROL]の更新
+		/// </summary>
+		/// <param name="data">製品管理情報</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>影響行数</returns>
+		public static int UpdateSet_T_PRODUCT_CONTROL(T_PRODUCT_CONTROL data, bool sqlsv2)
+		{
+			return UpdateSetCharlieDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters(), sqlsv2);
+		}
+
+		/// <summary>
 		/// [charlieDB].[dbo].[T_CUSSTOMER_USE_INFOMATION]の取得
 		/// </summary>
 		/// <param name="whereStr">Where句</param>

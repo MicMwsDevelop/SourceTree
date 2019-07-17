@@ -8,6 +8,7 @@ namespace NarcohmOrderCheck.Forms
 {
 	public partial class MainForm : Form
 	{
+
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
@@ -23,7 +24,7 @@ namespace NarcohmOrderCheck.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			List<T_NARCOHM_APPLICATE_HEADER> list = CharlieDatabaseAccess.Get_T_NARCOHM_APPLICATE_HEADER(true);
+			List<T_NARCOHM_APPLICATE_HEADER> list = CharlieDatabaseAccess.Select_T_NARCOHM_APPLICATE_HEADER(Program.DATABACE_ACCEPT_CT);
 			foreach (T_NARCOHM_APPLICATE_HEADER header in list)
 			{
 				ListViewItem lvItem = new ListViewItem(header.GetListViewData());

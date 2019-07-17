@@ -1,13 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//
+// T_NARCOHM_APPLICATE_DETAIL.cs
+//
+// ナルコーム製品申込詳細情報クラス
+// [CharlieDB].[dbo].[T_NARCOHM_APPLICATE_DETAIL]
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2019/06/28 勝呂)
+//
+using MwsLib.BaseFactory.NarcohmOrderCheck;
 using MwsLib.Common;
-using System.Data;
 using MwsLib.DB;
 using MwsLib.DB.SqlServer.Charlie;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-using MwsLib.BaseFactory.NarcohmOrderCheck;
 
 namespace MwsLib.BaseFactory.Charlie.Table
 {
@@ -102,8 +109,8 @@ namespace MwsLib.BaseFactory.Charlie.Table
 			ApplicateID = 0;
 			OrderNo = null;
 			OrderDate = null;
-			GoodsCode = string.Empty;
-			GoodsName = string.Empty;
+			GoodsCode = null;
+			GoodsName = null;
 			Price = 0;
 			Count = 0;
 			Total = 0;
@@ -190,8 +197,8 @@ namespace MwsLib.BaseFactory.Charlie.Table
 				new SqlParameter("@2", seqNo),			// [SeqNo]
 				new SqlParameter("@3", (OrderNo.HasValue) ? OrderNo.Value : System.Data.SqlTypes.SqlInt32.Null),	// [OrderNo] 
 				new SqlParameter("@4", (OrderDate.HasValue) ? OrderDate.Value.ToDateTime() : System.Data.SqlTypes.SqlDateTime.Null),	    // [OrderDate] 
-				new SqlParameter("@5", GoodsCode),		// [GoodsCode] 
-				new SqlParameter("@6", GoodsName),		// [GoodsName] 
+				new SqlParameter("@5", GoodsCode ?? System.Data.SqlTypes.SqlString.Null),		// [GoodsCode] 
+				new SqlParameter("@6", GoodsName ?? System.Data.SqlTypes.SqlString.Null),		// [GoodsName] 
 				new SqlParameter("@7", Price),			// [Price] 
 				new SqlParameter("@8", Count),			// [Count] 
 				new SqlParameter("@9", Total),			// [Total] 

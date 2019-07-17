@@ -28,8 +28,8 @@ namespace EntryFinishedUser.Mail
 		/// 終了ユーザー連絡メール送信（営業管理部宛て）
 		/// </summary>
 		/// <param name="userList">ユーザーリスト</param>
-		/// <param name="finished">終了ユーザーリストかどうか？</param>
-		public static void SendFinishedUserMail(List<EntryFinishedUserData> userList)
+		/// <param name="userCount">ユーザー数</param>
+		public static void SendFinishedUserMail(IEnumerable<EntryFinishedUserData> userList, int userCount)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -56,7 +56,7 @@ namespace EntryFinishedUser.Mail
 							+ @"<p>営業管理部</p>"
 							+ @"<p>{0} 終了ユーザーリスト<br>"
 							+ @"</div>", yearMonthStr);
-				if (0 < userList.Count)
+				if (0 < userCount)
 				{
 					msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
 								+ @"<tr>"
@@ -85,6 +85,17 @@ namespace EntryFinishedUser.Mail
 				}
 				else
 				{
+					msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
+								+ @"<tr>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>システム名</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>拠店名</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>終了月</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>終了届受領日</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>非paletteユーザー</font></th>"
+								+ @"</tr>";
+					msg.Body += @"</table>";
 					msg.Body += @"<br><p>終了ユーザーはいませんでした。</p>";
 				}
 				msg.Body += @"</div>"
@@ -104,8 +115,8 @@ namespace EntryFinishedUser.Mail
 		/// 非paletteユーザー連絡メール送信（営業管理部宛て）
 		/// </summary>
 		/// <param name="userList">ユーザーリスト</param>
-		/// <param name="finished">終了ユーザーリストかどうか？</param>
-		public static void SendNonPaletteUserMail(List<EntryFinishedUserData> userList, bool finished)
+		/// <param name="userCount">ユーザー数</param>
+		public static void SendNonPaletteUserMail(IEnumerable<EntryFinishedUserData> userList, int userCount)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -132,7 +143,7 @@ namespace EntryFinishedUser.Mail
 							+ @"<p>営業管理部</p>"
 							+ @"<p>{0} 非paletteユーザーリスト<br>"
 							+ @"</div>", yearMonthStr);
-				if (0 < userList.Count)
+				if (0 < userCount)
 				{
 					msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
 								+ @"<tr>"
@@ -161,6 +172,17 @@ namespace EntryFinishedUser.Mail
 				}
 				else
 				{
+					msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
+								+ @"<tr>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>システム名</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>拠店名</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>終了月</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>終了届受領日</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>非paletteユーザー</font></th>"
+								+ @"</tr>";
+					msg.Body += @"</table>";
 					msg.Body += @"<br><p>非paletteユーザーはいませんでした。</p>";
 				}
 				msg.Body += @"</div>"

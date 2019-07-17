@@ -1,10 +1,20 @@
-﻿using MwsLib.DB;
+﻿//
+// tMik保守契約.cs
+//
+// tMik保守契約クラス
+// [JunpDB].[dbo].[tMik保守契約]
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2019/06/28 勝呂)
+//
+using MwsLib.Common;
+using MwsLib.DB;
 using MwsLib.DB.SqlServer.Junp;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using MwsLib.Common;
 
 namespace MwsLib.BaseFactory.Junp.Table
 {
@@ -205,13 +215,13 @@ namespace MwsLib.BaseFactory.Junp.Table
 			fhsSメンテ料金 = 0;
 			fhsSメンテ契約開始 = null;
 			fhsSメンテ契約終了 = null;
-			fhsSメンテ契約備考1 = string.Empty;
-			fhsSメンテ契約備考2 = string.Empty;
-			fhsS契約名義 = string.Empty;
-			fhsSメンテ請求先コード = string.Empty;
-			fhsSメンテ請求先名 = string.Empty;
+			fhsSメンテ契約備考1 = null;
+			fhsSメンテ契約備考2 = null;
+			fhsS契約名義 = null;
+			fhsSメンテ請求先コード = null;
+			fhsSメンテ請求先名 = null;
 			fhsSメンテ区分 = false;
-			fhsS卸BM先名 = string.Empty;
+			fhsS卸BM先名 = null;
 			fhsS金額 = 0;
 			fhsH保守 = false;
 			fhsH契約書回収年月 = null;
@@ -220,16 +230,16 @@ namespace MwsLib.BaseFactory.Junp.Table
 			fhsHメンテ料金 = 0;
 			fhsHメンテ契約開始 = null;
 			fhsHメンテ契約終了 = null;
-			fhsHメンテ契約備考1 = string.Empty;
-			fhsHメンテ契約備考2 = string.Empty;
-			fhsH契約名義 = string.Empty;
-			fhsHメンテ請求先コード = string.Empty;
-			fhsHメンテ請求先名 = string.Empty;
-			fhsHメンテ区分 = string.Empty;
-			fhsH卸BM先名 = string.Empty;
+			fhsHメンテ契約備考1 = null;
+			fhsHメンテ契約備考2 = null;
+			fhsH契約名義 = null;
+			fhsHメンテ請求先コード = null;
+			fhsHメンテ請求先名 = null;
+			fhsHメンテ区分 = null;
+			fhsH卸BM先名 = null;
 			fhsH金額 = 0;
 			fhs更新日 = null;
-			fhs更新者 = string.Empty;
+			fhs更新者 = null;
 		}
 
 		/// <summary>
@@ -240,38 +250,38 @@ namespace MwsLib.BaseFactory.Junp.Table
 		{
 			SqlParameter[] param = {
 				new SqlParameter("@1", fhsCliMicID.ToString()),
-				new SqlParameter("@2", (fhsS保守) ? "1" : "0"),
-				new SqlParameter("@3", (fhsS契約書回収年月.HasValue) ? fhsS契約書回収年月.ToString() : ""),
-				new SqlParameter("@4", (fhsS売計上) ? "1" : "0"),
+				new SqlParameter("@2", fhsS保守 ? "1" : "0"),
+				new SqlParameter("@3", fhsS契約書回収年月.HasValue ? fhsS契約書回収年月.ToString() : ""),
+				new SqlParameter("@4", fhsS売計上 ? "1" : "0"),
 				new SqlParameter("@5", fhsS契約年数.ToString()),
 				new SqlParameter("@6", fhsSメンテ料金.ToString()),
-				new SqlParameter("@7", (fhsSメンテ契約開始.HasValue) ? fhsSメンテ契約開始.Value.ToString() : ""),
-				new SqlParameter("@8", (fhsSメンテ契約終了.HasValue) ? fhsSメンテ契約終了.Value.ToString() : ""),
-				new SqlParameter("@9", fhsSメンテ契約備考1),
-				new SqlParameter("@10", fhsSメンテ契約備考2),
-				new SqlParameter("@11", fhsS契約名義),
-				new SqlParameter("@12", fhsSメンテ請求先コード),
-				new SqlParameter("@13", fhsSメンテ請求先名),
-				new SqlParameter("@14", (fhsSメンテ区分) ? "1": "0"),
-				new SqlParameter("@15", fhsS卸BM先名),
+				new SqlParameter("@7", fhsSメンテ契約開始.HasValue ? fhsSメンテ契約開始.Value.ToString() : ""),
+				new SqlParameter("@8", fhsSメンテ契約終了.HasValue ? fhsSメンテ契約終了.Value.ToString() : ""),
+				new SqlParameter("@9", fhsSメンテ契約備考1 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@10", fhsSメンテ契約備考2 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@11", fhsS契約名義 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@12", fhsSメンテ請求先コード ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@13", fhsSメンテ請求先名 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@14", fhsSメンテ区分 ? "1": "0"),
+				new SqlParameter("@15", fhsS卸BM先名 ?? System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@16", fhsS金額.ToString()),
-				new SqlParameter("@17", (fhsH保守) ? "1" : "0"),
-				new SqlParameter("@18", (fhsH契約書回収年月.HasValue) ? fhsH契約書回収年月.Value.ToString() : ""),
-				new SqlParameter("@19", (fhsH売計上) ? "1" : "0"),
+				new SqlParameter("@17", fhsH保守 ? "1" : "0"),
+				new SqlParameter("@18", fhsH契約書回収年月.HasValue ? fhsH契約書回収年月.Value.ToString() : ""),
+				new SqlParameter("@19", fhsH売計上 ? "1" : "0"),
 				new SqlParameter("@20", fhsH契約年数.ToString()),
 				new SqlParameter("@21", fhsHメンテ料金.ToString()),
-				new SqlParameter("@22", (fhsHメンテ契約開始.HasValue) ? fhsHメンテ契約開始.Value.ToString() : ""),
-				new SqlParameter("@23", (fhsHメンテ契約終了.HasValue) ? fhsHメンテ契約終了.Value.ToString() : ""),
-				new SqlParameter("@24", fhsHメンテ契約備考1),
-				new SqlParameter("@25", fhsHメンテ契約備考2),
-				new SqlParameter("@26", fhsH契約名義),
-				new SqlParameter("@27", fhsHメンテ請求先コード),
-				new SqlParameter("@28", fhsHメンテ請求先名),
-				new SqlParameter("@29", fhsHメンテ区分),
-				new SqlParameter("@30", fhsH卸BM先名),
+				new SqlParameter("@22", fhsHメンテ契約開始.HasValue ? fhsHメンテ契約開始.Value.ToString() : ""),
+				new SqlParameter("@23", fhsHメンテ契約終了.HasValue ? fhsHメンテ契約終了.Value.ToString() : ""),
+				new SqlParameter("@24", fhsHメンテ契約備考1 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@25", fhsHメンテ契約備考2 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@26", fhsH契約名義 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@27", fhsHメンテ請求先コード ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@28", fhsHメンテ請求先名 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@29", fhsHメンテ区分 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@30", fhsH卸BM先名 ?? System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@31", fhsH金額.ToString()),
-				new SqlParameter("@32", fhs更新日),
-				new SqlParameter("@33", fhs更新者),
+				new SqlParameter("@32", fhs更新日.HasValue ? fhs更新日.Value : System.Data.SqlTypes.SqlDateTime.Null),
+				new SqlParameter("@33", fhs更新者 ?? System.Data.SqlTypes.SqlString.Null),
 			};
 			return param;
 		}

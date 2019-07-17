@@ -1,4 +1,14 @@
-﻿using MwsLib.BaseFactory.Junp.Table;
+﻿//
+// T_USE_PCCSUPPORT.cs
+//
+// PC安心サポート契約情報クラス
+// [CharlieDB].[dbo].[T_USE_PCCSUPPORT]
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2019/06/28 勝呂)
+// 
+using MwsLib.BaseFactory.Junp.Table;
 using MwsLib.Common;
 using MwsLib.DB.SqlServer.Charlie;
 using System;
@@ -115,7 +125,7 @@ namespace MwsLib.BaseFactory.Charlie.Table
 			fCustomerID = 0;
 			fServiceId = 0;
 			fYears = 0;
-			fGoodsID = string.Empty;
+			fGoodsID = null;
 			fApplyDate = null;
 			fContractStartDate = null;
 			fContractEndDate = null;
@@ -124,9 +134,9 @@ namespace MwsLib.BaseFactory.Charlie.Table
 			fEndFlag = false;
 			fDeleteFlag = false;
 			fCreateDate = null;
-			fCreatePerson = string.Empty;
+			fCreatePerson = null;
 			fUpdateDate = null;
-			fUpdatePerson = string.Empty;
+			fUpdatePerson = null;
 		}
 
 		/// <summary>
@@ -139,7 +149,7 @@ namespace MwsLib.BaseFactory.Charlie.Table
 			param.Add(new SqlParameter("@1", fCustomerID.ToString()));
 			param.Add(new SqlParameter("@2", fServiceId.ToString()));
 			param.Add(new SqlParameter("@3", fYears.ToString()));
-			param.Add(new SqlParameter("@4", fGoodsID));
+			param.Add(new SqlParameter("@4", fGoodsID ?? System.Data.SqlTypes.SqlString.Null));
 			param.Add(new SqlParameter("@5", fApplyDate.HasValue ? fApplyDate.Value : System.Data.SqlTypes.SqlDateTime.Null));
 			if (fContractStartDate.HasValue)
 			{
@@ -176,9 +186,9 @@ namespace MwsLib.BaseFactory.Charlie.Table
 			param.Add(new SqlParameter("@10", fEndFlag ? "1" : "0"));
 			param.Add(new SqlParameter("@11", fDeleteFlag ? "1" : "0"));
 			param.Add(new SqlParameter("@12", fCreateDate.HasValue ? fCreateDate.Value : System.Data.SqlTypes.SqlDateTime.Null));
-			param.Add(new SqlParameter("@13", fCreatePerson));
+			param.Add(new SqlParameter("@13", fCreatePerson ?? System.Data.SqlTypes.SqlString.Null));
 			param.Add(new SqlParameter("@14", fUpdateDate.HasValue ? fUpdateDate.Value : System.Data.SqlTypes.SqlDateTime.Null));
-			param.Add(new SqlParameter("@15", fUpdatePerson));
+			param.Add(new SqlParameter("@15", fUpdatePerson ?? System.Data.SqlTypes.SqlString.Null));
 			return param.ToArray();
 		}
 
@@ -232,9 +242,9 @@ namespace MwsLib.BaseFactory.Charlie.Table
 			fEndFlag = false;
 			fDeleteFlag = false;
 			fCreateDate = DateTime.Now;
-			fCreatePerson = "営業管理部";
+			fCreatePerson = "suguro";
 			fUpdateDate = null;
-			fUpdatePerson = string.Empty;
+			fUpdatePerson = null;
 		}
 	}
 }

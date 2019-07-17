@@ -68,12 +68,12 @@ namespace MwsLib.BaseFactory.Junp.Table
 		/// </summary>
 		public tMic終了ユーザーリスト()
 		{
-			得意先No = string.Empty;
+			得意先No = null;
 			終了月 = null;
 			終了届受領日 = null;
-			リプレース = string.Empty;
-			終了事由 = string.Empty;
-			理由 = string.Empty;
+			リプレース = null;
+			終了事由 = null;
+			理由 = null;
 			更新日時 = null;
 			非paletteユーザー = false;
 		}
@@ -96,8 +96,7 @@ namespace MwsLib.BaseFactory.Junp.Table
 		{
 			get
 			{
-				return string.Format(@"UPDATE {0} SET 終了月 = @1, 終了届受領日 = @2, 終了事由 = @3, リプレース = @4"
-									+ ", 理由 = @5, 更新日時 = @6, 非paletteユーザー = @7"
+				return string.Format(@"UPDATE {0} SET 終了月 = @1, 終了届受領日 = @2, 終了事由 = @3, リプレース = @4, 理由 = @5, 更新日時 = @6, 非paletteユーザー = @7"
 									+ " WHERE 得意先No = {1}", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMic終了ユーザーリスト], 得意先No);
 			}
 		}
@@ -120,12 +119,12 @@ namespace MwsLib.BaseFactory.Junp.Table
 		public SqlParameter[] GetInsertIntoParameters()
 		{
 			SqlParameter[] param = {
-				new SqlParameter("@1", 得意先No),
-				new SqlParameter("@2", 終了月.Value.ToString()),
-				new SqlParameter("@3", 終了届受領日.Value.ToString()),
-				new SqlParameter("@4", 終了事由),
-				new SqlParameter("@5", リプレース),
-				new SqlParameter("@6", 理由),
+				new SqlParameter("@1", 得意先No ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@2", 終了月.HasValue ? 終了月.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@3", 終了届受領日.HasValue ? 終了届受領日.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@4", 終了事由 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@5", リプレース ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@6", 理由 ?? System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@7", DateTime.Now),
 				new SqlParameter("@8", (非paletteユーザー) ? "1" : "0")
 			};
@@ -139,11 +138,11 @@ namespace MwsLib.BaseFactory.Junp.Table
 		public SqlParameter[] GetUpdateSetParameters()
 		{
 			SqlParameter[] param = {
-				new SqlParameter("@1", 終了月.Value.ToString()),
-				new SqlParameter("@2", 終了届受領日.Value.ToString()),
-				new SqlParameter("@3", 終了事由),
-				new SqlParameter("@4", リプレース),
-				new SqlParameter("@5", 理由),
+				new SqlParameter("@1", 終了月.HasValue ? 終了月.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@2", 終了届受領日.HasValue ? 終了届受領日.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@3", 終了事由 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@4", リプレース ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@5", 理由 ?? System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@6", DateTime.Now),
 				new SqlParameter("@7", (非paletteユーザー) ? "1" : "0")
 			};

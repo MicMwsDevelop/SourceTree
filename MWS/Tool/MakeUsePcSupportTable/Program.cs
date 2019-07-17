@@ -13,6 +13,7 @@ using MwsLib.DB.SqlServer.Charlie;
 using MwsLib.DB.SqlServer.Junp;
 using System;
 using System.Collections.Generic;
+using MwsLib.Common;
 
 namespace MakeUsePcSupportTable
 {
@@ -23,6 +24,10 @@ namespace MakeUsePcSupportTable
 		/// </summary>
 		public static bool DATABACE_ACCEPT_CT = true;
 
+		/// <summary>
+		/// メイン処理
+		/// </summary>
+		/// <param name="args">プログラム引数</param>
 		static void Main(string[] args)
 		{
 			string msg = "tMik保守契約からPC安心サポート契約情報を作成します。よろしいですか？";
@@ -42,6 +47,12 @@ namespace MakeUsePcSupportTable
 				{
 					T_USE_PCCSUPPORT pc = new T_USE_PCCSUPPORT();
 					pc.Set_tMik保守契約(mnt);
+					if (false == pc.fBillingStartDate.HasValue && true == pc.fContractStartDate.HasValue && pc.fContractStartDate.Value <= Date.Today)
+					{
+						// 契約開始日が当日以前のデータには課金期間を格納
+						pc.fBillingStartDate = pc.fContractStartDate;
+						pc.fBillingEndDate = pc.fContractEndDate;
+					}
 					pcList.Add(pc);
 				}
 				try

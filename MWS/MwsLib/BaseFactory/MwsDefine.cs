@@ -11,7 +11,6 @@ namespace MwsLib.BaseFactory
 {
 	/// <summary>
 	/// MWS関連定義クラス
-	/// [Charlie].[dbo].[T_CUSTOMER_FOUNDATIONS].APPLY_TYPE
 	/// </summary>
 	public static class MwsDefine
 	{
@@ -62,13 +61,18 @@ namespace MwsLib.BaseFactory
 		public const string GoodIdPcSafetySupport1 = "001872";
 
 		/// <summary>
+		/// PC安心サポート５年契約
+		/// </summary>
+		public const string GoodIdPcSafetySupport5 = "017829";
+
+		/// <summary>
 		/// PC安心サポート１年契約（更新用）
 		/// </summary>
 		public const string GoodIdPcSafetySupport1Continue = "001874";
 
-
 		/// <summary>
 		/// 申込種別/販売種別
+		/// [charlieDB].[dbo].[T_CUSTOMER_FOUNDATIONS].[APPLY_TYPE]
 		/// </summary>
 		public enum ApplyType
 		{
@@ -137,14 +141,51 @@ namespace MwsLib.BaseFactory
 			StandardNonPalette = 1099,
 
 			/// <summary>
-			/// PC安心ｻﾎﾟｰﾄ(3年契約)
+			/// PC安心サポート３年契約
 			/// </summary>
 			PcSafetySupport3 = 6410100,
 
 			/// <summary>
-			/// PC安心ｻﾎﾟｰﾄ(1年契約)
+			/// PC安心サポート１年契約
 			/// </summary>
 			PcSafetySupport1 = 6410120,
+
+			/// <summary>
+			/// PC安心サポート５年契約
+			/// </summary>
+			PcSafetySupport5 = 6410140,
+
+			/// <summary>
+			/// PC安心サポート１年契約(更新用)
+			/// </summary>
+			PcSafetySupportContinue = 6410160,
+		}
+
+		/// <summary>
+		/// ユーザー種別
+		/// [CharlieDB].[dbo].[T_PRODUCT_CONTROL].[USER_CLASSIFICATION]
+		/// </summary>
+		public enum UserClassification
+		{
+			/// <summary>
+			/// paletteユーザー
+			/// </summary>
+			PaletteUser = 0,
+
+			/// <summary>
+			/// 非paletteユーザー
+			/// </summary>
+			NonPaletteUser = 1,
+
+			/// <summary>
+			/// MIC社員
+			/// </summary>
+			MicEmployeeUser = 2,
+
+			/// <summary>
+			/// デモユーザー
+			/// </summary>
+			DemoUser = 3,
 		}
 	}
 }

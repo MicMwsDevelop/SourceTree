@@ -61,12 +61,12 @@ namespace MwsLib.BaseFactory.Junp.Table
 		public tMikコードマスタ()
 		{
 			fcmID = 0;
-			fcmコード種別 = string.Empty;
-			fcmコード = string.Empty;
-			fcm名称 = string.Empty;
+			fcmコード種別 = null;
+			fcmコード = null;
+			fcm名称 = null;
 			fcm更新日 = null;
-			fcm更新者 = string.Empty;
-			fcmサブコード = string.Empty;
+			fcm更新者 = null;
+			fcmサブコード = null;
 		}
 
 		/// <summary>

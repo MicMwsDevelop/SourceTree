@@ -121,23 +121,23 @@ namespace MwsLib.BaseFactory.Junp.Table
 		{
 			fMemID = 0;
 			fMemKey = 0;
-			fMemTable = string.Empty;
-			fMemType = string.Empty;
-			fMemMemo = string.Empty;
+			fMemTable = null;
+			fMemType = null;
+			fMemMemo = null;
 			fMemUpdate = null;
-			fMemUpdateMan = string.Empty;
-			fMemUrl = string.Empty;
-			fMemOriginalPath1 = string.Empty;
-			fMemOriginalPath2 = string.Empty;
-			fMemOriginalPath3 = string.Empty;
+			fMemUpdateMan = null;
+			fMemUrl = null;
+			fMemOriginalPath1 = null;
+			fMemOriginalPath2 = null;
+			fMemOriginalPath3 = null;
 			fMemWlfID1 = 0;
 			fMemWlfID2 = 0;
 			fMemWlfID3 = 0;
 			fMemCatID1 = 0;
 			fMemCatID2 = 0;
 			fMemCatID3 = 0;
-			fMemKubun = string.Empty;
-			fMemComment = string.Empty;
+			fMemKubun = null;
+			fMemComment = null;
 		}
 
 		/// <summary>
@@ -159,23 +159,23 @@ namespace MwsLib.BaseFactory.Junp.Table
 		{
 			SqlParameter[] param = {
 				new SqlParameter("@1", fMemKey),
-				new SqlParameter("@2", fMemTable),
-				new SqlParameter("@3", fMemType),
-				new SqlParameter("@4", fMemMemo),
-				new SqlParameter("@5", fMemUpdate),
-				new SqlParameter("@6", fMemUpdateMan),
-				new SqlParameter("@7", fMemUrl),
-				new SqlParameter("@8", fMemOriginalPath1),
-				new SqlParameter("@9", fMemOriginalPath2),
-				new SqlParameter("@10", fMemOriginalPath3),
+				new SqlParameter("@2", fMemTable ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@3", fMemType ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@4", fMemMemo ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@5", fMemUpdate.HasValue ? fMemUpdate.Value : System.Data.SqlTypes.SqlDateTime.Null),
+				new SqlParameter("@6", fMemUpdateMan ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@7", fMemUrl ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@8", fMemOriginalPath1 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@9", fMemOriginalPath2 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@10", fMemOriginalPath3 ?? System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@11", fMemWlfID1),
 				new SqlParameter("@12", fMemWlfID2),
 				new SqlParameter("@13", fMemWlfID3),
 				new SqlParameter("@14", fMemCatID1),
 				new SqlParameter("@15", fMemCatID2),
 				new SqlParameter("@16", fMemCatID3),
-				new SqlParameter("@17", fMemKubun),
-				new SqlParameter("@18", fMemComment)
+				new SqlParameter("@17", fMemKubun ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@18", fMemComment ?? System.Data.SqlTypes.SqlString.Null)
 			};
 			return param;
 		}

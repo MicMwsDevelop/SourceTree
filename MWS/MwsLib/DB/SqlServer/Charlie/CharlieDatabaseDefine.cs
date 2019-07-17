@@ -16,28 +16,35 @@ namespace MwsLib.DB.SqlServer.Charlie
 	/// </summary>
 	public static class CharlieDatabaseDefine
 	{
-		// テーブル種別
+		/// <summary>
+		/// テーブル種別 
+		/// </summary>
 		public enum TableType
 		{
 			/// <summary>
+			/// 製品管理情報
+			/// </summary>
+			T_PRODUCT_CONTROL = 1,
+
+			/// <summary>
 			/// 顧客利用情報
 			/// </summary>
-			T_CUSSTOMER_USE_INFOMATION = 1,
+			T_CUSSTOMER_USE_INFOMATION = 2,
 
 			/// <summary>
 			/// PC安心サポート契約情報
 			/// </summary>
-			T_USE_PCCSUPPORT = 2,
+			T_USE_PCCSUPPORT = 3,
 
 			/// <summary>
 			/// ナルコーム製品申込ヘッダ情報
 			/// </summary>
-			T_NARCOHM_APPLICATE_HEADER = 3,
+			T_NARCOHM_APPLICATE_HEADER = 4,
 
 			/// <summary>
 			/// ナルコーム製品申込詳細情報
 			/// </summary>
-			T_NARCOHM_APPLICATE_DETAIL = 4,
+			T_NARCOHM_APPLICATE_DETAIL = 5,
 		}
 
 		/// <summary>
@@ -45,13 +52,16 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// </summary>
 		public static readonly EnumDictionary<TableType, string> TableName = new EnumDictionary<TableType, string>()
 		{
+			{ TableType.T_PRODUCT_CONTROL, "T_PRODUCT_CONTROL" },
 			{ TableType.T_CUSSTOMER_USE_INFOMATION, "T_CUSSTOMER_USE_INFOMATION" },
 			{ TableType.T_USE_PCCSUPPORT, "T_USE_PCCSUPPORT" },
 			{ TableType.T_NARCOHM_APPLICATE_HEADER, "T_NARCOHM_APPLICATE_HEADER" },
 			{ TableType.T_NARCOHM_APPLICATE_DETAIL, "T_NARCOHM_APPLICATE_DETAIL" },
 		};
 
-		// ビュー種別
+		/// <summary>
+		/// ビュー種別 
+		/// </summary>
 		public enum ViewType
 		{
 			支店情報参照ビュー = 1,

@@ -501,7 +501,7 @@ namespace NarcohmOrderCheck.Mail
 		/// <param name="conf">App.config</param>
 		private static void SendMail(MailMessage msg, Dictionary<string, string> conf, string to, string cc = "")
 		{
-			if (Program.DebugMode)
+			if (Program.DATABACE_ACCEPT_CT)
 			{
 				// 差出人（From）
 				msg.From = new MailAddress(conf["test_from"]);		// suguro@mic.jp

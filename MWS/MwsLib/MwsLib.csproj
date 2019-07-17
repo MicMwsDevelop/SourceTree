@@ -55,6 +55,7 @@
     <Compile Include="BaseFactory\Charlie\Table\T_CUSSTOMER_USE_INFOMATION.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_NARCOHM_APPLICATE_DETAIL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_NARCOHM_APPLICATE_HEADER.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMemo.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic終了ユーザーリスト.cs" />

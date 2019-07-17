@@ -16,7 +16,9 @@ namespace MwsLib.DB.SqlServer.Junp
 	/// </summary>
 	public static class JunpDatabaseDefine
 	{
-		// テーブル種別
+		/// <summary>
+		/// テーブル種別 
+		/// </summary>
 		public enum TableType
 		{
 			tMikコードマスタ = 1,
@@ -34,6 +36,22 @@ namespace MwsLib.DB.SqlServer.Junp
 			{ TableType.tMic終了ユーザーリスト, "tMic終了ユーザーリスト" },
 			{ TableType.tMemo, "tMemo" },
 			{ TableType.tMik保守契約, "tMik保守契約" },
+		};
+
+		/// <summary>
+		/// ビュー種別 
+		/// </summary>
+		public enum ViewType
+		{
+			vMicPCA仕入先マスタ = 1,
+		}
+
+		/// <summary>
+		/// ビュー種別/ビュー文字列
+		/// </summary>
+		public static readonly EnumDictionary<ViewType, string> ViewName = new EnumDictionary<ViewType, string>()
+		{
+			{ ViewType.vMicPCA仕入先マスタ, "vMicPCA仕入先マスタ" },
 		};
 	}
 }
