@@ -170,7 +170,6 @@
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserAccess.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserController.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserGetIO.cs" />
-    <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserSetIO.cs" />
     <Compile Include="DB\SqlServer\Junp\JunpDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\Junp\JunpDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationAccess.cs" />

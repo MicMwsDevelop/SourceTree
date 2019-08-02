@@ -25,6 +25,10 @@ namespace MwsLib.DB.SqlServer.Junp
 			tMic終了ユーザーリスト = 2,
 			tMemo = 3,
 			tMik保守契約 = 4,
+			tMikユーザ = 5,
+			tClient = 6,
+			tMih送料商品コード = 7,
+			tMihPca在庫引当表J = 8,
 		}
 
 		/// <summary>
@@ -36,6 +40,10 @@ namespace MwsLib.DB.SqlServer.Junp
 			{ TableType.tMic終了ユーザーリスト, "tMic終了ユーザーリスト" },
 			{ TableType.tMemo, "tMemo" },
 			{ TableType.tMik保守契約, "tMik保守契約" },
+			{ TableType.tMikユーザ, "tMikユーザ" },
+			{ TableType.tClient, "tClient" },
+			{ TableType.tMih送料商品コード, "tMih送料商品コード" },
+			{ TableType.tMihPca在庫引当表J, "tMihPca在庫引当表J" },
 		};
 
 		/// <summary>
@@ -44,6 +52,8 @@ namespace MwsLib.DB.SqlServer.Junp
 		public enum ViewType
 		{
 			vMicPCA仕入先マスタ = 1,
+			vMicPCA消費税率 = 2,
+			vMicPCA商品マスタ = 3,
 		}
 
 		/// <summary>
@@ -52,6 +62,8 @@ namespace MwsLib.DB.SqlServer.Junp
 		public static readonly EnumDictionary<ViewType, string> ViewName = new EnumDictionary<ViewType, string>()
 		{
 			{ ViewType.vMicPCA仕入先マスタ, "vMicPCA仕入先マスタ" },
+			{ ViewType.vMicPCA消費税率, "vMicPCA消費税率" },
+			{ ViewType.vMicPCA商品マスタ, "vMicPCA商品マスタ" },
 		};
 	}
 }

@@ -11,6 +11,7 @@ using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
 using MwsLib.Common;
 using MwsLib.DB.SQLite.MwsSimulation;
+using MwsLib.DB.SqlServer.Junp;
 using MwsSimulation.Print;
 using System;
 using System.Collections.Generic;
@@ -1009,7 +1010,9 @@ namespace MwsSimulation.Forms
 			if (-1 != PrintInfo.ReadEstimateParameterFile(type, out message))
 			{
 				// 消費税率の取得
-				int taxRate = SQLiteMwsSimulationAccess.GetTaxRate(Program.GetDataFolder(), est.PrintDate);
+				// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
+				//int taxRate = SQLiteMwsSimulationAccess.GetTaxRate(Program.GetDataFolder(), est.PrintDate);
+				int taxRate = JunpDatabaseAccess.GetTaxRate(est.PrintDate, Program.DATABACE_ACCEPT_CT);
 
 				// 見積ページ情報の設定
 				PrintInfo.SetData(type, est, taxRate);

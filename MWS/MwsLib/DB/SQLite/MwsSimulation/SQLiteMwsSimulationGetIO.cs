@@ -7,6 +7,7 @@
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
 //
 using System.Data;
 using System.Data.SQLite;
@@ -63,46 +64,47 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			return result;
 		}
 
-		/// <summary>
-		/// 消費税情報の取得
-		/// </summary>
-		/// <param name="dbPath">データベース格納フォルダ</param>
-		/// <returns>バージョン情報</returns>
-		public static DataTable GetTaxRate(string dbPath)
-		{
-			DataTable result = null;
-			using (SQLiteConnection con = new SQLiteConnection(SQLiteAccess.CreateConnectionString(Path.Combine(dbPath, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME))))
-			{
-				try
-				{
-					// 接続
-					con.Open();
+		// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
+		///// <summary>
+		///// 消費税情報の取得
+		///// </summary>
+		///// <param name="dbPath">データベース格納フォルダ</param>
+		///// <returns>バージョン情報</returns>
+		//public static DataTable GetTaxRate(string dbPath)
+		//{
+		//	DataTable result = null;
+		//	using (SQLiteConnection con = new SQLiteConnection(SQLiteAccess.CreateConnectionString(Path.Combine(dbPath, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME))))
+		//	{
+		//		try
+		//		{
+		//			// 接続
+		//			con.Open();
 
-					string strSql = string.Format(@"SELECT * FROM {0} ORDER BY StartDate ASC", SQLiteMwsSimulationDef.TAXRATE_TABLE_NAME);
-					using (SQLiteCommand cmd = new SQLiteCommand(strSql, con))
-					{
-						using (SQLiteDataAdapter da = new SQLiteDataAdapter(cmd))
-						{
-							result = new DataTable();
-							da.Fill(result);
-						}
-					}
-				}
-				catch
-				{
-					throw;
-				}
-				finally
-				{
-					if (null != con)
-					{
-						// 切断
-						con.Close();
-					}
-				}
-			}
-			return result;
-		}
+		//			string strSql = string.Format(@"SELECT * FROM {0} ORDER BY StartDate ASC", SQLiteMwsSimulationDef.TAXRATE_TABLE_NAME);
+		//			using (SQLiteCommand cmd = new SQLiteCommand(strSql, con))
+		//			{
+		//				using (SQLiteDataAdapter da = new SQLiteDataAdapter(cmd))
+		//				{
+		//					result = new DataTable();
+		//					da.Fill(result);
+		//				}
+		//			}
+		//		}
+		//		catch
+		//		{
+		//			throw;
+		//		}
+		//		finally
+		//		{
+		//			if (null != con)
+		//			{
+		//				// 切断
+		//				con.Close();
+		//			}
+		//		}
+		//	}
+		//	return result;
+		//}
 
 		/// <summary>
 		/// サービス情報の取得
@@ -173,9 +175,9 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 						case 1:
 							strSql = string.Format(@"SELECT * FROM {0} WHERE GoodsID = '{1}' OR GoodsID = '{2}' OR GoodsID = '{3}' ORDER BY GoodsID ASC, SeqNo ASC", SQLiteMwsSimulationDef.GROUP_PLAN_TABLE_NAME, SQLiteMwsSimulationDef.MWS_MATOME12_GOODSID, SQLiteMwsSimulationDef.MWS_MATOME24_GOODSID, SQLiteMwsSimulationDef.MWS_MATOME36_GOODSID);
 							break;
-						// 36ヵ月 or 48ヵ月 or 60ヵ月
+						// 12ヵ月 or 36ヵ月 or 60ヵ月
 						case 2:
-							strSql = string.Format(@"SELECT * FROM {0} WHERE GoodsID = '{1}' OR GoodsID = '{2}' OR GoodsID = '{3}' ORDER BY GoodsID ASC, SeqNo ASC", SQLiteMwsSimulationDef.GROUP_PLAN_TABLE_NAME, SQLiteMwsSimulationDef.MWS_MATOME36_GOODSID, SQLiteMwsSimulationDef.MWS_MATOME48_GOODSID, SQLiteMwsSimulationDef.MWS_MATOME60_GOODSID);
+							strSql = string.Format(@"SELECT * FROM {0} WHERE GoodsID = '{1}' OR GoodsID = '{2}' OR GoodsID = '{3}' ORDER BY GoodsID ASC, SeqNo ASC", SQLiteMwsSimulationDef.GROUP_PLAN_TABLE_NAME, SQLiteMwsSimulationDef.MWS_MATOME12_GOODSID, SQLiteMwsSimulationDef.MWS_MATOME36_GOODSID, SQLiteMwsSimulationDef.MWS_MATOME60_GOODSID);
 							break;
 					}
 					using (SQLiteCommand cmd = new SQLiteCommand(strSql, con))

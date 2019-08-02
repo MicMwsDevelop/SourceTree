@@ -7,6 +7,7 @@
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
 //
 using MwsLib.BaseFactory.MwsSimulation;
 using MwsLib.Common;
@@ -44,17 +45,18 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			return SQLiteMwsSimulationSetIO.SetVersionInfo(dbPath, version, updateDate);
 		}
 
-		/// <summary>
-		/// 指定日の消費税率の取得
-		/// </summary>
-		/// <param name="dbPath">データベース格納フォルダ</param>
-		/// <param name="targetDate">指定日</param>
-		/// <returns>消費税率</returns>
-		public static int GetTaxRate(string dbPath, Date targetDate)
-		{
-			DataTable table = SQLiteMwsSimulationGetIO.GetTaxRate(dbPath);
-			return SQLiteMwsSimulationController.ConvertTaxRate(table, targetDate);
-		}
+		// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
+		///// <summary>
+		///// 指定日の消費税率の取得
+		///// </summary>
+		///// <param name="dbPath">データベース格納フォルダ</param>
+		///// <param name="targetDate">指定日</param>
+		///// <returns>消費税率</returns>
+		//public static int GetTaxRate(string dbPath, Date targetDate)
+		//{
+		//	DataTable table = SQLiteMwsSimulationGetIO.GetTaxRate(dbPath);
+		//	return SQLiteMwsSimulationController.ConvertTaxRate(table, targetDate);
+		//}
 
 		/// <summary>
 		/// サービス情報リストの取得

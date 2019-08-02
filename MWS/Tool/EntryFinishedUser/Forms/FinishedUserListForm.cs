@@ -54,6 +54,10 @@ namespace EntryFinishedUser.Forms
 		/// <param name="e"></param>
 		private void FinishedUserListForm_Load(object sender, EventArgs e)
 		{
+			if (Program.DATABACE_ACCEPT_CT)
+			{
+				this.Text = this.Text + "（ＣＴ環境）";
+			}
 			// 終了ユーザーリストの設定
 			dataGridViewFinishedUser.DataSource = null;
 			dataGridViewFinishedUser.Rows.Clear();

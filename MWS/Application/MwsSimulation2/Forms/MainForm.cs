@@ -7,11 +7,13 @@
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
 // 
 using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
 using MwsLib.Common;
 using MwsLib.DB.SQLite.MwsSimulation;
+using MwsLib.DB.SqlServer.Junp;
 using MwsSimulation.Print;
 using MwsSimulation.Settings;
 using System;
@@ -907,32 +909,32 @@ namespace MwsSimulation.Forms
 		////////////////////////////////////////////////////////////////////
 		// 内部メソッド
 
-		/// <summary>
-		/// データファイルの更新
-		/// </summary>
-		/// <param name="dataFolder">データフォルダ</param>
-		private bool UpdateDataFile(string dataFolder)
-		{
-			string srcMasterDB = Path.Combine(Program.SERVER_DATA_FOLDER, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
-			string dstMasterDB = Path.Combine(dataFolder, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
-			DateTime srcUpdateDate = File.GetLastWriteTime(srcMasterDB);
-			DateTime dstUpdateDate = File.GetLastWriteTime(dstMasterDB);
-			if (dstUpdateDate < srcUpdateDate)
-			{
-				// MwsSimulationMaster.dbの更新
-				File.Copy(srcMasterDB, dstMasterDB, true);
-			}
-			string srcPara = Path.Combine(Program.SERVER_DATA_FOLDER, PrintEstimateDef.PARAMETER_FILENAME);
-			string dstPara = Path.Combine(dataFolder, PrintEstimateDef.PARAMETER_FILENAME);
-			srcUpdateDate = File.GetLastWriteTime(srcPara);
-			dstUpdateDate = File.GetLastWriteTime(dstPara);
-			if (dstUpdateDate < srcUpdateDate)
-			{
-				// MWS_ORDER_01.PRMの更新
-				File.Copy(srcPara, dstPara, true);
-			}
-			return true;
-		}
+		///// <summary>
+		///// データファイルの更新
+		///// </summary>
+		///// <param name="dataFolder">データフォルダ</param>
+		//private bool UpdateDataFile(string dataFolder)
+		//{
+		//	string srcMasterDB = Path.Combine(Program.SERVER_DATA_FOLDER, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
+		//	string dstMasterDB = Path.Combine(dataFolder, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME);
+		//	DateTime srcUpdateDate = File.GetLastWriteTime(srcMasterDB);
+		//	DateTime dstUpdateDate = File.GetLastWriteTime(dstMasterDB);
+		//	if (dstUpdateDate < srcUpdateDate)
+		//	{
+		//		// MwsSimulationMaster.dbの更新
+		//		File.Copy(srcMasterDB, dstMasterDB, true);
+		//	}
+		//	string srcPara = Path.Combine(Program.SERVER_DATA_FOLDER, PrintEstimateDef.PARAMETER_FILENAME);
+		//	string dstPara = Path.Combine(dataFolder, PrintEstimateDef.PARAMETER_FILENAME);
+		//	srcUpdateDate = File.GetLastWriteTime(srcPara);
+		//	dstUpdateDate = File.GetLastWriteTime(dstPara);
+		//	if (dstUpdateDate < srcUpdateDate)
+		//	{
+		//		// MWS_ORDER_01.PRMの更新
+		//		File.Copy(srcPara, dstPara, true);
+		//	}
+		//	return true;
+		//}
 
 		/// <summary>
 		/// 宛先の存在確認
@@ -1002,7 +1004,9 @@ namespace MwsSimulation.Forms
 			if (-1 != PrintInfo.ReadEstimateParameterFile(type, out message))
 			{
 				// 消費税率の取得
-				int taxRate = SQLiteMwsSimulationAccess.GetTaxRate(Program.GetDataFolder(), est.PrintDate);
+				// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
+				//int taxRate = SQLiteMwsSimulationAccess.GetTaxRate(Program.GetDataFolder(), est.PrintDate);
+				int taxRate = JunpDatabaseAccess.GetTaxRate(est.PrintDate, Program.DATABACE_ACCEPT_CT);
 
 				// 見積ページ情報の設定
 				PrintInfo.SetData(type, est, taxRate);

@@ -129,3 +129,5 @@
 /MWS/Tool/MakeUsePcSupportTable/obj
 /MWS/Tool/ShipManage/.vs/ShipManage/v15/Server/sqlite3
 /MWS/Tool/EntryFinishedUser/.vs/EntryFinishedUser/v15/Server/sqlite3
+/MWS/Tool/ShipManage/obj/Debug
+/MWS/Tool/ShipManage/bin/Debug

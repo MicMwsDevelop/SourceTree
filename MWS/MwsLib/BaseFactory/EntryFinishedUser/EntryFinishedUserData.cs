@@ -204,24 +204,45 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 		}
 
 		/// <summary>
-		/// メモ文字列の取得
+		/// 使用終了予定メモ文字列の取得
 		/// </summary>
 		/// <returns>メモ文字列</returns>
-		public string GetMemoString()
+		public string GetMemoPlanString()
 		{
 			if (0 < Replace.Length)
 			{
 				if (0 < Reason.Length)
 				{
-					return string.Format("【使用終了予定】\r\nユーザー登録情報変更届（終了）受理\r\n【終了事由】\r\n{0}({1})\r\n終了月:{2}\r\n\r\n理由:{3}", FinishedReason, Replace, FinishedYearMonth.ToString(), Reason);
+					return string.Format("【使用終了予定】\r\n終了事由:{0}({1})\r\n終了月:{2}\r\n理由:{3}", FinishedReason, Replace, FinishedYearMonth.ToString(), Reason);
 				}
-				return string.Format("【使用終了予定】\r\nユーザー登録情報変更届（終了）受理\r\n【終了事由】\r\n{0}({1})\r\n終了月:{2}", FinishedReason, Replace, FinishedYearMonth.ToString());
+				return string.Format("【使用終了予定】\r\n終了事由:{0}({1})\r\n終了月:{2}", FinishedReason, Replace, FinishedYearMonth.ToString());
 			}
 			if (0 < Reason.Length)
 			{
-				return string.Format("【使用終了予定】\r\nユーザー登録情報変更届（終了）受理\r\n【終了事由】\r\n{0}\r\n終了月:{1}\r\n\r\n理由:{2}", FinishedReason, FinishedYearMonth.ToString(), Reason);
+				return string.Format("【使用終了予定】\r\n終了事由:{0}\r\n終了月:{1}\r\n\r\n理由:{2}", FinishedReason, FinishedYearMonth.ToString(), Reason);
 			}
-			return string.Format("【使用終了予定】\r\nユーザー登録情報変更届（終了）受理\r\n【終了事由】\r\n{0}\r\n終了月:{1}", FinishedReason, FinishedYearMonth.ToString());
+			return string.Format("【使用終了予定】\r\n終了事由:{0}\r\n終了月:{1}", FinishedReason, FinishedYearMonth.ToString());
+		}
+
+		/// <summary>
+		/// 使用終了メモ文字列の取得
+		/// </summary>
+		/// <returns>メモ文字列</returns>
+		public string GetMemoFinishedString()
+		{
+			if (0 < Replace.Length)
+			{
+				if (0 < Reason.Length)
+				{
+					return string.Format("【使用終了】\r\n終了事由:{0}({1})\r\n終了月:{2}\r\n\r\n理由:{3}", FinishedReason, Replace, FinishedYearMonth.ToString(), Reason);
+				}
+				return string.Format("【使用終了】\r\n終了事由:{0}({1})\r\n終了月:{2}", FinishedReason, Replace, FinishedYearMonth.ToString());
+			}
+			if (0 < Reason.Length)
+			{
+				return string.Format("【使用終了】\r\n終了事由:{0}\r\n終了月:{1}\r\n\r\n理由:{2}", FinishedReason, FinishedYearMonth.ToString(), Reason);
+			}
+			return string.Format("【使用終了】\r\n終了事由:{0}\r\n終了月:{1}", FinishedReason, FinishedYearMonth.ToString());
 		}
 
 		/// <summary>
@@ -231,7 +252,7 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 		/// <returns>判定</returns>
 		public bool IsPrevMonthFinishedUser(YearMonth ym)
 		{
-			if (false == FinishedUser)
+			//if (false == FinishedUser)
 			{
 				if (FinishedYearMonth.HasValue)
 				{
@@ -274,7 +295,6 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 				fMemKey = CustomerID,
 				fMemTable = "tClient",
 				fMemType = string.Format("{0} {1:D2}:{2:D2} 営業管理部", new Date(DateTime.Now).ToString(), DateTime.Now.Hour, DateTime.Now.Minute),
-				fMemMemo = this.GetMemoString(),
 				fMemUpdate = DateTime.Now,
 				fMemUpdateMan = "営業管理部"
 			};

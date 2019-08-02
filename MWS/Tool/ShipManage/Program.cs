@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using MwsLib.Common;
+using MwsLib.DB;
 using MwsLib.DB.SqlServer.Junp;
 using System.Data;
+using System.Data.SqlClient;
+using ShipManage.Settings;
 
 namespace ShipManage
 {
 	static class Program
 	{
-
 		/// <summary>
 		/// データベース接続先 CT環境
 		/// </summary>
 		public static bool DATABACE_ACCEPT_CT = true;
+
+		public static ShipManageSettings settings;
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -34,7 +38,7 @@ namespace ShipManage
 			string[] cmds = Environment.GetCommandLineArgs();
 			if (2 <= cmds.Length)
 			{
-				if ("/ Auto" == cmds[1])
+				if ("/Auto" == cmds[1])
 				{
 					// 2010/11/19 自動起動時は平日のみ実行とした
 					//if (平日)
@@ -44,9 +48,13 @@ namespace ShipManage
 					}
 				}
 			}
+			// 環境設定の読込み
+			settings = ShipManageSettingsIF.GetShipManageSettings();
+
 			if (bAutoBooted)
 			{
 				// 自動起動モード
+				MakeDataAndSendMail(Date.Today, "");
 			}
 			else
 			{
@@ -163,6 +171,48 @@ namespace ShipManage
 			// 仕入先名の取得
 			string gaShiMei = GetShiireSakimei();
 
+			// tMih送料商品コードから送料データの商品コードを取得
+			string[] gaStrScd = GetSouryoScd();
+
+			// ＰＣＡ商品マスタから代引き手数料の商品名と金額を取得
+			GetDaibikiTesuryo(out string sDaibikiTesuryoName, out int lDaibikiTesuryoGaku);
+
+			// tMic離島 から佐川急便の代引き発送の取扱い不能地域住所を取得
+			//rc = GetRitoData()
+
+			// tMihPca在庫引当表Jの引当在庫数をクリアする
+			ClearHikiateZaikoCount();
+
+			// 送料データの商品コードから条件文を作成
+			string strWhereScd1 = string.Empty;
+			string strWhereScd2 = string.Empty;
+			for (int i = 0; i < gaStrScd.Length; i++)
+			{
+				if (0 < i)
+				{
+					strWhereScd1 += " AND ";
+					strWhereScd2 += " OR ";
+				}
+				strWhereScd1 += string.Format("jucd_scd <> '{0}'", gaStrScd[i]);
+				strWhereScd2 += string.Format("jucd_scd = '{0}'", gaStrScd[i]); ;
+			}
+			string sSql = "SELECT jucd_jucbi, jucd_jno, jucd_tcd FROM vMicPCA受注明細 WHERE jucd_flg = '0'";
+			if (0 < juchuNo.Length)
+			{
+				sSql += string.Format(" AND jucd_jno = '{0}'", juchuNo);
+			}
+			sSql += " AND " + strWhereScd1 + " GROUP BY jucd_jucbi, jucd_jno, jucd_tcd ORDER BY jucd_jucbi, jucd_jno";
+
+
+
+
+
+
+
+			string sql = "SELECT * FROM vMicPCA受注明細"
+			+ " WHERE jucd_flg = 0 AND jucd_tcd = '010223' AND jucd_jucbi = 20160731 AND jucd_jno = '168024'"
+			+ " AND jucd_scd = '000014' AND jucd_scd = '000020' AND jucd_scd = '000600' AND jucd_scd = '000605'"
+			+ " ORDER BY jucd_seq";
 
 			return true;
 		}
@@ -173,13 +223,62 @@ namespace ShipManage
 		/// <returns>仕入先名</returns>
 		private static string GetShiireSakimei()
 		{
-			DataTable table = JunpDatabaseAccess.Select_vMicPCA仕入先マスタ("ms_tcd = '000250'", "", DATABACE_ACCEPT_CT);
+			DataTable table = JunpDatabaseAccess.SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA仕入先マスタ], "rms_tcd = '000250'", "", DATABACE_ACCEPT_CT);
 			if (null != table && 1 == table.Rows.Count)
 			{
 				return table.Rows[0]["rms_mei1"].ToString().Trim();
 				
 			}
 			return string.Empty;
+		}
+
+		/// <summary>
+		/// tMih送料商品コードから送料データの商品コードを取得
+		/// </summary>
+		/// <returns></returns>
+		private static string[] GetSouryoScd()
+		{
+			List<string> scd = new List<string>();
+
+			DataTable table = JunpDatabaseAccess.SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih送料商品コード], "", "f商品コード", DATABACE_ACCEPT_CT);
+			if (null != table && 0 < table.Rows.Count)
+			{
+				foreach (DataRow row in table.Rows)
+				{
+					scd.Add(row["f商品コード"].ToString().Trim());
+				}
+			}
+			return scd.ToArray();
+		}
+
+		/// <summary>
+		/// ＰＣＡ商品マスタから代引き手数料の商品名と金額を取得
+		/// </summary>
+		/// <param name="name">商品名</param>
+		/// <param name="price">金額</param>
+		private static void GetDaibikiTesuryo(out string name, out int price)
+		{
+			name = string.Empty;
+			price = 0;
+
+			//# 代引き手数料の商品コード
+			//DaibikiTesuryoCode = "000610"
+			DataTable table = JunpDatabaseAccess.SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ], string.Format("sms_scd = '{0}'", settings.DaibikiTesuryoCode), "", DATABACE_ACCEPT_CT);
+			if (null != table && 1 == table.Rows.Count)
+			{
+				name = table.Rows[0]["sms_mei"].ToString().Trim();
+				price = DataBaseValue.ConvObjectToInt(table.Rows[0]["sms_hyo"]);
+			}
+		}
+
+		/// <summary>
+		/// tMihPca在庫引当表Jの引当在庫数をクリアする
+		/// </summary>
+		private static int ClearHikiateZaikoCount()
+		{
+			string sqlString = string.Format(@"UPDATE {0} SET f引当在庫数 = @1", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMihPca在庫引当表J]);
+			SqlParameter[] param = { new SqlParameter("@1", "0") };
+			return JunpDatabaseAccess.UpdateSetJunpDatabase(sqlString, param, DATABACE_ACCEPT_CT);
 		}
 	}
 }

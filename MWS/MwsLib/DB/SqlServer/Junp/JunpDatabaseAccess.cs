@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using MwsLib.Common;
 
 namespace MwsLib.DB.SqlServer.Junp
 {
@@ -25,7 +26,7 @@ namespace MwsLib.DB.SqlServer.Junp
 		/// <param name="orderStr">Order句</param>
 		/// <param name="sqlsv2">CT環境</param>
 		/// <returns>レコード数</returns>
-		private static DataTable SelectJunpDatabase(string tableName, string whereStr, string orderStr, bool sqlsv2)
+		public static DataTable SelectJunpDatabase(string tableName, string whereStr, string orderStr, bool sqlsv2)
 		{
 			DataTable result = null;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(sqlsv2)))
@@ -70,13 +71,95 @@ namespace MwsLib.DB.SqlServer.Junp
 		}
 
 		/// <summary>
+		/// JunpDB レコードの取得
+		/// </summary>
+		/// <param name="strSQL">SQL文</param>
+		/// <param name="sqlsv2">CT環境</param>
+		/// <returns>レコード数</returns>
+		public static DataTable SelectJunpDatabase(string strSQL, bool sqlsv2)
+		{
+			DataTable result = null;
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(sqlsv2)))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					using (SqlCommand cmd = new SqlCommand(strSQL, con))
+					{
+						using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+						{
+							result = new DataTable();
+							da.Fill(result);
+						}
+					}
+				}
+				catch
+				{
+					throw;
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		///// <summary>
+		///// JunpDB レコード数の取得
+		///// </summary>
+		///// <param name="strSQL">SQL文</param>
+		///// <param name="sqlsv2">CT環境</param>
+		///// <returns>レコード数</returns>
+		//public static DataTable GetRecordCountJunpDatabase(string strSQL, bool sqlsv2)
+		//{
+		//	DataTable result = null;
+		//	using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(sqlsv2)))
+		//	{
+		//		try
+		//		{
+		//			// 接続
+		//			con.Open();
+
+		//			using (SqlCommand cmd = new SqlCommand(strSQL, con))
+		//			{
+		//				using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+		//				{
+		//					result = new DataTable();
+		//					da.Fill(result);
+		//				}
+		//			}
+		//		}
+		//		catch
+		//		{
+		//			throw;
+		//		}
+		//		finally
+		//		{
+		//			if (null != con)
+		//			{
+		//				// 切断
+		//				con.Close();
+		//			}
+		//		}
+		//	}
+		//	return result;
+		//}
+
+		/// <summary>
 		/// [JunpDB] レコードの新規追加
 		/// </summary>
 		/// <param name="sqlStr">SQL文</param>
 		/// <param name="param">パラメータ</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		private static int InsertIntoJunpDatabase(string sqlStr, SqlParameter[] param, bool sqlsv2)
+		public static int InsertIntoJunpDatabase(string sqlStr, SqlParameter[] param, bool sqlsv2)
 		{
 			int rowCount = -1;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(sqlsv2)))
@@ -131,7 +214,7 @@ namespace MwsLib.DB.SqlServer.Junp
 		/// <param name="param">パラメータ</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		private static int UpdateSetJunpDatabase(string sqlStr, SqlParameter[] param, bool sqlsv2)
+		public static int UpdateSetJunpDatabase(string sqlStr, SqlParameter[] param, bool sqlsv2)
 		{
 			int rowCount = -1;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(sqlsv2)))
@@ -185,7 +268,7 @@ namespace MwsLib.DB.SqlServer.Junp
 		/// <param name="sqlStr">SQL文</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		private static int DeleteJunpDatabase(string sqlStr, bool sqlsv2)
+		public static int DeleteJunpDatabase(string sqlStr, bool sqlsv2)
 		{
 			int rowCount = -1;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(sqlsv2)))
@@ -308,21 +391,44 @@ namespace MwsLib.DB.SqlServer.Junp
 			return tMik保守契約.DataTableToList(table);
 		}
 
+		/// <summary>
+		/// [JunpDB].[dbo].[tClient]の更新
+		/// </summary>
+		/// <param name="customerID">顧客No</param>
+		/// <param name="endFlag">終了フラグ</param>
+		/// <param name="updateName">fCliUpdateMan</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>影響行数</returns>
+		public static int UpdateSet_tClient(int customerID, bool endFlag, string updateName, bool sqlsv2)
+		{
+			string sqlString = string.Format(@"UPDATE {0} SET fCliEnd = @1, fCliUpdate = @2, fCliUpdateMan = @3 WHERE fCliID = {1}", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient], customerID);
+			SqlParameter[] param = { new SqlParameter("@1", endFlag ? "1" : "0"),
+									new SqlParameter("@2", DateTime.Now),
+									new SqlParameter("@3", updateName ?? System.Data.SqlTypes.SqlString.Null) };
+			return UpdateSetJunpDatabase(sqlString, param, sqlsv2);
+		}
+
+
 
 		////////////////////////////////////////////////////////////////
 		// ビュー関連
 		////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// [JunpDB].[dbo].[vMicPCA仕入先マスタ]の取得
+		/// [JunpDB].[dbo].[vMicPCA消費税率]から指定日の消費税率の取得
 		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
+		/// <param name="date">当日</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
-		/// <returns>vMicPCA仕入先マスタ</returns>
-		public static DataTable Select_vMicPCA仕入先マスタ(string whereStr, string orderStr, bool sqlsv2)
+		/// <returns>消費税率</returns>
+		public static int GetTaxRate(Date date, bool sqlsv2)
 		{
-			return SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA仕入先マスタ], whereStr, orderStr, sqlsv2);
+			string sql = string.Format("SELECT CONVERT(int, t.tax_rate2) as 消費税率 FROM {0} as t INNER JOIN (SELECT MAX(r.tax_ymd) as ymd FROM {0} as r WHERE r.tax_ymd <= {1}) as s ON t.tax_ymd = s.ymd", JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA消費税率], date.ToIntYMD());
+			DataTable table = SelectJunpDatabase(sql, sqlsv2);
+			if (null != table && 1 == table.Rows.Count)
+			{
+				return DataBaseValue.ConvObjectToInt(table.Rows[0]["消費税率"]);
+			}
+			return 0;
 		}
 	}
 }

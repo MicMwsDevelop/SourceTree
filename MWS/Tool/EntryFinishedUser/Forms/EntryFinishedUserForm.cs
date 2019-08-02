@@ -169,11 +169,12 @@ namespace EntryFinishedUser.Forms
 			}
 			MessageBox.Show("登録しました。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-			if (DialogResult.Yes == MessageBox.Show(string.Format("メモ登録をしますか\n\n{0}", FinishedUser.GetMemoString()), "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+			if (DialogResult.Yes == MessageBox.Show(string.Format("メモ登録をしますか\n\n{0}", FinishedUser.GetMemoPlanString()), "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
 			{
 				try
 				{
 					tMemo memo = FinishedUser.To_tMemo();
+					memo.fMemMemo = FinishedUser.GetMemoPlanString();
 					JunpDatabaseAccess.InsertInto_tMemo(memo, Program.DATABACE_ACCEPT_CT);
 				}
 				catch (Exception ex)

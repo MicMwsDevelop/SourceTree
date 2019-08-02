@@ -7,6 +7,8 @@
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+// Ver2.101 おまとめプランの選択を12ヵ月、36ヵ月、60ヵ月に変更(2019/07/19 勝呂)
+// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
 // 
 using MwsSimulation.Forms;
 using System;
@@ -16,6 +18,11 @@ namespace MwsSimulation
 {
 	static class Program
 	{
+		/// <summary>
+		/// データベース接続先 CT環境
+		/// </summary>
+		public static bool DATABACE_ACCEPT_CT = true;
+
 		/// <summary>
 		/// 電子カルテ標準サービス サービスコード
 		/// </summary>
@@ -54,7 +61,7 @@ namespace MwsSimulation
 		/// <summary>
 		/// サーバーデータフォルダ
 		/// </summary>
-		public const string SERVER_DATA_FOLDER = @"\\storage\公開データ\サポート課公開用\02_Tools類\その他\MwsSimulation";
+		//public const string SERVER_DATA_FOLDER = @"\\storage\公開データ\サポート課公開用\02_Tools類\その他\MwsSimulation";
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。

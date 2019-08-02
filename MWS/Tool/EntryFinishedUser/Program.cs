@@ -7,6 +7,7 @@
 // 
 // Ver1.000 新規作成(2019/06/28 勝呂)
 // 
+using EntryFinishedUser.Mail;
 using MwsLib.BaseFactory;
 using MwsLib.BaseFactory.Charlie.Table;
 using MwsLib.BaseFactory.EntryFinishedUser;
@@ -17,9 +18,9 @@ using MwsLib.DB.SqlServer.EntryFinishedUser;
 using MwsLib.DB.SqlServer.Junp;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
-using EntryFinishedUser.Mail;
 
 namespace EntryFinishedUser
 {
@@ -44,7 +45,7 @@ namespace EntryFinishedUser
 			ThisMonthFiniedUser = 1,
 
 			/// <summary>
-			/// 前月終了月終了ユーザー処理
+			/// 終了ユーザー処理自動実行モード
 			/// タイミング：当月初日のMWS課金データ作成実行後に行う
 			/// ①終了ユーザー設定
 			/// ②終了ユーザーリストメール送信
@@ -184,73 +185,179 @@ namespace EntryFinishedUser
 		//}
 
 		/// <summary>
-		/// 前月終了月終了ユーザー処理
+		/// 終了ユーザー処理自動実行モード
 		/// ①終了ユーザー設定
 		/// ②終了ユーザーリストメール送信
 		/// </summary>
 		/// <param name="date"></param>
 		private static void PrevMonthFiniedUser(Date date)
 		{
-			ICollection<EntryFinishedUserData> work = EntryFinishedUserAccess.GetEntryFinishedUserDataList(DATABACE_ACCEPT_CT);
-			if (0 < work.Count)
+			IEnumerable<EntryFinishedUserData> list = EntryFinishedUserAccess.GetEntryFinishedUserDataList(DATABACE_ACCEPT_CT);
+			if (0 < list.Count())
 			{
 				YearMonth thisMonth = date.ToYearMonth();
 				YearMonth nextMonth = thisMonth + 1;
-				IEnumerable<EntryFinishedUserData> userList = work.Where(p => true == p.IsPrevMonthFinishedUser(thisMonth));
+				IEnumerable<EntryFinishedUserData> userList = list.Where(p => true == p.IsPrevMonthFinishedUser(thisMonth));
 				if (0 < userList.Count())
 				{
-					try
-					{
-						// 前月終了処理
-						// ①終了ユーザー情報の更新
-						// palette → 非paletteユーザー
-						// [JunpDB].[dbo].[tMikユーザー].[fusユーザー] = 0（非ユーザー）
-						// [JunpDB].[dbo].[tMikユーザー].[fus前ｼｽﾃﾑ名称] = [JunpDB].[dbo].[tMikユーザー].[fusｼｽﾃﾑ名]
-						// [JunpDB].[dbo].[tMikユーザー].[fusｼｽﾃﾑ名] = '999'（その他）
-						// [JunpDB].[dbo].[tMikユーザー].[fusメーカー名] = リプレース
-						// [JunpDB].[dbo].[tMikユーザー].[fus更新日] = 現在
-						// [JunpDB].[dbo].[tMikユーザー].[fus更新者] = プログラム名
+					//////////////////////////////////////////
+					// palette → 終了 or 非paletteユーザー → 終了
 
-						// palette → 終了 or 非paletteユーザー → 終了
-						// [JunpDB].[dbo].[tClient].[fCliEnd] = 1（終了）
-						// [JunpDB].[dbo].[tClient].[fCliUpdate] = 現在
-						// [JunpDB].[dbo].[tClient].[fCliUpdateMan] = プログラム名
-						// [JunpDB].[dbo].[tMikユーザー].[fusユーザー] = 0（非ユーザー）
-						// [JunpDB].[dbo].[tMikユーザー].[fus前ｼｽﾃﾑ名称] = [JunpDB].[dbo].[tMikユーザー].[fusｼｽﾃﾑ名]
-						// [JunpDB].[dbo].[tMikユーザー].[fusｼｽﾃﾑ名] = ''（空白）
-						// [JunpDB].[dbo].[tMikユーザー].[fusメーカー名] = ''（空白）
-						// [JunpDB].[dbo].[tMikユーザー].[fus更新日] = 現在
-						// [JunpDB].[dbo].[tMikユーザー].[fus更新者] = プログラム名
-						EntryFinishedUserSetIO.UpdateSetPrevMonthFinishedUser(ProductName, gReplaceList, userList, DATABACE_ACCEPT_CT);
-					}
-					catch (Exception ex)
+					IEnumerable<EntryFinishedUserData> paletteList = userList.Where(p => false == p.NonPaletteUser);
+					foreach (EntryFinishedUserData user in paletteList)
 					{
-						MessageBox.Show(string.Format("UpdateSetPrevMonthFinishedUser Error!({0})", ex.Message), "データベースエラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-						return;
+						try
+						{
+							// [JunpDB].[dbo].[tClient].[fCliEnd] = 1（終了）
+							// [JunpDB].[dbo].[tClient].[fCliUpdate] = 現在
+							// [JunpDB].[dbo].[tClient].[fCliUpdateMan] = プログラム名
+							JunpDatabaseAccess.UpdateSet_tClient(user.CustomerID, true, ProductName, DATABACE_ACCEPT_CT);
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(string.Format("UpdateSet_tClient Error!({0})", ex.Message), "データベースエラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+							return;
+						}
+						string replace = string.Empty;
+						if (0 < user.Replace.Length)
+						{
+							IEnumerable<tMikコードマスタ> codeList = gReplaceList.Where(p => p.fcm名称 == StringUtil.ConvertUpperCase(user.Replace.Trim()));
+							if (0 < codeList.Count())
+							{
+								replace = codeList.First().fcmコード;
+							}
+						}
+						try
+						{
+							// [JunpDB].[dbo].[tMikユーザー].[fusユーザー] = 0（非ユーザー）
+							// ×[JunpDB].[dbo].[tMikユーザー].[fus前ｼｽﾃﾑ名称] = [JunpDB].[dbo].[tMikユーザー].[fusｼｽﾃﾑ名]
+							// ×[JunpDB].[dbo].[tMikユーザー].[fusｼｽﾃﾑ名] = ''（空白）
+							// [JunpDB].[dbo].[tMikユーザー].[fusメーカー名] = リプレース
+							// [JunpDB].[dbo].[tMikユーザー].[fus更新日] = 現在
+							// [JunpDB].[dbo].[tMikユーザー].[fus更新者] = プログラム名
+							if (0 < replace.Length)
+							{
+								string sqlString = string.Format(@"UPDATE {0} SET fusユーザー = @1, fusメーカー名 = @2,  fus更新日 = @3, fus更新者 = @4 WHERE fusCliMicID = {1}", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ], user.CustomerID);
+								SqlParameter[] param = { new SqlParameter("@1", "0"),
+														new SqlParameter("@2", replace),
+														new SqlParameter("@3", DateTime.Now),
+														new SqlParameter("@4", ProductName) };
+								JunpDatabaseAccess.UpdateSetJunpDatabase(sqlString, param, DATABACE_ACCEPT_CT);
+							}
+							else
+							{
+								string sqlString = string.Format(@"UPDATE {0} SET fusユーザー = @1,  fus更新日 = @2, fus更新者 = @3 WHERE fusCliMicID = {1}", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ], user.CustomerID);
+								SqlParameter[] param = { new SqlParameter("@1", "0"),
+														new SqlParameter("@2", DateTime.Now),
+														new SqlParameter("@3", ProductName) };
+								JunpDatabaseAccess.UpdateSetJunpDatabase(sqlString, param, DATABACE_ACCEPT_CT);
+							}
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(string.Format("UpdateSet_tMikユーザ Error!({0})", ex.Message), "データベースエラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+						}
+						// MWS課金データ作成バッチで間違って設定されているユーザー区分を非paletteユーザーからpaletteユーザーに戻す
+						string whereStr = string.Format("CUSTOMER_ID = {0}", user.CustomerID);
+						List<T_PRODUCT_CONTROL> pdList = CharlieDatabaseAccess.Select_T_PRODUCT_CONTROL(whereStr, "", DATABACE_ACCEPT_CT);
+						if (null != pdList && 1 == pdList.Count)
+						{
+							try
+							{
+								// [CharlieDB].[dbo].[T_PRODUCT_CONTROL].[USER_CLASSIFICATION] = 0（paletteユーザー）
+								pdList[0].USER_CLASSIFICATION = MwsDefine.UserClassification.PaletteUser;
+								CharlieDatabaseAccess.UpdateSet_T_PRODUCT_CONTROL(pdList[0], DATABACE_ACCEPT_CT);
+							}
+							catch (Exception ex)
+							{
+								MessageBox.Show(string.Format("UpdateSet_T_PRODUCT_CONTROL Error!({0})", ex.Message), "データベースエラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+								return;
+							}
+						}
+						// メモを登録
+						try
+						{
+							tMemo memo = user.To_tMemo();
+							memo.fMemMemo = user.GetMemoFinishedString();
+							JunpDatabaseAccess.InsertInto_tMemo(memo, DATABACE_ACCEPT_CT);
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(string.Format("InsertInto_tMemo Error!({0})", ex.Message), "データベースエラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+							return;
+						}
 					}
+
+
+					//////////////////////////////////////////
 					// palette → 非paletteユーザー
-					// 利用情報に非palette標準サービスの追加及び更新
+
 					IEnumerable<EntryFinishedUserData> nonPaletteList = userList.Where(p => true == p.NonPaletteUser);
 					foreach (EntryFinishedUserData user in nonPaletteList)
 					{
+						string replace = string.Empty;
+						if (0 < user.Replace.Length)
+						{
+							IEnumerable<tMikコードマスタ> codeList = gReplaceList.Where(p => p.fcm名称 == StringUtil.ConvertUpperCase(user.Replace.Trim()));
+							if (0 < codeList.Count())
+							{
+								replace = codeList.First().fcmコード;
+							}
+						}
+						try
+						{
+							// [JunpDB].[dbo].[tMikユーザー].[fusユーザー] = 1（ユーザー）
+							// [JunpDB].[dbo].[tMikユーザー].[fus前ｼｽﾃﾑ名称] = [JunpDB].[dbo].[tMikユーザー].[fusｼｽﾃﾑ名]
+							// [JunpDB].[dbo].[tMikユーザー].[fusｼｽﾃﾑ名] = '999'（その他）
+							// [JunpDB].[dbo].[tMikユーザー].[fusメーカー名] = リプレース
+							// [JunpDB].[dbo].[tMikユーザー].[fus更新日] = 現在
+							// [JunpDB].[dbo].[tMikユーザー].[fus更新者] = プログラム名
+							if (0 < replace.Length)
+							{
+								string sqlString = string.Format(@"UPDATE {0} SET fusユーザー = @1, fus前ｼｽﾃﾑ名称 = @2, fusシステム名 = @3,  fusメーカー名 = @4,  fus更新日 = @5, fus更新者 = @6 WHERE fusCliMicID = {1}", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ], user.CustomerID);
+								SqlParameter[] param = { new SqlParameter("@1", "1"),
+														new SqlParameter("@2", user.SystemCode),
+														new SqlParameter("@3", MwsDefine.SystemCodeEtc),
+														new SqlParameter("@4", replace),
+														new SqlParameter("@5", DateTime.Now),
+														new SqlParameter("@6", ProductName) };
+								JunpDatabaseAccess.UpdateSetJunpDatabase(sqlString, param, DATABACE_ACCEPT_CT);
+							}
+							else
+							{
+								string sqlString = string.Format(@"UPDATE {0} SET fusユーザー = @1, fus前ｼｽﾃﾑ名称 = @2, fusシステム名 = @3,  fus更新日 = @4, fus更新者 = @5 WHERE fusCliMicID = {1}", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ], user.CustomerID);
+								SqlParameter[] param = { new SqlParameter("@1", "1"),
+											new SqlParameter("@2", user.SystemCode),
+											new SqlParameter("@3", MwsDefine.SystemCodeEtc),
+											new SqlParameter("@4", DateTime.Now),
+											new SqlParameter("@5", ProductName) };
+								JunpDatabaseAccess.UpdateSetJunpDatabase(sqlString, param, DATABACE_ACCEPT_CT);
+							}
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(string.Format("UpdateSet_tMikユーザ Error!({0})", ex.Message), "データベースエラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+							return;
+						}
+						// 利用情報に非palette標準サービスの追加及び更新
 						string whereStr = string.Format("CUSTOMER_ID = {0} AND SERVICE_ID = {1}", user.CustomerID, (int)MwsDefine.ServiceCode.StandardNonPalette);
 						List<T_CUSSTOMER_USE_INFOMATION> cuiList = CharlieDatabaseAccess.Select_T_CUSSTOMER_USE_INFOMATION(whereStr, "", DATABACE_ACCEPT_CT);
 						if (null == cuiList)
 						{
-							// 新規追加
-							T_CUSSTOMER_USE_INFOMATION cui = new T_CUSSTOMER_USE_INFOMATION
-							{
-								CUSTOMER_ID = user.CustomerID,
-								SERVICE_TYPE_ID = (int)MwsDefine.ServiceType.Standard,
-								SERVICE_ID = (int)MwsDefine.ServiceCode.StandardNonPalette,
-								USE_START_DATE = thisMonth.ToDate(1).ToDateTime(),
-								USE_END_DATE = nextMonth.ToDate(-1).ToDateTime(),
-								CREATE_DATE = DateTime.Now,
-								CREATE_PERSON = Program.ProductName,
-								RENEWAL_FLG = true
-							};
 							try
 							{
+								// 新規追加
+								T_CUSSTOMER_USE_INFOMATION cui = new T_CUSSTOMER_USE_INFOMATION
+								{
+									CUSTOMER_ID = user.CustomerID,
+									SERVICE_TYPE_ID = (int)MwsDefine.ServiceType.Standard,
+									SERVICE_ID = (int)MwsDefine.ServiceCode.StandardNonPalette,
+									USE_START_DATE = thisMonth.ToDate(1).ToDateTime(),
+									USE_END_DATE = nextMonth.ToDate(-1).ToDateTime(),
+									CREATE_DATE = DateTime.Now,
+									CREATE_PERSON = Program.ProductName,
+									RENEWAL_FLG = true
+								};
 								CharlieDatabaseAccess.InsertInto_T_CUSSTOMER_USE_INFOMATION(cui, DATABACE_ACCEPT_CT);
 							}
 							catch (Exception ex)
@@ -261,20 +368,20 @@ namespace EntryFinishedUser
 						}
 						else
 						{
-							// 変更
-							T_CUSSTOMER_USE_INFOMATION cui = cuiList[0];
-							cui.GOODS_ID = null;
-							cui.KAKIN_START_DATE = null;
-							cui.USE_START_DATE = thisMonth.ToDate(1).ToDateTime();
-							cui.USE_END_DATE = nextMonth.ToDate(-1).ToDateTime();
-							cui.CANCELLATION_DAY = null;
-							cui.CANCELLATION_PROCESSING_DATE = null;
-							cui.PAUSE_END_STATUS = false;
-							cui.UPDATE_PERSON = Program.ProductName;
-							cui.PERIOD_END_DATE = null;
-							cui.RENEWAL_FLG = true;
 							try
 							{
+								// 変更
+								T_CUSSTOMER_USE_INFOMATION cui = cuiList[0];
+								cui.GOODS_ID = null;
+								cui.KAKIN_START_DATE = null;
+								cui.USE_START_DATE = thisMonth.ToDate(1).ToDateTime();
+								cui.USE_END_DATE = nextMonth.ToDate(-1).ToDateTime();
+								cui.CANCELLATION_DAY = null;
+								cui.CANCELLATION_PROCESSING_DATE = null;
+								cui.PAUSE_END_STATUS = false;
+								cui.UPDATE_PERSON = Program.ProductName;
+								cui.PERIOD_END_DATE = null;
+								cui.RENEWAL_FLG = true;
 								CharlieDatabaseAccess.UpdateSet_T_CUSSTOMER_USE_INFOMATION(cui, DATABACE_ACCEPT_CT);
 							}
 							catch (Exception ex)
@@ -284,33 +391,14 @@ namespace EntryFinishedUser
 							}
 						}
 					}
-					// palette → 終了
-					// MWS課金データ作成バッチで間違って設定されているユーザー区分を非paletteユーザーからpaletteユーザーに戻す
-					IEnumerable<EntryFinishedUserData> paletteList = userList.Where(p => false == p.NonPaletteUser);
-					foreach (EntryFinishedUserData user in nonPaletteList)
-					{
-						string whereStr = string.Format("CUSTOMER_ID = {0}", user.CustomerID);
-						List<T_PRODUCT_CONTROL> pdList = CharlieDatabaseAccess.Select_T_PRODUCT_CONTROL(whereStr, "", DATABACE_ACCEPT_CT);
-						if (null != pdList && 1 == pdList.Count)
-						{
-							pdList[0].USER_CLASSIFICATION = 0;
-							try
-							{
-								CharlieDatabaseAccess.UpdateSet_T_PRODUCT_CONTROL(cui, DATABACE_ACCEPT_CT);
-							}
-							catch (Exception ex)
-							{
-								MessageBox.Show(string.Format("UpdateSet_T_PRODUCT_CONTROL Error!({0})", ex.Message), "データベースエラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-								return;
-							}
-						}
-					}
 					// ②終了ユーザーリストメール送信
 					// 終了ユーザー連絡メール送信（営業管理部宛て）
 					SendMailControl.SendFinishedUserMail(paletteList, paletteList.Count());
-
-					// 非paletteユーザー連絡メール送信（営業管理部宛て）
-					SendMailControl.SendNonPaletteUserMail(nonPaletteList, nonPaletteList.Count());
+					if (0 < nonPaletteList.Count())
+					{
+						// 非paletteユーザー連絡メール送信（営業管理部宛て）
+						SendMailControl.SendNonPaletteUserMail(nonPaletteList, nonPaletteList.Count());
+					}
 				}
 			}
 		}

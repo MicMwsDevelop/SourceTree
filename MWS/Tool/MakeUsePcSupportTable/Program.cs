@@ -47,7 +47,12 @@ namespace MakeUsePcSupportTable
 				{
 					T_USE_PCCSUPPORT pc = new T_USE_PCCSUPPORT();
 					pc.Set_tMik保守契約(mnt);
-					if (false == pc.fBillingStartDate.HasValue && true == pc.fContractStartDate.HasValue && pc.fContractStartDate.Value <= Date.Today)
+					if (false == pc.fApplyDate.HasValue)
+					{
+						pc.fApplyDate = new Date(2019, 6, 1).ToDateTime();
+					}
+					//if (false == pc.fBillingStartDate.HasValue && true == pc.fContractStartDate.HasValue && pc.fContractStartDate.Value <= Date.Today)
+					if (false == pc.fBillingStartDate.HasValue && true == pc.fContractStartDate.HasValue)
 					{
 						// 契約開始日が当日以前のデータには課金期間を格納
 						pc.fBillingStartDate = pc.fContractStartDate;
