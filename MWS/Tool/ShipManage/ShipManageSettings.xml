@@ -1,65 +1,94 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ShipManageSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <!-- 発送用データファイル 納品書用データファイル格納フォルダ -->
-  <HassouDir>C:\_ShipManageTest\発送用データ</HassouDir>
 
-  <!-- PCA汎用データファイル格納フォルダ -->
-  <HanDir>C:\_ShipManageTest\汎用データ</HanDir>
+<!-- データベース接続文字列-->
+<ConnectString>Provider=SQLOLEDB.1;Persist Security Info=False;User ID=web;Initial Catalog=JunpDB;Data Source=websv</ConnectString>
 
-  <!-- 発送用データファイル名 -->
-  <HassouFile>Hassou.csv</HassouFile>
+<!--データベース接続タイムアウト-->
+<ConnectionTimeout>15</ConnectionTimeout>
 
-  <!-- 納品書用データファイル名 -->
-  <NouhinFile>Nouhin.csv</NouhinFile>
+<!--データベースコマンド実行タイムアウト-->
+<CommandTimeout>600</CommandTimeout>
 
-  <!-- PCA会計用汎用売上明細データファイル名 -->
-  <HsykdFile>Uriage.txt</HsykdFile>
+<!--データベース接続ユーザID-->
+<ConnectUID>web</ConnectUID>
 
-  <!-- PCA会計用汎用出荷明細データファイル名 -->
-  <SuridFile>Syuka.txt</SuridFile>
+<!--データベース接続パスワード-->
+<ConnectPWD>02035612</ConnectPWD>
 
-  <!-- PCA会計用汎用仕入明細データファイル名 -->
-  <SnykdFile>Shiire.txt</SnykdFile>
+<!--WW サーバ名-->
+<WWServer>sqlsv</WWServer>
 
-  <!-- 消費税率 (8%) -->
-  <RateTax>8</RateTax>
+<!--WW データベース名-->
+<WWDb>JunpDB</WWDb>
 
-  <!-- PCAリンクサーバフラグ（PCAが リンクサーバ:1/同じサーバ:0） -->
-  <LinkServer>1</LinkServer>
+<!--PCA サーバ名-->
+<PcaServer>pcasv</PcaServer>
 
-  <!-- PCA更新時、PCA接続フラグ(PCAに直接接続する:1/PCAに直接接続しない:0) -->
-  <PcaConnect>0</PcaConnect>
+<!--PCA データベース名-->
+<PcaDb>P10V01C001KON0001</PcaDb>
 
-  <!-- 離島代引き発送用データファイル名 -->
-  <RitoHassouFile>HassouY.csv</RitoHassouFile>
+<!--発送用データファイル 納品書用データファイル格納フォルダ-->
+<HassouDir>C:\ShipManage\発送用データ</HassouDir>
 
-  <!-- 代引き手数料の商品コード -->
-  <DaibikiTesuryoCode>000610</DaibikiTesuryoCode>
+<!--PCA汎用データファイル格納フォルダ-->
+<HanDir>C:\ShipManage\汎用データ</HanDir>
 
-  <!-- 出荷依頼用アーカイブファイル -->
-  <ArchiveFile>HASSOU.ZIP</ArchiveFile>
+<!--ＰＣＡ読込用データファイル格納フォルダ-->
+<PCAReadDataDir>\sqlsv\pcadata</PCAReadDataDir>
 
-  <!-- 着荷日指定記事の商品コード -->
-  <ChakubiShiteiCode>000020</ChakubiShiteiCode>
+<!--出荷代行依頼データ保存フォルダ-->
+<ShukkaDataHozonDir>\storage\業務部専用\共有\02基幹業務\出荷代行\出荷代行用データ</ShukkaDataHozonDir>
 
-  <!-- 航空便指定送料の商品コード -->
-  <AirCargoShippingCode>000605</AirCargoShippingCode>
+<!--発送用データファイル名-->
+<HassouFile>Hassou.csv</HassouFile>
 
-  <!-- 在庫引当表エクセルファイル -->
-  <ZaikoListFile>ZAIKOLST.xls</ZaikoListFile>
+<!--納品書用データファイル名-->
+<NouhinFile>Nouhin.csv</NouhinFile>
 
-  <!-- ＰＣＡ読込用データファイル格納フォルダ -->
-  <PCAReadDataDir>C:\_ShipManageTest\pcadata</PCAReadDataDir>
+<!--PCA会計用汎用売上明細データファイル名-->
+<HsykdFile>Uriage.txt</HsykdFile>
 
-  <!-- 出荷代行依頼データ保存フォルダ -->
-  <ShukkaDataHozonDir>C:\_ShipManageTest\bak</ShukkaDataHozonDir>
+<!--PCA会計用汎用出荷明細データファイル名-->
+<SuridFile>Syuka.txt</SuridFile>
 
-  <!-- 出荷依頼メール 差出人 -->
-  <MailFromAddress>suguro@mic.jp</MailFromAddress>
+<!--PCA会計用汎用仕入明細データファイル名-->
+<SnykdFile>Shiire.txt</SnykdFile>
 
-  <!-- 出荷依頼メール 宛先 -->
-  <MailToAddress>suguro@mic.jp</MailToAddress>
+<!--離島代引き発送用データファイル名-->
+<RitoHassouFile>HassouY.csv</RitoHassouFile>
 
-  <!-- 出荷依頼メール ＣＣ -->
-  <MailCcAddress>suguro@mic.jp</MailCcAddress>
+<!--在庫引当表エクセルファイル-->
+<ZaikoListFile>ZAIKOLST.xlsx</ZaikoListFile>
+
+<!--出荷依頼用アーカイブファイル-->
+<ArchiveFile>HASSOU.ZIP</ArchiveFile>
+
+<!--消費税率 (8%)-->
+<RateTax>8</RateTax>
+
+<!--PCAリンクサーバフラグ(PCAが リンクサーバ:1/同じサーバ:0)-->
+<LinkServer>1</LinkServer>
+
+<!--PCA更新時、PCA接続フラグ(PCAに直接接続する:1/PCAに直接接続しない:0)-->
+<PcaConnect>0</PcaConnect>
+
+<!--代引き手数料の商品コード-->
+<DaibikiTesuryoCode>000610</DaibikiTesuryoCode>
+
+<!--着荷日指定記事の商品コード-->
+<ChakubiShiteiCode>000020</ChakubiShiteiCode>
+
+<!--航空便指定送料の商品コード-->
+<AirCargoShippingCode>000605</AirCargoShippingCode>
+
+<!--出荷依頼メール 差出人-->
+<MailFromAddress>eigyo_kanri@mic.jp</MailFromAddress>
+
+<!--出荷依頼メール 宛先-->
+<MailToAddress>top-0@asahi.email.ne.jp;h.kawamata@asahi-net.email.ne.jp</MailToAddress>
+
+<!--出荷依頼メール ＣＣ-->
+<MailCcAddress>eigyo_kanri@mic.jp</MailCcAddress>
+
 </ShipManageSettings>

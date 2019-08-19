@@ -8,6 +8,7 @@ using MwsLib.DB.SqlServer.Junp;
 using System.Data;
 using System.Data.SqlClient;
 using ShipManage.Settings;
+using System.IO;
 
 namespace ShipManage
 {
@@ -18,7 +19,10 @@ namespace ShipManage
 		/// </summary>
 		public static bool DATABACE_ACCEPT_CT = true;
 
-		public static ShipManageSettings settings;
+		/// <summary>
+		/// 環境設定情報
+		/// </summary>
+		public static ShipManageSettings gSettings;
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -31,7 +35,6 @@ namespace ShipManage
 
 			// 出荷日の取得
 			Date? defSyukaDate = SetDefSyukaDate();
-
 
 			// コマンドライン引数を配列で取得する
 			bool bAutoBooted = false;
@@ -49,7 +52,7 @@ namespace ShipManage
 				}
 			}
 			// 環境設定の読込み
-			settings = ShipManageSettingsIF.GetShipManageSettings();
+			gSettings = ShipManageSettingsIF.GetShipManageSettings();
 
 			if (bAutoBooted)
 			{
@@ -159,14 +162,19 @@ namespace ShipManage
 		/// <returns>判定</returns>
 		private static bool MakeShippingData(Date defSyukaDate, string juchuNo)
 		{
-			/*
-						// To トランザクション エラー発生により追加 MOD: 2004 / 01 / 31:holy
-						If gstrLinkServer = "1" Then 'リンクサーバの場合の前処理
-							cmd.CommandText = "SET XACT_ABORT ON"
-							dr = cmd.ExecuteReader
-							dr.Close()
-						End If
-			*/
+			//// To トランザクション エラー発生により追加 MOD: 2004 / 01 / 31:holy
+			//If gstrLinkServer = "1" Then 'リンクサーバの場合の前処理
+			//	cmd.CommandText = "SET XACT_ABORT ON"
+			//	dr = cmd.ExecuteReader
+			//	dr.Close()
+			//End If
+
+			//' 2009/02/27 今回改造により納品書データファイルの１行目タイトルが欠落していたので、bFirstNouhin 判定のみ 再追加
+			//bFirstNouhin = True
+			//If Dir(gstrHassouDir &gstrNouhinFile, FileAttribute.Normal) <> "" Then '納品書用データファイル存在？
+			//	bFirstNouhin = False
+			//End If
+
 
 			// 仕入先名の取得
 			string gaShiMei = GetShiireSakimei();
@@ -177,8 +185,61 @@ namespace ShipManage
 			// ＰＣＡ商品マスタから代引き手数料の商品名と金額を取得
 			GetDaibikiTesuryo(out string sDaibikiTesuryoName, out int lDaibikiTesuryoGaku);
 
+			//'原価算出用 商品マスタレコードセットオブジェクト定義
+			//'2010/01/19 ＰＣＡ９対応のため変更 PCASV.PCAHSA01.SMS → vMicPCA商品マスタ
+			//Dim cmd10 As New OleDbCommand()
+			//cmd10.Connection = Conn
+			//cmd10.CommandText = "SELECT * FROM vMicPCA商品マスタ SMS"
+			//drSMSGen = cmd10.ExecuteReader
+			//drSMSGen.Close()
+
 			// tMic離島 から佐川急便の代引き発送の取扱い不能地域住所を取得
-			//rc = GetRitoData()
+			string[] ritoAddress = GetRitoData();
+
+			//If Not gbAutoBooted Then '自動起動（夜間自動起動）以外？
+			//	'ADD:2004/07/28:holy From
+			//	frmMsg.Visible = True
+			//	frmMsg.lblStatus.Text = ""
+			//	System.Windows.Forms.Application.DoEvents()
+			//	'ADD:2004/07/28:holy To
+			//End If
+
+			//'*************************************************************
+			//rc = ProcHikiate(True) '毎回起動時初期化
+			//'*************************************************************
+
+			//FileOpen(1, Path.Combine(gSettings.HassouDir, gSettings.HassouFile), OpenMode.Append, OpenAccess.Write) '発送用データファイル
+			//FileOpen(6, Path.Combine(gSettings.HassouDir, gSettings.RitoHassouFile), OpenMode.Append, OpenAccess.Write) '離島代引き発送用データファイル
+			//FileOpen(2, Path.Combine(gSettings.HassouDir, gSettings.NouhinFile), OpenMode.Append, OpenAccess.Write) '納品書用データファイル
+			//FileOpen(3, Path.Combine(gSettings.HanDir, gSettings.HsykdFile), OpenMode.Append, OpenAccess.Write) 'ＰＣＡ商魂・商管用汎用売上明細データファイル（CSV)
+
+
+			//'-----------------------------------------
+			//'納品書データファイルの先頭行に項目名を書き込む
+			//'   2010/11/18 納品書データファイル１行目の項目行が出力されないことがあったので項目行出力の実行位置を変更
+			//'  ファイルを作成しても、レコード書き込みがないままクローズしたとき
+			//'  次回実行時にファイルが存在するため、初回ではないと判断し、
+			//'  １行目の項目行が出力されないので、ファイルを作成したら必ず
+			//'  １行目の項目行を出力するよう、実行タイミングを変更した
+			//'-----------------------------------------
+			//If bFirstNouhin = True Then '当日初回の納品データ作成
+			//	PrintLine(2, "先頭,受注番号,お客様コードNo,郵便番号,住所,顧客名,電話番号,受注顧客No,年,月,日,担当,伝票番号,摘要,品名,数量,単位,単価,金額,備考,合計")
+			//	bFirstNouhin = False
+			//End If
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 			// tMihPca在庫引当表Jの引当在庫数をクリアする
 			ClearHikiateZaikoCount();
@@ -239,7 +300,6 @@ namespace ShipManage
 		private static string[] GetSouryoScd()
 		{
 			List<string> scd = new List<string>();
-
 			DataTable table = JunpDatabaseAccess.SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih送料商品コード], "", "f商品コード", DATABACE_ACCEPT_CT);
 			if (null != table && 0 < table.Rows.Count)
 			{
@@ -260,10 +320,7 @@ namespace ShipManage
 		{
 			name = string.Empty;
 			price = 0;
-
-			//# 代引き手数料の商品コード
-			//DaibikiTesuryoCode = "000610"
-			DataTable table = JunpDatabaseAccess.SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ], string.Format("sms_scd = '{0}'", settings.DaibikiTesuryoCode), "", DATABACE_ACCEPT_CT);
+			DataTable table = JunpDatabaseAccess.SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ], string.Format("sms_scd = '{0}'", gSettings.DaibikiTesuryoCode), "", DATABACE_ACCEPT_CT);
 			if (null != table && 1 == table.Rows.Count)
 			{
 				name = table.Rows[0]["sms_mei"].ToString().Trim();
@@ -279,6 +336,24 @@ namespace ShipManage
 			string sqlString = string.Format(@"UPDATE {0} SET f引当在庫数 = @1", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMihPca在庫引当表J]);
 			SqlParameter[] param = { new SqlParameter("@1", "0") };
 			return JunpDatabaseAccess.UpdateSetJunpDatabase(sqlString, param, DATABACE_ACCEPT_CT);
+		}
+
+		/// <summary>
+		/// 離島住所の取得
+		/// </summary>
+		/// <returns>離島住所</returns>
+		private static string[] GetRitoData()
+		{
+			List<string> list = new List<string>();
+			DataTable table = JunpDatabaseAccess.SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMic離島], "", "", DATABACE_ACCEPT_CT);
+			if (null != table && 0 < table.Rows.Count)
+			{
+				foreach (DataRow row in table.Rows)
+				{
+					list.Add(row["離島住所"].ToString().Trim());
+				}
+			}
+			return list.ToArray();
 		}
 	}
 }

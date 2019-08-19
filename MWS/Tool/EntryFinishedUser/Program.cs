@@ -61,7 +61,7 @@ namespace EntryFinishedUser
 		/// <summary>
 		/// データベース接続先 CT環境
 		/// </summary>
-		public static bool DATABACE_ACCEPT_CT = true;
+		public static bool DATABACE_ACCEPT_CT = false;
 
 		/// <summary>
 		/// 製品名

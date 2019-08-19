@@ -127,6 +127,17 @@ namespace MwsLib.BaseFactory.MwsSimulation
 		}
 
 		/// <summary>
+		/// 契約開始日の取得
+		/// </summary>
+		public Date AgreeStartDate
+		{
+			get
+			{
+				return AgreeSpan.Start;
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public Estimate()

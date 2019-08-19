@@ -60,6 +60,12 @@
     <Compile Include="BaseFactory\Junp\Table\tMemo.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic終了ユーザーリスト.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMik保守契約.cs" />
+    <Compile Include="BaseFactory\WonderWebMemo\MemoBankTransfer.cs" />
+    <Compile Include="BaseFactory\WonderWebMemo\WonderWebMemoDef.cs" />
+    <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoAccess.cs" />
+    <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoController.cs" />
+    <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoGetIO.cs" />
+    <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoSetIO.cs" />
     <Compile Include="DB\SqlServer\Charlie\CharlieDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\Charlie\CharlieDatabaseAccess.cs" />
     <Compile Include="BaseFactory\Charlie\View\支店情報参照ビュー.cs" />

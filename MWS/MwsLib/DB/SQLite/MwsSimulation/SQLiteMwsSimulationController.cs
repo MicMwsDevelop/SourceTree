@@ -6,7 +6,6 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
-// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
 //
 using MwsLib.BaseFactory.MwsSimulation;
 using MwsLib.Common;
@@ -39,33 +38,32 @@ namespace MwsLib.DB.SQLite.MwsSimulation
 			return result;
 		}
 
-		// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
-		///// <summary>
-		///// 指定日の消費税率の取得
-		///// TAX_RATE
-		///// </summary>
-		///// <param name="table">データテーブル</param>
-		///// <param name="targetDate">指定日</param>
-		///// <returns>消費税率</returns>
-		//public static int ConvertTaxRate(DataTable table, Date targetDate)
-		//{
-		//	ServiceInfoList result = null;
-		//	if (null != table)
-		//	{
-		//		result = new ServiceInfoList();
-		//		foreach (DataRow row in table.Rows)
-		//		{
-		//			Date start = DataBaseValue.ConvObjectToDate(row["StartDate"]);
-		//			Date end = DataBaseValue.ConvObjectToDate(row["EndDate"]);
-		//			Span span = new Span(start, end);
-		//			if (span.IsInside(targetDate))
-		//			{
-		//				return DataBaseValue.ConvObjectToInt(row["TaxRate"]);
-		//			}
-		//		}
-		//	}
-		//	return 0;
-		//}
+		/// <summary>
+		/// 指定日の消費税率の取得
+		/// TAX_RATE
+		/// </summary>
+		/// <param name="table">データテーブル</param>
+		/// <param name="targetDate">指定日</param>
+		/// <returns>消費税率</returns>
+		public static int ConvertTaxRate(DataTable table, Date targetDate)
+		{
+			ServiceInfoList result = null;
+			if (null != table)
+			{
+				result = new ServiceInfoList();
+				foreach (DataRow row in table.Rows)
+				{
+					Date start = DataBaseValue.ConvObjectToDate(row["StartDate"]);
+					Date end = DataBaseValue.ConvObjectToDate(row["EndDate"]);
+					Span span = new Span(start, end);
+					if (span.IsInside(targetDate))
+					{
+						return DataBaseValue.ConvObjectToInt(row["TaxRate"]);
+					}
+				}
+			}
+			return 0;
+		}
 
 		/// <summary>
 		/// サービス情報リストの詰め替え

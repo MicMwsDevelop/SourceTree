@@ -7,20 +7,17 @@
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
 // 
 using CommonDialog.PrintPreview;
 using MwsLib.BaseFactory.MwsSimulation;
 using MwsLib.Common;
 using MwsLib.DB.SQLite.MwsSimulation;
-using MwsLib.DB.SqlServer.Junp;
 using MwsSimulation.Print;
 using MwsSimulation.Settings;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace MwsSimulation.Forms
@@ -1004,9 +1001,7 @@ namespace MwsSimulation.Forms
 			if (-1 != PrintInfo.ReadEstimateParameterFile(type, out message))
 			{
 				// 消費税率の取得
-				// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
-				//int taxRate = SQLiteMwsSimulationAccess.GetTaxRate(Program.GetDataFolder(), est.PrintDate);
-				int taxRate = JunpDatabaseAccess.GetTaxRate(est.PrintDate, Program.DATABACE_ACCEPT_CT);
+				int taxRate = SQLiteMwsSimulationAccess.GetTaxRate(Program.GetDataFolder(), est.AgreeStartDate);
 
 				// 見積ページ情報の設定
 				PrintInfo.SetData(type, est, taxRate);

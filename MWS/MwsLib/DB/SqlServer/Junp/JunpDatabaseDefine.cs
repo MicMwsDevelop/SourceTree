@@ -29,6 +29,7 @@ namespace MwsLib.DB.SqlServer.Junp
 			tClient = 6,
 			tMih送料商品コード = 7,
 			tMihPca在庫引当表J = 8,
+			tMic離島 = 9,
 		}
 
 		/// <summary>
@@ -44,6 +45,7 @@ namespace MwsLib.DB.SqlServer.Junp
 			{ TableType.tClient, "tClient" },
 			{ TableType.tMih送料商品コード, "tMih送料商品コード" },
 			{ TableType.tMihPca在庫引当表J, "tMihPca在庫引当表J" },
+			{ TableType.tMic離島, "tMic離島" },
 		};
 
 		/// <summary>
