@@ -61,11 +61,6 @@ namespace MwsLib.BaseFactory
 		public const string GoodIdPcSafetySupport1 = "001872";
 
 		/// <summary>
-		/// PC安心サポート５年契約
-		/// </summary>
-		public const string GoodIdPcSafetySupport5 = "017829";
-
-		/// <summary>
 		/// PC安心サポート１年契約（更新用）
 		/// </summary>
 		public const string GoodIdPcSafetySupport1Continue = "001874";
@@ -149,11 +144,6 @@ namespace MwsLib.BaseFactory
 			/// PC安心サポート１年契約
 			/// </summary>
 			PcSafetySupport1 = 6410120,
-
-			/// <summary>
-			/// PC安心サポート５年契約
-			/// </summary>
-			PcSafetySupport5 = 6410140,
 
 			/// <summary>
 			/// PC安心サポート１年契約(更新用)

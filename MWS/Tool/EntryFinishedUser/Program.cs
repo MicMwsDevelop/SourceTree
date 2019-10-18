@@ -391,14 +391,14 @@ namespace EntryFinishedUser
 							}
 						}
 					}
-					// ②終了ユーザーリストメール送信
-					// 終了ユーザー連絡メール送信（営業管理部宛て）
-					SendMailControl.SendFinishedUserMail(paletteList, paletteList.Count());
-					if (0 < nonPaletteList.Count())
-					{
-						// 非paletteユーザー連絡メール送信（営業管理部宛て）
-						SendMailControl.SendNonPaletteUserMail(nonPaletteList, nonPaletteList.Count());
-					}
+					//// ②終了ユーザーリストメール送信
+					//// 終了ユーザー連絡メール送信（営業管理部宛て）
+					//SendMailControl.SendFinishedUserMail(paletteList, paletteList.Count());
+					//if (0 < nonPaletteList.Count())
+					//{
+					//	// 非paletteユーザー連絡メール送信（営業管理部宛て）
+					//	SendMailControl.SendNonPaletteUserMail(nonPaletteList, nonPaletteList.Count());
+					//}
 				}
 			}
 		}

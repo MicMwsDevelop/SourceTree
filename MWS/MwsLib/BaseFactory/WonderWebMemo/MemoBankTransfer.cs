@@ -18,6 +18,11 @@ namespace MwsLib.BaseFactory.WonderWebMemo
 		public string TokuisakiNo { get; set; }
 
 		/// <summary>
+		/// 顧客No
+		/// </summary>
+		public int CustomerNo { get; set; }
+
+		/// <summary>
 		/// 請求額
 		/// </summary>
 		public int BillingAmount { get; set; }
@@ -39,6 +44,7 @@ namespace MwsLib.BaseFactory.WonderWebMemo
 		public MemoBankTransfer()
 		{
 			TokuisakiNo = string.Empty;
+			CustomerNo = 0;
 			BillingAmount = 0;
 		}
 
@@ -54,118 +60,28 @@ namespace MwsLib.BaseFactory.WonderWebMemo
 		/// <summary>
 		/// メモの取得
 		/// </summary>
-		/// <param name="date"></param>
+		/// <param name="date">締日</param>
 		/// <returns></returns>
 		public string GetMemo(Date date)
 		{
 			return string.Format(@"【銀行振込請求書発行】 {0}締\r\n請求額 \{1}", date.ToString(), BillingAmount);
 		}
 
-		///// <summary>
-		///// メモ情報を取得
-		///// </summary>
-		///// <returns></returns>
-		//public tMemo TotMemo()
-		//{
-		//	tMemo memo = new tMemo();
-		//	memo.
-		//	return memo;
-		//}
-		//}
-
 		/// <summary>
-		/// fMemID
+		/// メモ情報を取得
 		/// </summary>
-		public int fMemID { get; set; }
-
-		/// <summary>
-		/// fMemKey
-		/// </summary>
-		public int fMemKey { get; set; }
-
-		/// <summary>
-		/// fMemTable
-		/// </summary>
-		public string fMemTable { get; set; }
-
-		/// <summary>
-		/// fMemType
-		/// </summary>
-		public string fMemType { get; set; }
-
-		/// <summary>
-		/// fMemMemo
-		/// </summary>
-		public string fMemMemo { get; set; }
-
-		/// <summary>
-		/// fMemUpdate
-		/// </summary>
-		public DateTime? fMemUpdate { get; set; }
-
-		/// <summary>
-		/// fMemUpdateMan
-		/// </summary>
-		public string fMemUpdateMan { get; set; }
-
-		/// <summary>
-		/// fMemUrl
-		/// </summary>
-		public string fMemUrl { get; set; }
-
-		/// <summary>
-		/// fMemOriginalPath1
-		/// </summary>
-		public string fMemOriginalPath1 { get; set; }
-
-		/// <summary>
-		/// fMemOriginalPath2
-		/// </summary>
-		public string fMemOriginalPath2 { get; set; }
-
-		/// <summary>
-		/// fMemOriginalPath3
-		/// </summary>
-		public string fMemOriginalPath3 { get; set; }
-
-		/// <summary>
-		/// fMemWlfID1
-		/// </summary>
-		public int fMemWlfID1 { get; set; }
-
-		/// <summary>
-		/// fMemWlfID2
-		/// </summary>
-		public int fMemWlfID2 { get; set; }
-
-		/// <summary>
-		/// fMemWlfID3
-		/// </summary>
-		public int fMemWlfID3 { get; set; }
-
-		/// <summary>
-		/// fMemCatID1
-		/// </summary>
-		public int fMemCatID1 { get; set; }
-
-		/// <summary>
-		/// fMemCatID2
-		/// </summary>
-		public int fMemCatID2 { get; set; }
-
-		/// <summary>
-		/// fMemCatID3
-		/// </summary>
-		public int fMemCatID3 { get; set; }
-
-		/// <summary>
-		/// fMemKubun
-		/// </summary>
-		public string fMemKubun { get; set; }
-
-		/// <summary>
-		/// fMemComment
-		/// </summary>
-		public string fMemComment { get; set; }
+		/// <param name="date">締日</param>
+		/// <returns></returns>
+		public tMemo TotMemo(Date date)
+		{
+			tMemo memo = new tMemo();
+			memo.fMemKey = CustomerNo;
+			memo.fMemTable = "tClient";
+			memo.fMemType = MemoBankTransfer.GetMemoType();
+			memo.fMemMemo = GetMemo(date);
+			memo.fMemUpdate = DateTime.Now;
+			memo.fMemUpdateMan = MemoBankTransfer.GetMemoUpdateMan;
+			return memo;
+		}
 	}
 }

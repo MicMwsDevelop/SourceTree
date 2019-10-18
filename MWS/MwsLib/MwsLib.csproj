@@ -60,6 +60,7 @@
     <Compile Include="BaseFactory\Junp\Table\tMemo.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic終了ユーザーリスト.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMik保守契約.cs" />
+    <Compile Include="BaseFactory\Junp\Table\tMik基本情報.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\MemoBankTransfer.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\WonderWebMemoDef.cs" />
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoAccess.cs" />
