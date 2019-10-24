@@ -184,6 +184,7 @@ namespace DemoUserPaletteES.Forms
 				// 1036140 補綴状況管理(ｺﾝﾃﾞｨｼｮﾝﾋﾞｭｰ)
 				// 1036200 電子レセプトカルテビューワ
 				// 1036220 paletteアカウント
+				// 1036240 TABLET ビューワ
 				// 1040100 口腔ケアノート
 				// 1042100 電子カルテ標準サービス
 				// 9910100 palette ES
@@ -205,6 +206,7 @@ namespace DemoUserPaletteES.Forms
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ExConditionView);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ExRezeptComputeChartViewer);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ExPaletteAccount);
+				addSV.Add((int)ServiceCodeDefine.ServiceCode.TabletViewer);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.MouthCareNote);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ElectricChart);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.PaletteES);
