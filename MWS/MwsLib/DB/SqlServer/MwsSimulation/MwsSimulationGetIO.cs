@@ -10,6 +10,7 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using MwsLib.Settings;
 
 namespace MwsLib.DB.SqlServer.MwsSimulation
 {
@@ -177,8 +178,14 @@ namespace MwsLib.DB.SqlServer.MwsSimulation
 		/// <returns>おまとめプラン情報レコード数</returns>
 		public static DataTable GetGroupPlan()
 		{
+			DatabaseConnect dbConnect = new DatabaseConnect();
+			dbConnect.InstanceName = "TCCSV";
+			dbConnect.DatabaseName = "COUPLER";
+			dbConnect.UserID = "SA";
+			dbConnect.Password = "07883510";
+
 			DataTable result = null;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCouplerConnectionString()))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateConnectionString(dbConnect)))
 			{
 				try
 				{
@@ -227,8 +234,14 @@ namespace MwsLib.DB.SqlServer.MwsSimulation
 		/// <returns>おススメセット情報レコード数</returns>
 		public static DataTable GetInitGroupPlan()
 		{
+			DatabaseConnect dbConnect = new DatabaseConnect();
+			dbConnect.InstanceName = "TCCSV";
+			dbConnect.DatabaseName = "COUPLER";
+			dbConnect.UserID = "SA";
+			dbConnect.Password = "07883510";
+
 			DataTable result = null;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCouplerConnectionString()))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateConnectionString(dbConnect)))
 			{
 				try
 				{

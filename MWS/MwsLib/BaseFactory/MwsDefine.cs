@@ -51,21 +51,6 @@ namespace MwsLib.BaseFactory
 		/// 商品ID
 
 		/// <summary>
-		/// PC安心サポート３年契約
-		/// </summary>
-		public const string GoodIdPcSafetySupport3 = "001871";
-
-		/// <summary>
-		/// PC安心サポート１年契約
-		/// </summary>
-		public const string GoodIdPcSafetySupport1 = "001872";
-
-		/// <summary>
-		/// PC安心サポート１年契約（更新用）
-		/// </summary>
-		public const string GoodIdPcSafetySupport1Continue = "001874";
-
-		/// <summary>
 		/// 申込種別/販売種別
 		/// [charlieDB].[dbo].[T_CUSTOMER_FOUNDATIONS].[APPLY_TYPE]
 		/// </summary>
@@ -108,48 +93,6 @@ namespace MwsLib.BaseFactory
 			{ ApplyType.Monthly, "月額" },
 			{ ApplyType.Matome, "まとめ" },
 		};
-
-		/// <summary>
-		/// サービス種別
-		/// </summary>
-		public enum ServiceType
-		{
-			/// <summary>
-			/// 標準機能
-			/// </summary>
-			Standard = 1,
-		}
-
-		/// <summary>
-		/// サービスコード
-		/// </summary>
-		public enum ServiceCode
-		{
-			/// <summary>
-			/// ＭＩＣ ＷＥＢ ＳＥＲＶＩＣＥ 標準機能
-			/// </summary>
-			StandardPalette = 1001,
-
-			/// <summary>
-			/// palette 非ユーザー - 標準サービス
-			/// </summary>
-			StandardNonPalette = 1099,
-
-			/// <summary>
-			/// PC安心サポート３年契約
-			/// </summary>
-			PcSafetySupport3 = 6410100,
-
-			/// <summary>
-			/// PC安心サポート１年契約
-			/// </summary>
-			PcSafetySupport1 = 6410120,
-
-			/// <summary>
-			/// PC安心サポート１年契約(更新用)
-			/// </summary>
-			PcSafetySupportContinue = 6410160,
-		}
 
 		/// <summary>
 		/// ユーザー種別

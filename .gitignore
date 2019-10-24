@@ -205,3 +205,7 @@
 /MWS/Application/MwsSimulation/MwsSimulation.csproj.user
 /MWS/Application/MwsSimulation2/MwsSimulation.csproj.user
 /MWS/Application/MwsSimulation2/MwsSimulation2.csproj.user
+/MWS/Application/DemoUserPaletteES/bin
+/MWS/Application/DemoUserPaletteES/obj
+/MWS/Application/DemoUserPaletteES/.vs
+/.vs/slnx.sqlite

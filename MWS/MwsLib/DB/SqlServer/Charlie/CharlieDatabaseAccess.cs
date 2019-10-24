@@ -7,9 +7,8 @@
 // 
 // Ver1.000 新規作成(2019/06/28 勝呂)
 // 
-using System;
 using MwsLib.BaseFactory.Charlie.Table;
-using MwsLib.BaseFactory.Charlie.View;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -21,12 +20,12 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// <summary>
 		/// [charlieDB] レコードの取得
 		/// </summary>
-		/// <param name="tableName">テーブル/ビュー名</param>
+		/// <param name="selectSql">SQL文</param>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="sqlsv2">CT環境</param>
 		/// <returns>レコード数</returns>
-		private static DataTable SelectCharlieDatabase(string tableName, string whereStr, string orderStr, bool sqlsv2)
+		private static DataTable SelectDirectCharlieDatabase(string selectSql, string whereStr, string orderStr, bool sqlsv2)
 		{
 			DataTable result = null;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieConnectionString(sqlsv2)))
@@ -36,7 +35,7 @@ namespace MwsLib.DB.SqlServer.Charlie
 					// 接続
 					con.Open();
 
-					string strSQL = string.Format(@"SELECT * FROM {0}", tableName);
+					string strSQL = selectSql;
 					if (0 < whereStr.Length)
 					{
 						strSQL += " WHERE " + whereStr;
@@ -68,6 +67,19 @@ namespace MwsLib.DB.SqlServer.Charlie
 				}
 			}
 			return result;
+		}
+
+		/// <summary>
+		/// [charlieDB] レコードの取得
+		/// </summary>
+		/// <param name="tableName">テーブル/ビュー名</param>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="sqlsv2">CT環境</param>
+		/// <returns>レコード数</returns>
+		private static DataTable SelectCharlieDatabase(string tableName, string whereStr, string orderStr, bool sqlsv2)
+		{
+			return SelectDirectCharlieDatabase(string.Format(@"SELECT * FROM {0}", tableName), whereStr, orderStr, sqlsv2);
 		}
 
 		/// <summary>
@@ -568,22 +580,17 @@ namespace MwsLib.DB.SqlServer.Charlie
 			return InsertIntoListCharlieDatabase(T_USE_PCCSUPPORT.InsertIntoSqlString, paramList, sqlsv2);
 		}
 
-
-		////////////////////////////////////////////////////////////////
-		// ビュー関連
-		////////////////////////////////////////////////////////////////
-
 		/// <summary>
-		/// [charlieDB].[dbo].[支店情報参照ビュー]の取得
+		/// [charlieDB].[dbo].[T_DEMO_USER]の取得
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
-		/// <returns>支店情報リスト</returns>
-		public static List<支店情報参照ビュー> Select_支店情報参照ビュー(string whereStr, string orderStr, bool sqlsv2)
+		/// <returns>デモ用ID管理テーブルリスト</returns>
+		public static List<T_DEMO_USER> Select_T_DEMO_USER(string whereStr, string orderStr, bool sqlsv2)
 		{
-			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.支店情報参照ビュー], whereStr, orderStr, sqlsv2);
-			return 支店情報参照ビュー.DataTableToList(table);
+			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_DEMO_USER], whereStr, orderStr, sqlsv2);
+			return T_DEMO_USER.DataTableToList(table);
 		}
 	}
 }

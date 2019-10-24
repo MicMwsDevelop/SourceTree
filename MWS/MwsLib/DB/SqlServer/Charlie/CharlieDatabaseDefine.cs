@@ -45,6 +45,11 @@ namespace MwsLib.DB.SqlServer.Charlie
 			/// ナルコーム製品申込詳細情報
 			/// </summary>
 			T_NARCOHM_APPLICATE_DETAIL = 5,
+
+			/// <summary>
+			/// デモ用ID管理テーブル
+			/// </summary>
+			T_DEMO_USER = 6,
 		}
 
 		/// <summary>
@@ -57,6 +62,7 @@ namespace MwsLib.DB.SqlServer.Charlie
 			{ TableType.T_USE_PCCSUPPORT, "T_USE_PCCSUPPORT" },
 			{ TableType.T_NARCOHM_APPLICATE_HEADER, "T_NARCOHM_APPLICATE_HEADER" },
 			{ TableType.T_NARCOHM_APPLICATE_DETAIL, "T_NARCOHM_APPLICATE_DETAIL" },
+			{ TableType.T_DEMO_USER, "T_DEMO_USER" },
 		};
 
 		/// <summary>

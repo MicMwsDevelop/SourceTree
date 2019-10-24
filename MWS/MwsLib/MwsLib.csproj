@@ -53,14 +53,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseFactory\Charlie\Table\T_CUSSTOMER_USE_INFOMATION.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_DEMO_USER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_NARCOHM_APPLICATE_DETAIL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_NARCOHM_APPLICATE_HEADER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
+    <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_PRODUCTUSER.cs" />
+    <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_SERVICE.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMemo.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic終了ユーザーリスト.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMik保守契約.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMik基本情報.cs" />
+    <Compile Include="BaseFactory\PcaGoodsIDDefine.cs" />
+    <Compile Include="BaseFactory\ServiceCodeDefine.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\MemoBankTransfer.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\WonderWebMemoDef.cs" />
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoAccess.cs" />
@@ -169,6 +174,8 @@
     <Compile Include="DB\SqlServer\CalcBusinessConsignCommission\CalcBusinessConsignCommissionAccess.cs" />
     <Compile Include="DB\SqlServer\CalcBusinessConsignCommission\CalcBusinessConsignCommissionController.cs" />
     <Compile Include="DB\SqlServer\CalcBusinessConsignCommission\CalcBusinessConsignCommissionGetIO.cs" />
+    <Compile Include="DB\SqlServer\Coupler\CouplerDatabaseAccess.cs" />
+    <Compile Include="DB\SqlServer\Coupler\CouplerDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\DataBaseAccess.cs" />
     <Compile Include="DB\SqlServer\DataBaseController.cs" />
     <Compile Include="DB\SqlServer\DataBaseTableSQL.cs" />
@@ -209,6 +216,8 @@
     <Compile Include="Settings\MicHolidaySettings.cs" />
     <Compile Include="Settings\MicHolidaySettingsIF.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMikコードマスタ.cs" />
+    <Compile Include="Settings\SqlServerConnectSettings.cs" />
+    <Compile Include="Settings\SqlServerConnectSettingsIF.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -221,6 +230,10 @@
   <ItemGroup>
     <Content Include="Settings\MicHolidaySettings.xml">
       <Link>MicHolidaySettings.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Settings\SqlServerConnectSettings.xml">
+      <Link>SqlServerConnectSettings.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
