@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿//
+// PCA商品マスター定義クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2019/02/08 勝呂)
+//
 namespace MwsLib.BaseFactory
 {
 	public static class PcaGoodsIDDefine

@@ -39,6 +39,8 @@ namespace MwsLib.DB.SqlServer.Coupler
 		{
 			{ TableType.T_COUPLER_SERVICE, "SERVICE" },
 			{ TableType.T_COUPLER_PRODUCTUSER, "PRODUCTUSER" },
+			//{ TableType.T_COUPLER_SERVICE, "T_COUPLER_SERVICE" },
+			//{ TableType.T_COUPLER_PRODUCTUSER, "T_COUPLER_PRODUCTUSER" },
 		};
 
 		///// <summary>

@@ -17,12 +17,17 @@ namespace DemoUserPaletteES
 		/// <summary>
 		/// データベース接続先 CT環境
 		/// </summary>
-		public static bool DATABACE_ACCEPT_CT = true;
+		public static readonly bool DATABACE_ACCEPT_CT = false;
+
+		/// <summary>
+		/// プログラム名
+		/// </summary>
+		public static readonly string ProgramName = "DemoUserPaletteES";
 
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public static string Version = "Ver1.00（2019/10/24）";
+		public static string VersionStr = "バージョン：Ver1.00（2019/10/24）";
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。

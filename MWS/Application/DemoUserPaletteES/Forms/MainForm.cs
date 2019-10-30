@@ -7,6 +7,7 @@
 // 
 // Ver1.000 新規作成(2019/10/18 勝呂)
 // 
+using DemoUserPaletteES.Log;
 using MwsLib.BaseFactory;
 using MwsLib.BaseFactory.Coupler.Table;
 using MwsLib.DB.SqlServer.Coupler;
@@ -48,16 +49,27 @@ namespace DemoUserPaletteES.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
         {
-			this.Text += "  " + Program.Version;
+			if (Program.DATABACE_ACCEPT_CT)
+			{
+				this.Text += "  CT環境";
+			}
+			else
+			{
+				this.Text += "  本番環境";
+			}
+			// バージョン情報設定
+			labelVersion.Text = Program.VersionStr;
 
 			SqlServerConnectSettings settings = SqlServerConnectSettingsIF.GetSettingsXML();
 			if (Program.DATABACE_ACCEPT_CT)
 			{
 				CouplerConnect = settings.CouplerCT;
+				//CouplerConnect = settings.CharlieCT;
 			}
 			else
 			{
 				CouplerConnect = settings.Coupler;
+				//CouplerConnect = settings.Charlie;
 			}
 		}
 
@@ -166,6 +178,9 @@ namespace DemoUserPaletteES.Forms
 				// カーソルを待機カーソルに変更
 				Cursor.Current = Cursors.WaitCursor;
 
+				// ログ記録開始
+				DemoUserPaletteESLogger.MainLine("サービス設定開始");
+
 				// [Coupler].[dbo].[SERVICE]に palette ESの下記のサービスを追加
 				// 1016180 自費見積書発行
 				// 1016200 インプラント管理
@@ -191,24 +206,24 @@ namespace DemoUserPaletteES.Forms
 				List<int> addSV = new List<int>();
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.JihiEstimate);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.JihiImplant);
-				addSV.Add((int)ServiceCodeDefine.ServiceCode.JihiSeikyusho);
+				addSV.Add((int)ServiceCodeDefine.ServiceCode.AccountSeikyusho);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportHindoHoken);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportHindoTekiyo);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportHindoByomei);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportHindoYakka);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportHindoChart);
-				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportPatient);
-				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportComfirmInsurance);
-				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportPoint);
-				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportYakka);
-				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportRule);
+				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportPatientList);
+				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportComfirmInsuranceList);
+				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportPointList);
+				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportYakkaList);
+				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportRuleList);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ReportHokenSeikyu);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ExConditionView);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ExRezeptComputeChartViewer);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.ExPaletteAccount);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.TabletViewer);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.MouthCareNote);
-				addSV.Add((int)ServiceCodeDefine.ServiceCode.ElectricChart);
+				addSV.Add((int)ServiceCodeDefine.ServiceCode.ElectricChartStandard);
 				addSV.Add((int)ServiceCodeDefine.ServiceCode.PaletteES);
 
 				// [Coupler].[dbo].[SERVICE]に palette ESの下記のサービスを削除
@@ -234,17 +249,20 @@ namespace DemoUserPaletteES.Forms
 				delSV.Add((int)ServiceCodeDefine.ServiceCode.Shikahako);
 				delSV.Add((int)ServiceCodeDefine.ServiceCode.Liston);
 
+				DateTime endDate = new DateTime(2999, 12, 31);
+				DateTime yesterday = DateTime.Today.AddDays(-1);
 				foreach (ListViewItem item in listViewDemoUser.Items)
 				{
 					if (null != item.Tag)
 					{
 						T_COUPLER_PRODUCTUSER user = item.Tag as T_COUPLER_PRODUCTUSER;
+						bool errorFlag = false;
 
 						// 1010100 レセプト標準サービスの利用開始日を取得
 						DateTime startDate = DateTime.Today;
 						try
 						{
-							List<T_COUPLER_SERVICE> work = CouplerDatabaseAccess.Select_T_COUPLER_SERVICE(CouplerConnect, string.Format("cp_id = '{0}' AND service_id = {1}", user.cp_id, (int)ServiceCodeDefine.ServiceCode.RecieptStandard));
+							List<T_COUPLER_SERVICE> work = CouplerDatabaseAccess.Select_T_COUPLER_SERVICE(CouplerConnect, string.Format("cp_id = '{0}' AND service_id = {1}", user.cp_id, (int)ServiceCodeDefine.ServiceCode.RezeptStandard));
 							if (null != work && 0 < work.Count)
 							{
 								if (work.First().start_date.HasValue)
@@ -257,7 +275,7 @@ namespace DemoUserPaletteES.Forms
 						{
 							;
 						}
-						// [Coupler].[dbo].[SERVICE]にサービス追加
+						// サービス追加
 						foreach (int code in addSV)
 						{
 							try
@@ -268,10 +286,10 @@ namespace DemoUserPaletteES.Forms
 									// 更新
 									T_COUPLER_SERVICE service = work.First();
 									service.start_date = startDate;
-									service.end_date = new DateTime(2999, 12, 31);
+									service.end_date = endDate;
 									service.contrac_type = 0;
 									service.update_date = DateTime.Today;
-									service.update_user = "DemoUserPaletteES";
+									service.update_user = Program.ProgramName;
 									try
 									{
 										CouplerDatabaseAccess.UpdateSet_T_COUPLER_SERVICE(CouplerConnect, service);
@@ -279,6 +297,8 @@ namespace DemoUserPaletteES.Forms
 									catch (Exception ex)
 									{
 										MessageBox.Show(string.Format("UpdateSet_T_COUPLER_SERVICE({0})", ex.Message), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+										errorFlag = true;
+										break;
 									}
 								}
 								else
@@ -289,11 +309,11 @@ namespace DemoUserPaletteES.Forms
 										cp_id = user.cp_id,
 										service_id = code,
 										start_date = startDate,
-										end_date = new DateTime(2999, 12, 31),
+										end_date = endDate,
 										contrac_type = 0,
 										payment_type = 0,
 										create_date = DateTime.Today,
-										create_user = "DemoUserPaletteES"
+										create_user = Program.ProgramName
 									};
 									try
 									{
@@ -302,25 +322,30 @@ namespace DemoUserPaletteES.Forms
 									catch (Exception ex)
 									{
 										MessageBox.Show(string.Format("InsertInto_T_COUPLER_SERVICE({0})", ex.Message), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+										errorFlag = true;
+										break;
 									}
 								}
 							}
 							catch (Exception ex)
 							{
 								MessageBox.Show(string.Format("Select_T_COUPLER_SERVICE({0})", ex.Message), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+								errorFlag = true;
+								break;
 							}
 						}
-						// [Coupler].[dbo].[SERVICE]にサービスの解約
+						// サービスの解約
 						foreach (int code in delSV)
 						{
-							List<T_COUPLER_SERVICE> work = CouplerDatabaseAccess.Select_T_COUPLER_SERVICE(CouplerConnect, string.Format("cp_id = '{0}' AND service_id = {1}", user.cp_id, code));
+							List<T_COUPLER_SERVICE> work = CouplerDatabaseAccess.Select_T_COUPLER_SERVICE(CouplerConnect, string.Format("cp_id = '{0}' AND service_id = {1} AND contrac_type = 0", user.cp_id, code));
 							if (null != work && 0 < work.Count)
 							{
 								// 更新
 								T_COUPLER_SERVICE service = work.First();
 								service.contrac_type = 1;
+								service.end_date = yesterday;
 								service.update_date = DateTime.Today;
-								service.update_user = "DemoUserPaletteES";
+								service.update_user = Program.ProgramName;
 								try
 								{
 									CouplerDatabaseAccess.UpdateSet_T_COUPLER_SERVICE(CouplerConnect, service);
@@ -328,13 +353,27 @@ namespace DemoUserPaletteES.Forms
 								catch (Exception ex)
 								{
 									MessageBox.Show(string.Format("UpdateSet_T_COUPLER_SERVICE({0})", ex.Message), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+									errorFlag = true;
+									break;
 								}
 							}
+						}
+						// ログ記録開始
+						if (errorFlag)
+						{
+							DemoUserPaletteESLogger.SubLine(user.cp_id, user.customer_nm, "失敗");
+						}
+						else
+						{
+							DemoUserPaletteESLogger.SubLine(user.cp_id, user.customer_nm, "成功");
 						}
 					}
 				}
 				// カーソルを元に戻す
 				Cursor.Current = preCursor;
+
+				// ログ記録開始
+				DemoUserPaletteESLogger.MainLine("サービス設定終了");
 
 				MessageBox.Show("デモユーザーにpalette ES サービスを設定しました。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}

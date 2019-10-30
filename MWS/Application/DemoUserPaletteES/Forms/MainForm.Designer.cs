@@ -38,30 +38,32 @@
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.label2 = new System.Windows.Forms.Label();
 			this.listBoxError = new System.Windows.Forms.ListBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.labelVersion = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 17);
+			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(96, 17);
+			this.label1.Size = new System.Drawing.Size(107, 17);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "■MWS-IDリスト";
+			this.label1.Text = "■MWS-IDファイル";
 			// 
 			// labelPathname
 			// 
 			this.labelPathname.BackColor = System.Drawing.Color.White;
 			this.labelPathname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.labelPathname.Location = new System.Drawing.Point(116, 9);
+			this.labelPathname.Location = new System.Drawing.Point(11, 26);
 			this.labelPathname.Name = "labelPathname";
-			this.labelPathname.Size = new System.Drawing.Size(389, 32);
+			this.labelPathname.Size = new System.Drawing.Size(488, 32);
 			this.labelPathname.TabIndex = 1;
 			this.labelPathname.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// buttonFolder
 			// 
-			this.buttonFolder.Location = new System.Drawing.Point(505, 9);
+			this.buttonFolder.Location = new System.Drawing.Point(505, 26);
 			this.buttonFolder.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonFolder.Name = "buttonFolder";
 			this.buttonFolder.Size = new System.Drawing.Size(34, 32);
@@ -76,7 +78,7 @@
 			this.buttonExec.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonExec.Name = "buttonExec";
 			this.buttonExec.Size = new System.Drawing.Size(87, 49);
-			this.buttonExec.TabIndex = 6;
+			this.buttonExec.TabIndex = 7;
 			this.buttonExec.Text = "実行";
 			this.buttonExec.UseVisualStyleBackColor = true;
 			this.buttonExec.Click += new System.EventHandler(this.buttonExec_Click);
@@ -89,11 +91,11 @@
             this.columnHeader3});
 			this.listViewDemoUser.FullRowSelect = true;
 			this.listViewDemoUser.HideSelection = false;
-			this.listViewDemoUser.Location = new System.Drawing.Point(11, 49);
+			this.listViewDemoUser.Location = new System.Drawing.Point(11, 84);
 			this.listViewDemoUser.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.listViewDemoUser.Name = "listViewDemoUser";
-			this.listViewDemoUser.Size = new System.Drawing.Size(528, 533);
-			this.listViewDemoUser.TabIndex = 3;
+			this.listViewDemoUser.Size = new System.Drawing.Size(528, 498);
+			this.listViewDemoUser.TabIndex = 4;
 			this.listViewDemoUser.UseCompatibleStateImageBehavior = false;
 			this.listViewDemoUser.View = System.Windows.Forms.View.Details;
 			// 
@@ -118,7 +120,7 @@
 			this.label2.Location = new System.Drawing.Point(8, 586);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(96, 17);
-			this.label2.TabIndex = 4;
+			this.label2.TabIndex = 5;
 			this.label2.Text = "■カプラー未登録";
 			// 
 			// listBoxError
@@ -128,14 +130,34 @@
 			this.listBoxError.Location = new System.Drawing.Point(11, 607);
 			this.listBoxError.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.listBoxError.Name = "listBoxError";
-			this.listBoxError.Size = new System.Drawing.Size(277, 174);
-			this.listBoxError.TabIndex = 5;
+			this.listBoxError.Size = new System.Drawing.Size(277, 106);
+			this.listBoxError.TabIndex = 6;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(8, 63);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(198, 17);
+			this.label3.TabIndex = 3;
+			this.label3.Text = "■palette ES サービス設定対象リスト";
+			// 
+			// labelVersion
+			// 
+			this.labelVersion.AutoSize = true;
+			this.labelVersion.Location = new System.Drawing.Point(347, 696);
+			this.labelVersion.Name = "labelVersion";
+			this.labelVersion.Size = new System.Drawing.Size(193, 17);
+			this.labelVersion.TabIndex = 8;
+			this.labelVersion.Text = "バージョン：Ver1.00(2019/10/25)";
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(552, 793);
+			this.ClientSize = new System.Drawing.Size(552, 726);
+			this.Controls.Add(this.labelVersion);
+			this.Controls.Add(this.label3);
 			this.Controls.Add(this.listBoxError);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.listViewDemoUser);
@@ -168,6 +190,8 @@
 		private System.Windows.Forms.ColumnHeader columnHeader3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.ListBox listBoxError;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label labelVersion;
 	}
 }
 

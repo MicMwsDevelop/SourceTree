@@ -1,4 +1,11 @@
-﻿namespace MwsLib.BaseFactory
+﻿//
+// サービスコード定義クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2019/02/08 勝呂)
+//
+namespace MwsLib.BaseFactory
 {
 	public static class ServiceCodeDefine
 	{
@@ -11,6 +18,116 @@
 			/// 標準機能
 			/// </summary>
 			Standard = 1,
+
+			/// <summary>
+			/// レセプト
+			/// </summary>
+			Rezept = 10,
+
+			/// <summary>
+			/// １号カルテ
+			/// </summary>
+			Chart1 = 12,
+
+			/// <summary>
+			/// ２号カルテ
+			/// </summary>
+			Chart2 = 14,
+
+			/// <summary>
+			/// 自費診療
+			/// </summary>
+			Jihi = 16,
+
+			/// <summary>
+			/// 会計
+			/// </summary>
+			Account = 18,
+
+			/// <summary>
+			/// 予約管理
+			/// </summary>
+			Appoint = 20,
+
+			/// <summary>
+			/// 各種文書
+			/// </summary>
+			Document = 22,
+
+			/// <summary>
+			/// 各種帳票
+			/// </summary>
+			Report = 24,
+
+			/// <summary>
+			/// 集患
+			/// </summary>
+			Collect = 26,
+
+			/// <summary>
+			/// 分析
+			/// </summary>
+			Analyze = 28,
+
+			/// <summary>
+			/// 他社リンク
+			/// </summary>
+			Link = 30,
+
+			/// <summary>
+			/// 訪問診療
+			/// </summary>
+			Homon = 32,
+
+			/// <summary>
+			/// カルテ拡張
+			/// </summary>
+			ChartEx = 34,
+
+			/// <summary>
+			/// その他拡張
+			/// </summary>
+			Extra = 36,
+
+			/// <summary>
+			/// リモート
+			/// </summary>
+			Remote = 38,
+
+			/// <summary>
+			/// 口腔ケア
+			/// </summary>
+			MouthCare = 40,
+
+			/// <summary>
+			/// 電子カルテ
+			/// </summary>
+			ElectricChart = 42,
+
+			/// <summary>
+			/// TABLET拡張
+			/// </summary>
+			TabletEx = 44,
+
+			/// <summary>
+			/// シカハコ
+			/// </summary>
+			Shikahako = 1000,
+
+			/// <summary>
+			/// りすとん
+			/// </summary>
+			Liston = 2000,
+
+			/// <summary>
+			/// PC 安心ｻﾎﾟｰﾄ
+			/// </summary>
+			PcSupport = 16000,
+
+			/// <summary>
+			/// ユーザー
+			/// </summary>
+			User = 100000,
 		}
 
 		/// <summary>
@@ -34,10 +151,51 @@
 			/// <summary>
 			/// レセプト標準サービス
 			/// </summary>
-			RecieptStandard = 1010100,
+			RezeptStandard = 1010100,
+
+			/////////////////////////
+			// 12 １号カルテ
+
+			/// <summary>
+			/// １号カルテ標準サービス
+			/// </summary>
+			Chart1Standard = 1012100,
+
+			/// <summary>
+			/// １号カルテ傷病名欄発行
+			/// </summary>
+			Chart1Byomeiran = 1012120,
+
+			/////////////////////////
+			// 14 ２号カルテ
+
+			/// <summary>
+			/// ２号カルテ標準サービス
+			/// </summary>
+			Chart2Standard = 1012100,
+
+			/// <summary>
+			/// ２号カルテ月締め行発行
+			/// </summary>
+			CharttTsukishime = 1014120,
 
 			/////////////////////////
 			// 16 自費診療
+
+			/// <summary>
+			/// 自費カルテ発行
+			/// </summary>
+			JihiChart = 1016100,
+
+			/// <summary>
+			/// 自費処置集計表
+			/// </summary>
+			JihiShukei = 1016120,
+
+			/// <summary>
+			/// 自費処置頻度表
+			/// </summary>
+			JihiHindo = 1016140,
 
 			/// <summary>
 			/// 自費見積書発行
@@ -49,10 +207,68 @@
 			/// </summary>
 			JihiImplant = 1016200,
 
+			/////////////////////////
+			// 18 会計
+
+			/// <summary>
+			/// 領収証・明細書発行
+			/// </summary>
+			AccountReceipt = 1018100,
+
+			/// <summary>
+			/// 未収金・預り金一覧表
+			/// </summary>
+			AccountMishukin = 1018120,
+
+			/// <summary>
+			/// 調整金一括処理
+			/// </summary>
+			AccountChoseikin = 1018140,
+
+			/// <summary>
+			/// 調整金一覧表
+			/// </summary>
+			AccountChoseikinList = 1018160,
+
+			/// <summary>
+			/// 物品販売集計表
+			/// </summary>
+			AccountBuppinShukei = 1018180,
+
+			/// <summary>
+			/// 物品販売頻度表
+			/// </summary>
+			AccountBuppinHindo = 1018200,
+
+			/// <summary>
+			/// 物品販売一覧表
+			/// </summary>
+			AccountBuppinList = 1018220,
+
+			/// <summary>
+			/// レジ金管理
+			/// </summary>
+			AccountRegisterManagement = 1018240,
+
+			/// <summary>
+			/// 治療費見積
+			/// </summary>
+			AccountEstimate = 1018260,
+
 			/// <summary>
 			/// 治療費等請求書
 			/// </summary>
-			JihiSeikyusho = 1018280,
+			AccountSeikyusho = 1018280,
+
+			/// <summary>
+			/// 自動釣銭機連携
+			/// </summary>
+			AccountAutoChange = 1018300,
+
+			/// <summary>
+			/// カスタマーディスプレイ
+			/// </summary>
+			AccountCustomerDisplay = 1018320,
 
 			/////////////////////////
 			// 20 予約管理
@@ -68,7 +284,70 @@
 			AppointCancel = 1020120,
 
 			/////////////////////////
+			// 22 各種文書
+
+			/// <summary>
+			/// 処方箋発行
+			/// </summary>
+			DocumentShohosen = 1022100,
+
+			/// <summary>
+			/// 服用説明書発行
+			/// </summary>
+			DocumentFukuyo = 1022120,
+
+			/// <summary>
+			/// 服用説明書発行（定型）
+			/// </summary>
+			DocumentFukuyoForm = 1022140,
+
+			/// <summary>
+			/// 問診票発行
+			/// </summary>
+			DocumentMonshin = 1022160,
+
+			/// <summary>
+			/// 情報提供用文書発行
+			/// </summary>
+			DocumentInfomation = 1022180,
+
+			/// <summary>
+			/// 紹介状発行
+			/// </summary>
+			DocumentIntroduce = 1022200,
+
+			/////////////////////////
 			// 24 各種帳票
+
+			/// <summary>
+			/// 日計表
+			/// </summary>
+			ReportDaily = 1024100,
+
+			/// <summary>
+			/// 月計表
+			/// </summary>
+			ReportMonthly = 1024120,
+
+			/// <summary>
+			/// 年計表
+			/// </summary>
+			ReportYearly = 1024140,
+
+			/// <summary>
+			/// ドクター別患者集計表
+			/// </summary>
+			ReportDoctorShukei = 1024160,
+
+			/// <summary>
+			/// 保険種別集計表
+			/// </summary>
+			ReportHokenKindShukei = 1024180,
+
+			/// <summary>
+			/// 点数集計表
+			/// </summary>
+			ReportPointShukei = 1024200,
 
 			/// <summary>
 			/// 保険処置頻度表
@@ -98,27 +377,27 @@
 			/// <summary>
 			/// 登録患者一覧表
 			/// </summary>
-			ReportPatient = 1024320,
+			ReportPatientList = 1024320,
 
 			/// <summary>
 			/// 保険証確認患者一覧表
 			/// </summary>
-			ReportComfirmInsurance = 1024340,
+			ReportComfirmInsuranceList = 1024340,
 
 			/// <summary>
 			/// 点数一覧表
 			/// </summary>
-			ReportPoint = 1024360,
+			ReportPointList = 1024360,
 
 			/// <summary>
 			/// 薬価一覧表
 			/// </summary>
-			ReportYakka = 1024380,
+			ReportYakkaList = 1024380,
 
 			/// <summary>
 			/// 算定ルール一覧表
 			/// </summary>
-			ReportRule = 1024400,
+			ReportRuleList = 1024400,
 
 			/// <summary>
 			/// 保険請求額概算集計表
@@ -126,7 +405,25 @@
 			ReportHokenSeikyu = 1024420,
 
 			/////////////////////////
+			// 26 集患
+
+			/// <summary>
+			/// リコール
+			/// </summary>
+			CollectRecall = 1026100,
+
+			/// <summary>
+			/// 患者カード
+			/// </summary>
+			CollectPatientCard = 1026120,
+
+			/////////////////////////
 			// 28 分析
+
+			/// <summary>
+			/// 分析標準サービス
+			/// </summary>
+			AnalyzeStandard = 1028100,
 
 			/// <summary>
 			/// 地図分析
@@ -151,6 +448,21 @@
 			/// </summary>
 			LinkPatientOut = 1030140,
 
+			/// <summary>
+			/// 介護連携
+			/// </summary>
+			LinkKaigo = 1030160,
+
+			/// <summary>
+			/// デンタルカルチャー
+			/// </summary>
+			LinkDentalCulture = 1030180,
+
+			/// <summary>
+			/// 予約連携
+			/// </summary>
+			LinkAppoint = 1030200,
+
 			/////////////////////////
 			// 32 訪問診療
 
@@ -158,6 +470,24 @@
 			/// 訪問診療標準サービス
 			/// </summary>
 			HomonStadard = 1032100,
+
+			/// <summary>
+			/// 介護保険請求
+			/// </summary>
+			HomonKaigo = 1032120,
+
+			/////////////////////////
+			// 34 カルテ拡張
+
+			/// <summary>
+			/// シェーマ
+			/// </summary>
+			ChartExShema = 1034100,
+
+			/// <summary>
+			/// 検査表発行
+			/// </summary>
+			ChartExKensa = 1014140,
 
 			/////////////////////////
 			// 36 その他拡張
@@ -168,9 +498,19 @@
 			ExHokenshoOcr = 1036100,
 
 			/// <summary>
+			/// 当月累計
+			/// </summary>
+			ExMonthlyRuikei = 1036120,
+
+			/// <summary>
 			/// 補綴状況管理(ｺﾝﾃﾞｨｼｮﾝﾋﾞｭｰ)
 			/// </summary>
 			ExConditionView = 1036140,
+
+			/// <summary>
+			/// スマホDE診察券
+			/// </summary>
+			ExSmartPhoneCard = 1036180,
 
 			/// <summary>
 			/// 電子レセプトカルテビューワ
@@ -181,6 +521,19 @@
 			/// paletteアカウント
 			/// </summary>
 			ExPaletteAccount = 1036220,
+
+			/// <summary>
+			/// クラウドデータバンク
+			/// </summary>
+			ExCloudDataBank = 1036260,
+
+			/////////////////////////
+			// 38 リモート
+
+			/// <summary>
+			/// リモートサービス
+			/// </summary>
+			RemoteService = 1038100,
 
 			/////////////////////////
 			// 40 口腔ケア
@@ -196,7 +549,7 @@
 			/// <summary>
 			/// 電子カルテ標準サービス
 			/// </summary>
-			ElectricChart = 1042100,
+			ElectricChartStandard = 1042100,
 
 			/////////////////////////
 			// 44 TABLET拡張
@@ -235,6 +588,14 @@
 			/// PC安心サポート１年契約(更新用)
 			/// </summary>
 			PcSafetySupportContinue = 6410160,
+
+			/////////////////////////
+			// Curline登録医
+
+			/// <summary>
+			/// Curline登録医
+			/// </summary>
+			CurlineDoctor = 9210100,
 
 			/////////////////////////
 			// 100000 ユーザー
