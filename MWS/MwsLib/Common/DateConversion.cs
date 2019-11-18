@@ -7,10 +7,22 @@
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
 //
+using System;
+
 namespace MwsLib.Common
 {
 	public static class DateConversion
     {
+		/// <summary>
+		/// DateTime型 → Date型
+		/// </summary>
+		/// <param name="dt"></param>
+		/// <returns></returns>
+		public static Date ToDate(this DateTime dt)
+		{
+			return new Date(dt.Year, dt.Month, dt.Day);
+		}
+
         /// <summary>
         /// 日付の属する月を取得
         /// </summary>

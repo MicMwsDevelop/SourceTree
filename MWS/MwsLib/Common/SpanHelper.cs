@@ -44,5 +44,15 @@ namespace MwsLib.Common
             }
             return Span.Nothing;
         }
+
+		/// <summary>
+		/// 期間の月数を取得
+		/// </summary>
+		/// <param name="span">this</param>
+		/// <returns>月数</returns>
+		public static int GetMonthCount(this Span span)
+		{
+			return span.End.ToYearMonth() - span.Start.ToYearMonth() + 1;
+		}
     }
 }

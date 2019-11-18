@@ -340,7 +340,7 @@ namespace EntryFinishedUser
 							return;
 						}
 						// 利用情報に非palette標準サービスの追加及び更新
-						string whereStr = string.Format("CUSTOMER_ID = {0} AND SERVICE_ID = {1}", user.CustomerID, (int)MwsDefine.ServiceCode.StandardNonPalette);
+						string whereStr = string.Format("CUSTOMER_ID = {0} AND SERVICE_ID = {1}", user.CustomerID, (int)ServiceCodeDefine.ServiceCode.StandardNonPalette);
 						List<T_CUSSTOMER_USE_INFOMATION> cuiList = CharlieDatabaseAccess.Select_T_CUSSTOMER_USE_INFOMATION(whereStr, "", DATABACE_ACCEPT_CT);
 						if (null == cuiList)
 						{
@@ -350,8 +350,8 @@ namespace EntryFinishedUser
 								T_CUSSTOMER_USE_INFOMATION cui = new T_CUSSTOMER_USE_INFOMATION
 								{
 									CUSTOMER_ID = user.CustomerID,
-									SERVICE_TYPE_ID = (int)MwsDefine.ServiceType.Standard,
-									SERVICE_ID = (int)MwsDefine.ServiceCode.StandardNonPalette,
+									SERVICE_TYPE_ID = (int)ServiceCodeDefine.ServiceType.Standard,
+									SERVICE_ID = (int)ServiceCodeDefine.ServiceCode.StandardNonPalette,
 									USE_START_DATE = thisMonth.ToDate(1).ToDateTime(),
 									USE_END_DATE = nextMonth.ToDate(-1).ToDateTime(),
 									CREATE_DATE = DateTime.Now,

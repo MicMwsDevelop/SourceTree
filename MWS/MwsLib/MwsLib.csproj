@@ -58,6 +58,7 @@
     <Compile Include="BaseFactory\Charlie\Table\T_NARCOHM_APPLICATE_HEADER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
+    <Compile Include="BaseFactory\CheckVoucherPaletteES\OrderVoucher.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_PRODUCTUSER.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_SERVICE.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMemo.cs" />
@@ -174,6 +175,9 @@
     <Compile Include="DB\SqlServer\CalcBusinessConsignCommission\CalcBusinessConsignCommissionAccess.cs" />
     <Compile Include="DB\SqlServer\CalcBusinessConsignCommission\CalcBusinessConsignCommissionController.cs" />
     <Compile Include="DB\SqlServer\CalcBusinessConsignCommission\CalcBusinessConsignCommissionGetIO.cs" />
+    <Compile Include="DB\SqlServer\CheckVoucherPaletteES\CheckVoucherPaletteESAccess.cs" />
+    <Compile Include="DB\SqlServer\CheckVoucherPaletteES\CheckVoucherPaletteESController.cs" />
+    <Compile Include="DB\SqlServer\CheckVoucherPaletteES\CheckVoucherPaletteESGetIO.cs" />
     <Compile Include="DB\SqlServer\Coupler\CouplerDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\Coupler\CouplerDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\DataBaseAccess.cs" />

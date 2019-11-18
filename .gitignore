@@ -210,3 +210,7 @@
 /MWS/Application/DemoUserPaletteES/.vs
 /.vs/slnx.sqlite
 /.vs
+/MWS/Application/CheckVoucherPaletteES/.vs/CheckVoucherPaletteES/v16/Server/sqlite3
+/MWS/Application/CheckVoucherPaletteES/.vs/CheckVoucherPaletteES/v16
+/MWS/Application/CheckVoucherPaletteES/bin
+/MWS/Application/CheckVoucherPaletteES/obj
