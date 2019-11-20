@@ -1,7 +1,7 @@
 ﻿//
 // Program.cs
 //
-// paletteES 起票確認ツール プログラムクラス
+// paletteES 起票不備連絡ツール プログラムクラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -22,7 +22,12 @@ namespace CheckVoucherPaletteES
 		/// <summary>
 		/// データベース接続先
 		/// </summary>
-		public const bool DATABASEACCESS_CT = false;
+		public const bool DATABASE_ACCESS_CT = false;
+
+		/// <summary>
+		/// テストメール送信
+		/// </summary>
+		public const bool TEST_MAIL_SEND = false;
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -55,13 +60,19 @@ namespace CheckVoucherPaletteES
 			CheckVoucherPaletteESLogger.LogStart();
 
 			// paletteES 受注伝票情報リストの取得
-			List<OrderVoucher> list = CheckVoucherPaletteESAccess.GetPaletteESOrderVoucherList(Date.Today, DATABASEACCESS_CT);
+#if DEBUG
+			Date findDate = new Date(2019, 10, 1);
+#else
+			Date findDate = Date.Today;
+#endif
+			List<OrderVoucher> list = CheckVoucherPaletteESAccess.GetPaletteESOrderVoucherList(findDate, DATABASE_ACCESS_CT);
 			if (null != list)
 			{
 				// paletteESのみ抽出
 				List<OrderVoucher> listES = OrderVoucher.GetAllPaletteES(list);
 				if (null != listES)
 				{
+					List<OrderVoucher> listMail = new List<OrderVoucher>();
 					foreach (OrderVoucher es in listES)
 					{
 						List<string> logList = new List<string>();
@@ -130,7 +141,14 @@ namespace CheckVoucherPaletteES
 						if (0 < logList.Count)
 						{
 							CheckVoucherPaletteESLogger.SubLine(logList);
+							es.ErrorList.AddRange(logList);
+							listMail.Add(es);
 						}
+					}
+					if (0 < listMail.Count)
+					{
+						// メール送信
+						SendMailControl.SendMail(listMail);
 					}
 				}
 			}

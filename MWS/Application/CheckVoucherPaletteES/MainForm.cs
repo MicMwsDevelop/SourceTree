@@ -1,7 +1,7 @@
 ﻿//
 // MainForm.cs
 //
-// paletteES 起票確認ツール メイン画面クラス
+// paletteES 起票不備連絡ツール メイン画面クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -52,7 +52,7 @@ namespace CheckVoucherPaletteES
 			Date checkDate = new Date(dateTimePickerSearchDate.Value.Year, dateTimePickerSearchDate.Value.Month, dateTimePickerSearchDate.Value.Day);
 
 			// paletteES 受注伝票情報リストの取得
-			List<OrderVoucher> list = CheckVoucherPaletteESAccess.GetPaletteESOrderVoucherList(checkDate, Program.DATABASEACCESS_CT);
+			List<OrderVoucher> list = CheckVoucherPaletteESAccess.GetPaletteESOrderVoucherList(checkDate, Program.DATABASE_ACCESS_CT);
 			if (null != list)
 			{
 				// paletteESのみ抽出

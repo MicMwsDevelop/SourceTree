@@ -249,7 +249,7 @@
 			this.Controls.Add(this.dateTimePickerSearchDate);
 			this.Controls.Add(this.buttonExec);
 			this.Name = "MainForm";
-			this.Text = "paletteES 起票確認ツール";
+			this.Text = "paletteES 起票不備連絡ツール";
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

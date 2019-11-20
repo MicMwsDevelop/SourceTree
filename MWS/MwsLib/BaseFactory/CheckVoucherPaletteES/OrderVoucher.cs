@@ -124,6 +124,51 @@ namespace MwsLib.BaseFactory.CheckVoucherPaletteES
 		public List<string> ErrorList { get; set; }
 
 		/// <summary>
+		/// 受注日文字列の取得
+		/// </summary>
+		public string 受注日Str
+		{
+			get
+			{
+				if (受注日.HasValue)
+				{
+					return new Date(受注日.Value.Year, 受注日.Value.Month, 受注日.Value.Day).ToString();
+				}
+				return string.Empty;
+			}
+		}
+
+		/// <summary>
+		/// 受注承認日文字列の取得
+		/// </summary>
+		public string 受注承認日Str
+		{
+			get
+			{
+				if (受注承認日.HasValue)
+				{
+					return new Date(受注承認日.Value.Year, 受注承認日.Value.Month, 受注承認日.Value.Day).ToString();
+				}
+				return string.Empty;
+			}
+		}
+
+		/// <summary>
+		/// 受注承認日文字列の取得
+		/// </summary>
+		public string 売上承認日Str
+		{
+			get
+			{
+				if (売上承認日.HasValue)
+				{
+					return new Date(売上承認日.Value.Year, 売上承認日.Value.Month, 売上承認日.Value.Day).ToString();
+				}
+				return string.Empty;
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public OrderVoucher()
