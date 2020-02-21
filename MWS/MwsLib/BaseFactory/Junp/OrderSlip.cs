@@ -1,5 +1,5 @@
 ﻿//
-// OrderVoucher.cs
+// OrderSlip.cs
 //
 // 受注伝票情報クラス
 // 
@@ -11,12 +11,12 @@ using MwsLib.Common;
 using System;
 using System.Collections.Generic;
 
-namespace MwsLib.BaseFactory.CheckVoucherPaletteES
+namespace MwsLib.BaseFactory.Junp
 {
 	/// <summary>
 	/// 受注伝票情報
 	/// </summary>
-	public class OrderVoucher
+	public class OrderSlip
 	{
 		/// <summary>
 		/// 判定結果
@@ -27,11 +27,6 @@ namespace MwsLib.BaseFactory.CheckVoucherPaletteES
 		/// 受注番号
 		/// </summary>
 		public int 受注番号 { get; set; }
-
-		/// <summary>
-		/// 年度
-		/// </summary>
-		public int 年度 { get; set; }
 
 		/// <summary>
 		/// 受注日
@@ -176,11 +171,10 @@ namespace MwsLib.BaseFactory.CheckVoucherPaletteES
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public OrderVoucher()
+		public OrderSlip()
 		{
 			Result = false;
 			受注番号 = 0;
-			年度 = 0;
 			受注日 = null;
 			受注承認日 = null;
 			売上承認日 = null;
@@ -352,7 +346,7 @@ namespace MwsLib.BaseFactory.CheckVoucherPaletteES
 		/// </summary>
 		/// <param name="list"></param>
 		/// <returns>結果</returns>
-		public static List<OrderVoucher> GetAllPaletteES(List<OrderVoucher> list)
+		public static List<OrderSlip> GetAllPaletteES(List<OrderSlip> list)
 		{
 			return list.FindAll(p => PcaGoodsIDDefine.PaletteES_2019 == p.商品コード);
 		}
@@ -363,11 +357,11 @@ namespace MwsLib.BaseFactory.CheckVoucherPaletteES
 		/// <param name="list"></param>
 		/// <param name="target"></param>
 		/// <returns>結果</returns>
-		public static OrderVoucher GetSameVoucherMaite72(List<OrderVoucher> list, OrderVoucher target)
+		public static OrderSlip GetSameOrderSlipMainte72(List<OrderSlip> list, OrderSlip target)
 		{
 			if (PcaGoodsIDDefine.PaletteES_2019 == target.商品コード)
 			{
-				return list.Find(p => target.年度 == p.年度 && target.受注番号 == p.受注番号 && PcaGoodsIDDefine.PaletteES_Mainte72 == p.商品コード);
+				return list.Find(p => target.受注番号 == p.受注番号 && PcaGoodsIDDefine.PaletteES_Mainte72 == p.商品コード);
 			}
 			return null;
 		}
@@ -378,7 +372,7 @@ namespace MwsLib.BaseFactory.CheckVoucherPaletteES
 		/// <param name="list"></param>
 		/// <param name="target"></param>
 		/// <returns>結果</returns>
-		public static OrderVoucher GetAnotherVoucherMaite72(List<OrderVoucher> list, OrderVoucher target)
+		public static OrderSlip GetAnotherOrderSlipMainte72(List<OrderSlip> list, OrderSlip target)
 		{
 			if (PcaGoodsIDDefine.PaletteES_2019 == target.商品コード)
 			{
@@ -393,7 +387,7 @@ namespace MwsLib.BaseFactory.CheckVoucherPaletteES
 		/// <param name="list"></param>
 		/// <param name="target"></param>
 		/// <returns>結果</returns>
-		public static OrderVoucher GetAnotherVoucherMaite12(List<OrderVoucher> list, OrderVoucher target)
+		public static OrderSlip GetAnotherOrderSlipMainte12(List<OrderSlip> list, OrderSlip target)
 		{
 			if (PcaGoodsIDDefine.PaletteES_2019 == target.商品コード)
 			{

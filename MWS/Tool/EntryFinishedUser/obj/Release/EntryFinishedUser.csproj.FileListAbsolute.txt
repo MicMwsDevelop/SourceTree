@@ -15,4 +15,3 @@ D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.Forms.Fin
 D:\SourceTree\MWS\Tool\EntryFinishedUser\bin\Release\MicHolidaySettings.xml
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csprojAssemblyReference.cache
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csproj.CopyComplete
-D:\SourceTree\MWS\Tool\EntryFinishedUser\bin\Release\SqlServerConnectSettings.xml

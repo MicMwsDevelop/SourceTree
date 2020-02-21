@@ -53,6 +53,7 @@
 			this.columnHeader16 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.listBoxError = new System.Windows.Forms.ListBox();
 			this.buttonOutputLog = new System.Windows.Forms.Button();
+			this.columnHeader17 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SuspendLayout();
 			// 
 			// buttonExec
@@ -86,7 +87,7 @@
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label2.Location = new System.Drawing.Point(1147, 17);
+			this.label2.Location = new System.Drawing.Point(1291, 17);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(139, 12);
 			this.label2.TabIndex = 4;
@@ -112,7 +113,8 @@
 			// 
 			// listViewES
 			// 
-			this.listViewES.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.listViewES.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listViewES.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
@@ -126,15 +128,16 @@
             this.columnHeader9,
             this.columnHeader10,
             this.columnHeader11,
-            this.columnHeader13,
             this.columnHeader12,
+            this.columnHeader13,
             this.columnHeader14,
             this.columnHeader15,
-            this.columnHeader16});
+            this.columnHeader16,
+            this.columnHeader17});
 			this.listViewES.FullRowSelect = true;
 			this.listViewES.Location = new System.Drawing.Point(14, 58);
 			this.listViewES.Name = "listViewES";
-			this.listViewES.Size = new System.Drawing.Size(1272, 374);
+			this.listViewES.Size = new System.Drawing.Size(1416, 374);
 			this.listViewES.TabIndex = 6;
 			this.listViewES.UseCompatibleStateImageBehavior = false;
 			this.listViewES.View = System.Windows.Forms.View.Details;
@@ -174,35 +177,35 @@
 			// 
 			// columnHeader8
 			// 
-			this.columnHeader8.Text = "販売先コード ";
+			this.columnHeader8.Text = "顧客No";
 			// 
 			// columnHeader9
 			// 
-			this.columnHeader9.Text = "販売先";
+			this.columnHeader9.Text = "顧客名";
+			this.columnHeader9.Width = 140;
 			// 
 			// columnHeader10
 			// 
-			this.columnHeader10.Text = "顧客No";
+			this.columnHeader10.Text = "商品名";
+			this.columnHeader10.Width = 180;
 			// 
 			// columnHeader11
 			// 
-			this.columnHeader11.Text = "顧客名";
-			this.columnHeader11.Width = 140;
-			// 
-			// columnHeader13
-			// 
-			this.columnHeader13.Text = "商品名";
-			this.columnHeader13.Width = 180;
+			this.columnHeader11.Text = "開始日";
+			this.columnHeader11.Width = 75;
 			// 
 			// columnHeader12
 			// 
-			this.columnHeader12.Text = "開始日";
+			this.columnHeader12.Text = "終了日";
 			this.columnHeader12.Width = 75;
+			// 
+			// columnHeader13
+			// 
+			this.columnHeader13.Text = "販売先コード ";
 			// 
 			// columnHeader14
 			// 
-			this.columnHeader14.Text = "終了日";
-			this.columnHeader14.Width = 75;
+			this.columnHeader14.Text = "販売先";
 			// 
 			// columnHeader15
 			// 
@@ -215,13 +218,13 @@
 			// 
 			// listBoxError
 			// 
-			this.listBoxError.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.listBoxError.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listBoxError.FormattingEnabled = true;
 			this.listBoxError.ItemHeight = 12;
 			this.listBoxError.Location = new System.Drawing.Point(13, 461);
 			this.listBoxError.Name = "listBoxError";
-			this.listBoxError.Size = new System.Drawing.Size(1273, 100);
+			this.listBoxError.Size = new System.Drawing.Size(1417, 100);
 			this.listBoxError.TabIndex = 8;
 			// 
 			// buttonOutputLog
@@ -234,11 +237,16 @@
 			this.buttonOutputLog.UseVisualStyleBackColor = true;
 			this.buttonOutputLog.Click += new System.EventHandler(this.buttonOutputLog_Click);
 			// 
+			// columnHeader17
+			// 
+			this.columnHeader17.Text = "件名";
+			this.columnHeader17.Width = 300;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1298, 578);
+			this.ClientSize = new System.Drawing.Size(1442, 578);
 			this.Controls.Add(this.buttonOutputLog);
 			this.Controls.Add(this.listBoxError);
 			this.Controls.Add(this.listViewES);
@@ -283,6 +291,7 @@
 		private System.Windows.Forms.ListBox listBoxError;
 		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.Button buttonOutputLog;
+		private System.Windows.Forms.ColumnHeader columnHeader17;
 	}
 }
 

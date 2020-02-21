@@ -1,33 +1,33 @@
 ﻿//
-// SqlServerAccessSettingsIF.cs
+// PrintNouhinSettingsIF.cs
 // 
-// SQL Server データベース接続情報環境設定インターフェイス
+// 環境設定インターフェイス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2019/10/24 勝呂)
+// Ver2.000 新規作成(2018/10/24 勝呂)
 //
 using System;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace MwsLib.Settings
+namespace PrintNouhin
 {
 	/// <summary>
-	/// MIC WEB SERVICE 課金シミュレーション環境設定インターフェイス
+	/// MIC 納品書印刷 環境設定インターフェイス
 	/// </summary>
-	public static class SqlServerConnectSettingsIF
+	public static class PrintNouhinSettingsIF
 	{
 		/// <summary>
 		/// 環境設定ファイル名称
 		/// </summary>
-		public const string SETTINGS_FILENAME = "SqlServerConnectSettings.xml";
+		public const string SETTINGS_FILENAME = "PrintNouhinSettings.xml";
 
 		/// <summary>
 		/// 環境設定
 		/// </summary>
-		private static SqlServerConnectSettings Settings = null;
+		private static PrintNouhinSettings Settings = null;
 
 		/// <summary>
 		/// 環境設定ファイル名
@@ -49,7 +49,7 @@ namespace MwsLib.Settings
 		/// 環境設定の読み込み(XMLファイルから取得)
 		/// </summary>
 		/// <returns>true:成功 false:失敗</returns>
-		private static bool LoadSettingsXML(bool reload = false)
+		private static bool LoadPrintNouhinSettings(bool reload = false)
 		{
 			bool result = true;
 
@@ -62,8 +62,8 @@ namespace MwsLib.Settings
 					try
 					{
 						fileStream = new FileStream(SettingsFileName, FileMode.Open);
-						XmlSerializer serializer = new XmlSerializer(typeof(SqlServerConnectSettings));
-						Settings = serializer.Deserialize(fileStream) as SqlServerConnectSettings;
+						XmlSerializer serializer = new XmlSerializer(typeof(PrintNouhinSettings));
+						Settings = serializer.Deserialize(fileStream) as PrintNouhinSettings;
 					}
 					catch (Exception)
 					{
@@ -80,7 +80,7 @@ namespace MwsLib.Settings
 				else
 				{
 					// 存在しない場合は初期値を設定
-					Settings = new SqlServerConnectSettings();
+					Settings = new PrintNouhinSettings();
 				}
 			}
 			return result;
@@ -90,7 +90,7 @@ namespace MwsLib.Settings
 		/// 環境設定の保存(XMLファイルに出力)
 		/// </summary>
 		/// <returns>true:成功 false:失敗</returns>
-		private static bool SaveSettingsXML()
+		private static bool SavePrintNouhinSettings()
 		{
 			bool result = true;
 
@@ -99,7 +99,7 @@ namespace MwsLib.Settings
 			{
 				fileStream = new FileStream(SettingsFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 				StreamWriter stream = new StreamWriter(fileStream, Encoding.UTF8);   // Unicodeで書き込む
-				XmlSerializer serializer = new XmlSerializer(typeof(SqlServerConnectSettings));
+				XmlSerializer serializer = new XmlSerializer(typeof(PrintNouhinSettings));
 				serializer.Serialize(stream, Settings);
 			}
 			catch (Exception)
@@ -122,30 +122,30 @@ namespace MwsLib.Settings
 		/// <param name="reload">環境設定を再読みするかどうか（デフォルト：false）</param>
 		/// <returns>環境設定</returns>
 		/// <exception cref="ApplicationException">環境設定の読み込みが出来なかった場合に発生</exception>
-		public static SqlServerConnectSettings GetSettingsXML(bool reload = false)
+		public static PrintNouhinSettings GetPrintNouhinSettings(bool reload = false)
 		{
 			SetSettingsFileName();
 
-			LoadSettingsXML(reload);
+			LoadPrintNouhinSettings(reload);
 
 			if (null == Settings)
 			{
 				throw new ApplicationException("環境設定の取得に失敗");
 			}
-			return Settings.Clone() as SqlServerConnectSettings;
+			return Settings.Clone() as PrintNouhinSettings;
 		}
 
 		/// <summary>
 		/// 環境設定の設定
 		/// </summary>
 		/// <param name="settings">環境設定</param>
-		public static void SetSettingsXML(SqlServerConnectSettings settings)
+		public static void SetPrintNouhinSettings(PrintNouhinSettings settings)
 		{
 			SetSettingsFileName();
 
 			Settings = settings;
 
-			SaveSettingsXML();
+			SavePrintNouhinSettings();
 		}
 	}
 }

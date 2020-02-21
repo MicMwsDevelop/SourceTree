@@ -8,7 +8,6 @@
 // Ver1.000 新規作成(2019/10/18 勝呂)
 // 
 using MwsLib.BaseFactory.Coupler.Table;
-using MwsLib.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -54,15 +53,14 @@ namespace MwsLib.DB.SqlServer.Coupler
 		/// <summary>
 		/// [Coupler] レコードの取得
 		/// </summary>
-		/// <param name="dbConnect">DB接続情報</param>
 		/// <param name="tableName">テーブル/ビュー名</param>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <returns>レコード数</returns>
-		public static DataTable SelectCouplerDatabase(DatabaseConnect dbConnect, string tableName, string whereStr, string orderStr)
+		public static DataTable SelectCouplerDatabase(string tableName, string whereStr, string orderStr)
 		{
 			DataTable result = null;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateConnectionString(dbConnect)))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCouplerTccsvConnectionString()))
 			{
 				try
 				{
@@ -144,117 +142,116 @@ namespace MwsLib.DB.SqlServer.Coupler
 		//	return result;
 		//}
 
-		/// <summary>
-		/// [Coupler] レコードの新規追加
-		/// </summary>
-		/// <param name="dbConnect">DB接続情報</param>
-		/// <param name="sqlStr">SQL文</param>
-		/// <param name="param">パラメータ</param>
-		/// <returns>影響行数</returns>
-		public static int InsertIntoCouplerDatabase(DatabaseConnect dbConnect, string sqlStr, SqlParameter[] param)
-		{
-			int rowCount = -1;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateConnectionString(dbConnect)))
-			{
-				try
-				{
-					// 接続
-					con.Open();
+		///// <summary>
+		///// [Coupler] レコードの新規追加
+		///// </summary>
+		///// <param name="sqlStr">SQL文</param>
+		///// <param name="param">パラメータ</param>
+		///// <returns>影響行数</returns>
+		//public static int InsertIntoCouplerDatabase(string sqlStr, SqlParameter[] param)
+		//{
+		//	int rowCount = -1;
+		//	using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCouplerTccsvConnectionString()))
+		//	{
+		//		try
+		//		{
+		//			// 接続
+		//			con.Open();
 
-					// トランザクション開始
-					using (SqlTransaction tran = con.BeginTransaction())
-					{
-						try
-						{
-							// 実行
-							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlStr, param);
-							//rowCount = SqlExecuteCommand(con, sqlStr, param);
-							if (rowCount <= -1)
-							{
-								throw new ApplicationException("InsertIntoCouplerDatabase() Error!");
-							}
-							// コミット
-							tran.Commit();
-						}
-						catch
-						{
-							// ロールバック
-							tran.Rollback();
-							throw;
-						}
-					}
-				}
-				catch
-				{
-					throw;
-				}
-				finally
-				{
-					if (null != con)
-					{
-						// 切断
-						con.Close();
-					}
-				}
-			}
-			return rowCount;
-		}
+		//			// トランザクション開始
+		//			using (SqlTransaction tran = con.BeginTransaction())
+		//			{
+		//				try
+		//				{
+		//					// 実行
+		//					rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlStr, param);
+		//					//rowCount = SqlExecuteCommand(con, sqlStr, param);
+		//					if (rowCount <= -1)
+		//					{
+		//						throw new ApplicationException("InsertIntoCouplerDatabase() Error!");
+		//					}
+		//					// コミット
+		//					tran.Commit();
+		//				}
+		//				catch
+		//				{
+		//					// ロールバック
+		//					tran.Rollback();
+		//					throw;
+		//				}
+		//			}
+		//		}
+		//		catch
+		//		{
+		//			throw;
+		//		}
+		//		finally
+		//		{
+		//			if (null != con)
+		//			{
+		//				// 切断
+		//				con.Close();
+		//			}
+		//		}
+		//	}
+		//	return rowCount;
+		//}
 
-		/// <summary>
-		/// [Coupler] レコードの更新
-		/// </summary>
-		/// <param name="dbConnect">DB接続情報</param>
-		/// <param name="sqlStr">SQL文</param>
-		/// <param name="param">パラメータ</param>
-		/// <returns>影響行数</returns>
-		public static int UpdateSetCouplerDatabase(DatabaseConnect dbConnect, string sqlStr, SqlParameter[] param)
-		{
-			int rowCount = -1;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateConnectionString(dbConnect)))
-			{
-				try
-				{
-					// 接続
-					con.Open();
+		///// <summary>
+		///// [Coupler] レコードの更新
+		///// </summary>
+		///// <param name="dbConnect">DB接続情報</param>
+		///// <param name="sqlStr">SQL文</param>
+		///// <param name="param">パラメータ</param>
+		///// <returns>影響行数</returns>
+		//public static int UpdateSetCouplerDatabase(string sqlStr, SqlParameter[] param)
+		//{
+		//	int rowCount = -1;
+		//	using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCouplerTccsvConnectionString()))
+		//	{
+		//		try
+		//		{
+		//			// 接続
+		//			con.Open();
 
-					// トランザクション開始
-					using (SqlTransaction tran = con.BeginTransaction())
-					{
-						try
-						{
-							// 実行
-							rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlStr, param);
-							//rowCount = SqlExecuteCommand(con, sqlStr, param);
-							if (rowCount <= -1)
-							{
-								throw new ApplicationException("UpdateSetCouplerDatabase() Error!");
-							}
-							// コミット
-							tran.Commit();
-						}
-						catch
-						{
-							// ロールバック
-							tran.Rollback();
-							throw;
-						}
-					}
-				}
-				catch
-				{
-					throw;
-				}
-				finally
-				{
-					if (null != con)
-					{
-						// 切断
-						con.Close();
-					}
-				}
-			}
-			return rowCount;
-		}
+		//			// トランザクション開始
+		//			using (SqlTransaction tran = con.BeginTransaction())
+		//			{
+		//				try
+		//				{
+		//					// 実行
+		//					rowCount = DataBaseController.SqlExecuteCommand(con, tran, sqlStr, param);
+		//					//rowCount = SqlExecuteCommand(con, sqlStr, param);
+		//					if (rowCount <= -1)
+		//					{
+		//						throw new ApplicationException("UpdateSetCouplerDatabase() Error!");
+		//					}
+		//					// コミット
+		//					tran.Commit();
+		//				}
+		//				catch
+		//				{
+		//					// ロールバック
+		//					tran.Rollback();
+		//					throw;
+		//				}
+		//			}
+		//		}
+		//		catch
+		//		{
+		//			throw;
+		//		}
+		//		finally
+		//		{
+		//			if (null != con)
+		//			{
+		//				// 切断
+		//				con.Close();
+		//			}
+		//		}
+		//	}
+		//	return rowCount;
+		//}
 
 		///// <summary>
 		///// [Coupler] レコードの削除
@@ -262,7 +259,7 @@ namespace MwsLib.DB.SqlServer.Coupler
 		///// <param name="dbConnect">DB接続情報</param>
 		///// <param name="sqlStr">SQL文</param>
 		///// <returns>影響行数</returns>
-		//public static int DeleteCouplerDatabase(DatabaseConnect dbConnect, string sqlStr)
+		//public static int DeleteCouplerDatabase(string sqlStr)
 		//{
 		//	int rowCount = -1;
 		//	using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateConnectionString(dbConnect)))
@@ -322,33 +319,33 @@ namespace MwsLib.DB.SqlServer.Coupler
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <returns>サービス利用情報</returns>
-		public static List<T_COUPLER_SERVICE> Select_T_COUPLER_SERVICE(DatabaseConnect dbConnect, string whereStr = "", string orderStr = "")
+		public static List<T_COUPLER_SERVICE> Select_T_COUPLER_SERVICE(string whereStr = "", string orderStr = "")
 		{
-			DataTable table = SelectCouplerDatabase(dbConnect, CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.T_COUPLER_SERVICE], whereStr, orderStr);
+			DataTable table = SelectCouplerDatabase(CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.T_COUPLER_SERVICE], whereStr, orderStr);
 			return T_COUPLER_SERVICE.DataTableToList(table);
 		}
 
-		/// <summary>
-		/// [Coupler].[dbo].[SERVICE]の新規追加
-		/// </summary>
-		/// <param name="dbConnect">DB接続情報</param>
-		/// <param name="user">tMic終了ユーザーリスト</param>
-		/// <returns>影響行数</returns>
-		public static int InsertInto_T_COUPLER_SERVICE(DatabaseConnect dbConnect, T_COUPLER_SERVICE data)
-		{
-			return InsertIntoCouplerDatabase(dbConnect, T_COUPLER_SERVICE.InsertIntoSqlString, data.GetInsertIntoParameters());
-		}
+		///// <summary>
+		///// [Coupler].[dbo].[SERVICE]の新規追加
+		///// </summary>
+		///// <param name="dbConnect">DB接続情報</param>
+		///// <param name="user">tMic終了ユーザーリスト</param>
+		///// <returns>影響行数</returns>
+		//public static int InsertInto_T_COUPLER_SERVICE(T_COUPLER_SERVICE data)
+		//{
+		//	return InsertIntoCouplerDatabase(T_COUPLER_SERVICE.InsertIntoSqlString, data.GetInsertIntoParameters());
+		//}
 
-		/// <summary>
-		/// [Coupler].[dbo].[SERVICE]の更新
-		/// </summary>
-		/// <param name="dbConnect">DB接続情報</param>
-		/// <param name="user">tMic終了ユーザーリスト</param>
-		/// <returns>影響行数</returns>
-		public static int UpdateSet_T_COUPLER_SERVICE(DatabaseConnect dbConnect, T_COUPLER_SERVICE data)
-		{
-			return UpdateSetCouplerDatabase(dbConnect, data.UpdateSetSqlString, data.GetUpdateSetParameters());
-		}
+		///// <summary>
+		///// [Coupler].[dbo].[SERVICE]の更新
+		///// </summary>
+		///// <param name="dbConnect">DB接続情報</param>
+		///// <param name="user">tMic終了ユーザーリスト</param>
+		///// <returns>影響行数</returns>
+		//public static int UpdateSet_T_COUPLER_SERVICE(T_COUPLER_SERVICE data)
+		//{
+		//	return UpdateSetCouplerDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters());
+		//}
 
 		///// <summary>
 		///// [Coupler].[dbo].[SERVICE]の削除
@@ -356,9 +353,9 @@ namespace MwsLib.DB.SqlServer.Coupler
 		///// <param name="dbConnect">DB接続情報</param>
 		///// <param name="user">tMic終了ユーザーリスト</param>
 		///// <returns>影響行数</returns>
-		//public static int Delete_T_COUPLER_SERVICE(DatabaseConnect dbConnect, T_COUPLER_SERVICE data)
+		//public static int Delete_T_COUPLER_SERVICE(T_COUPLER_SERVICE data)
 		//{
-		//	return DeleteCouplerDatabase(dbConnect, data.DeleteSqlString);
+		//	return DeleteCouplerDatabase(data.DeleteSqlString);
 		//}
 
 		/// <summary>
@@ -368,9 +365,9 @@ namespace MwsLib.DB.SqlServer.Coupler
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <returns>製品顧客管理情報</returns>
-		public static List<T_COUPLER_PRODUCTUSER> Select_T_COUPLER_PRODUCTUSER(DatabaseConnect dbConnect, string whereStr = "", string orderStr = "")
+		public static List<T_COUPLER_PRODUCTUSER> Select_T_COUPLER_PRODUCTUSER(string whereStr = "", string orderStr = "")
 		{
-			DataTable table = SelectCouplerDatabase(dbConnect, CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.T_COUPLER_PRODUCTUSER], whereStr, orderStr);
+			DataTable table = SelectCouplerDatabase(CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.T_COUPLER_PRODUCTUSER], whereStr, orderStr);
 			return T_COUPLER_PRODUCTUSER.DataTableToList(table);
 		}
 

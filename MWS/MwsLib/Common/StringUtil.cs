@@ -1041,7 +1041,12 @@ namespace MwsLib.Common
         /// <returns>カンマ入り数値文字列</returns>
         public static string CommaEdit(string numStr)
         {
-            return String.Format(FORMAT_COMMA, int.Parse(numStr));
+            int result;
+            if (int.TryParse(numStr, out result))
+            {
+                return String.Format(FORMAT_COMMA, result);
+            }
+            return string.Empty;
         } 
 
         /// <summary>

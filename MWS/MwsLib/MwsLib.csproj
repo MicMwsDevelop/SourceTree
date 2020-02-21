@@ -61,6 +61,7 @@
     <Compile Include="BaseFactory\CheckVoucherPaletteES\OrderVoucher.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_PRODUCTUSER.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_SERVICE.cs" />
+    <Compile Include="BaseFactory\Junp\OrderSlip.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMemo.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic終了ユーザーリスト.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMik保守契約.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="DB\SqlServer\Coupler\CouplerDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\Coupler\CouplerDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\DataBaseAccess.cs" />
+    <Compile Include="DB\SqlServer\DatabaseConnect.cs" />
     <Compile Include="DB\SqlServer\DataBaseController.cs" />
     <Compile Include="DB\SqlServer\DataBaseTableSQL.cs" />
     <Compile Include="DB\DataBaseValue.cs" />
@@ -196,6 +198,9 @@
     <Compile Include="DB\SqlServer\NarcohmOrderCheck\NarcohmOderCheckController.cs" />
     <Compile Include="DB\SqlServer\NarcohmOrderCheck\NarcohmOrderCheckAccess.cs" />
     <Compile Include="DB\SqlServer\NarcohmOrderCheck\NarcohmOrderCheckGetIO.cs" />
+    <Compile Include="DB\SqlServer\OrderSlip\OrderSlipAccess.cs" />
+    <Compile Include="DB\SqlServer\OrderSlip\OrderSlipController.cs" />
+    <Compile Include="DB\SqlServer\OrderSlip\OrderSlipGetIO.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerSetIO.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerAccess.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerController.cs" />
@@ -220,8 +225,6 @@
     <Compile Include="Settings\MicHolidaySettings.cs" />
     <Compile Include="Settings\MicHolidaySettingsIF.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMikコードマスタ.cs" />
-    <Compile Include="Settings\SqlServerConnectSettings.cs" />
-    <Compile Include="Settings\SqlServerConnectSettingsIF.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -234,10 +237,6 @@
   <ItemGroup>
     <Content Include="Settings\MicHolidaySettings.xml">
       <Link>MicHolidaySettings.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Settings\SqlServerConnectSettings.xml">
-      <Link>SqlServerConnectSettings.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

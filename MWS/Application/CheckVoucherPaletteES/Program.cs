@@ -148,7 +148,7 @@ namespace CheckVoucherPaletteES
 					if (0 < listMail.Count)
 					{
 						// メール送信
-						SendMailControl.SendMail(listMail);
+						//SendMailControl.SendMail(listMail);
 					}
 				}
 			}

@@ -10,7 +10,6 @@
 using System.Data.SqlClient;
 using System.Threading;
 using System.Windows.Forms;
-using MwsLib.Settings;
 
 namespace MwsLib.DB.SqlServer
 {
@@ -25,68 +24,13 @@ namespace MwsLib.DB.SqlServer
         private static ReaderWriterLock rwLock = new ReaderWriterLock();
 
 
-			// ＤＢインスタンス ///////////////////////////////////////
-
-			/// <summary>
-			/// SQLSVのインスタンス名（本番環境）
-			/// </summary>
-			public const string DB_INSTANCE_NAME_SQLSV = "SQLSV";
-
-			/// <summary>
-			/// SQLSV2のインスタンス名（CT環境）
-			/// </summary>
-			public const string DB_INSTANCE_NAME_SQLSV2 = "SQLSV2";
-
-			/// <summary>
-			/// TCCSVのインスタンス名
-			/// </summary>
-			public const string DB_INSTANCE_NAME_TCCSV = "TCCSV";
-
-
-			// ＤＢ名 ///////////////////////////////////////
-
-			/// <summary>
-			/// charlieのDB名
-			/// </summary>
-			public const string DB_NAME_CHARLIE = "charlieDB";
-
-			/// <summary>
-			/// junpのDB名
-			/// </summary>
-			public const string DB_NAME_JUNP = "JunpDB";
-
-			/// <summary>
-			/// COUPLERのDB名
-			/// </summary>
-			public const string DB_NAME_COUPLER = "COUPLER";
-
-
-		// 接続文字列 ///////////////////////////////////////
+		//// メソッド ///////////////////////////////////////
 
 		/// <summary>
-		/// DB接続文字列
+		/// Charileデータベース接続文字列を作成する
 		/// </summary>
-		private const string DB_CONNECT_STRING = @"Server={0};Database={1};User ID={2};Password={3};Min Pool Size=1";
-
-			/// <summary>
-			/// DB接続文字列(webユーザー)
-			/// </summary>
-			private const string DB_CONNECT_STRING_WEB = @"Server={0};Database={1};User ID=web;Password=02035612;Min Pool Size=1";
-
-			/// <summary>
-			/// DB接続文字列(SAユーザー)
-			/// </summary>
-			private const string DB_CONNECT_STRING_SA = @"Server={0};Database={1};User ID=sa;Password=07883510;Min Pool Size=1";
-
-
-		// メソッド ///////////////////////////////////////
-
-		/// <summary>
-		/// データベース接続文字列を作成する
-		/// </summary>
-		/// <param name="dbConnect">DB接続情報</param>
 		/// <returns>Charlieデータベース接続文字列</returns>
-		public static string CreateConnectionString(DatabaseConnect dbConnect)
+		public static string CreateCharlieConnectionString(bool sqlsv2)
 		{
 			try
 			{
@@ -99,77 +43,59 @@ namespace MwsLib.DB.SqlServer
 				rwLock.ReleaseReaderLock();
 			}
 			// Charlie
-			return string.Format(DB_CONNECT_STRING, dbConnect.InstanceName, dbConnect.DatabaseName, dbConnect.UserID, dbConnect.Password);
+			return DatabaseConnect.CharlieWebConnectionString(sqlsv2);
 		}
 
-			/// <summary>
-			/// Charileデータベース接続文字列を作成する
-			/// </summary>
-			/// <returns>Charlieデータベース接続文字列</returns>
-			public static string CreateCharlieConnectionString(bool sqlsv2)
-			{
-				try
-				{
-					// リーダーロックを取得
-					rwLock.AcquireReaderLock(Timeout.Infinite);
-				}
-				finally
-				{
-					// リーダーロックを解放
-					rwLock.ReleaseReaderLock();
-				}
-				// Charlie
-				return CreateCharlieWebConnectionString(sqlsv2);
-			}
+		/// <summary>
+		/// Charlieデータベース接続文字列を作成する
+		/// </summary>
+		/// <param name="sqlsv2">CT環境</param>
+		/// <returns>Charlieデータベース接続文字列</returns>
+		public static string CreateCharlieWebConnectionString(bool sqlsv2)
+		{
+			return DatabaseConnect.CharlieWebConnectionString(sqlsv2);
+		}
 
-			/// <summary>
-			/// Charlieデータベース接続文字列を作成する
-			/// </summary>
-			/// <param name="sqlsv2">CT環境</param>
-			/// <returns>Charlieデータベース接続文字列</returns>
-			public static string CreateCharlieWebConnectionString(bool sqlsv2)
+		/// <summary>
+		/// Junpデータベース接続文字列を作成する
+		/// </summary>
+		/// <param name="sqlsv2">CT環境</param>
+		/// <returns>Junpデータベース接続文字列</returns>
+		public static string CreateJunpConnectionString(bool sqlsv2)
+		{
+			try
 			{
-				if (sqlsv2)
-				{
-					return string.Format(DB_CONNECT_STRING_WEB, DB_INSTANCE_NAME_SQLSV2, DB_NAME_CHARLIE);
-				}
-				return string.Format(DB_CONNECT_STRING_WEB, DB_INSTANCE_NAME_SQLSV, DB_NAME_CHARLIE);
+				// リーダーロックを取得
+				rwLock.AcquireReaderLock(Timeout.Infinite);
 			}
+			finally
+			{
+				// リーダーロックを解放
+				rwLock.ReleaseReaderLock();
+			}
+			// Junp
+			return DatabaseConnect.JunpWebConnectionString(sqlsv2);
+		}
 
-			/// <summary>
-			/// Junpデータベース接続文字列を作成する
-			/// </summary>
-			/// <param name="sqlsv2">CT環境</param>
-			/// <returns>Junpデータベース接続文字列</returns>
-			public static string CreateJunpConnectionString(bool sqlsv2)
-			{
-				try
-				{
-					// リーダーロックを取得
-					rwLock.AcquireReaderLock(Timeout.Infinite);
-				}
-				finally
-				{
-					// リーダーロックを解放
-					rwLock.ReleaseReaderLock();
-				}
-				// Junp
-				return CreateJunpWebConnectionString(sqlsv2);
-			}
+		/// <summary>
+		/// Junpデータベース接続文字列を作成する
+		/// </summary>
+		/// <param name="sqlsv2">CT環境</param>
+		/// <returns>Junpデータベース接続文字列</returns>
+		public static string CreateJunpWebConnectionString(bool sqlsv2)
+		{
+			return DatabaseConnect.JunpWebConnectionString(sqlsv2);
+		}
 
-			/// <summary>
-			/// Junpデータベース接続文字列を作成する
-			/// </summary>
-			/// <param name="sqlsv2">CT環境</param>
-			/// <returns>Junpデータベース接続文字列</returns>
-			public static string CreateJunpWebConnectionString(bool sqlsv2)
-			{
-				if (sqlsv2)
-				{
-					return string.Format(DB_CONNECT_STRING_WEB, DB_INSTANCE_NAME_SQLSV2, DB_NAME_JUNP);
-				}
-				return string.Format(DB_CONNECT_STRING_WEB, DB_INSTANCE_NAME_SQLSV, DB_NAME_JUNP);
-			}
+		/// <summary>
+		/// TCCSVデータベース接続文字列を作成する
+		/// </summary>
+		/// <param name="sqlsv2">CT環境</param>
+		/// <returns>Junpデータベース接続文字列</returns>
+		public static string CreateCouplerTccsvConnectionString()
+		{
+			return DatabaseConnect.CouplerTccsvConnectionString();
+		}
 
 
 		//  接続タイムアウト回避対応  ----------------------------------------------------->
@@ -179,49 +105,49 @@ namespace MwsLib.DB.SqlServer
 		/// </summary>
 		public const int RETRY_OPEN_COUNT = 2;
 
-        /// <summary>
-        /// リトライ待ち時間(秒)
-        /// </summary>
-        private static readonly int WaitTime = 5;
+		/// <summary>
+		/// リトライ待ち時間(秒)
+		/// </summary>
+		private static readonly int WaitTime = 5;
 
-        /// <summary>
-        /// SqlConnection作成(Openした状態でSqlConnectionを返却)
-        /// C++に合わせて1000回までリトライする
-        /// using (SqlConnection con = new SqlConnectionの代替処理
-        /// </summary>
-        /// <remarks>待ち時間が長くなるので2回に減らした
-        /// openできなかった場合メッセージボックスを表示するようにした
-        /// </remarks>
-        /// <param name="connectionString">connectionString</param>
-        /// <param name="retryCount">リトライ回数</param>
-        /// <returns></returns>
-        public static SqlConnection CreateConnectionRetryOpen(string connectionString, int retryCount = RETRY_OPEN_COUNT)
-        {
-            SqlConnection sqlCon = new SqlConnection(connectionString);
-            for (int i = 0; i < retryCount + 1; i++)
-            {
-                try
-                {
-                    sqlCon.Open();
-                    break;
-                }
-                catch
-                {
-                    //  コネクションプールクリア
-                    SqlConnection.ClearPool(sqlCon);
-                    sqlCon.Dispose();
+		/// <summary>
+		/// SqlConnection作成(Openした状態でSqlConnectionを返却)
+		/// C++に合わせて1000回までリトライする
+		/// using (SqlConnection con = new SqlConnectionの代替処理
+		/// </summary>
+		/// <remarks>待ち時間が長くなるので2回に減らした
+		/// openできなかった場合メッセージボックスを表示するようにした
+		/// </remarks>
+		/// <param name="connectionString">connectionString</param>
+		/// <param name="retryCount">リトライ回数</param>
+		/// <returns></returns>
+		public static SqlConnection CreateConnectionRetryOpen(string connectionString, int retryCount = RETRY_OPEN_COUNT)
+		{
+			SqlConnection sqlCon = new SqlConnection(connectionString);
+			for (int i = 0; i < retryCount + 1; i++)
+			{
+				try
+				{
+					sqlCon.Open();
+					break;
+				}
+				catch
+				{
+					//  コネクションプールクリア
+					SqlConnection.ClearPool(sqlCon);
+					sqlCon.Dispose();
 
-                    sqlCon = new SqlConnection(connectionString);
-                    //  5秒待つ 1000をかけてミリセカンド
-                    Thread.Sleep(WaitTime * 1000);
-                }
-            }
-            if (sqlCon.State != System.Data.ConnectionState.Open)
-            {
-                MessageBox.Show("データベースのオープンに失敗しました。", "データベース", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            return sqlCon;
-        }
+					sqlCon = new SqlConnection(connectionString);
+					//  5秒待つ 1000をかけてミリセカンド
+					Thread.Sleep(WaitTime * 1000);
+				}
+			}
+			if (sqlCon.State != System.Data.ConnectionState.Open)
+			{
+				MessageBox.Show("データベースのオープンに失敗しました。", "データベース", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			return sqlCon;
+		}
 
 		/// <summary>
 		/// SqlConnection作成(Openした状態でSqlConnectionを返却)
@@ -231,28 +157,28 @@ namespace MwsLib.DB.SqlServer
 		/// <param name="retryCount"></param>
 		/// <returns></returns>
 		public static SqlConnection CreateConnectionSilentRetryOpen(string connectionString, int retryCount = RETRY_OPEN_COUNT)
-        {
-            SqlConnection sqlCon = new SqlConnection(connectionString);
-            for (int i = 0; i < retryCount + 1; i++)
-            {
-                try
-                {
-                    sqlCon.Open();
-                    break;
-                }
-                catch
-                {
-                    //  コネクションプールクリア
-                    SqlConnection.ClearPool(sqlCon);
-                    sqlCon.Dispose();
+		{
+			SqlConnection sqlCon = new SqlConnection(connectionString);
+			for (int i = 0; i < retryCount + 1; i++)
+			{
+				try
+				{
+					sqlCon.Open();
+					break;
+				}
+				catch
+				{
+					//  コネクションプールクリア
+					SqlConnection.ClearPool(sqlCon);
+					sqlCon.Dispose();
 
-                    sqlCon = new SqlConnection(connectionString);
-                    //  5秒待つ 1000をかけてミリセカンド
-                    Thread.Sleep(WaitTime * 1000);
-                }
-            }
-            return sqlCon;
-        }
-        //  タイムアウト回避対応  -----------------------------------------------------<
-    }
+					sqlCon = new SqlConnection(connectionString);
+					//  5秒待つ 1000をかけてミリセカンド
+					Thread.Sleep(WaitTime * 1000);
+				}
+			}
+			return sqlCon;
+		}
+		//  タイムアウト回避対応  -----------------------------------------------------<
+	}
 }
