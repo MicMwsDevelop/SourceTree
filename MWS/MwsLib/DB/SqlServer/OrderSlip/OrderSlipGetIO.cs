@@ -76,7 +76,7 @@ namespace MwsLib.DB.SqlServer.OrderSlip
 					+ ", H.[f件名] AS f件名"
 					+ " FROM [JunpDB].[dbo].[tMih受注詳細] AS D"
 					+ " LEFT JOIN [JunpDB].[dbo].[tMih受注ヘッダ] AS H ON D.[f受注番号] = H.[f受注番号]"
-					+ " WHERE CONVERT(int, CONVERT(nvarchar, H.[f受注日], 112)) >= {0} {1}"
+					+ " WHERE D.[f数量] > 0 AND CONVERT(int, CONVERT(nvarchar, H.[f受注日], 112)) >= {0} {1}"
 					+ " ORDER BY H.[f受注日] ASC, H.[fユーザーコード] ASC, D.[f受注番号] ASC, D.[f表示順] ASC", date.ToIntYMD(), goodsWhere);
   
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))

@@ -80,6 +80,11 @@ namespace MwsLib.BaseFactory
 			/// まとめ
 			/// </summary>
 			Matome = 4,
+
+			/// <summary>
+			/// PC安心サポート
+			/// </summary>
+			PcSupport = 5,
 		}
 
 		/// <summary>
@@ -92,6 +97,7 @@ namespace MwsLib.BaseFactory
 			{ ApplyType.Upgrade, "ＵＧ" },
 			{ ApplyType.Monthly, "月額" },
 			{ ApplyType.Matome, "まとめ" },
+			{ ApplyType.PcSupport, "PC安心" },
 		};
 
 		/// <summary>

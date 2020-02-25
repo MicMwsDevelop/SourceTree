@@ -27,7 +27,7 @@ namespace MwsLib.DB.SqlServer.OrderSlip
 		/// <param name="goods">商品コードリスト</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
 		/// <returns>申込種別まとめ情報リスト</returns>
-		public static List<OrderSlip> GetOrderSlipList(Date date, List<string> goods, bool sqlsv2)
+		public static List<OrderSlipData> GetOrderSlipList(Date date, List<string> goods, bool sqlsv2)
 		{
 			DataTable table = OrderSlipGetIO.GetOrderSlipList(date, goods, sqlsv2);
 			return OrderSlipController.ConvertOrderSlipList(table);

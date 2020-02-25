@@ -26,15 +26,15 @@ namespace MwsLib.DB.SqlServer.OrderSlip
 		/// </summary>
 		/// <param name="table">DataTable</param>
 		/// <returns>終了ユーザー情報リスト</returns>
-		public static List<OrderSlip> ConvertOrderSlipList(DataTable table)
+		public static List<OrderSlipData> ConvertOrderSlipList(DataTable table)
 		{
-			List<OrderSlip> result = null;
+			List<OrderSlipData> result = null;
 			if (null != table)
 			{
-				result = new List<OrderSlip>();
+				result = new List<OrderSlipData>();
 				foreach (DataRow row in table.Rows)
 				{
-					OrderSlip data = new OrderSlip
+					OrderSlipData data = new OrderSlipData
 					{
 						受注番号 = DataBaseValue.ConvObjectToInt(row["f受注番号"]),
 						受注日 = DataBaseValue.ConvObjectToDateTimeNull(row["f受注日"]),
@@ -72,6 +72,7 @@ namespace MwsLib.DB.SqlServer.OrderSlip
 						end = YearMonth.Parse(buf).ToDate(-1);
 					}
 					data.利用期間 = new Span(start, end);
+					data.Type = OrderSlipData.GetOrderType(data.商品コード);
 
 					result.Add(data);
 				}

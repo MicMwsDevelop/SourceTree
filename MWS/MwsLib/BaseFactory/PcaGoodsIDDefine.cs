@@ -43,5 +43,30 @@ namespace MwsLib.BaseFactory
 		/// palette ES ｿﾌﾄｳｪｱ保守料12ケ月
 		/// </summary>
 		public const string PaletteES_Mainte12 = "800162";
+
+		/// <summary>
+		/// おまとめプラン12ケ月
+		/// </summary>
+		public const string Matome12 = "800155";
+
+		/// <summary>
+		/// おまとめプラン24ケ月
+		/// </summary>
+		public const string Matome24 = "800156";
+
+		/// <summary>
+		/// おまとめプラン36ケ月
+		/// </summary>
+		public const string Matome36 = "800157";
+
+		/// <summary>
+		/// おまとめプラン48ケ月
+		/// </summary>
+		public const string Matome48 = "800158";
+
+		/// <summary>
+		/// おまとめプラン60ケ月
+		/// </summary>
+		public const string Matome60 = "800159";
 	}
 }
