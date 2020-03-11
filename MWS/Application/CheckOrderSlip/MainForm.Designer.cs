@@ -88,9 +88,9 @@
 			this.label2.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label2.Location = new System.Drawing.Point(1291, 17);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(139, 12);
+			this.label2.Size = new System.Drawing.Size(134, 12);
 			this.label2.TabIndex = 4;
-			this.label2.Text = "Ver 1.00（2020/02/21）";
+			this.label2.Text = "Ver1.00（2020/02/21）";
 			// 
 			// label3
 			// 
@@ -135,7 +135,7 @@
 			this.listViewES.FullRowSelect = true;
 			this.listViewES.Location = new System.Drawing.Point(14, 58);
 			this.listViewES.Name = "listViewES";
-			this.listViewES.Size = new System.Drawing.Size(1416, 374);
+			this.listViewES.Size = new System.Drawing.Size(1416, 714);
 			this.listViewES.TabIndex = 6;
 			this.listViewES.UseCompatibleStateImageBehavior = false;
 			this.listViewES.View = System.Windows.Forms.View.Details;
@@ -221,7 +221,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listBoxError.FormattingEnabled = true;
 			this.listBoxError.ItemHeight = 12;
-			this.listBoxError.Location = new System.Drawing.Point(13, 461);
+			this.listBoxError.Location = new System.Drawing.Point(13, 801);
 			this.listBoxError.Name = "listBoxError";
 			this.listBoxError.Size = new System.Drawing.Size(1417, 100);
 			this.listBoxError.TabIndex = 8;
@@ -234,13 +234,13 @@
 			this.buttonExcel.TabIndex = 3;
 			this.buttonExcel.Text = "EXCEL出力";
 			this.buttonExcel.UseVisualStyleBackColor = true;
-			this.buttonExcel.Click += new System.EventHandler(this.buttonOutputLog_Click);
+			this.buttonExcel.Click += new System.EventHandler(this.buttonExcel_Click);
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1442, 578);
+			this.ClientSize = new System.Drawing.Size(1442, 918);
 			this.Controls.Add(this.buttonExcel);
 			this.Controls.Add(this.listBoxError);
 			this.Controls.Add(this.listViewES);

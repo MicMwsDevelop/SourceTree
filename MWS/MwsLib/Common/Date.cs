@@ -622,5 +622,63 @@ namespace MwsLib.Common
         {
             return a - 1;
         }
+
+        /// <summary>
+        /// 先月初日
+        /// </summary>
+        /// <returns></returns>
+        public Date FirstDayOfLasMonth()
+        {
+            Date date = this.PlusMonths(-1);
+            return new Date(date.Year, date.Month, 1);
+        }
+
+        /// <summary>
+        /// 先月末日
+        /// </summary>
+        /// <returns></returns>
+        public Date LastDayOfLasMonth()
+        {
+            Date date = this.PlusMonths(-1);
+            return new Date(date.Year, date.Month, date.GetDaysInMonth());
+        }
+
+        /// <summary>
+        /// 当月初日
+        /// </summary>
+        /// <returns></returns>
+        public Date FirstDayOfTheMonth()
+        {
+            return new Date(this.Year, this.Month, 1);
+        }
+
+        /// <summary>
+        /// 当月末日
+        /// </summary>
+        /// <returns></returns>
+        public Date LastDayOfTheMonth()
+        {
+            return new Date(this.Year, this.Month, this.GetDaysInMonth());
+        }
+
+        /// <summary>
+        /// 翌月初日
+        /// </summary>
+        /// <returns></returns>
+        public Date FirstDayOfNextMonth()
+        {
+            Date date = this.PlusMonths(1);
+            return new Date(date.Year, date.Month, 1);
+        }
+
+        /// <summary>
+        /// 翌月末日
+        /// </summary>
+        /// <returns></returns>
+        public Date LastDayOfNextMonth()
+        {
+            Date date = this.PlusMonths(1);
+            return new Date(date.Year, date.Month, date.GetDaysInMonth());
+        }
     }
 }

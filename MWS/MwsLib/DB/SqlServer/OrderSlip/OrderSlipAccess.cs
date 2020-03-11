@@ -1,5 +1,5 @@
 ﻿//
-// CheckVoucherPaletteESAccess.cs
+// OrderSlipAccess.cs
 //
 // 受注伝票情報 データアクセスクラス
 // 

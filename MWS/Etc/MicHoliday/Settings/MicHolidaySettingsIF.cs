@@ -12,7 +12,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace MwsLib.Settings
+namespace MicHoliday.Settings
 {
 	/// <summary>
 	/// MIC WEB SERVICE 課金シミュレーション環境設定インターフェイス

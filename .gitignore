@@ -232,3 +232,19 @@
 /MWS/Application/CheckOrderSlip/obj
 /MWS/Application/CheckOrderSlip/packages
 /MWS/Application/CheckOrderSlip - コピー
+/MWS/Application/CloudDataBankStockDataOutput/.vs/CloudDataBankStockDataOutput/v16
+/MWS/Application/CloudDataBankStockDataOutput/bin
+/MWS/Application/CloudDataBankStockDataOutput/Doc/CreateTable_M_クラウドデータバンク商品.sql
+/MWS/Application/CloudDataBankStockDataOutput/Doc/振替データ作成.txt
+/MWS/Application/CloudDataBankStockDataOutput/Doc/先月ナルコーム商品売上集計.sql
+/MWS/Application/CloudDataBankStockDataOutput/Doc/ナルコーム商品仕入データ.txt
+/MWS/Application/CloudDataBankStockDataOutput/Doc/ナルコーム商品仕入データ.org
+/MWS/Application/CloudDataBankStockDataOutput/Doc/vMicナルコーム商品売上.sql
+/MWS/Application/CloudDataBankStockDataOutput/Doc/q先月売上伝票.sql
+/MWS/Application/CloudDataBankStockDataOutput/Doc/q先月ナルコーム商品売上伝票.sql
+/MWS/Application/CloudDataBankStockDataOutput/Doc/q先月ナルコーム仕入集計.sql
+/MWS/Application/CloudDataBankStockDataOutput/obj
+/MWS/Etc/MicHoliday/.vs/MicHoliday/v16
+/MWS/Etc/MicHoliday/bin
+/MWS/Etc/MicHoliday/obj
+/MWS/Application/CheckOrderSlip/Doc

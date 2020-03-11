@@ -7,11 +7,10 @@
 // 
 // Ver1.000 新規作成(2019/11/15 勝呂)
 // 
-using MwsLib.BaseFactory;
 using MwsLib.Common;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Collections.Generic;
 
 
 namespace MwsLib.DB.SqlServer.OrderSlip

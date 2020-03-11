@@ -7,11 +7,12 @@
 // 
 // Ver1.000 新規作成(2018/11/19 勝呂)
 // 
-using MwsLib.Settings;
+using MicHoliday.Settings;
 using System;
 using System.Collections.Generic;
+using MwsLib.Common;
 
-namespace MwsLib.Common
+namespace MicHoliday.Common
 {
 	/// <summary>
 	/// 休日情報

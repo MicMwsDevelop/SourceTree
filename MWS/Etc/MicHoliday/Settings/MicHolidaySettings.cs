@@ -10,7 +10,7 @@
 using System;
 using System.Collections.Specialized;
 
-namespace MwsLib.Settings
+namespace MicHoliday.Settings
 {
 	/// <summary>
 	/// PC安心サポート管理 環境設定

@@ -1,5 +1,5 @@
 ﻿//
-// OrderSlip.cs
+// OrderSlipData.cs
 //
 // 受注伝票情報クラス
 // 
@@ -256,8 +256,70 @@ namespace MwsLib.BaseFactory.Junp
 			item[13] = 担当支店名;
 			item[14] = 担当者名;
 			item[15] = 件名;
-
 			return item;
+		}
+
+		static public string[] GetExcelTitle()
+		{
+			string[] title = new string[23];
+			title[0] = "判定";
+			title[1] = "伝票種別";
+			title[2] = "販売種別";
+			title[3] = "受注番号";
+			title[4] = "受注日";
+			title[5] = "受注承認日";
+			title[6] = "売上承認日";
+			title[7] = "納期";
+			title[8] = "顧客No";
+			title[9] = "顧客名";
+			title[10] = "商品コード";
+			title[11] = "商品名";
+			title[12] = "受注金額";
+			title[13] = "利用開始日";
+			title[14] = "利用終了日";
+			title[15] = "販売先コード";
+			title[16] = "販売先";
+			title[17] = "支店コード";
+			title[18] = "担当支店名";
+			title[19] = "担当者コード";
+			title[20] = "担当者名";
+			title[21] = "件名";
+			title[22] = "不備内容";
+			return title;
+		}
+
+
+		/// <summary>
+		/// Excel出力行の取得
+		/// </summary>
+		/// <returns>ListView設定値</returns>
+		public List<string> GetExcelRow()
+		{
+			List<string> list = new List<string>();
+			list.Add(0 < ErrorList.Count ? "×": "〇");
+			list.Add(OrderSlipData.OrderTypeString[Type]);
+			list.Add(MwsDefine.ApplyTypeString[販売種別]);
+			list.Add(受注番号.ToString());
+			list.Add(受注日.HasValue ? 受注日.Value.ToDate().ToString() : "");
+			list.Add(受注承認日.HasValue ? 受注承認日.Value.ToDate().ToString() : "");
+			list.Add(売上承認日.HasValue ? 売上承認日.Value.ToDate().ToString() : "");
+			list.Add(納期.HasValue ? 納期.ToString() : "");
+			list.Add(顧客No.ToString());
+			list.Add(顧客名);
+			list.Add(商品コード);
+			list.Add(商品名);
+			list.Add(受注金額.ToString());
+			list.Add(Span.Nothing == 利用期間 ? "" : 利用期間.Start.ToString());
+			list.Add(Span.Nothing == 利用期間 ? "" : 利用期間.End.ToString());
+			list.Add(販売先コード.ToString());
+			list.Add(販売先);
+			list.Add(支店コード);
+			list.Add(担当支店名);
+			list.Add(担当者コード);
+			list.Add(担当者名);
+			list.Add(件名);
+			list.AddRange(ErrorList);
+			return list;
 		}
 
 		/// <summary>
@@ -308,111 +370,6 @@ namespace MwsLib.BaseFactory.Junp
 			list.RemoveAt(0);
 			return string.Join(", ", list.ToArray());
 		}
-
-		///// <summary>
-		///// paletteESの販売種別がＶＰかどうか？
-		///// </summary>
-		///// <returns>判定</returns>
-		//public bool IsFormalApplyTypeByPaletteES()
-		//{
-		//	if (PcaGoodsIDDefine.PaletteES_2019 == 商品コード)
-		//	{
-		//		if (MwsDefine.ApplyType.ValuePack == 販売種別)
-		//		{
-		//			return true;
-		//		}
-		//	}
-		//	return false;
-		//}
-
-		///// <summary>
-		///// ｿﾌﾄｳｪｱ保守料72ケ月の販売種別が月額課金かどうか？
-		///// </summary>
-		///// <returns>判定</returns>
-		//public bool IsFormalApplyTypeByMainte72()
-		//{
-		//	if (PcaGoodsIDDefine.PaletteES_Mainte72 == 商品コード)
-		//	{
-		//		if (MwsDefine.ApplyType.Monthly == 販売種別)
-		//		{
-		//			return true;
-		//		}
-		//	}
-		//	return false;
-		//}
-
-		///// <summary>
-		///// ｿﾌﾄｳｪｱ保守料12ケ月の販売種別が月額課金かどうか？
-		///// </summary>
-		///// <returns>判定</returns>
-		//public bool IsFormalApplyTypeByMainte12()
-		//{
-		//	if (PcaGoodsIDDefine.PaletteES_Mainte12 == 商品コード)
-		//	{
-		//		if (MwsDefine.ApplyType.Monthly == 販売種別)
-		//		{
-		//			return true;
-		//		}
-		//	}
-		//	return false;
-		//}
-
-		///// <summary>
-		///// palette ESの利用期間が72ヵ月かどうか？
-		///// </summary>
-		///// <returns>判定</returns>
-		//public bool IsFormalSpanByPaletteES()
-		//{
-		//	if (Span.Nothing != 利用期間)
-		//	{
-		//		if (PcaGoodsIDDefine.PaletteES_2019 == 商品コード)
-		//		{
-		//			if (72 == 利用期間.GetMonthCount())
-		//			{
-		//				return true;
-		//			}
-		//		}
-		//	}
-		//	return false;
-		//}
-
-		///// <summary>
-		///// ｿﾌﾄｳｪｱ保守料72ケ月の利用期間が72ヵ月かどうか？
-		///// </summary>
-		///// <returns>判定</returns>
-		//public bool IsFormalSpanByMainte72()
-		//{
-		//	if (Span.Nothing != 利用期間)
-		//	{
-		//		if (PcaGoodsIDDefine.PaletteES_Mainte72 == 商品コード)
-		//		{
-		//			if (72 == 利用期間.GetMonthCount())
-		//			{
-		//				return true;
-		//			}
-		//		}
-		//	}
-		//	return false;
-		//}
-
-		///// <summary>
-		///// ｿﾌﾄｳｪｱ保守料12ケ月の利用期間が12ヵ月かどうか？
-		///// </summary>
-		///// <returns>判定</returns>
-		//public bool IsFormalSpanByMainte12()
-		//{
-		//	if (Span.Nothing != 利用期間)
-		//	{
-		//		if (PcaGoodsIDDefine.PaletteES_Mainte12 == 商品コード)
-		//		{
-		//			if (12 == 利用期間.GetMonthCount())
-		//			{
-		//				return true;
-		//			}
-		//		}
-		//	}
-		//	return false;
-		//}
 
 		/// <summary>
 		/// palette ESのみ抽出
