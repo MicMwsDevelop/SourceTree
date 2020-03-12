@@ -53,6 +53,11 @@
 			this.columnHeader17 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.listBoxError = new System.Windows.Forms.ListBox();
 			this.buttonExcel = new System.Windows.Forms.Button();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.radioButtonAll = new System.Windows.Forms.RadioButton();
+			this.radioButtonJuchu = new System.Windows.Forms.RadioButton();
+			this.radioButtonUriage = new System.Windows.Forms.RadioButton();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// buttonExec
@@ -89,7 +94,7 @@
 			this.label2.Location = new System.Drawing.Point(1291, 17);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(134, 12);
-			this.label2.TabIndex = 4;
+			this.label2.TabIndex = 5;
 			this.label2.Text = "Ver1.00（2020/02/21）";
 			// 
 			// label3
@@ -98,16 +103,17 @@
 			this.label3.Location = new System.Drawing.Point(12, 43);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(53, 12);
-			this.label3.TabIndex = 5;
+			this.label3.TabIndex = 6;
 			this.label3.Text = "受注伝票";
 			// 
 			// label4
 			// 
+			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(13, 445);
+			this.label4.Location = new System.Drawing.Point(12, 786);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(56, 12);
-			this.label4.TabIndex = 7;
+			this.label4.TabIndex = 8;
 			this.label4.Text = "エラー内容";
 			// 
 			// listViewES
@@ -133,10 +139,10 @@
             this.columnHeader16,
             this.columnHeader17});
 			this.listViewES.FullRowSelect = true;
-			this.listViewES.Location = new System.Drawing.Point(14, 58);
+			this.listViewES.Location = new System.Drawing.Point(15, 58);
 			this.listViewES.Name = "listViewES";
-			this.listViewES.Size = new System.Drawing.Size(1416, 714);
-			this.listViewES.TabIndex = 6;
+			this.listViewES.Size = new System.Drawing.Size(1415, 714);
+			this.listViewES.TabIndex = 7;
 			this.listViewES.UseCompatibleStateImageBehavior = false;
 			this.listViewES.View = System.Windows.Forms.View.Details;
 			this.listViewES.SelectedIndexChanged += new System.EventHandler(this.listViewES_SelectedIndexChanged);
@@ -221,10 +227,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listBoxError.FormattingEnabled = true;
 			this.listBoxError.ItemHeight = 12;
-			this.listBoxError.Location = new System.Drawing.Point(13, 801);
+			this.listBoxError.Location = new System.Drawing.Point(15, 801);
 			this.listBoxError.Name = "listBoxError";
-			this.listBoxError.Size = new System.Drawing.Size(1417, 100);
-			this.listBoxError.TabIndex = 8;
+			this.listBoxError.Size = new System.Drawing.Size(1415, 100);
+			this.listBoxError.TabIndex = 9;
 			// 
 			// buttonExcel
 			// 
@@ -236,11 +242,58 @@
 			this.buttonExcel.UseVisualStyleBackColor = true;
 			this.buttonExcel.Click += new System.EventHandler(this.buttonExcel_Click);
 			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.radioButtonUriage);
+			this.groupBox1.Controls.Add(this.radioButtonJuchu);
+			this.groupBox1.Controls.Add(this.radioButtonAll);
+			this.groupBox1.Location = new System.Drawing.Point(406, -3);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(249, 44);
+			this.groupBox1.TabIndex = 4;
+			this.groupBox1.TabStop = false;
+			// 
+			// radioButtonAll
+			// 
+			this.radioButtonAll.AutoSize = true;
+			this.radioButtonAll.Checked = true;
+			this.radioButtonAll.Location = new System.Drawing.Point(16, 18);
+			this.radioButtonAll.Name = "radioButtonAll";
+			this.radioButtonAll.Size = new System.Drawing.Size(44, 16);
+			this.radioButtonAll.TabIndex = 0;
+			this.radioButtonAll.TabStop = true;
+			this.radioButtonAll.Text = "全て";
+			this.radioButtonAll.UseVisualStyleBackColor = true;
+			this.radioButtonAll.CheckedChanged += new System.EventHandler(this.radioButtonAll_CheckedChanged);
+			// 
+			// radioButtonJuchu
+			// 
+			this.radioButtonJuchu.AutoSize = true;
+			this.radioButtonJuchu.Location = new System.Drawing.Point(66, 18);
+			this.radioButtonJuchu.Name = "radioButtonJuchu";
+			this.radioButtonJuchu.Size = new System.Drawing.Size(83, 16);
+			this.radioButtonJuchu.TabIndex = 1;
+			this.radioButtonJuchu.Text = "受注承認済";
+			this.radioButtonJuchu.UseVisualStyleBackColor = true;
+			this.radioButtonJuchu.CheckedChanged += new System.EventHandler(this.radioButtonJuchu_CheckedChanged);
+			// 
+			// radioButtonUriage
+			// 
+			this.radioButtonUriage.AutoSize = true;
+			this.radioButtonUriage.Location = new System.Drawing.Point(155, 18);
+			this.radioButtonUriage.Name = "radioButtonUriage";
+			this.radioButtonUriage.Size = new System.Drawing.Size(83, 16);
+			this.radioButtonUriage.TabIndex = 2;
+			this.radioButtonUriage.Text = "売上承認済";
+			this.radioButtonUriage.UseVisualStyleBackColor = true;
+			this.radioButtonUriage.CheckedChanged += new System.EventHandler(this.radioButtonUriage_CheckedChanged);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1442, 918);
+			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.buttonExcel);
 			this.Controls.Add(this.listBoxError);
 			this.Controls.Add(this.listViewES);
@@ -253,6 +306,8 @@
 			this.Name = "MainForm";
 			this.Text = "受注伝票チェックツール";
 			this.Load += new System.EventHandler(this.MainForm_Load);
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -285,6 +340,10 @@
 		private System.Windows.Forms.Button buttonExcel;
 		private System.Windows.Forms.ColumnHeader columnHeader17;
 		private System.Windows.Forms.ColumnHeader columnHeader18;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.RadioButton radioButtonUriage;
+		private System.Windows.Forms.RadioButton radioButtonJuchu;
+		private System.Windows.Forms.RadioButton radioButtonAll;
 	}
 }
 

@@ -205,6 +205,28 @@ namespace MwsLib.BaseFactory.Junp
 		}
 
 		/// <summary>
+		/// 受注承認されているか？
+		/// </summary>
+		public bool Is受注承認
+		{
+			get
+			{
+				return 受注承認日.HasValue;
+			}
+		}
+
+		/// <summary>
+		/// 売上承認されているか？
+		/// </summary>
+		public bool Is売上承認
+		{
+			get
+			{
+				return 売上承認日.HasValue;
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public OrderSlipData()
