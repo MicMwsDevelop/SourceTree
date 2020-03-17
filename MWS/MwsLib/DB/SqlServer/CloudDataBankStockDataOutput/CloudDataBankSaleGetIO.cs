@@ -8,6 +8,7 @@
 // Ver1.000 新規作成(2020/03/06 勝呂)
 // 
 using MwsLib.Common;
+using MwsLib.DB.SqlServer.Junp;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -48,10 +49,12 @@ namespace MwsLib.DB.SqlServer.CloudDataBankStockDataOutput
 						+ ", sykd_uribi AS 売上日"
 						+ ", 仕入フラグ"
 						+ ", convert(int, sykd_rate) AS 消費税率"
-						+ " FROM JunpDB.dbo.vMicクラウドデータバンク商品売上"
-						+ " WHERE sykd_uribi >= {0} AND sykd_uribi <= {1}"
+						+ " FROM {0}"
+						+ " WHERE sykd_uribi >= {1} AND sykd_uribi <= {2}"
 						+ " GROUP BY 仕入先, sykd_jbmn, sykd_jtan, 仕入商品コード, sykd_mkbn, sms_mei, sykd_tani, 仕入価格, sykd_uribi, 仕入フラグ, sykd_rate"
-						+ " ORDER BY sykd_jbmn, sykd_uribi, 仕入フラグ, 仕入商品コード", SqlServerHelper.FirstDayOfLasMonthToIntYMD(date), SqlServerHelper.LastDayOfLasMonthToIntYMD(date));
+						+ " ORDER BY sykd_jbmn, sykd_uribi, 仕入フラグ, 仕入商品コード"
+						, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicクラウドデータバンク商品売上]
+						, SqlServerHelper.FirstDayOfLasMonthToIntYMD(date), SqlServerHelper.LastDayOfLasMonthToIntYMD(date));
 
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{

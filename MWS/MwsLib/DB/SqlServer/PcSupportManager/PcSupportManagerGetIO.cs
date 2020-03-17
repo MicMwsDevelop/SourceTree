@@ -8,6 +8,7 @@
 // Ver1.000 新規作成(2018/11/19 勝呂)
 // 
 using MwsLib.BaseFactory.PcSupportManager;
+using MwsLib.DB.SqlServer.Junp;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -51,11 +52,14 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 									 + ", f受注日 AS 受注日"
 									 + ", f受注承認日 AS 受注承認日"
 									 + ", f備考 AS 備考"
-									 + " FROM tMih受注ヘッダ AS OH"
-									 + " LEFT JOIN tMih受注詳細 AS OD"
-									 + " ON OH.f受注番号 = OD.f受注番号"
-									 + " WHERE (OD.f商品コード = '{0}' or OD.f商品コード = '{1}')"
-									 + " ORDER BY OH.f受注番号 ASC", PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID, PcSupportGoodsInfo.PC_SUPPORT3_GOODS_ID);
+									 + " FROM {0} AS OH"
+									 + " LEFT JOIN {1} AS OD ON OH.f受注番号 = OD.f受注番号"
+									 + " WHERE (OD.f商品コード = '{2}' OR OD.f商品コード = '{3}')"
+									 + " ORDER BY OH.f受注番号 ASC"
+									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注ヘッダ]
+									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注詳細]
+									, PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID
+									, PcSupportGoodsInfo.PC_SUPPORT3_GOODS_ID);
 
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
@@ -112,11 +116,15 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 									 + ", f受注日 AS 受注日"
 									 + ", f受注承認日 AS 受注承認日"
 									 + ", f備考 AS 備考"
-									 + " FROM tMih受注ヘッダ AS OH"
-									 + " LEFT JOIN tMih受注詳細 AS OD"
-									 + " ON OH.f受注番号 = OD.f受注番号"
-									 + " WHERE OH.fユーザーコード = {0} AND (OD.f商品コード = '{1}' or OD.f商品コード = '{2}')"
-									 + " ORDER BY OH.f受注番号 DESC", customerNo, PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID, PcSupportGoodsInfo.PC_SUPPORT3_GOODS_ID);
+									 + " FROM {0} AS OH"
+									 + " LEFT JOIN {1} AS OD ON OH.f受注番号 = OD.f受注番号"
+									 + " WHERE OH.fユーザーコード = {2} AND (OD.f商品コード = '{3}' or OD.f商品コード = '{4}')"
+									 + " ORDER BY OH.f受注番号 DESC"
+									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注ヘッダ]
+									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注詳細]
+									, customerNo
+									, PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID
+									, PcSupportGoodsInfo.PC_SUPPORT3_GOODS_ID);
 
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
@@ -159,7 +167,8 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					// 接続
 					con.Open();
 
-					string strSQL = @"SELECT fhsCliMicID"
+					string strSQL = string.Format(@"SELECT"
+								+ " fhsCliMicID"
 								+ ", fhsS保守"
 								+ ", fhsS契約書回収年月"
 								+ ", fhsS契約年数"
@@ -167,7 +176,8 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 								+ ", fhsSメンテ契約開始"
 								+ ", fhsSメンテ契約終了"
 								+ ", fhsSメンテ契約備考1"
-								+ " FROM tMik保守契約";
+								+ " FROM {0}"
+								, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik保守契約]);
 					if (0 < customerNo)
 					{
 						strSQL += string.Format(" WHERE fhsCliMicID = {0}", customerNo);
@@ -216,9 +226,17 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					// 接続
 					con.Open();
 
-					string strSQL = @"SELECT fUsrID, fUsrName, fBshCode2, fBshName2, fBshCode3, fBshName3 FROM JunpDB.dbo.vMic担当者"
+					string strSQL = string.Format(@"SELECT"
+									+ " fUsrID"
+									+ ", fUsrName"
+									+ ", fBshCode2"
+									+ ", fBshName2"
+									+ ", fBshCode3"
+									+ ", fBshName3"
+									+ " FROM {0}"
 									+ " WHERE 社員フラグ = 1 AND (fBshCode2 = '50' OR fBshCode2 = '60' OR fBshCode2 = '70' OR fBshCode2 = '75' OR fBshCode2 = '80')"
-									+ " ORDER BY fBshCode2 ASC, fBshCode3 DESC, fUsrID ASC";
+									+ " ORDER BY fBshCode2 ASC, fBshCode3 DESC, fUsrID ASC"
+									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic担当者]);
 
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
@@ -260,9 +278,16 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 					// 接続
 					con.Open();
 
-					string strSQL = string.Format(@"SELECT sms_scd, sms_mei, sms_hyo FROM JunpDB.dbo.vMicPCA商品マスタ"
+					string strSQL = string.Format(@"SELECT"
+									+ " sms_scd"
+									+ ", sms_mei"
+									+ ", sms_hyo"
+									+ " FROM {0}"
 									+ " WHERE sms_scd = '{0}' OR sms_scd = '{1}'"
-									+ " ORDER BY sms_scd ASC", PcSupportGoodsInfo.PC_SUPPORT3_GOODS_ID, PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID);
+									+ " ORDER BY sms_scd ASC"
+									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
+									, PcSupportGoodsInfo.PC_SUPPORT3_GOODS_ID
+									, PcSupportGoodsInfo.PC_SUPPORT1_GOODS_ID);
 
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{

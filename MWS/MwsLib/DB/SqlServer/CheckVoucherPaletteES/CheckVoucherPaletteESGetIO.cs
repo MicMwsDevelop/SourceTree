@@ -9,6 +9,7 @@
 // 
 using MwsLib.BaseFactory;
 using MwsLib.Common;
+using MwsLib.DB.SqlServer.Junp;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -56,10 +57,16 @@ namespace MwsLib.DB.SqlServer.CheckVoucherPaletteES
 					+ ", H.[f担当支店名] AS f担当支店名"
 					+ ", H.[f担当者コード] AS f担当者コード"
 					+ ", H.[f担当者名] AS f担当者名"
-					+ " FROM [JunpDB].[dbo].[tMih受注詳細] AS D"
-					+ " LEFT JOIN [JunpDB].[dbo].[tMih受注ヘッダ] AS H ON D.[f年度] = H.[f年度] AND D.[f受注番号] = H.[f受注番号]"
-					+ " WHERE CONVERT(int, CONVERT(nvarchar, H.[f受注日], 112)) >= {0} AND (D.[f商品コード] = '{1}' OR D.[f商品コード] = '{2}' OR D.[f商品コード] = '{3}')"
-					+ " ORDER BY H.[fユーザーコード] ASC, D.[f受注番号] ASC, D.[f表示順] ASC", date.ToIntYMD(), PcaGoodsIDDefine.PaletteES_2019, PcaGoodsIDDefine.PaletteES_Mainte72, PcaGoodsIDDefine.PaletteES_Mainte12);
+					+ " FROM {0} AS D"
+					+ " LEFT JOIN {1} AS H ON D.[f年度] = H.[f年度] AND D.[f受注番号] = H.[f受注番号]"
+					+ " WHERE CONVERT(int, CONVERT(nvarchar, H.[f受注日], 112)) >= {2} AND (D.[f商品コード] = '{3}' OR D.[f商品コード] = '{4}' OR D.[f商品コード] = '{5}')"
+					+ " ORDER BY H.[fユーザーコード] ASC, D.[f受注番号] ASC, D.[f表示順] ASC"
+					, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注詳細]
+					, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注ヘッダ]
+					, date.ToIntYMD()
+					, PcaGoodsIDDefine.PaletteES_2019
+					, PcaGoodsIDDefine.PaletteES_Mainte72
+					, PcaGoodsIDDefine.PaletteES_Mainte12);
   
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{

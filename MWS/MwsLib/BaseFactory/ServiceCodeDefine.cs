@@ -559,6 +559,16 @@ namespace MwsLib.BaseFactory
 			/// </summary>
 			TabletViewer = 1036240,
 
+			/// <summary>
+			/// TABLET 口腔内所見
+			/// </summary>
+			TabletMouthShoken = 1044100,
+
+			/// <summary>
+			/// TABLET 検査表
+			/// </summary>
+			TabletKensahyo = 1044120,
+
 			/////////////////////////
 			// 1000 シカハコ
 
@@ -604,6 +614,16 @@ namespace MwsLib.BaseFactory
 			/// palette ES
 			/// </summary>
 			PaletteES = 9910100,
+
+			/// <summary>
+			/// palette ES ソフトウェア保守 6年
+			/// </summary>
+			SoftwareMaite6 = 9910120,
+
+			/// <summary>
+			/// palette ES ソフトウェア保守 1年
+			/// </summary>
+			SoftwareMaite1 = 9910140,
 		}
 	}
 }

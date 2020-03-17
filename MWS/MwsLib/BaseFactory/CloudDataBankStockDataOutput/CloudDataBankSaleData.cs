@@ -95,7 +95,7 @@ namespace MwsLib.BaseFactory.CloudDataBankStockDataOutput
 		}
 
 		/// <summary>
-		/// ナルコーム商品仕入データ作成
+		/// クラウドデータバンク商品仕入データ作成
 		/// ※PCA商魂・商管に[仕入明細データ]としてインポートCSVファイルの作成
 		/// (PCA商魂・商管 > 随時 > 汎用データの受入 で[データの選択]欄で「仕入明細データ」を選択して読込
 		/// </summary>

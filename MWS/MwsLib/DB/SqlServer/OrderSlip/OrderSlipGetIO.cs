@@ -11,7 +11,7 @@ using MwsLib.Common;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-
+using MwsLib.DB.SqlServer.Junp;
 
 namespace MwsLib.DB.SqlServer.OrderSlip
 {
@@ -73,10 +73,14 @@ namespace MwsLib.DB.SqlServer.OrderSlip
 					+ ", H.[f担当者コード] AS f担当者コード"
 					+ ", H.[f担当者名] AS f担当者名"
 					+ ", H.[f件名] AS f件名"
-					+ " FROM [JunpDB].[dbo].[tMih受注詳細] AS D"
-					+ " LEFT JOIN [JunpDB].[dbo].[tMih受注ヘッダ] AS H ON D.[f受注番号] = H.[f受注番号]"
-					+ " WHERE D.[f数量] > 0 AND CONVERT(int, CONVERT(nvarchar, H.[f受注日], 112)) >= {0} {1}"
-					+ " ORDER BY H.[f受注日] ASC, H.[fユーザーコード] ASC, D.[f受注番号] ASC, D.[f表示順] ASC", date.ToIntYMD(), goodsWhere);
+					+ " FROM {0} AS D"
+					+ " LEFT JOIN {1} AS H ON D.[f受注番号] = H.[f受注番号]"
+					+ " WHERE D.[f数量] > 0 AND CONVERT(int, CONVERT(nvarchar, H.[f受注日], 112)) >= {2} {3}"
+					+ " ORDER BY H.[f受注日] ASC, H.[fユーザーコード] ASC, D.[f受注番号] ASC, D.[f表示順] ASC"
+					, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注詳細]
+					, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注ヘッダ]
+					, date.ToIntYMD()
+					, goodsWhere);
   
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{

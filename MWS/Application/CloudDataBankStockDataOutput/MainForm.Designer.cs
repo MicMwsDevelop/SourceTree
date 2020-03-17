@@ -73,11 +73,12 @@
 			// label3
 			// 
 			this.label3.ForeColor = System.Drawing.Color.Red;
-			this.label3.Location = new System.Drawing.Point(120, 88);
+			this.label3.Location = new System.Drawing.Point(17, 92);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(542, 71);
+			this.label3.Size = new System.Drawing.Size(645, 78);
 			this.label3.TabIndex = 4;
-			this.label3.Text = "本アプリはPCA売上データからクラウドデータバンクを抽出し、仕入データのCSVファイルを出力します。\r\n※実行後、データベースのレコードに対し変更は行いません。";
+			this.label3.Text = "本アプリはPCA売上データからクラウドデータバンクを抽出し、仕入データのCSVファイルを出力します。\r\n※実行後、データベースのレコードに対し変更は行いません。\r" +
+    "\n   サイレイトモードでの実行は引数に \"Auto\" を指定してください。";
 			// 
 			// buttonExec
 			// 

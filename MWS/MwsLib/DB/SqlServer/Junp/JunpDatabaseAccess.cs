@@ -408,6 +408,19 @@ namespace MwsLib.DB.SqlServer.Junp
 			return UpdateSetJunpDatabase(sqlString, param, sqlsv2);
 		}
 
+		/// <summary>
+		/// [JunpDB].[dbo].[tMih支店情報]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>tMikコードマスタ</returns>
+		public static List<tMih支店情報> Select_tMih支店情報(string whereStr, string orderStr, bool sqlsv2)
+		{
+			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報], whereStr, orderStr, sqlsv2);
+			return tMih支店情報.DataTableToList(table);
+		}
+
 
 
 		////////////////////////////////////////////////////////////////

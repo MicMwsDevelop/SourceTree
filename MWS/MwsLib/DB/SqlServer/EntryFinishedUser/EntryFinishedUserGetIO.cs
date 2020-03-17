@@ -9,6 +9,7 @@
 // 
 using System.Data;
 using System.Data.SqlClient;
+using MwsLib.DB.SqlServer.Junp;
 
 namespace MwsLib.DB.SqlServer.EntryFinishedUser
 {
@@ -33,30 +34,32 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 					// 接続
 					con.Open();
 
-					string strSQL = @"SELECT"
-									+ " vMic全ユーザー３.得意先No"
-									+ ", vMic全ユーザー３.顧客No"
-									+ ", 顧客名１ + 顧客名２ AS 顧客名"
-									+ ", tMic終了ユーザーリスト.終了月"
-									+ ", tMic終了ユーザーリスト.終了届受領日"
-									+ ", tMic終了ユーザーリスト.終了事由"
-									+ ", tMic終了ユーザーリスト.リプレース"
-									+ ", tMic終了ユーザーリスト.理由"
-									+ ", tMic終了ユーザーリスト.非paletteユーザー"
-									+ ", vMic全ユーザー３.レセコン名称 AS システム名"
-									+ ", vMic全ユーザー３.拠点名"
-									+ ", vMic全ユーザー３.レセコンシステムコード AS システムコード"
-									+ ", vMic全ユーザー３.拠点コード"
-									+ ", vMic全ユーザー３.都道府県名"
-									+ ", vMic全ユーザー３.販売店ID"
-									+ ", vMic全ユーザー３.販売店名称"
-									+ ", vMic全ユーザー３.有効ユーザーフラグ"
-									+ ", vMic全ユーザー３.終了フラグ"
+					string strSQL = string.Format(@"SELECT"
+									+ " U.得意先No"
+									+ ", U.顧客No"
+									+ ", U.顧客名１ + U.顧客名２ AS 顧客名"
+									+ ", E.終了月"
+									+ ", E.終了届受領日"
+									+ ", E.終了事由"
+									+ ", E.リプレース"
+									+ ", E.理由"
+									+ ", E.非paletteユーザー"
+									+ ", U.レセコン名称 AS システム名"
+									+ ", U.拠点名"
+									+ ", U.レセコンシステムコード AS システムコード"
+									+ ", U.拠点コード"
+									+ ", U.都道府県名"
+									+ ", U.販売店ID"
+									+ ", U.販売店名称"
+									+ ", U.有効ユーザーフラグ"
+									+ ", U.終了フラグ"
 									+ ", '' AS 除外"
 									+ ", '' AS コメント"
-									+ " FROM tMic終了ユーザーリスト INNER JOIN vMic全ユーザー３ ON tMic終了ユーザーリスト.得意先No = vMic全ユーザー３.得意先No"
-									//+ " WHERE [レセコンシステムコード] = '101' or [レセコンシステムコード] = '102' or [レセコンシステムコード] = '999'"
-									+ " ORDER BY vMic全ユーザー３.得意先No ASC";
+									+ " FROM {0} AS E"
+									+ " INNER JOIN {1} AS U ON E.得意先No = U.得意先No"
+									+ " ORDER BY U.得意先No ASC"
+									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMic終了ユーザーリスト]
+									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー３]);
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
 						using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -98,7 +101,22 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 					// 接続
 					con.Open();
 
-					string strSQL = string.Format(@"SELECT 得意先No, 顧客No, 顧客名１ + 顧客名２ AS 顧客名, レセコン名称, 拠点名, レセコンシステムコード AS システムコード, 拠点コード, 都道府県名, 有効ユーザーフラグ, 販売店ID, 販売店名称 FROM vMic全ユーザー３ WHERE 得意先No = '{0}'", tokuisakiNo);
+					string strSQL = string.Format(@"SELECT"
+					+ " 得意先No"
+					+ ", 顧客No"
+					+ ", 顧客名１ + 顧客名２ AS 顧客名"
+					+ ", レセコン名称"
+					+ ", 拠点名"
+					+ ", レセコンシステムコード AS システムコード"
+					+ ", 拠点コード"
+					+ ", 都道府県名"
+					+ ", 有効ユーザーフラグ"
+					+ ", 販売店ID"
+					+ ", 販売店名称"
+					+ " FROM {0}"
+					+ " WHERE 得意先No = '{1}'"
+					, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー３]
+					, tokuisakiNo);
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{
 						using (SqlDataAdapter da = new SqlDataAdapter(cmd))
