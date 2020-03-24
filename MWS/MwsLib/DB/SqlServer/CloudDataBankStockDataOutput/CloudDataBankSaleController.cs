@@ -35,13 +35,12 @@ namespace MwsLib.DB.SqlServer.CloudDataBankStockDataOutput
 					CloudDataBankSaleData data = new CloudDataBankSaleData
 					{
 						仕入先コード = row["仕入先コード"].ToString().Trim(),
-						sykd_jbmn = row["sykd_jbmn"].ToString().Trim(),
-						sykd_jtan = row["sykd_jtan"].ToString().Trim(),
+						部門コード = row["部門コード"].ToString().Trim(),
+						担当者コード = row["担当者コード"].ToString().Trim(),
 						仕入商品コード = row["仕入商品コード"].ToString().Trim(),
-						sykd_mkbn = row["sykd_mkbn"].ToString().Trim(),
 						商品名 = row["商品名"].ToString().Trim(),
 						数量 = DataBaseValue.ConvObjectToInt(row["数量"]),
-						sykd_tani = row["sykd_tani"].ToString().Trim(),
+						単位 = row["単位"].ToString().Trim(),
 						仕入価格 = DataBaseValue.ConvObjectToInt(row["仕入価格"]),
 						売上日 = DataBaseValue.ConvObjectToInt(row["売上日"]),
 						仕入フラグ = row["仕入フラグ"].ToString().Trim(),

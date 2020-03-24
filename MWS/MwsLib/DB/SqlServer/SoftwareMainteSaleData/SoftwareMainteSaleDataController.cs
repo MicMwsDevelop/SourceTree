@@ -101,7 +101,6 @@ namespace MwsLib.DB.SqlServer.SoftwareMainteSaleData
 					mainte.USE_END_DATE = DataBaseValue.ConvObjectToDateNullByDate(row["USE_END_DATE"]);
 					mainte.CANCELLATION_DAY = DataBaseValue.ConvObjectToDateNullByDate(row["CANCELLATION_DAY"]);
 					mainte.PAUSE_END_STATUS = DataBaseValue.ConvObjectToIntNull(row["PAUSE_END_STATUS"]);
-					mainte.CREATE_DATE = DataBaseValue.ConvObjectToDateNullByDate(row["CREATE_DATE"]);
 					mainte.PERIOD_END_DATE = DataBaseValue.ConvObjectToDateNullByDate(row["PERIOD_END_DATE"]);
 					mainte.ES_USE_END_DATE = DataBaseValue.ConvObjectToDateNullByDate(row["ES_USE_END_DATE"]);
 					result.Add(mainte);

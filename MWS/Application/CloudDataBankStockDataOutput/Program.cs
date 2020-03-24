@@ -24,10 +24,15 @@ namespace CloudDataBankStockDataOutput
 		private const bool DATABASE_ACCESS_CT = false;
 
 		/// <summary>
+		/// プログラム名
+		/// </summary>
+		public const string PROC_NAME = "クラウドデータバンク仕入データ出力";
+
+		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
 		/// </summary>
 		[STAThread]
-		static void Main()
+		static int Main()
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
@@ -38,19 +43,24 @@ namespace CloudDataBankStockDataOutput
 				if ("AUTO" == cmds[1].ToUpper())
 				{
 					CloudDataBankStockDataOutputSettings settings = CloudDataBankStockDataOutputSettingsIF.GetSettings();
-					OutputCsvFile(settings.Pathname);
-					return;
+					string msg = OutputCsvFile(settings.Pathname, settings.PcaVersion);
+					if (0 < msg.Length)
+					{
+						return 1;
+					}
 				}
 			}
 			Application.Run(new MainForm());
+			return 0;
 		}
 
 		/// <summary>
 		/// 仕入データCSVファイルの出力
 		/// </summary>
 		/// <param name="pathname">出力ファイルパス名</param>
+		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>エラーメッセージ</returns>
-		public static string OutputCsvFile(string pathname)
+		public static string OutputCsvFile(string pathname, int pcaVer)
 		{
 			try
 			{
@@ -61,10 +71,10 @@ namespace CloudDataBankStockDataOutput
 					int plusNo = 20060; // '20060番台　（りすとん=20 office365=40）
 					foreach (CloudDataBankSaleData data in list)
 					{
-						outputList.Add(data.ToStock(plusNo));
+						outputList.Add(data.ToStock(plusNo, pcaVer));
 						plusNo++;
 					}
-					// ナルコーム商品仕入データ.txtの出力
+					// クラウドデータバンク仕入データ.csvの出力
 					using (var sw = new System.IO.StreamWriter(pathname, false))
 					{
 						foreach (string str in outputList)

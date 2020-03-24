@@ -11,6 +11,7 @@ using MwsLib.Common;
 using MwsLib.DB.SqlServer.Junp;
 using System.Data;
 using System.Data.SqlClient;
+using MwsLib.DB.SqlServer.Charlie;
 
 namespace MwsLib.DB.SqlServer.CloudDataBankStockDataOutput
 {
@@ -37,24 +38,29 @@ namespace MwsLib.DB.SqlServer.CloudDataBankStockDataOutput
 					// 接続
 					con.Open();
 
-					string strSQL = string.Format(@"SELECT 仕入先 AS 仕入先コード"
-						+ ", sykd_jbmn"
-						+ ", sykd_jtan"
-						+ ", 仕入商品コード"
-						+ ", sykd_mkbn"
-						+ ", sms_mei AS 商品名"
-						+ ", Sum(convert(int, sykd_suryo)) AS 数量"
-						+ ", sykd_tani"
-						+ ", 仕入価格"
-						+ ", sykd_uribi AS 売上日"
-						+ ", 仕入フラグ"
-						+ ", convert(int, sykd_rate) AS 消費税率"
-						+ " FROM {0}"
-						+ " WHERE sykd_uribi >= {1} AND sykd_uribi <= {2}"
-						+ " GROUP BY 仕入先, sykd_jbmn, sykd_jtan, 仕入商品コード, sykd_mkbn, sms_mei, sykd_tani, 仕入価格, sykd_uribi, 仕入フラグ, sykd_rate"
-						+ " ORDER BY sykd_jbmn, sykd_uribi, 仕入フラグ, 仕入商品コード"
-						, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicクラウドデータバンク商品売上]
-						, SqlServerHelper.FirstDayOfLasMonthToIntYMD(date), SqlServerHelper.LastDayOfLasMonthToIntYMD(date));
+					string strSQL = string.Format(@"SELECT"
+					+ " 仕入先 AS 仕入先コード"
+					+ ", sykd_jbmn AS 部門コード"
+					+ ", sykd_jtan AS 担当者コード"
+					+ ", 仕入商品コード"
+					+ ", sms_mei AS 商品名"
+					+ ", SUM(convert(int, sykd_suryo)) AS 数量"
+					+ ", sykd_tani AS 単位"
+					+ ", 仕入価格"
+					+ ", sykd_uribi AS 売上日"
+					+ ", 仕入フラグ"
+					+ ", convert(int, sykd_rate) AS 消費税率"
+					+ " FROM {0} as D"
+					+ " INNER JOIN {1} AS G ON D.sykd_scd = G.商品コード"
+					+ " INNER JOIN {2} AS M ON G.仕入商品コード = M.sms_scd"
+					+ " WHERE sykd_kingaku <> 0 AND sykd_uribi >= {3} AND sykd_uribi <= {4}"
+					+ " GROUP BY 仕入先, sykd_jbmn, sykd_jtan, 仕入商品コード, sykd_mkbn, sms_mei, sykd_tani, 仕入価格, sykd_uribi, 仕入フラグ, sykd_rate"
+					+ " ORDER BY sykd_jbmn, sykd_uribi, 仕入フラグ, 仕入商品コード"
+					, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
+					, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_クラウドデータバンク商品]
+					, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
+					, SqlServerHelper.FirstDayOfLasMonthToIntYMD(date)
+					, SqlServerHelper.LastDayOfLasMonthToIntYMD(date));
 
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{

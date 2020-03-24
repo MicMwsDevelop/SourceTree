@@ -33,6 +33,7 @@ namespace MwsLib.DB.SqlServer.Junp
 			tMih支店情報 = 10,
 			tMih受注ヘッダ = 11,
 			tMih受注詳細 = 12,
+			tMik基本情報 = 13,
 		}
 
 		/// <summary>
@@ -52,6 +53,7 @@ namespace MwsLib.DB.SqlServer.Junp
 			{ TableType.tMih支店情報, "tMih支店情報" },
 			{ TableType.tMih受注ヘッダ, "tMih受注ヘッダ" },
 			{ TableType.tMih受注詳細, "tMih受注詳細" },
+			{ TableType.tMik基本情報, "tMik基本情報" },
 		};
 
 		/// <summary>
@@ -62,9 +64,9 @@ namespace MwsLib.DB.SqlServer.Junp
 			vMicPCA仕入先マスタ = 1,
 			vMicPCA消費税率 = 2,
 			vMicPCA商品マスタ = 3,
-			vMicクラウドデータバンク商品売上 = 4,
-			vMic全ユーザー３ = 5,
-			vMic担当者 = 6,
+			vMic全ユーザー３ = 4,
+			vMic担当者 = 5,
+			vMicPCA売上明細 = 6,
 		}
 
 		/// <summary>
@@ -77,6 +79,7 @@ namespace MwsLib.DB.SqlServer.Junp
 			{ ViewType.vMicPCA商品マスタ, "vMicPCA商品マスタ" },
 			{ ViewType.vMic全ユーザー３, "vMic全ユーザー３" },
 			{ ViewType.vMic担当者, "vMic担当者" },
+			{ ViewType.vMicPCA売上明細, "vMicPCA売上明細" },
 		};
 	}
 }

@@ -46,6 +46,7 @@ namespace CloudDataBankStockDataOutput
 			Settings = CloudDataBankStockDataOutputSettingsIF.GetSettings();
 			textBoxFolder.Text = Settings.ExportDir;
 			textBoxFilename.Text = Settings.ExportFilename;
+			textBoxPcaVer.Text = Settings.PcaVersion.ToString();
 		}
 
 		/// <summary>
@@ -64,7 +65,17 @@ namespace CloudDataBankStockDataOutput
 			Settings.ExportFilename = textBoxFilename.Text;
 			if (0 < Settings.Pathname.Length)
 			{
-				string msg = Program.OutputCsvFile(Settings.Pathname);
+				// 元のカーソルを保持
+				Cursor preCursor = Cursor.Current;
+
+				// カーソルを待機カーソルに変更
+				Cursor.Current = Cursors.WaitCursor;
+
+				// 仕入データCSVファイルの出力
+				string msg = Program.OutputCsvFile(Settings.Pathname, textBoxPcaVer.ToInt());
+
+				// カーソルを元に戻す
+				Cursor.Current = preCursor;
 				if (0 == msg.Length)
 				{
 					MessageBox.Show(string.Format("{0}を出力しました。", Settings.Pathname), "出力成功", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -92,6 +103,7 @@ namespace CloudDataBankStockDataOutput
 				Settings.ExportDir = textBoxFolder.Text;
 			}
 			Settings.ExportFilename = textBoxFilename.Text;
+			Settings.PcaVersion = textBoxPcaVer.ToInt();
 			CloudDataBankStockDataOutputSettingsIF.SetSettings(Settings);
 		}
 	}

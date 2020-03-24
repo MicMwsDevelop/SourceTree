@@ -28,6 +28,11 @@ namespace CloudDataBankStockDataOutput
 		public string ExportFilename;
 
 		/// <summary>
+		/// PCAバージョン情報
+		/// </summary>
+		public int PcaVersion;
+
+		/// <summary>
 		/// 仕入データ出力ファイルパス名
 		/// </summary>
 		public string Pathname
@@ -45,6 +50,7 @@ namespace CloudDataBankStockDataOutput
         {
 			ExportDir = string.Empty;
 			ExportFilename = string.Empty;
+			PcaVersion = 7;
 		}
 
 		/// <summary>
@@ -67,7 +73,8 @@ namespace CloudDataBankStockDataOutput
 			if (other != null)
 			{
 				if (ExportDir == other.ExportDir
-					&& ExportFilename == other.ExportFilename)
+					&& ExportFilename == other.ExportFilename
+					&& PcaVersion == other.PcaVersion)
 				{
 					return true;
 				}

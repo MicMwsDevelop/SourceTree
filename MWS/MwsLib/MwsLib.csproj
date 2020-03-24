@@ -53,8 +53,6 @@
   <ItemGroup>
     <Compile Include="BaseFactory\Charlie\Table\T_CUSSTOMER_USE_INFOMATION.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_DEMO_USER.cs" />
-    <Compile Include="BaseFactory\Charlie\Table\T_NARCOHM_APPLICATE_DETAIL.cs" />
-    <Compile Include="BaseFactory\Charlie\Table\T_NARCOHM_APPLICATE_HEADER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
     <Compile Include="BaseFactory\CheckVoucherPaletteES\OrderVoucher.cs" />
@@ -73,8 +71,12 @@
     <Compile Include="BaseFactory\ServiceCodeDefine.cs" />
     <Compile Include="BaseFactory\SoftwareMainteSaleData\CustomerUseInfoSoftwareMainte.cs" />
     <Compile Include="BaseFactory\SoftwareMainteSaleData\OrderSlipSoftwareMainte.cs" />
+    <Compile Include="BaseFactory\StockGoodsMaster\StockGoodsMasterData.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\MemoBankTransfer.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\WonderWebMemoDef.cs" />
+    <Compile Include="DB\SQLite\StockGoodsMaster\SQLiteStockGoodsMasterAccess.cs" />
+    <Compile Include="DB\SQLite\StockGoodsMaster\SQLiteStockGoodsMasterController.cs" />
+    <Compile Include="DB\SQLite\StockGoodsMaster\SQLiteStockGoodsMasterGetIO.cs" />
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoAccess.cs" />
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoController.cs" />
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoGetIO.cs" />

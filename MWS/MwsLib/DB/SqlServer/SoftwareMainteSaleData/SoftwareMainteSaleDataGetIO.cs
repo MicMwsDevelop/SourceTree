@@ -133,8 +133,6 @@ namespace MwsLib.DB.SqlServer.SoftwareMainteSaleData
 					+ ",SOFT.[USE_END_DATE]"
 					+ ",[CANCELLATION_DAY]"
 					+ ",[PAUSE_END_STATUS]"
-					+ ",SOFT.[CREATE_DATE]"
-					+ ",SOFT.[CREATE_PERSON]"
 					+ ",[PERIOD_END_DATE]"
 					+ ",ES.[USE_END_DATE] AS ES_USE_END_DATE"
 					+ " FROM {0} AS SOFT"

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MwsLib.Common;
+using MwsLib.DB.SqlServer.Charlie;
+using System.Data.SqlClient;
 
 namespace MwsLib.BaseFactory.SoftwareMainteSaleData
 {
@@ -42,11 +44,6 @@ namespace MwsLib.BaseFactory.SoftwareMainteSaleData
         public int? PAUSE_END_STATUS { get; set; }
 
         /// <summary>
-        /// 作成日
-        /// </summary>
-        public Date? CREATE_DATE { get; set; }
-
-        /// <summary>
         /// 利用終了日
         /// </summary>
         public Date? PERIOD_END_DATE { get; set; }
@@ -55,6 +52,21 @@ namespace MwsLib.BaseFactory.SoftwareMainteSaleData
         /// palette ES課金終了日
         /// </summary>
         public Date? ES_USE_END_DATE { get; set; }
+
+        /// <summary>
+        /// UPDATE SET SQL文字列の取得
+        /// </summary>
+        public string UpdateSetSqlString
+        {
+            get
+            {
+                return string.Format(@"UPDATE {0} SET USE_END_DATE = @1, UPDATE_DATE = @2, UPDATE_PERSON = @3, RENEWAL_FLG = @4"
+                                    + " WHERE CUSTOMER_ID = {1} AND AND SERVICE_ID = {2}"
+                                    , CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]
+                                    , CUSTOMER_ID
+                                    , SERVICE_ID);
+            }
+        }
 
         /// <summary>
         /// デフォルトコンストラクタ
@@ -67,9 +79,23 @@ namespace MwsLib.BaseFactory.SoftwareMainteSaleData
             USE_END_DATE = null;
             CANCELLATION_DAY = null;
             PAUSE_END_STATUS = null;
-            CREATE_DATE = null;
             PERIOD_END_DATE = null;
             ES_USE_END_DATE = null;
+        }
+
+        /// <summary>
+        /// UPDATE SETパラメタの取得
+        /// </summary>
+        /// <returns></returns>
+        public SqlParameter[] GetUpdateSetParameters(string user, Date endDate)
+        {
+            SqlParameter[] param = {
+                new SqlParameter("@1", endDate.ToString()),
+                new SqlParameter("@2", Date.Today.ToString()),
+                new SqlParameter("@3", user),
+                new SqlParameter("@4","1")
+            };
+            return param;
         }
     }
 }

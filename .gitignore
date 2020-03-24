@@ -249,3 +249,5 @@
 /MWS/Etc/MicHoliday/obj
 /MWS/Application/CheckOrderSlip/Doc
 /MWS/Application/SoftwareMainteSaleDataOutput
+/MWS/Application/CloudDataBankStockDataOutput/Doc/●先月仕入集計.sql
+/MWS/Application/CloudDataBankStockDataOutput/Doc/仕入商品マスタ.db

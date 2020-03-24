@@ -318,8 +318,33 @@ namespace MwsLib.DB.SqlServer.Junp
 
 
 		////////////////////////////////////////////////////////////////
+		// フィールド関連
+		////////////////////////////////////////////////////////////////
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMik基本情報]から顧客Noに対する得意先コードを取得
+		/// </summary>
+		/// <param name="CustomerNo">顧客No</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>得意先コード</returns>
+		public static string GetTokuisakiCode(int CustomerNo, bool sqlsv2)
+		{
+			string sql = string.Format("SELECT [fkj得意先情報] FROM {0} WHERE [fkjCliMicID] = {1}", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報], CustomerNo);
+			DataTable table = SelectJunpDatabase(sql, sqlsv2);
+			if (null != table && 1 == table.Rows.Count)
+			{
+				return table.Rows[0]["fkj得意先情報"].ToString().Trim();
+			}
+			return string.Empty;
+		}
+
+
+		////////////////////////////////////////////////////////////////
 		// テーブル関連
 		////////////////////////////////////////////////////////////////
+
+		//////////////////////////////
+		// SELECT
 
 		/// <summary>
 		/// [JunpDB].[dbo].[tMikコードマスタ]の取得
@@ -335,50 +360,6 @@ namespace MwsLib.DB.SqlServer.Junp
 		}
 
 		/// <summary>
-		/// [JunpDB].[dbo].[tMic終了ユーザーリスト]の新規追加
-		/// </summary>
-		/// <param name="user">tMic終了ユーザーリスト</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
-		/// <returns>影響行数</returns>
-		public static int InsertInto_tMic終了ユーザーリスト(tMic終了ユーザーリスト data, bool sqlsv2)
-		{
-			return InsertIntoJunpDatabase(tMic終了ユーザーリスト.InsertIntoSqlString, data.GetInsertIntoParameters(), sqlsv2);
-		}
-
-		/// <summary>
-		/// [JunpDB].[dbo].[tMic終了ユーザーリスト]の更新
-		/// </summary>
-		/// <param name="user">tMic終了ユーザーリスト</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
-		/// <returns>影響行数</returns>
-		public static int UpdateSet_tMic終了ユーザーリスト(tMic終了ユーザーリスト data, bool sqlsv2)
-		{
-			return UpdateSetJunpDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters(), sqlsv2);
-		}
-
-		/// <summary>
-		/// [JunpDB].[dbo].[tMic終了ユーザーリスト]の削除
-		/// </summary>
-		/// <param name="user">tMic終了ユーザーリスト</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
-		/// <returns>影響行数</returns>
-		public static int Delete_tMic終了ユーザーリスト(tMic終了ユーザーリスト data, bool sqlsv2)
-		{
-			return DeleteJunpDatabase(data.DeleteSqlString, sqlsv2);
-		}
-
-		/// <summary>
-		/// [JunpDB].[dbo].[tMic終了ユーザーリスト]の新規追加
-		/// </summary>
-		/// <param name="user">tMic終了ユーザーリスト</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
-		/// <returns>影響行数</returns>
-		public static int InsertInto_tMemo(tMemo data, bool sqlsv2)
-		{
-			return InsertIntoJunpDatabase(tMemo.InsertIntoSqlString, data.GetInsertIntoParameters(), sqlsv2);
-		}
-
-		/// <summary>
 		/// [JunpDB].[dbo].[tMik保守契約]の取得
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
@@ -389,6 +370,33 @@ namespace MwsLib.DB.SqlServer.Junp
 		{
 			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik保守契約], whereStr, orderStr, sqlsv2);
 			return tMik保守契約.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMih支店情報]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>tMikコードマスタ</returns>
+		public static List<tMih支店情報> Select_tMih支店情報(string whereStr, string orderStr, bool sqlsv2)
+		{
+			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報], whereStr, orderStr, sqlsv2);
+			return tMih支店情報.DataTableToList(table);
+		}
+
+		//////////////////////////////
+		// UPDATE SET
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMic終了ユーザーリスト]の更新
+		/// </summary>
+		/// <param name="data">tMic終了ユーザーリスト</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>影響行数</returns>
+		public static int UpdateSet_tMic終了ユーザーリスト(tMic終了ユーザーリスト data, bool sqlsv2)
+		{
+			return UpdateSetJunpDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters(), sqlsv2);
 		}
 
 		/// <summary>
@@ -408,19 +416,44 @@ namespace MwsLib.DB.SqlServer.Junp
 			return UpdateSetJunpDatabase(sqlString, param, sqlsv2);
 		}
 
+		//////////////////////////////
+		// INSERT INTO
+
 		/// <summary>
-		/// [JunpDB].[dbo].[tMih支店情報]の取得
+		/// [JunpDB].[dbo].[tMic終了ユーザーリスト]の新規追加
 		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
+		/// <param name="data">tMic終了ユーザーリスト</param>
 		/// <param name="sqlsv2">CT環境かどうか？</param>
-		/// <returns>tMikコードマスタ</returns>
-		public static List<tMih支店情報> Select_tMih支店情報(string whereStr, string orderStr, bool sqlsv2)
+		/// <returns>影響行数</returns>
+		public static int InsertInto_tMic終了ユーザーリスト(tMic終了ユーザーリスト data, bool sqlsv2)
 		{
-			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報], whereStr, orderStr, sqlsv2);
-			return tMih支店情報.DataTableToList(table);
+			return InsertIntoJunpDatabase(tMic終了ユーザーリスト.InsertIntoSqlString, data.GetInsertIntoParameters(), sqlsv2);
 		}
 
+		/// <summary>
+		/// [JunpDB].[dbo].[tMemo]の新規追加
+		/// </summary>
+		/// <param name="data">tMemo</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>影響行数</returns>
+		public static int InsertInto_tMemo(tMemo data, bool sqlsv2)
+		{
+			return InsertIntoJunpDatabase(tMemo.InsertIntoSqlString, data.GetInsertIntoParameters(), sqlsv2);
+		}
+
+		//////////////////////////////
+		// DELETE
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMic終了ユーザーリスト]の削除
+		/// </summary>
+		/// <param name="user">tMic終了ユーザーリスト</param>
+		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <returns>影響行数</returns>
+		public static int Delete_tMic終了ユーザーリスト(tMic終了ユーザーリスト data, bool sqlsv2)
+		{
+			return DeleteJunpDatabase(data.DeleteSqlString, sqlsv2);
+		}
 
 
 		////////////////////////////////////////////////////////////////

@@ -1322,5 +1322,31 @@ namespace MwsLib.Common
             }
             return list;
         }
+
+        /// <summary>
+        /// バイト長を指定して文字列の先頭を切り出す
+        /// </summary>
+        /// <param name="str">対象となる文字列</param>
+        /// <param name="len">バイト長</param>
+        /// <returns></returns>
+        public static string GetSubstringByByte(string str, int len)
+        {
+            Encoding utfStr = Encoding.GetEncoding("Shift_JIS");
+            byte[] bytes = utfStr.GetBytes(str);
+            if (bytes.Length <= len)
+            {
+                // 指定サイズ以下の場合そのまま返す
+                return str;
+            }
+            string s = utfStr.GetString(bytes, 0, len);
+
+            // 最後の文字が多バイト文字の途中で切れていないかをチェック
+            int l = utfStr.GetString(bytes, 0, len + 1).Length;
+            if (s.Length == l)
+            {
+                s = s.Remove(s.Length - 1);
+            }
+            return s;
+        }
     }
 }

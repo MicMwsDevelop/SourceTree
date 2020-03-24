@@ -9,12 +9,12 @@
 //
 using MwsLib.BaseFactory.SoftwareMainteSaleData;
 using MwsLib.Common;
+using MwsLib.DB.SqlServer.Charlie;
 using MwsLib.DB.SqlServer.Junp;
 using MwsLib.DB.SqlServer.SoftwareMainteSaleData;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
 
 namespace SoftwareMainteSaleDataOutput
 {
@@ -26,10 +26,15 @@ namespace SoftwareMainteSaleDataOutput
 		private const bool DATABASE_ACCESS_CT = false;
 
 		/// <summary>
+		/// プログラム名
+		/// </summary>
+		public const string PROC_NAME = "ソフトウェア保守料売上データ出力";
+
+		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
 		/// </summary>
 		[STAThread]
-		static void Main()
+		static int Main()
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
@@ -39,19 +44,24 @@ namespace SoftwareMainteSaleDataOutput
 				if ("AUTO" == cmds[1].ToUpper())
 				{
 					SoftwareMainteSaleDataOutputSettings settings = SoftwareMainteSaleDataOutputSettingsIF.GetSettings();
-					OutputCsvFile(settings.Pathname);
-					return;
+					string msg = OutputCsvFile(settings.Pathname, settings.PcaVersion);
+					if (0 < msg.Length)
+					{
+						return 1;
+					}
 				}
 			}
 			Application.Run(new MainForm());
+			return 0;
 		}
 
 		/// <summary>
 		/// 売上データCSVファイルの出力
 		/// </summary>
 		/// <param name="pathname">出力ファイルパス名</param>
+		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>エラーメッセージ</returns>
-		public static string OutputCsvFile(string pathname)
+		public static string OutputCsvFile(string pathname, int pcaVer)
 		{
 			try
 			{
@@ -59,21 +69,31 @@ namespace SoftwareMainteSaleDataOutput
 				if (0 < list.Count)
 				{
 					List<string> csvList = new List<string>();
+					
+					// 伝票番号
 					int no = 60000;
-					Date lastMonth = Date.Today.LastDayOfLasMonth();
-					int taxRate = JunpDatabaseAccess.GetTaxRate(lastMonth, DATABASE_ACCESS_CT);
+					
+					// 売上日は先月末日
+					Date uriageDate = Date.Today.LastDayOfLasMonth();
+
+					// 売上日の消費税率
+					int taxRate = JunpDatabaseAccess.GetTaxRate(uriageDate, DATABASE_ACCESS_CT);
 					foreach (CustomerUseInfoSoftwareMainte data in list)
 					{
 						List<OrderSlipSoftwareMainte> order = SoftwareMainteSaleDataAccess.GetSoftwareMainteOrderSlip(data.CUSTOMER_ID, DATABASE_ACCESS_CT);
 						if (0 < order.Count)
 						{
-							csvList.Add(order[0].ToSale(no, taxRate, lastMonth));
+							// f販売先コード（顧客No）から得意先コードを取得
+							string tookuisakiCode = JunpDatabaseAccess.GetTokuisakiCode(order[0].f販売先コード.Value, DATABASE_ACCESS_CT);
+
+							// 売上データCSV文字列の取得
+							csvList.Add(order[0].ToSale(no, taxRate, tookuisakiCode, uriageDate, pcaVer));
 							no++;
 						}
 					}
 					if (0 < csvList.Count)
 					{
-						// 売上データ.txtの出力
+						// 売上データ.csv
 						using (var sw = new System.IO.StreamWriter(pathname, false))
 						{
 							foreach (string str in csvList)
@@ -81,6 +101,11 @@ namespace SoftwareMainteSaleDataOutput
 								sw.WriteLine(str);
 							}
 						}
+						//// 利用情報の課金終了日を１年更新
+						//foreach (CustomerUseInfoSoftwareMainte data in list)
+						//{
+						//	CharlieDatabaseAccess.UpdateSetCharlieDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters(Program.PROC_NAME, data.USE_END_DATE.Value.PlusYears(1)), DATABASE_ACCESS_CT);
+						//}
 					}
 					else
 					{

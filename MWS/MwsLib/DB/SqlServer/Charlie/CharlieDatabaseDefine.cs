@@ -37,19 +37,14 @@ namespace MwsLib.DB.SqlServer.Charlie
 			T_USE_PCCSUPPORT = 3,
 
 			/// <summary>
-			/// ナルコーム製品申込ヘッダ情報
-			/// </summary>
-			T_NARCOHM_APPLICATE_HEADER = 4,
-
-			/// <summary>
-			/// ナルコーム製品申込詳細情報
-			/// </summary>
-			T_NARCOHM_APPLICATE_DETAIL = 5,
-
-			/// <summary>
 			/// デモ用ID管理テーブル
 			/// </summary>
-			T_DEMO_USER = 6,
+			T_DEMO_USER = 4,
+
+			/// <summary>
+			/// 
+			/// </summary>
+			M_クラウドデータバンク商品 = 5,
 		}
 
 		/// <summary>
@@ -60,9 +55,8 @@ namespace MwsLib.DB.SqlServer.Charlie
 			{ TableType.T_PRODUCT_CONTROL, "T_PRODUCT_CONTROL" },
 			{ TableType.T_CUSSTOMER_USE_INFOMATION, "T_CUSSTOMER_USE_INFOMATION" },
 			{ TableType.T_USE_PCCSUPPORT, "T_USE_PCCSUPPORT" },
-			{ TableType.T_NARCOHM_APPLICATE_HEADER, "T_NARCOHM_APPLICATE_HEADER" },
-			{ TableType.T_NARCOHM_APPLICATE_DETAIL, "T_NARCOHM_APPLICATE_DETAIL" },
 			{ TableType.T_DEMO_USER, "T_DEMO_USER" },
+			{ TableType.M_クラウドデータバンク商品, "M_クラウドデータバンク商品" },
 		};
 
 		/// <summary>
