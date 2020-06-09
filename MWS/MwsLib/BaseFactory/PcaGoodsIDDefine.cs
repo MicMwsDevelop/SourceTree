@@ -68,5 +68,76 @@ namespace MwsLib.BaseFactory
 		/// おまとめプラン60ケ月
 		/// </summary>
 		public const string Matome60 = "800159";
+
+		/// <summary>
+		/// MIC WEB SERVICE(ﾌﾟﾗｯﾄﾌｫｰﾑ利用 月額)
+		/// </summary>
+		public const string MwsPlatform = "800001";
+
+		/// <summary>
+		/// PC安心サポートかどうか？
+		/// </summary>
+		/// <param name="code">商品コード</param>
+		/// <returns>判定</returns>
+		public static bool IsPcSupport(string code)
+		{
+			switch (code)
+			{
+				case PcSafetySupport3:
+				case PcSafetySupport1:
+				case PcSafetySupport1Continue:
+					return true;
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// おまとめプランの商品かどうか？
+		/// </summary>
+		/// <param name="code">商品コード</param>
+		/// <returns>判定</returns>
+		public static bool IsMatome(string code)
+		{
+			switch (code)
+			{
+				case Matome12:
+				case Matome24:
+				case Matome36:
+				case Matome48:
+				case Matome60:
+					return true;
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// paletteS商品かどうか？
+		/// </summary>
+		/// <param name="code">商品コード</param>
+		/// <returns>判定</returns>
+		public static bool IsPaletteES(string code)
+		{
+			if (code == PaletteES_2019)
+			{
+				return true;
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// ソフトウェア保守料かどうか？
+		/// </summary>
+		/// <param name="code">商品コード</param>
+		/// <returns>判定</returns>
+		public static bool IsPaletteES_Mainte(string code)
+		{
+			switch (code)
+			{
+				case PaletteES_Mainte72:
+				case PaletteES_Mainte12:
+					return true;
+			}
+			return false;
+		}
 	}
 }

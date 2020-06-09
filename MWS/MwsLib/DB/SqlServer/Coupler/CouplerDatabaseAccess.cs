@@ -60,7 +60,7 @@ namespace MwsLib.DB.SqlServer.Coupler
 		public static DataTable SelectCouplerDatabase(string tableName, string whereStr, string orderStr)
 		{
 			DataTable result = null;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCouplerTccsvConnectionString()))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCouplerConnectionString()))
 			{
 				try
 				{

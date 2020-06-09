@@ -12,6 +12,5 @@ D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csproj.Ge
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.exe
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.pdb
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.Forms.FinishedUserListForm.resources
-D:\SourceTree\MWS\Tool\EntryFinishedUser\bin\Release\MicHolidaySettings.xml
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csprojAssemblyReference.cache
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csproj.CopyComplete

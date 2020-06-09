@@ -1,7 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//
+// tMik基本情報.cs
+//
+// 基本情報クラス
+// [JunpDB].[dbo].[tMik基本情報]
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2019/06/28 勝呂)
+//
+using System;
 
 namespace MwsLib.BaseFactory.Junp.Table
 {

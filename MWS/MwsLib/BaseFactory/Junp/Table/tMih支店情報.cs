@@ -9,7 +9,6 @@
 // Ver1.000 新規作成(2020/03/13 勝呂)
 //
 using MwsLib.DB;
-using System;
 using System.Collections.Generic;
 using System.Data;
 

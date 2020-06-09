@@ -1,6 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿//
+// Program.cs
+//
+// 伝票確認ツール プログラムクラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2020/04/17 勝呂)
+// 
+using System;
 using System.Windows.Forms;
 
 namespace CheckOrderSlip
@@ -11,11 +18,6 @@ namespace CheckOrderSlip
 		/// データベース接続先
 		/// </summary>
 		public const bool DATABASE_ACCESS_CT = false;
-
-		/// <summary>
-		/// テストメール送信
-		/// </summary>
-		public const bool TEST_MAIL_SEND = false;
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。

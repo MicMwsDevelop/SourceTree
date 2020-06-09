@@ -178,7 +178,7 @@ namespace MwsLib.DB.SqlServer.MwsSimulation
 		public static DataTable GetGroupPlan()
 		{
 			DataTable result = null;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCouplerTccsvConnectionString()))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCouplerConnectionString()))
 			{
 				try
 				{
@@ -228,7 +228,7 @@ namespace MwsLib.DB.SqlServer.MwsSimulation
 		public static DataTable GetInitGroupPlan()
 		{
 			DataTable result = null;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCouplerTccsvConnectionString()))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCouplerConnectionString()))
 			{
 				try
 				{

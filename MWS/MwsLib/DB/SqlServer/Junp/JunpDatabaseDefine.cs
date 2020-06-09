@@ -34,6 +34,9 @@ namespace MwsLib.DB.SqlServer.Junp
 			tMih受注ヘッダ = 11,
 			tMih受注詳細 = 12,
 			tMik基本情報 = 13,
+			tMic出荷代行トップ印刷休業日 = 14,
+			tBusho = 15,
+			t_MicSyukkashiji = 16,
 		}
 
 		/// <summary>
@@ -54,6 +57,9 @@ namespace MwsLib.DB.SqlServer.Junp
 			{ TableType.tMih受注ヘッダ, "tMih受注ヘッダ" },
 			{ TableType.tMih受注詳細, "tMih受注詳細" },
 			{ TableType.tMik基本情報, "tMik基本情報" },
+			{ TableType.tMic出荷代行トップ印刷休業日, "tMic出荷代行トップ印刷休業日" },
+			{ TableType.tBusho, "tBusho" },
+			{ TableType.t_MicSyukkashiji, "t_MicSyukkashiji" },
 		};
 
 		/// <summary>
@@ -67,6 +73,11 @@ namespace MwsLib.DB.SqlServer.Junp
 			vMic全ユーザー３ = 4,
 			vMic担当者 = 5,
 			vMicPCA売上明細 = 6,
+			vMicPCA受注明細 = 7,
+			vMic全ユーザー２ = 8,
+			vMicPCA担当者マスタ = 9,
+			vMicPCA出荷データ = 10,
+			vMicPCA仕入データ = 11,
 		}
 
 		/// <summary>
@@ -80,6 +91,11 @@ namespace MwsLib.DB.SqlServer.Junp
 			{ ViewType.vMic全ユーザー３, "vMic全ユーザー３" },
 			{ ViewType.vMic担当者, "vMic担当者" },
 			{ ViewType.vMicPCA売上明細, "vMicPCA売上明細" },
+			{ ViewType.vMicPCA受注明細, "vMicPCA受注明細" },
+			{ ViewType.vMic全ユーザー２, "vMic全ユーザー２" },
+			{ ViewType.vMicPCA担当者マスタ, "vMicPCA担当者マスタ" },
+			{ ViewType.vMicPCA出荷データ, "vMicPCA出荷データ" },
+			{ ViewType.vMicPCA仕入データ, "vMicPCA仕入データ" },
 		};
 	}
 }

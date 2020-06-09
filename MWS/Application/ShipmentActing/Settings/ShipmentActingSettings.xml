@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ShipmentActingSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <HassouDir>C:\ShipmentActing\発送用データ</HassouDir>
+  <HanDir>C:\ShipmentActing\汎用データ</HanDir>
+  <HassouFile>Hassou.csv</HassouFile>
+  <NouhinFile>Nouhin.csv</NouhinFile>
+  <HsykdFile>Uriage.txt</HsykdFile>
+  <SuridFile>Syuka.txt</SuridFile>
+  <SnykdFile>Shiire.txt</SnykdFile>
+  <RitoHassouFile>HassouY.csv</RitoHassouFile>
+  <DaibikiTesuryoCode>000610</DaibikiTesuryoCode>
+  <ArchiveFile>HASSOU.ZIP</ArchiveFile>
+  <ChakubiShiteiCode>000020</ChakubiShiteiCode>
+  <AirCargoShippingCode>000605</AirCargoShippingCode>
+  <ZaikoListFile>ZAIKOLST.xls</ZaikoListFile>
+  <PCAReadDataDir>C:\ShipmentActing\pcadata</PCAReadDataDir>
+  <ShukkaDataHozonDir>C:\ShipmentActing\bk</ShukkaDataHozonDir>
+  <MailFromAddress>ミック業務部&lt;suguro@mic.jp&gt;</MailFromAddress>
+  <MailToAddress>test&lt;suguro@mic.jp&gt;</MailToAddress>
+  <MailCcAddress>ミックtest&lt;suguro@mic.jp&gt;</MailCcAddress>
+</ShipmentActingSettings>

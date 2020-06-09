@@ -40,11 +40,6 @@ namespace MwsLib.DB.SqlServer.Charlie
 			/// デモ用ID管理テーブル
 			/// </summary>
 			T_DEMO_USER = 4,
-
-			/// <summary>
-			/// 
-			/// </summary>
-			M_クラウドデータバンク商品 = 5,
 		}
 
 		/// <summary>
@@ -56,7 +51,6 @@ namespace MwsLib.DB.SqlServer.Charlie
 			{ TableType.T_CUSSTOMER_USE_INFOMATION, "T_CUSSTOMER_USE_INFOMATION" },
 			{ TableType.T_USE_PCCSUPPORT, "T_USE_PCCSUPPORT" },
 			{ TableType.T_DEMO_USER, "T_DEMO_USER" },
-			{ TableType.M_クラウドデータバンク商品, "M_クラウドデータバンク商品" },
 		};
 
 		/// <summary>

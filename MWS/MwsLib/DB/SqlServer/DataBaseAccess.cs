@@ -29,8 +29,9 @@ namespace MwsLib.DB.SqlServer
 		/// <summary>
 		/// Charileデータベース接続文字列を作成する
 		/// </summary>
+		/// <param name="ct">CT環境</param>
 		/// <returns>Charlieデータベース接続文字列</returns>
-		public static string CreateCharlieConnectionString(bool sqlsv2)
+		public static string CreateCharlieConnectionString(bool ct)
 		{
 			try
 			{
@@ -43,25 +44,25 @@ namespace MwsLib.DB.SqlServer
 				rwLock.ReleaseReaderLock();
 			}
 			// Charlie
-			return DatabaseConnect.CharlieWebConnectionString(sqlsv2);
+			return DatabaseConnect.CharlieWebConnectionString(ct);
 		}
 
 		/// <summary>
 		/// Charlieデータベース接続文字列を作成する
 		/// </summary>
-		/// <param name="sqlsv2">CT環境</param>
+		/// <param name="ct">CT環境</param>
 		/// <returns>Charlieデータベース接続文字列</returns>
-		public static string CreateCharlieWebConnectionString(bool sqlsv2)
+		public static string CreateCharlieWebConnectionString(bool ct)
 		{
-			return DatabaseConnect.CharlieWebConnectionString(sqlsv2);
+			return DatabaseConnect.CharlieWebConnectionString(ct);
 		}
 
 		/// <summary>
 		/// Junpデータベース接続文字列を作成する
 		/// </summary>
-		/// <param name="sqlsv2">CT環境</param>
+		/// <param name="ct">CT環境</param>
 		/// <returns>Junpデータベース接続文字列</returns>
-		public static string CreateJunpConnectionString(bool sqlsv2)
+		public static string CreateJunpConnectionString(bool ct)
 		{
 			try
 			{
@@ -74,27 +75,46 @@ namespace MwsLib.DB.SqlServer
 				rwLock.ReleaseReaderLock();
 			}
 			// Junp
-			return DatabaseConnect.JunpWebConnectionString(sqlsv2);
+			return DatabaseConnect.JunpWebConnectionString(ct);
 		}
 
 		/// <summary>
 		/// Junpデータベース接続文字列を作成する
 		/// </summary>
-		/// <param name="sqlsv2">CT環境</param>
+		/// <param name="ct">CT環境</param>
 		/// <returns>Junpデータベース接続文字列</returns>
-		public static string CreateJunpWebConnectionString(bool sqlsv2)
+		public static string CreateJunpWebConnectionString(bool ct)
 		{
-			return DatabaseConnect.JunpWebConnectionString(sqlsv2);
+			return DatabaseConnect.JunpWebConnectionString(ct);
 		}
 
 		/// <summary>
-		/// TCCSVデータベース接続文字列を作成する
+		/// estoreデータベース接続文字列を作成する
 		/// </summary>
-		/// <param name="sqlsv2">CT環境</param>
-		/// <returns>Junpデータベース接続文字列</returns>
-		public static string CreateCouplerTccsvConnectionString()
+		/// <param name="ct">CT環境</param>
+		/// <returns>estoreデータベース接続文字列</returns>
+		public static string CreateEstoreWebConnectionString(bool ct)
 		{
-			return DatabaseConnect.CouplerTccsvConnectionString();
+			return DatabaseConnect.EstoreWebConnectionString(ct);
+		}
+
+		/// <summary>
+		/// P10V01C001KON0001データベース接続文字列を作成する
+		/// </summary>
+		/// <param name="ct">CT環境</param>
+		/// <returns>Junpデータベース接続文字列</returns>
+		public static string CreatePcaWebConnectionString(bool ct)
+		{
+			return DatabaseConnect.PcaWebConnectionString(ct);
+		}
+
+		/// <summary>
+		/// Couplerデータベース接続文字列を作成する
+		/// </summary>
+		/// <returns>Couplerデータベース接続文字列</returns>
+		public static string CreateCouplerConnectionString()
+		{
+			return DatabaseConnect.CouplerConnectionString();
 		}
 
 

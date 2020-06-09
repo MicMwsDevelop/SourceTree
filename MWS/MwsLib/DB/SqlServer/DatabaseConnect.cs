@@ -32,9 +32,9 @@ namespace MwsLib.DB.SqlServer
 		private const string DB_INSTANCE_NAME_CPDB01 = "CP-DB01";
 
 		/// <summary>
-		/// TCCSVのインスタンス名（CT環境）
+		/// CPTest-DBのインスタンス名（CT環境）
 		/// </summary>
-		private const string DB_INSTANCE_NAME_TCCSV = "TCCSV";
+		private const string DB_INSTANCE_NAME_CPTEST = "CPTest-DB";
 
 
 		// ＤＢ名 ///////////////////////////////////////
@@ -50,9 +50,19 @@ namespace MwsLib.DB.SqlServer
 		private const string DB_NAME_JUNP = "JunpDB";
 
 		/// <summary>
+		/// estoreのDB名
+		/// </summary>
+		private const string DB_NAME_ESTORE = "estoreDB";
+
+		/// <summary>
 		/// COUPLERのDB名
 		/// </summary>
 		private const string DB_NAME_COUPLER = "COUPLER";
+
+		/// <summary>
+		/// PCAのDB名
+		/// </summary>
+		private const string DB_NAME_PCA = "P10V01C001KON0001";
 
 
 		// ユーザー名 ///////////////////////////////////////
@@ -73,9 +83,9 @@ namespace MwsLib.DB.SqlServer
 		private const string USER_COUPLER_CPDB01 = "cpuser";
 
 		/// <summary>
-		/// TCCSV
+		/// CPTest-DB
 		/// </summary>
-		private const string USER_COUPLER_TCCSV = "sa";
+		private const string USER_COUPLER_CPTEST = "sa";
 
 
 		// パスワード ///////////////////////////////////////
@@ -97,9 +107,9 @@ namespace MwsLib.DB.SqlServer
 		private const string PWD_COUPLER_CPDB01 = "Sqladmin#39";
 
 		/// <summary>
-		/// TCCSV
+		/// CPTest-DB
 		/// </summary>
-		private const string PWD_COUPLER_TCCSV = PWD_SQLSV_SA;
+		private const string PWD_COUPLER_CPTEST = PWD_COUPLER_CPDB01;
 
 
 		// 接続文字列 ///////////////////////////////////////
@@ -228,18 +238,54 @@ namespace MwsLib.DB.SqlServer
 
 		/// <summary>
 		/// 接続文字列の取得
-		/// インスタンス名：TCCSV
+		/// インスタンス名：SQLSV or SQLSV2
+		/// DB名：estoreDB
+		/// ユーザー名：web
+		/// </summary>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>接続文字列</returns>
+		public static string EstoreWebConnectionString(bool ct)
+		{
+			DatabaseConnect con = new DatabaseConnect();
+			con.InstanceName = (ct) ? DB_INSTANCE_NAME_SQLSV2 : DB_INSTANCE_NAME_SQLSV;
+			con.DatabaseName = DB_NAME_ESTORE;
+			con.UserID = USER_SQLSV_WEB;
+			con.Password = PWD_SQLSV_WEB;
+			return con.ConnectionString;
+		}
+
+		/// <summary>
+		/// 接続文字列の取得
+		/// インスタンス名：SQLSV or SQLSV2
+		/// DB名：P10V01C001KON0001
+		/// ユーザー名：web
+		/// </summary>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>接続文字列</returns>
+		public static string PcaWebConnectionString(bool ct)
+		{
+			DatabaseConnect con = new DatabaseConnect();
+			con.InstanceName = (ct) ? DB_INSTANCE_NAME_SQLSV2 : DB_INSTANCE_NAME_SQLSV;
+			con.DatabaseName = DB_NAME_PCA;
+			con.UserID = USER_SQLSV_WEB;
+			con.Password = PWD_SQLSV_WEB;
+			return con.ConnectionString;
+		}
+
+		/// <summary>
+		/// 接続文字列の取得
+		/// インスタンス名：CPTest-DB
 		/// DB名：COUPLER
 		/// ユーザー名：sa
 		/// </summary>
 		/// <returns>接続文字列</returns>
-		public static string CouplerTccsvConnectionString()
+		public static string CouplerConnectionString()
 		{
 			DatabaseConnect con = new DatabaseConnect();
-			con.InstanceName = DB_INSTANCE_NAME_TCCSV;
+			con.InstanceName = DB_INSTANCE_NAME_CPTEST;
 			con.DatabaseName = DB_NAME_COUPLER;
-			con.UserID = USER_COUPLER_TCCSV;
-			con.Password = PWD_COUPLER_TCCSV;
+			con.UserID = USER_COUPLER_CPTEST;
+			con.Password = PWD_COUPLER_CPTEST;
 			return con.ConnectionString;
 		}
 	}

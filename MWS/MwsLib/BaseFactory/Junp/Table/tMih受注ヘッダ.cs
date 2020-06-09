@@ -1,8 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//
+// tMih受注ヘッダ.cs
+//
+// 受注ヘッダ情報クラス
+// [JunpDB].[dbo].[tMih受注ヘッダ]
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2019/06/28 勝呂)
+//
 using MwsLib.Common;
+using System;
 
 namespace MwsLib.BaseFactory.Junp.Table
 {

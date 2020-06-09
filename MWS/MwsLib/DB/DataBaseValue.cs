@@ -295,7 +295,7 @@ namespace MwsLib.DB
         /// </summary>
         /// <param name="source">object値</param>
         /// <returns>int値</returns>
-        public static int ConvObjectToShort(object source)
+        public static short ConvObjectToShort(object source)
         {
             if (DBNull.Value == source)
             {

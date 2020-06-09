@@ -1,7 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//
+// tMih受注詳細.cs
+//
+// 受注詳細情報クラス
+// [JunpDB].[dbo].[tMih受注詳細]
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2019/06/28 勝呂)
+//
 
 namespace MwsLib.BaseFactory.Junp.Table
 {
@@ -26,6 +32,9 @@ namespace MwsLib.BaseFactory.Junp.Table
 		public short? f商品区分1 { get; set; }
 		public short? f商品区分2 { get; set; }
 
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
 		public tMih受注詳細()
 		{
 		}

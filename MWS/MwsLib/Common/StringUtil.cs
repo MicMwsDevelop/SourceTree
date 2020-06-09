@@ -1331,22 +1331,64 @@ namespace MwsLib.Common
         /// <returns></returns>
         public static string GetSubstringByByte(string str, int len)
         {
-            Encoding utfStr = Encoding.GetEncoding("Shift_JIS");
-            byte[] bytes = utfStr.GetBytes(str);
-            if (bytes.Length <= len)
+            if (!string.IsNullOrEmpty(str) && 0 < len)
             {
-                // 指定サイズ以下の場合そのまま返す
-                return str;
-            }
-            string s = utfStr.GetString(bytes, 0, len);
+                Encoding utfStr = Encoding.GetEncoding("Shift_JIS");
+                byte[] bytes = utfStr.GetBytes(str);
+                if (bytes.Length <= len)
+                {
+                    // 指定サイズ以下の場合そのまま返す
+                    return str;
+                }
+                string s = utfStr.GetString(bytes, 0, len);
 
-            // 最後の文字が多バイト文字の途中で切れていないかをチェック
-            int l = utfStr.GetString(bytes, 0, len + 1).Length;
-            if (s.Length == l)
-            {
-                s = s.Remove(s.Length - 1);
+                // 最後の文字が多バイト文字の途中で切れていないかをチェック
+                int l = utfStr.GetString(bytes, 0, len + 1).Length;
+                if (s.Length == l)
+                {
+                    s = s.Remove(s.Length - 1);
+                }
+                return s;
             }
-            return s;
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// 文字列を指定のバイト数で区切り、結果をリストで返す
+        /// </summary>
+        /// <param name="str">対象となる文字列</param>
+        /// <param name="len">バイト長</param>
+        /// <returns></returns>
+        public static List<string> GetListSubstringByByte(string str, int len)
+        {
+            List<string> list = new List<string>();
+            if (!string.IsNullOrEmpty(str) && 0 < len)
+            {
+                Encoding utfStr = Encoding.GetEncoding("Shift_JIS");
+                byte[] bytes = utfStr.GetBytes(str);
+                if (bytes.Length <= len)
+                {
+                    // 指定サイズ以下の場合そのまま返す
+                    list.Add(str);
+                    return list;
+                }
+                string work = str;
+                while (0 < work.Length)
+                {
+                    string left = StringUtil.GetSubstringByByte(work, len);
+                    list.Add(left);
+                    if (left.Length != work.Length)
+                    {
+                        // workに切った後の残りを入れる
+                        work = work.Substring(left.Length);
+                    }
+                    else
+                    {
+                        work = string.Empty;
+                    }
+                }
+            }
+            return list;
         }
     }
 }

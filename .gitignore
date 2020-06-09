@@ -251,3 +251,20 @@
 /MWS/Application/SoftwareMainteSaleDataOutput
 /MWS/Application/CloudDataBankStockDataOutput/Doc/●先月仕入集計.sql
 /MWS/Application/CloudDataBankStockDataOutput/Doc/仕入商品マスタ.db
+/MWS/Application/CloudDataBankPurchaseOutput/.vs/CloudDataBankPurchaseOutput/v16
+/MWS/Application/CloudDataBankPurchaseOutput/bin
+/MWS/Application/CloudDataBankPurchaseOutput/Doc
+/MWS/Application/CloudDataBankPurchaseOutput/obj
+/MWS/Application/PurchaseTransfer/.vs/PurchaseTransfer/v16
+/MWS/Application/PurchaseTransfer/bin
+/MWS/Application/PurchaseTransfer/obj
+/MWS/Application/PurchaseTransfer/packages
+/MWS/Application/PurchaseTransfer/仕入振替
+/MWS/Application/ShipmentActing/.vs/ShipmentActing/v16
+/MWS/Application/ShipmentActing/bin/Debug
+/MWS/Application/ShipmentActing/obj/Debug
+/MWS/Application/SoftwareMainteEarningsOutput/.vs/SoftwareMainteSaleDataOutput/v16
+/MWS/Application/SoftwareMainteEarningsOutput/bin
+/MWS/Application/SoftwareMainteEarningsOutput/obj
+/MWS/Application/ShipmentActing/出荷代行
+/MWS/Application/SoftwareMainteEarningsOutput/●ソフトウェア保守料自動継続処理 - ショートカット.lnk

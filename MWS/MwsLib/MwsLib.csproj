@@ -56,21 +56,47 @@
     <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
     <Compile Include="BaseFactory\CheckVoucherPaletteES\OrderVoucher.cs" />
-    <Compile Include="BaseFactory\CloudDataBankStockDataOutput\CloudDataBankSaleData.cs" />
+    <Compile Include="BaseFactory\CloudDataBank\CloudDataBankEarningsData.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_PRODUCTUSER.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_SERVICE.cs" />
-    <Compile Include="BaseFactory\Junp\OrderSlipData.cs" />
+    <Compile Include="BaseFactory\Estore\WebGeneralData.cs" />
+    <Compile Include="BaseFactory\Estore\WebJUCUtmp.cs" />
+    <Compile Include="BaseFactory\Estore\WebJUCUtmp2.cs" />
+    <Compile Include="BaseFactory\CheckOrderSlip\OrderSlipData.cs" />
+    <Compile Include="BaseFactory\Junp\Table\tBusho.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMemo.cs" />
+    <Compile Include="BaseFactory\Junp\Table\tMic出荷代行トップ印刷休業日.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic終了ユーザーリスト.cs" />
+    <Compile Include="BaseFactory\Junp\Table\tMic離島.cs" />
+    <Compile Include="BaseFactory\Junp\Table\tMihPca在庫引当表J.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMih受注ヘッダ.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMih受注詳細.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMih支店情報.cs" />
+    <Compile Include="BaseFactory\Junp\Table\tMih送料商品コード.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMik保守契約.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMik基本情報.cs" />
+    <Compile Include="BaseFactory\Junp\Table\t_MicSyukkashiji.cs" />
+    <Compile Include="BaseFactory\Junp\View\vMicPCA仕入データ.cs" />
+    <Compile Include="BaseFactory\Junp\View\vMicPCA仕入先マスタ.cs" />
+    <Compile Include="BaseFactory\Junp\View\vMicPCA出荷データ.cs" />
+    <Compile Include="BaseFactory\Junp\View\vMicPCA受注明細.cs" />
+    <Compile Include="BaseFactory\Junp\View\vMicPCA商品マスタ.cs" />
+    <Compile Include="BaseFactory\Junp\View\vMicPCA売上明細.cs" />
+    <Compile Include="BaseFactory\Junp\View\vMicPCA担当者マスタ.cs" />
+    <Compile Include="BaseFactory\Junp\View\vMic全ユーザー2.cs" />
     <Compile Include="BaseFactory\PcaGoodsIDDefine.cs" />
+    <Compile Include="BaseFactory\Pca\PCA売上明細.cs" />
+    <Compile Include="BaseFactory\Pca\PCA仕入明細.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\PCA仕入明細貯蔵品.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\PCA出荷明細貯蔵品.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\仕入振替月次.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\在庫一覧表.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\対象月社内仕入れ伝票.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\社内使用分出荷明細.cs" />
     <Compile Include="BaseFactory\ServiceCodeDefine.cs" />
-    <Compile Include="BaseFactory\SoftwareMainteSaleData\CustomerUseInfoSoftwareMainte.cs" />
-    <Compile Include="BaseFactory\SoftwareMainteSaleData\OrderSlipSoftwareMainte.cs" />
+    <Compile Include="BaseFactory\ShipmentActing\ShipmentActingData.cs" />
+    <Compile Include="BaseFactory\SoftwareMainteEarnings\CustomerUseInfoSoftwareMainte.cs" />
+    <Compile Include="BaseFactory\SoftwareMainteEarnings\OrderSlipSoftwareMainte.cs" />
     <Compile Include="BaseFactory\StockGoodsMaster\StockGoodsMasterData.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\MemoBankTransfer.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\WonderWebMemoDef.cs" />
@@ -185,9 +211,8 @@
     <Compile Include="DB\SqlServer\CheckVoucherPaletteES\CheckVoucherPaletteESAccess.cs" />
     <Compile Include="DB\SqlServer\CheckVoucherPaletteES\CheckVoucherPaletteESController.cs" />
     <Compile Include="DB\SqlServer\CheckVoucherPaletteES\CheckVoucherPaletteESGetIO.cs" />
-    <Compile Include="DB\SqlServer\CloudDataBankStockDataOutput\CloudDataBankSaleAccess.cs" />
-    <Compile Include="DB\SqlServer\CloudDataBankStockDataOutput\CloudDataBankSaleController.cs" />
-    <Compile Include="DB\SqlServer\CloudDataBankStockDataOutput\CloudDataBankSaleGetIO.cs" />
+    <Compile Include="DB\SqlServer\CloudDataBank\CloudDataBankAccess.cs" />
+    <Compile Include="DB\SqlServer\CloudDataBank\CloudDataBankGetIO.cs" />
     <Compile Include="DB\SqlServer\Coupler\CouplerDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\Coupler\CouplerDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\DataBaseAccess.cs" />
@@ -199,6 +224,8 @@
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserAccess.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserController.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserGetIO.cs" />
+    <Compile Include="DB\SqlServer\Estore\EstoreDatabaseAccess.cs" />
+    <Compile Include="DB\SqlServer\Estore\EstoreDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\Junp\JunpDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\Junp\JunpDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationAccess.cs" />
@@ -207,13 +234,18 @@
     <Compile Include="DB\SqlServer\NarcohmOrderCheck\NarcohmOderCheckController.cs" />
     <Compile Include="DB\SqlServer\NarcohmOrderCheck\NarcohmOrderCheckAccess.cs" />
     <Compile Include="DB\SqlServer\NarcohmOrderCheck\NarcohmOrderCheckGetIO.cs" />
-    <Compile Include="DB\SqlServer\OrderSlip\OrderSlipAccess.cs" />
-    <Compile Include="DB\SqlServer\OrderSlip\OrderSlipController.cs" />
-    <Compile Include="DB\SqlServer\OrderSlip\OrderSlipGetIO.cs" />
+    <Compile Include="DB\SqlServer\CheckOrderSlip\CheckOrderSlipAccess.cs" />
+    <Compile Include="DB\SqlServer\CheckOrderSlip\CheckOrderSlipController.cs" />
+    <Compile Include="DB\SqlServer\CheckOrderSlip\CheckOrderSlipGetIO.cs" />
+    <Compile Include="DB\SqlServer\PCA\PcaDatabaseAccess.cs" />
+    <Compile Include="DB\SqlServer\PCA\PcaDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerSetIO.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerAccess.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerController.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerGetIO.cs" />
+    <Compile Include="DB\SqlServer\PurchaseTransfer\PurchaseTransferAccess.cs" />
+    <Compile Include="DB\SqlServer\PurchaseTransfer\PurchaseTransferController.cs" />
+    <Compile Include="DB\SqlServer\PurchaseTransfer\PurchaseTransferGetIO.cs" />
     <Compile Include="DB\SqlServer\ScanImageData\ScanImageDataAccess.cs" />
     <Compile Include="DB\SqlServer\ScanImageData\ScanImageDataController.cs" />
     <Compile Include="DB\SqlServer\ScanImageData\ScanImageDataGetIO.cs" />
@@ -223,9 +255,10 @@
     <Compile Include="DB\SqlServer\ApplyTypeMatome\ApplyTypeMatomeController.cs" />
     <Compile Include="DB\SqlServer\ApplyTypeMatome\ApplyTypeMatomeGetIO.cs" />
     <Compile Include="DB\SqlServer\ApplyTypeMatome\ApplyTypeMatomeSetIO.cs" />
-    <Compile Include="DB\SqlServer\SoftwareMainteSaleData\SoftwareMainteSaleDataAccess.cs" />
-    <Compile Include="DB\SqlServer\SoftwareMainteSaleData\SoftwareMainteSaleDataController.cs" />
-    <Compile Include="DB\SqlServer\SoftwareMainteSaleData\SoftwareMainteSaleDataGetIO.cs" />
+    <Compile Include="DB\SqlServer\ShipmentActing\ShipmentActingAccess.cs" />
+    <Compile Include="DB\SqlServer\SoftwareMainteEarnings\SoftwareMainteEarningsAccess.cs" />
+    <Compile Include="DB\SqlServer\SoftwareMainteEarnings\SoftwareMainteEarningsController.cs" />
+    <Compile Include="DB\SqlServer\SoftwareMainteEarnings\SoftwareMainteEarningsGetIO.cs" />
     <Compile Include="DB\SqlServer\SqlServerHelper.cs" />
     <Compile Include="Log\ErrorLogger.cs" />
     <Compile Include="Log\Logger.cs" />
@@ -245,7 +278,9 @@
       <DependentUpon>ExplorerTreeView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="BaseFactory\Estore\Table\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Release" copy $(TargetFileName) ..\..\..\_EXE
