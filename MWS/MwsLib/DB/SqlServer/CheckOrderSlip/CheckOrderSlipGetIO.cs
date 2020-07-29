@@ -8,10 +8,10 @@
 // Ver1.000 新規作成(2019/11/15 勝呂)
 // 
 using MwsLib.Common;
+using MwsLib.DB.SqlServer.Junp;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using MwsLib.DB.SqlServer.Junp;
 
 namespace MwsLib.DB.SqlServer.CheckOrderSlip
 {

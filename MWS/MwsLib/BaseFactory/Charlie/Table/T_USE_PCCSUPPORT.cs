@@ -10,6 +10,7 @@
 // 
 using MwsLib.BaseFactory.Junp.Table;
 using MwsLib.Common;
+using MwsLib.DB;
 using MwsLib.DB.SqlServer.Charlie;
 using System;
 using System.Collections.Generic;
@@ -245,6 +246,44 @@ namespace MwsLib.BaseFactory.Charlie.Table
 			fCreatePerson = "suguro";
 			fUpdateDate = null;
 			fUpdatePerson = null;
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の詰め替え
+		/// </summary>
+		/// <param name="table">データテーブル</param>
+		/// <returns>ESETライセンス管理情報</returns>
+		public static List<T_USE_PCCSUPPORT> DataTableToList(DataTable table)
+		{
+			if (null != table && 0 < table.Rows.Count)
+			{
+				List<T_USE_PCCSUPPORT> result = new List<T_USE_PCCSUPPORT>();
+				foreach (DataRow row in table.Rows)
+				{
+					T_USE_PCCSUPPORT data = new T_USE_PCCSUPPORT
+					{
+						fApplyNo = DataBaseValue.ConvObjectToInt(row["fApplyNo"]),
+						fCustomerID = DataBaseValue.ConvObjectToInt(row["fCustomerID"]),
+						fServiceId = DataBaseValue.ConvObjectToInt(row["fServiceId"]),
+						fYears = DataBaseValue.ConvObjectToInt(row["fYears"]),
+						fGoodsID = row["fGoodsID"].ToString().Trim(),
+						fApplyDate = DataBaseValue.ConvObjectToDateTimeNull(row["fApplyDate"]),
+						fContractStartDate = DataBaseValue.ConvObjectToDateNullByDate(row["fContractStartDate"]),
+						fContractEndDate = DataBaseValue.ConvObjectToDateNullByDate(row["fContractEndDate"]),
+						fBillingStartDate = DataBaseValue.ConvObjectToDateNullByDate(row["fBillingStartDate"]),
+						fBillingEndDate = DataBaseValue.ConvObjectToDateNullByDate(row["fBillingEndDate"]),
+						fEndFlag = ("0" == row["fEndFlag"].ToString()) ? false : true,
+						fDeleteFlag = ("0" == row["fDeleteFlag"].ToString()) ? false : true,
+						fCreateDate = DataBaseValue.ConvObjectToDateTimeNull(row["fCreateDate"]),
+						fCreatePerson = row["fCreatePerson"].ToString().Trim(),
+						fUpdateDate = DataBaseValue.ConvObjectToDateTimeNull(row["fUpdateDate"]),
+						fUpdatePerson = row["fUpdatePerson"].ToString().Trim(),
+					};
+					result.Add(data);
+				}
+				return result;
+			}
+			return null;
 		}
 	}
 }

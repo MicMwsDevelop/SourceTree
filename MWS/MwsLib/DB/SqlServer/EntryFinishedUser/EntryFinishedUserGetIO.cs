@@ -22,12 +22,12 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 		/// <summary>
 		/// 終了ユーザー情報リストの取得
 		/// </summary>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>DataTable</returns>
-		public static DataTable GetEntryFinishedUserList(bool sqlsv2)
+		public static DataTable GetEntryFinishedUserList(bool ct)
 		{
 			DataTable result = null;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(sqlsv2)))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(ct)))
 			{
 				try
 				{
@@ -89,12 +89,12 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 		/// 顧客情報の取得
 		/// </summary>
 		/// <param name="tokuisakiNo">得意先No</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>DataTable</returns>
-		public static DataTable GetCustomerInfo(string tokuisakiNo, bool sqlsv2)
+		public static DataTable GetCustomerInfo(string tokuisakiNo, bool ct)
 		{
 			DataTable result = null;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(sqlsv2)))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(ct)))
 			{
 				try
 				{

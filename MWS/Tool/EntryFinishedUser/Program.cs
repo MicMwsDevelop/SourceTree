@@ -5,8 +5,10 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2019/06/28 勝呂)
+// Ver1.00 新規作成(2019/06/28 勝呂)
+// Ver2.00 契約中サービスの確認機能の追加(2020/07/17 勝呂)
 // 
+using ClosedXML.Excel;
 using EntryFinishedUser.Mail;
 using MwsLib.BaseFactory;
 using MwsLib.BaseFactory.Charlie.Table;
@@ -18,7 +20,9 @@ using MwsLib.DB.SqlServer.EntryFinishedUser;
 using MwsLib.DB.SqlServer.Junp;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -51,6 +55,14 @@ namespace EntryFinishedUser
 			/// ②終了ユーザーリストメール送信
 			/// </summary>
 			PrevMonthFiniedUser = 2,
+
+			/// <summary>
+			/// 契約中サービスの確認
+			/// タイミング：終了月が翌月のユーザーに対し、他サービス契約中のリストをメールにて注意喚起
+			/// ①他サービス契約中の確認
+			/// ②契約中ユーザーリストメール送信
+			/// </summary>
+			CheckContractService = 3,
 		}
 
 		/// <summary>
@@ -79,6 +91,16 @@ namespace EntryFinishedUser
 		public static Date gSystemDate;
 
 		/// <summary>
+		/// はなはなし月次リスト格納フォルダ
+		/// </summary>
+		public static string gHanahashiUserListFolder = @"\\storage\公開データ\総務部公開用\はなはなし\月次発送リスト";
+
+		/// <summary>
+		/// Curlineクラウド利用料請求リスト格納フォルダ
+		/// </summary>
+		public static string gCurlineCloudListFolder = @"\\storage\公開データ\ヘルスケア事業部公開用\CURLINE申込データ\クラウド利用報告";
+
+		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
 		/// </summary>
 		[STAThread]
@@ -102,6 +124,10 @@ namespace EntryFinishedUser
 				{
 					BootType = ProgramBootType.PrevMonthFiniedUser;
 				}
+				else if ("3" == cmds[1])
+				{
+					BootType = ProgramBootType.CheckContractService;
+				}
 				if (3 == cmds.Length)
 				{
 					// システム日付
@@ -122,7 +148,7 @@ namespace EntryFinishedUser
 			{
 				// メイン画面起動
 				case ProgramBootType.Menu:
-					Application.Run(new Forms.FinishedUserListForm());
+					Application.Run(new Forms.MainForm());
 					break;
 				//// 当月終了月終了ユーザー処理
 				//case ProgramBootType.ThisMonthFiniedUser:
@@ -131,6 +157,10 @@ namespace EntryFinishedUser
 				// 前月終了月終了ユーザー処理
 				case ProgramBootType.PrevMonthFiniedUser:
 					Program.PrevMonthFiniedUser(gSystemDate);
+					break;
+				// 契約中サービスの確認
+				case ProgramBootType.CheckContractService:
+					Program.CheckContractService(gSystemDate);
 					break;
 			}
 		}
@@ -203,9 +233,12 @@ namespace EntryFinishedUser
 					//////////////////////////////////////////
 					// palette → 終了 or 非paletteユーザー → 終了
 
+					List<EntryFinishedUserData> finisherList = new List<EntryFinishedUserData>();
 					IEnumerable<EntryFinishedUserData> paletteList = userList.Where(p => false == p.NonPaletteUser);
 					foreach (EntryFinishedUserData user in paletteList)
 					{
+						finisherList.Add(user);
+
 						try
 						{
 							// [JunpDB].[dbo].[tClient].[fCliEnd] = 1（終了）
@@ -286,6 +319,12 @@ namespace EntryFinishedUser
 							MessageBox.Show(string.Format("InsertInto_tMemo Error!({0})", ex.Message), "データベースエラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 							return;
 						}
+
+						// サービス契約中リストの取得
+						List<ContractServiceUser> contractUserList = GetContractServiceUserList(finisherList);
+
+						// 前月終了ユーザー サービス契約中リスト メール送信（営業管理部宛て）
+						SendMailControl.SendContractServiceMailPrevMonth(contractUserList);
 					}
 
 
@@ -401,6 +440,345 @@ namespace EntryFinishedUser
 					//}
 				}
 			}
+		}
+
+		/// <summary>
+		/// 契約中サービスの確認
+		/// タイミング：終了月が翌月のユーザーに対し、他サービス契約中のリストをメールにて注意喚起
+		/// ①他サービス契約中の確認
+		/// ②契約中ユーザーリストメール送信
+		/// </summary>
+		/// <param name="date">当日</param>
+		private static void CheckContractService(Date date)
+		{
+			IEnumerable<EntryFinishedUserData> list = EntryFinishedUserAccess.GetEntryFinishedUserDataList(DATABACE_ACCEPT_CT);
+			if (0 < list.Count())
+			{
+				YearMonth thisMonth = date.ToYearMonth();
+				List<EntryFinishedUserData> finisherList = list.Where(p => true == p.IsNextMonthFinishedUser(thisMonth)).ToList();
+				if (0 < finisherList.Count())
+				{
+					// サービス契約中リストの取得
+					List<ContractServiceUser> contractUserList = GetContractServiceUserList(finisherList);
+
+					// 翌月終了ユーザー サービス契約中リスト メール送信（営業管理部宛て）
+					SendMailControl.SendContractServiceMailNextMonth(contractUserList);
+				}
+			}
+		}
+
+		/// <summary>
+		/// サービス契約中リストの取得
+		/// </summary>
+		/// <param name="finisherList">終了ユーザーリスト</param>
+		/// <returns>サービス契約中リスト</returns>
+		private static List<ContractServiceUser> GetContractServiceUserList(List<EntryFinishedUserData> finisherList)
+		{
+			List<int> checkList = (from user in finisherList orderby user.CustomerID select user.CustomerID).ToList();
+			List<ContractServiceUser> ret = new List<ContractServiceUser>();
+
+			// ESET月額版
+			List<T_LICENSE_PRODUCT_CONTRACT> esetList = Program.ContractServiceESET(checkList);
+			if (null != esetList)
+			{
+				foreach (T_LICENSE_PRODUCT_CONTRACT eset in esetList)
+				{
+					int index = finisherList.FindIndex(p => p.CustomerID == eset.CUSTOMER_ID);
+					if (-1 != index)
+					{
+						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+						contract.ServiceID = eset.SERVICE_ID.ToString();
+						contract.ServiceName = CharlieDatabaseAccess.GetServiceName(eset.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
+						contract.StartDate = eset.START_DATE;
+						contract.EndDate = eset.END_DATE;
+						ret.Add(contract);
+					}
+				}
+			}
+			// PC安心サポート
+			List<T_USE_PCCSUPPORT> pcList = Program.ContractServicePcSupport(checkList);
+			if (null != pcList)
+			{
+				foreach (T_USE_PCCSUPPORT pc in pcList)
+				{
+					int index = finisherList.FindIndex(p => p.CustomerID == pc.fCustomerID);
+					if (-1 != index)
+					{
+						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+						contract.ServiceID = pc.fServiceId.ToString();
+						contract.ServiceName = string.Format("PC安心サポート({0})", CharlieDatabaseAccess.GetServiceName(pc.fServiceId, Program.DATABACE_ACCEPT_CT));
+						if (pc.fContractStartDate.HasValue)
+						{
+							contract.StartDate = pc.fContractStartDate.Value.ToDateTime();
+						}
+						if (pc.fContractEndDate.HasValue)
+						{
+							contract.EndDate = pc.fContractEndDate.Value.ToDateTime();
+						}
+						ret.Add(contract);
+					}
+				}
+			}
+			// ナルコーム製品
+			List<T_CUSSTOMER_USE_INFOMATION> cuiList = Program.ContractServiceNarcohm(checkList);
+			if (null != cuiList)
+			{
+				foreach (T_CUSSTOMER_USE_INFOMATION cui in cuiList)
+				{
+					int index = finisherList.FindIndex(p => p.CustomerID == cui.CUSTOMER_ID);
+					if (-1 != index)
+					{
+						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+						contract.ServiceID = cui.SERVICE_ID.ToString();
+						contract.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
+						contract.StartDate = cui.USE_START_DATE;
+						contract.EndDate = cui.USE_END_DATE;
+						ret.Add(contract);
+					}
+				}
+			}
+			// Microsoft365製品
+			cuiList = Program.ContractService365(checkList);
+			if (null != cuiList)
+			{
+				foreach (T_CUSSTOMER_USE_INFOMATION cui in cuiList)
+				{
+					int index = finisherList.FindIndex(p => p.CustomerID == cui.CUSTOMER_ID);
+					if (-1 != index)
+					{
+						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+						contract.ServiceID = cui.SERVICE_ID.ToString();
+						contract.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
+						contract.StartDate = cui.USE_START_DATE;
+						contract.EndDate = cui.USE_END_DATE;
+						ret.Add(contract);
+					}
+				}
+			}
+			// Curlineクラウド
+			List<int> noList = Program.ContractServiceCurlineCloud();
+			if (null != noList)
+			{
+				foreach (int no in noList)
+				{
+					int index = finisherList.FindIndex(p => p.CustomerID == no);
+					if (-1 != index)
+					{
+						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+						contract.ServiceID = PcaGoodsIDDefine.MwsCurlineCloud;
+						contract.ServiceName = "MWS Curline ｸﾗｳﾄﾞ利用料(月額)";
+						ret.Add(contract);
+					}
+				}
+			}
+			// はなはなし購読
+			noList = Program.ContractServiceHanahanashi();
+			if (null != noList)
+			{
+				foreach (int no in noList)
+				{
+					int index = finisherList.FindIndex(p => p.CustomerID == no);
+					if (-1 != index)
+					{
+						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+						contract.ServiceID = PcaGoodsIDDefine.Hanahanashi;
+						contract.ServiceName = "はなはなし";
+						ret.Add(contract);
+					}
+				}
+			}
+			return ret;
+		}
+
+		/// <summary>
+		/// 契約中サービス確認 - ESET月額版
+		/// </summary>
+		/// <param name="usetList">確認ユーザーリスト</param>
+		/// <returns>結果</returns>
+		public static List<T_LICENSE_PRODUCT_CONTRACT> ContractServiceESET(List<int> usetList)
+		{
+			string userStr = string.Join(",", usetList);
+			//string whereStr = string.Format("CUSTOMER_ID IN ({0})", userStr);
+			string whereStr = string.Format("APPLY_STATUS = '0' AND CUSTOMER_ID IN ({0})", userStr);
+			DataTable table = CharlieDatabaseAccess.SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_LICENSE_PRODUCT_CONTRACT], whereStr, "CUSTOMER_ID", DATABACE_ACCEPT_CT);
+			List<T_LICENSE_PRODUCT_CONTRACT> ret = T_LICENSE_PRODUCT_CONTRACT.DataTableToList(table);
+			if (null != ret && 0 < ret.Count)
+			{
+				return ret;
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// 契約中サービス確認 - PC安心サポート
+		/// </summary>
+		/// <param name="usetList">確認ユーザーリスト</param>
+		/// <returns>結果</returns>
+		public static List<T_USE_PCCSUPPORT> ContractServicePcSupport(List<int> usetList)
+		{
+			string userStr = string.Join(",", usetList);
+			//whereStr = string.Format("fCustomerID IN ({0}) AND fServiceId IN ({1})", userStr, string.Join(",", ContractServiceUser.PcSupportSeriveID()));
+			string whereStr = string.Format("fEndFlag = '0' AND fCustomerID IN ({0}) AND fServiceId IN ({1})", userStr, string.Join(",", ContractServiceUser.PcSupportSeriveID()));
+			DataTable table = CharlieDatabaseAccess.SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT], whereStr, "fCustomerID", DATABACE_ACCEPT_CT);
+			List<T_USE_PCCSUPPORT> ret = T_USE_PCCSUPPORT.DataTableToList(table);
+			if (null != ret && 0 < ret.Count)
+			{
+				return ret;
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// 契約中サービス確認 - ナルコーム製品
+		/// </summary>
+		/// <param name="usetList">確認ユーザーリスト</param>
+		/// <returns>結果</returns>
+		public static List<T_CUSSTOMER_USE_INFOMATION> ContractServiceNarcohm(List<int> usetList)
+		{
+			string userStr = string.Join(",", usetList);
+			//whereStr = string.Format("CUSTOMER_ID IN ({0}) AND SERVICE_ID IN ({1})", userStr, string.Join(",", ContractServiceUser.NarcohmSeriveID()));
+			string whereStr = string.Format("PAUSE_END_STATUS = '0' AND CUSTOMER_ID IN ({0}) AND SERVICE_ID IN ({1})", userStr, string.Join(",", ContractServiceUser.NarcohmSeriveID()));
+			DataTable table = CharlieDatabaseAccess.SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, "CUSTOMER_ID, SERVICE_ID", DATABACE_ACCEPT_CT);
+			List<T_CUSSTOMER_USE_INFOMATION> ret = T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
+			if (null != ret && 0 < ret.Count)
+			{
+				return ret;
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// 契約中サービス確認 - Microsoft365製品
+		/// </summary>
+		/// <param name="usetList">確認ユーザーリスト</param>
+		/// <returns>結果</returns>
+		public static List<T_CUSSTOMER_USE_INFOMATION> ContractService365(List<int> usetList)
+		{
+			string userStr = string.Join(",", usetList);
+			//whereStr = string.Format("CUSTOMER_ID IN ({0}) AND SERVICE_ID IN ({1})", userStr, string.Join(",", ContractServiceUser.Microsoft365SeriveID()));
+			string whereStr = string.Format("PAUSE_END_STATUS = '0' AND CUSTOMER_ID IN ({0}) AND SERVICE_ID IN ({1})", userStr, string.Join(",", ContractServiceUser.Microsoft365SeriveID()));
+			DataTable table = CharlieDatabaseAccess.SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, "CUSTOMER_ID, SERVICE_ID", DATABACE_ACCEPT_CT);
+			List<T_CUSSTOMER_USE_INFOMATION> ret = T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
+			if (null != ret && 0 < ret.Count)
+			{
+				return ret;
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// Curlineクラウド利用料請求リストファイルパス名の取得
+		/// </summary>
+		/// <returns>Curlineクラウド利用料請求リストファイルパス名</returns>
+		private static string CurlineCloudListFileName()
+		{
+			YearMonth ym = gSystemDate.ToYearMonth();
+			int i = 1;
+			string pathname = string.Empty;
+			do
+			{
+				// 請求リスト_YYYYMM.csv 例:請求リスト_202006.csv
+				pathname = Path.Combine(gCurlineCloudListFolder, string.Format("請求リスト_{0}.csv", ym.ToIntYM()));
+				if (12 < i)
+				{
+					// 過去１年分検索
+					return string.Empty;
+				}
+				ym--;
+				i++;
+			}
+			while (false == File.Exists(pathname));
+			return pathname;
+		}
+
+		/// <summary>
+		/// 契約中サービス確認 - Curlineクラウド
+		/// </summary>
+		/// <returns>結果</returns>
+		public static List<int> ContractServiceCurlineCloud()
+		{
+			string pathname = CurlineCloudListFileName();
+			if (0 < pathname.Length)
+			{
+				List<int> ret = new List<int>();
+				using (var sr = new StreamReader(pathname))
+				{
+					while (!sr.EndOfStream)
+					{
+						string line = sr.ReadLine();
+						string[] values = line.Split(',');
+						if (0 < values[2].ToLong())
+						{
+							// 0 < 請求金額
+							ret.Add(values[0].ToInt());
+						}
+					}
+				}
+				if (0 < ret.Count)
+				{
+					return ret;
+				}
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// はなはなし月次発送リストファイルパス名の取得
+		/// </summary>
+		/// <returns>はなはなし月次発送リストファイルパス名</returns>
+		private static string HanahanashiListFileName()
+		{
+			YearMonth ym = gSystemDate.ToYearMonth();
+			int i = 1;
+			string pathname = string.Empty;
+			do
+			{
+				// YYYYMM.xlsx 例:202006.xlsx
+				pathname = Path.Combine(gHanahashiUserListFolder, string.Format("{0}.xlsx", ym.ToIntYM()));
+				if (12 < i)
+				{
+					// 過去１年分検索
+					return string.Empty;
+				}
+				ym--;
+				i++;
+			}
+			while (false == File.Exists(pathname));
+			return pathname;
+		}
+
+		/// <summary>
+		/// 契約中サービス確認 - はなはなし購読
+		/// </summary>
+		/// <returns>結果</returns>
+		public static List<int> ContractServiceHanahanashi()
+		{
+			string pathname = HanahanashiListFileName();
+			if (0 < pathname.Length)
+			{
+				List<int> ret = new List<int>();
+				using (XLWorkbook workbook = new XLWorkbook(pathname, XLEventTracking.Disabled))
+				{
+					IXLWorksheet sheet = workbook.Worksheet("月次はなはなしリスト");
+
+					// テーブル作成
+					IXLTable tbl = sheet.RangeUsed().AsTable();
+					for (int i = 0; i < tbl.DataRange.Rows().Count(); i++)
+					{
+						if (0 < i)
+						{
+							IXLTableRow dataRow = tbl.DataRange.Row(i);
+							double no = (double)dataRow.Field(0).Value;
+							ret.Add((int)no);
+						}
+					}
+				}
+				if (0 < ret.Count)
+				{
+					return ret;
+				}
+			}
+			return null;
 		}
 	}
 }

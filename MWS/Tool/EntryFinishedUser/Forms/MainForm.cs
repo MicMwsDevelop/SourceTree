@@ -1,31 +1,30 @@
 ﻿//
-// FinishedUserListForm.cs
+// MainForm.cs
 //
-// 終了ユーザーリスト参照画面クラス
+// メイン画面クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2019/06/28 勝呂)
 // 
+using ClosedXML.Excel;
 using DataGridViewAutoFilter;
+using MwsLib.BaseFactory;
 using MwsLib.BaseFactory.EntryFinishedUser;
 using MwsLib.DB.SqlServer.EntryFinishedUser;
+using MwsLib.DB.SqlServer.Junp;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Windows.Forms;
-using Excel = Microsoft.Office.Interop.Excel;
-using System.Runtime.InteropServices;
 using System.IO;
-using MwsLib.BaseFactory;
-using MwsLib.DB.SqlServer.Junp;
+using System.Windows.Forms;
 
 namespace EntryFinishedUser.Forms
 {
 	/// <summary>
-	/// 終了ユーザー管理画面
+	/// メイン画面
 	/// </summary>
-	public partial class FinishedUserListForm : Form
+	public partial class MainForm : Form
 	{
 		/// <summary>
 		/// 終了ユーザー情報リスト DataSource
@@ -40,7 +39,7 @@ namespace EntryFinishedUser.Forms
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public FinishedUserListForm()
+		public MainForm()
 		{
 			InitializeComponent();
 
@@ -52,7 +51,7 @@ namespace EntryFinishedUser.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void FinishedUserListForm_Load(object sender, EventArgs e)
+		private void MainForm_Load(object sender, EventArgs e)
 		{
 			if (Program.DATABACE_ACCEPT_CT)
 			{
@@ -266,120 +265,56 @@ namespace EntryFinishedUser.Forms
 		}
 
 		/// <summary>
-		/// 終了ユーザーリスト参照
+		/// 契約中サービスの確認
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void buttonShowList_Click(object sender, EventArgs e)
+		private void buttonCheckContractService_Click(object sender, EventArgs e)
 		{
-			List<EntryFinishedUserData> list = EntryFinishedUserAccess.GetEntryFinishedUserDataList(Program.DATABACE_ACCEPT_CT);
+			// フィルター後の終了ユーザーリストの取得
+			List<EntryFinishedUserData> list = new List<EntryFinishedUserData>();
+			foreach (DataGridViewRow row in dataGridViewFinishedUser.Rows)
+			{
+				int no = (int)row.Cells[1].Value;
+				int index = FinishedUserList.FindIndex(p =>p.CustomerID == no);
+				list.Add(FinishedUserList[index]);
+			}
 			if (0 < list.Count)
 			{
-				// 元のカーソルを保持
-				Cursor preCursor = Cursor.Current;
-
-				// カーソルを待機カーソルに変更
-				Cursor.Current = Cursors.WaitCursor;
-
-				// Excelオブジェクトの初期化
-				Excel.Application xlApp = null;
-				Excel.Workbooks xlBooks = null;
-				Excel.Workbook xlBook = null;
-				Excel.Sheets xlSheets = null;
-				Excel.Worksheet xlSheet = null;
-
-				try
+				using (CheckContractServiceForm form = new CheckContractServiceForm(list))
 				{
-					// Excelシートのインスタンスを作る
-					xlApp = new Excel.Application();
-					xlBooks = xlApp.Workbooks;
-					xlBook = xlBooks.Add();
-					xlSheets = xlBook.Sheets;
-					xlSheet = xlSheets[1];
-					xlSheet.Name = "終了ユーザーリスト";
-					xlSheet.Select(Type.Missing);
-					xlSheet.Cells.NumberFormat = "@";
+					form.ShowDialog();
+				}
+			}
+		}
 
-					xlApp.Visible = false;
+		/// <summary>
+		/// EXCEL出力
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonExcel_Click(object sender, EventArgs e)
+		{
+			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.DATABACE_ACCEPT_CT);
+			if (null != table && 0 < table.Rows.Count)
+			{
+				using (XLWorkbook workbook = new XLWorkbook())
+				{
+					// 元のカーソルを保持
+					Cursor preCursor = Cursor.Current;
 
-					// フィールド名を設定
-					xlSheet.Cells[1, 1].Value2 = EntryFinishedUserData.FieldName[0];
-					xlSheet.Cells[1, 2].Value2 = EntryFinishedUserData.FieldName[1];
-					xlSheet.Cells[1, 3].Value2 = EntryFinishedUserData.FieldName[2];
-					xlSheet.Cells[1, 4].Value2 = EntryFinishedUserData.FieldName[3];
-					xlSheet.Cells[1, 5].Value2 = EntryFinishedUserData.FieldName[4];
-					xlSheet.Cells[1, 6].Value2 = EntryFinishedUserData.FieldName[5];
-					xlSheet.Cells[1, 7].Value2 = EntryFinishedUserData.FieldName[6];
-					xlSheet.Cells[1, 8].Value2 = EntryFinishedUserData.FieldName[7];
-					xlSheet.Cells[1, 9].Value2 = EntryFinishedUserData.FieldName[8];
-					xlSheet.Cells[1, 10].Value2 = EntryFinishedUserData.FieldName[9];
-					xlSheet.Cells[1, 11].Value2 = EntryFinishedUserData.FieldName[10];
-					xlSheet.Cells[1, 12].Value2 = EntryFinishedUserData.FieldName[11];
-					xlSheet.Cells[1, 13].Value2 = EntryFinishedUserData.FieldName[12];
-					xlSheet.Cells[1, 14].Value2 = EntryFinishedUserData.FieldName[13];
-					xlSheet.Cells[1, 15].Value2 = EntryFinishedUserData.FieldName[14];
-					xlSheet.Cells[1, 16].Value2 = EntryFinishedUserData.FieldName[15];
-					xlSheet.Cells[1, 17].Value2 = EntryFinishedUserData.FieldName[16];
+					// カーソルを待機カーソルに変更
+					Cursor.Current = Cursors.WaitCursor;
 
-					// エクセルファイルにデータをセットする
-					for (int i = 0; i < list.Count; i++)
-					{
-						// Excelのcell指定
-						EntryFinishedUserData data = list[i];
-						xlSheet.Cells[i + 2, 1].Value2 = data.CustomerID;
-						xlSheet.Cells[i + 2, 2].Value2 = data.TokuisakiNo;
-						xlSheet.Cells[i + 2, 3].Value2 = data.UserName;
-						xlSheet.Cells[i + 2, 4].Value2 = data.SystemName;
-						xlSheet.Cells[i + 2, 5].Value2 = data.AreaCode;
-						xlSheet.Cells[i + 2, 6].Value2 = data.AreaName;
-						xlSheet.Cells[i + 2, 7].Value2 = data.KenName;
-						xlSheet.Cells[i + 2, 8].Value2 = data.FinishedReason;
-						xlSheet.Cells[i + 2, 9].Value2 = data.Replace;
-						xlSheet.Cells[i + 2, 10].Value2 = data.Reason;
-						xlSheet.Cells[i + 2, 11].Value2 = data.Comment;
-						xlSheet.Cells[i + 2, 12].Value2 = data.EnableUserFlag;
-						xlSheet.Cells[i + 2, 13].Value2 = data.Expcet;
-						xlSheet.Cells[i + 2, 14].Value2 = data.HanbaitenID;
-						xlSheet.Cells[i + 2, 15].Value2 = data.HanbaitenName;
-						xlSheet.Cells[i + 2, 16].Value2 = data.FinishedYearMonth.ToString();
-						xlSheet.Cells[i + 2, 17].Value2 = data.NonPaletteUser.ToString();
-					}
+					IXLWorksheet sheet = workbook.Worksheets.Add(table, "終了ユーザーリスト");
+
 					// Excelファイルの保存
-					string xlsPathname = Path.Combine(Directory.GetCurrentDirectory(), @"終了ユーザーリスト.xlsx");
-					xlBook.SaveAs(xlsPathname);
-					//xlBook.Close(false);
-
-					// Excel を表示する
-					xlApp.Visible = true;
-
-					// 1000 ミリ秒 (1秒) 待機する
-					//System.Threading.Thread.Sleep(1000);
-
-					//xlApp.Quit();
-
-					// COM オブジェクトの参照カウントを解放する (正しくは COM オブジェクトの参照カウントを解放する を参照)
-					//Marshal.ReleaseComObject(xlBooks);
+					workbook.SaveAs(Path.Combine(Directory.GetCurrentDirectory(), @"終了ユーザーリスト.xlsx"));
 
 					// カーソルを元に戻す
 					Cursor.Current = preCursor;
 
-					//MessageBox.Show(string.Format("エクセルファイルに出力しました。({0})", xlsPathname), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-				}
-				finally
-				{
-					// Excelのオブジェクトを開放し忘れているとプロセスが落ちないため注意
-					Marshal.ReleaseComObject(xlSheet);
-					Marshal.ReleaseComObject(xlSheets);
-					Marshal.ReleaseComObject(xlBook);
-					Marshal.ReleaseComObject(xlBooks);
-					Marshal.ReleaseComObject(xlApp);
-					xlSheet = null;
-					xlSheets = null;
-					xlBook = null;
-					xlBooks = null;
-					xlApp = null;
-
-					GC.Collect();
+					MessageBox.Show("終了ユーザーリスト.xlsxを出力しました。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
 			}
 		}

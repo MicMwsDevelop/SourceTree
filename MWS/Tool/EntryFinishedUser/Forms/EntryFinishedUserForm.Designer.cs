@@ -37,7 +37,6 @@
 			this.dateTimePickerAcceptDate = new System.Windows.Forms.DateTimePicker();
 			this.label5 = new System.Windows.Forms.Label();
 			this.comboBoxReplace = new System.Windows.Forms.ComboBox();
-			this.labelVersion = new System.Windows.Forms.Label();
 			this.comboBoxFinishedReason = new System.Windows.Forms.ComboBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
@@ -48,6 +47,7 @@
 			this.dateTimePickerFinishedYearMonth = new System.Windows.Forms.DateTimePicker();
 			this.textBoxCustomerNo = new System.Windows.Forms.TextBox();
 			this.label8 = new System.Windows.Forms.Label();
+			this.buttonCheckContractService = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -140,15 +140,6 @@
 			this.comboBoxReplace.Size = new System.Drawing.Size(182, 25);
 			this.comboBoxReplace.TabIndex = 14;
 			// 
-			// labelVersion
-			// 
-			this.labelVersion.AutoSize = true;
-			this.labelVersion.Location = new System.Drawing.Point(338, 9);
-			this.labelVersion.Name = "labelVersion";
-			this.labelVersion.Size = new System.Drawing.Size(146, 17);
-			this.labelVersion.TabIndex = 2;
-			this.labelVersion.Text = "Ver 1.00  2019/06/28";
-			// 
 			// comboBoxFinishedReason
 			// 
 			this.comboBoxFinishedReason.FormattingEnabled = true;
@@ -195,10 +186,10 @@
 			// 
 			// buttonOK
 			// 
-			this.buttonOK.Location = new System.Drawing.Point(328, 356);
+			this.buttonOK.Location = new System.Drawing.Point(328, 383);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 42);
-			this.buttonOK.TabIndex = 18;
+			this.buttonOK.TabIndex = 19;
 			this.buttonOK.Text = "登録";
 			this.buttonOK.UseVisualStyleBackColor = true;
 			this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -206,10 +197,10 @@
 			// buttonCancel
 			// 
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(409, 356);
+			this.buttonCancel.Location = new System.Drawing.Point(409, 383);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 42);
-			this.buttonCancel.TabIndex = 19;
+			this.buttonCancel.TabIndex = 20;
 			this.buttonCancel.Text = "閉じる";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			// 
@@ -255,12 +246,23 @@
 			this.label8.TabIndex = 3;
 			this.label8.Text = "顧客No";
 			// 
+			// buttonCheckContractService
+			// 
+			this.buttonCheckContractService.Location = new System.Drawing.Point(100, 383);
+			this.buttonCheckContractService.Name = "buttonCheckContractService";
+			this.buttonCheckContractService.Size = new System.Drawing.Size(124, 42);
+			this.buttonCheckContractService.TabIndex = 18;
+			this.buttonCheckContractService.Text = "契約中サービス確認";
+			this.buttonCheckContractService.UseVisualStyleBackColor = true;
+			this.buttonCheckContractService.Click += new System.EventHandler(this.buttonCheckContractService_Click);
+			// 
 			// EntryFinishedUserForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(498, 411);
+			this.ClientSize = new System.Drawing.Size(498, 437);
+			this.Controls.Add(this.buttonCheckContractService);
 			this.Controls.Add(this.textBoxCustomerNo);
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.dateTimePickerFinishedYearMonth);
@@ -271,7 +273,6 @@
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.comboBoxFinishedReason);
 			this.Controls.Add(this.label6);
-			this.Controls.Add(this.labelVersion);
 			this.Controls.Add(this.comboBoxReplace);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.dateTimePickerAcceptDate);
@@ -306,7 +307,6 @@
 		private System.Windows.Forms.DateTimePicker dateTimePickerAcceptDate;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.ComboBox comboBoxReplace;
-		private System.Windows.Forms.Label labelVersion;
 		private System.Windows.Forms.ComboBox comboBoxFinishedReason;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
@@ -317,6 +317,7 @@
 		private System.Windows.Forms.DateTimePicker dateTimePickerFinishedYearMonth;
 		private System.Windows.Forms.TextBox textBoxCustomerNo;
 		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Button buttonCheckContractService;
 	}
 }
 

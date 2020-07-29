@@ -23,12 +23,12 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// <param name="selectSql">SQL文</param>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
-		/// <param name="sqlsv2">CT環境</param>
+		/// <param name="ct">CT環境</param>
 		/// <returns>レコード数</returns>
-		public static DataTable SelectDirectCharlieDatabase(string selectSql, string whereStr, string orderStr, bool sqlsv2)
+		public static DataTable SelectDirectCharlieDatabase(string selectSql, string whereStr, string orderStr, bool ct)
 		{
 			DataTable result = null;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieConnectionString(sqlsv2)))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieConnectionString(ct)))
 			{
 				try
 				{
@@ -75,11 +75,11 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// <param name="tableName">テーブル/ビュー名</param>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
-		/// <param name="sqlsv2">CT環境</param>
+		/// <param name="ct">CT環境</param>
 		/// <returns>レコード数</returns>
-		public static DataTable SelectCharlieDatabase(string tableName, string whereStr, string orderStr, bool sqlsv2)
+		public static DataTable SelectCharlieDatabase(string tableName, string whereStr, string orderStr, bool ct)
 		{
-			return SelectDirectCharlieDatabase(string.Format(@"SELECT * FROM {0}", tableName), whereStr, orderStr, sqlsv2);
+			return SelectDirectCharlieDatabase(string.Format(@"SELECT * FROM {0}", tableName), whereStr, orderStr, ct);
 		}
 
 		/// <summary>
@@ -87,12 +87,12 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// </summary>
 		/// <param name="sqlStr">SQL文</param>
 		/// <param name="param">パラメータ</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int InsertIntoCharlieDatabase(string sqlStr, SqlParameter[] param, bool sqlsv2)
+		public static int InsertIntoCharlieDatabase(string sqlStr, SqlParameter[] param, bool ct)
 		{
 			int rowCount = -1;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(sqlsv2)))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(ct)))
 			{
 				try
 				{
@@ -142,12 +142,12 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// </summary>
 		/// <param name="sqlStr">SQL文</param>
 		/// <param name="paramList">パラメータ</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int InsertIntoListCharlieDatabase(string sqlStr, IEnumerable<SqlParameter[]> paramList, bool sqlsv2)
+		public static int InsertIntoListCharlieDatabase(string sqlStr, IEnumerable<SqlParameter[]> paramList, bool ct)
 		{
 			int rowCount = -1;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(sqlsv2)))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(ct)))
 			{
 				try
 				{
@@ -200,12 +200,12 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// </summary>
 		/// <param name="sqlStr">SQL文</param>
 		/// <param name="param">パラメータ</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int UpdateSetCharlieDatabase(string sqlStr, SqlParameter[] param, bool sqlsv2)
+		public static int UpdateSetCharlieDatabase(string sqlStr, SqlParameter[] param, bool ct)
 		{
 			int rowCount = -1;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(sqlsv2)))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(ct)))
 			{
 				try
 				{
@@ -254,12 +254,12 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// [CharlieDB] レコードの削除
 		/// </summary>
 		/// <param name="sqlStr">SQL文</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int DeleteCharlieDatabase(string sqlStr, bool sqlsv2)
+		public static int DeleteCharlieDatabase(string sqlStr, bool ct)
 		{
 			int rowCount = -1;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(sqlsv2)))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(ct)))
 			{
 				try
 				{
@@ -308,6 +308,22 @@ namespace MwsLib.DB.SqlServer.Charlie
 		// フィールド関連
 		////////////////////////////////////////////////////////////////
 
+		/// <summary>
+		/// サービスIDに対応するサービス名の取得
+		/// </summary>
+		/// <param name="serviceID">サービスID</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>サービス名</returns>
+		public static string GetServiceName(int serviceID, bool ct)
+		{
+			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_SERVICE], string.Format("SERVICE_ID = {0}", serviceID), "", ct);
+			if (null != table && 0 < table.Rows.Count)
+			{
+				return table.Rows[0]["SERVICE_NAME"].ToString().Trim();
+			}
+			return string.Empty;
+		}
+
 
 		////////////////////////////////////////////////////////////////
 		// テーブル関連
@@ -321,11 +337,11 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>製品管理情報リスト</returns>
-		public static List<T_PRODUCT_CONTROL> Select_T_PRODUCT_CONTROL(string whereStr, string orderStr, bool sqlsv2)
+		public static List<T_PRODUCT_CONTROL> Select_T_PRODUCT_CONTROL(string whereStr, string orderStr, bool ct)
 		{
-			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_PRODUCT_CONTROL], whereStr, orderStr, sqlsv2);
+			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_PRODUCT_CONTROL], whereStr, orderStr, ct);
 			return T_PRODUCT_CONTROL.DataTableToList(table);
 		}
 
@@ -334,11 +350,11 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>顧客利用情報リスト</returns>
-		public static List<T_CUSSTOMER_USE_INFOMATION> Select_T_CUSSTOMER_USE_INFOMATION(string whereStr, string orderStr, bool sqlsv2)
+		public static List<T_CUSSTOMER_USE_INFOMATION> Select_T_CUSSTOMER_USE_INFOMATION(string whereStr, string orderStr, bool ct)
 		{
-			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, orderStr, sqlsv2);
+			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, orderStr, ct);
 			return T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
 		}
 
@@ -347,12 +363,38 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>デモ用ID管理テーブルリスト</returns>
-		public static List<T_DEMO_USER> Select_T_DEMO_USER(string whereStr, string orderStr, bool sqlsv2)
+		public static List<T_DEMO_USER> Select_T_DEMO_USER(string whereStr, string orderStr, bool ct)
 		{
-			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_DEMO_USER], whereStr, orderStr, sqlsv2);
+			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_DEMO_USER], whereStr, orderStr, ct);
 			return T_DEMO_USER.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_LICENSE_PRODUCT_CONTRACT]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>ESETライセンス管理情報リスト</returns>
+		public static List<T_LICENSE_PRODUCT_CONTRACT> Select_T_LICENSE_PRODUCT_CONTRACT(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_LICENSE_PRODUCT_CONTRACT], whereStr, orderStr, ct);
+			return T_LICENSE_PRODUCT_CONTRACT.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>PC安心サポート契約情報リスト</returns>
+		public static List<T_USE_PCCSUPPORT> Select_T_USE_PCCSUPPORT(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT], whereStr, orderStr, ct);
+			return T_USE_PCCSUPPORT.DataTableToList(table);
 		}
 
 		//////////////////////////////
@@ -362,22 +404,22 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// [charlieDB].[dbo].[T_PRODUCT_CONTROL]の更新
 		/// </summary>
 		/// <param name="data">製品管理情報</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int UpdateSet_T_PRODUCT_CONTROL(T_PRODUCT_CONTROL data, bool sqlsv2)
+		public static int UpdateSet_T_PRODUCT_CONTROL(T_PRODUCT_CONTROL data, bool ct)
 		{
-			return UpdateSetCharlieDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters(), sqlsv2);
+			return UpdateSetCharlieDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters(), ct);
 		}
 
 		/// <summary>
 		/// [charlieDB].[dbo].[T_CUSSTOMER_USE_INFOMATION]の更新
 		/// </summary>
 		/// <param name="data">顧客利用情報</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int UpdateSet_T_CUSSTOMER_USE_INFOMATION(T_CUSSTOMER_USE_INFOMATION data, bool sqlsv2)
+		public static int UpdateSet_T_CUSSTOMER_USE_INFOMATION(T_CUSSTOMER_USE_INFOMATION data, bool ct)
 		{
-			return UpdateSetCharlieDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters(), sqlsv2);
+			return UpdateSetCharlieDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters(), ct);
 		}
 
 		//////////////////////////////
@@ -387,49 +429,49 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// [charlieDB].[dbo].[T_PRODUCT_CONTROL]の新規追加
 		/// </summary>
 		/// <param name="data">製品管理情報</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int InsertInto_T_PRODUCT_CONTROL(T_PRODUCT_CONTROL data, bool sqlsv2)
+		public static int InsertInto_T_PRODUCT_CONTROL(T_PRODUCT_CONTROL data, bool ct)
 		{
-			return InsertIntoCharlieDatabase(T_PRODUCT_CONTROL.InsertIntoSqlString, data.GetInsertIntoParameters(), sqlsv2);
+			return InsertIntoCharlieDatabase(T_PRODUCT_CONTROL.InsertIntoSqlString, data.GetInsertIntoParameters(), ct);
 		}
 
 		/// <summary>
 		/// [charlieDB].[dbo].[T_CUSSTOMER_USE_INFOMATION]の新規追加
 		/// </summary>
 		/// <param name="data">顧客利用情報</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int InsertInto_T_CUSSTOMER_USE_INFOMATION(T_CUSSTOMER_USE_INFOMATION data, bool sqlsv2)
+		public static int InsertInto_T_CUSSTOMER_USE_INFOMATION(T_CUSSTOMER_USE_INFOMATION data, bool ct)
 		{
-			return InsertIntoCharlieDatabase(T_CUSSTOMER_USE_INFOMATION.InsertIntoSqlString, data.GetInsertIntoParameters(), sqlsv2);
+			return InsertIntoCharlieDatabase(T_CUSSTOMER_USE_INFOMATION.InsertIntoSqlString, data.GetInsertIntoParameters(), ct);
 		}
 
 		/// <summary>
 		/// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の新規追加
 		/// </summary>
 		/// <param name="data">PC安心サポート契約情報</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int InsertInto_T_USE_PCCSUPPORT(T_USE_PCCSUPPORT data, bool sqlsv2)
+		public static int InsertInto_T_USE_PCCSUPPORT(T_USE_PCCSUPPORT data, bool ct)
 		{
-			return InsertIntoCharlieDatabase(T_USE_PCCSUPPORT.InsertIntoSqlString, data.GetInsertIntoParameters(), sqlsv2);
+			return InsertIntoCharlieDatabase(T_USE_PCCSUPPORT.InsertIntoSqlString, data.GetInsertIntoParameters(), ct);
 		}
 
 		/// <summary>
 		/// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の複数新規追加
 		/// </summary>
 		/// <param name="list">PC安心サポート契約情報リスト</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int InsertIntoList_T_USE_PCCSUPPORT(IEnumerable<T_USE_PCCSUPPORT> list, bool sqlsv2)
+		public static int InsertIntoList_T_USE_PCCSUPPORT(IEnumerable<T_USE_PCCSUPPORT> list, bool ct)
 		{
 			List<SqlParameter[]> paramList = new List<SqlParameter[]>();
 			foreach (T_USE_PCCSUPPORT data in list)
 			{
 				paramList.Add(data.GetInsertIntoParameters());
 			}
-			return InsertIntoListCharlieDatabase(T_USE_PCCSUPPORT.InsertIntoSqlString, paramList, sqlsv2);
+			return InsertIntoListCharlieDatabase(T_USE_PCCSUPPORT.InsertIntoSqlString, paramList, ct);
 		}
 
 		//////////////////////////////
@@ -438,179 +480,3 @@ namespace MwsLib.DB.SqlServer.Charlie
 
 	}
 }
-
-/*
-/// <summary>
-/// ナルコーム申込情報リストの取得
-/// </summary>
-/// <param name="sqlsv2">CT環境かどうか？</param>
-/// <returns>ナルコーム申込情報リスト</returns>
-public static List<T_NARCOHM_APPLICATE_HEADER> Select_T_NARCOHM_APPLICATE_HEADER(bool sqlsv2)
-{
-	DataTable tableHeader = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_NARCOHM_APPLICATE_HEADER], "", "ApplicateID ASC", sqlsv2);
-	if (null != tableHeader)
-	{
-		if (0 < tableHeader.Rows.Count)
-		{
-			DataTable tableDetail = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_NARCOHM_APPLICATE_DETAIL], "", "ApplicateID ASC, SeqNo ASC", sqlsv2);
-			if (0 < tableDetail.Rows.Count)
-			{
-				List<T_NARCOHM_APPLICATE_HEADER> headerList = T_NARCOHM_APPLICATE_HEADER.DataTableToList(tableHeader);
-				List<T_NARCOHM_APPLICATE_DETAIL> detailList = T_NARCOHM_APPLICATE_DETAIL.DataTableToList(tableDetail);
-				foreach (T_NARCOHM_APPLICATE_HEADER header in headerList)
-				{
-					header.DetailList = detailList.FindAll(p => header.ApplicateID == p.ApplicateID);
-				}
-				return headerList;
-			}
-		}
-	}
-	return null;
-}
-
-/// <summary>
-/// ナルコーム申込情報の追加
-/// [Charlie].[dbo].[T_NARCOHM_APPLICATE_HEADER]
-/// [Charlie].[dbo].[T_NARCOHM_APPLICATE_DETAIL]
-/// </summary>
-/// <param name="data">ナルコーム申込情報</param>
-/// <param name="sqlsv2">CT環境かどうか？</param>
-/// <returns>影響行数</returns>
-public static int InsertInto_T_NARCOHM_APPLICATE_HEADER(T_NARCOHM_APPLICATE_HEADER data, bool sqlsv2)
-{
-	int rowCount = -1;
-	using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(sqlsv2)))
-	{
-		try
-		{
-			// 接続
-			con.Open();
-
-			// トランザクション開始
-			using (SqlTransaction tran = con.BeginTransaction())
-			{
-				try
-				{
-					// 実行
-					object iNewRowIdentity = DataBaseController.SqlExecuteScalar(con, tran, T_NARCOHM_APPLICATE_HEADER.InsertIntoSqlString, data.GetInsertIntoParameters());
-					if (null == iNewRowIdentity)
-					{
-						throw new ApplicationException("InsertInto_T_NARCOHM_APPLICATE_HEADER() Error!");
-					}
-					// オートナンバーの取得
-					data.ApplicateID = Convert.ToInt32(iNewRowIdentity);
-
-					// ナルコーム製品申込詳細情報の追加
-					int i = 0;
-					foreach (T_NARCOHM_APPLICATE_DETAIL detail in data.DetailList)
-					{
-						detail.ApplicateID = data.ApplicateID;
-
-						// 実行
-						rowCount = DataBaseController.SqlExecuteCommand(con, tran, T_NARCOHM_APPLICATE_DETAIL.InsertIntoSqlString, detail.GetInsertIntoParameters(i));
-						if (rowCount <= -1)
-						{
-							throw new ApplicationException("InsertInto_T_NARCOHM_APPLICATE_HEADER() Error!");
-						}
-						i++;
-					}
-					// コミット
-					tran.Commit();
-				}
-				catch
-				{
-					// ロールバック
-					tran.Rollback();
-					throw;
-				}
-			}
-		}
-		catch
-		{
-			throw;
-		}
-		finally
-		{
-			if (null != con)
-			{
-				// 切断
-				con.Close();
-			}
-		}
-	}
-	return rowCount;
-}
-
-/// <summary>
-/// ナルコーム製品申込情報の更新
-/// [Charlie].[dbo].[T_NARCOHM_APPLICATE_HEADER]
-/// [Charlie].[dbo].[T_NARCOHM_APPLICATE_DETAIL]
-/// </summary>
-/// <param name="data">ナルコーム製品申込ヘッダ情報</param>
-/// <param name="sqlsv2">CT環境かどうか？</param>
-/// <returns>影響行数</returns>
-public static int UpdateSet_T_NARCOHM_APPLICATE_HEADER(T_NARCOHM_APPLICATE_HEADER data, bool sqlsv2)
-{
-	int rowCount = -1;
-	using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieWebConnectionString(sqlsv2)))
-	{
-		try
-		{
-			// 接続
-			con.Open();
-
-			// トランザクション開始
-			using (SqlTransaction tran = con.BeginTransaction())
-			{
-				try
-				{
-					// ナルコーム製品申込情報の更新
-					rowCount = DataBaseController.SqlExecuteCommand(con, tran, data.UpdateSetSqlString, data.GetUpdateSetParameters());
-					if (rowCount <= -1)
-					{
-						throw new ApplicationException("UpdateSet_T_NARCOHM_APPLICATE_HEADER() Error!");
-					}
-					// ナルコーム製品申込詳細情報の削除
-					rowCount = DataBaseController.SqlExecuteCommand(con, tran, T_NARCOHM_APPLICATE_DETAIL.DeleteSqlString(data.ApplicateID));
-					if (rowCount <= -1)
-					{
-						throw new ApplicationException("UpdateSet_T_NARCOHM_APPLICATE_HEADER() Error!");
-					}
-					// ナルコーム製品申込詳細情報の追加
-					int i = 0;
-					foreach (T_NARCOHM_APPLICATE_DETAIL detail in data.DetailList)
-					{
-						rowCount = DataBaseController.SqlExecuteCommand(con, tran, T_NARCOHM_APPLICATE_DETAIL.InsertIntoSqlString, detail.GetInsertIntoParameters(i));
-						if (rowCount <= -1)
-						{
-							throw new ApplicationException("UpdateSet_T_NARCOHM_APPLICATE_HEADER() Error!");
-						}
-						i++;
-					}
-					// コミット
-					tran.Commit();
-				}
-				catch
-				{
-					// ロールバック
-					tran.Rollback();
-					throw;
-				}
-			}
-		}
-		catch
-		{
-			throw;
-		}
-		finally
-		{
-			if (null != con)
-			{
-				// 切断
-				con.Close();
-			}
-		}
-	}
-	return rowCount;
-}
-*/

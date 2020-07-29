@@ -22,11 +22,11 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 		/// <summary>
 		/// 終了ユーザー情報リストの取得
 		/// </summary>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>顧客情報リスト</returns>
-		public static List<EntryFinishedUserData> GetEntryFinishedUserDataList(bool sqlsv2)
+		public static List<EntryFinishedUserData> GetEntryFinishedUserDataList(bool ct)
 		{
-			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(sqlsv2);
+			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(ct);
 			return EntryFinishedUserController.ConvertEntryFinishedUserList(table);
 		}
 
@@ -34,11 +34,11 @@ namespace MwsLib.DB.SqlServer.EntryFinishedUser
 		/// 得意先Noに該当する顧客情報を取得
 		/// </summary>
 		/// <param name="tokuisakiID">得意先No</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>顧客情報</returns>
-		public static EntryFinishedUserData GetCustomerInfo(string tokuisakiID, bool sqlsv2)
+		public static EntryFinishedUserData GetCustomerInfo(string tokuisakiID, bool ct)
 		{
-			DataTable table = EntryFinishedUserGetIO.GetCustomerInfo(tokuisakiID, sqlsv2);
+			DataTable table = EntryFinishedUserGetIO.GetCustomerInfo(tokuisakiID, ct);
 			return EntryFinishedUserController.ConvertCustomerInfo(table);
 		}
 	}

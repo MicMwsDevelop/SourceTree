@@ -75,6 +75,16 @@ namespace MwsLib.BaseFactory
 		public const string MwsPlatform = "800001";
 
 		/// <summary>
+		/// MWS Curline ｸﾗｳﾄﾞ利用料(月額)                          
+		/// </summary>
+		public const string MwsCurlineCloud = "802001";
+
+		/// <summary>
+		/// はなはなし
+		/// </summary>
+		public const string Hanahanashi = "001401";
+
+		/// <summary>
 		/// PC安心サポートかどうか？
 		/// </summary>
 		/// <param name="code">商品コード</param>

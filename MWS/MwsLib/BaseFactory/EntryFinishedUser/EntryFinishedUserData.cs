@@ -252,14 +252,28 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 		/// <returns>判定</returns>
 		public bool IsPrevMonthFinishedUser(YearMonth ym)
 		{
-			//if (false == FinishedUser)
+			if (FinishedYearMonth.HasValue)
 			{
-				if (FinishedYearMonth.HasValue)
+				if (FinishedYearMonth.Value == ym - 1)
 				{
-					if (FinishedYearMonth.Value == ym - 1)
-					{
-						return true;
-					}
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// 翌月終了月ユーザーかどうか？
+		/// </summary>
+		/// <param name="ym">当月</param>
+		/// <returns>判定</returns>
+		public bool IsNextMonthFinishedUser(YearMonth ym)
+		{
+			if (FinishedYearMonth.HasValue)
+			{
+				if (FinishedYearMonth.Value == ym + 1)
+				{
+					return true;
 				}
 			}
 			return false;

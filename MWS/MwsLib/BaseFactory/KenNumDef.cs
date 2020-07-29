@@ -9,10 +9,10 @@ using MwsLib.Common;
 
 namespace MwsLib.BaseFactory
 {
-    /// <summary>
-    /// 都道府県 関連定義クラス
-    /// </summary>
-    public static class KenNumDef
+	/// <summary>
+	/// 都道府県 関連定義クラス
+	/// </summary>
+	public static class KenNumDef
     {
         /// <summary>
         /// 県番号

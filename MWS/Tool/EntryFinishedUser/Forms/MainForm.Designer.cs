@@ -1,6 +1,6 @@
 ﻿namespace EntryFinishedUser.Forms
 {
-	partial class FinishedUserListForm
+	partial class MainForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -33,9 +33,10 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.textBoxCount = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
-			this.buttonShowList = new System.Windows.Forms.Button();
+			this.buttonExcel = new System.Windows.Forms.Button();
 			this.textBoxTokuisakiNo = new MwsLib.Component.NumericTextBox();
 			this.buttonRemove = new System.Windows.Forms.Button();
+			this.buttonCheckContractService = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFinishedUser)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -55,7 +56,7 @@
 			this.dataGridViewFinishedUser.RowTemplate.Height = 21;
 			this.dataGridViewFinishedUser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewFinishedUser.Size = new System.Drawing.Size(1239, 810);
-			this.dataGridViewFinishedUser.TabIndex = 6;
+			this.dataGridViewFinishedUser.TabIndex = 8;
 			this.dataGridViewFinishedUser.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewFinishedUser_DataBindingComplete);
 			this.dataGridViewFinishedUser.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewFinishedUser_MouseDoubleClick);
 			// 
@@ -99,16 +100,16 @@
 			this.label2.TabIndex = 3;
 			this.label2.Text = "■件数";
 			// 
-			// buttonShowList
+			// buttonExcel
 			// 
-			this.buttonShowList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonShowList.Location = new System.Drawing.Point(1177, 11);
-			this.buttonShowList.Name = "buttonShowList";
-			this.buttonShowList.Size = new System.Drawing.Size(75, 26);
-			this.buttonShowList.TabIndex = 5;
-			this.buttonShowList.Text = "リスト参照";
-			this.buttonShowList.UseVisualStyleBackColor = true;
-			this.buttonShowList.Click += new System.EventHandler(this.buttonShowList_Click);
+			this.buttonExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonExcel.Location = new System.Drawing.Point(1177, 11);
+			this.buttonExcel.Name = "buttonExcel";
+			this.buttonExcel.Size = new System.Drawing.Size(75, 26);
+			this.buttonExcel.TabIndex = 7;
+			this.buttonExcel.Text = "EXCEL出力";
+			this.buttonExcel.UseVisualStyleBackColor = true;
+			this.buttonExcel.Click += new System.EventHandler(this.buttonExcel_Click);
 			// 
 			// textBoxTokuisakiNo
 			// 
@@ -125,29 +126,41 @@
 			this.buttonRemove.Location = new System.Drawing.Point(469, 12);
 			this.buttonRemove.Name = "buttonRemove";
 			this.buttonRemove.Size = new System.Drawing.Size(75, 26);
-			this.buttonRemove.TabIndex = 7;
+			this.buttonRemove.TabIndex = 5;
 			this.buttonRemove.Text = "削除";
 			this.buttonRemove.UseVisualStyleBackColor = true;
 			this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
 			// 
-			// FinishedUserListForm
+			// buttonCheckContractService
+			// 
+			this.buttonCheckContractService.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonCheckContractService.Location = new System.Drawing.Point(1061, 11);
+			this.buttonCheckContractService.Name = "buttonCheckContractService";
+			this.buttonCheckContractService.Size = new System.Drawing.Size(110, 26);
+			this.buttonCheckContractService.TabIndex = 6;
+			this.buttonCheckContractService.Text = "契約中サービス確認";
+			this.buttonCheckContractService.UseVisualStyleBackColor = true;
+			this.buttonCheckContractService.Click += new System.EventHandler(this.buttonCheckContractService_Click);
+			// 
+			// MainForm
 			// 
 			this.AcceptButton = this.buttonSearch;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1264, 866);
+			this.Controls.Add(this.buttonCheckContractService);
 			this.Controls.Add(this.buttonRemove);
-			this.Controls.Add(this.buttonShowList);
+			this.Controls.Add(this.buttonExcel);
 			this.Controls.Add(this.textBoxCount);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.buttonSearch);
 			this.Controls.Add(this.textBoxTokuisakiNo);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.dataGridViewFinishedUser);
-			this.Name = "FinishedUserListForm";
+			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "終了ユーザーリスト参照";
-			this.Load += new System.EventHandler(this.FinishedUserListForm_Load);
+			this.Text = "終了ユーザーリスト参照（Ver2.00 2020/07/22）";
+			this.Load += new System.EventHandler(this.MainForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFinishedUser)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -162,7 +175,8 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox textBoxCount;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Button buttonShowList;
+		private System.Windows.Forms.Button buttonExcel;
 		private System.Windows.Forms.Button buttonRemove;
+		private System.Windows.Forms.Button buttonCheckContractService;
 	}
 }

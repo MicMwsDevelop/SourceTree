@@ -437,9 +437,9 @@ namespace MwsLib.DB.SqlServer.Junp
 		/// <param name="data">tMemo</param>
 		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>影響行数</returns>
-		public static int InsertInto_tMemo(tMemo data, bool sqlsv2)
+		public static int InsertInto_tMemo(tMemo data, bool ct)
 		{
-			return InsertIntoJunpDatabase(tMemo.InsertIntoSqlString, data.GetInsertIntoParameters(), sqlsv2);
+			return InsertIntoJunpDatabase(tMemo.InsertIntoSqlString, data.GetInsertIntoParameters(), ct);
 		}
 
 		//////////////////////////////
@@ -476,6 +476,27 @@ namespace MwsLib.DB.SqlServer.Junp
 				return DataBaseValue.ConvObjectToInt(table.Rows[0]["消費税率"]);
 			}
 			return 0;
+		}
+
+		/// <summary>
+		/// 終了ユーザーリストの取得
+		/// </summary>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>結果</returns>
+		public static List<int> GetClientEnd(bool ct)
+		{
+			string sql = string.Format("SELECT fCliID FROM %s WHERE fCliEnd = '1' ORDER BY fCliID", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient]);
+			DataTable table = SelectJunpDatabase(sql, ct);
+			if (null != table && 0 < table.Rows.Count)
+			{
+				List<int> result = new List<int>();
+				foreach (DataRow row in table.Rows)
+				{
+					result.Add(DataBaseValue.ConvObjectToInt(row["fCliID"]));
+				}
+				return result;
+			}
+			return null;
 		}
 	}
 }

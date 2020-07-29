@@ -147,7 +147,7 @@ namespace MwsLib.DB.SqlServer.SoftwareMainteEarnings
 					, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]
 					, (int)ServiceCodeDefine.ServiceCode.PaletteES
 					, today.LastDayOfTheMonth().ToIntYMD()
-					, (int)ServiceCodeDefine.ServiceCode.SoftwareMaite1);
+					, (int)ServiceCodeDefine.ServiceCode.SoftwareMainte1);
 
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{

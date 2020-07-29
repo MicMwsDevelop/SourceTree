@@ -40,6 +40,16 @@ namespace MwsLib.DB.SqlServer.Charlie
 			/// デモ用ID管理テーブル
 			/// </summary>
 			T_DEMO_USER = 4,
+
+			/// <summary>
+			/// ESETライセンス管理情報
+			/// </summary>
+			T_LICENSE_PRODUCT_CONTRACT = 5,
+
+			/// <summary>
+			/// サービス情報
+			/// </summary>
+			M_SERVICE = 6,
 		}
 
 		/// <summary>
@@ -51,6 +61,8 @@ namespace MwsLib.DB.SqlServer.Charlie
 			{ TableType.T_CUSSTOMER_USE_INFOMATION, "T_CUSSTOMER_USE_INFOMATION" },
 			{ TableType.T_USE_PCCSUPPORT, "T_USE_PCCSUPPORT" },
 			{ TableType.T_DEMO_USER, "T_DEMO_USER" },
+			{ TableType.T_LICENSE_PRODUCT_CONTRACT, "T_LICENSE_PRODUCT_CONTRACT" },
+			{ TableType.M_SERVICE, "M_SERVICE" },
 		};
 
 		/// <summary>

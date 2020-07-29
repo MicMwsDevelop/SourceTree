@@ -53,15 +53,16 @@
   <ItemGroup>
     <Compile Include="BaseFactory\Charlie\Table\T_CUSSTOMER_USE_INFOMATION.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_DEMO_USER.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_LICENSE_PRODUCT_CONTRACT.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
     <Compile Include="BaseFactory\CheckVoucherPaletteES\OrderVoucher.cs" />
     <Compile Include="BaseFactory\CloudDataBank\CloudDataBankEarningsData.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_PRODUCTUSER.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_SERVICE.cs" />
-    <Compile Include="BaseFactory\Estore\WebGeneralData.cs" />
-    <Compile Include="BaseFactory\Estore\WebJUCUtmp.cs" />
-    <Compile Include="BaseFactory\Estore\WebJUCUtmp2.cs" />
+    <Compile Include="BaseFactory\Estore\Table\tMICestore_log.cs" />
+    <Compile Include="BaseFactory\Estore\View\vMic部門コード.cs" />
+    <Compile Include="BaseFactory\Estore\WebJucu.cs" />
     <Compile Include="BaseFactory\CheckOrderSlip\OrderSlipData.cs" />
     <Compile Include="BaseFactory\Junp\Table\tBusho.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMemo.cs" />
@@ -260,6 +261,7 @@
     <Compile Include="DB\SqlServer\SoftwareMainteEarnings\SoftwareMainteEarningsController.cs" />
     <Compile Include="DB\SqlServer\SoftwareMainteEarnings\SoftwareMainteEarningsGetIO.cs" />
     <Compile Include="DB\SqlServer\SqlServerHelper.cs" />
+    <Compile Include="DB\SqlServer\WebJucu\WebJucuAccess.cs" />
     <Compile Include="Log\ErrorLogger.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Log\MainteLogger.cs" />
@@ -278,9 +280,7 @@
       <DependentUpon>ExplorerTreeView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BaseFactory\Estore\Table\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Release" copy $(TargetFileName) ..\..\..\_EXE

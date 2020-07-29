@@ -5,6 +5,9 @@
 // 
 // Ver1.000 新規作成(2019/02/08 勝呂)
 //
+using System;
+using System.Runtime.Remoting.Messaging;
+
 namespace MwsLib.BaseFactory
 {
 	public static class ServiceCodeDefine
@@ -582,6 +585,85 @@ namespace MwsLib.BaseFactory
 			Liston = 2010100,
 
 			/////////////////////////
+			// 3000 達人プラスVersion5
+
+			TatsujinPlus5Monthly = 3510100,	// 達人プラスVersion5 月額版
+
+			/////////////////////////
+			// 4000 SmaBiz! Office365
+
+			Office365_SmallBusinessPremium = 2510100,
+			Office365_SmallBusinessPremium2L = 2510101,
+			SmaBizOffice365ProPLus = 2510120,
+			Office365_Business = 2510140,
+
+			/////////////////////////
+			// 4001 Office 365
+
+			Office365_BusinessPremium3L = 2510103,
+			Office365_SmallBizPremium = 2520100,
+			Office365_BusinessN = 2520120,
+			Office365_Business2L = 2520140,
+			Office365_BusinessPremium2L = 2520160,
+			Office365_BusinessPremium3LN = 2520180,
+
+			/////////////////////////
+			// 5000 ｵﾝﾗｲﾝ予約ｼｽﾃﾑｱﾎﾟﾃﾞﾝﾄ
+
+			Apodent = 3010100,				// ｵﾝﾗｲﾝ予約ｼｽﾃﾑアポデント
+			ApoDentSMS = 3010120,			// ApoDent SMS
+			ApoDentVoiceMessage = 3010140,	// ApoDent 自動ボイスメッセージ
+			ApoDentLINE = 3010160,          // ApoDent LINEサービス
+
+			/////////////////////////
+			// 6000 Ecoレセプトビューワ
+
+			EcoRezeptViewer = 4010100,
+
+			/////////////////////////
+			// 7000 ﾌﾟﾛｾｼｱVersion2Web版
+
+			ProceciaVersion2 = 4510100,     // プロセシアVersion2Web版
+
+			/////////////////////////
+			// 10000 達人プラスVersion6
+
+			TatsujinPlus6 = 5410100,			// 達人プラス Version６
+			CloudBackupService10GB = 5410120,   // クラウドバックアップサービス 10GB
+			CloudBackupService20GB = 5410140,   // クラウドバックアップサービス 20GB
+
+			/////////////////////////
+			// 11000 スマート変換サービス
+
+			DudaMobileSoftbankCS = 5610100,     // DudaMobile SoftbankC&S
+
+			/////////////////////////
+			// 12000 Curline登録医
+
+			/// <summary>
+			/// Curline登録医
+			/// </summary>
+			CurlineDoctor = 9010100,
+
+
+			/////////////////////////
+			// 13000 介護伝送
+
+			KaigoDenso = 5810100,   // 介護伝送
+
+			/////////////////////////
+			// 14000 ESET
+
+			EsetMonthly1L = 6010100,	// ESET月額版(1ライセンス)
+			EsetMonthly3L = 6010120,	// ESET月額版(3ライセンス)
+			EsetMonthlt5L = 6010140,    // ESET月額版(5ライセンス)
+
+			/////////////////////////
+			// 15000 ナビック
+
+			Navic = 6210100,	// ナビック
+
+			/////////////////////////
 			// 16000 PC安心サポート
 
 			/// <summary>
@@ -600,14 +682,6 @@ namespace MwsLib.BaseFactory
 			PcSafetySupportContinue = 6410160,
 
 			/////////////////////////
-			// Curline登録医
-
-			/// <summary>
-			/// Curline登録医
-			/// </summary>
-			CurlineDoctor = 9210100,
-
-			/////////////////////////
 			// 100000 ユーザー
 
 			/// <summary>
@@ -618,12 +692,12 @@ namespace MwsLib.BaseFactory
 			/// <summary>
 			/// palette ES ソフトウェア保守 6年
 			/// </summary>
-			SoftwareMaite6 = 9910120,
+			SoftwareMainte6 = 9910120,
 
 			/// <summary>
 			/// palette ES ソフトウェア保守 1年
 			/// </summary>
-			SoftwareMaite1 = 9910140,
+			SoftwareMainte1 = 9910140,
 		}
 	}
 }

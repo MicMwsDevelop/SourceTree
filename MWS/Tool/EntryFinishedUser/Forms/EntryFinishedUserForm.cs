@@ -7,9 +7,12 @@
 // 
 // Ver1.000 新規作成(2019/06/28 勝呂)
 // 
+using MwsLib.BaseFactory;
+using MwsLib.BaseFactory.Charlie.Table;
 using MwsLib.BaseFactory.EntryFinishedUser;
 using MwsLib.BaseFactory.Junp.Table;
 using MwsLib.Common;
+using MwsLib.DB.SqlServer.Charlie;
 using MwsLib.DB.SqlServer.Junp;
 using System;
 using System.Collections.Generic;
@@ -188,7 +191,96 @@ namespace EntryFinishedUser.Forms
 			{
 				MessageBox.Show("メモ登録をキャンセルしました。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
+			// 契約中サービス確認
+			CheckContractService();
+
 			base.DialogResult = DialogResult.OK;
+		}
+
+		/// <summary>
+		/// 契約中サービス確認
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonCheckContractService_Click(object sender, EventArgs e)
+		{
+			if (!CheckContractService())
+			{
+				MessageBox.Show("現在、契約中のサービスはありません。", "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+			}
+		}
+
+		/// <summary>
+		/// 契約中サービス確認
+		/// </summary>
+		/// <returns>契約中サービスの有無</returns>
+		private bool CheckContractService()
+		{
+			bool exist = false;
+
+			// 元のカーソルを保持
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
+			List<int> checkList = new List<int>();
+			checkList.Add(FinishedUser.CustomerID);
+
+			// ESET月額版
+			List<T_LICENSE_PRODUCT_CONTRACT> esetList = Program.ContractServiceESET(checkList);
+			if (null != esetList && 0 < esetList.Count)
+			{
+				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(esetList[0].SERVICE_ID, Program.DATABACE_ACCEPT_CT), esetList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				exist = true;
+			}
+			// PC安心サポート
+			List<T_USE_PCCSUPPORT> pcList = Program.ContractServicePcSupport(checkList);
+			if (null != pcList && 0 < pcList.Count)
+			{
+				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(pcList[0].fServiceId, Program.DATABACE_ACCEPT_CT), pcList[0].fServiceId), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				exist = true;
+			}
+			// ナルコーム製品
+			List<T_CUSSTOMER_USE_INFOMATION> cuiList = Program.ContractServiceNarcohm(checkList);
+			if (null != cuiList && 0 < cuiList.Count)
+			{
+				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(cuiList[0].SERVICE_ID, Program.DATABACE_ACCEPT_CT), cuiList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				exist = true;
+			}
+			// Microsoft365製品
+			cuiList = Program.ContractService365(checkList);
+			if (null != cuiList && 0 < cuiList.Count)
+			{
+				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(cuiList[0].SERVICE_ID, Program.DATABACE_ACCEPT_CT), cuiList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				exist = true;
+			}
+			// Curlineクラウド
+			List<int> noList = Program.ContractServiceCurlineCloud();
+			if (null != noList)
+			{
+				int index = noList.FindIndex(p => p == FinishedUser.CustomerID);
+				if (-1 != index)
+				{
+					MessageBox.Show(string.Format("Curlineクラウド（{0}）のサービスが契約中です。", PcaGoodsIDDefine.MwsCurlineCloud), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					exist = true;
+				}
+			}
+			// はなはなし購読
+			noList = Program.ContractServiceHanahanashi();
+			if (null != noList)
+			{
+				int index = noList.FindIndex(p => p == FinishedUser.CustomerID);
+				if (-1 != index)
+				{
+					MessageBox.Show(string.Format("はなはなし（{0}）のサービスが契約中です。", PcaGoodsIDDefine.Hanahanashi), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					exist = true;
+				}
+			}
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
+
+			return exist;
 		}
 	}
 }

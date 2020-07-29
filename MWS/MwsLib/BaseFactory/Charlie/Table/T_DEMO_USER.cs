@@ -8,12 +8,10 @@
 // 
 // Ver1.000 新規作成(2019/10/18 勝呂)
 // 
+using MwsLib.DB;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using MwsLib.DB;
 
 namespace MwsLib.BaseFactory.Charlie.Table
 {
