@@ -7,13 +7,13 @@
 // 
 // Ver1.00 新規作成(2020/03/06 勝呂)
 //
-using CloudDataBankPurchaseOutput.Settings;
+using CloudBackupPurchaseOutput.Settings;
 using MwsLib.Common;
 using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace CloudDataBankPurchaseOutput.Forms
+namespace CloudBackupPurchaseOutput.Forms
 {
 	/// <summary>
 	/// メイン画面
@@ -23,7 +23,7 @@ namespace CloudDataBankPurchaseOutput.Forms
 		/// <summary>
 		/// 環境設定
 		/// </summary>
-		private CloudDataBankPurchaseOutputSettings Settings;
+		private CloudBackupPurchaseOutputSettings Settings;
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -40,12 +40,7 @@ namespace CloudDataBankPurchaseOutput.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			//CloudDataBankStockDataOutputSettings set = new CloudDataBankStockDataOutputSettings();
-			//set.ExportDir = @"C:\_AAA";
-			//set.ExportFilename = "ナルコーム商品仕入データ.txt";
-			//CloudDataBankStockDataOutputSettingsIF.SetSettings(set);
-
-			Settings = CloudDataBankPurchaseOutputSettingsIF.GetSettings();
+			Settings = CloudBackupPurchaseOutputSettingsIF.GetSettings();
 			textBoxFolder.Text = Settings.ExportDir;
 			textBoxFilename.Text = Settings.ExportFilename;
 			textBoxPcaVer.Text = Settings.PcaVersion.ToString();
@@ -110,7 +105,7 @@ namespace CloudDataBankPurchaseOutput.Forms
 			}
 			Settings.ExportFilename = textBoxFilename.Text;
 			Settings.PcaVersion = textBoxPcaVer.ToInt();
-			CloudDataBankPurchaseOutputSettingsIF.SetSettings(Settings);
+			CloudBackupPurchaseOutputSettingsIF.SetSettings(Settings);
 		}
 	}
 }

@@ -1,5 +1,5 @@
 ﻿//
-// CloudDataBankPurchaseOutputSettingsIF.cs
+// CloudBackupPurchaseOutputSettingsIF.cs
 // 
 // 環境設定インターフェイス
 // 
@@ -12,22 +12,22 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace CloudDataBankPurchaseOutput.Settings
+namespace CloudBackupPurchaseOutput.Settings
 {
 	/// <summary>
 	/// MIC 納品書印刷 環境設定インターフェイス
 	/// </summary>
-	public static class CloudDataBankPurchaseOutputSettingsIF
+	public static class CloudBackupPurchaseOutputSettingsIF
 	{
 		/// <summary>
 		/// 環境設定ファイル名称
 		/// </summary>
-		public const string SETTINGS_FILENAME = "CloudDataBankPurchaseOutputSettings.xml";
+		public const string SETTINGS_FILENAME = "CloudBackupPurchaseOutputSettings.xml";
 
 		/// <summary>
 		/// 環境設定
 		/// </summary>
-		private static CloudDataBankPurchaseOutputSettings Settings = null;
+		private static CloudBackupPurchaseOutputSettings Settings = null;
 
 		/// <summary>
 		/// 環境設定ファイル名
@@ -62,8 +62,8 @@ namespace CloudDataBankPurchaseOutput.Settings
 					try
 					{
 						fileStream = new FileStream(SettingsFileName, FileMode.Open);
-						XmlSerializer serializer = new XmlSerializer(typeof(CloudDataBankPurchaseOutputSettings));
-						Settings = serializer.Deserialize(fileStream) as CloudDataBankPurchaseOutputSettings;
+						XmlSerializer serializer = new XmlSerializer(typeof(CloudBackupPurchaseOutputSettings));
+						Settings = serializer.Deserialize(fileStream) as CloudBackupPurchaseOutputSettings;
 					}
 					catch (Exception)
 					{
@@ -80,7 +80,7 @@ namespace CloudDataBankPurchaseOutput.Settings
 				else
 				{
 					// 存在しない場合は初期値を設定
-					Settings = new CloudDataBankPurchaseOutputSettings();
+					Settings = new CloudBackupPurchaseOutputSettings();
 				}
 			}
 			return result;
@@ -99,7 +99,7 @@ namespace CloudDataBankPurchaseOutput.Settings
 			{
 				fileStream = new FileStream(SettingsFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 				StreamWriter stream = new StreamWriter(fileStream, Encoding.UTF8);   // Unicodeで書き込む
-				XmlSerializer serializer = new XmlSerializer(typeof(CloudDataBankPurchaseOutputSettings));
+				XmlSerializer serializer = new XmlSerializer(typeof(CloudBackupPurchaseOutputSettings));
 				serializer.Serialize(stream, Settings);
 			}
 			catch (Exception)
@@ -122,7 +122,7 @@ namespace CloudDataBankPurchaseOutput.Settings
 		/// <param name="reload">環境設定を再読みするかどうか（デフォルト：false）</param>
 		/// <returns>環境設定</returns>
 		/// <exception cref="ApplicationException">環境設定の読み込みが出来なかった場合に発生</exception>
-		public static CloudDataBankPurchaseOutputSettings GetSettings(bool reload = false)
+		public static CloudBackupPurchaseOutputSettings GetSettings(bool reload = false)
 		{
 			SetSettingsFileName();
 
@@ -132,14 +132,14 @@ namespace CloudDataBankPurchaseOutput.Settings
 			{
 				throw new ApplicationException("環境設定の取得に失敗");
 			}
-			return Settings.Clone() as CloudDataBankPurchaseOutputSettings;
+			return Settings.Clone() as CloudBackupPurchaseOutputSettings;
 		}
 
 		/// <summary>
 		/// 環境設定の設定
 		/// </summary>
 		/// <param name="settings">環境設定</param>
-		public static void SetSettings(CloudDataBankPurchaseOutputSettings settings)
+		public static void SetSettings(CloudBackupPurchaseOutputSettings settings)
 		{
 			SetSettingsFileName();
 

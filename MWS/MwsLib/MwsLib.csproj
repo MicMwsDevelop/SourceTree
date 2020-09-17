@@ -57,7 +57,7 @@
     <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
     <Compile Include="BaseFactory\CheckVoucherPaletteES\OrderVoucher.cs" />
-    <Compile Include="BaseFactory\CloudDataBank\CloudDataBankEarningsData.cs" />
+    <Compile Include="BaseFactory\CloudBackup\CloudBackupEarningsData.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_PRODUCTUSER.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_SERVICE.cs" />
     <Compile Include="BaseFactory\Estore\Table\tMICestore_log.cs" />
@@ -212,8 +212,8 @@
     <Compile Include="DB\SqlServer\CheckVoucherPaletteES\CheckVoucherPaletteESAccess.cs" />
     <Compile Include="DB\SqlServer\CheckVoucherPaletteES\CheckVoucherPaletteESController.cs" />
     <Compile Include="DB\SqlServer\CheckVoucherPaletteES\CheckVoucherPaletteESGetIO.cs" />
-    <Compile Include="DB\SqlServer\CloudDataBank\CloudDataBankAccess.cs" />
-    <Compile Include="DB\SqlServer\CloudDataBank\CloudDataBankGetIO.cs" />
+    <Compile Include="DB\SqlServer\CloudBackup\CloudBackupAccess.cs" />
+    <Compile Include="DB\SqlServer\CloudBackup\CloudBackupGetIO.cs" />
     <Compile Include="DB\SqlServer\Coupler\CouplerDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\Coupler\CouplerDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\DataBaseAccess.cs" />

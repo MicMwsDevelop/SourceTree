@@ -121,7 +121,7 @@ namespace EntryFinishedUser.Mail
 		}
 
 		/// <summary>
-		/// 前月終了ユーザー サービス契約中リスト メール送信（営業管理部宛て）
+		/// 前月終了済ユーザー サービス契約中リスト メール送信（営業管理部宛て）
 		/// </summary>
 		/// <param name="userList">ユーザーリスト</param>
 		public static void SendContractServiceMailPrevMonth(List<ContractServiceUser> userList)
@@ -144,12 +144,12 @@ namespace EntryFinishedUser.Mail
 				string yearMonthStr = Date.Today.ToYearMonth().GetJapaneseString(false, '0', true, true);
 
 				// 件名
-				msg.Subject = string.Format(@"{0} 前月終了ユーザー サービス契約中リスト", yearMonthStr);
+				msg.Subject = string.Format(@"{0} 前月終了済ユーザー サービス契約中リスト", yearMonthStr);
 
 				// 本文
 				msg.Body += string.Format(@"<div>"
 							+ @"<p>営業管理部</p>"
-							+ @"<p>{0} 前月終了ユーザー サービス契約中リスト<br>"
+							+ @"<p>{0} 前月終了済ユーザー サービス契約中リスト<br>"
 							+ @"</div>", yearMonthStr);
 				if (0 < userList.Count)
 				{
@@ -186,7 +186,7 @@ namespace EntryFinishedUser.Mail
 								, user.EndDate.HasValue ? user.EndDate.Value.ToShortDateString() : "");
 					}
 					msg.Body += @"</table>";
-					msg.Body += @"<div><br><p>前月終了ユーザーの契約中サービスをご確認ください。</p>";
+					msg.Body += @"<div><br><p>前月終了済ユーザーの契約中サービスをご確認ください。</p>";
 				}
 				else
 				{
@@ -202,7 +202,7 @@ namespace EntryFinishedUser.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>利用終了日</font></th>"
 								+ @"</tr>";
 					msg.Body += @"</table>";
-					msg.Body += @"<br><p>前月終了ユーザーでサービスの契約中はありませでした。</p>";
+					msg.Body += @"<br><p>前月終了済ユーザーでサービスの契約中はありませでした。</p>";
 				}
 				msg.Body += @"</div>"
 							+ @"<div>"

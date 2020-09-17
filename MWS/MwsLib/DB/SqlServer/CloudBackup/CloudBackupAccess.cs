@@ -1,7 +1,7 @@
 ﻿//
-// CloudDataBankAccess.cs
+// CloudBackupAccess.cs
 //
-// クラウドデータバンクPCA売上明細情報 データアクセスクラス
+// クラウドバックアップPCA売上明細情報 データアクセスクラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -13,24 +13,24 @@ using MwsLib.DB.SqlServer.Junp;
 using System.Collections.Generic;
 using System.Data;
 
-namespace MwsLib.DB.SqlServer.CloudDataBank
+namespace MwsLib.DB.SqlServer.CloudBackup
 {
-	public static class CloudDataBankAccess
+	public static class CloudBackupAccess
 	{
 		//////////////////////////////////////////////////////////////////
 		/// JunpDB
 		//////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// 指定期間のクラウドデータバンクPCA売上明細情報リストの取得
+		/// 指定期間のクラウドバックアップPCA売上明細情報リストの取得
 		/// </summary>
 		/// <param name="goods">商品コードリスト</param>
 		/// <param name="span">検索期間</param>
 		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>PCA売上明細情報リスト</returns>
-		public static List<vMicPCA売上明細> GetCloudDataBankEarningsList(string goods, Span span, bool ct)
+		public static List<vMicPCA売上明細> GetCloudBackupEarningsList(string goods, Span span, bool ct)
 		{
-			DataTable table = CloudDataBankGetIO.GetCloudDataBankEarningsList(goods, span, ct);
+			DataTable table = CloudBackupGetIO.GetCloudBackupEarningsList(goods, span, ct);
 			return vMicPCA売上明細.DataTableToList(table);
 		}
 

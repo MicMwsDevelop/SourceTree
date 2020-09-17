@@ -50,6 +50,7 @@
 			this.columnHeader15 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader16 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader17 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.listBoxError = new System.Windows.Forms.ListBox();
 			this.buttonExcel = new System.Windows.Forms.Button();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -93,11 +94,11 @@
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label2.Location = new System.Drawing.Point(1296, 591);
+			this.label2.Location = new System.Drawing.Point(1474, 591);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(134, 12);
 			this.label2.TabIndex = 11;
-			this.label2.Text = "Ver1.00（2020/04/17）";
+			this.label2.Text = "Ver1.01（2020/08/19）";
 			// 
 			// label4
 			// 
@@ -130,11 +131,13 @@
             this.columnHeader12,
             this.columnHeader15,
             this.columnHeader16,
-            this.columnHeader17});
+            this.columnHeader17,
+            this.columnHeader13});
 			this.listViewSlip.FullRowSelect = true;
+			this.listViewSlip.HideSelection = false;
 			this.listViewSlip.Location = new System.Drawing.Point(15, 39);
 			this.listViewSlip.Name = "listViewSlip";
-			this.listViewSlip.Size = new System.Drawing.Size(1415, 542);
+			this.listViewSlip.Size = new System.Drawing.Size(1593, 542);
 			this.listViewSlip.TabIndex = 8;
 			this.listViewSlip.UseCompatibleStateImageBehavior = false;
 			this.listViewSlip.View = System.Windows.Forms.View.Details;
@@ -216,6 +219,11 @@
 			this.columnHeader17.Text = "件名";
 			this.columnHeader17.Width = 300;
 			// 
+			// columnHeader13
+			// 
+			this.columnHeader13.Text = "リプレース";
+			this.columnHeader13.Width = 90;
+			// 
 			// listBoxError
 			// 
 			this.listBoxError.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -225,13 +233,13 @@
 			this.listBoxError.ItemHeight = 16;
 			this.listBoxError.Location = new System.Drawing.Point(15, 606);
 			this.listBoxError.Name = "listBoxError";
-			this.listBoxError.Size = new System.Drawing.Size(1415, 100);
+			this.listBoxError.Size = new System.Drawing.Size(1593, 100);
 			this.listBoxError.TabIndex = 10;
 			// 
 			// buttonExcel
 			// 
 			this.buttonExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonExcel.Location = new System.Drawing.Point(1329, 5);
+			this.buttonExcel.Location = new System.Drawing.Point(1507, 5);
 			this.buttonExcel.Name = "buttonExcel";
 			this.buttonExcel.Size = new System.Drawing.Size(101, 30);
 			this.buttonExcel.TabIndex = 7;
@@ -320,7 +328,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1442, 719);
+			this.ClientSize = new System.Drawing.Size(1620, 719);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.comboBoxMode);
 			this.Controls.Add(this.checkBoxOnlyError);
@@ -376,6 +384,7 @@
 		private System.Windows.Forms.CheckBox checkBoxOnlyError;
 		private System.Windows.Forms.ComboBox comboBoxMode;
 		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.ColumnHeader columnHeader13;
 	}
 }
 

@@ -52,7 +52,8 @@ namespace MwsLib.DB.SqlServer.CheckOrderSlip
 						担当支店名 = row["f担当支店名"].ToString(),
 						担当者コード = row["f担当者コード"].ToString(),
 						担当者名 = row["f担当者名"].ToString(),
-						件名 = row["f件名"].ToString()
+						件名 = row["f件名"].ToString(),
+						リプレース = row["fリプレース"].ToString()
 					};
 					string buf = row["f納期"].ToString();
 					if (null != buf && 10 == buf.Length)

@@ -91,6 +91,17 @@
 			this.columnHeader51 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader54 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.label6 = new System.Windows.Forms.Label();
+			this.label7 = new System.Windows.Forms.Label();
+			this.listViewKaigo = new System.Windows.Forms.ListView();
+			this.columnHeader39 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader40 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader52 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader53 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader55 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader56 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader57 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader58 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader59 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SuspendLayout();
 			// 
 			// label1
@@ -448,7 +459,7 @@
 			// 
 			// buttonExcel
 			// 
-			this.buttonExcel.Location = new System.Drawing.Point(827, 823);
+			this.buttonExcel.Location = new System.Drawing.Point(826, 958);
 			this.buttonExcel.Name = "buttonExcel";
 			this.buttonExcel.Size = new System.Drawing.Size(75, 23);
 			this.buttonExcel.TabIndex = 12;
@@ -517,11 +528,86 @@
 			this.label6.TabIndex = 10;
 			this.label6.Text = "■はなはなし購読";
 			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(12, 828);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(117, 12);
+			this.label7.TabIndex = 13;
+			this.label7.Text = "■介護連携 介護伝送";
+			// 
+			// listViewKaigo
+			// 
+			this.listViewKaigo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader39,
+            this.columnHeader40,
+            this.columnHeader52,
+            this.columnHeader53,
+            this.columnHeader55,
+            this.columnHeader56,
+            this.columnHeader57,
+            this.columnHeader58,
+            this.columnHeader59});
+			this.listViewKaigo.FullRowSelect = true;
+			this.listViewKaigo.HideSelection = false;
+			this.listViewKaigo.Location = new System.Drawing.Point(10, 843);
+			this.listViewKaigo.MultiSelect = false;
+			this.listViewKaigo.Name = "listViewKaigo";
+			this.listViewKaigo.Size = new System.Drawing.Size(891, 109);
+			this.listViewKaigo.TabIndex = 14;
+			this.listViewKaigo.UseCompatibleStateImageBehavior = false;
+			this.listViewKaigo.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader39
+			// 
+			this.columnHeader39.Text = "得意先No";
+			this.columnHeader39.Width = 66;
+			// 
+			// columnHeader40
+			// 
+			this.columnHeader40.Text = "顧客名";
+			this.columnHeader40.Width = 200;
+			// 
+			// columnHeader52
+			// 
+			this.columnHeader52.Text = "終了月";
+			// 
+			// columnHeader53
+			// 
+			this.columnHeader53.Text = "拠点名";
+			// 
+			// columnHeader55
+			// 
+			this.columnHeader55.Text = "サービスID";
+			this.columnHeader55.Width = 80;
+			// 
+			// columnHeader56
+			// 
+			this.columnHeader56.Text = "サービス名";
+			this.columnHeader56.Width = 180;
+			// 
+			// columnHeader57
+			// 
+			this.columnHeader57.Text = "利用開始日";
+			this.columnHeader57.Width = 80;
+			// 
+			// columnHeader58
+			// 
+			this.columnHeader58.Text = "利用終了日";
+			this.columnHeader58.Width = 80;
+			// 
+			// columnHeader59
+			// 
+			this.columnHeader59.Text = "ユーザー";
+			// 
 			// CheckContractServiceForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(913, 859);
+			this.ClientSize = new System.Drawing.Size(913, 991);
+			this.Controls.Add(this.listViewKaigo);
+			this.Controls.Add(this.label7);
 			this.Controls.Add(this.listViewStory);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.buttonExcel);
@@ -612,5 +698,16 @@
 		private System.Windows.Forms.ColumnHeader columnHeader51;
 		private System.Windows.Forms.ColumnHeader columnHeader54;
 		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.ListView listViewKaigo;
+		private System.Windows.Forms.ColumnHeader columnHeader39;
+		private System.Windows.Forms.ColumnHeader columnHeader40;
+		private System.Windows.Forms.ColumnHeader columnHeader52;
+		private System.Windows.Forms.ColumnHeader columnHeader53;
+		private System.Windows.Forms.ColumnHeader columnHeader55;
+		private System.Windows.Forms.ColumnHeader columnHeader56;
+		private System.Windows.Forms.ColumnHeader columnHeader57;
+		private System.Windows.Forms.ColumnHeader columnHeader58;
+		private System.Windows.Forms.ColumnHeader columnHeader59;
 	}
 }

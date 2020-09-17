@@ -235,7 +235,9 @@ namespace EntryFinishedUser.Forms
 				exist = true;
 			}
 			// PC安心サポート
-			List<T_USE_PCCSUPPORT> pcList = Program.ContractServicePcSupport(checkList);
+			List<EntryFinishedUserData> finishedList = new List<EntryFinishedUserData>();
+			finishedList.Add(FinishedUser);
+			List<T_USE_PCCSUPPORT> pcList = Program.ContractServicePcSupport(finishedList);
 			if (null != pcList && 0 < pcList.Count)
 			{
 				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(pcList[0].fServiceId, Program.DATABACE_ACCEPT_CT), pcList[0].fServiceId), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -276,6 +278,13 @@ namespace EntryFinishedUser.Forms
 					MessageBox.Show(string.Format("はなはなし（{0}）のサービスが契約中です。", PcaGoodsIDDefine.Hanahanashi), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					exist = true;
 				}
+			}
+			// 介護連携、介護伝送
+			cuiList = Program.ContractServiceKaigo(checkList);
+			if (null != cuiList && 0 < cuiList.Count)
+			{
+				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(cuiList[0].SERVICE_ID, Program.DATABACE_ACCEPT_CT), cuiList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				exist = true;
 			}
 			// カーソルを元に戻す
 			Cursor.Current = preCursor;

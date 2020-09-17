@@ -176,6 +176,21 @@ namespace MwsLib.BaseFactory.EntryFinishedUser
 		}
 
 		/// <summary>
+		/// 終了月末日の取得
+		/// </summary>
+		public DateTime? FinishedDateTime
+		{
+			get
+			{
+				if (FinishedYearMonth.HasValue)
+				{
+					return FinishedYearMonth.Value.ToDate(FinishedYearMonth.Value.GetDays()).ToDateTime();
+				}
+				return null;
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public EntryFinishedUserData()

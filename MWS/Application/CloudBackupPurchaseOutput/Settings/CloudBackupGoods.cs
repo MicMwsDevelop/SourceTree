@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CloudDataBankPurchaseOutput.Settings
+namespace CloudBackupPurchaseOutput.Settings
 {
     /// <summary>
-    /// クラウドデータバンク商品情報
+    /// クラウドバックアップ商品情報
     /// </summary>
-	public class CloudDataBankGoods
+	public class CloudBackupGoods
 	{
         public string 商品コード;
         public string 仕入商品コード;
@@ -21,7 +21,7 @@ namespace CloudDataBankPurchaseOutput.Settings
         /// <summary>
         /// デフォルトコンストラクタ
         /// </summary>
-        public CloudDataBankGoods()
+        public CloudBackupGoods()
         {
             商品コード = string.Empty;
             仕入商品コード = string.Empty;

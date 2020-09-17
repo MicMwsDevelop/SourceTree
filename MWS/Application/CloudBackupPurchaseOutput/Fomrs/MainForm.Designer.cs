@@ -1,4 +1,4 @@
-﻿namespace CloudDataBankPurchaseOutput.Forms
+﻿namespace CloudBackupPurchaseOutput.Forms
 {
 	partial class MainForm
 	{
@@ -81,8 +81,8 @@
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(645, 78);
 			this.label3.TabIndex = 8;
-			this.label3.Text = "本アプリはPCA売上データからクラウドデータバンクを抽出し、仕入データのCSVファイルを出力します。\r\n※実行後、データベースのレコードに対し変更は行いません。\r" +
-    "\n   サイレイトモードでの実行は引数に \"Auto\" を指定してください。";
+			this.label3.Text = "本アプリはPCA売上データからクラウドバックアップを抽出し、仕入データのCSVファイルを出力します。\r\n※実行してもデータベースへのデータ変更はありません。\r\n " +
+    "  サイレイトモードでの実行は引数に \"Auto\" を指定してください。";
 			// 
 			// buttonExec
 			// 
@@ -151,7 +151,7 @@
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
-			this.Text = "クラウドデータバンク仕入データ作成";
+			this.Text = "クラウドバックアップ仕入データ作成";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);

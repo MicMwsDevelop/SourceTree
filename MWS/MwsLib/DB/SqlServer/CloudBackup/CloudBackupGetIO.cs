@@ -1,7 +1,7 @@
 ﻿//
-// CloudDataBankGetIO.cs
+// CloudBackupGetIO.cs
 //
-// クラウドデータバンクPCA売上情報 データ取得クラス
+// クラウドバックアップPCA売上情報 データ取得クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -12,22 +12,22 @@ using MwsLib.DB.SqlServer.Junp;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace MwsLib.DB.SqlServer.CloudDataBank
+namespace MwsLib.DB.SqlServer.CloudBackup
 {
-	public static class CloudDataBankGetIO
+	public static class CloudBackupGetIO
 	{
 		//////////////////////////////////////////////////////////////////
 		/// JunpDB
 		//////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// 指定期間のクラウドデータバンクPCA売上明細情報リストの取得
+		/// 指定期間のクラウドバックアップPCA売上明細情報リストの取得
 		/// </summary>
 		/// <param name="goods">商品コードリスト</param>
 		/// <param name="span">検索期間</param>
 		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>DataTable</returns>
-		public static DataTable GetCloudDataBankEarningsList(string goods, Span span, bool ct)
+		public static DataTable GetCloudBackupEarningsList(string goods, Span span, bool ct)
 		{
 			DataTable result = null;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(ct)))

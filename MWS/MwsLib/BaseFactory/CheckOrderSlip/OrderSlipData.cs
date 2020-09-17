@@ -155,6 +155,11 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 		public string 件名 { get; set; }
 
 		/// <summary>
+		/// リプレース
+		/// </summary>
+		public string リプレース { get; set; }
+
+		/// <summary>
 		/// エラー情報
 		/// </summary>
 		public List<string> ErrorList { get; set; }
@@ -227,6 +232,21 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 		}
 
 		/// <summary>
+		/// リプレースなしかどうか？
+		/// </summary>
+		public bool NoReplace
+		{
+			get
+			{
+				if ("リプレースなし" == リプレース)
+				{
+					return true;
+				}
+				return false;
+			}
+		}
+
+		/// <summary>
 		/// エラー行があるあどうか？
 		/// </summary>
 		public bool IsError
@@ -263,6 +283,7 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 			担当者コード = string.Empty;
 			担当者名 = string.Empty;
 			件名 = string.Empty;
+			リプレース = string.Empty;
 			ErrorList = new List<string>();
 		}
 
@@ -272,7 +293,7 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 		/// <returns>ListView設定値</returns>
 		public string[] GetListViewItem()
 		{
-			string[] item = new string[16];
+			string[] item = new string[17];
 			item[0] = 0 < ErrorList.Count ? "×" : "〇";
 			item[1] = OrderSlipData.OrderTypeString[Type];
 			item[2] = MwsDefine.ApplyTypeString[販売種別];
@@ -289,6 +310,7 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 			item[13] = 担当支店名;
 			item[14] = 担当者名;
 			item[15] = 件名;
+			item[16] = リプレース;
 			return item;
 		}
 
@@ -351,6 +373,7 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 			list.Add(担当者コード);
 			list.Add(担当者名);
 			list.Add(件名);
+			list.Add(リプレース);
 			list.AddRange(ErrorList);
 			return list;
 		}

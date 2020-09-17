@@ -1,5 +1,5 @@
 ﻿//
-// CloudDataBankEarningsData.cs
+// CloudBackupEarningsData.cs
 //
 // クラウドデータバンクPCA売上情報クラス
 // 
@@ -10,12 +10,12 @@
 using MwsLib.Common;
 using MwsLib.BaseFactory.Pca;
 
-namespace MwsLib.BaseFactory.CloudDataBank
+namespace MwsLib.BaseFactory.CloudBackup
 {
 	/// <summary>
 	/// クラウドデータバンクPCA売上情報
 	/// </summary>
-	public class CloudDataBankEarningsData
+	public class CloudBackupEarningsData
 	{
 		/// <summary>
 		/// 
@@ -75,7 +75,7 @@ namespace MwsLib.BaseFactory.CloudDataBank
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public CloudDataBankEarningsData()
+		public CloudBackupEarningsData()
 		{
 			仕入先コード = string.Empty;
 			部門コード = string.Empty;
@@ -91,7 +91,7 @@ namespace MwsLib.BaseFactory.CloudDataBank
 		}
 
 		/// <summary>
-		/// クラウドデータバンク商品仕入データ作成
+		/// クラウドバックアップ商品仕入データ作成
 		/// ※PCA商魂・商管に[仕入明細データ]としてインポートCSVファイルの作成
 		/// (PCA商魂・商管 > 随時 > 汎用データの受入 で[データの選択]欄で「仕入明細データ」を選択して読込
 		/// </summary>

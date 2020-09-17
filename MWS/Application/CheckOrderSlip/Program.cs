@@ -5,7 +5,8 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2020/04/17 勝呂)
+// Ver1.00 新規作成(2020/04/17 勝呂)
+// Ver1.01 エラー検出条件にリプレースなしを追加(2020/08/19 勝呂)
 // 
 using System;
 using System.Windows.Forms;

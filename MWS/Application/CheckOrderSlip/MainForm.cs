@@ -410,13 +410,13 @@ namespace CheckOrderSlip
 						{
 							es.ErrorList.Add("paletteESの利用期間が72ヵ月でない");
 						}
-						if (es.受注日.HasValue && Date.MinValue != es.利用期間.Start)
-						{
-							if (6 < new Span(new Date(es.受注日.Value), es.利用期間.Start).GetMonthCount())
-							{
-								es.ErrorList.Add("paletteESの利用開始日が受注日の半年以降");
-							}
-						}
+						//if (es.受注日.HasValue && Date.MinValue != es.利用期間.Start)
+						//{
+						//	if (6 < new Span(new Date(es.受注日.Value), es.利用期間.Start).GetMonthCount())
+						//	{
+						//		es.ErrorList.Add("paletteESの利用開始日が受注日の半年以降");
+						//	}
+						//}
 						// 同伝票にｿﾌﾄｳｪｱ保守料72ケ月が存在するか？
 						OrderSlipData mainte72 = OrderSlipData.GetSameMainte72(list, es);
 						if (null == mainte72)
@@ -446,6 +446,10 @@ namespace CheckOrderSlip
 									es.ErrorList.Add("ｿﾌﾄｳｪｱ保守料の伝票が存在しない");
 								}
 							}
+						}
+						if (es.NoReplace)
+						{
+							es.ErrorList.Add("リプレースなし");
 						}
 					}
 				}
@@ -582,6 +586,10 @@ namespace CheckOrderSlip
 							slip.ErrorList.Add("おまとめプランの利用開始日が受注日の半年以降");
 						}
 					}
+					if (slip.NoReplace)
+					{
+						slip.ErrorList.Add("リプレースなし");
+					}
 				}
 				// 受注伝票リストビューの設定
 				SetListViewSlip(list);
@@ -687,6 +695,10 @@ namespace CheckOrderSlip
 						else if (24 <= slip.利用期間.GetMonthCount())
 						{
 							slip.ErrorList.Add("利用期間が２年以上");
+						}
+						if (slip.NoReplace)
+						{
+							slip.ErrorList.Add("リプレースなし");
 						}
 					}
 					// 受注伝票リストビューの設定

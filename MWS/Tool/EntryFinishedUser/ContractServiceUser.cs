@@ -232,5 +232,17 @@ namespace EntryFinishedUser
 			array[9] = (int)ServiceCodeDefine.ServiceCode.Office365_BusinessPremium3LN;     // Office365 Business Premium 3
 			return array;
 		}
+
+		/// <summary>
+		/// 介護連携、介護伝送
+		/// </summary>
+		/// <returns></returns>
+		public static int[] KaigoSeriveID()
+		{
+			int[] array = new int[2];
+			array[0] = (int)ServiceCodeDefine.ServiceCode.LinkKaigo;	// 介護連携
+			array[1] = (int)ServiceCodeDefine.ServiceCode.KaigoDenso;	// 介護伝送
+			return array;
+		}
 	}
 }

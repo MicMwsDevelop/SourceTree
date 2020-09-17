@@ -74,6 +74,7 @@ namespace MwsLib.DB.SqlServer.CheckOrderSlip
 					+ ", H.[f担当者コード] AS f担当者コード"
 					+ ", H.[f担当者名] AS f担当者名"
 					+ ", H.[f件名] AS f件名"
+					+ ", H.[fリプレース] AS fリプレース"
 					+ " FROM {0} AS D"
 					+ " LEFT JOIN {1} AS H ON D.[f受注番号] = H.[f受注番号]"
 					+ " WHERE D.[f数量] > 0 AND CONVERT(int, CONVERT(nvarchar, {2}, 112)) >= {3} {4}"

@@ -84,7 +84,7 @@ namespace EntryFinishedUser.Forms
 				}
 			}
 			// PC安心サポート
-			List<T_USE_PCCSUPPORT> pcList = Program.ContractServicePcSupport(checkList);
+			List<T_USE_PCCSUPPORT> pcList = Program.ContractServicePcSupport(CheckUserList);
 			if (null != pcList)
 			{
 				foreach (T_USE_PCCSUPPORT pc in pcList)
@@ -185,6 +185,26 @@ namespace EntryFinishedUser.Forms
 					}
 				}
 			}
+			// 介護連携、介護伝送
+			cuiList = Program.ContractServiceKaigo(checkList);
+			if (null != cuiList)
+			{
+				foreach (T_CUSSTOMER_USE_INFOMATION cui in cuiList)
+				{
+					int index = CheckUserList.FindIndex(p => p.CustomerID == cui.CUSTOMER_ID);
+					if (-1 != index)
+					{
+						ContractServiceUser data = new ContractServiceUser(CheckUserList[index]);
+						data.ServiceID = cui.SERVICE_ID.ToString();
+						data.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
+						data.StartDate = cui.USE_START_DATE;
+						data.EndDate = cui.USE_END_DATE;
+						ListViewItem lvItem = new ListViewItem(data.GetListViewData());
+						lvItem.Tag = data;
+						listViewKaigo.Items.Add(lvItem);
+					}
+				}
+			}
 			// カーソルを元に戻す
 			Cursor.Current = preCursor;
 		}
@@ -255,6 +275,14 @@ namespace EntryFinishedUser.Forms
 				{
 					ContractServiceUser user = listViewStory.Items[i].Tag as ContractServiceUser;
 					sheetStory.Cell(i + 2, 1).InsertData(new[] { user.GetExcelData2() });
+				}
+				// 介護連携、介護伝送
+				IXLWorksheet sheetKaigo = workbook.Worksheets.Add("介護");
+				sheetKaigo.Cell("A1").InsertData(new[] { titleArray });
+				for (int i = 0; i < listViewKaigo.Items.Count; i++)
+				{
+					ContractServiceUser user = listViewKaigo.Items[i].Tag as ContractServiceUser;
+					sheetKaigo.Cell(i + 2, 1).InsertData(new[] { user.GetExcelData() });
 				}
 				// Excelファイルの保存
 				workbook.SaveAs(Path.Combine(Directory.GetCurrentDirectory(), @"契約中サービス一覧.xlsx"));

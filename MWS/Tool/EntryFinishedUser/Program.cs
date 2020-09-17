@@ -44,7 +44,7 @@ namespace EntryFinishedUser
 			/// 当月終了月終了ユーザー処理
 			/// タイミング：翌月初日のMWS課金データ作成実行前に行う
 			/// ①課金対象外フラグＯＦＦ
-			/// ②終了予定ユーザーリストメール送信
+			/// ×②終了予定ユーザーリストメール送信
 			/// </summary>
 			ThisMonthFiniedUser = 1,
 
@@ -52,7 +52,7 @@ namespace EntryFinishedUser
 			/// 終了ユーザー処理自動実行モード
 			/// タイミング：当月初日のMWS課金データ作成実行後に行う
 			/// ①終了ユーザー設定
-			/// ②終了ユーザーリストメール送信
+			/// ×②終了ユーザーリストメール送信
 			/// </summary>
 			PrevMonthFiniedUser = 2,
 
@@ -217,7 +217,7 @@ namespace EntryFinishedUser
 		/// <summary>
 		/// 終了ユーザー処理自動実行モード
 		/// ①終了ユーザー設定
-		/// ②終了ユーザーリストメール送信
+		/// ×②終了ユーザーリストメール送信
 		/// </summary>
 		/// <param name="date"></param>
 		private static void PrevMonthFiniedUser(Date date)
@@ -233,11 +233,13 @@ namespace EntryFinishedUser
 					//////////////////////////////////////////
 					// palette → 終了 or 非paletteユーザー → 終了
 
-					List<EntryFinishedUserData> finisherList = new List<EntryFinishedUserData>();
+
+
+					//List<EntryFinishedUserData> finisherList = new List<EntryFinishedUserData>();
 					IEnumerable<EntryFinishedUserData> paletteList = userList.Where(p => false == p.NonPaletteUser);
 					foreach (EntryFinishedUserData user in paletteList)
 					{
-						finisherList.Add(user);
+						//finisherList.Add(user);
 
 						try
 						{
@@ -319,12 +321,6 @@ namespace EntryFinishedUser
 							MessageBox.Show(string.Format("InsertInto_tMemo Error!({0})", ex.Message), "データベースエラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 							return;
 						}
-
-						// サービス契約中リストの取得
-						List<ContractServiceUser> contractUserList = GetContractServiceUserList(finisherList);
-
-						// 前月終了ユーザー サービス契約中リスト メール送信（営業管理部宛て）
-						SendMailControl.SendContractServiceMailPrevMonth(contractUserList);
 					}
 
 
@@ -439,6 +435,13 @@ namespace EntryFinishedUser
 					//	SendMailControl.SendNonPaletteUserMail(nonPaletteList, nonPaletteList.Count());
 					//}
 				}
+				//// 前月終了済ユーザー サービス契約中リスト メール送信（営業管理部宛て）
+				//List<EntryFinishedUserData> finisherList = userList.Where(p => false == p.NonPaletteUser).ToList();
+				//if (0 < finisherList.Count)
+				//{
+				//	List<ContractServiceUser> contractUserList = GetContractServiceUserList(finisherList);
+				//	SendMailControl.SendContractServiceMailPrevMonth(contractUserList);
+				//}
 			}
 		}
 
@@ -496,7 +499,7 @@ namespace EntryFinishedUser
 				}
 			}
 			// PC安心サポート
-			List<T_USE_PCCSUPPORT> pcList = Program.ContractServicePcSupport(checkList);
+			List<T_USE_PCCSUPPORT> pcList = Program.ContractServicePcSupport(finisherList);
 			if (null != pcList)
 			{
 				foreach (T_USE_PCCSUPPORT pc in pcList)
@@ -587,6 +590,24 @@ namespace EntryFinishedUser
 					}
 				}
 			}
+			// 介護連携、介護伝送
+			cuiList = Program.ContractServiceKaigo(checkList);
+			if (null != cuiList)
+			{
+				foreach (T_CUSSTOMER_USE_INFOMATION cui in cuiList)
+				{
+					int index = finisherList.FindIndex(p => p.CustomerID == cui.CUSTOMER_ID);
+					if (-1 != index)
+					{
+						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+						contract.ServiceID = cui.SERVICE_ID.ToString();
+						contract.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
+						contract.StartDate = cui.USE_START_DATE;
+						contract.EndDate = cui.USE_END_DATE;
+						ret.Add(contract);
+					}
+				}
+			}
 			return ret;
 		}
 
@@ -614,16 +635,24 @@ namespace EntryFinishedUser
 		/// </summary>
 		/// <param name="usetList">確認ユーザーリスト</param>
 		/// <returns>結果</returns>
-		public static List<T_USE_PCCSUPPORT> ContractServicePcSupport(List<int> usetList)
+		public static List<T_USE_PCCSUPPORT> ContractServicePcSupport(List<EntryFinishedUserData> userList)
 		{
-			string userStr = string.Join(",", usetList);
-			//whereStr = string.Format("fCustomerID IN ({0}) AND fServiceId IN ({1})", userStr, string.Join(",", ContractServiceUser.PcSupportSeriveID()));
-			string whereStr = string.Format("fEndFlag = '0' AND fCustomerID IN ({0}) AND fServiceId IN ({1})", userStr, string.Join(",", ContractServiceUser.PcSupportSeriveID()));
+			List<int> checkList = (from user in userList orderby user.CustomerID select user.CustomerID).ToList();
+			string userStr = string.Join(",", checkList);
+			string whereStr = string.Format("fEndFlag = '0' AND fCustomerID IN ({0})", userStr);
 			DataTable table = CharlieDatabaseAccess.SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT], whereStr, "fCustomerID", DATABACE_ACCEPT_CT);
-			List<T_USE_PCCSUPPORT> ret = T_USE_PCCSUPPORT.DataTableToList(table);
-			if (null != ret && 0 < ret.Count)
+			List<T_USE_PCCSUPPORT> work = T_USE_PCCSUPPORT.DataTableToList(table);
+			if (null != work && 0 < work.Count)
 			{
-				return ret;
+				List<T_USE_PCCSUPPORT> ret = new List<T_USE_PCCSUPPORT>();
+				foreach (T_USE_PCCSUPPORT pc in work)
+				{
+					EntryFinishedUserData user = userList.Find(p => p.FinishedDateTime == pc.fBillingEndDate.Value.ToDateTime());
+					if (null != user)
+					{
+						ret.Add(pc);
+					}
+				}
 			}
 			return null;
 		}
@@ -777,6 +806,25 @@ namespace EntryFinishedUser
 				{
 					return ret;
 				}
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// 契約中サービス確認 - 介護連携、介護伝送
+		/// </summary>
+		/// <param name="usetList">確認ユーザーリスト</param>
+		/// <returns>結果</returns>
+		public static List<T_CUSSTOMER_USE_INFOMATION> ContractServiceKaigo(List<int> usetList)
+		{
+			string userStr = string.Join(",", usetList);
+			//whereStr = string.Format("CUSTOMER_ID IN ({0}) AND SERVICE_ID IN ({1})", userStr, string.Join(",", ContractServiceUser.KaigoSeriveID()));
+			string whereStr = string.Format("PAUSE_END_STATUS = '0' AND CUSTOMER_ID IN ({0}) AND SERVICE_ID IN ({1})", userStr, string.Join(",", ContractServiceUser.KaigoSeriveID()));
+			DataTable table = CharlieDatabaseAccess.SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, "CUSTOMER_ID, SERVICE_ID", DATABACE_ACCEPT_CT);
+			List<T_CUSSTOMER_USE_INFOMATION> ret = T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
+			if (null != ret && 0 < ret.Count)
+			{
+				return ret;
 			}
 			return null;
 		}

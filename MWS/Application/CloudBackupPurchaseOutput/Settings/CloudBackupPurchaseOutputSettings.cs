@@ -1,5 +1,5 @@
 ﻿//
-// CloudDataBankPurchaseOutputSettings.cs
+// CloudBackupPurchaseOutputSettings.cs
 // 
 // 環境設定定義クラス
 // 
@@ -11,12 +11,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace CloudDataBankPurchaseOutput.Settings
+namespace CloudBackupPurchaseOutput.Settings
 {
 	/// <summary>
 	/// 環境設定
 	/// </summary>
-	public class CloudDataBankPurchaseOutputSettings : ICloneable
+	public class CloudBackupPurchaseOutputSettings : ICloneable
 	{
 		/// <summary>
 		/// 出力先フォルダ
@@ -36,7 +36,7 @@ namespace CloudDataBankPurchaseOutput.Settings
 		/// <summary>
 		/// クラウドデータバンク商品情報
 		/// </summary>
-		public List<CloudDataBankGoods> CloudDataBankGoodsList;
+		public List<CloudBackupGoods> CloudBackupGoodsList;
 
 		/// <summary>
 		/// 仕入データ出力ファイルパス名
@@ -52,12 +52,12 @@ namespace CloudDataBankPurchaseOutput.Settings
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public CloudDataBankPurchaseOutputSettings()
+		public CloudBackupPurchaseOutputSettings()
         {
 			ExportDir = string.Empty;
 			ExportFilename = string.Empty;
 			PcaVersion = 7;
-			CloudDataBankGoodsList = new List<CloudDataBankGoods>();
+			CloudBackupGoodsList = new List<CloudBackupGoods>();
 		}
 
 		/// <summary>
@@ -74,10 +74,10 @@ namespace CloudDataBankPurchaseOutput.Settings
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public string GetCloudDataBankGoods()
+		public string GetCloudBackupGoods()
 		{
 			string str = string.Empty;
-			foreach (CloudDataBankGoods goods in CloudDataBankGoodsList)
+			foreach (CloudBackupGoods goods in CloudBackupGoodsList)
 			{
 				if (0 < str.Length)
 				{
