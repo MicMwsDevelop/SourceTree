@@ -1,20 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
-using MwsLib.DB;
+﻿using MwsLib.DB;
 using MwsLib.DB.SqlServer.Estore;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using MwsLib.BaseFactory.Estore.View;
 
 namespace MwsLib.BaseFactory.Estore.Table
 {
 	public class tMICestore_log
 	{
+		/// <summary>
+		/// ID
+		/// </summary>
         public int ID { get; set; }
+
+		/// <summary>
+		/// web受注No
+		/// </summary>
 		public int web受注No { get; set; }
+
+		/// <summary>
+		/// PCA受注No
+		/// </summary>
 		public string PCA受注No { get; set; }
+
+		/// <summary>
+		/// 作成日時
+		/// </summary>
 		public DateTime? 作成日時 { get; set; }
+
+		/// <summary>
+		/// 出荷日
+		/// </summary>
 		public DateTime? 出荷日 { get; set; }
 
 		/// <summary>
@@ -24,7 +42,7 @@ namespace MwsLib.BaseFactory.Estore.Table
 		{
 			get
 			{
-				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5)", EstoreDatabaseDefine.TableName[EstoreDatabaseDefine.TableType.tMICestore_log]);
+				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4)", EstoreDatabaseDefine.TableName[EstoreDatabaseDefine.TableType.tMICestore_log]);
 			}
 		}
 
@@ -39,6 +57,19 @@ namespace MwsLib.BaseFactory.Estore.Table
             作成日時 = null;
             出荷日 = null;
         }
+
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
+		/// <param name="order"></param>
+		public tMICestore_log(vMicOrder_accept order)
+		{
+			ID = order.order_accept_id;
+			web受注No = order.order_no;
+			PCA受注No = string.Empty;
+			作成日時 = null;
+			出荷日 = null;
+		}
 
 		/// <summary>
 		/// DataTable → リスト変換
@@ -70,11 +101,10 @@ namespace MwsLib.BaseFactory.Estore.Table
 		public SqlParameter[] GetInsertIntoParameters()
 		{
 			List<SqlParameter> param = new List<SqlParameter>();
-			param.Add(new SqlParameter("@1", ID.ToString()));
-			param.Add(new SqlParameter("@2", web受注No.ToString()));
-			param.Add(new SqlParameter("@3", PCA受注No));
-			param.Add(new SqlParameter("@4", 作成日時.HasValue ? 作成日時.Value : System.Data.SqlTypes.SqlDateTime.Null));
-			param.Add(new SqlParameter("@5", 出荷日.HasValue ? 出荷日.Value : System.Data.SqlTypes.SqlDateTime.Null));
+			param.Add(new SqlParameter("@1", web受注No.ToString()));
+			param.Add(new SqlParameter("@2", PCA受注No));
+			param.Add(new SqlParameter("@3", 作成日時.HasValue ? 作成日時.Value : System.Data.SqlTypes.SqlDateTime.Null));
+			param.Add(new SqlParameter("@4", 出荷日.HasValue ? 出荷日.Value : System.Data.SqlTypes.SqlDateTime.Null));
 			return param.ToArray();
 		}
 	}

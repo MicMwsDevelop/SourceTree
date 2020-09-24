@@ -286,3 +286,15 @@
 /MWS/Application/CloudBackupPurchaseOutput/bin
 /MWS/Application/CloudBackupPurchaseOutput/obj
 /MWS/Application/CloudBackupPurchaseOutput/Doc
+/MWS/Application/CloudBackupPurchaseFile/.vs
+/MWS/Application/CloudBackupPurchaseFile/bin
+/MWS/Application/CloudBackupPurchaseFile/Doc
+/MWS/Application/ThermometerOrderOutput/.vs/ThermometerOrderOutput/v16
+/MWS/Application/ThermometerOrderOutput/Doc
+/MWS/Application/ThermometerOrderOutput/obj
+/MWS/Application/ThermometerOrderOutput/体温計受注データ出力
+/MWS/Application/WebJucuOrderFile/.vs
+/MWS/Application/WebJucuOrderFile/bin
+/MWS/Application/WebJucuOrderFile/obj
+/MWS/Application/WebJucuOrderFile/Web受注汎用データ
+/MWS/Application/WebJucuOrderFile/WebJUCU-202006121205.txt

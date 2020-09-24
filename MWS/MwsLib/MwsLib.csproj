@@ -61,8 +61,10 @@
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_PRODUCTUSER.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_SERVICE.cs" />
     <Compile Include="BaseFactory\Estore\Table\tMICestore_log.cs" />
+    <Compile Include="BaseFactory\Estore\View\vMicOrder_accept.cs" />
+    <Compile Include="BaseFactory\Estore\View\vMic商品マスタ.cs" />
     <Compile Include="BaseFactory\Estore\View\vMic部門コード.cs" />
-    <Compile Include="BaseFactory\Estore\WebJucu.cs" />
+    <Compile Include="BaseFactory\Estore\View\vMic顧客マスタ.cs" />
     <Compile Include="BaseFactory\CheckOrderSlip\OrderSlipData.cs" />
     <Compile Include="BaseFactory\Junp\Table\tBusho.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMemo.cs" />
@@ -86,8 +88,9 @@
     <Compile Include="BaseFactory\Junp\View\vMicPCA担当者マスタ.cs" />
     <Compile Include="BaseFactory\Junp\View\vMic全ユーザー2.cs" />
     <Compile Include="BaseFactory\PcaGoodsIDDefine.cs" />
-    <Compile Include="BaseFactory\Pca\PCA売上明細.cs" />
-    <Compile Include="BaseFactory\Pca\PCA仕入明細.cs" />
+    <Compile Include="BaseFactory\Pca\PCA受注明細汎用データ.cs" />
+    <Compile Include="BaseFactory\Pca\PCA売上明細汎用データ.cs" />
+    <Compile Include="BaseFactory\Pca\PCA仕入明細汎用データ.cs" />
     <Compile Include="BaseFactory\PurchaseTransfer\PCA仕入明細貯蔵品.cs" />
     <Compile Include="BaseFactory\PurchaseTransfer\PCA出荷明細貯蔵品.cs" />
     <Compile Include="BaseFactory\PurchaseTransfer\仕入振替月次.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="BaseFactory\SoftwareMainteEarnings\CustomerUseInfoSoftwareMainte.cs" />
     <Compile Include="BaseFactory\SoftwareMainteEarnings\OrderSlipSoftwareMainte.cs" />
     <Compile Include="BaseFactory\StockGoodsMaster\StockGoodsMasterData.cs" />
+    <Compile Include="BaseFactory\WebJucuOrderFile\WebJucu.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\MemoBankTransfer.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\WonderWebMemoDef.cs" />
     <Compile Include="DB\SQLite\StockGoodsMaster\SQLiteStockGoodsMasterAccess.cs" />
@@ -261,7 +265,7 @@
     <Compile Include="DB\SqlServer\SoftwareMainteEarnings\SoftwareMainteEarningsController.cs" />
     <Compile Include="DB\SqlServer\SoftwareMainteEarnings\SoftwareMainteEarningsGetIO.cs" />
     <Compile Include="DB\SqlServer\SqlServerHelper.cs" />
-    <Compile Include="DB\SqlServer\WebJucu\WebJucuAccess.cs" />
+    <Compile Include="DB\SqlServer\WebJucuOrderFile\WebJucuOrderFileAccess.cs" />
     <Compile Include="Log\ErrorLogger.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Log\MainteLogger.cs" />

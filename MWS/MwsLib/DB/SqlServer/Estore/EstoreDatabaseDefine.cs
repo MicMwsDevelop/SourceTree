@@ -27,6 +27,9 @@ namespace MwsLib.DB.SqlServer.Estore
 		{
 			vMic部門コード = 1,
 			vMic受注最大番号 = 2,
+			vMicOrder_accept = 3,
+			vMic顧客マスタ = 4,
+			vMic商品マスタ = 5,
 		}
 
 		/// <summary>
@@ -36,6 +39,9 @@ namespace MwsLib.DB.SqlServer.Estore
 		{
 			{ ViewType.vMic部門コード, "vMic部門コード" },
 			{ ViewType.vMic受注最大番号, "vMic受注最大番号" },
+			{ ViewType.vMicOrder_accept, "vMicOrder_accept" },
+			{ ViewType.vMic顧客マスタ, "vMic顧客マスタ" },
+			{ ViewType.vMic商品マスタ, "vMic商品マスタ" },
 		};
 	}
 }

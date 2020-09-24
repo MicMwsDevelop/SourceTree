@@ -381,7 +381,7 @@ namespace MwsLib.BaseFactory.ShipmentActing
 				// 消費税行は出力しない
 				return string.Empty;
 			}
-			PCA売上明細 pca = new PCA売上明細();
+			PCA売上明細汎用データ pca = new PCA売上明細汎用データ();
 			if (0 < daibikiKaishugaku)
 			{
 				// 1:現収

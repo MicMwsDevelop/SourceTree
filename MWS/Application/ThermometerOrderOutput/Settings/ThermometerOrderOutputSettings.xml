@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ThermometerOrderOutputSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ExportDir>c:\_aaa</ExportDir>
+  <OrderDate>20200923</OrderDate>
+</ThermometerOrderOutputSettings>

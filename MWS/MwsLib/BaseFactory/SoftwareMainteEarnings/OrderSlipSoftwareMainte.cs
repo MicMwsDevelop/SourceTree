@@ -197,7 +197,7 @@ namespace MwsLib.BaseFactory.SoftwareMainteEarnings
 		/// <returns>CSV文字列</returns>
 		public string ToSale(int no, int taxRate, string tokuisakiCode, Date saleDate, int pcaVer)
 		{
-			PCA売上明細 pca = new PCA売上明細();
+			PCA売上明細汎用データ pca = new PCA売上明細汎用データ();
 			pca.売上日 = saleDate.ToIntYMD();// 2:売上年月日
 			pca.請求日 = saleDate.ToIntYMD();// 3:請求年月日
 			pca.伝票No = no;// 4:伝票番号

@@ -14,6 +14,7 @@ using System.Data;
 using System.Data.SqlClient;
 using MwsLib.Common;
 using MwsLib.BaseFactory.Junp.View;
+using System.Linq;
 
 namespace MwsLib.DB.SqlServer.Junp
 {
@@ -485,7 +486,7 @@ namespace MwsLib.DB.SqlServer.Junp
 		/// <returns>結果</returns>
 		public static List<int> GetClientEnd(bool ct)
 		{
-			string sql = string.Format("SELECT fCliID FROM %s WHERE fCliEnd = '1' ORDER BY fCliID", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient]);
+			string sql = string.Format("SELECT fCliID FROM {0} WHERE fCliEnd = '1' ORDER BY fCliID", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient]);
 			DataTable table = SelectJunpDatabase(sql, ct);
 			if (null != table && 0 < table.Rows.Count)
 			{
@@ -497,6 +498,20 @@ namespace MwsLib.DB.SqlServer.Junp
 				return result;
 			}
 			return null;
+		}
+
+		/// <summary>
+		/// vMicPCA商品マスタの取得
+		/// </summary>
+		/// <param name="code"></param>
+		/// <param name="ct"></param>
+		/// <returns></returns>
+		public static vMicPCA商品マスタ Select_vMicPCA商品マスタ(string code, bool ct)
+		{
+			string sql = string.Format("SELECT * FROM {0} WHERE sms_scd = '{1}'", JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ], code);
+			DataTable table = SelectJunpDatabase(sql, ct);
+			List<vMicPCA商品マスタ> list = vMicPCA商品マスタ.DataTableToList(table);
+			return list.First();
 		}
 	}
 }

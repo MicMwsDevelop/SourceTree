@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CloudBackupPurchaseFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ExportDir>c:\_aaa</ExportDir>
+  <ExportFilename>クラウドバックアップ仕入データ.csv</ExportFilename>
+  <PcaVersion>7</PcaVersion>
+	<CloudBackupGoodsList>
+		<CloudBackupGoods>
+			<商品コード>800083</商品コード>
+			<仕入商品コード>800083</仕入商品コード>
+			<仕入価格>2500</仕入価格>
+			<仕入先>040129</仕入先>
+			<商品名>MWS クラウドバックアップ(月額)</商品名>
+			<仕入フラグ>0</仕入フラグ>
+		</CloudBackupGoods>
+		<CloudBackupGoods>
+			<商品コード>001910</商品コード>
+			<仕入商品コード>001910</仕入商品コード>
+			<仕入価格>118800</仕入価格>
+			<仕入先>040129</仕入先>
+			<商品名>PC安心サポート Plus 3年契約</商品名>
+			<仕入フラグ>0</仕入フラグ>
+		</CloudBackupGoods>
+		<CloudBackupGoods>
+			<商品コード>001911</商品コード>
+			<仕入商品コード>001911</仕入商品コード>
+			<仕入価格>45600</仕入価格>
+			<仕入先>040129</仕入先>
+			<商品名>PC安心サポート Plus 1年契約</商品名>
+			<仕入フラグ>0</仕入フラグ>
+		</CloudBackupGoods>
+		<CloudBackupGoods>
+			<商品コード>001912</商品コード>
+			<仕入商品コード>001912</仕入商品コード>
+			<仕入価格>45600</仕入価格>
+			<仕入先>040129</仕入先>
+			<商品名>PC安心サポート Plus 1年更新</商品名>
+			<仕入フラグ>0</仕入フラグ>
+		</CloudBackupGoods>
+		<CloudBackupGoods>
+			<商品コード>001913</商品コード>
+			<仕入商品コード>001913</仕入商品コード>
+			<仕入価格>800</仕入価格>
+			<仕入先>040129</仕入先>
+			<商品名>PC安心サポート Plus(切替)</商品名>
+			<仕入フラグ>0</仕入フラグ>
+		</CloudBackupGoods>
+	</CloudBackupGoodsList>
+</CloudBackupPurchaseFileSettings>

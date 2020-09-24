@@ -34,10 +34,10 @@ namespace MwsLib.DB.SqlServer.PurchaseTransfer
 		/// <param name="span">検索期間</param>
 		/// <param name="ct">CT環境</param>
 		/// <returns>PCA仕入明細リスト</returns>
-		public static List<PCA仕入明細> Get対象月全仕入れ明細(Span span, bool ct = false)
+		public static List<PCA仕入明細汎用データ> Get対象月全仕入れ明細(Span span, bool ct = false)
 		{
 			DataTable table = PurchaseTransferGetIO.GetIo対象月全仕入れ明細(span, ct);
-			return PCA仕入明細.DataTableToList(table);
+			return PCA仕入明細汎用データ.DataTableToList(table);
 		}
 
 		/// <summary>
@@ -46,10 +46,10 @@ namespace MwsLib.DB.SqlServer.PurchaseTransfer
 		/// <param name="span">検索期間</param>
 		/// <param name="ct">CT環境</param>
 		/// <returns>PCA仕入明細リスト</returns>
-		public static List<PCA仕入明細> Get対象月社内仕入れ明細(Span span, bool ct = false)
+		public static List<PCA仕入明細汎用データ> Get対象月社内仕入れ明細(Span span, bool ct = false)
 		{
 			DataTable table = PurchaseTransferGetIO.GetIo対象月社内仕入れ明細(span, ct);
-			return PCA仕入明細.DataTableToList(table);
+			return PCA仕入明細汎用データ.DataTableToList(table);
 		}
 
 		/// <summary>

@@ -99,7 +99,7 @@ namespace MwsLib.BaseFactory.CloudBackup
 		/// <returns>CSV文字列</returns>
 		public string ToPurchase(int no, int pcaVer)
 		{
-			PCA仕入明細 pca = new PCA仕入明細();
+			PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
 			pca.科目区分 = 仕入フラグ;// 2:科目区分
 			pca.仕入日 = 売上日;// 4:仕入年月日
 			pca.精算日 = 売上日;//5:精算年月日
