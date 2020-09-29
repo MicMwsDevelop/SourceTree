@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CloudBackupPurchaseFile.Settings
+﻿namespace CloudBackupPurchaseFile.Settings
 {
-    /// <summary>
-    /// クラウドバックアップ商品情報
-    /// </summary>
+	/// <summary>
+	/// クラウドバックアップ商品情報
+	/// </summary>
 	public class CloudBackupGoods
 	{
         public string 商品コード { get; set; }

@@ -104,6 +104,7 @@ namespace MwsLib.BaseFactory.CloudBackup
 			pca.仕入日 = 売上日;// 4:仕入年月日
 			pca.精算日 = 売上日;//5:精算年月日
 			pca.伝票No = no;// 6:伝票番号
+			pca.仕入先コード = 仕入先コード;    // 7:仕入先コード
 			pca.部門コード = 部門コード.Substring(部門コード.Length - 2, 2);// 10:部門コード
 			pca.担当者コード = 担当者コード.Substring(担当者コード.Length - 2, 2);// 11:担当者コード
 			pca.摘要コード = "0";// 12:摘要コード

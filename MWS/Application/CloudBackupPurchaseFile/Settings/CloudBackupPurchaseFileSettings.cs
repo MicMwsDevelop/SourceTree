@@ -34,6 +34,11 @@ namespace CloudBackupPurchaseFile.Settings
 		public int PcaVersion;
 
 		/// <summary>
+		/// 伝票番号初期値
+		/// </summary>
+		public int InitDenNo;
+
+		/// <summary>
 		/// クラウドデータバンク商品情報
 		/// </summary>
 		public List<CloudBackupGoods> CloudBackupGoodsList;
@@ -57,6 +62,7 @@ namespace CloudBackupPurchaseFile.Settings
 			ExportDir = string.Empty;
 			ExportFilename = string.Empty;
 			PcaVersion = 7;
+			InitDenNo = 20100;
 			CloudBackupGoodsList = new List<CloudBackupGoods>();
 		}
 

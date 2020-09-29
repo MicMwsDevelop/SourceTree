@@ -21,11 +21,6 @@ namespace CloudBackupPurchaseFile.Forms
 	public partial class MainForm : Form
 	{
 		/// <summary>
-		/// 環境設定
-		/// </summary>
-		private CloudBackupPurchaseFileSettings Settings;
-
-		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public MainForm()
@@ -40,12 +35,11 @@ namespace CloudBackupPurchaseFile.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			Settings = CloudBackupPurchaseFileSettingsIF.GetSettings();
-			textBoxFolder.Text = Settings.ExportDir;
-			textBoxFilename.Text = Settings.ExportFilename;
-			textBoxPcaVer.Text = Settings.PcaVersion.ToString();
+			textBoxFolder.Text = Program.gSettings.ExportDir;
+			textBoxFilename.Text = Program.gSettings.ExportFilename;
+			textBoxPcaVer.Text = Program.gSettings.PcaVersion.ToString();
 
-			dateTimePickerMonth.Value = DateTime.Today;
+			dateTimePickerMonth.Value = Program.BootDate.ToDateTime();
 		}
 
 		/// <summary>
@@ -60,10 +54,10 @@ namespace CloudBackupPurchaseFile.Forms
 				MessageBox.Show("出力先が存在しません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
-			Settings.ExportDir = textBoxFolder.Text;
-			Settings.ExportFilename = textBoxFilename.Text;
-			Settings.PcaVersion = textBoxPcaVer.ToInt();
-			if (0 < Settings.Pathname.Length)
+			Program.gSettings.ExportDir = textBoxFolder.Text;
+			Program.gSettings.ExportFilename = textBoxFilename.Text;
+			Program.gSettings.PcaVersion = textBoxPcaVer.ToInt();
+			if (0 < Program.gSettings.Pathname.Length)
 			{
 				// 元のカーソルを保持
 				Cursor preCursor = Cursor.Current;
@@ -72,14 +66,13 @@ namespace CloudBackupPurchaseFile.Forms
 				Cursor.Current = Cursors.WaitCursor;
 
 				// 仕入データCSVファイルの出力
-				//Date date = new Date(2020, 2, 1);
-				string msg = Program.OutputCsvFile(Settings, new Date(dateTimePickerMonth.Value));
+				string msg = Program.OutputCsvFile(new Date(dateTimePickerMonth.Value));
 
 				// カーソルを元に戻す
 				Cursor.Current = preCursor;
 				if (0 == msg.Length)
 				{
-					MessageBox.Show(string.Format("{0}を出力しました。", Settings.Pathname), "出力成功", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+					MessageBox.Show(string.Format("{0}を出力しました。", Program.gSettings.Pathname), "出力成功", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 				}
 				else
 				{
@@ -101,11 +94,11 @@ namespace CloudBackupPurchaseFile.Forms
 		{
 			if (Directory.Exists(textBoxFolder.Text))
 			{
-				Settings.ExportDir = textBoxFolder.Text;
+				Program.gSettings.ExportDir = textBoxFolder.Text;
 			}
-			Settings.ExportFilename = textBoxFilename.Text;
-			Settings.PcaVersion = textBoxPcaVer.ToInt();
-			CloudBackupPurchaseFileSettingsIF.SetSettings(Settings);
+			Program.gSettings.ExportFilename = textBoxFilename.Text;
+			Program.gSettings.PcaVersion = textBoxPcaVer.ToInt();
+			CloudBackupPurchaseFileSettingsIF.SetSettings(Program.gSettings);
 		}
 	}
 }

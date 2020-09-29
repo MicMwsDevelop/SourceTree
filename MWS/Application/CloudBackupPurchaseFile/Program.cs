@@ -13,6 +13,7 @@ using MwsLib.BaseFactory.CloudBackup;
 using MwsLib.BaseFactory.Junp.View;
 using MwsLib.Common;
 using MwsLib.DB.SqlServer.CloudBackup;
+using MwsLib.DB.SqlServer.Junp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,19 @@ namespace CloudBackupPurchaseFile
 		private const bool DATABASE_ACCESS_CT = false;
 
 		/// <summary>
+		/// 環境設定
+		/// </summary>
+		public static CloudBackupPurchaseFileSettings gSettings;
+
+		/// <summary>
 		/// プログラム名
 		/// </summary>
 		public const string PROC_NAME = "クラウドバックアップ仕入データ作成";
+
+		/// <summary>
+		/// 集計日
+		/// </summary>
+		public static Date BootDate;
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -41,13 +52,18 @@ namespace CloudBackupPurchaseFile
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
+			gSettings = CloudBackupPurchaseFileSettingsIF.GetSettings();
+
+			// 集計日を先月初日に設定
+			BootDate = Date.Today.FirstDayOfLasMonth();
+
 			string[] cmds = Environment.GetCommandLineArgs();
 			if (2 <= cmds.Length)
 			{
 				if ("AUTO" == cmds[1].ToUpper())
 				{
-					Date date = Date.Today;
-					string msg = OutputCsvFile(CloudBackupPurchaseFileSettingsIF.GetSettings(), date);
+					string msg = OutputCsvFile(Date.Today);
+					CloudBackupPurchaseFileSettingsIF.SetSettings(gSettings);
 					if (0 < msg.Length)
 					{
 						return 1;
@@ -64,14 +80,14 @@ namespace CloudBackupPurchaseFile
 		/// <param name="settings">出力ファイルパス名</param>
 		/// <param name="date">検索対象日</param>
 		/// <returns>エラーメッセージ</returns>
-		public static string OutputCsvFile(CloudBackupPurchaseFileSettings settings, Date date)
+		public static string OutputCsvFile(Date date)
 		{
 			try
 			{
 				// クラウドバックアップ仕入データ.csvの出力
-				using (var sw = new System.IO.StreamWriter(settings.Pathname, false))
+				using (var sw = new System.IO.StreamWriter(gSettings.Pathname, false))
 				{
-					List<vMicPCA売上明細> pcaList = CloudBackupAccess.GetCloudBackupEarningsList(settings.GetCloudBackupGoods(), date.ToYearMonth().ToSpan(), DATABASE_ACCESS_CT);
+					List<vMicPCA売上明細> pcaList = CloudBackupAccess.GetCloudBackupEarningsList(gSettings.GetCloudBackupGoods(), date.ToYearMonth().ToSpan(), DATABASE_ACCESS_CT);
 					if (0 < pcaList.Count)
 					{
 						var query = from PCA売上明細 in pcaList
@@ -82,7 +98,7 @@ namespace CloudBackupPurchaseFile
 						List<CloudBackupEarningsData> list = new List<CloudBackupEarningsData>();
 						foreach (var pca in query)
 						{
-							CloudBackupGoods goods = settings.CloudBackupGoodsList.Find(p => p.商品コード == pca.sykd_scd);
+							CloudBackupGoods goods = gSettings.CloudBackupGoodsList.Find(p => p.商品コード == pca.sykd_scd);
 							if (null != goods)
 							{
 								CloudBackupEarningsData data = new CloudBackupEarningsData();
@@ -96,18 +112,18 @@ namespace CloudBackupPurchaseFile
 								data.売上日 = pca.sykd_uribi;
 								data.仕入フラグ = goods.仕入フラグ;
 								data.消費税率 = (short)pca.sykd_rate;
-								List<vMicPCA商品マスタ> mst = CloudBackupAccess.GetPCA商品マスタ(goods.仕入商品コード, DATABASE_ACCESS_CT);
-								if (0 < mst.Count)
+								vMicPCA商品マスタ mst = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goods.仕入商品コード, DATABASE_ACCESS_CT);
+								if (null != mst)
 								{
-									data.商品名 = mst.First().sms_mei;
+									data.商品名 = mst.sms_mei;
 								}
 								list.Add(data);
 							}
 						}
-						int plusNo = 20060; // '20060番台（りすとん=20 office365=40）
+						int plusNo = gSettings.InitDenNo; // '20100番台（りすとん=20 office365=40）
 						foreach (CloudBackupEarningsData data in list)
 						{
-							string str = data.ToPurchase(plusNo, settings.PcaVersion);
+							string str = data.ToPurchase(plusNo, gSettings.PcaVersion);
 							sw.WriteLine(str);
 							plusNo++;
 						}

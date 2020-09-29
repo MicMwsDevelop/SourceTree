@@ -33,17 +33,5 @@ namespace MwsLib.DB.SqlServer.CloudBackup
 			DataTable table = CloudBackupGetIO.GetCloudBackupEarningsList(goods, span, ct);
 			return vMicPCA売上明細.DataTableToList(table);
 		}
-
-		/// <summary>
-		/// PCA商品マスタの取得
-		/// </summary>
-		/// <param name="scd">商品コード</param>
-		/// <param name="ct">CT環境</param>
-		/// <returns>PCA商品マスタリスト</returns>
-		public static List<vMicPCA商品マスタ> GetPCA商品マスタ(string scd, bool ct = false)
-		{
-			DataTable table = JunpDatabaseAccess.SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ], string.Format("sms_scd = '{0}'", scd), "", ct);
-			return vMicPCA商品マスタ.DataTableToList(table);
-		}
 	}
 }

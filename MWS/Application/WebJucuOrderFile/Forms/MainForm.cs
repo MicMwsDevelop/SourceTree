@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using WebJucuOrderFile.Settings;
 
 namespace WebJucuOrderFile.Forms
 {
@@ -82,6 +83,7 @@ namespace WebJucuOrderFile.Forms
 			}
 			Program.gSettings.ExportDir = textBoxFolder.Text;
 			Program.gSettings.OrderDate = new Date(dateTimePickerOrderDate.Value).ToIntYMD();
+			WebJucuOrderFileSettingsIF.SetSettings(Program.gSettings);
 		}
 	}
 }
