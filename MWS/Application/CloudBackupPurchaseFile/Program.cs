@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2020/03/06 勝呂)
+// Ver1.00 新規作成(2020/10/06 勝呂)
 //
 using CloudBackupPurchaseFile.Forms;
 using CloudBackupPurchaseFile.Settings;
@@ -41,7 +41,7 @@ namespace CloudBackupPurchaseFile
 		/// <summary>
 		/// 集計日
 		/// </summary>
-		public static Date BootDate;
+		public static Date CollectDate;
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -54,15 +54,19 @@ namespace CloudBackupPurchaseFile
 
 			gSettings = CloudBackupPurchaseFileSettingsIF.GetSettings();
 
+#if DEBUG
+			CollectDate = new Date(2020, 11, 1);
+#else
 			// 集計日を先月初日に設定
-			BootDate = Date.Today.FirstDayOfLasMonth();
+			CollectDate = Date.Today.FirstDayOfLasMonth();
+#endif
 
 			string[] cmds = Environment.GetCommandLineArgs();
 			if (2 <= cmds.Length)
 			{
 				if ("AUTO" == cmds[1].ToUpper())
 				{
-					string msg = OutputCsvFile(Date.Today);
+					string msg = OutputCsvFile(CollectDate);
 					CloudBackupPurchaseFileSettingsIF.SetSettings(gSettings);
 					if (0 < msg.Length)
 					{
@@ -75,19 +79,19 @@ namespace CloudBackupPurchaseFile
 		}
 
 		/// <summary>
-		/// 仕入データCSVファイルの出力
+		/// クラウドバックアップ仕入データ.txtの出力
 		/// </summary>
 		/// <param name="settings">出力ファイルパス名</param>
-		/// <param name="date">検索対象日</param>
+		/// <param name="collectDate">集計日</param>
 		/// <returns>エラーメッセージ</returns>
-		public static string OutputCsvFile(Date date)
+		public static string OutputCsvFile(Date collectDate)
 		{
 			try
 			{
-				// クラウドバックアップ仕入データ.csvの出力
+				// クラウドバックアップ仕入データ.txtの出力
 				using (var sw = new System.IO.StreamWriter(gSettings.Pathname, false))
 				{
-					List<vMicPCA売上明細> pcaList = CloudBackupAccess.GetCloudBackupEarningsList(gSettings.GetCloudBackupGoods(), date.ToYearMonth().ToSpan(), DATABASE_ACCESS_CT);
+					List<vMicPCA売上明細> pcaList = CloudBackupAccess.GetCloudBackupEarningsList(gSettings.GetCloudBackupGoods(), collectDate.ToYearMonth().ToSpan(), DATABASE_ACCESS_CT);
 					if (0 < pcaList.Count)
 					{
 						var query = from PCA売上明細 in pcaList
@@ -106,12 +110,19 @@ namespace CloudBackupPurchaseFile
 								data.部門コード = pca.sykd_jbmn;
 								data.担当者コード = pca.sykd_jtan;
 								data.仕入商品コード = goods.仕入商品コード;
-								data.数量 = pca.数量;
 								data.単位 = pca.sykd_tani;
 								data.仕入価格 = goods.仕入価格;
 								data.売上日 = pca.sykd_uribi;
 								data.仕入フラグ = goods.仕入フラグ;
 								data.消費税率 = (short)pca.sykd_rate;
+
+								// PC安心サポート Plus3年契約 仕入数36
+								// PC安心サポート Plus1年契約 仕入数12
+								// PC安心サポート Plus1年更新 仕入数12
+								// PC安心ｻﾎﾟｰﾄ Plus(切換) 仕入数1
+								// クラウドバックアップ月額 仕入数1
+								data.数量 = goods.仕入数 * pca.数量;
+
 								vMicPCA商品マスタ mst = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goods.仕入商品コード, DATABASE_ACCESS_CT);
 								if (null != mst)
 								{

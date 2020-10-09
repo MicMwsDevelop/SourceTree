@@ -78,6 +78,7 @@ namespace MwsLib.DB.SqlServer.Junp
 			vMicPCA担当者マスタ = 9,
 			vMicPCA出荷データ = 10,
 			vMicPCA仕入データ = 11,
+			vSoftwareMainteLimit = 12,
 		}
 
 		/// <summary>
@@ -96,6 +97,7 @@ namespace MwsLib.DB.SqlServer.Junp
 			{ ViewType.vMicPCA担当者マスタ, "vMicPCA担当者マスタ" },
 			{ ViewType.vMicPCA出荷データ, "vMicPCA出荷データ" },
 			{ ViewType.vMicPCA仕入データ, "vMicPCA仕入データ" },
+			{ ViewType.vSoftwareMainteLimit, "vSoftwareMainteLimit" },
 		};
 	}
 }

@@ -1,33 +1,33 @@
 ﻿//
-// SoftwareMainteEarningsOutputSettingsIF.cs
+// SoftwareMainteEarningsFileSettingsIF.cs
 // 
 // 環境設定インターフェイス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver2.000 新規作成(2020/03/16 勝呂)
+// Ver1.00 新規作成(2020/10/09 勝呂)
 //
 using System;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace SoftwareMainteEarningsOutput
+namespace SoftwareMainteEarningsFile.Settings
 {
 	/// <summary>
 	/// 環境設定インターフェイス
 	/// </summary>
-	public static class SoftwareMainteEarningsOutputSettingsIF
+	public static class SoftwareMainteEarningsFileSettingsIF
 	{
 		/// <summary>
 		/// 環境設定ファイル名称
 		/// </summary>
-		public const string SETTINGS_FILENAME = "SoftwareMainteEarningsOutputSettings.xml";
+		public const string SETTINGS_FILENAME = "SoftwareMainteEarningsFileSettings.xml";
 
 		/// <summary>
 		/// 環境設定
 		/// </summary>
-		private static SoftwareMainteEarningsOutputSettings Settings = null;
+		private static SoftwareMainteEarningsFileSettings Settings = null;
 
 		/// <summary>
 		/// 環境設定ファイル名
@@ -62,8 +62,8 @@ namespace SoftwareMainteEarningsOutput
 					try
 					{
 						fileStream = new FileStream(SettingsFileName, FileMode.Open);
-						XmlSerializer serializer = new XmlSerializer(typeof(SoftwareMainteEarningsOutputSettings));
-						Settings = serializer.Deserialize(fileStream) as SoftwareMainteEarningsOutputSettings;
+						XmlSerializer serializer = new XmlSerializer(typeof(SoftwareMainteEarningsFileSettings));
+						Settings = serializer.Deserialize(fileStream) as SoftwareMainteEarningsFileSettings;
 					}
 					catch (Exception)
 					{
@@ -80,7 +80,7 @@ namespace SoftwareMainteEarningsOutput
 				else
 				{
 					// 存在しない場合は初期値を設定
-					Settings = new SoftwareMainteEarningsOutputSettings();
+					Settings = new SoftwareMainteEarningsFileSettings();
 				}
 			}
 			return result;
@@ -99,7 +99,7 @@ namespace SoftwareMainteEarningsOutput
 			{
 				fileStream = new FileStream(SettingsFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 				StreamWriter stream = new StreamWriter(fileStream, Encoding.UTF8);   // Unicodeで書き込む
-				XmlSerializer serializer = new XmlSerializer(typeof(SoftwareMainteEarningsOutputSettings));
+				XmlSerializer serializer = new XmlSerializer(typeof(SoftwareMainteEarningsFileSettings));
 				serializer.Serialize(stream, Settings);
 			}
 			catch (Exception)
@@ -122,7 +122,7 @@ namespace SoftwareMainteEarningsOutput
 		/// <param name="reload">環境設定を再読みするかどうか（デフォルト：false）</param>
 		/// <returns>環境設定</returns>
 		/// <exception cref="ApplicationException">環境設定の読み込みが出来なかった場合に発生</exception>
-		public static SoftwareMainteEarningsOutputSettings GetSettings(bool reload = false)
+		public static SoftwareMainteEarningsFileSettings GetSettings(bool reload = false)
 		{
 			SetSettingsFileName();
 
@@ -132,14 +132,14 @@ namespace SoftwareMainteEarningsOutput
 			{
 				throw new ApplicationException("環境設定の取得に失敗");
 			}
-			return Settings.Clone() as SoftwareMainteEarningsOutputSettings;
+			return Settings.Clone() as SoftwareMainteEarningsFileSettings;
 		}
 
 		/// <summary>
 		/// 環境設定の設定
 		/// </summary>
 		/// <param name="settings">環境設定</param>
-		public static void SetSettings(SoftwareMainteEarningsOutputSettings settings)
+		public static void SetSettings(SoftwareMainteEarningsFileSettings settings)
 		{
 			SetSettingsFileName();
 

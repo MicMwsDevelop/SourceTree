@@ -8,6 +8,13 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+/*
+    T_USE_CLOUDDATA_LICENSE
+
+    AOSクラウドバックアップライセンス管理テーブル
+
+    Ver.1.0 2020/10/09 初版 by 勝呂
+*/
 CREATE TABLE [dbo].[T_USE_CLOUDDATA_LICENSE](
 	[fLisenceId] [varchar](50) NOT NULL,
 	[fCustomerID] [int] NULL,

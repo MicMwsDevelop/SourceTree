@@ -5,24 +5,21 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2020/03/16 勝呂)
+// Ver1.00 新規作成(2020/10/09 勝呂)
 //
+using MwsLib.Common;
+using SoftwareMainteEarningsFile.Settings;
 using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace SoftwareMainteEarningsOutput
+namespace SoftwareMainteEarningsFile.Forms
 {
 	/// <summary>
 	/// メイン画面
 	/// </summary>
 	public partial class MainForm : Form
 	{
-		/// <summary>
-		/// 環境設定
-		/// </summary>
-		private SoftwareMainteEarningsOutputSettings Settings;
-
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
@@ -38,11 +35,11 @@ namespace SoftwareMainteEarningsOutput
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			Settings = SoftwareMainteEarningsOutputSettingsIF.GetSettings();
-			textBoxFolder.Text = Settings.ExportDir;
-			textBoxFilename.Text = Settings.ExportFilename;
-			textBoxPcaVer.Text = Settings.PcaVersion.ToString();
-			textBoxSlipNo.Text = Settings.SlipInitialNumber.ToString();
+			textBoxFolder.Text = Program.gSettings.ExportDir;
+			textBoxFilename.Text = Program.gSettings.ExportFilename;
+			textBoxPcaVer.Text = Program.gSettings.PcaVersion.ToString();
+
+			dateTimePickerMonth.Value = Program.CollectDate.ToDateTime();
 		}
 
 		/// <summary>
@@ -57,12 +54,11 @@ namespace SoftwareMainteEarningsOutput
 				MessageBox.Show("出力先が存在しません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
-			Settings.ExportDir = textBoxFolder.Text;
-			Settings.ExportFilename = textBoxFilename.Text;
-			Settings.PcaVersion = textBoxPcaVer.ToInt();
-			Settings.SlipInitialNumber = textBoxSlipNo.ToInt();
+			Program.gSettings.ExportDir = textBoxFolder.Text;
+			Program.gSettings.ExportFilename = textBoxFilename.Text;
+			Program.gSettings.PcaVersion = textBoxPcaVer.ToInt();
 
-			if (0 < Settings.Pathname.Length)
+			if (0 < Program.gSettings.Pathname.Length)
 			{
 				// 元のカーソルを保持
 				Cursor preCursor = Cursor.Current;
@@ -71,14 +67,14 @@ namespace SoftwareMainteEarningsOutput
 				Cursor.Current = Cursors.WaitCursor;
 
 				// 売上データCSVファイルの出力
-				string msg = Program.OutputCsvFile(Settings);
+				string msg = Program.OutputCsvFile(new Date(dateTimePickerMonth.Value));
 
 				// カーソルを元に戻す
 				Cursor.Current = preCursor;
 
 				if (0 == msg.Length)
 				{
-					MessageBox.Show(string.Format("{0}を出力しました。", Settings.Pathname), "出力成功", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+					MessageBox.Show(string.Format("{0}を出力しました。", Program.gSettings.Pathname), "出力成功", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 				}
 				else
 				{
@@ -100,12 +96,11 @@ namespace SoftwareMainteEarningsOutput
 		{
 			if (Directory.Exists(textBoxFolder.Text))
 			{
-				Settings.ExportDir = textBoxFolder.Text;
+				Program.gSettings.ExportDir = textBoxFolder.Text;
 			}
-			Settings.ExportFilename = textBoxFilename.Text;
-			Settings.PcaVersion = textBoxPcaVer.ToInt();
-			Settings.SlipInitialNumber = textBoxSlipNo.ToInt();
-			SoftwareMainteEarningsOutputSettingsIF.SetSettings(Settings);
+			Program.gSettings.ExportFilename = textBoxFilename.Text;
+			Program.gSettings.PcaVersion = textBoxPcaVer.ToInt();
+			SoftwareMainteEarningsFileSettingsIF.SetSettings(Program.gSettings);
 		}
 	}
 }

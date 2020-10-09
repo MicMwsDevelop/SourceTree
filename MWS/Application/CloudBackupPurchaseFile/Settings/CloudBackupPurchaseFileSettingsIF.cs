@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver2.000 新規作成(2018/10/24 勝呂)
+// Ver1.00 新規作成(2020/10/06 勝呂)
 //
 using System;
 using System.IO;

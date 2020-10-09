@@ -5,17 +5,18 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2020/03/16 勝呂)
+// Ver1.00 新規作成(2020/10/09 勝呂)
 //
 using MwsLib.Common;
 using MwsLib.DB.SqlServer.Charlie;
+using System;
 using System.Data.SqlClient;
 
 namespace MwsLib.BaseFactory.SoftwareMainteEarnings
 {
-    /// <summary>
-    /// ソフトウェア保守料利用情報
-    /// </summary>
+	/// <summary>
+	/// ソフトウェア保守料利用情報
+	/// </summary>
 	public class CustomerUseInfoSoftwareMainte
 	{
         /// <summary>
@@ -66,7 +67,7 @@ namespace MwsLib.BaseFactory.SoftwareMainteEarnings
             get
             {
                 return string.Format(@"UPDATE {0} SET USE_END_DATE = @1, UPDATE_DATE = @2, UPDATE_PERSON = @3, RENEWAL_FLG = @4"
-                                    + " WHERE CUSTOMER_ID = {1} AND AND SERVICE_ID = {2}"
+                                    + " WHERE CUSTOMER_ID = {1} AND SERVICE_ID = {2}"
                                     , CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]
                                     , CUSTOMER_ID
                                     , SERVICE_ID);
@@ -98,7 +99,7 @@ namespace MwsLib.BaseFactory.SoftwareMainteEarnings
         {
             SqlParameter[] param = {
                 new SqlParameter("@1", endDate.ToString()),     // USE_END_DATE
-                new SqlParameter("@2", Date.Today.ToString()),  // UPDATE_DATE
+                new SqlParameter("@2", DateTime.Now.ToString()),  // UPDATE_DATE
                 new SqlParameter("@3", updateUser),             // UPDATE_USER
                 new SqlParameter("@4","1")                      // RENEWAL_FLAG
             };

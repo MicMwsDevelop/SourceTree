@@ -87,6 +87,7 @@
     <Compile Include="BaseFactory\Junp\View\vMicPCA売上明細.cs" />
     <Compile Include="BaseFactory\Junp\View\vMicPCA担当者マスタ.cs" />
     <Compile Include="BaseFactory\Junp\View\vMic全ユーザー2.cs" />
+    <Compile Include="BaseFactory\Junp\View\vSoftwareMainteLimit.cs" />
     <Compile Include="BaseFactory\PcaGoodsIDDefine.cs" />
     <Compile Include="BaseFactory\Pca\PCA受注明細汎用データ.cs" />
     <Compile Include="BaseFactory\Pca\PCA売上明細汎用データ.cs" />

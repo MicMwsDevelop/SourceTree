@@ -513,5 +513,18 @@ namespace MwsLib.DB.SqlServer.Junp
 			List<vMicPCA商品マスタ> list = vMicPCA商品マスタ.DataTableToList(table);
 			return list.First();
 		}
+
+		/// <summary>
+		/// vSoftwareMainteLimitの取得
+		/// </summary>
+		/// <param name="whereStr"></param>
+		/// <param name="orderStr"></param>
+		/// <param name="ct"></param>
+		/// <returns></returns>
+		public static List<vSoftwareMainteLimit> Select_vSoftwareMainteLimit(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vSoftwareMainteLimit], whereStr, orderStr, ct);
+			return vSoftwareMainteLimit.DataTableToList(table);
+		}
 	}
 }

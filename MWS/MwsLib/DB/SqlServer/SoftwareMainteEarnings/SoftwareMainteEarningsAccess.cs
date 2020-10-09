@@ -5,13 +5,13 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2018/11/19 勝呂)
+// Ver1.00 新規作成(2020/10/09 勝呂)
 // 
 using MwsLib.BaseFactory.SoftwareMainteEarnings;
 using MwsLib.Common;
+using MwsLib.DB.SqlServer.Charlie;
 using System.Collections.Generic;
 using System.Data;
-using MwsLib.DB.SqlServer.Charlie;
 
 namespace MwsLib.DB.SqlServer.SoftwareMainteEarnings
 {
@@ -43,6 +43,7 @@ namespace MwsLib.DB.SqlServer.SoftwareMainteEarnings
 
 		/// <summary>
 		/// ソフトウェア保守料１年 自動更新対象利用情報の取得
+		/// 条件：ソフトウェア保守料１年の利用終了日が当月末日 and ソフトウェア保守料１年の利用終了日がpalette ESの利用終了日と違う
 		/// </summary>
 		/// <param name="today">当日</param>
 		/// <param name="ct">CT環境</param>

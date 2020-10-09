@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2020/03/16 勝呂)
+// Ver1.00 新規作成(2020/10/09 勝呂)
 // 
 using MwsLib.BaseFactory;
 using MwsLib.Common;
@@ -31,17 +31,17 @@ namespace MwsLib.DB.SqlServer.SoftwareMainteEarnings
 		/// <param name="customerID">顧客No</param>
 		/// <param name="sqlsv2">CT環境</param>
 		/// <returns>レコード数</returns>
-		public static DataTable GetSoftwareMainteOrderSlip(int customerID, bool sqlsv2 = false)
+		public static DataTable GetSoftwareMainteOrderSlip(int customerID, bool ct = false)
 		{
 			DataTable result = null;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpConnectionString(sqlsv2)))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpConnectionString(ct)))
 			{
 				try
 				{
 					// 接続
 					con.Open();
 
-					string strSQL = string.Format(@"SELECT"
+					string strSQL = string.Format(@"SELECT TOP 1"
 						+ " H.[f受注番号]"
 						+ ", H.[f受注日]"
 						+ ", H.[f受注承認日]"
@@ -74,7 +74,7 @@ namespace MwsLib.DB.SqlServer.SoftwareMainteEarnings
 						+ " LEFT JOIN {1} AS H ON D.[f受注番号] = H.[f受注番号]"
 						+ " LEFT JOIN {2} AS B ON B.[fBshCode3] = H.[fBshCode3]"
 						+ " WHERE D.[f商品コード] = '{3}' AND H.[f販売種別] = 3 AND H.[f売上承認日] is not null AND H.[fSV利用開始年月] is not null AND [fユーザーコード] = {4}"
-						+ " ORDER BY H.[fユーザーコード] ASC, H.[f売上承認日] DESC"
+						+ " ORDER BY H.[f売上承認日] DESC"
 						, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注詳細]
 						, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注ヘッダ]
 						, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]
@@ -113,14 +113,15 @@ namespace MwsLib.DB.SqlServer.SoftwareMainteEarnings
 
 		/// <summary>
 		/// ソフトウェア保守料１年 自動更新対象利用情報の取得
+		/// 条件：ソフトウェア保守料１年の利用終了日が当月末日 and ソフトウェア保守料１年の利用終了日がpalette ESの利用終了日と違う
 		/// </summary>
 		/// <param name="today">当日</param>
-		/// <param name="sqlsv2">CT環境</param>
+		/// <param name="ct">CT環境</param>
 		/// <returns>レコード数</returns>
-		public static DataTable GetCustomerUseInfoSoftwareMainte12(Date today, bool sqlsv2 = false)
+		public static DataTable GetCustomerUseInfoSoftwareMainte12(Date today, bool ct = false)
 		{
 			DataTable result = null;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieConnectionString(sqlsv2)))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateCharlieConnectionString(ct)))
 			{
 				try
 				{
@@ -142,7 +143,7 @@ namespace MwsLib.DB.SqlServer.SoftwareMainteEarnings
 					+ " FROM {0}"
 					+ " WHERE [SERVICE_ID] = {1} AND convert(int, convert(nvarchar, [USE_END_DATE], 112)) > {2}"   // 当月末日
 					+ ") AS ES ON SOFT.CUSTOMER_ID = ES.CUSTOMER_ID"
-					+ " WHERE SOFT.[SERVICE_ID] = {3} AND SOFT.[USE_END_DATE] <> ES.[USE_END_DATE]"	//AND convert(int, convert(nvarchar, SOFT.[USE_END_DATE], 112)) = {2}"	// 当月末日
+					+ " WHERE SOFT.[SERVICE_ID] = {3} AND SOFT.[USE_END_DATE] <> ES.[USE_END_DATE] AND convert(int, convert(nvarchar, SOFT.[USE_END_DATE], 112)) = {2}"	// 当月末日
 					+ " ORDER BY [CUSTOMER_ID] ASC"
 					, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]
 					, (int)ServiceCodeDefine.ServiceCode.PaletteES

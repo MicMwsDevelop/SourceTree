@@ -5,10 +5,10 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2020/03/16 勝呂)
+// Ver1.00 新規作成(2020/10/09 勝呂)
 // 
-using MwsLib.Common;
 using MwsLib.BaseFactory.Pca;
+using MwsLib.Common;
 
 namespace MwsLib.BaseFactory.SoftwareMainteEarnings
 {
@@ -195,7 +195,7 @@ namespace MwsLib.BaseFactory.SoftwareMainteEarnings
 		/// <param name="saleDate">売上日 </param>
 		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>CSV文字列</returns>
-		public string ToSale(int no, int taxRate, string tokuisakiCode, Date saleDate, int pcaVer)
+		public string ToEarnings(int no, int taxRate, string tokuisakiCode, Date saleDate, int pcaVer)
 		{
 			PCA売上明細汎用データ pca = new PCA売上明細汎用データ();
 			pca.売上日 = saleDate.ToIntYMD();// 2:売上年月日
@@ -205,6 +205,7 @@ namespace MwsLib.BaseFactory.SoftwareMainteEarnings
 			pca.得意先名 = StringUtil.GetSubstringByByte(f販売先, 40);// 6:得意先名(40)
 			pca.部門コード = fPca部門コード.Value.ToString();// 9:部門コード(6)
 			pca.担当者コード = fPca担当者コード;// 10:担当者コード(13)
+			pca.摘要コード = "0";// 11:摘要コード(6)
 			pca.摘要名 = StringUtil.GetSubstringByByte(fユーザー, 30);//12:摘要名(30)
 			pca.商品コード = f商品コード;// 15:商品コード(13)
 			pca.商品名= StringUtil.GetSubstringByByte(f商品名, 36);// 17:品名(36)

@@ -1,21 +1,21 @@
 ﻿//
-// SoftwareMainteSaleDataOutputSettings.cs
+// SoftwareMainteEarningsFileSettings.cs
 // 
 // 環境設定定義クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2020/03/16 勝呂)
+// Ver1.00 新規作成(2020/10/09 勝呂)
 //
 using System;
 using System.IO;
 
-namespace SoftwareMainteEarningsOutput
+namespace SoftwareMainteEarningsFile.Settings
 {
 	/// <summary>
 	/// 環境設定
 	/// </summary>
-	public class SoftwareMainteEarningsOutputSettings : ICloneable, IEquatable<SoftwareMainteEarningsOutputSettings>
+	public class SoftwareMainteEarningsFileSettings : ICloneable, IEquatable<SoftwareMainteEarningsFileSettings>
 	{
 		/// <summary>
 		/// 出力先フォルダ
@@ -51,7 +51,7 @@ namespace SoftwareMainteEarningsOutput
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public SoftwareMainteEarningsOutputSettings()
+		public SoftwareMainteEarningsFileSettings()
         {
 			ExportDir = string.Empty;
 			ExportFilename = string.Empty;
@@ -74,7 +74,7 @@ namespace SoftwareMainteEarningsOutput
 		/// </summary>
 		/// <param name="other">比較するオブジェクト</param>
 		/// <returns>判定</returns>
-		public bool Equals(SoftwareMainteEarningsOutputSettings other)
+		public bool Equals(SoftwareMainteEarningsFileSettings other)
 		{
 			if (other != null)
 			{
@@ -97,9 +97,9 @@ namespace SoftwareMainteEarningsOutput
 		/// <returns>判定</returns>
 		public override bool Equals(object obj)
 		{
-			if (obj is SoftwareMainteEarningsOutputSettings)
+			if (obj is SoftwareMainteEarningsFileSettings)
 			{
-				return this.Equals((SoftwareMainteEarningsOutputSettings)obj);
+				return this.Equals((SoftwareMainteEarningsFileSettings)obj);
 			}
 			else
 			{
