@@ -641,18 +641,10 @@ namespace EntryFinishedUser
 			string userStr = string.Join(",", checkList);
 			string whereStr = string.Format("fEndFlag = '0' AND fCustomerID IN ({0})", userStr);
 			DataTable table = CharlieDatabaseAccess.SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT], whereStr, "fCustomerID", DATABACE_ACCEPT_CT);
-			List<T_USE_PCCSUPPORT> work = T_USE_PCCSUPPORT.DataTableToList(table);
-			if (null != work && 0 < work.Count)
+			List<T_USE_PCCSUPPORT> ret = T_USE_PCCSUPPORT.DataTableToList(table);
+			if (null != ret && 0 < ret.Count)
 			{
-				List<T_USE_PCCSUPPORT> ret = new List<T_USE_PCCSUPPORT>();
-				foreach (T_USE_PCCSUPPORT pc in work)
-				{
-					EntryFinishedUserData user = userList.Find(p => p.FinishedDateTime == pc.fBillingEndDate.Value.ToDateTime());
-					if (null != user)
-					{
-						ret.Add(pc);
-					}
-				}
+				return ret;
 			}
 			return null;
 		}

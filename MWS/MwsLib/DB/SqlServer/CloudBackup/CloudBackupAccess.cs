@@ -5,10 +5,10 @@
 // 
 // Ver1.00 新規作成(2020/10/06 勝呂)
 // 
-using MwsLib.BaseFactory.Junp.View;
 using MwsLib.Common;
 using System.Collections.Generic;
 using System.Data;
+using MwsLib.BaseFactory.CloudBackup;
 
 namespace MwsLib.DB.SqlServer.CloudBackup
 {
@@ -25,10 +25,10 @@ namespace MwsLib.DB.SqlServer.CloudBackup
 		/// <param name="span">検索期間</param>
 		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>PCA売上明細情報リスト</returns>
-		public static List<vMicPCA売上明細> GetCloudBackupEarningsList(string goods, Span span, bool ct)
+		public static List<GroupMicPCA売上明細> GetCloudBackupEarningsList(string goods, Span span, bool ct)
 		{
 			DataTable table = CloudBackupGetIO.GetCloudBackupEarningsList(goods, span, ct);
-			return vMicPCA売上明細.DataTableToList(table);
+			return GroupMicPCA売上明細.DataTableToList(table);
 		}
 	}
 }

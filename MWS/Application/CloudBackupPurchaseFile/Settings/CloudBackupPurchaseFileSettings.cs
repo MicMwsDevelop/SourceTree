@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2020/10/06 勝呂)
 //
+using MwsLib.BaseFactory.Mail;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,6 +45,11 @@ namespace CloudBackupPurchaseFile.Settings
 		public List<CloudBackupGoods> CloudBackupGoodsList;
 
 		/// <summary>
+		/// メール設定
+		/// </summary>
+		public MailSettings Mail { get; set; }
+
+		/// <summary>
 		/// 仕入データ出力ファイルパス名
 		/// </summary>
 		public string Pathname
@@ -62,8 +68,9 @@ namespace CloudBackupPurchaseFile.Settings
 			ExportDir = string.Empty;
 			ExportFilename = string.Empty;
 			PcaVersion = 7;
-			InitDenNo = 20100;
+			InitDenNo = 20501;
 			CloudBackupGoodsList = new List<CloudBackupGoods>();
+			Mail = new MailSettings();
 		}
 
 		/// <summary>

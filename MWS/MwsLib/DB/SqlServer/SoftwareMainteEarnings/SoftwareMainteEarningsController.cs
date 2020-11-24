@@ -8,7 +8,6 @@
 // Ver1.00 新規作成(2020/10/09 勝呂)
 // 
 using MwsLib.BaseFactory.SoftwareMainteEarnings;
-using MwsLib.Common;
 using System.Collections.Generic;
 using System.Data;
 
@@ -24,26 +23,57 @@ namespace MwsLib.DB.SqlServer.SoftwareMainteEarnings
 		//////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// ソフトウェア保守料の受注情報のの詰め替え
+		/// ソフトウェア保守料の売上必須情報の詰め替え
 		/// </summary>
 		/// <param name="table">データテーブル</param>
-		/// <returns>ソフト保守情報リスト</returns>
-		public static List<OrderSlipSoftwareMainte> ConvertOrderSlipSoftwareMainte(DataTable table)
+		/// <returns>ソフト保守料情報</returns>
+		public static SoftwareMainteEarningsOut ConvertSoftwareMainteEarningsOut(DataTable table)
 		{
-			List<OrderSlipSoftwareMainte> result = null;
 			if (null != table)
 			{
-				result = new List<OrderSlipSoftwareMainte>();
-				foreach (DataRow row in table.Rows)
+				if (0 < table.Rows.Count)
 				{
+					DataRow row = table.Rows[0];
+					SoftwareMainteEarningsOut ret = new SoftwareMainteEarningsOut
+					{
+						f顧客No = DataBaseValue.ConvObjectToInt(row["f顧客No"]),
+						f顧客名 = row["f顧客名"].ToString().Trim(),
+						f得意先コード = row["f得意先コード"].ToString().Trim(),
+						f請求先コード = row["f請求先コード"].ToString().Trim(),
+						fPca部門コード = (short)DataBaseValue.ConvObjectToIntNull(row["fPca部門コード"]),
+						fPca担当者コード = row["fPca担当者コード"].ToString().Trim(),
+						fPca倉庫コード = (short)DataBaseValue.ConvObjectToIntNull(row["fPca倉庫コード"]),
+						f商品コード = row["f商品コード"].ToString().Trim(),
+						f商品名 = row["f商品名"].ToString().Trim(),
+						f標準価格 = DataBaseValue.ConvObjectToInt(row["f標準価格"]),
+						f原単価 = DataBaseValue.ConvObjectToInt(row["f原単価"]),
+						f単位 = row["f単位"].ToString().Trim(),
+					};
+					return ret;
+				}
+			}
+			return null;
+		}
+
+/*
+		/// <summary>
+		/// ソフトウェア保守料の受注情報の詰め替え
+		/// </summary>
+		/// <param name="table">データテーブル</param>
+		/// <returns>ソフト保守料情報</returns>
+		public static OrderSlipSoftwareMainte ConvertOrderSlipSoftwareMainte(DataTable table)
+		{
+			if (null != table)
+			{
+				if (0 < table.Rows.Count)
+				{
+					DataRow row = table.Rows[0];
 					OrderSlipSoftwareMainte order = new OrderSlipSoftwareMainte();
 					order.f受注番号 = DataBaseValue.ConvObjectToInt(row["f受注番号"]);
 					order.f受注日 = DataBaseValue.ConvObjectToDateNullByDate(row["f受注日"]);
 					order.f受注承認日 = DataBaseValue.ConvObjectToDateNullByDate(row["f受注承認日"]);
 					order.f売上承認日 = DataBaseValue.ConvObjectToDateNullByDate(row["f売上承認日"]);
 					order.f販売種別 = DataBaseValue.ConvObjectToIntNull(row["f販売種別"]);
-					order.f販売先コード = DataBaseValue.ConvObjectToIntNull(row["f販売先コード"]);
-					order.f販売先 = row["f販売先"].ToString().Trim();
 					order.fユーザーコード = DataBaseValue.ConvObjectToInt(row["fユーザーコード"]);
 					order.fユーザー = row["fユーザー"].ToString().Trim();
 					if (YearMonth.TryParse(row["fSV利用開始年月"].ToString(), out YearMonth workYM1))
@@ -70,11 +100,14 @@ namespace MwsLib.DB.SqlServer.SoftwareMainteEarnings
 					order.fPca部門コード = (short)DataBaseValue.ConvObjectToIntNull(row["fPca部門コード"]);
 					order.fPca担当者コード = row["fPca担当者コード"].ToString().Trim();
 					order.fPca倉庫コード = (short)DataBaseValue.ConvObjectToIntNull(row["fPca倉庫コード"]);
-					result.Add(order);
+					order.f得意先コード = row["f得意先コード"].ToString().Trim();
+					order.f請求先コード = row["f請求先コード"].ToString().Trim();
+					return order;
 				}
 			}
-			return result;
+			return null;
 		}
+*/
 
 		
 		//////////////////////////////////////////////////////////////////

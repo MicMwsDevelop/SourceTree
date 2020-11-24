@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<PrintNouhinSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <PaperOffset>
-    <X>50</X>
-    <Y>50</Y>
-  </PaperOffset>
-  <NouhinDir>C:\PrintNouhin\納品書用データ</NouhinDir>
-  <NouhinFile>Nouhin.csv</NouhinFile>
-</PrintNouhinSettings>

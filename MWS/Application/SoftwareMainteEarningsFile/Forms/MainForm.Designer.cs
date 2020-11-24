@@ -35,9 +35,9 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.buttonExec = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
-			this.textBoxPcaVer = new MwsLib.Component.NumericTextBox();
 			this.dateTimePickerMonth = new System.Windows.Forms.DateTimePicker();
 			this.label5 = new System.Windows.Forms.Label();
+			this.textBoxPcaVer = new MwsLib.Component.NumericTextBox();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -46,13 +46,13 @@
 			this.label1.Location = new System.Drawing.Point(21, 81);
 			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(165, 20);
+			this.label1.Size = new System.Drawing.Size(139, 20);
 			this.label1.TabIndex = 4;
-			this.label1.Text = "売上データCSVファイル名";
+			this.label1.Text = "売上データファイル名";
 			// 
 			// textBoxFilename
 			// 
-			this.textBoxFilename.Location = new System.Drawing.Point(189, 78);
+			this.textBoxFilename.Location = new System.Drawing.Point(167, 78);
 			this.textBoxFilename.Name = "textBoxFilename";
 			this.textBoxFilename.Size = new System.Drawing.Size(473, 27);
 			this.textBoxFilename.TabIndex = 5;
@@ -69,7 +69,7 @@
 			// 
 			// textBoxFolder
 			// 
-			this.textBoxFolder.Location = new System.Drawing.Point(189, 45);
+			this.textBoxFolder.Location = new System.Drawing.Point(167, 45);
 			this.textBoxFolder.Name = "textBoxFolder";
 			this.textBoxFolder.Size = new System.Drawing.Size(473, 27);
 			this.textBoxFolder.TabIndex = 3;
@@ -104,20 +104,11 @@
 			this.label4.TabIndex = 6;
 			this.label4.Text = "PCAバージョン番号";
 			// 
-			// textBoxPcaVer
-			// 
-			this.textBoxPcaVer.Location = new System.Drawing.Point(189, 111);
-			this.textBoxPcaVer.MaxLength = 2;
-			this.textBoxPcaVer.Name = "textBoxPcaVer";
-			this.textBoxPcaVer.Size = new System.Drawing.Size(52, 27);
-			this.textBoxPcaVer.TabIndex = 7;
-			this.textBoxPcaVer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			// 
 			// dateTimePickerMonth
 			// 
 			this.dateTimePickerMonth.CustomFormat = "yyyy年MM月";
 			this.dateTimePickerMonth.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.dateTimePickerMonth.Location = new System.Drawing.Point(189, 12);
+			this.dateTimePickerMonth.Location = new System.Drawing.Point(167, 12);
 			this.dateTimePickerMonth.Name = "dateTimePickerMonth";
 			this.dateTimePickerMonth.Size = new System.Drawing.Size(101, 27);
 			this.dateTimePickerMonth.TabIndex = 1;
@@ -131,6 +122,15 @@
 			this.label5.Size = new System.Drawing.Size(48, 20);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "集計月";
+			// 
+			// textBoxPcaVer
+			// 
+			this.textBoxPcaVer.Location = new System.Drawing.Point(167, 111);
+			this.textBoxPcaVer.MaxLength = 2;
+			this.textBoxPcaVer.Name = "textBoxPcaVer";
+			this.textBoxPcaVer.Size = new System.Drawing.Size(52, 27);
+			this.textBoxPcaVer.TabIndex = 7;
+			this.textBoxPcaVer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// MainForm
 			// 
@@ -152,7 +152,7 @@
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
-			this.Text = "ソフトウェア保守料売上データ作成";
+			this.Text = "ソフトウェア保守料売上データ作成  Ver1.00(2020/10/16)";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);

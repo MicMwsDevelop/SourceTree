@@ -51,6 +51,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseFactory\AlmexMainteEarnings\AlmexMainteEarningsOut.cs" />
+    <Compile Include="BaseFactory\AlmexMainteEarnings\DataRow.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_CUSSTOMER_USE_INFOMATION.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_DEMO_USER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_LICENSE_PRODUCT_CONTRACT.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
     <Compile Include="BaseFactory\CheckVoucherPaletteES\OrderVoucher.cs" />
     <Compile Include="BaseFactory\CloudBackup\CloudBackupEarningsData.cs" />
+    <Compile Include="BaseFactory\CloudBackup\GroupMicPCA売上明細.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_PRODUCTUSER.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_SERVICE.cs" />
     <Compile Include="BaseFactory\Estore\Table\tMICestore_log.cs" />
@@ -88,10 +91,12 @@
     <Compile Include="BaseFactory\Junp\View\vMicPCA担当者マスタ.cs" />
     <Compile Include="BaseFactory\Junp\View\vMic全ユーザー2.cs" />
     <Compile Include="BaseFactory\Junp\View\vSoftwareMainteLimit.cs" />
+    <Compile Include="BaseFactory\Mail\MailSettings.cs" />
     <Compile Include="BaseFactory\PcaGoodsIDDefine.cs" />
     <Compile Include="BaseFactory\Pca\PCA受注明細汎用データ.cs" />
     <Compile Include="BaseFactory\Pca\PCA売上明細汎用データ.cs" />
     <Compile Include="BaseFactory\Pca\PCA仕入明細汎用データ.cs" />
+    <Compile Include="BaseFactory\PcSupportEarnings\PcSupportEarningsOut.cs" />
     <Compile Include="BaseFactory\PurchaseTransfer\PCA仕入明細貯蔵品.cs" />
     <Compile Include="BaseFactory\PurchaseTransfer\PCA出荷明細貯蔵品.cs" />
     <Compile Include="BaseFactory\PurchaseTransfer\仕入振替月次.cs" />
@@ -101,7 +106,7 @@
     <Compile Include="BaseFactory\ServiceCodeDefine.cs" />
     <Compile Include="BaseFactory\ShipmentActing\ShipmentActingData.cs" />
     <Compile Include="BaseFactory\SoftwareMainteEarnings\CustomerUseInfoSoftwareMainte.cs" />
-    <Compile Include="BaseFactory\SoftwareMainteEarnings\OrderSlipSoftwareMainte.cs" />
+    <Compile Include="BaseFactory\SoftwareMainteEarnings\SoftwareMainteEarningsOut.cs" />
     <Compile Include="BaseFactory\StockGoodsMaster\StockGoodsMasterData.cs" />
     <Compile Include="BaseFactory\WebJucuOrderFile\WebJucu.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\MemoBankTransfer.cs" />
@@ -113,6 +118,8 @@
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoController.cs" />
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoGetIO.cs" />
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoSetIO.cs" />
+    <Compile Include="DB\SqlServer\AlmexMainteEarnings\AlmexMainteEarningsAccess.cs" />
+    <Compile Include="DB\SqlServer\AlmexMainteEarnings\AlmexMainteEarningsGetIO.cs" />
     <Compile Include="DB\SqlServer\Charlie\CharlieDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\Charlie\CharlieDatabaseAccess.cs" />
     <Compile Include="BaseFactory\Charlie\View\支店情報参照ビュー.cs" />
@@ -245,6 +252,9 @@
     <Compile Include="DB\SqlServer\CheckOrderSlip\CheckOrderSlipGetIO.cs" />
     <Compile Include="DB\SqlServer\PCA\PcaDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\PCA\PcaDatabaseDefine.cs" />
+    <Compile Include="DB\SqlServer\PcSupportEarnings\PcSupportEarningsAccess.cs" />
+    <Compile Include="DB\SqlServer\PcSupportEarnings\PcSupportEarningsController.cs" />
+    <Compile Include="DB\SqlServer\PcSupportEarnings\PcSupportEarningsGetIO.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerSetIO.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerAccess.cs" />
     <Compile Include="DB\SqlServer\PcSupportManager\PcSupportManagerController.cs" />

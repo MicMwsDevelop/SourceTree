@@ -340,6 +340,23 @@ namespace MwsLib.DB.SqlServer.Junp
 			return string.Empty;
 		}
 
+		/// <summary>
+		/// [JunpDB].[dbo].[tMikユーザ]から顧客Noに対する請求先コードを取得
+		/// </summary>
+		/// <param name="CustomerNo">顧客No</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>請求先コード</returns>
+		public static string GetSeikyusakiCode(int CustomerNo, bool ct)
+		{
+			string sql = string.Format("SELECT [fus請求先コード] FROM {0} WHERE [fusCliMicID] = {1}", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ], CustomerNo);
+			DataTable table = SelectJunpDatabase(sql, ct);
+			if (null != table && 1 == table.Rows.Count)
+			{
+				return table.Rows[0]["fus請求先コード"].ToString().Trim();
+			}
+			return string.Empty;
+		}
+
 
 		////////////////////////////////////////////////////////////////
 		// テーブル関連
@@ -511,7 +528,11 @@ namespace MwsLib.DB.SqlServer.Junp
 			string sql = string.Format("SELECT * FROM {0} WHERE sms_scd = '{1}'", JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ], code);
 			DataTable table = SelectJunpDatabase(sql, ct);
 			List<vMicPCA商品マスタ> list = vMicPCA商品マスタ.DataTableToList(table);
-			return list.First();
+			if (null != list)
+			{
+				return list.First();
+			}
+			return null;
 		}
 
 		/// <summary>

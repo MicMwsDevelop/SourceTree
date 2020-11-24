@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CloudBackupPurchaseFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<ExportDir>c:\_aaa</ExportDir>
-	<ExportFilename>クラウドバックアップ仕入データ.txt</ExportFilename>
-	<InitDenNo>20101</InitDenNo>
+	<ExportDir>c:\_TEST</ExportDir>
+	<ExportFilename>クラウドバックアップ仕入データ.csv</ExportFilename>
+	<InitDenNo>20501</InitDenNo>
 	<PcaVersion>7</PcaVersion>
 	<CloudBackupGoodsList>
 		<CloudBackupGoods>
@@ -42,8 +42,8 @@
 			<仕入フラグ>0</仕入フラグ>
 		</CloudBackupGoods>
 		<CloudBackupGoods>
-			<商品コード>101876</商品コード>
-			<商品名>PC安心ｻﾎﾟｰﾄ Plus(切換)</商品名>
+			<商品コード>800084</商品コード>
+			<商品名>MWS ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟ(PC安心ｻﾎﾟｰﾄ Plus)</商品名>
 			<仕入商品コード>800083</仕入商品コード>
 			<仕入価格>400</仕入価格>
 			<仕入先>040129</仕入先>
@@ -51,4 +51,13 @@
 			<仕入フラグ>0</仕入フラグ>
 		</CloudBackupGoods>
 	</CloudBackupGoodsList>
+	<Mail>
+		<From>eigyo_kanri@mic.jp</From>
+		<To>eigyo_kanri@mic.jp</To>
+		<TestTo>suguro@mic.jp</TestTo>
+		<Smtp>172.16.0.99</Smtp>
+		<Port>25</Port>
+		<User></User>
+		<Pass></Pass>
+	</Mail>
 </CloudBackupPurchaseFileSettings>

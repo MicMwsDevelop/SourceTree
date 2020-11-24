@@ -9,8 +9,6 @@
 // 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MwsLib.BaseFactory.Pca
 {
@@ -20,6 +18,11 @@ namespace MwsLib.BaseFactory.Pca
 	[Serializable]
 	public class PCA売上明細汎用データ
 	{
+		/// <summary>
+		/// 記事コード
+		/// </summary>
+		public static readonly string ArticleCode = "000014";
+
 		/// <summary>
 		/// 0:掛売、1:現収、2:カード、3:そ の他、5:仮伝、6:契約
 		/// </summary>
@@ -170,28 +173,28 @@ namespace MwsLib.BaseFactory.Pca
 		{
 			List<string> list = new List<string>();
 			list.Add(伝区.ToString());
-			list.Add(売上日.ToString());
-			list.Add(請求日.ToString());
+			list.Add("\"" + 売上日.ToString() + "\"");
+			list.Add("\"" + 請求日.ToString() + "\"");
 			list.Add(伝票No.ToString());
-			list.Add(得意先コード);
-			list.Add(得意先名);
-			list.Add(直送先コード);
-			list.Add(先方担当者名);
-			list.Add(部門コード);
-			list.Add(担当者コード);
+			list.Add("\"" + 得意先コード + "\"");
+			list.Add("\"" + 得意先名 + "\"");
+			list.Add("\"" + 直送先コード + "\"");
+			list.Add("\"" + 先方担当者名 + "\"");
+			list.Add("\"" + 部門コード + "\"");
+			list.Add("\"" + 担当者コード + "\"");
 			list.Add(摘要コード);
-			list.Add(摘要名);
-			list.Add(分類コード);
-			list.Add(伝票区分);
-			list.Add(商品コード);
+			list.Add("\"" + 摘要名 + "\"");
+			list.Add("\"" + 分類コード + "\"");
+			list.Add("\"" + 伝票区分 + "\"");
+			list.Add("\"" + 商品コード + "\"");
 			list.Add(マスター区分.ToString());
-			list.Add(商品名);
+			list.Add("\"" + 商品名 + "\"");
 			list.Add(区.ToString());
-			list.Add(倉庫コード);
+			list.Add("\"" + 倉庫コード + "\"");
 			list.Add(入数.ToString());
 			list.Add(箱数.ToString());
 			list.Add(数量.ToString());
-			list.Add(単位);
+			list.Add("\"" + 単位 + "\"");
 			list.Add(単価.ToString());
 			list.Add(売上金額.ToString());
 			list.Add(原単価.ToString());
@@ -201,14 +204,14 @@ namespace MwsLib.BaseFactory.Pca
 			list.Add(内税額.ToString());
 			list.Add(税区分.ToString());
 			list.Add(税込区分.ToString());
-			list.Add(備考);
+			list.Add("\"" + 備考 + "\"");
 			list.Add(標準価格.ToString());
 			list.Add(同時入荷区分.ToString());
 			list.Add(売単価.ToString());
 			list.Add(売価金額.ToString());
-			list.Add(規格型番);
-			list.Add(色);
-			list.Add(サイズ);
+			list.Add("\"" + 規格型番 + "\"");
+			list.Add("\"" + 色 + "\"");
+			list.Add("\"" + サイズ + "\"");
 			list.Add(計算式コード.ToString());
 			list.Add(商品項目１.ToString());
 			list.Add(商品項目２.ToString());
@@ -218,14 +221,14 @@ namespace MwsLib.BaseFactory.Pca
 			list.Add(売上項目３.ToString());
 			list.Add(税率.ToString());
 			list.Add(伝票消費税額.ToString());
-			list.Add(ﾌﾟﾛｼﾞｪｸﾄコード);
-			list.Add(伝票No2);
+			list.Add("\"" + ﾌﾟﾛｼﾞｪｸﾄコード + "\"");
+			list.Add("\"" + 伝票No2 + "\"");
 			list.Add(データ区分.ToString());
-			list.Add(商品名２);
+			list.Add("\"" + 商品名２ + "\"");
 			if (8 <= pcaVer)
 			{
 				list.Add(単位区分.ToString());
-				list.Add(ロットNo);
+				list.Add(@""" + ロットNo + """);
 				list.Add(売上税種別.ToString());
 				list.Add(原価税込区分.ToString());
 				list.Add(原価税率.ToString());

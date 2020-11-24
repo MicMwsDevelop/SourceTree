@@ -4,6 +4,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2019/02/08 勝呂)
+// Ver1.001 PC安心サポートPlus対応(2020/10/16 勝呂)
 //
 namespace MwsLib.BaseFactory
 {
@@ -12,17 +13,37 @@ namespace MwsLib.BaseFactory
 		/// <summary>
 		/// PC安心サポート３年契約
 		/// </summary>
-		public const string PcSafetySupport3 = "001871";
+		public const string PcSupport3 = "001871";
 
 		/// <summary>
 		/// PC安心サポート１年契約
 		/// </summary>
-		public const string PcSafetySupport1 = "001872";
+		public const string PcSupport1 = "001872";
 
 		/// <summary>
 		/// PC安心サポート１年契約（更新用）
 		/// </summary>
-		public const string PcSafetySupport1Continue = "001874";
+		public const string PcSupport1Continue = "001874";
+
+		/// <summary>
+		/// PC安心サポートPlus３年契約
+		/// </summary>
+		public const string PcSupportPlus3 = "101871";
+
+		/// <summary>
+		/// PC安心サポートPlus１年契約
+		/// </summary>
+		public const string PcSupportPlus1 = "101872";
+
+		/// <summary>
+		/// PC安心サポートPlus１年契約（更新用）
+		/// </summary>
+		public const string PcSupportPlus1Continue = "101874";
+
+		/// <summary>
+		/// クラウドバックアップ（PC安心サポートPlus）
+		/// </summary>
+		public const string CloudBackupPcSupport = "800084";
 
 		/// <summary>
 		/// MWS palette ES 2019版
@@ -93,9 +114,12 @@ namespace MwsLib.BaseFactory
 		{
 			switch (code)
 			{
-				case PcSafetySupport3:
-				case PcSafetySupport1:
-				case PcSafetySupport1Continue:
+				case PcSupport3:
+				case PcSupport1:
+				case PcSupport1Continue:
+				case PcSupportPlus3:
+				case PcSupportPlus1:
+				case PcSupportPlus1Continue:
 					return true;
 			}
 			return false;

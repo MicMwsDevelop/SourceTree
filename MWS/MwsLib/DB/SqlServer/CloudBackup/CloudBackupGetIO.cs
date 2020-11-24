@@ -37,8 +37,12 @@ namespace MwsLib.DB.SqlServer.CloudBackup
 					// 接続
 					con.Open();
 
-					string strSQL = string.Format(@"SELECT * FROM {0}"
+					string strSQL = string.Format(@"SELECT sykd_jbmn, sykd_jtan, sykd_scd, sykd_mkbn, sykd_tani, sykd_uribi"
+												+ " , convert(int, sykd_rate) as 消費税率"
+												+ " , convert(int, sum(sykd_suryo)) as 数量"
+												+ " FROM {0}"
 												+ " WHERE sykd_kingaku <> 0 AND sykd_uribi >= {1} AND sykd_uribi <= {2} AND sykd_scd IN ({3})"
+												+ " GROUP BY sykd_jbmn, sykd_jtan, sykd_scd, sykd_mkbn, sykd_tani, sykd_uribi, sykd_rate"
 												+ " ORDER BY sykd_jbmn, sykd_uribi, sykd_scd"
 												, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
 												, span.Start.ToIntYMD()

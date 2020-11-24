@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mail\SendMailControl.cs" />
     <Compile Include="Settings\CloudBackupPurchaseFileSettings.cs" />
     <Compile Include="Settings\CloudBackupPurchaseFileSettingsIF.cs" />
     <Compile Include="Fomrs\MainForm.cs">
@@ -92,5 +93,6 @@
   <ItemGroup>
     <Content Include="Settings\CloudBackupPurchaseFileSettings.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

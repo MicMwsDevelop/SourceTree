@@ -206,13 +206,13 @@ namespace MwsLib.BaseFactory.Charlie.Table
 			{
 				// PC安心ｻﾎﾟｰﾄ(3年契約)
 				fServiceId = (int)ServiceCodeDefine.ServiceCode.PcSafetySupport3;
-				fGoodsID = PcaGoodsIDDefine.PcSafetySupport3;
+				fGoodsID = PcaGoodsIDDefine.PcSupport3;
 			}
 			else
 			{
 				// PC安心ｻﾎﾟｰﾄ(1年契約)
 				fServiceId = (int)ServiceCodeDefine.ServiceCode.PcSafetySupport1;
-				fGoodsID = PcaGoodsIDDefine.PcSafetySupport1;
+				fGoodsID = PcaGoodsIDDefine.PcSupport1;
 			}
 			if (data.fhsS契約書回収年月.HasValue)
 			{

@@ -27,12 +27,12 @@ namespace MwsLib.DB.SqlServer.CheckOrderSlip
 		/// <param name="whereStr">where文</param>
 		/// <param name="date">処理日付</param>
 		/// <param name="goods">商品コードリスト</param>
-		/// <param name="sqlsv2">CT環境かどうか？</param>
+		/// <param name="ct">CT環境かどうか？</param>
 		/// <returns>DataTable</returns>
-		private static DataTable GetSlipList(string whereStr, Date date, List<string> goods, bool sqlsv2)
+		private static DataTable GetSlipList(string whereStr, Date date, List<string> goods, bool ct)
 		{
 			DataTable result = null;
-			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(sqlsv2)))
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(ct)))
 			{
 				try
 				{
@@ -64,6 +64,7 @@ namespace MwsLib.DB.SqlServer.CheckOrderSlip
 					+ ", H.[fユーザー] AS fユーザー"
 					+ ", D.[f商品コード] AS f商品コード"
 					+ ", D.[f商品名] AS f商品名"
+					+ ", D.[f標準価格] AS f標準価格"
 					+ ", H.[f受注金額] AS f受注金額"
 					+ ", H.[fSV利用開始年月] AS fSV利用開始年月"
 					+ ", H.[fSV利用終了年月] AS fSV利用終了年月"

@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
+// Ver2.210 おまとめプランにクラウドバックアップが含まれないように対応(2020/11/20 勝呂)
 //
 using MwsLib.Common;
 using MwsLib.DB.SQLite.MwsSimulation;
@@ -84,7 +85,12 @@ namespace MwsLib.BaseFactory.MwsSimulation
 			{
 				if (SQLiteMwsSimulationDef.GOODS_KUBUN_GROUP_PLAN_SERVICE == GoodsKubun)
 				{
-					return true;
+					// Ver2.210 おまとめプランにクラウドバックアップが含まれないように対応(2020/11/20 勝呂)
+					if ((int)ServiceCodeDefine.ServiceCode.ExCloudDataBackup != int.Parse(ServiceCode))
+					{
+						// 1036260 クラウドバックアップ はおまとめプランに含めない
+						return true;
+					}
 				}
 				return false;
 			}
@@ -104,7 +110,6 @@ namespace MwsLib.BaseFactory.MwsSimulation
 				return false;
 			}
 		}
-
 
 		/// <summary>
 		/// デフォルトコンストラクタ

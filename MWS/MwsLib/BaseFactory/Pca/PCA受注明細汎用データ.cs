@@ -1,4 +1,13 @@
-﻿using MwsLib.BaseFactory.Junp.View;
+﻿//
+// PCA受注明細.cs
+//
+// PCA汎用データ 受注明細データ
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.000 新規作成(2019/11/15 勝呂)
+// 
+using MwsLib.BaseFactory.Junp.View;
 using System;
 using System.Collections.Generic;
 

@@ -20,74 +20,118 @@ namespace MwsLib.BaseFactory.CloudBackup
 		/// <summary>
 		/// 
 		/// </summary>
-		public string 仕入先コード { get; set; }
+		public string f仕入先コード { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public string 部門コード { get; set; }
+		public string f部門コード { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public string 担当者コード { get; set; }
+		public string f担当者コード { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public string 仕入商品コード { get; set; }
+		public string f仕入商品コード { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public string 商品名 { get; set; }
+		public string f商品名 { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public int 数量 { get; set; }
+		public int f数量 { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public string 単位 { get; set; }
+		public string f単位 { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public int 仕入価格 { get; set; }
+		public int f仕入価格 { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public int 売上日 { get; set; }
+		public int f売上日 { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public short 仕入フラグ { get; set; }
+		public short f仕入フラグ { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public short 消費税率 { get; set; }
+		public short f消費税率 { get; set; }
+
+		/// <summary>
+		/// 部門コードの取得
+		/// </summary>
+		public string 部門コード
+		{
+			get
+			{
+				return f部門コード.Substring(f部門コード.Length - 2, 2);
+			}
+		}
+
+		/// <summary>
+		/// 担当者コードの取得
+		/// </summary>
+		public string 担当者コード
+		{
+			get
+			{
+				return f担当者コード.Substring(f担当者コード.Length - 2, 2);
+			}
+		}
+
+		/// <summary>
+		/// 商品名の取得
+		/// </summary>
+		public string 商品名
+		{
+			get
+			{
+				return StringUtil.GetSubstringByByte(f商品名, 36);
+			}
+		}
+
+		/// <summary>
+		/// 金額の取得
+		/// </summary>
+		public int 金額
+		{
+			get
+			{
+				return f数量 * f仕入価格;
+			}
+		}
 
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public CloudBackupEarningsData()
 		{
-			仕入先コード = string.Empty;
-			部門コード = string.Empty;
-			担当者コード = string.Empty;
-			仕入商品コード = string.Empty;
-			商品名 = string.Empty;
-			数量 = 0;
-			単位 = string.Empty;
-			仕入価格 = 0;
-			売上日 = 0;
-			仕入フラグ = 0;
-			消費税率 = 0;
+			f仕入先コード = string.Empty;
+			f部門コード = string.Empty;
+			f担当者コード = string.Empty;
+			f仕入商品コード = string.Empty;
+			f商品名 = string.Empty;
+			f数量 = 0;
+			f単位 = string.Empty;
+			f仕入価格 = 0;
+			f売上日 = 0;
+			f仕入フラグ = 0;
+			f消費税率 = 0;
 		}
 
 		/// <summary>
@@ -100,24 +144,24 @@ namespace MwsLib.BaseFactory.CloudBackup
 		public string ToPurchase(int no, int pcaVer)
 		{
 			PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
-			pca.科目区分 = 仕入フラグ;// 2:科目区分
-			pca.仕入日 = 売上日;// 4:仕入年月日
-			pca.精算日 = 売上日;//5:精算年月日
+			pca.科目区分 = f仕入フラグ;// 2:科目区分
+			pca.仕入日 = f売上日;// 4:仕入年月日
+			pca.精算日 = f売上日;//5:精算年月日
 			pca.伝票No = no;// 6:伝票番号
-			pca.仕入先コード = 仕入先コード;    // 7:仕入先コード
-			pca.部門コード = 部門コード.Substring(部門コード.Length - 2, 2);// 10:部門コード
-			pca.担当者コード = 担当者コード.Substring(担当者コード.Length - 2, 2);// 11:担当者コード
+			pca.仕入先コード = f仕入先コード;    // 7:仕入先コード
+			pca.部門コード = 部門コード;// 10:部門コード
+			pca.担当者コード = 担当者コード;// 11:担当者コード
 			pca.摘要コード = "0";// 12:摘要コード
-			pca.商品コード = 仕入商品コード;// 14:商品コード
-			pca.商品名 = StringUtil.GetSubstringByByte(商品名, 36);// 16:品名(36)
+			pca.商品コード = f仕入商品コード;// 14:商品コード
+			pca.商品名 = 商品名;// 16:品名(36)
 			pca.区 = 2;// 17:区('2'は単価修正)
 			pca.倉庫コード = "0";// 18:倉庫コード
-			pca.数量 = 数量;// 21:数量
-			pca.単価= 仕入価格;// 23:単価
-			pca.金額 = 数量 * 仕入価格;// 24:金額
+			pca.数量 = f数量;// 21:数量
+			pca.単価= f仕入価格;// 23:単価
+			pca.金額 = 金額;// 24:金額
 			pca.税区分 = 2;// 27:税区分
-			pca.備考 = "0";//29:備考
-			pca.税率 = 消費税率;// 40:税率
+			pca.備考 = "";//29:備考
+			pca.税率 = f消費税率;// 40:税率
 			return pca.ToCsvString(pcaVer);
 /*
 			string[] ret = new string[45];
@@ -149,7 +193,7 @@ namespace MwsLib.BaseFactory.CloudBackup
 			ret[25] = "0";								// 26:内税額
 			ret[26] = "2";								// 27:税区分
 			ret[27] = "0";								// 28:税込区分
-			ret[28] = "0";								// 29:備考(20)
+			ret[28] = "";								// 29:備考(20)
 			ret[29] = "";								// 30:規格・型番(36)
 			ret[30] = "";								// 31:色(7)
 			ret[31] = "";								// 32:サイズ(5)

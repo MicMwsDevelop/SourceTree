@@ -39,7 +39,7 @@ namespace CloudBackupPurchaseFile.Forms
 			textBoxFilename.Text = Program.gSettings.ExportFilename;
 			textBoxPcaVer.Text = Program.gSettings.PcaVersion.ToString();
 
-			dateTimePickerMonth.Value = Program.BootDate.ToDateTime();
+			dateTimePickerMonth.Value = Program.CollectDate.ToDateTime();
 		}
 
 		/// <summary>

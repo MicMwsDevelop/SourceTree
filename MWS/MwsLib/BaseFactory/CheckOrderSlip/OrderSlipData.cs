@@ -112,6 +112,11 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 		/// <summary>
 		/// 受注金額
 		/// </summary>
+		public int 標準価格 { get; set; }
+
+		/// <summary>
+		/// 受注金額
+		/// </summary>
 		public int 受注金額 { get; set; }
 
 		/// <summary>
@@ -274,6 +279,7 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 			顧客名 = string.Empty;
 			商品コード = string.Empty;
 			商品名 = string.Empty;
+			標準価格 = 0;
 			受注金額 = 0;
 			利用期間 = Span.Nothing;
 			販売先コード = 0;
@@ -316,7 +322,7 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 
 		static public string[] GetExcelTitle()
 		{
-			string[] title = new string[23];
+			string[] title = new string[24];
 			title[0] = "判定";
 			title[1] = "伝票種別";
 			title[2] = "販売種別";
@@ -329,17 +335,18 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 			title[9] = "顧客名";
 			title[10] = "商品コード";
 			title[11] = "商品名";
-			title[12] = "受注金額";
-			title[13] = "利用開始日";
-			title[14] = "利用終了日";
-			title[15] = "販売先コード";
-			title[16] = "販売先";
-			title[17] = "支店コード";
-			title[18] = "担当支店名";
-			title[19] = "担当者コード";
-			title[20] = "担当者名";
-			title[21] = "件名";
-			title[22] = "不備内容";
+			title[12] = "標準価格";
+			title[13] = "受注金額";
+			title[14] = "利用開始日";
+			title[15] = "利用終了日";
+			title[16] = "販売先コード";
+			title[17] = "販売先";
+			title[18] = "支店コード";
+			title[19] = "担当支店名";
+			title[20] = "担当者コード";
+			title[21] = "担当者名";
+			title[22] = "件名";
+			title[23] = "不備内容";
 			return title;
 		}
 
@@ -363,6 +370,7 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 			list.Add(顧客名);
 			list.Add(商品コード);
 			list.Add(商品名);
+			list.Add(標準価格.ToString());
 			list.Add(受注金額.ToString());
 			list.Add(Span.Nothing == 利用期間 ? "" : 利用期間.Start.ToString());
 			list.Add(Span.Nothing == 利用期間 ? "" : 利用期間.End.ToString());
@@ -390,8 +398,10 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 				case PcaGoodsIDDefine.PaletteES_Mainte72:
 				case PcaGoodsIDDefine.PaletteES_Mainte12:
 					return OrderType.MainteES;
-				case PcaGoodsIDDefine.PcSafetySupport3:
-				case PcaGoodsIDDefine.PcSafetySupport1:
+				case PcaGoodsIDDefine.PcSupport3:
+				case PcaGoodsIDDefine.PcSupport1:
+				case PcaGoodsIDDefine.PcSupportPlus3:
+				case PcaGoodsIDDefine.PcSupportPlus1:
 					return OrderType.PcSupport;
 				case PcaGoodsIDDefine.Matome12:
 				case PcaGoodsIDDefine.Matome24:
@@ -525,7 +535,7 @@ namespace MwsLib.BaseFactory.Junp.CheckOrderSlip
 		/// <returns>結果</returns>
 		public static List<OrderSlipData> SelectPcSupport(List<OrderSlipData> list)
 		{
-			return list.FindAll(p => PcaGoodsIDDefine.PcSafetySupport3 == p.商品コード || PcaGoodsIDDefine.PcSafetySupport1 == p.商品コード);
+			return list.FindAll(p => PcaGoodsIDDefine.PcSupport3 == p.商品コード || PcaGoodsIDDefine.PcSupport1 == p.商品コード);
 		}
 
 		/// <summary>

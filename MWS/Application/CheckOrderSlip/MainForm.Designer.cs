@@ -98,7 +98,7 @@
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(134, 12);
 			this.label2.TabIndex = 11;
-			this.label2.Text = "Ver1.01（2020/08/19）";
+			this.label2.Text = "Ver1.11（2020/10/29）";
 			// 
 			// label4
 			// 

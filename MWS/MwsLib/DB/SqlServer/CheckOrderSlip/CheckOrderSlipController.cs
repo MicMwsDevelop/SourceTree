@@ -45,6 +45,7 @@ namespace MwsLib.DB.SqlServer.CheckOrderSlip
 						顧客名 = row["fユーザー"].ToString(),
 						商品コード = row["f商品コード"].ToString(),
 						商品名 = row["f商品名"].ToString(),
+						標準価格 = DataBaseValue.ConvObjectToInt(row["f標準価格"]),
 						受注金額 = DataBaseValue.ConvObjectToInt(row["f受注金額"]),
 						販売先コード = DataBaseValue.ConvObjectToInt(row["f販売先コード"]),
 						販売先 = row["f販売先"].ToString(),

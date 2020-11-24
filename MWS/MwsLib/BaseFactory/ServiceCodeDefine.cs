@@ -526,9 +526,9 @@ namespace MwsLib.BaseFactory
 			ExPaletteAccount = 1036220,
 
 			/// <summary>
-			/// クラウドデータバンク
+			/// クラウドバックアップ
 			/// </summary>
-			ExCloudDataBank = 1036260,
+			ExCloudDataBackup = 1036260,
 
 			/////////////////////////
 			// 38 リモート

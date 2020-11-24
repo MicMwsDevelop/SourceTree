@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2020/10/09 勝呂)
 //
+using MwsLib.BaseFactory.Mail;
 using System;
 using System.IO;
 
@@ -38,6 +39,11 @@ namespace SoftwareMainteEarningsFile.Settings
 		public int SlipInitialNumber { get; set; }
 
 		/// <summary>
+		/// メール設定
+		/// </summary>
+		public MailSettings Mail { get; set; }
+
+		/// <summary>
 		/// 売上データ出力ファイルパス名
 		/// </summary>
 		public string Pathname
@@ -57,6 +63,7 @@ namespace SoftwareMainteEarningsFile.Settings
 			ExportFilename = string.Empty;
 			PcaVersion = 7;
 			SlipInitialNumber = 60001;
+			Mail = new MailSettings();
 		}
 
 		/// <summary>
@@ -81,7 +88,8 @@ namespace SoftwareMainteEarningsFile.Settings
 				if (ExportDir == other.ExportDir
 					&& ExportFilename == other.ExportFilename
 					&& PcaVersion == other.PcaVersion
-					&& SlipInitialNumber == other.SlipInitialNumber)
+					&& SlipInitialNumber == other.SlipInitialNumber
+					&& Mail.Equals(other.Mail))
 				{
 					return true;
 				}

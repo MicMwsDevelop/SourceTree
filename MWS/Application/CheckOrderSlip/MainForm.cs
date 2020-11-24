@@ -6,15 +6,20 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2020/04/17 勝呂)
+// Ver1.10 PC安心サポートPlus対応(2020/10/16 勝呂)
+// Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
 // 
 using ClosedXML.Excel;
 using MwsLib.BaseFactory;
+using MwsLib.BaseFactory.Charlie.Table;
 using MwsLib.BaseFactory.Junp.CheckOrderSlip;
 using MwsLib.Common;
+using MwsLib.DB.SqlServer.Charlie;
 using MwsLib.DB.SqlServer.CheckOrderSlip;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace CheckOrderSlip
@@ -45,6 +50,12 @@ namespace CheckOrderSlip
 			/// MWSプラットフォーム利用料
 			/// </summary>
 			Platform = 3,
+
+			/// <summary>
+			/// PC安心サポートPlus切替
+			/// </summary>
+			/// Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
+			ChangePcSupportPlus,
 		}
 
 		/// <summary>
@@ -79,6 +90,9 @@ namespace CheckOrderSlip
 			comboBoxMode.Items.Add("おまとめプラン");
 			comboBoxMode.Items.Add("PC安心サポート");
 			comboBoxMode.Items.Add("MWSプラットフォーム利用料");
+
+			// Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
+			comboBoxMode.Items.Add("PC安心サポートPlus切替");
 			comboBoxMode.SelectedIndex = 0;
 
 			// 検索日に当月初日を設定
@@ -137,6 +151,10 @@ namespace CheckOrderSlip
 						break;
 					case CheckType.Platform:
 						ret = CheckPlatform(checkDate);
+						break;
+					// Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
+					case CheckType.ChangePcSupportPlus:
+						ret = CheckChangePcSupportPlus(checkDate);
 						break;
 				}
 				// カーソルを元に戻す
@@ -284,6 +302,10 @@ namespace CheckOrderSlip
 							break;
 						case CheckType.Platform:
 							chkStr = "Platform";
+							break;
+						// Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
+						case CheckType.ChangePcSupportPlus:
+							chkStr = "ChangePcSupportPlus";
 							break;
 					}
 					string pathName = Path.Combine(Directory.GetCurrentDirectory(), string.Format(ExcelFileName, chkStr));
@@ -579,13 +601,13 @@ namespace CheckOrderSlip
 							}
 							break;
 					}
-					if (slip.受注日.HasValue && Date.MinValue != slip.利用期間.Start)
-					{
-						if (6 < new Span(new Date(slip.受注日.Value), slip.利用期間.Start).GetMonthCount())
-						{
-							slip.ErrorList.Add("おまとめプランの利用開始日が受注日の半年以降");
-						}
-					}
+					//if (slip.受注日.HasValue && Date.MinValue != slip.利用期間.Start)
+					//{
+					//	if (6 < new Span(new Date(slip.受注日.Value), slip.利用期間.Start).GetMonthCount())
+					//	{
+					//		slip.ErrorList.Add("おまとめプランの利用開始日が受注日の半年以降");
+					//	}
+					//}
 					if (slip.NoReplace)
 					{
 						slip.ErrorList.Add("リプレースなし");
@@ -604,12 +626,17 @@ namespace CheckOrderSlip
 		/// </summary>
 		/// <param name="checkDate">検索開始日</param>
 		/// <returns>検索数</returns>
+		/// Ver1.10 PC安心サポートPlus対応(2020/10/16 勝呂)
 		private int CheckPcSupport(Date checkDate)
 		{
 			// チェック対象の商品の設定
 			List<string> goods = new List<string>();
-			goods.Add(PcaGoodsIDDefine.PcSafetySupport3);
-			goods.Add(PcaGoodsIDDefine.PcSafetySupport1);
+			goods.Add(PcaGoodsIDDefine.PcSupport3);
+			goods.Add(PcaGoodsIDDefine.PcSupport1);
+
+			// Ver1.10 PC安心サポートPlus対応(2020/10/16 勝呂)
+			goods.Add(PcaGoodsIDDefine.PcSupportPlus3);
+			goods.Add(PcaGoodsIDDefine.PcSupportPlus1);
 
 			// 受注伝票情報リストの取得
 			List<OrderSlipData> list = null;
@@ -635,26 +662,40 @@ namespace CheckOrderSlip
 					}
 					switch (slip.商品コード)
 					{
-						case PcaGoodsIDDefine.PcSafetySupport3:
+						case PcaGoodsIDDefine.PcSupport3:
 							if (36 != slip.利用期間.GetMonthCount())
 							{
 								slip.ErrorList.Add("PC安心サポート３年契約の利用期間が36ヵ月でない");
 							}
 							break;
-						case PcaGoodsIDDefine.PcSafetySupport1:
+						case PcaGoodsIDDefine.PcSupport1:
 							if (12 != slip.利用期間.GetMonthCount())
 							{
 								slip.ErrorList.Add("PC安心サポート１年契約の利用期間が12ヵ月でない");
 							}
 							break;
+						// Ver1.10 PC安心サポートPlus対応(2020/10/16 勝呂)
+						case PcaGoodsIDDefine.PcSupportPlus3:
+							if (36 != slip.利用期間.GetMonthCount())
+							{
+								slip.ErrorList.Add("PC安心サポートPlus３年契約の利用期間が36ヵ月でない");
+							}
+							break;
+						// Ver1.10 PC安心サポートPlus対応(2020/10/16 勝呂)
+						case PcaGoodsIDDefine.PcSupportPlus1:
+							if (12 != slip.利用期間.GetMonthCount())
+							{
+								slip.ErrorList.Add("PC安心サポートPlus１年契約の利用期間が12ヵ月でない");
+							}
+							break;
 					}
-					if (slip.受注日.HasValue && Date.MinValue != slip.利用期間.Start)
-					{
-						if (6 < new Span(new Date(slip.受注日.Value), slip.利用期間.Start).GetMonthCount())
-						{
-							slip.ErrorList.Add("PC安心サポートの利用開始日が受注日の半年以降");
-						}
-					}
+					//if (slip.受注日.HasValue && Date.MinValue != slip.利用期間.Start)
+					//{
+					//	if (6 < new Span(new Date(slip.受注日.Value), slip.利用期間.Start).GetMonthCount())
+					//	{
+					//		slip.ErrorList.Add("PC安心サポートの利用開始日が受注日の半年以降");
+					//	}
+					//}
 				}
 				// 受注伝票リストビューの設定
 				SetListViewSlip(list);
@@ -690,11 +731,11 @@ namespace CheckOrderSlip
 						}
 						if (slip.利用期間.IsNothing())
 						{
-							slip.ErrorList.Add("利用期間が未設定");
+							slip.ErrorList.Add("サービス利用期間が未設定");
 						}
 						else if (24 <= slip.利用期間.GetMonthCount())
 						{
-							slip.ErrorList.Add("利用期間が２年以上");
+							slip.ErrorList.Add("サービス利用期間が２年以上");
 						}
 						if (slip.NoReplace)
 						{
@@ -706,6 +747,73 @@ namespace CheckOrderSlip
 
 					return listPlat.Count;
 				}
+			}
+			return 0;
+		}
+
+		/// <summary>
+		/// PC安心サポートPlus切替 伝票チェック
+		/// </summary>
+		/// <param name="checkDate">検索開始日</param>
+		/// <returns>検索数</returns>
+		/// Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
+		private int CheckChangePcSupportPlus(Date checkDate)
+		{
+			// チェック対象の商品の設定
+			List<string> goods = new List<string>();
+			goods.Add(PcaGoodsIDDefine.CloudBackupPcSupport);
+
+			// 受注伝票情報リストの取得
+			List<OrderSlipData> list = null;
+			if (radioButtonOrder.Checked)
+			{
+				list = CheckOrderSlipAccess.GetOrderSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+			}
+			else if (radioButtonOrderAccept.Checked)
+			{
+				list = CheckOrderSlipAccess.GetOrderAcceptSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+			}
+			else
+			{
+				list = CheckOrderSlipAccess.GetSaleSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+			}
+			if (null != list)
+			{
+				foreach (OrderSlipData slip in list)
+				{
+					if (MwsDefine.ApplyType.Monthly != slip.販売種別)
+					{
+						slip.ErrorList.Add("販売種別が月額課金でない");
+					}
+					if (800 != slip.標準価格)
+					{
+						slip.ErrorList.Add("価格が800円でない");
+					}
+					if (slip.Is受注承認 || slip.Is売上承認)
+					{
+						if (slip.利用期間.IsNothing())
+						{
+							slip.ErrorList.Add("サービス利用期間が未設定");
+						}
+						List<T_USE_PCCSUPPORT> pcList = CharlieDatabaseAccess.Select_T_USE_PCCSUPPORT(string.Format("[fCustomerID] = {0}", slip.顧客No), "", Program.DATABASE_ACCESS_CT);
+						if (null != pcList)
+						{
+							T_USE_PCCSUPPORT pc = pcList.First();
+							if (!pc.fContractEndDate.HasValue || pc.fContractEndDate.Value != slip.利用期間.End)
+							{
+								slip.ErrorList.Add("サービス利用期間の終了月がPC安心サポート契約情報の契約終了月と一致しない");
+							}
+						}
+						else
+						{
+							slip.ErrorList.Add("PC安心サポート契約情報が登録されていない");
+						}
+					}
+				}
+				// 受注伝票リストビューの設定
+				SetListViewSlip(list);
+
+				return list.Count;
 			}
 			return 0;
 		}

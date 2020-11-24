@@ -37,6 +37,7 @@ namespace MwsLib.DB.SqlServer.Junp
 			tMic出荷代行トップ印刷休業日 = 14,
 			tBusho = 15,
 			t_MicSyukkashiji = 16,
+			tMikアプリケーション情報 = 17,
 		}
 
 		/// <summary>
@@ -60,6 +61,7 @@ namespace MwsLib.DB.SqlServer.Junp
 			{ TableType.tMic出荷代行トップ印刷休業日, "tMic出荷代行トップ印刷休業日" },
 			{ TableType.tBusho, "tBusho" },
 			{ TableType.t_MicSyukkashiji, "t_MicSyukkashiji" },
+			{ TableType.tMikアプリケーション情報, "tMikアプリケーション情報" },
 		};
 
 		/// <summary>
