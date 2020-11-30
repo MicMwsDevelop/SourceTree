@@ -30,7 +30,12 @@ namespace AlmexMainteEarningsFile
 		/// <summary>
 		/// 売上日
 		/// </summary>
-		public static Date SaleDate;
+		public static Date gSaleDate;
+
+		/// <summary>
+		/// 出力ファイル名
+		/// </summary>
+		public static string gFormalFilename;
 
 		/// <summary>
 		/// 環境設定
@@ -54,10 +59,10 @@ namespace AlmexMainteEarningsFile
 			gSettings = AlmexMainteEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			SaleDate = new Date(2020, 12, 1);
+			gSaleDate = new Date(2020, 12, 1);
 #else
 			// 集計日を当月初日に設定
-			SaleDate = Date.Today.FirstDayOfTheMonth();
+			gSaleDate = Date.Today.FirstDayOfTheMonth();
 #endif
 
 			string[] cmds = Environment.GetCommandLineArgs();
@@ -66,7 +71,7 @@ namespace AlmexMainteEarningsFile
 				if ("AUTO" == cmds[1].ToUpper())
 				{
 					// サイレントモード
-					string msg = OutputCsvFile(SaleDate);
+					string msg = OutputCsvFile(gSaleDate);
 					AlmexMainteEarningsFileSettingsIF.SetSettings(gSettings);
 					if (0 < msg.Length)
 					{
@@ -80,30 +85,32 @@ namespace AlmexMainteEarningsFile
 		}
 
 		/// <summary>
-		/// アルメックス保守料売上データ.csvの出力
+		/// アルメックス保守売上データ.csvの出力
 		/// </summary>
 		/// <param name="saleDate">売上日</param>
 		/// <returns>エラーメッセージ</returns>
 		public static string OutputCsvFile(Date saleDate)
 		{
-			// 消費税
-			int taxRate = JunpDatabaseAccess.GetTaxRate(saleDate, DATABASE_ACCESS_CT);
+			// 伝票番号
+			int no = gSettings.SlipInitialNumber;
+
+			// 請求日は先月末日
+			Date billingDate = saleDate.LastDayOfLasMonth();
+
+			gFormalFilename = gSettings.FormalFilename;
 
 			try
 			{
-				// アルメックス保守料売上データ.csvの出力
-				using (var sw = new StreamWriter(gSettings.Pathname, false, System.Text.Encoding.GetEncoding("shift_jis")))
+				// アプリケーション情報からアルメックス保守サービスの更新対象医院の取得
+				List<AlmexMainteEarningsOut> saleList = AlmexMainteEarningsAccess.GetAlmexMainteEarningsOut(saleDate, DATABASE_ACCESS_CT);
+				if (0 < saleList.Count)
 				{
-					// ソフトウェア保守料１年 自動更新対象利用情報の取得
-					List<AlmexMainteEarningsOut> saleList = AlmexMainteEarningsAccess.GetAlmexMainteEarningsOut(saleDate, DATABASE_ACCESS_CT);
-					if (0 < saleList.Count)
+					// 消費税
+					int taxRate = JunpDatabaseAccess.GetTaxRate(saleDate, DATABASE_ACCESS_CT);
+
+					// 中間ファイルの出力
+					using (var sw = new StreamWriter(gSettings.TemporaryPathname, false, System.Text.Encoding.GetEncoding("shift_jis")))
 					{
-						// 伝票番号
-						int no = gSettings.SlipInitialNumber;
-
-						// 請求日は先月末日
-						Date billingDate = saleDate.LastDayOfLasMonth();
-
 						foreach (AlmexMainteEarningsOut sale in saleList)
 						{
 							// 売上データ追加
@@ -126,22 +133,32 @@ namespace AlmexMainteEarningsFile
 							}
 							no++;
 						}
-						// 保守終了月を１年更新
-						foreach (AlmexMainteEarningsOut sale in saleList)
+					}
+					// 中間ファイルをリネームして出力ファルダにコピー
+					File.Copy(gSettings.TemporaryPathname, gSettings.FormalPathname(gFormalFilename));
+
+					// 保守終了月を１年更新
+					foreach (AlmexMainteEarningsOut sale in saleList)
+					{
+						if (sale.f保守終了月.HasValue)
 						{
-							if (sale.f保守終了月.HasValue)
-							{
-								sale.f保守終了月 = sale.f保守終了月.Value.PlusYears(1);
+							sale.f保守終了月 = sale.f保守終了月.Value.PlusYears(1);
 #if !DEBUG
-								// アプリケーション情報の更新
-								AlmexMainteEarningsAccess.UpdateSetApplicationInfo(sale, PROC_NAME, DATABASE_ACCESS_CT);
+							// アプリケーション情報の更新
+							AlmexMainteEarningsAccess.UpdateSetApplicationInfo(sale, PROC_NAME, DATABASE_ACCESS_CT);
 #endif
-							}
 						}
 					}
-					// 営業管理部にメール送信
-					SendMailControl.AlmexMainteSendMail(saleList);
 				}
+				else
+				{
+					// アルメックス保守売上データ.csvの出力
+					using (var sw = new StreamWriter(gSettings.FormalPathname(gFormalFilename), false, System.Text.Encoding.GetEncoding("shift_jis")))
+					{
+					}
+				}
+				// 営業管理部にメール送信
+				SendMailControl.AlmexMainteSendMail(saleList, gFormalFilename);
 			}
 			catch (Exception ex)
 			{

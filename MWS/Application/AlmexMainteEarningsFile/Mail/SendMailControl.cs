@@ -25,7 +25,8 @@ namespace AlmexMainteEarningsFile.Mail
 		/// メール送信（営業管理部宛て）
 		/// </summary>
 		/// <param name="userList">ユーザーリスト</param>
-		public static void AlmexMainteSendMail(List<AlmexMainteEarningsOut> userList)
+		/// <param name="formalFilename">出力ファイル名</param>
+		public static void AlmexMainteSendMail(List<AlmexMainteEarningsOut> userList, string formalFilename)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -39,25 +40,25 @@ namespace AlmexMainteEarningsFile.Mail
 							+ @"<font face=""MS UI Gothic"" size=""2"">";
 
 				// 件名
-				msg.Subject = "アルメックスサービス保守料自動更新 売上連絡";
+				msg.Subject = "アルメックス保守サービス自動更新 売上連絡";
 
 				// 本文
 				msg.Body += string.Format(@"<div>"
 							+ @"<p>営業管理部</p>"
-							+ @"<p>アルメックスサービス保守料の期間更新と売上データを作成しました。<br>"
+							+ @"<p>アルメックス保守サービスの期間更新と売上データを作成しました。<br>"
 							+ @"<br>"
 							+ @"{0}フォルダに{1}を格納しました。<br>"
 							+ @"PCA読込作業をお願いします。<br></p>"
 							+ @"</div>"
 							, Program.gSettings.ExportDir
-							, Program.gSettings.ExportFilename);
+							, formalFilename);
 				if (0 < userList.Count)
 				{
 					msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
 								+ @"<tr>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
-								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>サービス保守料</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>保守サービス</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>更新期間</font></th>"
 								+ @"</tr>";
 					foreach (AlmexMainteEarningsOut user in userList)
@@ -81,10 +82,10 @@ namespace AlmexMainteEarningsFile.Mail
 								+ @"<tr>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
-								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>サービス保守料</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>保守サービス</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>更新期間</font></th>"
 								+ @"</tr>";
-					msg.Body += @"<br><p>アルメックスサービス保守料更新対象ユーザーはありませんでした。</p>";
+					msg.Body += @"<br><p>アルメックス保守サービス更新対象医院はありませんでした。</p>";
 				}
 				msg.Body += @"</div>"
 							+ @"<div>"

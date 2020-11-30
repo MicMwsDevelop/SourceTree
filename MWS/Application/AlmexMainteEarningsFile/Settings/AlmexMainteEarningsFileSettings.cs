@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2020/11/24 勝呂)
 //
+using MwsLib.Common;
 using MwsLib.BaseFactory.Mail;
 using System;
 using System.IO;
@@ -24,7 +25,7 @@ namespace AlmexMainteEarningsFile.Settings
 		public string ExportDir { get; set; }
 
 		/// <summary>
-		/// 売上データ出力ファイル名
+		/// 売上データ出力ファイル名(拡張子なし)
 		/// </summary>
 		public string ExportFilename { get; set; }
 
@@ -44,13 +45,36 @@ namespace AlmexMainteEarningsFile.Settings
 		public MailSettings Mail { get; set; }
 
 		/// <summary>
-		/// 売上データ出力ファイルパス名
+		/// 出力ファイル名
+		/// アルメックス保守売上データ_202011251201.csv
 		/// </summary>
-		public string Pathname
+		public string FormalFilename
 		{
 			get
 			{
-				return Path.Combine(ExportDir, ExportFilename);
+				return string.Format("{0}_{1}.csv", ExportFilename, DateTime.Now.ToString("yyyyMMddHHmm"));
+			}
+		}
+
+		/// <summary>
+		/// 中間ファイル名
+		/// </summary>
+		public string TemporaryFilename
+		{
+			get
+			{
+				return string.Format("{0}.csv", ExportFilename);
+			}
+		}
+
+		/// <summary>
+		/// 中間ファイルパス名
+		/// </summary>
+		public string TemporaryPathname
+		{
+			get
+			{
+				return Path.Combine(Directory.GetCurrentDirectory(), TemporaryFilename);
 			}
 		}
 
@@ -64,6 +88,15 @@ namespace AlmexMainteEarningsFile.Settings
 			PcaVersion = 7;
 			SlipInitialNumber = 61001;
 			Mail = new MailSettings();
+		}
+
+		/// <summary>
+		/// 出力ファイルパス名
+		/// </summary>
+		/// <param name="filename">ファイル名</param>
+		public string FormalPathname(string filename)
+		{
+			return Path.Combine(ExportDir, filename);
 		}
 
 		/// <summary>

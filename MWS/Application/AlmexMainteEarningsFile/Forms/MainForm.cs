@@ -39,7 +39,7 @@ namespace AlmexMainteEarningsFile.Forms
 			textBoxFilename.Text = Program.gSettings.ExportFilename;
 			textBoxPcaVer.Text = Program.gSettings.PcaVersion.ToString();
 
-			dateTimePickerMonth.Value = Program.SaleDate.ToDateTime();
+			dateTimePickerMonth.Value = Program.gSaleDate.ToDateTime();
 		}
 
 		/// <summary>
@@ -54,11 +54,16 @@ namespace AlmexMainteEarningsFile.Forms
 				MessageBox.Show("出力先が存在しません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
+			if (-1 != textBoxFilename.Text.IndexOf('.'))
+			{
+				MessageBox.Show("売上データファイル名に拡張子を指定しないでください。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
 			Program.gSettings.ExportDir = textBoxFolder.Text;
 			Program.gSettings.ExportFilename = textBoxFilename.Text;
 			Program.gSettings.PcaVersion = textBoxPcaVer.ToInt();
 
-			if (0 < Program.gSettings.Pathname.Length)
+			if (0 < Program.gSettings.ExportFilename.Length)
 			{
 				// 元のカーソルを保持
 				Cursor preCursor = Cursor.Current;
@@ -74,7 +79,7 @@ namespace AlmexMainteEarningsFile.Forms
 
 				if (0 == msg.Length)
 				{
-					MessageBox.Show(string.Format("{0}を出力しました。", Program.gSettings.Pathname), "出力成功", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+					MessageBox.Show(string.Format("{0}を出力しました。", Program.gSettings.FormalPathname(Program.gFormalFilename)), "出力成功", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 				}
 				else
 				{
@@ -83,7 +88,7 @@ namespace AlmexMainteEarningsFile.Forms
 			}
 			else
 			{
-				MessageBox.Show("出力先が設定されていません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show("売上データファイル名が設定されていません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 

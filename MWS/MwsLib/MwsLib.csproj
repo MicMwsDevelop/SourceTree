@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseFactory\AlmexMainteEarnings\AlmexMainteEarningsOut.cs" />
-    <Compile Include="BaseFactory\AlmexMainteEarnings\DataRow.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_CUSSTOMER_USE_INFOMATION.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_DEMO_USER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_LICENSE_PRODUCT_CONTRACT.cs" />

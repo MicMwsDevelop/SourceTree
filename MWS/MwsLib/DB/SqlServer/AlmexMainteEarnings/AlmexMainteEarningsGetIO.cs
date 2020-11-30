@@ -1,7 +1,7 @@
 ﻿//
 // AlmexMainteEarningsGetIO.cs
 //
-// アルメックスサービス保守料売上更新データ作成 データ取得クラス
+// アルメックス保守売上データ作成 データ取得クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -21,7 +21,7 @@ namespace MwsLib.DB.SqlServer.AlmexMainteEarnings
 		//////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// アプリケーション情報からアルメックス保守サービス料の更新対象ユーザーの取得
+		/// アプリケーション情報からアルメックス保守サービスの更新対象医院の取得
 		/// </summary>
 		/// <param name="saleDate">売上日</param>
 		/// <param name="ct">CT環境</param>

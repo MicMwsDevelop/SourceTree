@@ -1,7 +1,7 @@
 ﻿//
 // AlmexMainteEarningsOut.cs
 //
-// アルメックスサービス保守料売上クラス
+// アルメックス保守サービス売上情報クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -88,6 +88,22 @@ namespace MwsLib.BaseFactory.AlmexMainteEarnings
 		}
 
 		/// <summary>
+		/// 保守契約備考の取得
+		/// 2019/12～2021/12契約更新
+		/// </summary>
+		public string 保守契約備考
+		{
+			get
+			{
+				if (f保守開始月.HasValue && f保守終了月.HasValue)
+				{
+					return string.Format("{0}～{1}契約更新", f保守開始月.Value.GetNormalString(), f保守終了月.Value.GetNormalString());
+				}
+				return string.Empty;
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public AlmexMainteEarningsOut()
@@ -121,7 +137,7 @@ namespace MwsLib.BaseFactory.AlmexMainteEarnings
 			if (null != table && 0 < table.Rows.Count)
 			{
 				List<AlmexMainteEarningsOut> result = new List<AlmexMainteEarningsOut>();
-				foreach (System.Data.DataRow row in table.Rows)
+				foreach (DataRow row in table.Rows)
 				{
 					AlmexMainteEarningsOut data = new AlmexMainteEarningsOut();
 					data.f顧客No = DataBaseValue.ConvObjectToInt(row["f顧客No"]);
