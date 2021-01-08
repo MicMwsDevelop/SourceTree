@@ -21,6 +21,21 @@ namespace MwsLib.BaseFactory.Junp.Table
 	public class tMikコードマスタ
 	{
 		/// <summary>
+		/// fcmコード種別 18:アプリケーション名
+		/// </summary>
+		public const string fcmコード種別_ApplicationName = "18";
+
+		/// <summary>
+		/// fcmコード 031:アルメックス TEX-30 保守(現金仕様)1ヶ月
+		/// </summary>
+		public const string fcmコード_AlmexMainteCash = "031";
+
+		/// <summary>
+		/// fcmコード 032:アルメックス TEX-30 保守(クレジット仕様)1ヶ月
+		/// </summary>
+		public const string fcmコード_AlmexMainteCredit = "032";
+
+		/// <summary>
 		/// fcmID
 		/// </summary>
 		public int fcmID { get; set; }

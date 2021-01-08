@@ -50,6 +50,16 @@ namespace MwsLib.DB.SqlServer.Charlie
 			/// サービス情報
 			/// </summary>
 			M_SERVICE = 6,
+
+			/// <summary>
+			/// まとめ契約ヘッダ情報
+			/// </summary>
+			T_USE_CONTRACT_HEADER = 7,
+
+			/// <summary>
+			/// まとめ契約詳細情報
+			/// </summary>
+			T_USE_CONTRACT_DETAIL = 8,
 		}
 
 		/// <summary>
@@ -63,6 +73,8 @@ namespace MwsLib.DB.SqlServer.Charlie
 			{ TableType.T_DEMO_USER, "T_DEMO_USER" },
 			{ TableType.T_LICENSE_PRODUCT_CONTRACT, "T_LICENSE_PRODUCT_CONTRACT" },
 			{ TableType.M_SERVICE, "M_SERVICE" },
+			{ TableType.T_USE_CONTRACT_HEADER, "T_USE_CONTRACT_HEADER" },
+			{ TableType.T_USE_CONTRACT_DETAIL, "T_USE_CONTRACT_DETAIL" },
 		};
 
 		/// <summary>
@@ -71,6 +83,7 @@ namespace MwsLib.DB.SqlServer.Charlie
 		public enum ViewType
 		{
 			支店情報参照ビュー = 1,
+			V_COUPLER_APPLY = 2,
 		}
 
 		/// <summary>
@@ -79,6 +92,7 @@ namespace MwsLib.DB.SqlServer.Charlie
 		public static readonly EnumDictionary<ViewType, string> ViewName = new EnumDictionary<ViewType, string>()
 		{
 			{ ViewType.支店情報参照ビュー, "支店情報参照ビュー" },
+			{ ViewType.V_COUPLER_APPLY, "V_COUPLER_APPLY" },
 		};
 	}
 }

@@ -1,7 +1,7 @@
 ﻿//
 // Program.cs
 // 
-// アルメックス保守更新売上データ作成 プログラムクラス
+// アルメックス保守サービス売上データ作成 プログラムクラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -9,9 +9,9 @@
 //
 using AlmexMainteEarningsFile.Mail;
 using AlmexMainteEarningsFile.Settings;
-using MwsLib.BaseFactory.AlmexMainteEarnings;
+using MwsLib.BaseFactory.AlmexMainte;
 using MwsLib.Common;
-using MwsLib.DB.SqlServer.AlmexMainteEarnings;
+using MwsLib.DB.SqlServer.AlmexMainte;
 using MwsLib.DB.SqlServer.Junp;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace AlmexMainteEarningsFile
 		/// <summary>
 		/// データベース接続先
 		/// </summary>
-		private const bool DATABASE_ACCESS_CT = false;
+		private const bool DATABASE_ACCESS_CT = true;
 
 		/// <summary>
 		/// 売上日
@@ -45,7 +45,7 @@ namespace AlmexMainteEarningsFile
 		/// <summary>
 		/// プログラム名
 		/// </summary>
-		public const string PROC_NAME = "アルメックス保守更新売上データ作成";
+		public const string PROC_NAME = "ｱﾙﾒｯｸｽ保守売上作成";
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -59,7 +59,7 @@ namespace AlmexMainteEarningsFile
 			gSettings = AlmexMainteEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			gSaleDate = new Date(2020, 12, 1);
+			gSaleDate = new Date(2021, 1, 1);
 #else
 			// 集計日を当月初日に設定
 			gSaleDate = Date.Today.FirstDayOfTheMonth();
@@ -94,15 +94,12 @@ namespace AlmexMainteEarningsFile
 			// 伝票番号
 			int no = gSettings.SlipInitialNumber;
 
-			// 請求日は先月末日
-			Date billingDate = saleDate.LastDayOfLasMonth();
-
 			gFormalFilename = gSettings.FormalFilename;
 
 			try
 			{
 				// アプリケーション情報からアルメックス保守サービスの更新対象医院の取得
-				List<AlmexMainteEarningsOut> saleList = AlmexMainteEarningsAccess.GetAlmexMainteEarningsOut(saleDate, DATABASE_ACCESS_CT);
+				List<AlmexMainteEarningsOut> saleList = AlmexMainteAccess.GetAlmexMainteEarningsOut(saleDate, DATABASE_ACCESS_CT);
 				if (0 < saleList.Count)
 				{
 					// 消費税
@@ -113,40 +110,68 @@ namespace AlmexMainteEarningsFile
 					{
 						foreach (AlmexMainteEarningsOut sale in saleList)
 						{
-							// 売上データ追加
-							if (0 == sale.f請求先コード.Length)
+							YearMonth? endYM = sale.最終保守終了月;
+							if (endYM.HasValue && sale.f保守終了月.Value <= endYM.Value)
 							{
-								// 請求先がユーザーと同一
-								sw.WriteLine(sale.ToEarnings(no, sale.f得意先コード, saleDate, billingDate, taxRate, gSettings.PcaVersion));
-							}
-							else
-							{
-								// 請求先がユーザーと異なる
-								sw.WriteLine(sale.ToEarnings(no, sale.f請求先コード, saleDate, billingDate, taxRate, gSettings.PcaVersion));
+								// 最終保守終了月以前 売上データ追加
+								if (0 == sale.f請求先コード.Length)
+								{
+									// 請求先がユーザーと同一
+									sw.WriteLine(sale.ToEarnings(no, sale.f得意先コード, saleDate, taxRate, gSettings.PcaVersion));
+								}
+								else
+								{
+									// 請求先がユーザーと異なる
+									sw.WriteLine(sale.ToEarnings(no, sale.f請求先コード, saleDate, taxRate, gSettings.PcaVersion));
 
-								// ○○○○様分 を記事行１を追加
-								sw.WriteLine(sale.ToArticle1(no, sale.f請求先コード, saleDate, billingDate, gSettings.PcaVersion));
+									// ○○○○様分 を記事行１を追加
+									sw.WriteLine(sale.ToArticle1(no, sale.f請求先コード, saleDate, gSettings.PcaVersion));
 
-								// 得意先No. を記事行２を追加
-								// ○○○○様分 を記事行１を追加
-								sw.WriteLine(sale.ToArticle2(no, sale.f請求先コード, saleDate, billingDate, gSettings.PcaVersion));
+									// 得意先No. を記事行２を追加
+									// ○○○○様分 を記事行１を追加
+									sw.WriteLine(sale.ToArticle2(no, sale.f請求先コード, saleDate, gSettings.PcaVersion));
+								}
+								no++;
 							}
-							no++;
 						}
 					}
 					// 中間ファイルをリネームして出力ファルダにコピー
 					File.Copy(gSettings.TemporaryPathname, gSettings.FormalPathname(gFormalFilename));
 
-					// 保守終了月を１年更新
 					foreach (AlmexMainteEarningsOut sale in saleList)
 					{
-						if (sale.f保守終了月.HasValue)
+						if (sale.Is最終保守終了月)
 						{
-							sale.f保守終了月 = sale.f保守終了月.Value.PlusYears(1);
-#if !DEBUG
-							// アプリケーション情報の更新
-							AlmexMainteEarningsAccess.UpdateSetApplicationInfo(sale, PROC_NAME, DATABASE_ACCESS_CT);
+							// 最終保守終了月なので終了フラグをONにする
+#if DEBUG
+							if (DATABASE_ACCESS_CT)
+							{
+								// アプリケーション情報 終了フラグの設定
+								sale.f終了フラグ = true;
+								AlmexMainteAccess.UpdateSetApplicationInfoEndFlag(sale, PROC_NAME, DATABASE_ACCESS_CT);
+							}
+#else
+							// アプリケーション情報 終了フラグの設定
+							AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, DATABASE_ACCESS_CT);
 #endif
+						}
+						else
+						{
+							// 保守終了月を１か月更新
+							if (sale.f保守終了月.HasValue)
+							{
+								sale.f保守終了月 = sale.f保守終了月.Value + 1;
+#if DEBUG
+								if (DATABASE_ACCESS_CT)
+								{
+									// アプリケーション情報の更新
+									AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, DATABASE_ACCESS_CT);
+								}
+#else
+								// アプリケーション情報の更新
+								AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, DATABASE_ACCESS_CT);
+#endif
+							}
 						}
 					}
 				}
@@ -155,6 +180,7 @@ namespace AlmexMainteEarningsFile
 					// アルメックス保守売上データ.csvの出力
 					using (var sw = new StreamWriter(gSettings.FormalPathname(gFormalFilename), false, System.Text.Encoding.GetEncoding("shift_jis")))
 					{
+						;
 					}
 				}
 				// 営業管理部にメール送信

@@ -8,6 +8,7 @@
 // Ver1.000 新規作成(2019/06/28 勝呂)
 // 
 using MwsLib.BaseFactory.Charlie.Table;
+using MwsLib.BaseFactory.Charlie.View;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -397,6 +398,33 @@ namespace MwsLib.DB.SqlServer.Charlie
 			return T_USE_PCCSUPPORT.DataTableToList(table);
 		}
 
+		/// <summary>
+		/// [charlieDB].[dbo].[T_USE_CONTRACT_HEADER]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>PC安心サポート契約情報リスト</returns>
+		public static List<T_USE_CONTRACT_HEADER> Select_T_USE_CONTRACT_HEADER(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_HEADER], whereStr, orderStr, ct);
+			return T_USE_CONTRACT_HEADER.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_USE_CONTRACT_DETAIL]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>PC安心サポート契約情報リスト</returns>
+		public static List<T_USE_CONTRACT_DETAIL> Select_T_USE_CONTRACT_DETAIL(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_DETAIL], whereStr, orderStr, ct);
+			return T_USE_CONTRACT_DETAIL.DataTableToList(table);
+		}
+
+
 		//////////////////////////////
 		// UPDATE SET
 
@@ -477,6 +505,29 @@ namespace MwsLib.DB.SqlServer.Charlie
 		//////////////////////////////
 		// DELETE
 
+
+
+
+
+		////////////////////////////////////////////////////////////////
+		// ビュー関連
+		////////////////////////////////////////////////////////////////
+
+		//////////////////////////////
+		// SELECT
+
+		/// <summary>
+		/// [charlieDB].[dbo].[V_COUPLER_APPLY]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>製品管理情報リスト</returns>
+		public static List<V_COUPLER_APPLY> Select_V_COUPLER_APPLY(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.V_COUPLER_APPLY], whereStr, orderStr, ct);
+			return V_COUPLER_APPLY.DataTableToList(table);
+		}
 
 	}
 }

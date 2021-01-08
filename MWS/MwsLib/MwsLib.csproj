@@ -51,12 +51,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseFactory\AlmexMainteEarnings\AlmexMainteEarningsOut.cs" />
+    <Compile Include="BaseFactory\AlmexMainte\AlmexMainteEarningsOut.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_CUSSTOMER_USE_INFOMATION.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_DEMO_USER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_LICENSE_PRODUCT_CONTRACT.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_DETAIL.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_HEADER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
+    <Compile Include="BaseFactory\Charlie\View\V_COUPLER_APPLY.cs" />
     <Compile Include="BaseFactory\CheckVoucherPaletteES\OrderVoucher.cs" />
     <Compile Include="BaseFactory\CloudBackup\CloudBackupEarningsData.cs" />
     <Compile Include="BaseFactory\CloudBackup\GroupMicPCA売上明細.cs" />
@@ -102,6 +105,7 @@
     <Compile Include="BaseFactory\PurchaseTransfer\在庫一覧表.cs" />
     <Compile Include="BaseFactory\PurchaseTransfer\対象月社内仕入れ伝票.cs" />
     <Compile Include="BaseFactory\PurchaseTransfer\社内使用分出荷明細.cs" />
+    <Compile Include="BaseFactory\AnalysisRecommendService\RecommendService.cs" />
     <Compile Include="BaseFactory\ServiceCodeDefine.cs" />
     <Compile Include="BaseFactory\ShipmentActing\ShipmentActingData.cs" />
     <Compile Include="BaseFactory\SoftwareMainteEarnings\CustomerUseInfoSoftwareMainte.cs" />
@@ -117,8 +121,8 @@
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoController.cs" />
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoGetIO.cs" />
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoSetIO.cs" />
-    <Compile Include="DB\SqlServer\AlmexMainteEarnings\AlmexMainteEarningsAccess.cs" />
-    <Compile Include="DB\SqlServer\AlmexMainteEarnings\AlmexMainteEarningsGetIO.cs" />
+    <Compile Include="DB\SqlServer\AlmexMainte\AlmexMainteAccess.cs" />
+    <Compile Include="DB\SqlServer\AlmexMainte\AlmexMainteGetIO.cs" />
     <Compile Include="DB\SqlServer\Charlie\CharlieDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\Charlie\CharlieDatabaseAccess.cs" />
     <Compile Include="BaseFactory\Charlie\View\支店情報参照ビュー.cs" />
@@ -261,6 +265,8 @@
     <Compile Include="DB\SqlServer\PurchaseTransfer\PurchaseTransferAccess.cs" />
     <Compile Include="DB\SqlServer\PurchaseTransfer\PurchaseTransferController.cs" />
     <Compile Include="DB\SqlServer\PurchaseTransfer\PurchaseTransferGetIO.cs" />
+    <Compile Include="DB\SqlServer\AnalysisRecommendService\AnalysisRecommendServiceAccess.cs" />
+    <Compile Include="DB\SqlServer\AnalysisRecommendService\AnalysisRecommendServiceGetIO.cs" />
     <Compile Include="DB\SqlServer\ScanImageData\ScanImageDataAccess.cs" />
     <Compile Include="DB\SqlServer\ScanImageData\ScanImageDataController.cs" />
     <Compile Include="DB\SqlServer\ScanImageData\ScanImageDataGetIO.cs" />

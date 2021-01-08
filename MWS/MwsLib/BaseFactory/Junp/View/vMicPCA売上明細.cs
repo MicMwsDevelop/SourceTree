@@ -50,7 +50,29 @@ namespace MwsLib.BaseFactory.Junp.View
 		public decimal sykd_zei { get; set; }
 		public decimal sykd_rate { get; set; }
 		public string sykd_souko { get; set; }
-		
+
+		/// <summary>
+		/// 数量
+		/// </summary>
+		public int 数量
+		{
+			get
+			{
+				return decimal.ToInt32(sykd_suryo);
+			}
+		}
+
+		/// <summary>
+		/// 消費税
+		/// </summary>
+		public short 消費税
+		{
+			get
+			{
+				return (short)decimal.ToInt32(sykd_rate);
+			}
+		}
+
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>

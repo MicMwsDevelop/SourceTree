@@ -1,11 +1,12 @@
 ﻿//
 // CloudBackupEarningsData.cs
 //
-// クラウドデータバンクPCA売上情報クラス
+// クラウドバックアップPCA売上情報クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2019/11/15 勝呂)
+// Ver1.00 新規作成(2019/11/15 勝呂)
+// Ver1.01 仕入データの17:区(0:通常仕入, 1:返品, 2:単価訂正)を2から1に変更(2021/01/08 勝呂)
 // 
 using MwsLib.Common;
 using MwsLib.BaseFactory.Pca;
@@ -13,7 +14,7 @@ using MwsLib.BaseFactory.Pca;
 namespace MwsLib.BaseFactory.CloudBackup
 {
 	/// <summary>
-	/// クラウドデータバンクPCA売上情報
+	/// クラウドバックアップPCA売上情報
 	/// </summary>
 	public class CloudBackupEarningsData
 	{
@@ -154,7 +155,7 @@ namespace MwsLib.BaseFactory.CloudBackup
 			pca.摘要コード = "0";// 12:摘要コード
 			pca.商品コード = f仕入商品コード;// 14:商品コード
 			pca.商品名 = 商品名;// 16:品名(36)
-			pca.区 = 2;// 17:区('2'は単価修正)
+			pca.区 = 0;// 17:区(0:通常仕入, 1:返品, 2:単価訂正)
 			pca.倉庫コード = "0";// 18:倉庫コード
 			pca.数量 = f数量;// 21:数量
 			pca.単価= f仕入価格;// 23:単価
@@ -181,7 +182,7 @@ namespace MwsLib.BaseFactory.CloudBackup
 			ret[13] = 仕入商品コード;					// 14:商品コード
 			ret[14] = "0";								// 15:マスタ区分  (0:一般商品)
 			ret[15] = StringUtil.GetSubstringByByte(商品名, 36);	// 16:品名(36)
-			ret[16] = "2";                              // 17:区('2'は単価修正)
+			ret[16] = "0";                              // 17:区(0:通常仕入, 1:返品, 2:単価訂正)
 			ret[17] = "0";								// 18:倉庫コード
 			ret[18] = "0";								// 19:入数
 			ret[19] = "0";								// 20:箱数

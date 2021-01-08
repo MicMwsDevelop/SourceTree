@@ -53,8 +53,6 @@ namespace MwsLib.DB.SqlServer.PcSupportEarnings
 								, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT]
 								, pc.fCustomerID);
 			
-			//System.DateTime
-								
 			SqlParameter[] param = {
 				new SqlParameter("@1", pc.fContractEndDate.Value.ToDateTime()),	// fContractEndDate
                 new SqlParameter("@2", pc.fBillingEndDate.Value.ToDateTime()),	// fBillingEndDate

@@ -1,20 +1,21 @@
 ﻿//
-// AlmexMainteEarningsGetIO.cs
+// AlmexMainteGetIO.cs
 //
-// アルメックス保守売上データ作成 データ取得クラス
+// アルメックス保守サービス データ取得クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2020/11/24 勝呂)
 // 
+using MwsLib.BaseFactory.Junp.Table;
 using MwsLib.Common;
 using MwsLib.DB.SqlServer.Junp;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace MwsLib.DB.SqlServer.AlmexMainteEarnings
+namespace MwsLib.DB.SqlServer.AlmexMainte
 {
-	public static class AlmexMainteEarningsGetIO
+	public static class AlmexMainteGetIO
 	{
 		//////////////////////////////////////////////////////////////////
 		/// JunpDB
@@ -31,10 +32,10 @@ namespace MwsLib.DB.SqlServer.AlmexMainteEarnings
 			DataTable result = null;
 			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpConnectionString(ct)))
 			{
+				string ym = saleDate.ToYearMonth().GetNormalString();
+
 				try
 				{
-					string ym = saleDate.ToYearMonth().GetNormalString();	// 2020/02
-
 					// 接続
 					con.Open();
 
@@ -45,9 +46,10 @@ namespace MwsLib.DB.SqlServer.AlmexMainteEarnings
 							+ ", U.請求先コード as f請求先コード"
 							+ ", A.fai保守契約開始 as f保守開始月"
 							+ ", A.fai保守契約終了 as f保守終了月"
-							+ ", A.faiアプリケーション名 as fAPLコード"
-							+ ", C.fcm名称 as fAPL名称"
-							+ ", iif(A.faiアプリケーション名 = '008', '年', '月') as f更新単位"
+							+ ", A.faiアプリケーションNo as fアプリケーションNo"
+							+ ", A.faiアプリケーション名 as fアプリケーション名"
+							+ ", C.fcm名称 as fcm名称"
+							+ ", '月' as f更新単位"
 							+ ", S.sms_scd as f商品コード"
 							+ ", S.sms_mei as f商品名"
 							+ ", convert(int, S.sms_hyo) as f標準価格"
@@ -61,15 +63,67 @@ namespace MwsLib.DB.SqlServer.AlmexMainteEarnings
 							+ " INNER JOIN {2} as C on C.fcmコード = A.faiアプリケーション名"
 							+ " INNER JOIN {3} as S on S.sms_scd = C.fcmサブコード"
 							+ " INNER JOIN {4} as B on B.fBshCode3 = U.支店コード"
-							+ " WHERE U.終了フラグ = '0' AND A.fai終了フラグ = '0' AND A.fai保守契約終了 = '{5}'"
-							+ " AND C.fcmコード種別 = '18' AND (C.fcmコード between '007' AND '009' OR C.fcmコード = '030')"
+							+ " WHERE U.終了フラグ = '0' AND A.fai終了フラグ = '0' AND C.fcmコード種別 = '{5}' AND (C.fcmコード = '{6}' OR C.fcmコード = '{7}') AND A.fai保守契約終了 = '{8}'"
 							+ " ORDER BY U.顧客No, S.sms_scd"
 						, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー２]
 						, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報]
 						, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ]
 						, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
 						, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]
+						, tMikコードマスタ.fcmコード種別_ApplicationName
+						, tMikコードマスタ.fcmコード_AlmexMainteCash
+						, tMikコードマスタ.fcmコード_AlmexMainteCredit
 						, ym);
+
+					using (SqlCommand cmd = new SqlCommand(strSQL, con))
+					{
+						using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+						{
+							result = new DataTable();
+							da.Fill(result);
+						}
+					}
+				}
+				catch
+				{
+					throw;
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// 指定期間のアルメックスPCA売上明細情報リストの取得
+		/// </summary>
+		/// <param name="goods">商品コードリスト</param>
+		/// <param name="span">検索期間</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetAlmexMainteEarningsList(string goods, Span span, bool ct)
+		{
+			DataTable result = null;
+			using (SqlConnection con = new SqlConnection(DataBaseAccess.CreateJunpWebConnectionString(ct)))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					string strSQL = string.Format(@"SELECT * FROM {0}"
+												+ " WHERE sykd_kingaku <> 0 AND sykd_uribi >= {1} AND sykd_uribi <= {2} AND sykd_scd IN ({3})"
+												+ " ORDER BY sykd_jbmn, sykd_uribi, sykd_scd"
+												, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
+												, span.Start.ToIntYMD()
+												, span.End.ToIntYMD()
+												, goods);
 
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{

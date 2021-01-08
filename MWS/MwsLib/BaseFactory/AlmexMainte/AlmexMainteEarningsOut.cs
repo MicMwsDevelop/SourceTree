@@ -13,43 +13,47 @@ using MwsLib.DB;
 using System.Collections.Generic;
 using System.Data;
 
-namespace MwsLib.BaseFactory.AlmexMainteEarnings
+namespace MwsLib.BaseFactory.AlmexMainte
 {
 	public class AlmexMainteEarningsOut
 	{
 		public int f顧客No { get; set; }
+
 		public string f顧客名 { get; set; }
+
 		public string f得意先コード { get; set; }
+
 		public string f請求先コード { get; set; }
+
 		public YearMonth? f保守開始月 { get; set; }
+
 		public YearMonth? f保守終了月 { get; set; }
-		public string fAPLコード { get; set; }
-		public string fAPL名称 { get; set; }
+
+		public string fアプリケーションNo { get; set; }
+
+		public string fアプリケーション名 { get; set; }
+
+		public string fcm名称 { get; set; }
+
 		public string f更新単位 { get; set; }
+
 		public string f商品コード { get; set; }
+
 		public string f商品名 { get; set; }
+
 		public int f標準価格 { get; set; }
+
 		public int f原単価 { get; set; }
+
 		public string f単位 { get; set; }
+
 		public short? fPCA部門コード { get; set; }
+
 		public short? fPCA倉庫コード { get; set; }
+
 		public string fPCA担当者コード { get; set; }
 
-		/// <summary>
-		/// 摘要名の取得
-		/// ｢利用年月分｣
-		/// </summary>
-		public string 摘要名
-		{
-			get
-			{
-				if (f保守開始月.HasValue && f保守終了月.HasValue)
-				{
-					return string.Format("{0}年{1}月～{2}年{3}月", f保守開始月.Value.Year, f保守開始月.Value.Month, f保守終了月.Value.Year, f保守終了月.Value.Month);
-				}
-				return string.Empty;
-			}
-		}
+		public bool f終了フラグ { get; set; }
 
 		/// <summary>
 		/// 商品名の取得
@@ -71,7 +75,7 @@ namespace MwsLib.BaseFactory.AlmexMainteEarnings
 		{
 			get
 			{
-				return string.Format("{0}様分", StringUtil.GetSubstringByByte(f顧客名, 34));
+				return string.Format("{0}様分", StringUtil.GetSubstringByByte(f顧客名, 32));
 			}
 		}
 
@@ -88,18 +92,67 @@ namespace MwsLib.BaseFactory.AlmexMainteEarnings
 		}
 
 		/// <summary>
-		/// 保守契約備考の取得
-		/// 2019/12～2021/12契約更新
+		/// 摘要名の取得
+		/// ｢利用年月分｣
 		/// </summary>
-		public string 保守契約備考
+		public string 摘要名
+		{
+			get
+			{
+				if (f保守終了月.HasValue)
+				{
+					return string.Format("{0}年{1}月分", f保守終了月.Value.Year, f保守終了月.Value.Month);
+				}
+				return string.Empty;
+			}
+		}
+
+		/// <summary>
+		/// 利用期間の取得
+		/// ｢2020年10月～2021年2月｣
+		/// </summary>
+		public string 利用期間
 		{
 			get
 			{
 				if (f保守開始月.HasValue && f保守終了月.HasValue)
 				{
-					return string.Format("{0}～{1}契約更新", f保守開始月.Value.GetNormalString(), f保守終了月.Value.GetNormalString());
+					return string.Format("{0}年{1}月～{2}年{3}月", f保守開始月.Value.Year, f保守開始月.Value.Month, f保守終了月.Value.Year, f保守終了月.Value.Month);
 				}
 				return string.Empty;
+			}
+		}
+
+		/// <summary>
+		/// 最終保守終了月の取得
+		/// 保守開始月の５年半後
+		/// </summary>
+		public YearMonth? 最終保守終了月
+		{
+			get
+			{
+				if (f保守開始月.HasValue)
+				{
+					return f保守開始月.Value + ((12 * 5) + 6);
+				}
+				return null;
+			}
+		}
+
+		/// <summary>
+		/// 最終保守終了月かどうか？
+		/// 保守開始月の５年半後かどうか？
+		/// </summary>
+		/// <returns>判定</returns>
+		public bool Is最終保守終了月
+		{
+			get
+			{
+				if (f保守終了月.HasValue)
+				{
+					return (f保守終了月.Value == 最終保守終了月) ? true : false;
+				}
+				return false;
 			}
 		}
 
@@ -114,8 +167,9 @@ namespace MwsLib.BaseFactory.AlmexMainteEarnings
 			f請求先コード = string.Empty;
 			f保守開始月 = null;
 			f保守終了月 = null;
-			fAPLコード = string.Empty;
-			fAPL名称 = string.Empty;
+			fアプリケーションNo = string.Empty;
+			fアプリケーション名 = string.Empty;
+			fcm名称 = string.Empty;
 			f更新単位 = string.Empty;
 			f商品コード = string.Empty;
 			f商品名 = string.Empty;
@@ -125,6 +179,7 @@ namespace MwsLib.BaseFactory.AlmexMainteEarnings
 			fPCA部門コード = null;
 			fPCA倉庫コード = null;
 			fPCA担当者コード = string.Empty;
+			f終了フラグ = false;
 		}
 
 		/// <summary>
@@ -155,8 +210,9 @@ namespace MwsLib.BaseFactory.AlmexMainteEarnings
 					{
 						data.f保守終了月 = ym;
 					}
-					data.fAPLコード = row["fAPLコード"].ToString().Trim();
-					data.fAPL名称 = row["fAPL名称"].ToString().Trim();
+					data.fアプリケーションNo = row["fアプリケーションNo"].ToString().Trim();
+					data.fアプリケーション名 = row["fアプリケーション名"].ToString().Trim();
+					data.fcm名称 = row["fcm名称"].ToString().Trim();
 					data.f更新単位 = row["f更新単位"].ToString().Trim();
 					data.f商品コード = row["f商品コード"].ToString().Trim();
 					data.f商品名 = row["f商品名"].ToString().Trim();
@@ -173,21 +229,21 @@ namespace MwsLib.BaseFactory.AlmexMainteEarnings
 			}
 			return null;
 		}
+
 		/// <summary>
-		/// ソフトウェア保守料売上データCSV文字列の取得
+		/// 売上データCSV文字列の取得
 		/// </summary>
 		/// <param name="no">伝票No</param>
 		/// <param name="hanbaisakiCode">販売先コード</param>
 		/// <param name="saleDate">売上日 </param>
-		/// <param name="billingDate">請求日 </param>
 		/// <param name="tax">税率</param>
 		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>CSV文字列</returns>
-		public string ToEarnings(int no, string hanbaisakiCode, Date saleDate, Date billingDate, int tax, int pcaVer)
+		public string ToEarnings(int no, string hanbaisakiCode, Date saleDate, int tax, int pcaVer)
 		{
 			PCA売上明細汎用データ pca = new PCA売上明細汎用データ();
 			pca.売上日 = saleDate.ToIntYMD();// 2:売上年月日
-			pca.請求日 = billingDate.ToIntYMD();// 3:請求年月日
+			pca.請求日 = saleDate.ToIntYMD();// 3:請求年月日
 			pca.伝票No = no;// 4:伝票番号
 			pca.得意先コード = hanbaisakiCode;// 5:得意先コード(13)
 			pca.部門コード = fPCA部門コード.Value.ToString();// 9:部門コード(6)
@@ -218,14 +274,13 @@ namespace MwsLib.BaseFactory.AlmexMainteEarnings
 		/// <param name="no">伝票No</param>
 		/// <param name="hanbaisakiCode">販売先コード</param>
 		/// <param name="saleDate">売上日 </param>
-		/// <param name="billingDate">請求日 </param>
 		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>CSV文字列</returns>
-		public string ToArticle1(int no, string hanbaisakiCode, Date saleDate, Date billingDate, int pcaVer)
+		public string ToArticle1(int no, string hanbaisakiCode, Date saleDate, int pcaVer)
 		{
 			PCA売上明細汎用データ pca = new PCA売上明細汎用データ();
 			pca.売上日 = saleDate.ToIntYMD();// 2:売上年月日
-			pca.請求日 = billingDate.ToIntYMD();// 3:請求年月日
+			pca.請求日 = saleDate.ToIntYMD();// 3:請求年月日
 			pca.伝票No = no;// 4:伝票番号
 			pca.得意先コード = hanbaisakiCode;// 5:得意先コード(13)
 			pca.部門コード = fPCA部門コード.Value.ToString();// 9:部門コード(6)
@@ -235,7 +290,7 @@ namespace MwsLib.BaseFactory.AlmexMainteEarnings
 			pca.商品コード = PCA売上明細汎用データ.ArticleCode;// 15:000014(13) 
 			pca.マスター区分 = 4;// 16:マスタ区分
 			pca.商品名 = 記事行1_品名;// 17:品名 ○○○○様分(36)
-			pca.倉庫コード = fPCA倉庫コード.Value.ToString();// 19:倉庫コード(6)
+			pca.倉庫コード = "0";// 19:倉庫コード(6)
 			return pca.ToCsvString(pcaVer);
 		}
 
@@ -246,14 +301,13 @@ namespace MwsLib.BaseFactory.AlmexMainteEarnings
 		/// <param name="no">伝票No</param>
 		/// <param name="hanbaisakiCode">販売先コード</param>
 		/// <param name="saleDate">売上日 </param>
-		/// <param name="billingDate">請求日 </param>
 		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>CSV文字列</returns>
-		public string ToArticle2(int no, string hanbaisakiCode, Date saleDate, Date billingDate, int pcaVer)
+		public string ToArticle2(int no, string hanbaisakiCode, Date saleDate, int pcaVer)
 		{
 			PCA売上明細汎用データ pca = new PCA売上明細汎用データ();
 			pca.売上日 = saleDate.ToIntYMD();// 2:売上年月日
-			pca.請求日 = billingDate.ToIntYMD();// 3:請求年月日
+			pca.請求日 = saleDate.ToIntYMD();// 3:請求年月日
 			pca.伝票No = no;// 4:伝票番号
 			pca.得意先コード = hanbaisakiCode;// 5:得意先コード(13)
 			pca.部門コード = fPCA部門コード.Value.ToString();// 9:部門コード(6)
@@ -263,7 +317,7 @@ namespace MwsLib.BaseFactory.AlmexMainteEarnings
 			pca.商品コード = PCA売上明細汎用データ.ArticleCode;// 15:000014(13) 
 			pca.マスター区分 = 4;// 16:マスタ区分
 			pca.商品名 = 記事行2_品名;// 17:品名 得意先No. XXXXXX(36)
-			pca.倉庫コード = fPCA倉庫コード.Value.ToString();// 19:倉庫コード(6)
+			pca.倉庫コード = "0";// 19:倉庫コード(6)
 			return pca.ToCsvString(pcaVer);
 		}
 	}

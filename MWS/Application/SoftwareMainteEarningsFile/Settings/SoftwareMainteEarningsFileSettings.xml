@@ -3,7 +3,7 @@
 	<ExportDir>C:\_TEST</ExportDir>
 	<ExportFilename>ソフトウェア保守料売上データ.txt</ExportFilename>
 	<PcaVersion>7</PcaVersion>
-	<SlipInitialNumber>60001</SlipInitialNumber>
+	<SlipInitialNumber>610001</SlipInitialNumber>
 	<Mail>
 		<From>eigyo_kanri@mic.jp</From>
 		<To>eigyo_kanri@mic.jp</To>

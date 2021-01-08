@@ -233,8 +233,6 @@ namespace EntryFinishedUser
 					//////////////////////////////////////////
 					// palette → 終了 or 非paletteユーザー → 終了
 
-
-
 					//List<EntryFinishedUserData> finisherList = new List<EntryFinishedUserData>();
 					IEnumerable<EntryFinishedUserData> paletteList = userList.Where(p => false == p.NonPaletteUser);
 					foreach (EntryFinishedUserData user in paletteList)

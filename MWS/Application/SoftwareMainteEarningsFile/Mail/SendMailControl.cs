@@ -43,7 +43,7 @@ namespace SoftwareMainteEarningsFile.Mail
 
 				// 本文
 				msg.Body += string.Format(@"<div>"
-							+ @"<p>営業管理部</p>"
+							+ @"<p>経理部各位</p>"
 							+ @"<p>palette ES ソフトウェア保守料１年の期間更新と売上データを作成しました。<br>"
 							+ @"<br>"
 							+ @"{0}フォルダに{1}を格納しました。<br>"
@@ -107,9 +107,17 @@ namespace SoftwareMainteEarningsFile.Mail
 #if DEBUG
 			// 宛先（To）を登録する
 			msg.To.Add(new MailAddress(Program.gSettings.Mail.TestTo));      // suguro@mic.jp
+			if (0 < Program.gSettings.Mail.TestCC.Length)
+			{
+				msg.CC.Add(new MailAddress(Program.gSettings.Mail.TestCC));      // suguro@mic.jp
+			}
 #else
 			// 宛先（To）を登録する
 			msg.To.Add(new MailAddress(Program.gSettings.Mail.To));			// eigyo_kanri@mic.jp
+			if (0 < Program.gSettings.Mail.CC.Length)
+			{
+				msg.CC.Add(new MailAddress(Program.gSettings.Mail.CC));			// eigyo_kanri@mic.jp
+			}
 #endif
 
 			// SMTPサーバの設定

@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2020/10/16 勝呂)
+// Ver1.01 売上日を前月末日から当月初日に変更(2020/11/30 勝呂)
 //
 using MwsLib.BaseFactory.SoftwareMainteEarnings;
 using MwsLib.Common;

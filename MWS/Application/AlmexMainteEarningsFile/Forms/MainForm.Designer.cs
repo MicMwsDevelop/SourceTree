@@ -82,7 +82,7 @@
 			this.label3.Size = new System.Drawing.Size(666, 78);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "本アプリはアプリケーション情報からアルメックスサービス保守料を検索し、売上データのCSVファイルを出力します。\r\n※実行後、アルメックスサービス保守料のfai保守" +
-    "契約終了月が１年更新されます。\r\n   サイレイトモードでの実行は引数に \"Auto\" を指定してください。";
+    "契約終了月が１ヵ月更新されます。\r\n   サイレイトモードでの実行は引数に \"Auto\" を指定してください。";
 			// 
 			// buttonExec
 			// 
@@ -152,7 +152,7 @@
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
-			this.Text = "アルメックス保守更新売上データ作成  Ver1.00(2020/11/24)";
+			this.Text = "アルメックス保守サービス売上データ作成  Ver1.00(2021/01/06)";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);

@@ -24,9 +24,19 @@ namespace MwsLib.BaseFactory.Mail
 		public string To { get; set; }
 
 		/// <summary>
+		/// メール設定 CC
+		/// </summary>
+		public string CC { get; set; }
+
+		/// <summary>
 		/// メール設定 送信先(Debug)
 		/// </summary>
 		public string TestTo { get; set; }
+
+		/// <summary>
+		/// メール設定 CC(Debug)
+		/// </summary>
+		public string TestCC { get; set; }
 
 		/// <summary>
 		/// メール設定 smtp
@@ -55,7 +65,9 @@ namespace MwsLib.BaseFactory.Mail
 		{
 			From = string.Empty;
 			To = string.Empty;
+			CC = string.Empty;
 			TestTo = string.Empty;
+			TestCC = string.Empty;
 			Smtp = string.Empty;
 			Port = 0;
 			User = string.Empty;
@@ -82,7 +94,9 @@ namespace MwsLib.BaseFactory.Mail
 			MailSettings ret = new MailSettings();
 			ret.From = this.From;
 			ret.To = this.To;
+			ret.CC = this.CC;
 			ret.TestTo = this.TestTo;
+			ret.TestCC = this.TestCC;
 			ret.Smtp = this.Smtp;
 			ret.Port = this.Port;
 			ret.User = this.User;
@@ -101,7 +115,9 @@ namespace MwsLib.BaseFactory.Mail
 			{
 				if (From == other.From
 					&& To == other.To
+					&& CC == other.CC
 					&& TestTo == other.TestTo
+					&& TestCC == other.TestCC
 					&& Smtp == other.Smtp
 					&& Port == other.Port
 					&& User == other.User

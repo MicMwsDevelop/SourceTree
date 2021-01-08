@@ -115,7 +115,7 @@ namespace MwsLib.BaseFactory.SoftwareMainteEarnings
 		{
 			get
 			{
-				return string.Format("{0}様分", StringUtil.GetSubstringByByte(f顧客名, 34));
+				return string.Format("{0}様分", StringUtil.GetSubstringByByte(f顧客名, 32));
 			}
 		}
 
@@ -276,7 +276,7 @@ namespace MwsLib.BaseFactory.SoftwareMainteEarnings
 			pca.商品コード = PCA売上明細汎用データ.ArticleCode;// 15:000014(13) 
 			pca.マスター区分 = 4;// 16:マスタ区分
 			pca.商品名 = 記事行1_品名;// 17:品名 ○○○○様分(36)
-			pca.倉庫コード = fPca倉庫コード.Value.ToString();// 19:倉庫コード(6)
+			pca.倉庫コード = "0";// 19:倉庫コード(6)
 			return pca.ToCsvString(pcaVer);
 			/*
 						sPCAデータ = """" & "0" & """"                                  '1伝区
@@ -297,7 +297,7 @@ namespace MwsLib.BaseFactory.SoftwareMainteEarnings
 						sPCAデータ = sPCAデータ & "," & """" & sマスタ区分 & """"       '16マスタ区分
 						sPCAデータ = sPCAデータ & "," & """" & LeftB(sユーザー名, 32) & "様分" & """"           '17品名
 						sPCAデータ = sPCAデータ & "," & """" & "0" & """"               '18区
-						sPCAデータ = sPCAデータ & "," & """" & s売上倉庫 & """"         '19倉庫コード
+						sPCAデータ = sPCAデータ & "," & """" & "0" & """"               '19倉庫コード
 						sPCAデータ = sPCAデータ & "," & """" & "0" & """"               '20入数
 						sPCAデータ = sPCAデータ & "," & """" & "0" & """"               '21箱数
 						sPCAデータ = sPCAデータ & "," & """" & "0" & """"               '22数量
@@ -358,7 +358,7 @@ namespace MwsLib.BaseFactory.SoftwareMainteEarnings
 			pca.商品コード = PCA売上明細汎用データ.ArticleCode;// 15:000014(13) 
 			pca.マスター区分 = 4;// 16:マスタ区分
 			pca.商品名 = 記事行2_品名;// 17:品名 得意先No. XXXXXX(36)
-			pca.倉庫コード = fPca倉庫コード.Value.ToString();// 19:倉庫コード(6)
+			pca.倉庫コード = "0";// 19:倉庫コード(6)
 			return pca.ToCsvString(pcaVer);
 			/*
 						sPCAデータ = """" & "0" & """"                                  '1伝区
@@ -379,7 +379,7 @@ namespace MwsLib.BaseFactory.SoftwareMainteEarnings
 						sPCAデータ = sPCAデータ & "," & """" & sマスタ区分 & """"       '16マスタ区分
 						sPCAデータ = sPCAデータ & "," & """" & "得意先No. " & sユーザー得意先コード & """"           '17品名
 						sPCAデータ = sPCAデータ & "," & """" & "0" & """"               '18区
-						sPCAデータ = sPCAデータ & "," & """" & s売上倉庫 & """"         '19倉庫コード
+						sPCAデータ = sPCAデータ & "," & """" & "0" & """"               '19倉庫コード
 						sPCAデータ = sPCAデータ & "," & """" & "0" & """"               '20入数
 						sPCAデータ = sPCAデータ & "," & """" & "0" & """"               '21箱数
 						sPCAデータ = sPCAデータ & "," & """" & "0" & """"               '22数量

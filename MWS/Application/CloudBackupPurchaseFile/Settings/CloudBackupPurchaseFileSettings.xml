@@ -53,8 +53,10 @@
 	</CloudBackupGoodsList>
 	<Mail>
 		<From>eigyo_kanri@mic.jp</From>
-		<To>eigyo_kanri@mic.jp</To>
+		<To>keiri@mic.jp</To>
+		<CC>eigyo_kanri@mic.jp</CC>
 		<TestTo>suguro@mic.jp</TestTo>
+		<TestCC>suguro@mic.jp</TestCC>
 		<Smtp>172.16.0.99</Smtp>
 		<Port>25</Port>
 		<User></User>

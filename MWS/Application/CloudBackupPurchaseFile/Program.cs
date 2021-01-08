@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2020/10/06 勝呂)
+// Ver1.01 仕入データの17:区(0:通常仕入, 1:返品, 2:単価訂正)を2から1に変更(2021/01/08 勝呂)
 //
 using CloudBackupPurchaseFile.Forms;
 using CloudBackupPurchaseFile.Mail;
@@ -17,7 +18,6 @@ using MwsLib.DB.SqlServer.CloudBackup;
 using MwsLib.DB.SqlServer.Junp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace CloudBackupPurchaseFile
@@ -56,7 +56,7 @@ namespace CloudBackupPurchaseFile
 			gSettings = CloudBackupPurchaseFileSettingsIF.GetSettings();
 
 #if DEBUG
-			CollectDate = new Date(2020, 10, 1);
+			CollectDate = new Date(2020, 12, 1);
 #else
 			// 集計日を先月初日に設定
 			CollectDate = Date.Today.FirstDayOfLasMonth();
@@ -73,6 +73,7 @@ namespace CloudBackupPurchaseFile
 					{
 						return 1;
 					}
+					return 0;
 				}
 			}
 			Application.Run(new MainForm());
@@ -144,10 +145,8 @@ namespace CloudBackupPurchaseFile
 							plusNo++;
 						}
 					}
-#if !DEBUG
 					// 営業管理部にメール送信
 					SendMailControl.SoftwareMainteSendMail(stockList);
-#endif
 				}
 			}
 			catch (Exception ex)

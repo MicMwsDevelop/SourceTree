@@ -152,7 +152,7 @@
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
-			this.Text = "ソフトウェア保守料売上データ作成  Ver1.00(2020/10/16)";
+			this.Text = "ソフトウェア保守料売上データ作成  Ver1.01(2020/11/30)";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);

@@ -5,8 +5,6 @@
 // 
 // Ver1.000 新規作成(2019/02/08 勝呂)
 //
-using System;
-using System.Runtime.Remoting.Messaging;
 
 namespace MwsLib.BaseFactory
 {
