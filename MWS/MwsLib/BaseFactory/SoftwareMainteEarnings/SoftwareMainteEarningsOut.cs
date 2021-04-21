@@ -157,7 +157,7 @@ namespace MwsLib.BaseFactory.SoftwareMainteEarnings
 		/// <param name="end">終了日</param>
 		public void Set利用期間(Date end)
 		{
-			// 開始：１年後の翌月初日、終了：１年後の当月末日
+			// 開始：翌月初日、終了：１年後の当月末日
 			f利用期間 = new Span(end.FirstDayOfNextMonth(), end.PlusYears(1).LastDayOfTheMonth());
 		}
 

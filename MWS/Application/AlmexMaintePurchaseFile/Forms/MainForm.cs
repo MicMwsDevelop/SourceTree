@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2021/01/06 勝呂)
+// Ver1.00 新規作成(2021/01/20 勝呂)
 //
 using AlmexMaintePurchaseFile.Settings;
 using MwsLib.Common;
@@ -76,7 +76,7 @@ namespace AlmexMaintePurchaseFile.Forms
 				}
 				else
 				{
-					MessageBox.Show(msg, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(string.Format("{0}\nERROR.LOGを確認してください。", msg), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 			else

@@ -529,5 +529,17 @@ namespace MwsLib.DB.SqlServer.Charlie
 			return V_COUPLER_APPLY.DataTableToList(table);
 		}
 
+		/// <summary>
+		/// [charlieDB].[dbo].[view_MWS顧客情報]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>製品管理情報リスト</returns>
+		public static List<view_MWS顧客情報> Select_view_MWS顧客情報(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectCharlieDatabase(CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.view_MWS顧客情報], whereStr, orderStr, ct);
+			return view_MWS顧客情報.DataTableToList(table);
+		}
 	}
 }

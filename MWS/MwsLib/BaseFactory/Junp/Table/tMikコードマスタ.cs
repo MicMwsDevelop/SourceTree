@@ -28,12 +28,32 @@ namespace MwsLib.BaseFactory.Junp.Table
 		/// <summary>
 		/// fcmコード 031:アルメックス TEX-30 保守(現金仕様)1ヶ月
 		/// </summary>
-		public const string fcmコード_AlmexMainteCash = "031";
+		public const string fcmコード_AlmexMainteTex30_Cash = "031";
 
 		/// <summary>
 		/// fcmコード 032:アルメックス TEX-30 保守(クレジット仕様)1ヶ月
 		/// </summary>
-		public const string fcmコード_AlmexMainteCredit = "032";
+		public const string fcmコード_AlmexMainteTex30_Credit = "032";
+
+		/// <summary>
+		/// fcmコード 033:アルメックス FIT-A 保守(現金仕様)1ヶ月
+		/// </summary>
+		public const string fcmコード_AlmexMainteFitA_Cash = "033";
+
+		/// <summary>
+		/// fcmコード 034:アルメックス FIT-A 保守(QR仕様)1ヶ月
+		/// </summary>
+		public const string fcmコード_AlmexMainteFitA_QR = "034";
+
+		/// <summary>
+		/// fcmコード 035:アルメックス FIT-A 保守(QRｸﾚｼﾞｯﾄ仕様)1ヶ月
+		/// </summary>
+		public const string fcmコード_AlmexMainteFitA_QRCredit = "035";
+
+		/// <summary>
+		/// fcmコード 036:アルメックス FIT-A 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月
+		/// </summary>
+		public const string fcmコード_AlmexMainteFitA_Credit = "036";
 
 		/// <summary>
 		/// fcmID

@@ -1,7 +1,7 @@
 ﻿//
-// CloudBackupEarningsData.cs
+// MakePurchaseData.cs
 //
-// クラウドバックアップPCA売上情報クラス
+// 仕入データ作成用クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -9,19 +9,23 @@
 // Ver1.01 仕入データの17:区(0:通常仕入, 1:返品, 2:単価訂正)を2から1に変更(2021/01/08 勝呂)
 // 
 using MwsLib.Common;
-using MwsLib.BaseFactory.Pca;
 
-namespace MwsLib.BaseFactory.CloudBackup
+namespace MwsLib.BaseFactory.Pca
 {
 	/// <summary>
-	/// クラウドバックアップPCA売上情報
+	/// 仕入データ作成用クラス
 	/// </summary>
-	public class CloudBackupEarningsData
+	public class MakePurchaseData
 	{
 		/// <summary>
 		/// 
 		/// </summary>
 		public string f仕入先コード { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public string f仕入先名 { get; set; }
 
 		/// <summary>
 		/// 
@@ -118,11 +122,23 @@ namespace MwsLib.BaseFactory.CloudBackup
 		}
 
 		/// <summary>
+		/// 仕入先名の取得
+		/// </summary>
+		public string 仕入先名
+		{
+			get
+			{
+				return StringUtil.GetSubstringByByte(f仕入先名, 40);
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public CloudBackupEarningsData()
+		public MakePurchaseData()
 		{
 			f仕入先コード = string.Empty;
+			f仕入先名 = string.Empty;
 			f部門コード = string.Empty;
 			f担当者コード = string.Empty;
 			f仕入商品コード = string.Empty;
@@ -136,7 +152,7 @@ namespace MwsLib.BaseFactory.CloudBackup
 		}
 
 		/// <summary>
-		/// クラウドバックアップ商品仕入データ作成
+		/// 仕入データ作成
 		/// ※PCA商魂・商管に[仕入明細データ]としてインポートCSVファイルの作成
 		/// (PCA商魂・商管 > 随時 > 汎用データの受入 で[データの選択]欄で「仕入明細データ」を選択して読込
 		/// </summary>
@@ -150,6 +166,10 @@ namespace MwsLib.BaseFactory.CloudBackup
 			pca.精算日 = f売上日;//5:精算年月日
 			pca.伝票No = no;// 6:伝票番号
 			pca.仕入先コード = f仕入先コード;    // 7:仕入先コード
+			if (0 < f仕入先名.Length)
+			{
+				pca.仕入先名 = 仕入先名;    // 8:仕入先名
+			}
 			pca.部門コード = 部門コード;// 10:部門コード
 			pca.担当者コード = 担当者コード;// 11:担当者コード
 			pca.摘要コード = "0";// 12:摘要コード

@@ -8,12 +8,12 @@
 // Ver1.000 新規作成(2019/06/28 勝呂)
 // 
 using MwsLib.BaseFactory.Junp.Table;
+using MwsLib.BaseFactory.Junp.View;
+using MwsLib.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using MwsLib.Common;
-using MwsLib.BaseFactory.Junp.View;
 using System.Linq;
 
 namespace MwsLib.DB.SqlServer.Junp
@@ -397,11 +397,37 @@ namespace MwsLib.DB.SqlServer.Junp
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="ct">CT環境かどうか？</param>
-		/// <returns>tMikコードマスタ</returns>
+		/// <returns>tMih支店情報</returns>
 		public static List<tMih支店情報> Select_tMih支店情報(string whereStr, string orderStr, bool ct)
 		{
 			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報], whereStr, orderStr, ct);
 			return tMih支店情報.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMik基本情報]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>tMik基本情報</returns>
+		public static List<tMik基本情報> Select_tMik基本情報(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報], whereStr, orderStr, ct);
+			return tMik基本情報.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMikアプリケーション情報]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>tMik基本tMikアプリケーション情報</returns>
+		public static List<tMikアプリケーション情報> Select_tMikアプリケーション情報(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報], whereStr, orderStr, ct);
+			return tMikアプリケーション情報.DataTableToList(table);
 		}
 
 		//////////////////////////////
@@ -546,6 +572,45 @@ namespace MwsLib.DB.SqlServer.Junp
 		{
 			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vSoftwareMainteLimit], whereStr, orderStr, ct);
 			return vSoftwareMainteLimit.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[vMicPCA売上明細]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>vMicPCA売上明細</returns>
+		public static List<vMicPCA売上明細> Select_vMicPCA売上明細(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細], whereStr, orderStr, ct);
+			return vMicPCA売上明細.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[vMicPCA仕入先マスタ]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>vMicPCA仕入先マスタ</returns>
+		public static List<vMicPCA仕入先マスタ> Select_vMicPCA仕入先マスタ(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA仕入先マスタ], whereStr, orderStr, ct);
+			return vMicPCA仕入先マスタ.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[vMic全ユーザー2]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>vMicPCA仕入先マスタ</returns>
+		public static List<vMic全ユーザー2> Select_vMic全ユーザー2(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー2], whereStr, orderStr, ct);
+			return vMic全ユーザー2.DataTableToList(table);
 		}
 	}
 }

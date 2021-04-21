@@ -13,6 +13,7 @@ using CloudBackupPurchaseFile.Mail;
 using CloudBackupPurchaseFile.Settings;
 using MwsLib.BaseFactory.CloudBackup;
 using MwsLib.BaseFactory.Junp.View;
+using MwsLib.BaseFactory.Pca;
 using MwsLib.Common;
 using MwsLib.DB.SqlServer.CloudBackup;
 using MwsLib.DB.SqlServer.Junp;
@@ -93,7 +94,7 @@ namespace CloudBackupPurchaseFile
 				// クラウドバックアップ仕入データ.csvの出力
 				using (var sw = new System.IO.StreamWriter(gSettings.Pathname, false, System.Text.Encoding.GetEncoding("shift_jis")))
 				{
-					List<CloudBackupEarningsData> stockList = new List<CloudBackupEarningsData>();
+					List<MakePurchaseData> stockList = new List<MakePurchaseData>();
 
 					List<GroupMicPCA売上明細> pcaList = CloudBackupAccess.GetCloudBackupEarningsList(gSettings.GetCloudBackupGoods(), collectDate.ToYearMonth().ToSpan(), DATABASE_ACCESS_CT);
 					if (0 < pcaList.Count)
@@ -110,35 +111,35 @@ namespace CloudBackupPurchaseFile
 								CloudBackupGoods goods = gSettings.CloudBackupGoodsList.Find(p => p.商品コード == pca.sykd_scd);
 								if (null != goods)
 								{
-									CloudBackupEarningsData sale = new CloudBackupEarningsData();
-									sale.f仕入先コード = goods.仕入先;
-									sale.f部門コード = pca.sykd_jbmn;
-									sale.f担当者コード = pca.sykd_jtan;
-									sale.f仕入商品コード = goods.仕入商品コード;
-									sale.f単位 = pca.sykd_tani;
-									sale.f仕入価格 = goods.仕入価格;
-									sale.f売上日 = pca.sykd_uribi;
-									sale.f仕入フラグ = goods.仕入フラグ;
-									sale.f消費税率 = (short)pca.消費税率;
+									MakePurchaseData stock = new MakePurchaseData();
+									stock.f仕入先コード = goods.仕入先;
+									stock.f部門コード = pca.sykd_jbmn;
+									stock.f担当者コード = pca.sykd_jtan;
+									stock.f仕入商品コード = goods.仕入商品コード;
+									stock.f単位 = pca.sykd_tani;
+									stock.f仕入価格 = goods.仕入価格;
+									stock.f売上日 = pca.sykd_uribi;
+									stock.f仕入フラグ = goods.仕入フラグ;
+									stock.f消費税率 = (short)pca.消費税率;
 
 									// PC安心サポート Plus3年契約 仕入数36
 									// PC安心サポート Plus1年契約 仕入数12
 									// PC安心サポート Plus1年更新 仕入数12
 									// MWS ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟ(PC安心ｻﾎﾟｰﾄ Plus) 仕入数1*数量
 									// MWS ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟ(月額) 仕入数1*数量
-									sale.f数量 = goods.仕入数 * pca.数量;
+									stock.f数量 = goods.仕入数 * pca.数量;
 
 									vMicPCA商品マスタ mst = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goods.仕入商品コード, DATABASE_ACCESS_CT);
 									if (null != mst)
 									{
-										sale.f商品名 = mst.sms_mei;
+										stock.f商品名 = mst.sms_mei;
 									}
-									stockList.Add(sale);
+									stockList.Add(stock);
 								}
 							}
 						}
 						int plusNo = gSettings.InitDenNo; // '20500番台（りすとん=20 office365=40）
-						foreach (CloudBackupEarningsData stock in stockList)
+						foreach (MakePurchaseData stock in stockList)
 						{
 							string str = stock.ToPurchase(plusNo, gSettings.PcaVersion);
 							sw.WriteLine(str);

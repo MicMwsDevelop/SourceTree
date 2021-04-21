@@ -7,7 +7,7 @@
 // 
 // Ver1.00 新規作成(2021/01/06 勝呂)
 // 
-using MwsLib.BaseFactory.CloudBackup;
+using MwsLib.BaseFactory.Pca;
 using MwsLib.Common;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace AlmexMaintePurchaseFile.Mail
 		/// メール送信（経理部宛て）
 		/// </summary>
 		/// <param name="stockList">ユーザーリスト</param>
-		public static void AlmexMainteSendMail(List<CloudBackupEarningsData> stockList)
+		public static void AlmexMainteSendMail(List<MakePurchaseData> stockList)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -65,8 +65,10 @@ namespace AlmexMaintePurchaseFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>単価</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>数量</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>金額</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>仕入先ｺｰﾄﾞ</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>仕入先名</font></th>"
 								+ @"</tr>";
-					foreach (CloudBackupEarningsData stock in stockList)
+					foreach (MakePurchaseData stock in stockList)
 					{
 						msg.Body += string.Format(@"<tr>"
 								+ @"<td><font size=2>{0}</font></td>"
@@ -76,6 +78,8 @@ namespace AlmexMaintePurchaseFile.Mail
 								+ @"<td><font size=2>{4}</font></td>"
 								+ @"<td><font size=2>{5}</font></td>"
 								+ @"<td><font size=2>{6}</font></td>"
+								+ @"<td><font size=2>{7}</font></td>"
+								+ @"<td><font size=2>{8}</font></td>"
 								+ @"</tr>"
 								, stock.f売上日
 								, stock.f部門コード
@@ -84,6 +88,8 @@ namespace AlmexMaintePurchaseFile.Mail
 								, stock.f仕入価格
 								, stock.f数量
 								, stock.金額
+								, stock.f仕入先コード
+								, stock.仕入先名
 								);
 					}
 					msg.Body += @"</table>";
@@ -99,8 +105,10 @@ namespace AlmexMaintePurchaseFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>単価</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>数量</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>金額</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>仕入先ｺｰﾄﾞ</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>仕入先名</font></th>"
 								+ @"</tr>";
-					msg.Body += @"<br><p>クラウドバックアップ仕入データはありませんでした。</p>";
+					msg.Body += @"<br><p>アルメックス保守サービスの仕入データはありませんでした。</p>";
 				}
 				msg.Body += @"</div>"
 							+ @"<div>"

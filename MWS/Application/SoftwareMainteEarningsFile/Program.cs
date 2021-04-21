@@ -55,7 +55,7 @@ namespace SoftwareMainteEarningsFile
 			gSettings = SoftwareMainteEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			CollectDate = new Date(2020, 12, 1);
+			CollectDate = new Date(2021, 4, 1);
 #else
 			// 集計日を当月初日に設定
 			CollectDate = Date.Today.FirstDayOfTheMonth();
@@ -112,7 +112,7 @@ namespace SoftwareMainteEarningsFile
 								int taxRate = JunpDatabaseAccess.GetTaxRate(cui.USE_START_DATE.Value, DATABASE_ACCESS_CT);
 
 								// 利用期間を１年後に設定
-								sale.f利用期間 = new Span(cui.USE_START_DATE.Value, cui.USE_END_DATE.Value); 
+								//sale.f利用期間 = new Span(cui.USE_START_DATE.Value, cui.USE_END_DATE.Value); 
 								sale.Set利用期間(cui.USE_END_DATE.Value);
 
 								// 売上データ追加

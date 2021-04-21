@@ -7,7 +7,7 @@
 // 
 // Ver1.00 新規作成(2020/10/09 勝呂)
 // 
-using MwsLib.BaseFactory.CloudBackup;
+using MwsLib.BaseFactory.Pca;
 using MwsLib.Common;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace CloudBackupPurchaseFile.Mail
 		/// メール送信（営業管理部宛て）
 		/// </summary>
 		/// <param name="stockList">ユーザーリスト</param>
-		public static void SoftwareMainteSendMail(List<CloudBackupEarningsData> stockList)
+		public static void SoftwareMainteSendMail(List<MakePurchaseData> stockList)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -66,7 +66,7 @@ namespace CloudBackupPurchaseFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>数量</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>金額</font></th>"
 								+ @"</tr>";
-					foreach (CloudBackupEarningsData stock in stockList)
+					foreach (MakePurchaseData stock in stockList)
 					{
 						msg.Body += string.Format(@"<tr>"
 								+ @"<td><font size=2>{0}</font></td>"

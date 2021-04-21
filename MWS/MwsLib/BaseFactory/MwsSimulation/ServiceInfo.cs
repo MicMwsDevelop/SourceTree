@@ -86,7 +86,7 @@ namespace MwsLib.BaseFactory.MwsSimulation
 				if (SQLiteMwsSimulationDef.GOODS_KUBUN_GROUP_PLAN_SERVICE == GoodsKubun)
 				{
 					// Ver2.210 おまとめプランにクラウドバックアップが含まれないように対応(2020/11/20 勝呂)
-					if ((int)ServiceCodeDefine.ServiceCode.ExCloudDataBackup != int.Parse(ServiceCode))
+					if ((int)ServiceCodeDefine.ServiceCode.ExCloudBackup != int.Parse(ServiceCode))
 					{
 						// 1036260 クラウドバックアップ はおまとめプランに含めない
 						return true;

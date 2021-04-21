@@ -159,9 +159,9 @@ namespace EntryFinishedUser
 					Program.PrevMonthFiniedUser(gSystemDate);
 					break;
 				// 契約中サービスの確認
-				case ProgramBootType.CheckContractService:
-					Program.CheckContractService(gSystemDate);
-					break;
+				//case ProgramBootType.CheckContractService:
+				//	Program.CheckContractService(gSystemDate);
+				//	break;
 			}
 		}
 

@@ -74,13 +74,15 @@ namespace MwsLib.DB.SqlServer.Junp
 			vMicPCA商品マスタ = 3,
 			vMic全ユーザー３ = 4,
 			vMic担当者 = 5,
-			vMicPCA売上明細 = 6,
-			vMicPCA受注明細 = 7,
-			vMic全ユーザー２ = 8,
-			vMicPCA担当者マスタ = 9,
-			vMicPCA出荷データ = 10,
-			vMicPCA仕入データ = 11,
-			vSoftwareMainteLimit = 12,
+			vMicPCA売上ヘッダ = 6,
+			vMicPCA売上明細 = 7,
+			vMicPCA受注明細 = 8,
+			vMic全ユーザー２ = 9,
+			vMicPCA担当者マスタ = 10,
+			vMicPCA出荷データ = 11,
+			vMicPCA仕入データ = 12,
+			vSoftwareMainteLimit = 13,
+			vMic全ユーザー2 = 14,
 		}
 
 		/// <summary>
@@ -93,6 +95,7 @@ namespace MwsLib.DB.SqlServer.Junp
 			{ ViewType.vMicPCA商品マスタ, "vMicPCA商品マスタ" },
 			{ ViewType.vMic全ユーザー３, "vMic全ユーザー３" },
 			{ ViewType.vMic担当者, "vMic担当者" },
+			{ ViewType.vMicPCA売上ヘッダ, "vMicPCA売上ヘッダ" },
 			{ ViewType.vMicPCA売上明細, "vMicPCA売上明細" },
 			{ ViewType.vMicPCA受注明細, "vMicPCA受注明細" },
 			{ ViewType.vMic全ユーザー２, "vMic全ユーザー２" },
@@ -100,6 +103,7 @@ namespace MwsLib.DB.SqlServer.Junp
 			{ ViewType.vMicPCA出荷データ, "vMicPCA出荷データ" },
 			{ ViewType.vMicPCA仕入データ, "vMicPCA仕入データ" },
 			{ ViewType.vSoftwareMainteLimit, "vSoftwareMainteLimit" },
+			{ ViewType.vMic全ユーザー2, "vMic全ユーザー2" },
 		};
 	}
 }

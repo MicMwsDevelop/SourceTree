@@ -126,6 +126,11 @@ namespace MwsLib.BaseFactory
 			PcSupport = 16000,
 
 			/// <summary>
+			/// PC 安心ｻﾎﾟｰﾄPlus
+			/// </summary>
+			PcSupportPlus = 17000,
+
+			/// <summary>
 			/// ユーザー
 			/// </summary>
 			User = 100000,
@@ -526,7 +531,12 @@ namespace MwsLib.BaseFactory
 			/// <summary>
 			/// クラウドバックアップ
 			/// </summary>
-			ExCloudDataBackup = 1036260,
+			ExCloudBackup = 1036260,
+
+			/// <summary>
+			/// クラウドバックアップ（PC安心サポートPlus）
+			/// </summary>
+			ExCloudBackupPcSupportPlus = 1036280,
 
 			/////////////////////////
 			// 38 リモート
@@ -678,6 +688,24 @@ namespace MwsLib.BaseFactory
 			/// PC安心サポート１年契約(更新用)
 			/// </summary>
 			PcSafetySupportContinue = 6410160,
+
+			/////////////////////////
+			// 17000 PC安心サポートPlus
+
+			/// <summary>
+			/// PC安心サポート３年契約Plus
+			/// </summary>
+			PcSafetySupportPlus3 = 6610120,
+
+			/// <summary>
+			/// PC安心サポート１年契約Plus
+			/// </summary>
+			PcSafetySupportPlus1 = 6610100,
+
+			/// <summary>
+			/// PC安心サポート１年契約(更新用)Plus
+			/// </summary>
+			PcSafetySupportPlusContinue = 6610140,
 
 			/////////////////////////
 			// 100000 ユーザー

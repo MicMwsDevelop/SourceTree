@@ -51,6 +51,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseFactory\AlertCloudBackupPcSupportPlus\CloudBackupPcSupportPlus.cs" />
+    <Compile Include="BaseFactory\AlmexMainte\AlemxPurchase.cs" />
     <Compile Include="BaseFactory\AlmexMainte\AlmexMainteEarningsOut.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_CUSSTOMER_USE_INFOMATION.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_DEMO_USER.cs" />
@@ -59,9 +61,11 @@
     <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_DETAIL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_HEADER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
+    <Compile Include="BaseFactory\Charlie\View\view_MWS顧客情報.cs" />
     <Compile Include="BaseFactory\Charlie\View\V_COUPLER_APPLY.cs" />
     <Compile Include="BaseFactory\CheckVoucherPaletteES\OrderVoucher.cs" />
-    <Compile Include="BaseFactory\CloudBackup\CloudBackupEarningsData.cs" />
+    <Compile Include="BaseFactory\Junp\Table\tMikアプリケーション情報.cs" />
+    <Compile Include="BaseFactory\Pca\MakePurchaseData.cs" />
     <Compile Include="BaseFactory\CloudBackup\GroupMicPCA売上明細.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_PRODUCTUSER.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_SERVICE.cs" />
@@ -111,9 +115,12 @@
     <Compile Include="BaseFactory\SoftwareMainteEarnings\CustomerUseInfoSoftwareMainte.cs" />
     <Compile Include="BaseFactory\SoftwareMainteEarnings\SoftwareMainteEarningsOut.cs" />
     <Compile Include="BaseFactory\StockGoodsMaster\StockGoodsMasterData.cs" />
+    <Compile Include="BaseFactory\VariousReportOut\CustomerInfo.cs" />
+    <Compile Include="BaseFactory\VariousReportOut\OfficeInfo.cs" />
     <Compile Include="BaseFactory\WebJucuOrderFile\WebJucu.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\MemoBankTransfer.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\WonderWebMemoDef.cs" />
+    <Compile Include="Common\CalcTax.cs" />
     <Compile Include="DB\SQLite\StockGoodsMaster\SQLiteStockGoodsMasterAccess.cs" />
     <Compile Include="DB\SQLite\StockGoodsMaster\SQLiteStockGoodsMasterController.cs" />
     <Compile Include="DB\SQLite\StockGoodsMaster\SQLiteStockGoodsMasterGetIO.cs" />
@@ -121,6 +128,8 @@
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoController.cs" />
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoGetIO.cs" />
     <Compile Include="DB\SQLite\WonderWebMemo\SQLiteWonderWebMemoSetIO.cs" />
+    <Compile Include="DB\SqlServer\AlertCloudBackupPcSupportPlus\AlertCloudBackupPcSupportPlusAccess.cs" />
+    <Compile Include="DB\SqlServer\AlertCloudBackupPcSupportPlus\AlertCloudBackupPcSupportPlusGetIO.cs" />
     <Compile Include="DB\SqlServer\AlmexMainte\AlmexMainteAccess.cs" />
     <Compile Include="DB\SqlServer\AlmexMainte\AlmexMainteGetIO.cs" />
     <Compile Include="DB\SqlServer\Charlie\CharlieDatabaseDefine.cs" />
@@ -281,6 +290,7 @@
     <Compile Include="DB\SqlServer\SoftwareMainteEarnings\SoftwareMainteEarningsController.cs" />
     <Compile Include="DB\SqlServer\SoftwareMainteEarnings\SoftwareMainteEarningsGetIO.cs" />
     <Compile Include="DB\SqlServer\SqlServerHelper.cs" />
+    <Compile Include="DB\SqlServer\VariousReportOut\VariousReportOutAccess.cs" />
     <Compile Include="DB\SqlServer\WebJucuOrderFile\WebJucuOrderFileAccess.cs" />
     <Compile Include="Log\ErrorLogger.cs" />
     <Compile Include="Log\Logger.cs" />

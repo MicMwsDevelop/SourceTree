@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AlertCloudBackupPcSupportPlusSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Mail>
+		<From>eigyo_kanri@mic.jp</From>
+		<To>eigyo_kanri@mic.jp</To>
+		<CC></CC>
+		<TestTo>suguro@mic.jp</TestTo>
+		<TestCC></TestCC>
+		<Smtp>172.16.0.99</Smtp>
+		<Port>25</Port>
+		<User></User>
+		<Pass></Pass>
+	</Mail>
+</AlertCloudBackupPcSupportPlusSettings>

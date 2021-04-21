@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2020/11/24 勝呂)
+// Ver1.00 新規作成(2021/01/20 勝呂)
 //
 using AlmexMainteEarningsFile.Mail;
 using AlmexMainteEarningsFile.Settings;
@@ -25,7 +25,11 @@ namespace AlmexMainteEarningsFile
 		/// <summary>
 		/// データベース接続先
 		/// </summary>
+#if DEBUG
 		private const bool DATABASE_ACCESS_CT = true;
+#else
+		private const bool DATABASE_ACCESS_CT = false;
+#endif
 
 		/// <summary>
 		/// 売上日
@@ -143,11 +147,11 @@ namespace AlmexMainteEarningsFile
 						if (sale.Is最終保守終了月)
 						{
 							// 最終保守終了月なので終了フラグをONにする
+							sale.f終了フラグ = true;
 #if DEBUG
 							if (DATABASE_ACCESS_CT)
 							{
 								// アプリケーション情報 終了フラグの設定
-								sale.f終了フラグ = true;
 								AlmexMainteAccess.UpdateSetApplicationInfoEndFlag(sale, PROC_NAME, DATABASE_ACCESS_CT);
 							}
 #else
@@ -157,9 +161,9 @@ namespace AlmexMainteEarningsFile
 						}
 						else
 						{
-							// 保守終了月を１か月更新
 							if (sale.f保守終了月.HasValue)
 							{
+								// 保守終了月を１か月更新
 								sale.f保守終了月 = sale.f保守終了月.Value + 1;
 #if DEBUG
 								if (DATABASE_ACCESS_CT)
@@ -180,6 +184,7 @@ namespace AlmexMainteEarningsFile
 					// アルメックス保守売上データ.csvの出力
 					using (var sw = new StreamWriter(gSettings.FormalPathname(gFormalFilename), false, System.Text.Encoding.GetEncoding("shift_jis")))
 					{
+						// 出力物はないが、売上データファイルは出力する
 						;
 					}
 				}

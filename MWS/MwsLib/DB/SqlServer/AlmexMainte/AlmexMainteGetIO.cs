@@ -63,17 +63,21 @@ namespace MwsLib.DB.SqlServer.AlmexMainte
 							+ " INNER JOIN {2} as C on C.fcmコード = A.faiアプリケーション名"
 							+ " INNER JOIN {3} as S on S.sms_scd = C.fcmサブコード"
 							+ " INNER JOIN {4} as B on B.fBshCode3 = U.支店コード"
-							+ " WHERE U.終了フラグ = '0' AND A.fai終了フラグ = '0' AND C.fcmコード種別 = '{5}' AND (C.fcmコード = '{6}' OR C.fcmコード = '{7}') AND A.fai保守契約終了 = '{8}'"
+							+ " WHERE U.終了フラグ = '0' AND A.fai終了フラグ = '0' AND A.fai保守契約終了 = '{5}' AND C.fcmコード種別 = '{6}' AND (C.fcmコード = '{7}' OR C.fcmコード = '{8}' OR C.fcmコード = '{9}' OR C.fcmコード = '{10}' OR C.fcmコード = '{11}' OR C.fcmコード = '{12}')"
 							+ " ORDER BY U.顧客No, S.sms_scd"
 						, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー２]
 						, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報]
 						, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ]
 						, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
 						, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]
+						, ym
 						, tMikコードマスタ.fcmコード種別_ApplicationName
-						, tMikコードマスタ.fcmコード_AlmexMainteCash
-						, tMikコードマスタ.fcmコード_AlmexMainteCredit
-						, ym);
+						, tMikコードマスタ.fcmコード_AlmexMainteTex30_Cash
+						, tMikコードマスタ.fcmコード_AlmexMainteTex30_Credit
+						, tMikコードマスタ.fcmコード_AlmexMainteFitA_Cash
+						, tMikコードマスタ.fcmコード_AlmexMainteFitA_QR
+						, tMikコードマスタ.fcmコード_AlmexMainteFitA_QRCredit
+						, tMikコードマスタ.fcmコード_AlmexMainteFitA_Credit);
 
 					using (SqlCommand cmd = new SqlCommand(strSQL, con))
 					{

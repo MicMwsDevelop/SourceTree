@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2020/11/24 勝呂)
+// Ver1.00 新規作成(2021/01/20 勝呂)
 //
 using MwsLib.Common;
 using AlmexMainteEarningsFile.Settings;

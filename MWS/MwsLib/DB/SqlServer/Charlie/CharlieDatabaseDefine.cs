@@ -84,6 +84,8 @@ namespace MwsLib.DB.SqlServer.Charlie
 		{
 			支店情報参照ビュー = 1,
 			V_COUPLER_APPLY = 2,
+			V_CLIENT_INFO = 3,
+			view_MWS顧客情報 = 4,
 		}
 
 		/// <summary>
@@ -93,6 +95,8 @@ namespace MwsLib.DB.SqlServer.Charlie
 		{
 			{ ViewType.支店情報参照ビュー, "支店情報参照ビュー" },
 			{ ViewType.V_COUPLER_APPLY, "V_COUPLER_APPLY" },
+			{ ViewType.V_CLIENT_INFO, "V_CLIENT_INFO" },
+			{ ViewType.view_MWS顧客情報, "view_MWS顧客情報" },
 		};
 	}
 }
