@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HeadOfficeSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<CompanyName>株式会社ミック</CompanyName>
+	<Zipcode>160-0022</Zipcode>
+	<Address1>東京都新宿区新宿1-8-5</Address1>
+	<Address2>新宿御苑室町ビル8F</Address2>
+	<Tel>03-3350-1661</Tel>
+	<Fax>03-3350-1870</Fax>
+	<Email>info@mic.jp</Email>
+	<Url>https://www.webservice.mic.jp</Url>
+</HeadOfficeSettings>

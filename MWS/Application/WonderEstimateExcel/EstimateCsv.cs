@@ -11,6 +11,7 @@ using ClosedXML.Excel;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace WonderEstimateExcel
 {
@@ -183,6 +184,22 @@ namespace WonderEstimateExcel
 		}
 
 		/// <summary>
+		/// カンマ区切り（ダブルクォーテーション、フィールド内のカンマ含む）
+		/// </summary>
+		/// <param name="csv"></param>
+		/// <returns></returns>
+		public static string[] Split(string csv)
+		{
+			Regex reg = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+			string[] split = reg.Split(csv); // ""で囲まれたものは分割しない
+			for (int i = 0; i < split.Length; i++)
+			{
+				split[i] = split[i].Trim('"'); // 先頭と最後尾の '"' を削除
+			}
+			return split;
+		}
+
+		/// <summary>
 		/// WonderWeb見積書CSVファイルの読込み
 		/// </summary>
 		/// <param name="sr">ファイルストリーム</param>
@@ -206,7 +223,7 @@ namespace WonderEstimateExcel
 					// ヘッダ部
 					if (0 < csv.Length)
 					{
-						string[] split = csv.Split(',');
+						string[] split = Split(csv);
 						if (EstimateHeader.FieldCount == split.Length)
 						{
 							// 備考に改行が含まない

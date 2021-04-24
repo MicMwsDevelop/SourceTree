@@ -9,6 +9,7 @@
 //
 using ClosedXML.Excel;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -146,7 +147,12 @@ namespace WonderEstimateExcel
 					wb.SaveAs(dstPathname);
 
 					// 終了メッセージ
-					MessageBox.Show(this, string.Format("{0}を保存しました。", dstPathname), "正常終了", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					//MessageBox.Show(this, string.Format("{0}を保存しました。", dstPathname), "正常終了", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+					// Excelの起動
+					ProcessStartInfo pInfo = new ProcessStartInfo();
+					pInfo.FileName = dstPathname;
+					Process.Start(pInfo);
 				}
 			}
 			catch (Exception ex)

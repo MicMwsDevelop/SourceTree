@@ -115,8 +115,8 @@
     <Compile Include="BaseFactory\SoftwareMainteEarnings\CustomerUseInfoSoftwareMainte.cs" />
     <Compile Include="BaseFactory\SoftwareMainteEarnings\SoftwareMainteEarningsOut.cs" />
     <Compile Include="BaseFactory\StockGoodsMaster\StockGoodsMasterData.cs" />
-    <Compile Include="BaseFactory\VariousReportOut\CustomerInfo.cs" />
-    <Compile Include="BaseFactory\VariousReportOut\OfficeInfo.cs" />
+    <Compile Include="BaseFactory\VariousDocumentOut\CustomerInfo.cs" />
+    <Compile Include="BaseFactory\VariousDocumentOut\SatelliteOffice.cs" />
     <Compile Include="BaseFactory\WebJucuOrderFile\WebJucu.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\MemoBankTransfer.cs" />
     <Compile Include="BaseFactory\WonderWebMemo\WonderWebMemoDef.cs" />
@@ -290,7 +290,7 @@
     <Compile Include="DB\SqlServer\SoftwareMainteEarnings\SoftwareMainteEarningsController.cs" />
     <Compile Include="DB\SqlServer\SoftwareMainteEarnings\SoftwareMainteEarningsGetIO.cs" />
     <Compile Include="DB\SqlServer\SqlServerHelper.cs" />
-    <Compile Include="DB\SqlServer\VariousReportOut\VariousReportOutAccess.cs" />
+    <Compile Include="DB\SqlServer\VariousDocumentOut\VariousDocumentOutAccess.cs" />
     <Compile Include="DB\SqlServer\WebJucuOrderFile\WebJucuOrderFileAccess.cs" />
     <Compile Include="Log\ErrorLogger.cs" />
     <Compile Include="Log\Logger.cs" />

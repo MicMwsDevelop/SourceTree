@@ -71,7 +71,7 @@ namespace WonderEstimateExcel
 		{
 			get
 			{
-				return string.Format("{0}―", EstimateCsv.CommaEdit(EstimateCsv.GetOutsideTaxPrice(見積金額)));
+				return string.Format("{0}-", EstimateCsv.CommaEdit(EstimateCsv.GetOutsideTaxPrice(見積金額)));
 			}
 		}
 
@@ -82,7 +82,7 @@ namespace WonderEstimateExcel
 		{
 			get
 			{
-				return string.Format("{0}―", EstimateCsv.CommaEdit(EstimateCsv.GetTax(見積金額)));
+				return string.Format("{0}-", EstimateCsv.CommaEdit(EstimateCsv.GetTax(見積金額)));
 			}
 		}
 
@@ -98,11 +98,11 @@ namespace WonderEstimateExcel
 				{
 					if (0 < リース期間.Length)
 					{
-						return string.Format("{0}―／{1}", EstimateCsv.CommaEdit(price), リース期間);
+						return string.Format("{0}-／{1}", EstimateCsv.CommaEdit(price), リース期間);
 					}
 					else
 					{
-						return string.Format("{0}―／", EstimateCsv.CommaEdit(price));
+						return string.Format("{0}-／", EstimateCsv.CommaEdit(price));
 					}
 				}
 				else
@@ -166,7 +166,12 @@ namespace WonderEstimateExcel
 		/// <returns></returns>
 		public bool SetRecord(string csv)
 		{
-			string[] split = csv.Split(',');
+			string[] split = EstimateCsv.Split(csv);
+			for (int i = 0; i < split.Length; i++)
+				split[i] = split[i].Trim('"'); // 先頭と最後尾の '"' を削除
+
+
+			//string[] split = csv.Split(',');
 			if (FieldCount == split.Length)
 			{
 				if (0 == split[0].Length)

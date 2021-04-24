@@ -7,7 +7,7 @@
     <ProjectGuid>{67C7BD55-4D1B-4521-AB67-E6CFE945042F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>WonderEstimateExcel</RootNamespace>
-    <AssemblyName>WonderEstimateExcel</AssemblyName>
+    <AssemblyName>WonderWeb見積書発行</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

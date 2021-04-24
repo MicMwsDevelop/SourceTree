@@ -50,7 +50,7 @@ namespace WonderEstimateExcel
 		/// <returns></returns>
 		public bool SetRecord(string csv)
 		{
-			string[] split = csv.Split(',');
+			string[] split = EstimateCsv.Split(csv);
 			if (FieldCount == split.Count())
 			{
 				if (0 == split[0].Length)

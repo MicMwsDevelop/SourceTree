@@ -91,6 +91,9 @@ namespace MwsLib.BaseFactory.Junp.Table
         /// </summary>
         public short f表示順 { get; set; }
 
+        /// <summary>
+        /// 住所
+        /// </summary>
         public string 住所
         {
             get
