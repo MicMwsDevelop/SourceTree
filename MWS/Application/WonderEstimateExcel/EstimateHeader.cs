@@ -5,7 +5,8 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2021/03/31 勝呂)
+// Ver1.00(2021/03/31):新規作成(勝呂)
+// Ver1.03(2021/05/19):リース金額が０円でリース期間が設定されている時に月額リース金額の取得でエラー発生
 //
 
 namespace WonderEstimateExcel
@@ -54,17 +55,6 @@ namespace WonderEstimateExcel
 		}
 
 		/// <summary>
-		/// 医院名
-		/// </summary>
-		public string 医院名
-		{
-			get
-			{
-				return string.Format("{0} 御中", 顧客名);
-			}
-		}
-
-		/// <summary>
 		/// 見積金額合計
 		/// </summary>
 		public string 見積金額合計
@@ -109,7 +99,9 @@ namespace WonderEstimateExcel
 				{
 					if (0 < リース期間.Length)
 					{
-						return string.Format("／{1}", リース期間);
+						// Ver1.03(2021/05/19):リース金額が０円でリース期間が設定されている時に月額リース金額の取得でエラー発生
+						//return string.Format("／{1}", リース期間);
+						return string.Format("／{0}", リース期間);
 					}
 				}
 				return string.Empty;

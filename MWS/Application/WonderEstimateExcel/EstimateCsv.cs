@@ -5,7 +5,8 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2021/03/31 勝呂)
+// Ver1.00(2021/03/31):新規作成(勝呂)
+// Ver1.04(2021/05/26):備考内にカンマがあるときにエラー発生(勝呂)
 //
 using ClosedXML.Excel;
 using System;
@@ -223,6 +224,16 @@ namespace WonderEstimateExcel
 					// ヘッダ部
 					if (0 < csv.Length)
 					{
+						// Ver1.04(2021/05/26):備考内にカンマがあるときにエラー発生(勝呂)
+						if ('\"' != csv[0])
+							// 先頭にダブルクォーテーションがない
+							// ■paletteと連動するには、自動精算機連携￥880-/月のご契約が必要になります。","" → "■paletteと連動するには、自動精算機連携￥880-/月のご契約が必要になります。",""
+							csv = "\"" + csv;
+						if ('\"' != csv[csv.Length - 1])
+							// 末尾にダブルクォーテーションがない
+							// ■保守形態はｵﾝｻｲﾄﾌﾙﾒﾝﾃﾅﾝｽ保守(月曜～金曜9：00～18：00) → "■保守形態はｵﾝｻｲﾄﾌﾙﾒﾝﾃﾅﾝｽ保守(月曜～金曜9：00～18：00)"
+							csv += "\"";
+
 						string[] split = Split(csv);
 						if (EstimateHeader.FieldCount == split.Length)
 						{
@@ -310,17 +321,17 @@ namespace WonderEstimateExcel
 			curRow = 0;
 			for (int i = 0; i < maxPage; i++)
 			{
-				ws.Cell(curRow + 2, 3).SetValue(Header.医院名);			// 顧客名
+				ws.Cell(curRow + 2, 3).SetValue(Header.顧客名);			// 顧客名
 				ws.Cell(curRow + 2, 73).SetValue(Header.見積番号);		// 見積書No
 				ws.Cell(curRow + 3, 66).SetValue(Header.発行日);		// 発行日
 				ws.Cell(curRow + 4, 13).SetValue(Header.見積金額合計);	// お見積金額合計
 				ws.Cell(curRow + 5, 13).SetValue(Header.消費税);		// 消費税
 				ws.Cell(curRow + 6, 13).SetValue(Header.月額リース金額);// 月額リース金額
-				ws.Cell(curRow + 8, 12).SetValue(Header.件名);			// 件名
-				ws.Cell(curRow + 9, 12).SetValue(Header.納期);			// 納期
-				ws.Cell(curRow + 10, 12).SetValue(Header.支払条件);		// 支払条件
-				ws.Cell(curRow + 11, 12).SetValue(Header.納入場所);		// 納入場所
-				ws.Cell(curRow + 12, 12).SetValue(Header.有効期限);		// 見積有効期限
+				ws.Cell(curRow + 8, 11).SetValue(Header.件名);			// 件名
+				ws.Cell(curRow + 9, 11).SetValue(Header.納期);			// 納期
+				ws.Cell(curRow + 10, 11).SetValue(Header.支払条件);		// 支払条件
+				ws.Cell(curRow + 11, 11).SetValue(Header.納入場所);		// 納入場所
+				ws.Cell(curRow + 12, 11).SetValue(Header.有効期限);		// 見積有効期限
 				ws.Cell(curRow + 6, 58).SetValue(Header.担当支店名);	// 担当支店名
 				ws.Cell(curRow + 7, 58).SetValue(Header.担当支店住所1);	// 担当支店住所1
 				ws.Cell(curRow + 8, 58).SetValue(Header.担当支店住所2);	// 担当支店住所2

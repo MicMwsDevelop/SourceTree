@@ -25,11 +25,7 @@ namespace AlmexMainteEarningsFile
 		/// <summary>
 		/// データベース接続先
 		/// </summary>
-#if DEBUG
-		private const bool DATABASE_ACCESS_CT = true;
-#else
 		private const bool DATABASE_ACCESS_CT = false;
-#endif
 
 		/// <summary>
 		/// 売上日
@@ -62,12 +58,7 @@ namespace AlmexMainteEarningsFile
 
 			gSettings = AlmexMainteEarningsFileSettingsIF.GetSettings();
 
-#if DEBUG
-			gSaleDate = new Date(2021, 1, 1);
-#else
-			// 集計日を当月初日に設定
-			gSaleDate = Date.Today.FirstDayOfTheMonth();
-#endif
+			gSaleDate = new Date(2021, 10, 1);
 
 			string[] cmds = Environment.GetCommandLineArgs();
 			if (2 <= cmds.Length)
@@ -100,11 +91,13 @@ namespace AlmexMainteEarningsFile
 
 			gFormalFilename = gSettings.FormalFilename;
 
+			// 保守終了月が当月
+			Date mainteEndDate = saleDate.LastDayOfTheMonth();
 			try
 			{
 				// アプリケーション情報からアルメックス保守サービスの更新対象医院の取得
-				List<AlmexMainteEarningsOut> saleList = AlmexMainteAccess.GetAlmexMainteEarningsOut(saleDate, DATABASE_ACCESS_CT);
-				if (0 < saleList.Count)
+				List<AlmexMainteEarningsOut> saleList = AlmexMainteAccess.GetAlmexMainteEarningsOut(mainteEndDate.ToYearMonth(), DATABASE_ACCESS_CT);
+				if (null != saleList && 0 < saleList.Count)
 				{
 					// 消費税
 					int taxRate = JunpDatabaseAccess.GetTaxRate(saleDate, DATABASE_ACCESS_CT);
@@ -148,13 +141,7 @@ namespace AlmexMainteEarningsFile
 						{
 							// 最終保守終了月なので終了フラグをONにする
 							sale.f終了フラグ = true;
-#if DEBUG
-							if (DATABASE_ACCESS_CT)
-							{
-								// アプリケーション情報 終了フラグの設定
-								AlmexMainteAccess.UpdateSetApplicationInfoEndFlag(sale, PROC_NAME, DATABASE_ACCESS_CT);
-							}
-#else
+#if !DEBUG
 							// アプリケーション情報 終了フラグの設定
 							AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, DATABASE_ACCESS_CT);
 #endif
@@ -165,13 +152,7 @@ namespace AlmexMainteEarningsFile
 							{
 								// 保守終了月を１か月更新
 								sale.f保守終了月 = sale.f保守終了月.Value + 1;
-#if DEBUG
-								if (DATABASE_ACCESS_CT)
-								{
-									// アプリケーション情報の更新
-									AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, DATABASE_ACCESS_CT);
-								}
-#else
+#if !DEBUG
 								// アプリケーション情報の更新
 								AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, DATABASE_ACCESS_CT);
 #endif
@@ -189,7 +170,7 @@ namespace AlmexMainteEarningsFile
 					}
 				}
 				// 営業管理部にメール送信
-				SendMailControl.AlmexMainteSendMail(saleList, gFormalFilename);
+				SendMailControl.AlmexMainteSendMail(saleList, gFormalFilename, saleDate);
 			}
 			catch (Exception ex)
 			{

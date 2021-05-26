@@ -7,10 +7,10 @@
 // 
 // Ver1.00 新規作成(2021/04/22 勝呂)
 //
+using MicLib.HeadOffice;
 using MwsLib.BaseFactory.Junp.View;
 using MwsLib.BaseFactory.VariousDocumentOut;
 using MwsLib.Common;
-using VariousDocumentOut.Settings;
 
 namespace VariousDocumentOut
 {

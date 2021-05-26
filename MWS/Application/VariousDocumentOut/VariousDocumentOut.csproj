@@ -73,8 +73,6 @@
     <Compile Include="Forms\SelectSatelliteForm.Designer.cs">
       <DependentUpon>SelectSatelliteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings\HeadOfficeSettings.cs" />
-    <Compile Include="Settings\HeadOfficeSettingsIF.cs" />
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -91,52 +89,52 @@
     <EmbeddedResource Include="Forms\SelectSatelliteForm.resx">
       <DependentUpon>SelectSatelliteForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="1-MWSIDパスワード.xlsx">
+    <None Include="1-MWSIDパスワード.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="10-終了届.xlsx">
+    <None Include="10-終了届.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="11-変更届.xlsx">
+    <None Include="11-変更届.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="12-第一園芸注文書.xlsx">
+    <None Include="12-第一園芸注文書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="13-納品補助作業依頼書.xlsx">
+    <None Include="13-納品補助作業依頼書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="14-2次キッティング依頼書.xlsx">
+    <None Include="14-2次キッティング依頼書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="15-PC安心サポート加入申込書.xlsx">
+    <None Include="15-PC安心サポート加入申込書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="16-アプラス預金口座振替依頼書・自動払込利用申込書.xlsx">
+    <None Include="16-アプラス預金口座振替依頼書・自動払込利用申込書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="2-FAX送付状.xlsx">
+    <None Include="2-FAX送付状.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="3-書類送付状.xlsx">
+    <None Include="3-書類送付状.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="4-光ディスク請求届出.xlsx">
+    <None Include="4-光ディスク請求届出.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="5-オンライン請求届出.xlsx">
+    <None Include="5-オンライン請求届出.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="6-取引条件確認書.xlsx">
+    <None Include="6-取引条件確認書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="7-登録データ確認カード.xlsx">
+    <None Include="7-登録データ確認カード.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="8-Microsoft365利用申請書.xlsx">
+    <None Include="8-Microsoft365利用申請書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="9-請求先変更届.xlsx">
+    <None Include="9-請求先変更届.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
@@ -192,13 +190,18 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MwsLib\MwsLib.csproj">
+    <ProjectReference Include="..\..\Library\MicLib\MicLib.csproj">
+      <Project>{1ff897db-9d92-4630-a99d-d30b75e5d899}</Project>
+      <Name>MicLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\MwsLib\MwsLib.csproj">
       <Project>{dbcbf3f6-889c-4dd9-91ea-a2527aacede6}</Project>
       <Name>MwsLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Settings\HeadOfficeSettings.xml" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>

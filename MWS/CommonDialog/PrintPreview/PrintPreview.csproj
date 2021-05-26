@@ -78,10 +78,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MwsLib\MwsLib.csproj">
-      <Project>{dbcbf3f6-889c-4dd9-91ea-a2527aacede6}</Project>
-      <Name>MwsLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Progress\Progress.csproj">
       <Project>{a8996218-3f6d-40e0-8748-5fe47c268492}</Project>
       <Name>Progress</Name>
@@ -98,8 +94,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if "$(ConfigurationName)" == "Release" copy $(TargetPath) ..\..\..\..\_EXE
-if "$(ConfigurationName)" == "Debug" copy $(TargetPath) ..\..\..\..\_EXE\Debug</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -6,7 +6,7 @@
 		<CC></CC>
 		<TestTo>suguro@mic.jp</TestTo>
 		<TestCC></TestCC>
-		<Smtp>172.16.0.99</Smtp>
+		<Smtp>dove.mic.jp</Smtp>
 		<Port>25</Port>
 		<User></User>
 		<Pass></Pass>

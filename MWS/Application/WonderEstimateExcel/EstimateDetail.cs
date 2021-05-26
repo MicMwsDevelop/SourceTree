@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2021/03/31 勝呂)
+// Ver1.00(2021/03/31):新規作成(勝呂)
 //
 using System.Linq;
 

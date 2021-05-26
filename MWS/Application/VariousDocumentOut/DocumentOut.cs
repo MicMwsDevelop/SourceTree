@@ -108,6 +108,52 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
+		/// 各種書類出力種別→Excelオリジナルファイル名
+		/// </summary>
+		public static readonly EnumDictionary<DocumentType, string> OrgFileName = new EnumDictionary<DocumentType, string>()
+		{
+			{ DocumentType.MwsIDPassword, "1-MWSIDパスワード.xlsx.org" },
+			{ DocumentType.FaxLetter, "2-FAX送付状.xlsx.org" },
+			{ DocumentType.DocumentLetter, "3-書類送付状.xlsx.org" },
+			{ DocumentType.LightDisk, "4-光ディスク請求届出.xlsx.org" },
+			{ DocumentType.Online, "5-オンライン請求届出.xlsx.org" },
+			{ DocumentType.Transaction, "6-取引条件確認書.xlsx.org" },
+			{ DocumentType.ConfirmCard, "7-登録データ確認カード.xlsx.org" },
+			{ DocumentType.Microsoft365, "8-Microsoft365利用申請書.xlsx.org" },
+			{ DocumentType.SeikyuChange, "9-請求先変更届.xlsx.org" },
+			{ DocumentType.UserFinished, "10-終了届.xlsx.org" },
+			{ DocumentType.UserChange, "11-変更届.xlsx.org" },
+			{ DocumentType.FirstEngei, "12-第一園芸注文書.xlsx.org" },
+			{ DocumentType.Delivery, "13-納品補助作業依頼書.xlsx.org" },
+			{ DocumentType.SecondKitting, "14-2次キッティング依頼書.xlsx.org" },
+			{ DocumentType.PcSupport, "15-PC安心サポート加入申込書.xlsx.org" },
+			{ DocumentType.Aplus, "16-アプラス預金口座振替依頼書・自動払込利用申込書.xlsx.org" },
+		};
+
+		/// <summary>
+		/// 各種書類出力種別→Excelファイル名
+		/// </summary>
+		public static readonly EnumDictionary<DocumentType, string> ExcelFileName = new EnumDictionary<DocumentType, string>()
+		{
+			{ DocumentType.MwsIDPassword, "1-MWSIDパスワード.xlsx" },
+			{ DocumentType.FaxLetter, "2-FAX送付状.xlsx" },
+			{ DocumentType.DocumentLetter, "3-書類送付状.xlsx" },
+			{ DocumentType.LightDisk, "4-光ディスク請求届出.xlsx" },
+			{ DocumentType.Online, "5-オンライン請求届出.xlsx" },
+			{ DocumentType.Transaction, "6-取引条件確認書.xlsx" },
+			{ DocumentType.ConfirmCard, "7-登録データ確認カード.xlsx" },
+			{ DocumentType.Microsoft365, "8-Microsoft365利用申請書.xlsx" },
+			{ DocumentType.SeikyuChange, "9-請求先変更届.xlsx" },
+			{ DocumentType.UserFinished, "10-終了届.xlsx" },
+			{ DocumentType.UserChange, "11-変更届.xlsx" },
+			{ DocumentType.FirstEngei, "12-第一園芸注文書.xlsx" },
+			{ DocumentType.Delivery, "13-納品補助作業依頼書.xlsx" },
+			{ DocumentType.SecondKitting, "14-2次キッティング依頼書.xlsx" },
+			{ DocumentType.PcSupport, "15-PC安心サポート加入申込書.xlsx" },
+			{ DocumentType.Aplus, "16-アプラス預金口座振替依頼書・自動払込利用申込書.xlsx" },
+		};
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public DocumentOut()

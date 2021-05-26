@@ -10,7 +10,7 @@
     <CC>eigyo_kanri@mic.jp</CC>
     <TestTo>suguro@mic.jp</TestTo>
     <TestCC>suguro@mic.jp</TestCC>
-    <Smtp>172.16.0.99</Smtp>
+    <Smtp>dove.mic.jp</Smtp>
     <Port>25</Port>
     <User />
     <Pass />

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AlmexMainteEarningsFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<ExportDir>\\SQLSV\PCADATA</ExportDir>
+	<ExportDir>c:\_test</ExportDir>
 	<ExportFilename>アルメックス保守売上データ</ExportFilename>
 	<PcaVersion>7</PcaVersion>
 	<SlipInitialNumber>61001</SlipInitialNumber>
@@ -10,7 +10,7 @@
 		<CC>eigyo_kanri@mic.jp</CC>
 		<TestTo>suguro@mic.jp</TestTo>
 		<TestCC>suguro@mic.jp</TestCC>
-		<Smtp>172.16.0.99</Smtp>
+		<Smtp>dove.mic.jp</Smtp>
 		<Port>25</Port>
 		<User></User>
 		<Pass></Pass>

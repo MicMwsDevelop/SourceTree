@@ -10,18 +10,16 @@
 using AlmexMaintePurchaseFile.Forms;
 using AlmexMaintePurchaseFile.Mail;
 using AlmexMaintePurchaseFile.Settings;
-using MwsLib.BaseFactory;
 using MwsLib.BaseFactory.Junp.Table;
 using MwsLib.BaseFactory.Junp.View;
 using MwsLib.BaseFactory.Pca;
 using MwsLib.Common;
 using MwsLib.DB.SqlServer.AlmexMainte;
 using MwsLib.DB.SqlServer.Junp;
+using MwsLib.Log;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using MwsLib.BaseFactory.AlmexMainte;
-using MwsLib.Log;
 
 namespace AlmexMaintePurchaseFile
 {
@@ -30,11 +28,7 @@ namespace AlmexMaintePurchaseFile
 		/// <summary>
 		/// データベース接続先
 		/// </summary>
-#if DEBUG
-		private const bool DATABASE_ACCESS_CT = true;
-#else
 		private const bool DATABASE_ACCESS_CT = false;
-#endif
 
 		/// <summary>
 		/// 環境設定

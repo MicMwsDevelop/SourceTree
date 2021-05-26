@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2020/11/24 勝呂)
 //
+using MwsLib.Common;
 using MwsLib.BaseFactory.AlmexMainte;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,8 @@ namespace AlmexMainteEarningsFile.Mail
 		/// </summary>
 		/// <param name="userList">ユーザーリスト</param>
 		/// <param name="formalFilename">出力ファイル名</param>
-		public static void AlmexMainteSendMail(List<AlmexMainteEarningsOut> userList, string formalFilename)
+		/// <param name="saleDate">売上日</param>
+		public static void AlmexMainteSendMail(List<AlmexMainteEarningsOut> userList, string formalFilename, Date saleDate)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -52,6 +54,8 @@ namespace AlmexMainteEarningsFile.Mail
 							+ @"</div>"
 							, Program.gSettings.ExportDir
 							, formalFilename);
+
+				YearMonth ym = saleDate.ToYearMonth() + 1;
 				if (0 < userList.Count)
 				{
 					msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
@@ -74,7 +78,7 @@ namespace AlmexMainteEarningsFile.Mail
 								, user.f顧客No
 								, user.f顧客名
 								, user.fcm名称
-								, user.摘要名
+								, user.摘要名(ym)
 								, (user.f終了フラグ) ? "1" : "0");
 					}
 					msg.Body += @"</table>";

@@ -123,7 +123,7 @@ namespace WonderEstimateExcel
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MainForm";
-			this.Text = "WonderWeb見積書 Excel出力（Ver1.01 2021/04/23）";
+			this.Text = "WonderWeb見積書 Excel出力（Ver1.04 2021/05/26）";
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDropZone)).EndInit();
 			this.ResumeLayout(false);

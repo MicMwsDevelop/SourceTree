@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2021/04/22 勝呂)
 //
+using MicLib.HeadOffice;
 using MwsLib.BaseFactory;
 using MwsLib.BaseFactory.Junp.Table;
 using MwsLib.BaseFactory.Junp.View;
@@ -19,7 +20,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using VariousDocumentOut.Settings;
 
 namespace VariousDocumentOut.Forms
 {
@@ -364,113 +364,89 @@ namespace VariousDocumentOut.Forms
 				// カーソルを待機カーソルに変更
 				Cursor.Current = Cursors.WaitCursor;
 
-				string filename = string.Empty;
-				string pathname = string.Empty;
+				// orgファイル→Excelファイルをコピー
+				string orgPpathname = Path.Combine(Directory.GetCurrentDirectory(), DocumentOut.OrgFileName[DocType]);
+				string xlsPathname = Path.Combine(Directory.GetCurrentDirectory(), DocumentOut.ExcelFileName[DocType]);
+				File.Copy(orgPpathname, xlsPathname, true);
 				switch (DocType)
 				{
 					/// <summary>
 					/// MWS IDパスワード
 					/// </summary>
 					case DocumentOut.DocumentType.MwsIDPassword:
-						filename = "1-MWSIDパスワード.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutMwsIDPassword(pathname, Common);
+						DocumentOut.ExcelOutMwsIDPassword(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// FAX送付状
 					/// </summary>
 					case DocumentOut.DocumentType.FaxLetter:
-						filename = "2-FAX送付状.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutFaxLetter(pathname, Common);
+						DocumentOut.ExcelOutFaxLetter(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// 書類送付状
 					/// </summary>
 					case DocumentOut.DocumentType.DocumentLetter:
-						filename = "3-書類送付状.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutDocumentLetter(pathname, Common);
+						DocumentOut.ExcelOutDocumentLetter(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// 光ディスク請求届出
 					/// </summary>
 					case DocumentOut.DocumentType.LightDisk:
-						filename = "4-光ディスク請求届出.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutLightDisk(pathname, Common);
+						DocumentOut.ExcelOutLightDisk(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// オンライン請求届出
 					/// </summary>
 					case DocumentOut.DocumentType.Online:
-						filename = "5-オンライン請求届出.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutOnline(pathname, Common);
+						DocumentOut.ExcelOutOnline(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// 取引条件確認書
 					/// </summary>
 					case DocumentOut.DocumentType.Transaction:
-						filename = "6-取引条件確認書.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutTransaction(pathname, Common);
+						DocumentOut.ExcelOutTransaction(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// 登録データ確認カード
 					/// </summary>
 					case DocumentOut.DocumentType.ConfirmCard:
-						filename = "7-登録データ確認カード.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutConfirmCard(pathname, Common);
+						DocumentOut.ExcelOutConfirmCard(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// Microsoft365利用申請書
 					/// </summary>
 					case DocumentOut.DocumentType.Microsoft365:
-						filename = "8-Microsoft365利用申請書.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutMicrosoft365(pathname, Common);
+						DocumentOut.ExcelOutMicrosoft365(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// 請求先変更届
 					/// </summary>
 					case DocumentOut.DocumentType.SeikyuChange:
-						filename = "9-請求先変更届.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutSeikyuChange(pathname, Common);
+						DocumentOut.ExcelOutSeikyuChange(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// 終了届
 					/// </summary>
 					case DocumentOut.DocumentType.UserFinished:
-						filename = "10-終了届.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutUserFinished(pathname, Common);
+						DocumentOut.ExcelOutUserFinished(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// 変更届
 					/// </summary>
 					case DocumentOut.DocumentType.UserChange:
-						filename = "11-変更届.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutUserChange(pathname, Common);
+						DocumentOut.ExcelOutUserChange(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// 第一園芸注文書
 					/// </summary>
 					case DocumentOut.DocumentType.FirstEngei:
-						filename = "12-第一園芸注文書.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutFirstEngei(pathname, Common);
+						DocumentOut.ExcelOutFirstEngei(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// 納品補助作業依頼書
 					/// </summary>
 					case DocumentOut.DocumentType.Delivery:
-						filename = "13-納品補助作業依頼書.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutDelivery(pathname, Common);
+						DocumentOut.ExcelOutDelivery(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// 二次キッティング依頼書
@@ -479,9 +455,7 @@ namespace VariousDocumentOut.Forms
 						if (Common.IsHeadOffice)
 						{
 							// 本社
-							filename = "14-2次キッティング依頼書.xlsx";
-							pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-							DocumentOut.ExcelOutSecondKitting(pathname, Common, string.Empty, null);
+							DocumentOut.ExcelOutSecondKitting(xlsPathname, Common, string.Empty, null);
 						}
 						else
 						{
@@ -495,9 +469,7 @@ namespace VariousDocumentOut.Forms
 									return;
 								}
 								tMih支店情報 branch = BranchList.Find(p => p.f支店名 == dlg.Branch);
-								filename = "14-2次キッティング依頼書.xlsx";
-								pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-								DocumentOut.ExcelOutSecondKitting(pathname, Common, dlg.SaleDepartment, branch);
+								DocumentOut.ExcelOutSecondKitting(xlsPathname, Common, dlg.SaleDepartment, branch);
 							}
 						}
 						break;
@@ -505,17 +477,13 @@ namespace VariousDocumentOut.Forms
 					/// PC安心サポート加入申込書
 					/// </summary>
 					case DocumentOut.DocumentType.PcSupport:
-						filename = "15-PC安心サポート加入申込書.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutPcSupport(pathname, Common);
+						DocumentOut.ExcelOutPcSupport(xlsPathname, Common);
 						break;
 					/// <summary>
 					/// アプラス預金口座振替依頼書・自動払込利用申込書
 					/// </summary>
 					case DocumentOut.DocumentType.Aplus:
-						filename = "16-アプラス預金口座振替依頼書・自動払込利用申込書.xlsx";
-						pathname = Path.Combine(Directory.GetCurrentDirectory(), filename);
-						DocumentOut.ExcelOutAplus(pathname, Common);
+						DocumentOut.ExcelOutAplus(xlsPathname, Common);
 						break;
 				}
 				// カーソルを元に戻す
@@ -523,7 +491,7 @@ namespace VariousDocumentOut.Forms
 
 				// Excelの起動
 				ProcessStartInfo pInfo = new ProcessStartInfo();
-				pInfo.FileName = pathname;
+				pInfo.FileName = xlsPathname;
 				Process.Start(pInfo);
 			}
 			catch (Exception ex)

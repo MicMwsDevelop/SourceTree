@@ -89,9 +89,9 @@ namespace AlertCloudBackupPcSupportPlus
 			List<CloudBackupPcSupportPlus> checktList1 = new List<CloudBackupPcSupportPlus>();
 			List<CloudBackupPcSupportPlus> checktList2 = new List<CloudBackupPcSupportPlus>();
 			List<CloudBackupPcSupportPlus> checktList3 = new List<CloudBackupPcSupportPlus>();
-			List<CloudBackupPcSupportPlus> formalChecktList1 = new List<CloudBackupPcSupportPlus>();
-			List<CloudBackupPcSupportPlus> formalChecktList2 = new List<CloudBackupPcSupportPlus>();
-			List<CloudBackupPcSupportPlus> formalChecktList3 = new List<CloudBackupPcSupportPlus>();
+			//List<CloudBackupPcSupportPlus> formalChecktList1 = new List<CloudBackupPcSupportPlus>();
+			//List<CloudBackupPcSupportPlus> formalChecktList2 = new List<CloudBackupPcSupportPlus>();
+			//List<CloudBackupPcSupportPlus> formalChecktList3 = new List<CloudBackupPcSupportPlus>();
 			try
 			{
 				// 1. 同時契約中チェック
@@ -100,27 +100,30 @@ namespace AlertCloudBackupPcSupportPlus
 				// (2)PC安心サポート契約情報がPC安心サポートPlusで利用期間中である
 				// (3)クラウドバックアップが解約中でない
 				List<CloudBackupPcSupportPlus> list = AlertCloudBackupPcSupportPlusAccess.GetCloudBackupPcSupportPlusList(gSystemDate, DATABACE_ACCEPT_CT);
-				foreach (CloudBackupPcSupportPlus data in list)
+				if (null != list)
 				{
-					//string whereStr1 = string.Format("fCustomerID = {0} AND (fServiceId = {1} OR fServiceId = {2} OR fServiceId = {3}) AND fContractStartDate <= '{4}' AND fContractEndDate >= '{4}'"
-					//								, data.CustomerNo
-					//								, (int)ServiceCodeDefine.ServiceCode.PcSafetySupportPlus3
-					//								, (int)ServiceCodeDefine.ServiceCode.PcSafetySupportPlus1
-					//								, (int)ServiceCodeDefine.ServiceCode.PcSafetySupportPlusContinue
-					//								, gSystemDate.ToDateTime());
-					//List<T_USE_PCCSUPPORT> pc1List = CharlieDatabaseAccess.Select_T_USE_PCCSUPPORT(whereStr1, "fCustomerID ASC", DATABACE_ACCEPT_CT);
-					//if (null != pc1List && 0 < pc1List.Count)
-					//{
-					//	string whereStr2 = string.Format("customer_id = {0} AND service_id = {1} AND apply_type = '1' AND system_flg = '0'"
-					//							, data.CustomerNo
-					//							, (int)ServiceCodeDefine.ServiceCode.ExCloudBackup);
-					//	List<V_COUPLER_APPLY> apply1List = CharlieDatabaseAccess.Select_V_COUPLER_APPLY(whereStr2, "", DATABACE_ACCEPT_CT);
-					//	if (null == apply1List)
-					//	{
-					//		checktList1.Add(data);
-					//	}
-					//}
-					checktList1.Add(data);
+					foreach (CloudBackupPcSupportPlus data in list)
+					{
+						//string whereStr1 = string.Format("fCustomerID = {0} AND (fServiceId = {1} OR fServiceId = {2} OR fServiceId = {3}) AND fContractStartDate <= '{4}' AND fContractEndDate >= '{4}'"
+						//								, data.CustomerNo
+						//								, (int)ServiceCodeDefine.ServiceCode.PcSafetySupportPlus3
+						//								, (int)ServiceCodeDefine.ServiceCode.PcSafetySupportPlus1
+						//								, (int)ServiceCodeDefine.ServiceCode.PcSafetySupportPlusContinue
+						//								, gSystemDate.ToDateTime());
+						//List<T_USE_PCCSUPPORT> pc1List = CharlieDatabaseAccess.Select_T_USE_PCCSUPPORT(whereStr1, "fCustomerID ASC", DATABACE_ACCEPT_CT);
+						//if (null != pc1List && 0 < pc1List.Count)
+						//{
+						//	string whereStr2 = string.Format("customer_id = {0} AND service_id = {1} AND apply_type = '1' AND system_flg = '0'"
+						//							, data.CustomerNo
+						//							, (int)ServiceCodeDefine.ServiceCode.ExCloudBackup);
+						//	List<V_COUPLER_APPLY> apply1List = CharlieDatabaseAccess.Select_V_COUPLER_APPLY(whereStr2, "", DATABACE_ACCEPT_CT);
+						//	if (null == apply1List)
+						//	{
+						//		checktList1.Add(data);
+						//	}
+						//}
+						checktList1.Add(data);
+					}
 				}
 				// 2.クラウドバックアップ申込中チェック
 				// PC安心サポートPlus契約期間中にクラウドバックアップサービスがMWSサイトで申し込まれた
@@ -196,75 +199,56 @@ namespace AlertCloudBackupPcSupportPlus
 						}
 					}
 				}
+				//if (0 < checktList1.Count + checktList2.Count + checktList3.Count)
+				//{
+				//	using (XLWorkbook wb = new XLWorkbook(Path.Combine(Directory.GetCurrentDirectory(), "アラート情報.xlsx"), XLEventTracking.Disabled))
+				//	{
+				//		IXLWorksheet ws = wb.Worksheet("アラート");
+				//		List<CloudBackupPcSupportPlus> compList = new List<CloudBackupPcSupportPlus>();
+
+
+				//		IXLRange rgn = ws.RangeUsed().AsTable();
+				//		for (int i = 1; i < rgn.RowCount(); i++)
+				//		{
+				//			CloudBackupPcSupportPlus plus = new CloudBackupPcSupportPlus();
+				//			string csv = string.Format("{0},{1},{2},{3},{4},{5},{6}", rgn.Cell(i + 1, 1).Value, rgn.Cell(i + 1, 2).Value, rgn.Cell(i + 1, 3).Value, rgn.Cell(i + 1, 4).Value, rgn.Cell(i + 1, 5).Value, rgn.Cell(i + 1, 6).Value, rgn.Cell(i + 1, 7).Value);
+				//			plus.SetRecord(csv);
+				//			compList.Add(plus);
+				//		}
+				//		foreach (CloudBackupPcSupportPlus check in checktList1)
+				//		{
+				//			if (-1 != compList.FindIndex(p => p.IsMatch(check)))
+				//			{
+				//				formalChecktList1.Add(check);
+				//			}
+				//		}
+				//		foreach (CloudBackupPcSupportPlus check in checktList2)
+				//		{
+				//			if (-1 != compList.FindIndex(p => p.IsMatch(check)))
+				//			{
+				//				formalChecktList2.Add(check);
+				//			}
+				//		}
+				//		foreach (CloudBackupPcSupportPlus check in checktList3)
+				//		{
+				//			if (-1 != compList.FindIndex(p => p.IsMatch(check)))
+				//			{
+				//				formalChecktList3.Add(check);
+				//			}
+				//		}
+				//		if (0 < formalChecktList1.Count + formalChecktList2.Count + formalChecktList3.Count)
 				if (0 < checktList1.Count + checktList2.Count + checktList3.Count)
 				{
-					using (XLWorkbook wb = new XLWorkbook(Path.Combine(Directory.GetCurrentDirectory(), "アラート情報.xlsx"), XLEventTracking.Disabled))
-					{
-						IXLWorksheet ws = wb.Worksheet("アラート");
-						List<CloudBackupPcSupportPlus> compList = new List<CloudBackupPcSupportPlus>();
-
-
-						IXLRange rgn = ws.RangeUsed().AsTable();
-						for (int i = 1; i < rgn.RowCount(); i++)
-						{
-							CloudBackupPcSupportPlus plus = new CloudBackupPcSupportPlus();
-							string csv = string.Format("{0},{1},{2},{3},{4},{5},{6}", rgn.Cell(i + 1, 1).Value, rgn.Cell(i + 1, 2).Value, rgn.Cell(i + 1, 3).Value, rgn.Cell(i + 1, 4).Value, rgn.Cell(i + 1, 5).Value, rgn.Cell(i + 1, 6).Value, rgn.Cell(i + 1, 7).Value);
-							plus.SetRecord(csv);
-							compList.Add(plus);
-						}
-
-
-
-
-
-
-						//foreach(IXLTableRow dataRow in table.DataRange.Rows())
-						//{
-						//	if (firstLine)
-						//	{
-						//		firstLine = false;
-						//		continue;
-						//	}
-						//	CloudBackupPcSupportPlus plus = new CloudBackupPcSupportPlus();
-						//	string csv = string.Format("{0},{1},{2},{3},{4},{5},{6}", dataRow.Cell(1).Value, dataRow.Cell(2).Value, dataRow.Cell(3).Value, dataRow.Cell(4).Value, dataRow.Cell(5).Value, dataRow.Cell(6).Value, dataRow.Cell(7).Value);
-						//	plus.SetRecord(csv);
-						//	compList.Add(plus);
-						//}
-						foreach (CloudBackupPcSupportPlus check in checktList1)
-						{
-							if (-1 != compList.FindIndex(p => p.IsMatch(check)))
-							{
-								formalChecktList1.Add(check);
-							}
-						}
-						foreach (CloudBackupPcSupportPlus check in checktList2)
-						{
-							if (-1 != compList.FindIndex(p => p.IsMatch(check)))
-							{
-								formalChecktList2.Add(check);
-							}
-						}
-						foreach (CloudBackupPcSupportPlus check in checktList3)
-						{
-							if (-1 != compList.FindIndex(p => p.IsMatch(check)))
-							{
-								formalChecktList3.Add(check);
-							}
-						}
-						if (0 < formalChecktList1.Count + formalChecktList2.Count + formalChecktList3.Count)
-						{
-#if !DEBUG
-							// 営業管理部宛にアラートメール送信
-							SendMailControl.AlartSendMail(formalChecktList1, formalChecktList2, formalChecktList3);
-#endif
-							// アラート情報に追加
-							formalChecktList1.AddRange(formalChecktList2);
-							formalChecktList1.AddRange(formalChecktList3);
-							foreach (CloudBackupPcSupportPlus check in formalChecktList1)
-							{
-							}
-						}
-					}
+//#if !DEBUG
+					// 営業管理部宛にアラートメール送信
+					SendMailControl.AlartSendMail(checktList1, checktList2, checktList3);
+//#endif
+					//// アラート情報に追加
+					//formalChecktList1.AddRange(formalChecktList2);
+					//formalChecktList1.AddRange(formalChecktList3);
+					//foreach (CloudBackupPcSupportPlus check in formalChecktList1)
+					//{
+					//}
 				}
 			}
 			catch (Exception ex)
@@ -272,7 +256,7 @@ namespace AlertCloudBackupPcSupportPlus
 				msg = ex.Message;
 				return -1;
 			}
-			return formalChecktList1.Count + formalChecktList2.Count + formalChecktList3.Count;
+			return checktList1.Count + checktList2.Count + checktList3.Count;
 		}
 	}
 }
