@@ -113,6 +113,9 @@
     <None Include="16-アプラス預金口座振替依頼書・自動払込利用申込書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="17-作業報告書.xlsx.org">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="2-FAX送付状.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -22,9 +22,9 @@ namespace MwsLib.DB.SqlServer
 		private const string DB_INSTANCE_NAME_SQLSV = "SQLSV";
 
 		/// <summary>
-		/// SQLSV2のインスタンス名（CT環境）
+		/// TESTSVのインスタンス名（CT環境）
 		/// </summary>
-		private const string DB_INSTANCE_NAME_SQLSV2 = "SQLSV2";
+		private const string DB_INSTANCE_NAME_TESTSV = "TESTSV";
 
 		/// <summary>
 		/// CP-DB01のインスタンス名（本番環境）
@@ -175,7 +175,7 @@ namespace MwsLib.DB.SqlServer
 		public static string CharlieSAConnectionString(bool ct)
 		{
 			DatabaseConnect con = new DatabaseConnect();
-			con.InstanceName = (ct) ? DB_INSTANCE_NAME_SQLSV2 : DB_INSTANCE_NAME_SQLSV;
+			con.InstanceName = (ct) ? DB_INSTANCE_NAME_TESTSV : DB_INSTANCE_NAME_SQLSV;
 			con.DatabaseName = DB_NAME_CHARLIE;
 			con.UserID = USER_SQLSV_SA;
 			con.Password = PWD_SQLSV_SA;
@@ -193,7 +193,7 @@ namespace MwsLib.DB.SqlServer
 		public static string CharlieWebConnectionString(bool ct)
 		{
 			DatabaseConnect con = new DatabaseConnect();
-			con.InstanceName = (ct) ? DB_INSTANCE_NAME_SQLSV2 : DB_INSTANCE_NAME_SQLSV;
+			con.InstanceName = (ct) ? DB_INSTANCE_NAME_TESTSV : DB_INSTANCE_NAME_SQLSV;
 			con.DatabaseName = DB_NAME_CHARLIE;
 			con.UserID = USER_SQLSV_WEB;
 			con.Password = PWD_SQLSV_WEB;
@@ -211,7 +211,7 @@ namespace MwsLib.DB.SqlServer
 		public static string JunpSAConnectionString(bool ct)
 		{
 			DatabaseConnect con = new DatabaseConnect();
-			con.InstanceName = (ct) ? DB_INSTANCE_NAME_SQLSV2 : DB_INSTANCE_NAME_SQLSV;
+			con.InstanceName = (ct) ? DB_INSTANCE_NAME_TESTSV : DB_INSTANCE_NAME_SQLSV;
 			con.DatabaseName = DB_NAME_JUNP;
 			con.UserID = USER_SQLSV_SA;
 			con.Password = PWD_SQLSV_SA;
@@ -229,7 +229,7 @@ namespace MwsLib.DB.SqlServer
 		public static string JunpWebConnectionString(bool ct)
 		{
 			DatabaseConnect con = new DatabaseConnect();
-			con.InstanceName = (ct) ? DB_INSTANCE_NAME_SQLSV2 : DB_INSTANCE_NAME_SQLSV;
+			con.InstanceName = (ct) ? DB_INSTANCE_NAME_TESTSV : DB_INSTANCE_NAME_SQLSV;
 			con.DatabaseName = DB_NAME_JUNP;
 			con.UserID = USER_SQLSV_WEB;
 			con.Password = PWD_SQLSV_WEB;
@@ -247,7 +247,7 @@ namespace MwsLib.DB.SqlServer
 		public static string EstoreWebConnectionString(bool ct)
 		{
 			DatabaseConnect con = new DatabaseConnect();
-			con.InstanceName = (ct) ? DB_INSTANCE_NAME_SQLSV2 : DB_INSTANCE_NAME_SQLSV;
+			con.InstanceName = (ct) ? DB_INSTANCE_NAME_TESTSV : DB_INSTANCE_NAME_SQLSV;
 			con.DatabaseName = DB_NAME_ESTORE;
 			con.UserID = USER_SQLSV_WEB;
 			con.Password = PWD_SQLSV_WEB;
@@ -265,7 +265,7 @@ namespace MwsLib.DB.SqlServer
 		public static string PcaWebConnectionString(bool ct)
 		{
 			DatabaseConnect con = new DatabaseConnect();
-			con.InstanceName = (ct) ? DB_INSTANCE_NAME_SQLSV2 : DB_INSTANCE_NAME_SQLSV;
+			con.InstanceName = (ct) ? DB_INSTANCE_NAME_TESTSV : DB_INSTANCE_NAME_SQLSV;
 			con.DatabaseName = DB_NAME_PCA;
 			con.UserID = USER_SQLSV_WEB;
 			con.Password = PWD_SQLSV_WEB;

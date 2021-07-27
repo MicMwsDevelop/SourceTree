@@ -17,6 +17,11 @@ namespace MwsLib.DB.SqlServer.Junp
 	public static class JunpDatabaseDefine
 	{
 		/// <summary>
+		/// データベース名
+		/// </summary>
+		static private string DatabaseName = "JunpDB.dbo";
+
+		/// <summary>
 		/// テーブル種別 
 		/// </summary>
 		public enum TableType
@@ -38,6 +43,10 @@ namespace MwsLib.DB.SqlServer.Junp
 			tBusho = 15,
 			t_MicSyukkashiji = 16,
 			tMikアプリケーション情報 = 17,
+			tMic社内データ管理利用部署情報 = 18,
+			tMic社内データ管理ヘッダ = 19,
+			tMic社内データ管理詳細 = 20,
+			tMic文書インデクス = 21,
 		}
 
 		/// <summary>
@@ -45,23 +54,27 @@ namespace MwsLib.DB.SqlServer.Junp
 		/// </summary>
 		public static readonly EnumDictionary<TableType, string> TableName = new EnumDictionary<TableType, string>()
 		{
-			{ TableType.tMikコードマスタ, "tMikコードマスタ" },
-			{ TableType.tMic終了ユーザーリスト, "tMic終了ユーザーリスト" },
-			{ TableType.tMemo, "tMemo" },
-			{ TableType.tMik保守契約, "tMik保守契約" },
-			{ TableType.tMikユーザ, "tMikユーザ" },
-			{ TableType.tClient, "tClient" },
-			{ TableType.tMih送料商品コード, "tMih送料商品コード" },
-			{ TableType.tMihPca在庫引当表J, "tMihPca在庫引当表J" },
-			{ TableType.tMic離島, "tMic離島" },
-			{ TableType.tMih支店情報, "tMih支店情報" },
-			{ TableType.tMih受注ヘッダ, "tMih受注ヘッダ" },
-			{ TableType.tMih受注詳細, "tMih受注詳細" },
-			{ TableType.tMik基本情報, "tMik基本情報" },
-			{ TableType.tMic出荷代行トップ印刷休業日, "tMic出荷代行トップ印刷休業日" },
-			{ TableType.tBusho, "tBusho" },
-			{ TableType.t_MicSyukkashiji, "t_MicSyukkashiji" },
-			{ TableType.tMikアプリケーション情報, "tMikアプリケーション情報" },
+			{ TableType.tMikコードマスタ, string.Format("{0}.tMikコードマスタ", DatabaseName) },
+			{ TableType.tMic終了ユーザーリスト, string.Format("{0}.tMic終了ユーザーリスト", DatabaseName) },
+			{ TableType.tMemo, string.Format("{0}.tMemo", DatabaseName) },
+			{ TableType.tMik保守契約, string.Format("{0}.tMik保守契約", DatabaseName) },
+			{ TableType.tMikユーザ, string.Format("{0}.tMikユーザ", DatabaseName) },
+			{ TableType.tClient, string.Format("{0}.[tClient]", DatabaseName) },
+			{ TableType.tMih送料商品コード, string.Format("{0}.tMih送料商品コード", DatabaseName) },
+			{ TableType.tMihPca在庫引当表J, string.Format("{0}.tMihPca在庫引当表J", DatabaseName) },
+			{ TableType.tMic離島, string.Format("{0}.tMic離島", DatabaseName) },
+			{ TableType.tMih支店情報, string.Format("{0}.tMih支店情報", DatabaseName) },
+			{ TableType.tMih受注ヘッダ, string.Format("{0}.tMih受注ヘッダ", DatabaseName) },
+			{ TableType.tMih受注詳細, string.Format("{0}.tMih受注詳細", DatabaseName) },
+			{ TableType.tMik基本情報, string.Format("{0}.tMik基本情報", DatabaseName) },
+			{ TableType.tMic出荷代行トップ印刷休業日, string.Format("{0}.tMic出荷代行トップ印刷休業日", DatabaseName) },
+			{ TableType.tBusho, string.Format("{0}.tBusho", DatabaseName) },
+			{ TableType.t_MicSyukkashiji, string.Format("{0}.t_MicSyukkashiji", DatabaseName) },
+			{ TableType.tMikアプリケーション情報, string.Format("{0}.tMikアプリケーション情報", DatabaseName) },
+			{ TableType.tMic社内データ管理利用部署情報, string.Format("{0}.tMic社内データ管理利用部署情報", DatabaseName) },
+			{ TableType.tMic社内データ管理ヘッダ, string.Format("{0}.tMic社内データ管理ヘッダ", DatabaseName) },
+			{ TableType.tMic社内データ管理詳細, string.Format("{0}.tMic社内データ管理詳細", DatabaseName) },
+			{ TableType.tMic文書インデクス, string.Format("{0}.tMic文書インデクス", DatabaseName) },
 		};
 
 		/// <summary>
@@ -89,6 +102,7 @@ namespace MwsLib.DB.SqlServer.Junp
 			vMicPCA区分マスタ = 18,
 			vMicES売上予想 = 19,
 			vMic全ユーザー4 = 20,
+			vMicユーザー基本 = 21,
 		}
 
 		/// <summary>
@@ -96,26 +110,27 @@ namespace MwsLib.DB.SqlServer.Junp
 		/// </summary>
 		public static readonly EnumDictionary<ViewType, string> ViewName = new EnumDictionary<ViewType, string>()
 		{
-			{ ViewType.vMicPCA仕入先マスタ, "vMicPCA仕入先マスタ" },
-			{ ViewType.vMicPCA消費税率, "vMicPCA消費税率" },
-			{ ViewType.vMicPCA商品マスタ, "vMicPCA商品マスタ" },
-			{ ViewType.vMic全ユーザー３, "vMic全ユーザー３" },
-			{ ViewType.vMic担当者, "vMic担当者" },
-			{ ViewType.vMicPCA売上ヘッダ, "vMicPCA売上ヘッダ" },
-			{ ViewType.vMicPCA売上明細, "vMicPCA売上明細" },
-			{ ViewType.vMicPCA受注明細, "vMicPCA受注明細" },
-			{ ViewType.vMic全ユーザー２, "vMic全ユーザー２" },
-			{ ViewType.vMicPCA担当者マスタ, "vMicPCA担当者マスタ" },
-			{ ViewType.vMicPCA出荷データ, "vMicPCA出荷データ" },
-			{ ViewType.vMicPCA仕入データ, "vMicPCA仕入データ" },
-			{ ViewType.vSoftwareMainteLimit, "vSoftwareMainteLimit" },
-			{ ViewType.vMic全ユーザー2, "vMic全ユーザー2" },
-			{ ViewType.vMic当月売上予想, "vMic当月売上予想" },
-			{ ViewType.vMic翌月売上予想, "vMic翌月売上予想" },
-			{ ViewType.vMicPCA部門マスタ, "vMicPCA部門マスタ" },
-			{ ViewType.vMicPCA区分マスタ, "vMicPCA区分マスタ" },
-			{ ViewType.vMicES売上予想, "vMicES売上予想" },
-			{ ViewType.vMic全ユーザー4, "vMic全ユーザー4" },
+			{ ViewType.vMicPCA仕入先マスタ, string.Format("{0}.vMicPCA仕入先マスタ", DatabaseName) },
+			{ ViewType.vMicPCA消費税率, string.Format("{0}.vMicPCA消費税率", DatabaseName) },
+			{ ViewType.vMicPCA商品マスタ, string.Format("{0}.vMicPCA商品マスタ", DatabaseName) },
+			{ ViewType.vMic全ユーザー３, string.Format("{0}.vMic全ユーザー３", DatabaseName) },
+			{ ViewType.vMic担当者, string.Format("{0}.vMic担当者", DatabaseName) },
+			{ ViewType.vMicPCA売上ヘッダ, string.Format("{0}.vMicPCA売上ヘッダ", DatabaseName) },
+			{ ViewType.vMicPCA売上明細, string.Format("{0}.vMicPCA売上明細", DatabaseName) },
+			{ ViewType.vMicPCA受注明細, string.Format("{0}.vMicPCA受注明細", DatabaseName) },
+			{ ViewType.vMic全ユーザー２, string.Format("{0}.vMic全ユーザー２", DatabaseName) },
+			{ ViewType.vMicPCA担当者マスタ, string.Format("{0}.vMicPCA担当者マスタ", DatabaseName) },
+			{ ViewType.vMicPCA出荷データ, string.Format("{0}.vMicPCA出荷データ", DatabaseName) },
+			{ ViewType.vMicPCA仕入データ, string.Format("{0}.vMicPCA仕入データ", DatabaseName) },
+			{ ViewType.vSoftwareMainteLimit, string.Format("{0}.vSoftwareMainteLimit", DatabaseName) },
+			{ ViewType.vMic全ユーザー2, string.Format("{0}.vMic全ユーザー2", DatabaseName) },
+			{ ViewType.vMic当月売上予想, string.Format("{0}.vMic当月売上予想", DatabaseName) },
+			{ ViewType.vMic翌月売上予想, string.Format("{0}.vMic翌月売上予想", DatabaseName) },
+			{ ViewType.vMicPCA部門マスタ, string.Format("{0}.vMicPCA部門マスタ", DatabaseName) },
+			{ ViewType.vMicPCA区分マスタ, string.Format("{0}.vMicPCA区分マスタ", DatabaseName) },
+			{ ViewType.vMicES売上予想, string.Format("{0}.vMicES売上予想", DatabaseName) },
+			{ ViewType.vMic全ユーザー4, string.Format("{0}.vMic全ユーザー4", DatabaseName) },
+			{ ViewType.vMicユーザー基本, string.Format("{0}.vMicユーザー基本", DatabaseName) },
 		};
 	}
 }

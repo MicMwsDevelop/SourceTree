@@ -102,7 +102,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 
 		/// <summary>
 		/// 拠店従業員情報の詰め替え
-		/// [JunpDB[.[dbo].[vMic担当者]
+		/// [JunpDB].[dbo].[vMic担当者]
 		/// </summary>
 		/// <param name="table">データテーブル</param>
 		/// <returns>拠店従業員情報リスト</returns>
@@ -153,7 +153,7 @@ namespace MwsLib.DB.SqlServer.PcSupportManager
 
 		/// <summary>
 		/// PC安心サポート商品情報の詰め替え
-		/// [JunpDB[.[dbo].[vMic担当者]
+		/// [JunpDB].[dbo].[vMic担当者]
 		/// </summary>
 		/// <param name="table">データテーブル</param>
 		/// <returns>PC安心サポート商品情報リスト</returns>

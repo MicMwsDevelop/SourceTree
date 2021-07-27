@@ -7,12 +7,14 @@
 // 
 // Ver1.00(2021/03/31):新規作成(勝呂)
 // Ver1.04(2021/05/26):備考内にカンマがあるときにエラー発生(勝呂)
+// Ver1.05(2021/06/11):注文書と注文請書の出力機能を追加(勝呂)
 //
 using ClosedXML.Excel;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace WonderEstimateExcel
 {
@@ -27,7 +29,7 @@ namespace WonderEstimateExcel
 		public const short DetailLineCount = 20;
 
 		/// <summary>
-		/// １ページ行数
+		/// 見積書１ページ行数
 		/// </summary>
 		public const short ExcelPageLineCount = 42;
 
@@ -290,9 +292,9 @@ namespace WonderEstimateExcel
 		/// 見積書エクセルファイルの出力
 		/// </summary>
 		/// <param name="wb"></param>
-		public void WriteExcelFile(XLWorkbook wb)
+		public void WriteEstimateExcelFile(XLWorkbook wb)
 		{
-			IXLWorksheet wsOrg = wb.Worksheet("見積書原本");
+			IXLWorksheet wsOrg = wb.Worksheet("原本");
 			IXLWorksheet ws = wsOrg.CopyTo("見積書");
 			int maxPage = GetMaxPage();
 
@@ -312,7 +314,7 @@ namespace WonderEstimateExcel
 				{
 					ws.Row(curRow + j).Height = 12;
 				}
-				// 画像ファイルはコピーできないので、別途貼り付け
+				// MICロゴの貼り付け
 				ws.AddPicture(global::WonderEstimateExcel.Properties.Resources.MicLogo).MoveTo(ws.Cell(curRow + 4, 68));
 
 				curRow += ExcelPageLineCount;
@@ -363,11 +365,86 @@ namespace WonderEstimateExcel
 				}
 				curRow += ExcelPageLineCount;
 			}
-			// シートの削除「印刷イメージ」「印刷フィールド」「印刷座標」「見積書原本」
+			// シートの削除「印刷イメージ」「印刷フィールド」「印刷座標」「原本」
 			wb.Worksheet("印刷イメージ").Delete();
 			wb.Worksheet("印刷フィールド").Delete();
 			wb.Worksheet("印刷座標").Delete();
-			wb.Worksheet("見積書原本").Delete();
+			wb.Worksheet("原本").Delete();
+		}
+
+		/// <summary>
+		/// 注文書エクセルファイルの出力
+		/// </summary>
+		/// <param name="wb"></param>
+		// Ver1.05(2021/06/11):注文書と注文請書の出力機能を追加(勝呂)
+		public void WriteOrderSheetExcelFile(XLWorkbook wb)
+		{
+			IXLWorksheet wsOrg = wb.Worksheet("原本");
+			IXLWorksheet ws = wsOrg.CopyTo("注文書");
+
+			CultureInfo ci = new CultureInfo("ja-JP") { DateTimeFormat = { Calendar = new JapaneseCalendar() } };	// 令和対応
+
+			ws.Cell(2, 19).SetValue(DateTime.Today.ToString("gg", ci));	// 元号
+			ws.Cell(18, 2).SetValue(Header.件名);					// 商品名
+			ws.Cell(18, 13).SetValue("1");							// 数量
+			ws.Cell(18, 19).SetValue(Header.見積金額合計2);			// 金額（税込）
+			ws.Cell(20, 2).SetValue(string.Format("詳細は別紙見積No:{0}", Header.見積番号));	// 見積書No
+			ws.Cell(24, 13).SetValue(Header.顧客住所);				// 納品先住所
+			ws.Cell(25, 13).SetValue(Header.顧客TEL);				// 電話番号
+			ws.Cell(26, 13).SetValue(Header.顧客名);				// 名前
+			ws.Cell(28, 3).SetValue(Header.納期);					// 納品予定日
+			ws.Cell(29, 3).SetValue(Header.支払条件);				// お支払条件
+			ws.Cell(32, 3).SetValue(Header.備考);					// 備考
+			ws.Cell(40, 18).SetValue(string.Format("担当支店名：{0}", Header.担当支店名));		// 担当支店名
+			ws.Cell(41, 18).SetValue(string.Format("担当：{0}", Header.担当者名));				// 担当者名
+
+			// 印鑑マークの画像ファイルはコピーできないので、別途貼り付け
+			ws.AddPicture(global::WonderEstimateExcel.Properties.Resources.Seal).MoveTo(ws.Cell(15, 24), 0, 10);
+
+			// シートの削除「印刷イメージ」「印刷フィールド」「印刷座標」「原本」
+			wb.Worksheet("印刷イメージ").Delete();
+			wb.Worksheet("印刷フィールド").Delete();
+			wb.Worksheet("印刷座標").Delete();
+			wb.Worksheet("原本").Delete();
+		}
+
+		/// <summary>
+		/// 注文請書エクセルファイルの出力
+		/// </summary>
+		/// <param name="wb"></param>
+		// Ver1.05(2021/06/11):注文書と注文請書の出力機能を追加(勝呂)
+		public void WriteOrderConfirmExcelFile(XLWorkbook wb)
+		{
+			IXLWorksheet wsOrg = wb.Worksheet("原本");
+			IXLWorksheet ws = wsOrg.CopyTo("注文請書");
+
+			CultureInfo ci = new CultureInfo("ja-JP") { DateTimeFormat = { Calendar = new JapaneseCalendar() } };   // 令和対応
+
+			ws.Cell(2, 6).SetValue(DateTime.Today.ToString("gg", ci)); // 元号
+			ws.Cell(6, 2).SetValue(Header.顧客名);               // 名前
+			ws.Cell(11, 7).SetValue(Header.担当支店名);     // 担当支店名
+			ws.Cell(12, 7).SetValue(Header.担当支店住所1);   // 担当支店住所1
+			ws.Cell(13, 7).SetValue(Header.担当支店住所2);   // 担当支店住所2
+			ws.Cell(14, 7).SetValue(string.Format("TEL：{0}", Header.担当支店TEL));   // 担当支店TEL
+			ws.Cell(14, 10).SetValue(string.Format("FAX：{0}", Header.担当支店FAX));   // 担当支店FAX
+			ws.Cell(15, 11).SetValue(Header.担当者名);     // 担当者名
+
+			ws.Cell(18, 2).SetValue(Header.件名);                 // 商品名
+			ws.Cell(18, 5).SetValue("1");                          // 数量
+			ws.Cell(18, 6).SetValue(Header.見積金額合計2);            // 金額（税込）
+
+			ws.Cell(24, 5).SetValue(Header.顧客住所);              // 納品先住所
+			ws.Cell(25, 5).SetValue(Header.顧客TEL);             // 電話番号
+			ws.Cell(26, 5).SetValue(Header.顧客名);               // 名前
+			ws.Cell(28, 3).SetValue(Header.納期);                 // 納品予定日
+			ws.Cell(29, 3).SetValue(Header.支払条件);               // お支払条件
+			ws.Cell(32, 3).SetValue(Header.備考);                 // 備考
+
+			// シートの削除「印刷イメージ」「印刷フィールド」「印刷座標」「原本」
+			wb.Worksheet("印刷イメージ").Delete();
+			wb.Worksheet("印刷フィールド").Delete();
+			wb.Worksheet("印刷座標").Delete();
+			wb.Worksheet("原本").Delete();
 		}
 	}
 }

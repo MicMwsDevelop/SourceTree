@@ -46,11 +46,33 @@ namespace WonderEstimateExcel
 		/// <summary>
 		/// 見積書エクセルファイル名の取得
 		/// </summary>
-		public string GetFilename
+		public string GetEstimateFilename
 		{
 			get
 			{
 				return string.Format("見積書_{0}.xlsx", 見積番号);
+			}
+		}
+
+		/// <summary>
+		/// 注文書エクセルファイル名の取得
+		/// </summary>
+		public string GetOrderSheetFilename
+		{
+			get
+			{
+				return string.Format("注文書_{0}.xlsx", 見積番号);
+			}
+		}
+
+		/// <summary>
+		/// 注文請書エクセルファイル名の取得
+		/// </summary>
+		public string GetOrderConfirmFilename
+		{
+			get
+			{
+				return string.Format("注文請書_{0}.xlsx", 見積番号);
 			}
 		}
 
@@ -62,6 +84,17 @@ namespace WonderEstimateExcel
 			get
 			{
 				return string.Format("{0}-", EstimateCsv.CommaEdit(EstimateCsv.GetOutsideTaxPrice(見積金額)));
+			}
+		}
+
+		/// <summary>
+		/// 見積金額合計2
+		/// </summary>
+		public string 見積金額合計2
+		{
+			get
+			{
+				return EstimateCsv.CommaEdit(EstimateCsv.GetOutsideTaxPrice(見積金額));
 			}
 		}
 

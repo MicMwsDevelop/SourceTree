@@ -13,6 +13,7 @@ using MwsLib.Common;
 using System;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Core;
 
 namespace VariousDocumentOut
 {
@@ -105,6 +106,11 @@ namespace VariousDocumentOut
 			/// アプラス預金口座振替依頼書・自動払込利用申込書
 			/// </summary>
 			Aplus,
+
+			/// <summary>
+			/// 作業報告書
+			/// </summary>
+			WorkReport,
 		}
 
 		/// <summary>
@@ -128,6 +134,7 @@ namespace VariousDocumentOut
 			{ DocumentType.SecondKitting, "14-2次キッティング依頼書.xlsx.org" },
 			{ DocumentType.PcSupport, "15-PC安心サポート加入申込書.xlsx.org" },
 			{ DocumentType.Aplus, "16-アプラス預金口座振替依頼書・自動払込利用申込書.xlsx.org" },
+			{ DocumentType.WorkReport, "17-作業報告書.xlsx.org" },
 		};
 
 		/// <summary>
@@ -151,6 +158,7 @@ namespace VariousDocumentOut
 			{ DocumentType.SecondKitting, "14-2次キッティング依頼書.xlsx" },
 			{ DocumentType.PcSupport, "15-PC安心サポート加入申込書.xlsx" },
 			{ DocumentType.Aplus, "16-アプラス預金口座振替依頼書・自動払込利用申込書.xlsx" },
+			{ DocumentType.WorkReport, "17-作業報告書.xlsx" },
 		};
 
 		/// <summary>
@@ -294,7 +302,7 @@ namespace VariousDocumentOut
 								if (common.IsHeadOffice)
 								{
 									// 本社
-									textFrame.Characters.Text = string.Format("〒{0}\r\n{1}\r\n{2}", common.郵便番号, common.住所1, common.社名);
+									textFrame.Characters.Text = string.Format("〒{0}\r\n{1}\r\n{2}\r\n{3}", common.郵便番号, common.住所1, common.住所2, common.社名);
 								}
 								else
 								{
@@ -374,7 +382,7 @@ namespace VariousDocumentOut
 								if (common.IsHeadOffice)
 								{
 									// 本社
-									textFrame.Characters.Text = string.Format("〒{0}\r\n{1}\r\n{2}", common.郵便番号, common.住所1, common.社名);
+									textFrame.Characters.Text = string.Format("〒{0}\r\n{1}\r\n{2}\r\n{3}", common.郵便番号, common.住所1, common.住所2, common.社名);
 								}
 								else
 								{
@@ -706,27 +714,95 @@ namespace VariousDocumentOut
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutOnline(string pathname, DocumentCommon common)
+		public static void ExcelOutOnline(DocumentCommon common, string xlsPathname, string orgPathname)
 		{
+			// 電子証明書発行等依頼書
+			try
+			{
+				using (XLWorkbook wb = new XLWorkbook(xlsPathname, XLEventTracking.Disabled))
+				{
+					wb.Worksheet("オンライン請求届出").Delete();
+					wb.Worksheet("オンライン証明書発行依頼書").Delete();
+
+					IXLWorksheet ws = wb.Worksheet("電子証明書発行等依頼書");
+
+					// 基金支部名
+					ws.Cell(6, 2).SetValue(common.Customer.支部名);
+
+					// 都道府県
+					ws.Cell(11, 38).SetValue(common.Customer.県番号.Substring(0, 1));
+					ws.Cell(11, 42).SetValue(common.Customer.県番号.Substring(1, 1));
+
+					// 機関コード
+					string clinicCode2 = common.Customer.NumericClinicCode;
+					if (7 == clinicCode2.Length)
+					{
+						ws.Cell(11, 50).SetValue(clinicCode2.Substring(0, 1));
+						ws.Cell(11, 54).SetValue(clinicCode2.Substring(1, 1));
+						ws.Cell(11, 58).SetValue(clinicCode2.Substring(2, 1));
+						ws.Cell(11, 62).SetValue(clinicCode2.Substring(3, 1));
+						ws.Cell(11, 66).SetValue(clinicCode2.Substring(4, 1));
+						ws.Cell(11, 70).SetValue(clinicCode2.Substring(5, 1));
+						ws.Cell(11, 74).SetValue(clinicCode2.Substring(6, 1));
+					}
+					ws.Cell(13, 19).SetValue(common.Customer.フリガナ);
+					ws.Cell(14, 19).SetValue(common.Customer.顧客名);
+
+					// 郵便番号
+					string zipcode = common.Customer.NumericZipcode;
+					if (7 == zipcode.Length)
+					{
+						ws.Cell(16, 14).SetValue(zipcode.Substring(0, 1));
+						ws.Cell(16, 16).SetValue(zipcode.Substring(1, 1));
+						ws.Cell(16, 18).SetValue(zipcode.Substring(2, 1));
+						ws.Cell(16, 22).SetValue(zipcode.Substring(3, 1));
+						ws.Cell(16, 24).SetValue(zipcode.Substring(4, 1));
+						ws.Cell(16, 26).SetValue(zipcode.Substring(5, 1));
+						ws.Cell(16, 28).SetValue(zipcode.Substring(6, 1));
+					}
+					ws.Cell(17, 15).SetValue(common.Customer.住所);
+					ws.Cell(18, 13).SetValue(common.Customer.電話番号);
+					ws.Cell(18, 51).SetValue(common.Customer.メールアドレス);
+
+					// Excelファイルの保存
+					wb.SaveAs(xlsPathname);
+				}
+			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
 			Excel.Application xlApp = null;
 			Excel.Workbooks xlBooks = null;
 			Excel.Workbook xlBook = null;
 			Excel.Sheets xlSheets = null;
 			Excel.Worksheet xlSheet1 = null;
+			Excel.Workbook xlBookOrg = null;
+			Excel.Worksheet xlSheetOrg1 = null;
+			Excel.Worksheet xlSheetOrg2 = null;
 			Excel.Worksheet xlSheet2 = null;
+			Excel.Worksheet xlSheet3 = null;
+			Excel.Worksheet xlSheet4 = null;
 			Excel.Shapes xlShapes1 = null;
 			Excel.Shapes xlShapes2 = null;
-			Excel.Worksheet xlSheet3 = null;
 			Excel.Shapes xlShapes3 = null;
+			Excel.Shapes xlShapes4 = null;
 			try
 			{
 				xlApp = new Excel.Application();
 				xlBooks = xlApp.Workbooks;
-				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+				xlBook = xlBooks.Open(xlsPathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheets = xlBook.Worksheets;
+				xlSheet1 = xlSheets["電子証明書発行等依頼書"] as Excel.Worksheet;
+
+				xlBookOrg = xlBooks.Open(orgPathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+				xlSheetOrg1 = xlBookOrg.Worksheets["オンライン請求届出"] as Excel.Worksheet;
+				xlSheetOrg1.Copy(Type.Missing, xlSheet1);
+				xlSheetOrg2 = xlBookOrg.Worksheets["オンライン証明書発行依頼書"] as Excel.Worksheet;
+				xlSheetOrg2.Copy(Type.Missing, xlSheet1);
+
 				xlSheet1 = xlSheets["オンライン請求届出"] as Excel.Worksheet;
 				xlShapes1 = xlSheet1.Shapes;
-
 				string clinicCode = common.Customer.NumericClinicCode;
 				string zipCode = common.Customer.NumericZipcode;
 
@@ -821,7 +897,7 @@ namespace VariousDocumentOut
 				xlShapes2 = xlSheet2.Shapes;
 				foreach (Excel.Shape shape in xlShapes2)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -840,7 +916,7 @@ namespace VariousDocumentOut
 				xlShapes3 = xlSheet3.Shapes;
 				foreach (Excel.Shape shape in xlShapes3)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -926,6 +1002,13 @@ namespace VariousDocumentOut
 						}
 					}
 				}
+				// 電子証明書発行等依頼書
+				xlSheet4 = xlSheets["電子証明書発行等依頼書"] as Excel.Worksheet;
+				xlShapes4 = xlSheet4.Shapes;
+				Microsoft.Office.Interop.Excel.Shape oval = xlShapes4.AddShape(MsoAutoShapeType.msoShapeOval, 215, 122, 75, 20);
+				oval.Fill.Visible = MsoTriState.msoFalse;
+				oval.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
+
 				// [オンライン請求届出-社保]を選択状態
 				xlSheet1.Select();
 			}
@@ -935,6 +1018,14 @@ namespace VariousDocumentOut
 				{
 					Marshal.ReleaseComObject(xlSheet1);
 				}
+				if (null != xlSheetOrg1)
+				{
+					Marshal.ReleaseComObject(xlSheetOrg1);
+				}
+				if (null != xlSheetOrg2)
+				{
+					Marshal.ReleaseComObject(xlSheetOrg2);
+				}
 				if (null != xlSheet2)
 				{
 					Marshal.ReleaseComObject(xlSheet2);
@@ -942,6 +1033,10 @@ namespace VariousDocumentOut
 				if (null != xlSheet3)
 				{
 					Marshal.ReleaseComObject(xlSheet3);
+				}
+				if (null != xlSheet4)
+				{
+					Marshal.ReleaseComObject(xlSheet4);
 				}
 				if (null != xlSheets)
 				{
@@ -951,6 +1046,11 @@ namespace VariousDocumentOut
 				{
 					xlBook.Save();
 					Marshal.ReleaseComObject(xlBook);
+				}
+				if (null != xlBookOrg)
+				{
+					xlBookOrg.Close();
+					Marshal.ReleaseComObject(xlBookOrg);
 				}
 				if (null != xlBooks)
 				{
@@ -962,6 +1062,261 @@ namespace VariousDocumentOut
 					Marshal.ReleaseComObject(xlApp);
 				}
 			}
+			//try
+			//{
+			//	xlApp = new Excel.Application();
+			//	xlBooks = xlApp.Workbooks;
+			//	xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+			//	xlSheets = xlBook.Worksheets;
+			//	xlSheet1 = xlSheets["オンライン請求届出"] as Excel.Worksheet;
+			//	xlShapes1 = xlSheet1.Shapes;
+
+			//	string clinicCode = common.Customer.NumericClinicCode;
+			//	string zipCode = common.Customer.NumericZipcode;
+
+			//	// オンライン請求届出-社保用
+			//	foreach (Excel.Shape shape in xlShapes1)
+			//	{
+			//		if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+			//		{
+			//			dynamic textFrame = shape.TextFrame;
+			//			switch (shape.Name)
+			//			{
+			//				case "宛先１":
+			//					textFrame.Characters.Text = "社会保険診療報酬支払基金";
+			//					break;
+			//				case "宛先２":
+			//					textFrame.Characters.Text = common.Customer.支部名;
+			//					break;
+			//				case "院長名":
+			//					textFrame.Characters.Text = common.Customer.院長名;
+			//					break;
+			//				case "住所１":
+			//					textFrame.Characters.Text = common.Customer.住所1;
+			//					break;
+			//				case "住所２":
+			//					textFrame.Characters.Text = common.Customer.住所2;
+			//					break;
+			//				case "医療機関コード１":
+			//					textFrame.Characters.Text = clinicCode.Substring(0, 1);
+			//					break;
+			//				case "医療機関コード２":
+			//					textFrame.Characters.Text = clinicCode.Substring(1, 1);
+			//					break;
+			//				case "医療機関コード３":
+			//					textFrame.Characters.Text = clinicCode.Substring(2, 1);
+			//					break;
+			//				case "医療機関コード４":
+			//					textFrame.Characters.Text = clinicCode.Substring(3, 1);
+			//					break;
+			//				case "医療機関コード５":
+			//					textFrame.Characters.Text = clinicCode.Substring(4, 1);
+			//					break;
+			//				case "医療機関コード６":
+			//					textFrame.Characters.Text = clinicCode.Substring(5, 1);
+			//					break;
+			//				case "医療機関コード７":
+			//					textFrame.Characters.Text = clinicCode.Substring(6, 1);
+			//					break;
+			//				case "顧客名":
+			//					textFrame.Characters.Text = common.Customer.顧客名;
+			//					break;
+			//				case "住所":
+			//					textFrame.Characters.Text = common.Customer.住所;
+			//					break;
+			//				case "システム名称":
+			//					textFrame.Characters.Text = common.Customer.システム略称;
+			//					break;
+			//				case "電話番号":
+			//					textFrame.Characters.Text = common.Customer.電話番号;
+			//					break;
+			//				case "郵便番号１":
+			//					textFrame.Characters.Text = zipCode.Substring(0, 1);
+			//					break;
+			//				case "郵便番号２":
+			//					textFrame.Characters.Text = zipCode.Substring(1, 1);
+			//					break;
+			//				case "郵便番号３":
+			//					textFrame.Characters.Text = zipCode.Substring(2, 1);
+			//					break;
+			//				case "郵便番号４":
+			//					textFrame.Characters.Text = zipCode.Substring(3, 1);
+			//					break;
+			//				case "郵便番号５":
+			//					textFrame.Characters.Text = zipCode.Substring(4, 1);
+			//					break;
+			//				case "郵便番号６":
+			//					textFrame.Characters.Text = zipCode.Substring(5, 1);
+			//					break;
+			//				case "郵便番号７":
+			//					textFrame.Characters.Text = zipCode.Substring(6, 1);
+			//					break;
+			//				case "メーカー名":
+			//					textFrame.Characters.Text = common.社名;
+			//					break;
+			//			}
+			//		}
+			//	}
+			//	// オンライン請求届出-国保用
+			//	xlSheet1.Copy(Type.Missing, xlSheet1);
+			//	xlSheet2 = xlSheets["オンライン請求届出 (2)"] as Excel.Worksheet;
+			//	xlSheet1.Name = "オンライン請求届出-社保";
+			//	xlSheet2.Name = "オンライン請求届出-国保";
+			//	xlShapes2 = xlSheet2.Shapes;
+			//	foreach (Excel.Shape shape in xlShapes2)
+			//	{
+			//		if (MsoShapeType.msoTextBox == shape.Type)
+			//		{
+			//			dynamic textFrame = shape.TextFrame;
+			//			switch (shape.Name)
+			//			{
+			//				case "宛先１":
+			//					textFrame.Characters.Text = common.Customer.都道府県名 + "国民健康保険団体連合会";
+			//					break;
+			//				case "宛先２":
+			//					textFrame.Characters.Text = string.Empty;
+			//					break;
+			//			}
+			//		}
+			//	}
+			//	// オンライン証明書発行依頼書
+			//	xlSheet3 = xlSheets["オンライン証明書発行依頼書"] as Excel.Worksheet;
+			//	xlShapes3 = xlSheet3.Shapes;
+			//	foreach (Excel.Shape shape in xlShapes3)
+			//	{
+			//		if (MsoShapeType.msoTextBox == shape.Type)
+			//		{
+			//			dynamic textFrame = shape.TextFrame;
+			//			switch (shape.Name)
+			//			{
+			//				case "宛先１":
+			//					textFrame.Characters.Text = "社会保険診療報酬支払基金";
+			//					break;
+			//				case "宛先２":
+			//					textFrame.Characters.Text = common.Customer.支部名;
+			//					break;
+			//				case "院長名":
+			//					textFrame.Characters.Text = common.Customer.院長名;
+			//					break;
+			//				case "住所１":
+			//					textFrame.Characters.Text = common.Customer.住所1;
+			//					break;
+			//				case "住所２":
+			//					textFrame.Characters.Text = common.Customer.住所2;
+			//					break;
+			//				case "県番号１":
+			//					textFrame.Characters.Text = common.Customer.県番号.Substring(0, 1);
+			//					break;
+			//				case "県番号２":
+			//					textFrame.Characters.Text = common.Customer.県番号.Substring(1, 1);
+			//					break;
+			//				case "医療機関コード１":
+			//					textFrame.Characters.Text = clinicCode.Substring(0, 1);
+			//					break;
+			//				case "医療機関コード２":
+			//					textFrame.Characters.Text = clinicCode.Substring(1, 1);
+			//					break;
+			//				case "医療機関コード３":
+			//					textFrame.Characters.Text = clinicCode.Substring(2, 1);
+			//					break;
+			//				case "医療機関コード４":
+			//					textFrame.Characters.Text = clinicCode.Substring(3, 1);
+			//					break;
+			//				case "医療機関コード５":
+			//					textFrame.Characters.Text = clinicCode.Substring(4, 1);
+			//					break;
+			//				case "医療機関コード６":
+			//					textFrame.Characters.Text = clinicCode.Substring(5, 1);
+			//					break;
+			//				case "医療機関コード７":
+			//					textFrame.Characters.Text = clinicCode.Substring(6, 1);
+			//					break;
+			//				case "ﾌﾘｶﾞﾅ":
+			//					textFrame.Characters.Text = common.Customer.フリガナ;
+			//					break;
+			//				case "顧客名":
+			//					textFrame.Characters.Text = common.Customer.顧客名;
+			//					break;
+			//				case "住所":
+			//					textFrame.Characters.Text = common.Customer.住所;
+			//					break;
+			//				case "システム名称":
+			//					textFrame.Characters.Text = common.Customer.システム略称;
+			//					break;
+			//				case "電話番号":
+			//					textFrame.Characters.Text = common.Customer.電話番号;
+			//					break;
+			//				case "郵便番号１":
+			//					textFrame.Characters.Text = zipCode.Substring(0, 1);
+			//					break;
+			//				case "郵便番号２":
+			//					textFrame.Characters.Text = zipCode.Substring(1, 1);
+			//					break;
+			//				case "郵便番号３":
+			//					textFrame.Characters.Text = zipCode.Substring(2, 1);
+			//					break;
+			//				case "郵便番号４":
+			//					textFrame.Characters.Text = zipCode.Substring(3, 1);
+			//					break;
+			//				case "郵便番号５":
+			//					textFrame.Characters.Text = zipCode.Substring(4, 1);
+			//					break;
+			//				case "郵便番号６":
+			//					textFrame.Characters.Text = zipCode.Substring(5, 1);
+			//					break;
+			//				case "郵便番号７":
+			//					textFrame.Characters.Text = zipCode.Substring(6, 1);
+			//					break;
+			//			}
+			//		}
+			//	}
+			//	// 電子証明書発行等依頼書
+			//	xlSheet4 = xlSheets["電子証明書発行等依頼書"] as Excel.Worksheet;
+			//	xlShapes4 = xlSheet4.Shapes;
+			//	Microsoft.Office.Interop.Excel.Shape oval = xlShapes4.AddShape(MsoAutoShapeType.msoShapeOval, 215, 122, 75, 20);
+			//	oval.Fill.Visible = MsoTriState.msoFalse;
+			//	oval.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
+
+			//	// [オンライン請求届出-社保]を選択状態
+			//	xlSheet1.Select();
+			//}
+			//finally
+			//{
+			//	if (null != xlSheet1)
+			//	{
+			//		Marshal.ReleaseComObject(xlSheet1);
+			//	}
+			//	if (null != xlSheet2)
+			//	{
+			//		Marshal.ReleaseComObject(xlSheet2);
+			//	}
+			//	if (null != xlSheet3)
+			//	{
+			//		Marshal.ReleaseComObject(xlSheet3);
+			//	}
+			//	if (null != xlSheet4)
+			//	{
+			//		Marshal.ReleaseComObject(xlSheet4);
+			//	}
+			//	if (null != xlSheets)
+			//	{
+			//		Marshal.ReleaseComObject(xlSheets);
+			//	}
+			//	if (null != xlBook)
+			//	{
+			//		xlBook.Save();
+			//		Marshal.ReleaseComObject(xlBook);
+			//	}
+			//	if (null != xlBooks)
+			//	{
+			//		Marshal.ReleaseComObject(xlBooks);
+			//	}
+			//	if (null != xlApp)
+			//	{
+			//		xlApp.Quit();
+			//		Marshal.ReleaseComObject(xlApp);
+			//	}
+			//}
 		}
 
 		/// <summary>
@@ -1001,11 +1356,7 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = common.住所1;
 								break;
 							case "住所２":
-								if (false == common.IsHeadOffice)
-								{
-									// 拠点
-									textFrame.Characters.Text = common.住所2;
-								}
+								textFrame.Characters.Text = common.住所2;
 								break;
 							case "送付先":
 								textFrame.Characters.Text = common.送付先;
@@ -1153,7 +1504,7 @@ namespace VariousDocumentOut
 					ws.Cell(58, 19).SetValue(common.HeadOffice.Fax);
 					ws.Cell(63, 21).SetValue(common.社名);
 					ws.Cell(64, 21).SetValue(common.HeadOffice.Zipcode);
-					ws.Cell(65, 21).SetValue(common.HeadOffice.Address1);
+					ws.Cell(65, 21).SetValue(common.HeadOffice.住所);
 					ws.Cell(66, 21).SetValue(string.Format("e-mail {0}", common.HeadOffice.Email));
 					ws.Cell(67, 21).SetValue(common.HeadOffice.Url);
 
@@ -1204,11 +1555,7 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = common.住所1;
 								break;
 							case "住所２":
-								if (false == common.IsHeadOffice)
-								{
-									// 拠点
-									textFrame.Characters.Text = common.住所2;
-								}
+								textFrame.Characters.Text = common.住所2;
 								break;
 							case "送付先":
 								textFrame.Characters.Text = common.送付先;
@@ -1303,11 +1650,7 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = common.住所1;
 								break;
 							case "住所２":
-								if (false == common.IsHeadOffice)
-								{
-									// 拠点
-									textFrame.Characters.Text = common.住所2;
-								}
+								textFrame.Characters.Text = common.住所2;
 								break;
 							case "送付先":
 								textFrame.Characters.Text = common.送付先;
@@ -1405,11 +1748,7 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = common.住所1;
 								break;
 							case "住所２":
-								if (false == common.IsHeadOffice)
-								{
-									// 拠点
-									textFrame.Characters.Text = common.住所2;
-								}
+								textFrame.Characters.Text = common.住所2;
 								break;
 							case "送付先":
 								textFrame.Characters.Text = common.送付先;
@@ -1499,8 +1838,8 @@ namespace VariousDocumentOut
 					ws1.Cell(37, 6).SetValue(common.HeadOffice.Zipcode);
 					ws1.Cell(38, 5).SetValue(common.HeadOffice.住所);
 					// 経理部
-					//ws1.Cell(40, 5).SetValue(Tel);
-					//ws1.Cell(40, 15).SetValue(Fax);
+					ws1.Cell(40, 5).SetValue(common.HeadOffice.TelKeiri);
+					ws1.Cell(40, 15).SetValue(common.HeadOffice.Fax);
 
 					// 第一園芸販売店向け
 					IXLWorksheet ws2 = wb.Worksheet("第一園芸販売店向け");
@@ -1514,8 +1853,8 @@ namespace VariousDocumentOut
 					ws2.Cell(37, 6).SetValue(common.HeadOffice.Zipcode);
 					ws2.Cell(38, 5).SetValue(common.HeadOffice.住所);
 					// 経理部
-					//ws2.Cell(40, 5).SetValue(Tel);
-					//ws2.Cell(40, 15).SetValue(Fax);
+					ws2.Cell(40, 5).SetValue(common.HeadOffice.TelKeiri);
+					ws2.Cell(40, 15).SetValue(common.HeadOffice.Fax);
 
 					// Excelファイルの保存
 					wb.SaveAs(pathname);
@@ -1959,6 +2298,33 @@ namespace VariousDocumentOut
 					xlApp.Quit();
 					Marshal.ReleaseComObject(xlApp);
 				}
+			}
+		}
+
+		/// <summary>
+		/// EXCEL出力 - 作業報告書
+		/// </summary>
+		/// <param name="pathname">Excelファイルパス名</param>
+		/// <param name="common">各種書類出力 共通情報</param>
+		public static void ExcelOutWorkReport(string pathname, DocumentCommon common)
+		{
+			try
+			{
+				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
+				{
+					IXLWorksheet ws = wb.Worksheet("作業報告書");
+					ws.Cell(10, 3).SetValue(common.Customer.得意先No);
+					ws.Cell(12, 3).SetValue(common.Customer.顧客名);
+					ws.Cell(18, 3).SetValue(string.Format("〒{0}\r\n{1}\r\n{2}", common.Customer.郵便番号, common.Customer.住所1, common.Customer.住所2));
+					ws.Cell(34, 3).SetValue(string.Format("TEL {0}", common.Customer.電話番号));
+
+					// Excelファイルの保存
+					wb.SaveAs(pathname);
+				}
+			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
 			}
 		}
 	}

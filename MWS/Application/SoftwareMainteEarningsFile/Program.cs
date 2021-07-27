@@ -55,7 +55,7 @@ namespace SoftwareMainteEarningsFile
 			gSettings = SoftwareMainteEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			CollectDate = new Date(2021, 4, 1);
+			CollectDate = new Date(2021, 6, 1);
 #else
 			// 集計日を当月初日に設定
 			CollectDate = Date.Today.FirstDayOfTheMonth();
@@ -152,8 +152,10 @@ namespace SoftwareMainteEarningsFile
 							}
 						}
 					}
+#if !DEBUG
 					// 営業管理部にメール送信
 					SendMailControl.SoftwareMainteSendMail(saleList);
+#endif
 				}
 			}
 			catch (Exception ex)

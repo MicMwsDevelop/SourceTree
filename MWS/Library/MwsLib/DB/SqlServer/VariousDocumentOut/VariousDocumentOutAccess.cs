@@ -59,12 +59,12 @@ namespace MwsLib.DB.SqlServer.VariousDocumentOut
 		}
 
 		/// <summary>
-		/// 得意先Noに対する顧客情報の取得
+		/// 得意先番号に対する顧客情報の取得
 		/// </summary>
 		/// <param name="tokuisakiNo">得意先No</param>
 		/// <param name="ct">CT環境</param>
 		/// <returns>結果</returns>
-		public static List<CustomerInfo> Select_CustomerInfo(string tokuisakiNo, bool ct)
+		public static List<CustomerInfo> Select_CustomerInfoByTokuisakiNo(string tokuisakiNo, bool ct)
 		{
 			string sqlStr = string.Format("SELECT 基本.fkj顧客区分 AS 顧客区分, CL.fCliID AS 顧客No, 基本.fkj得意先情報 AS 得意先No, 基本.fkj郵便番号 AS 郵便番号"
 											+ ", 基本.fkjファックス番号 AS FAX番号, 基本.fkj電話番号 AS 電話番号, CL.fCliName AS 顧客名1, 基本.fkj顧客名2 AS 顧客名2"
@@ -77,6 +77,29 @@ namespace MwsLib.DB.SqlServer.VariousDocumentOut
 											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報]
 											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ]
 											, tokuisakiNo);
+			DataTable table = JunpDatabaseAccess.SelectJunpDatabase(sqlStr, ct);
+			return CustomerInfo.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// 顧客Noに対する顧客情報の取得
+		/// </summary>
+		/// <param name="tokuisakiNo">得意先No</param>
+		/// <param name="ct">CT環境</param>
+		/// <returns>結果</returns>
+		public static List<CustomerInfo> Select_CustomerInfoByCustomerNo(int CustomerNo, bool ct)
+		{
+			string sqlStr = string.Format("SELECT 基本.fkj顧客区分 AS 顧客区分, CL.fCliID AS 顧客No, 基本.fkj得意先情報 AS 得意先No, 基本.fkj郵便番号 AS 郵便番号"
+											+ ", 基本.fkjファックス番号 AS FAX番号, 基本.fkj電話番号 AS 電話番号, CL.fCliName AS 顧客名1, 基本.fkj顧客名2 AS 顧客名2"
+											+ ", 基本.fkj住所1 AS 住所1, 基本.fkj住所2 AS 住所2, ユーザ.fus院長名 AS 院長名, ユーザ.fus運用サポート情報 as 運用サポート情報"
+											+ " FROM ({0} as CL"
+											+ " INNER JOIN {1} as 基本 ON CL.fCliID = 基本.fkjCliMicID)"
+											+ " LEFT JOIN {2} as ユーザ ON 基本.fkjCliMicID = ユーザ.fusCliMicID"
+											+ " WHERE CL.fCliID = {3}"
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient]
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報]
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ]
+											, CustomerNo);
 			DataTable table = JunpDatabaseAccess.SelectJunpDatabase(sqlStr, ct);
 			return CustomerInfo.DataTableToList(table);
 		}

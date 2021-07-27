@@ -31,10 +31,12 @@ namespace WonderEstimateExcel
 		{
 			this.label1 = new System.Windows.Forms.Label();
 			this.buttonSelectFile = new System.Windows.Forms.Button();
-			this.buttonExcelOut = new System.Windows.Forms.Button();
+			this.buttonEstimate = new System.Windows.Forms.Button();
 			this.pictureBoxDropZone = new System.Windows.Forms.PictureBox();
 			this.labelFilename = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
+			this.buttonOrderSheet = new System.Windows.Forms.Button();
+			this.buttonOrderConfirm = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDropZone)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -52,23 +54,23 @@ namespace WonderEstimateExcel
 			this.buttonSelectFile.Location = new System.Drawing.Point(410, 62);
 			this.buttonSelectFile.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonSelectFile.Name = "buttonSelectFile";
-			this.buttonSelectFile.Size = new System.Drawing.Size(156, 62);
+			this.buttonSelectFile.Size = new System.Drawing.Size(156, 48);
 			this.buttonSelectFile.TabIndex = 3;
 			this.buttonSelectFile.Text = "ファイル追加";
 			this.buttonSelectFile.UseVisualStyleBackColor = true;
 			this.buttonSelectFile.Click += new System.EventHandler(this.buttonSelectFile_Click);
 			// 
-			// buttonExcelOut
+			// buttonEstimate
 			// 
-			this.buttonExcelOut.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.buttonExcelOut.Location = new System.Drawing.Point(410, 132);
-			this.buttonExcelOut.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.buttonExcelOut.Name = "buttonExcelOut";
-			this.buttonExcelOut.Size = new System.Drawing.Size(156, 64);
-			this.buttonExcelOut.TabIndex = 4;
-			this.buttonExcelOut.Text = "EXCEL出力";
-			this.buttonExcelOut.UseVisualStyleBackColor = true;
-			this.buttonExcelOut.Click += new System.EventHandler(this.buttonExcelOut_Click);
+			this.buttonEstimate.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonEstimate.Location = new System.Drawing.Point(410, 118);
+			this.buttonEstimate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.buttonEstimate.Name = "buttonEstimate";
+			this.buttonEstimate.Size = new System.Drawing.Size(156, 48);
+			this.buttonEstimate.TabIndex = 4;
+			this.buttonEstimate.Text = "見積書出力";
+			this.buttonEstimate.UseVisualStyleBackColor = true;
+			this.buttonEstimate.Click += new System.EventHandler(this.buttonEstimate_Click);
 			// 
 			// pictureBoxDropZone
 			// 
@@ -106,15 +108,41 @@ namespace WonderEstimateExcel
 			this.label2.TabIndex = 2;
 			this.label2.Text = "※WonderWeb見積書CSVファイルを指定してください。";
 			// 
+			// buttonOrderSheet
+			// 
+			this.buttonOrderSheet.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonOrderSheet.Location = new System.Drawing.Point(410, 174);
+			this.buttonOrderSheet.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.buttonOrderSheet.Name = "buttonOrderSheet";
+			this.buttonOrderSheet.Size = new System.Drawing.Size(156, 48);
+			this.buttonOrderSheet.TabIndex = 5;
+			this.buttonOrderSheet.Text = "注文書出力";
+			this.buttonOrderSheet.UseVisualStyleBackColor = true;
+			this.buttonOrderSheet.Click += new System.EventHandler(this.buttonOrderSheet_Click);
+			// 
+			// buttonOrderConfirm
+			// 
+			this.buttonOrderConfirm.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonOrderConfirm.Location = new System.Drawing.Point(410, 231);
+			this.buttonOrderConfirm.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.buttonOrderConfirm.Name = "buttonOrderConfirm";
+			this.buttonOrderConfirm.Size = new System.Drawing.Size(156, 48);
+			this.buttonOrderConfirm.TabIndex = 6;
+			this.buttonOrderConfirm.Text = "注文請書出力";
+			this.buttonOrderConfirm.UseVisualStyleBackColor = true;
+			this.buttonOrderConfirm.Click += new System.EventHandler(this.buttonOrderConfirm_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(581, 317);
+			this.Controls.Add(this.buttonOrderConfirm);
+			this.Controls.Add(this.buttonOrderSheet);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.labelFilename);
 			this.Controls.Add(this.pictureBoxDropZone);
-			this.Controls.Add(this.buttonExcelOut);
+			this.Controls.Add(this.buttonEstimate);
 			this.Controls.Add(this.buttonSelectFile);
 			this.Controls.Add(this.label1);
 			this.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -123,7 +151,7 @@ namespace WonderEstimateExcel
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MainForm";
-			this.Text = "WonderWeb見積書 Excel出力（Ver1.04 2021/05/26）";
+			this.Text = "WonderWeb見積書 Excel出力（Ver1.05 2021/06/11）";
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDropZone)).EndInit();
 			this.ResumeLayout(false);
@@ -135,10 +163,12 @@ namespace WonderEstimateExcel
 
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button buttonSelectFile;
-		private System.Windows.Forms.Button buttonExcelOut;
+		private System.Windows.Forms.Button buttonEstimate;
 		private System.Windows.Forms.PictureBox pictureBoxDropZone;
 		private System.Windows.Forms.Label labelFilename;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Button buttonOrderSheet;
+		private System.Windows.Forms.Button buttonOrderConfirm;
 	}
 }
 

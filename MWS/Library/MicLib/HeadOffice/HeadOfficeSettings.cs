@@ -57,6 +57,31 @@ namespace MicLib.HeadOffice
 		public string Url { get; set; }
 
 		/// <summary>
+		/// 総合企画部企画課電話番号
+		/// </summary>
+		public string TelSogoKikaku { get; set; }
+
+		/// <summary>
+		/// 経理部電話番号
+		/// </summary>
+		public string TelKeiri { get; set; }
+
+		/// <summary>
+		/// SC折り返し用電話番号
+		/// </summary>
+		public string TelServiceCenter { get; set; }
+
+		/// <summary>
+		///営業管理部電話番号
+		/// </summary>
+		public string TelEigyoKanri { get; set; }
+
+		/// <summary>
+		///ヘルスケア営業部電話番号
+		/// </summary>
+		public string TelHealthcare { get; set; }
+
+		/// <summary>
 		/// 住所
 		/// </summary>
 		public string 住所
@@ -84,6 +109,11 @@ namespace MicLib.HeadOffice
 			Fax = string.Empty;
 			Email = string.Empty;
 			Url = string.Empty;
+			TelSogoKikaku = string.Empty;
+			TelKeiri = string.Empty;
+			TelServiceCenter = string.Empty;
+			TelEigyoKanri = string.Empty;
+			TelHealthcare = string.Empty;
 		}
 
 		/// <summary>
@@ -112,7 +142,12 @@ namespace MicLib.HeadOffice
 					&& Tel == other.Tel
 					&& Fax == other.Fax
 					&& Email == other.Email
-					&& Url == other.Url)
+					&& Url == other.Url
+					&& TelSogoKikaku == other.TelSogoKikaku
+					&& TelKeiri == other.TelKeiri
+					&& TelServiceCenter == other.TelServiceCenter
+					&& TelEigyoKanri == other.TelEigyoKanri
+					&& TelHealthcare == other.TelHealthcare)
 				{
 					return true;
 				}

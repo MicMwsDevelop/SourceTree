@@ -7,6 +7,7 @@
 // 
 // Ver1.00(2021/03/31):新規作成(勝呂)
 // Ver1.03(2021/05/19):リース金額が０円でリース期間が設定されている時に月額リース金額の取得でエラー発生(勝呂)
+// Ver1.05(2021/06/11):注文書と注文請書の出力機能を追加(勝呂)
 //
 using ClosedXML.Excel;
 using System;
@@ -99,26 +100,24 @@ namespace WonderEstimateExcel
 		}
 
 		/// <summary>
-		/// 見積書Excelファイル出力
+		/// 見積書CSVファイルの読込
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void buttonExcelOut_Click(object sender, EventArgs e)
+		/// <returns>見積書CSVファイル</returns>
+		private EstimateCsv ReadCsvFile()
 		{
+			EstimateCsv estimate = null;
+
 			if (0 == CsvPathname.Length)
 			{
 				MessageBox.Show(this, "見積書CSVファイルを指定してください。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
+				return null;
 			}
 			if (!File.Exists(CsvPathname))
 			{
 				MessageBox.Show(this, string.Format("{0}が見つかりません。", CsvPathname), "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
+				return null;
 			}
-			Cursor preCursor = Cursor.Current;
-			Cursor.Current = Cursors.WaitCursor;
-
-			EstimateCsv estimate = new EstimateCsv();
+			estimate = new EstimateCsv();
 			try
 			{
 				// WonderWeb見積書CSVファイルの読込み
@@ -130,19 +129,125 @@ namespace WonderEstimateExcel
 			catch (Exception ex)
 			{
 				MessageBox.Show(this, ex.Message, "CSVファイル読込エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return null;
+			}
+			return estimate;
+		}
+
+		/// <summary>
+		/// 見積書出力
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonEstimate_Click(object sender, EventArgs e)
+		{
+			Cursor preCursor = Cursor.Current;
+			Cursor.Current = Cursors.WaitCursor;
+
+			EstimateCsv estimate = ReadCsvFile();
+			if (null == estimate)
+			{
 				return;
 			}
 			try
 			{
 				// WonderWeb見積書.xlsx.orgを件名.xlmsにコピー
 				string srcPathname = Path.Combine(Directory.GetCurrentDirectory(), "WonderWeb見積書.xlsx.org");
-				string dstPathname = Path.Combine(Directory.GetCurrentDirectory(), estimate.Header.GetFilename);
+				string dstPathname = Path.Combine(Directory.GetCurrentDirectory(), estimate.Header.GetEstimateFilename);
 				File.Copy(srcPathname, dstPathname, true);
 
 				using (XLWorkbook wb = new XLWorkbook(dstPathname, XLEventTracking.Disabled))
 				{
-					// Excelファイルの出力
-					estimate.WriteExcelFile(wb);
+					// 見積書Excelファイルの出力
+					estimate.WriteEstimateExcelFile(wb);
+
+					// Excelファイルの保存
+					wb.SaveAs(dstPathname);
+
+					// Excelの起動
+					ProcessStartInfo pInfo = new ProcessStartInfo();
+					pInfo.FileName = dstPathname;
+					Process.Start(pInfo);
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, ex.Message, "Excelファイル書込エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			Cursor.Current = preCursor;
+		}
+
+		/// <summary>
+		/// 注文書出力
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.05(2021/06/11):注文書と注文請書の出力機能を追加(勝呂)
+		private void buttonOrderSheet_Click(object sender, EventArgs e)
+		{
+			Cursor preCursor = Cursor.Current;
+			Cursor.Current = Cursors.WaitCursor;
+
+			EstimateCsv estimate = ReadCsvFile();
+			if (null == estimate)
+			{
+				return;
+			}
+			try
+			{
+				// WonderWeb注文書.xlsx.orgを件名.xlmsにコピー
+				string srcPathname = Path.Combine(Directory.GetCurrentDirectory(), "WonderWeb注文書.xlsx.org");
+				string dstPathname = Path.Combine(Directory.GetCurrentDirectory(), estimate.Header.GetOrderSheetFilename);
+				File.Copy(srcPathname, dstPathname, true);
+
+				using (XLWorkbook wb = new XLWorkbook(dstPathname, XLEventTracking.Disabled))
+				{
+					// 注文書Excelファイルの出力
+					estimate.WriteOrderSheetExcelFile(wb);
+
+					// Excelファイルの保存
+					wb.SaveAs(dstPathname);
+
+					// Excelの起動
+					ProcessStartInfo pInfo = new ProcessStartInfo();
+					pInfo.FileName = dstPathname;
+					Process.Start(pInfo);
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, ex.Message, "Excelファイル書込エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			Cursor.Current = preCursor;
+		}
+
+		/// <summary>
+		/// 注文請書出力
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.05(2021/06/11):注文書と注文請書の出力機能を追加(勝呂)
+		private void buttonOrderConfirm_Click(object sender, EventArgs e)
+		{
+			Cursor preCursor = Cursor.Current;
+			Cursor.Current = Cursors.WaitCursor;
+
+			EstimateCsv estimate = ReadCsvFile();
+			if (null == estimate)
+			{
+				return;
+			}
+			try
+			{
+				// WonderWeb注文請書.xlsx.orgを件名.xlmsにコピー
+				string srcPathname = Path.Combine(Directory.GetCurrentDirectory(), "WonderWeb注文請書.xlsx.org");
+				string dstPathname = Path.Combine(Directory.GetCurrentDirectory(), estimate.Header.GetOrderConfirmFilename);
+				File.Copy(srcPathname, dstPathname, true);
+
+				using (XLWorkbook wb = new XLWorkbook(dstPathname, XLEventTracking.Disabled))
+				{
+					// 注文請書Excelファイルの出力
+					estimate.WriteOrderConfirmExcelFile(wb);
 
 					// Excelファイルの保存
 					wb.SaveAs(dstPathname);

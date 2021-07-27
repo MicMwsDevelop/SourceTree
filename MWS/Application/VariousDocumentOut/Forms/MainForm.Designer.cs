@@ -30,6 +30,7 @@ namespace VariousDocumentOut.Forms
 		private void InitializeComponent()
 		{
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.radioButton作業報告書 = new System.Windows.Forms.RadioButton();
 			this.radioアプラス預金口座振替依頼書 = new System.Windows.Forms.RadioButton();
 			this.radioPC安心サポート加入申込書 = new System.Windows.Forms.RadioButton();
 			this.radio二次キッティング依頼書 = new System.Windows.Forms.RadioButton();
@@ -53,12 +54,15 @@ namespace VariousDocumentOut.Forms
 			this.buttonClear = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			this.textBoxCustomerName = new System.Windows.Forms.TextBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.textBoxCustomerNo = new MwsLib.Component.NumericTextBox();
 			this.textBoxTokuisakiNo = new MwsLib.Component.NumericTextBox();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.radioButton作業報告書);
 			this.groupBox1.Controls.Add(this.radioアプラス預金口座振替依頼書);
 			this.groupBox1.Controls.Add(this.radioPC安心サポート加入申込書);
 			this.groupBox1.Controls.Add(this.radio二次キッティング依頼書);
@@ -80,9 +84,21 @@ namespace VariousDocumentOut.Forms
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.groupBox1.Size = new System.Drawing.Size(678, 334);
-			this.groupBox1.TabIndex = 6;
+			this.groupBox1.TabIndex = 8;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "各種書類";
+			// 
+			// radioButton作業報告書
+			// 
+			this.radioButton作業報告書.AutoSize = true;
+			this.radioButton作業報告書.Location = new System.Drawing.Point(24, 289);
+			this.radioButton作業報告書.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+			this.radioButton作業報告書.Name = "radioButton作業報告書";
+			this.radioButton作業報告書.Size = new System.Drawing.Size(91, 21);
+			this.radioButton作業報告書.TabIndex = 8;
+			this.radioButton作業報告書.Text = "作業報告書";
+			this.radioButton作業報告書.UseVisualStyleBackColor = true;
+			this.radioButton作業報告書.CheckedChanged += new System.EventHandler(this.radioButton作業報告書_CheckedChanged);
 			// 
 			// radioアプラス預金口座振替依頼書
 			// 
@@ -91,7 +107,7 @@ namespace VariousDocumentOut.Forms
 			this.radioアプラス預金口座振替依頼書.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.radioアプラス預金口座振替依頼書.Name = "radioアプラス預金口座振替依頼書";
 			this.radioアプラス預金口座振替依頼書.Size = new System.Drawing.Size(306, 21);
-			this.radioアプラス預金口座振替依頼書.TabIndex = 15;
+			this.radioアプラス預金口座振替依頼書.TabIndex = 16;
 			this.radioアプラス預金口座振替依頼書.Text = "アプラス預金口座振替依頼書・自動払込利用申込書";
 			this.radioアプラス預金口座振替依頼書.UseVisualStyleBackColor = true;
 			this.radioアプラス預金口座振替依頼書.CheckedChanged += new System.EventHandler(this.radioアプラス預金口座振替依頼書_CheckedChanged);
@@ -103,7 +119,7 @@ namespace VariousDocumentOut.Forms
 			this.radioPC安心サポート加入申込書.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.radioPC安心サポート加入申込書.Name = "radioPC安心サポート加入申込書";
 			this.radioPC安心サポート加入申込書.Size = new System.Drawing.Size(176, 21);
-			this.radioPC安心サポート加入申込書.TabIndex = 14;
+			this.radioPC安心サポート加入申込書.TabIndex = 15;
 			this.radioPC安心サポート加入申込書.Text = "PC安心サポート加入申込書";
 			this.radioPC安心サポート加入申込書.UseVisualStyleBackColor = true;
 			this.radioPC安心サポート加入申込書.CheckedChanged += new System.EventHandler(this.radioPC安心サポート加入申込書_CheckedChanged);
@@ -115,7 +131,7 @@ namespace VariousDocumentOut.Forms
 			this.radio二次キッティング依頼書.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.radio二次キッティング依頼書.Name = "radio二次キッティング依頼書";
 			this.radio二次キッティング依頼書.Size = new System.Drawing.Size(147, 21);
-			this.radio二次キッティング依頼書.TabIndex = 13;
+			this.radio二次キッティング依頼書.TabIndex = 14;
 			this.radio二次キッティング依頼書.Text = "二次キッティング依頼書";
 			this.radio二次キッティング依頼書.UseVisualStyleBackColor = true;
 			this.radio二次キッティング依頼書.CheckedChanged += new System.EventHandler(this.radio二次キッティング依頼書_CheckedChanged);
@@ -127,7 +143,7 @@ namespace VariousDocumentOut.Forms
 			this.radio納品補助作業依頼書.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.radio納品補助作業依頼書.Name = "radio納品補助作業依頼書";
 			this.radio納品補助作業依頼書.Size = new System.Drawing.Size(143, 21);
-			this.radio納品補助作業依頼書.TabIndex = 12;
+			this.radio納品補助作業依頼書.TabIndex = 13;
 			this.radio納品補助作業依頼書.Text = "納品補助作業依頼書";
 			this.radio納品補助作業依頼書.UseVisualStyleBackColor = true;
 			this.radio納品補助作業依頼書.CheckedChanged += new System.EventHandler(this.radio納品補助作業依頼書_CheckedChanged);
@@ -139,7 +155,7 @@ namespace VariousDocumentOut.Forms
 			this.radio第一園芸注文書.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.radio第一園芸注文書.Name = "radio第一園芸注文書";
 			this.radio第一園芸注文書.Size = new System.Drawing.Size(117, 21);
-			this.radio第一園芸注文書.TabIndex = 11;
+			this.radio第一園芸注文書.TabIndex = 12;
 			this.radio第一園芸注文書.Text = "第一園芸注文書";
 			this.radio第一園芸注文書.UseVisualStyleBackColor = true;
 			this.radio第一園芸注文書.CheckedChanged += new System.EventHandler(this.radio第一園芸注文書_CheckedChanged);
@@ -151,7 +167,7 @@ namespace VariousDocumentOut.Forms
 			this.radio変更届.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.radio変更届.Name = "radio変更届";
 			this.radio変更届.Size = new System.Drawing.Size(65, 21);
-			this.radio変更届.TabIndex = 10;
+			this.radio変更届.TabIndex = 11;
 			this.radio変更届.Text = "変更届";
 			this.radio変更届.UseVisualStyleBackColor = true;
 			this.radio変更届.CheckedChanged += new System.EventHandler(this.radio変更届_CheckedChanged);
@@ -163,7 +179,7 @@ namespace VariousDocumentOut.Forms
 			this.radio終了届.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.radio終了届.Name = "radio終了届";
 			this.radio終了届.Size = new System.Drawing.Size(65, 21);
-			this.radio終了届.TabIndex = 9;
+			this.radio終了届.TabIndex = 10;
 			this.radio終了届.Text = "終了届";
 			this.radio終了届.UseVisualStyleBackColor = true;
 			this.radio終了届.CheckedChanged += new System.EventHandler(this.radio終了届_CheckedChanged);
@@ -175,7 +191,7 @@ namespace VariousDocumentOut.Forms
 			this.radio請求先変更届.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.radio請求先変更届.Name = "radio請求先変更届";
 			this.radio請求先変更届.Size = new System.Drawing.Size(104, 21);
-			this.radio請求先変更届.TabIndex = 8;
+			this.radio請求先変更届.TabIndex = 9;
 			this.radio請求先変更届.Text = "請求先変更届";
 			this.radio請求先変更届.UseVisualStyleBackColor = true;
 			this.radio請求先変更届.CheckedChanged += new System.EventHandler(this.radio請求先変更届_CheckedChanged);
@@ -284,7 +300,7 @@ namespace VariousDocumentOut.Forms
 			this.buttonOutputExcel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonOutputExcel.Name = "buttonOutputExcel";
 			this.buttonOutputExcel.Size = new System.Drawing.Size(169, 59);
-			this.buttonOutputExcel.TabIndex = 7;
+			this.buttonOutputExcel.TabIndex = 9;
 			this.buttonOutputExcel.Text = "EXCEL出力";
 			this.buttonOutputExcel.UseVisualStyleBackColor = true;
 			this.buttonOutputExcel.Click += new System.EventHandler(this.buttonOutputExcel_Click);
@@ -295,7 +311,7 @@ namespace VariousDocumentOut.Forms
 			this.buttonExit.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonExit.Name = "buttonExit";
 			this.buttonExit.Size = new System.Drawing.Size(169, 59);
-			this.buttonExit.TabIndex = 8;
+			this.buttonExit.TabIndex = 10;
 			this.buttonExit.Text = "閉じる";
 			this.buttonExit.UseVisualStyleBackColor = true;
 			this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
@@ -305,28 +321,28 @@ namespace VariousDocumentOut.Forms
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(19, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(65, 17);
+			this.label1.Size = new System.Drawing.Size(73, 17);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "得意先No";
+			this.label1.Text = "得意先番号";
 			// 
 			// buttonSearch
 			// 
-			this.buttonSearch.Location = new System.Drawing.Point(166, 30);
+			this.buttonSearch.Location = new System.Drawing.Point(313, 28);
 			this.buttonSearch.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonSearch.Name = "buttonSearch";
 			this.buttonSearch.Size = new System.Drawing.Size(99, 29);
-			this.buttonSearch.TabIndex = 2;
+			this.buttonSearch.TabIndex = 4;
 			this.buttonSearch.Text = "検索";
 			this.buttonSearch.UseVisualStyleBackColor = true;
 			this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
 			// 
 			// buttonClear
 			// 
-			this.buttonClear.Location = new System.Drawing.Point(271, 30);
+			this.buttonClear.Location = new System.Drawing.Point(418, 28);
 			this.buttonClear.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.buttonClear.Name = "buttonClear";
 			this.buttonClear.Size = new System.Drawing.Size(99, 29);
-			this.buttonClear.TabIndex = 3;
+			this.buttonClear.TabIndex = 5;
 			this.buttonClear.Text = "クリア";
 			this.buttonClear.UseVisualStyleBackColor = true;
 			this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
@@ -337,7 +353,7 @@ namespace VariousDocumentOut.Forms
 			this.label2.Location = new System.Drawing.Point(19, 67);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(47, 17);
-			this.label2.TabIndex = 4;
+			this.label2.TabIndex = 6;
 			this.label2.Text = "顧客名";
 			// 
 			// textBoxCustomerName
@@ -350,7 +366,26 @@ namespace VariousDocumentOut.Forms
 			this.textBoxCustomerName.Name = "textBoxCustomerName";
 			this.textBoxCustomerName.ReadOnly = true;
 			this.textBoxCustomerName.Size = new System.Drawing.Size(652, 23);
-			this.textBoxCustomerName.TabIndex = 5;
+			this.textBoxCustomerName.TabIndex = 7;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(166, 9);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(52, 17);
+			this.label3.TabIndex = 2;
+			this.label3.Text = "顧客No";
+			// 
+			// textBoxCustomerNo
+			// 
+			this.textBoxCustomerNo.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.textBoxCustomerNo.Location = new System.Drawing.Point(166, 31);
+			this.textBoxCustomerNo.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+			this.textBoxCustomerNo.MaxLength = 8;
+			this.textBoxCustomerNo.Name = "textBoxCustomerNo";
+			this.textBoxCustomerNo.Size = new System.Drawing.Size(141, 26);
+			this.textBoxCustomerNo.TabIndex = 3;
 			// 
 			// textBoxTokuisakiNo
 			// 
@@ -367,6 +402,8 @@ namespace VariousDocumentOut.Forms
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(715, 538);
+			this.Controls.Add(this.label3);
+			this.Controls.Add(this.textBoxCustomerNo);
 			this.Controls.Add(this.textBoxCustomerName);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.buttonClear);
@@ -377,6 +414,7 @@ namespace VariousDocumentOut.Forms
 			this.Controls.Add(this.buttonOutputExcel);
 			this.Controls.Add(this.groupBox1);
 			this.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
@@ -416,6 +454,9 @@ namespace VariousDocumentOut.Forms
 		private System.Windows.Forms.Button buttonClear;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox textBoxCustomerName;
+		private System.Windows.Forms.RadioButton radioButton作業報告書;
+		private System.Windows.Forms.Label label3;
+		private MwsLib.Component.NumericTextBox textBoxCustomerNo;
 	}
 }
 

@@ -17,6 +17,11 @@ namespace MwsLib.DB.SqlServer.Charlie
 	public static class CharlieDatabaseDefine
 	{
 		/// <summary>
+		/// データベース名
+		/// </summary>
+		static private string DatabaseName = "charlieDB.dbo";
+
+		/// <summary>
 		/// テーブル種別 
 		/// </summary>
 		public enum TableType
@@ -72,15 +77,15 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// </summary>
 		public static readonly EnumDictionary<TableType, string> TableName = new EnumDictionary<TableType, string>()
 		{
-			{ TableType.T_PRODUCT_CONTROL, "T_PRODUCT_CONTROL" },
-			{ TableType.T_CUSSTOMER_USE_INFOMATION, "T_CUSSTOMER_USE_INFOMATION" },
-			{ TableType.T_USE_PCCSUPPORT, "T_USE_PCCSUPPORT" },
-			{ TableType.T_DEMO_USER, "T_DEMO_USER" },
-			{ TableType.T_LICENSE_PRODUCT_CONTRACT, "T_LICENSE_PRODUCT_CONTRACT" },
-			{ TableType.M_SERVICE, "M_SERVICE" },
-			{ TableType.T_USE_CONTRACT_HEADER, "T_USE_CONTRACT_HEADER" },
-			{ TableType.T_USE_CONTRACT_DETAIL, "T_USE_CONTRACT_DETAIL" },
-			{ TableType.売上実績, "売上実績" },
+			{ TableType.T_PRODUCT_CONTROL, string.Format("{0}.T_PRODUCT_CONTROL", DatabaseName) },
+			{ TableType.T_CUSSTOMER_USE_INFOMATION, string.Format("{0}.T_CUSSTOMER_USE_INFOMATION", DatabaseName) },
+			{ TableType.T_USE_PCCSUPPORT, string.Format("{0}.T_USE_PCCSUPPORT", DatabaseName) },
+			{ TableType.T_DEMO_USER, string.Format("{0}.T_DEMO_USER", DatabaseName) },
+			{ TableType.T_LICENSE_PRODUCT_CONTRACT, string.Format("{0}.T_LICENSE_PRODUCT_CONTRACT", DatabaseName) },
+			{ TableType.M_SERVICE, string.Format("{0}.M_SERVICE", DatabaseName) },
+			{ TableType.T_USE_CONTRACT_HEADER, string.Format("{0}.T_USE_CONTRACT_HEADER", DatabaseName) },
+			{ TableType.T_USE_CONTRACT_DETAIL, string.Format("{0}.T_USE_CONTRACT_DETAIL", DatabaseName) },
+			{ TableType.売上実績, string.Format("{0}.売上実績", DatabaseName) },
 		};
 
 		/// <summary>
@@ -99,10 +104,10 @@ namespace MwsLib.DB.SqlServer.Charlie
 		/// </summary>
 		public static readonly EnumDictionary<ViewType, string> ViewName = new EnumDictionary<ViewType, string>()
 		{
-			{ ViewType.支店情報参照ビュー, "支店情報参照ビュー" },
-			{ ViewType.V_COUPLER_APPLY, "V_COUPLER_APPLY" },
-			{ ViewType.V_CLIENT_INFO, "V_CLIENT_INFO" },
-			{ ViewType.view_MWS顧客情報, "view_MWS顧客情報" },
+			{ ViewType.支店情報参照ビュー, string.Format("{0}.支店情報参照ビュー", DatabaseName) },
+			{ ViewType.V_COUPLER_APPLY, string.Format("{0}.V_COUPLER_APPLY", DatabaseName) },
+			{ ViewType.V_CLIENT_INFO, string.Format("{0}.V_CLIENT_INFO", DatabaseName) },
+			{ ViewType.view_MWS顧客情報, string.Format("{0}.view_MWS顧客情報", DatabaseName) },
 		};
 	}
 }

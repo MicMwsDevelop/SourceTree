@@ -90,6 +90,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="WonderWeb注文書.xlsx.org">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="WonderWeb注文請書.xlsx.org">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="WonderWeb見積書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -100,6 +106,7 @@
   <ItemGroup>
     <Content Include="Properties\CsvFile.png" />
     <Content Include="Properties\DropMassage.png" />
+    <None Include="Properties\seal.png" />
     <None Include="Properties\MicLogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

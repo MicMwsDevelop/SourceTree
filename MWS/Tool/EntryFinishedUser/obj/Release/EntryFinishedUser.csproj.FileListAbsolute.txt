@@ -11,7 +11,6 @@ D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.Propertie
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csproj.GenerateResource.Cache
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.exe
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.pdb
-D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csprojAssemblyReference.cache
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csproj.CopyComplete
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csproj.CoreCompileInputs.cache
 D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.Forms.MainForm.resources
@@ -23,3 +22,4 @@ D:\SourceTree\MWS\Tool\EntryFinishedUser\bin\Release\ClosedXML.pdb
 D:\SourceTree\MWS\Tool\EntryFinishedUser\bin\Release\ClosedXML.xml
 D:\SourceTree\MWS\Tool\EntryFinishedUser\bin\Release\DocumentFormat.OpenXml.xml
 D:\SourceTree\MWS\Tool\EntryFinishedUser\bin\Release\ExcelNumberFormat.xml
+D:\SourceTree\MWS\Tool\EntryFinishedUser\obj\Release\EntryFinishedUser.csproj.AssemblyReference.cache

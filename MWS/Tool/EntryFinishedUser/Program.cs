@@ -46,7 +46,7 @@ namespace EntryFinishedUser
 			/// ①課金対象外フラグＯＦＦ
 			/// ×②終了予定ユーザーリストメール送信
 			/// </summary>
-			ThisMonthFiniedUser = 1,
+			//ThisMonthFiniedUser = 1,
 
 			/// <summary>
 			/// 終了ユーザー処理自動実行モード
@@ -62,7 +62,7 @@ namespace EntryFinishedUser
 			/// ①他サービス契約中の確認
 			/// ②契約中ユーザーリストメール送信
 			/// </summary>
-			CheckContractService = 3,
+			//CheckContractService = 3,
 		}
 
 		/// <summary>
@@ -116,18 +116,19 @@ namespace EntryFinishedUser
 			string[] cmds = Environment.GetCommandLineArgs();
 			if (2 <= cmds.Length)
 			{
-				if ("1" == cmds[1])
-				{
-					//BootType = ProgramBootType.ThisMonthFiniedUser;
-				}
-				else if ("2" == cmds[1])
+				//if ("1" == cmds[1])
+				//{
+				//	BootType = ProgramBootType.ThisMonthFiniedUser;
+				//}
+				//else 
+				if ("2" == cmds[1])
 				{
 					BootType = ProgramBootType.PrevMonthFiniedUser;
 				}
-				else if ("3" == cmds[1])
-				{
-					BootType = ProgramBootType.CheckContractService;
-				}
+				//else if ("3" == cmds[1])
+				//{
+				//	BootType = ProgramBootType.CheckContractService;
+				//}
 				if (3 == cmds.Length)
 				{
 					// システム日付
@@ -443,171 +444,171 @@ namespace EntryFinishedUser
 			}
 		}
 
-		/// <summary>
-		/// 契約中サービスの確認
-		/// タイミング：終了月が翌月のユーザーに対し、他サービス契約中のリストをメールにて注意喚起
-		/// ①他サービス契約中の確認
-		/// ②契約中ユーザーリストメール送信
-		/// </summary>
-		/// <param name="date">当日</param>
-		private static void CheckContractService(Date date)
-		{
-			IEnumerable<EntryFinishedUserData> list = EntryFinishedUserAccess.GetEntryFinishedUserDataList(DATABACE_ACCEPT_CT);
-			if (0 < list.Count())
-			{
-				YearMonth thisMonth = date.ToYearMonth();
-				List<EntryFinishedUserData> finisherList = list.Where(p => true == p.IsNextMonthFinishedUser(thisMonth)).ToList();
-				if (0 < finisherList.Count())
-				{
-					// サービス契約中リストの取得
-					List<ContractServiceUser> contractUserList = GetContractServiceUserList(finisherList);
+		///// <summary>
+		///// 契約中サービスの確認
+		///// タイミング：終了月が翌月のユーザーに対し、他サービス契約中のリストをメールにて注意喚起
+		///// ①他サービス契約中の確認
+		///// ②契約中ユーザーリストメール送信
+		///// </summary>
+		///// <param name="date">当日</param>
+		//private static void CheckContractService(Date date)
+		//{
+		//	IEnumerable<EntryFinishedUserData> list = EntryFinishedUserAccess.GetEntryFinishedUserDataList(DATABACE_ACCEPT_CT);
+		//	if (0 < list.Count())
+		//	{
+		//		YearMonth thisMonth = date.ToYearMonth();
+		//		List<EntryFinishedUserData> finisherList = list.Where(p => true == p.IsNextMonthFinishedUser(thisMonth)).ToList();
+		//		if (0 < finisherList.Count())
+		//		{
+		//			// サービス契約中リストの取得
+		//			List<ContractServiceUser> contractUserList = GetContractServiceUserList(finisherList);
 
-					// 翌月終了ユーザー サービス契約中リスト メール送信（営業管理部宛て）
-					SendMailControl.SendContractServiceMailNextMonth(contractUserList);
-				}
-			}
-		}
+		//			// 翌月終了ユーザー サービス契約中リスト メール送信（営業管理部宛て）
+		//			SendMailControl.SendContractServiceMailNextMonth(contractUserList);
+		//		}
+		//	}
+		//}
 
-		/// <summary>
-		/// サービス契約中リストの取得
-		/// </summary>
-		/// <param name="finisherList">終了ユーザーリスト</param>
-		/// <returns>サービス契約中リスト</returns>
-		private static List<ContractServiceUser> GetContractServiceUserList(List<EntryFinishedUserData> finisherList)
-		{
-			List<int> checkList = (from user in finisherList orderby user.CustomerID select user.CustomerID).ToList();
-			List<ContractServiceUser> ret = new List<ContractServiceUser>();
+		///// <summary>
+		///// サービス契約中リストの取得
+		///// </summary>
+		///// <param name="finisherList">終了ユーザーリスト</param>
+		///// <returns>サービス契約中リスト</returns>
+		//private static List<ContractServiceUser> GetContractServiceUserList(List<EntryFinishedUserData> finisherList)
+		//{
+		//	List<int> checkList = (from user in finisherList orderby user.CustomerID select user.CustomerID).ToList();
+		//	List<ContractServiceUser> ret = new List<ContractServiceUser>();
 
-			// ESET月額版
-			List<T_LICENSE_PRODUCT_CONTRACT> esetList = Program.ContractServiceESET(checkList);
-			if (null != esetList)
-			{
-				foreach (T_LICENSE_PRODUCT_CONTRACT eset in esetList)
-				{
-					int index = finisherList.FindIndex(p => p.CustomerID == eset.CUSTOMER_ID);
-					if (-1 != index)
-					{
-						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
-						contract.ServiceID = eset.SERVICE_ID.ToString();
-						contract.ServiceName = CharlieDatabaseAccess.GetServiceName(eset.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
-						contract.StartDate = eset.START_DATE;
-						contract.EndDate = eset.END_DATE;
-						ret.Add(contract);
-					}
-				}
-			}
-			// PC安心サポート
-			List<T_USE_PCCSUPPORT> pcList = Program.ContractServicePcSupport(finisherList);
-			if (null != pcList)
-			{
-				foreach (T_USE_PCCSUPPORT pc in pcList)
-				{
-					int index = finisherList.FindIndex(p => p.CustomerID == pc.fCustomerID);
-					if (-1 != index)
-					{
-						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
-						contract.ServiceID = pc.fServiceId.ToString();
-						contract.ServiceName = string.Format("PC安心サポート({0})", CharlieDatabaseAccess.GetServiceName(pc.fServiceId, Program.DATABACE_ACCEPT_CT));
-						if (pc.fContractStartDate.HasValue)
-						{
-							contract.StartDate = pc.fContractStartDate.Value.ToDateTime();
-						}
-						if (pc.fContractEndDate.HasValue)
-						{
-							contract.EndDate = pc.fContractEndDate.Value.ToDateTime();
-						}
-						ret.Add(contract);
-					}
-				}
-			}
-			// ナルコーム製品
-			List<T_CUSSTOMER_USE_INFOMATION> cuiList = Program.ContractServiceNarcohm(checkList);
-			if (null != cuiList)
-			{
-				foreach (T_CUSSTOMER_USE_INFOMATION cui in cuiList)
-				{
-					int index = finisherList.FindIndex(p => p.CustomerID == cui.CUSTOMER_ID);
-					if (-1 != index)
-					{
-						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
-						contract.ServiceID = cui.SERVICE_ID.ToString();
-						contract.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
-						contract.StartDate = cui.USE_START_DATE;
-						contract.EndDate = cui.USE_END_DATE;
-						ret.Add(contract);
-					}
-				}
-			}
-			// Microsoft365製品
-			cuiList = Program.ContractService365(checkList);
-			if (null != cuiList)
-			{
-				foreach (T_CUSSTOMER_USE_INFOMATION cui in cuiList)
-				{
-					int index = finisherList.FindIndex(p => p.CustomerID == cui.CUSTOMER_ID);
-					if (-1 != index)
-					{
-						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
-						contract.ServiceID = cui.SERVICE_ID.ToString();
-						contract.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
-						contract.StartDate = cui.USE_START_DATE;
-						contract.EndDate = cui.USE_END_DATE;
-						ret.Add(contract);
-					}
-				}
-			}
-			// Curlineクラウド
-			List<int> noList = Program.ContractServiceCurlineCloud();
-			if (null != noList)
-			{
-				foreach (int no in noList)
-				{
-					int index = finisherList.FindIndex(p => p.CustomerID == no);
-					if (-1 != index)
-					{
-						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
-						contract.ServiceID = PcaGoodsIDDefine.MwsCurlineCloud;
-						contract.ServiceName = "MWS Curline ｸﾗｳﾄﾞ利用料(月額)";
-						ret.Add(contract);
-					}
-				}
-			}
-			// はなはなし購読
-			noList = Program.ContractServiceHanahanashi();
-			if (null != noList)
-			{
-				foreach (int no in noList)
-				{
-					int index = finisherList.FindIndex(p => p.CustomerID == no);
-					if (-1 != index)
-					{
-						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
-						contract.ServiceID = PcaGoodsIDDefine.Hanahanashi;
-						contract.ServiceName = "はなはなし";
-						ret.Add(contract);
-					}
-				}
-			}
-			// 介護連携、介護伝送
-			cuiList = Program.ContractServiceKaigo(checkList);
-			if (null != cuiList)
-			{
-				foreach (T_CUSSTOMER_USE_INFOMATION cui in cuiList)
-				{
-					int index = finisherList.FindIndex(p => p.CustomerID == cui.CUSTOMER_ID);
-					if (-1 != index)
-					{
-						ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
-						contract.ServiceID = cui.SERVICE_ID.ToString();
-						contract.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
-						contract.StartDate = cui.USE_START_DATE;
-						contract.EndDate = cui.USE_END_DATE;
-						ret.Add(contract);
-					}
-				}
-			}
-			return ret;
-		}
+		//	// ESET月額版
+		//	List<T_LICENSE_PRODUCT_CONTRACT> esetList = Program.ContractServiceESET(checkList);
+		//	if (null != esetList)
+		//	{
+		//		foreach (T_LICENSE_PRODUCT_CONTRACT eset in esetList)
+		//		{
+		//			int index = finisherList.FindIndex(p => p.CustomerID == eset.CUSTOMER_ID);
+		//			if (-1 != index)
+		//			{
+		//				ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+		//				contract.ServiceID = eset.SERVICE_ID.ToString();
+		//				contract.ServiceName = CharlieDatabaseAccess.GetServiceName(eset.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
+		//				contract.StartDate = eset.START_DATE;
+		//				contract.EndDate = eset.END_DATE;
+		//				ret.Add(contract);
+		//			}
+		//		}
+		//	}
+		//	// PC安心サポート
+		//	List<T_USE_PCCSUPPORT> pcList = Program.ContractServicePcSupport(finisherList);
+		//	if (null != pcList)
+		//	{
+		//		foreach (T_USE_PCCSUPPORT pc in pcList)
+		//		{
+		//			int index = finisherList.FindIndex(p => p.CustomerID == pc.fCustomerID);
+		//			if (-1 != index)
+		//			{
+		//				ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+		//				contract.ServiceID = pc.fServiceId.ToString();
+		//				contract.ServiceName = string.Format("PC安心サポート({0})", CharlieDatabaseAccess.GetServiceName(pc.fServiceId, Program.DATABACE_ACCEPT_CT));
+		//				if (pc.fContractStartDate.HasValue)
+		//				{
+		//					contract.StartDate = pc.fContractStartDate.Value.ToDateTime();
+		//				}
+		//				if (pc.fContractEndDate.HasValue)
+		//				{
+		//					contract.EndDate = pc.fContractEndDate.Value.ToDateTime();
+		//				}
+		//				ret.Add(contract);
+		//			}
+		//		}
+		//	}
+		//	// ナルコーム製品
+		//	List<T_CUSSTOMER_USE_INFOMATION> cuiList = Program.ContractServiceNarcohm(checkList);
+		//	if (null != cuiList)
+		//	{
+		//		foreach (T_CUSSTOMER_USE_INFOMATION cui in cuiList)
+		//		{
+		//			int index = finisherList.FindIndex(p => p.CustomerID == cui.CUSTOMER_ID);
+		//			if (-1 != index)
+		//			{
+		//				ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+		//				contract.ServiceID = cui.SERVICE_ID.ToString();
+		//				contract.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
+		//				contract.StartDate = cui.USE_START_DATE;
+		//				contract.EndDate = cui.USE_END_DATE;
+		//				ret.Add(contract);
+		//			}
+		//		}
+		//	}
+		//	// Microsoft365製品
+		//	cuiList = Program.ContractService365(checkList);
+		//	if (null != cuiList)
+		//	{
+		//		foreach (T_CUSSTOMER_USE_INFOMATION cui in cuiList)
+		//		{
+		//			int index = finisherList.FindIndex(p => p.CustomerID == cui.CUSTOMER_ID);
+		//			if (-1 != index)
+		//			{
+		//				ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+		//				contract.ServiceID = cui.SERVICE_ID.ToString();
+		//				contract.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
+		//				contract.StartDate = cui.USE_START_DATE;
+		//				contract.EndDate = cui.USE_END_DATE;
+		//				ret.Add(contract);
+		//			}
+		//		}
+		//	}
+		//	// Curlineクラウド
+		//	List<int> noList = Program.ContractServiceCurlineCloud();
+		//	if (null != noList)
+		//	{
+		//		foreach (int no in noList)
+		//		{
+		//			int index = finisherList.FindIndex(p => p.CustomerID == no);
+		//			if (-1 != index)
+		//			{
+		//				ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+		//				contract.ServiceID = PcaGoodsIDDefine.MwsCurlineCloud;
+		//				contract.ServiceName = "MWS Curline ｸﾗｳﾄﾞ利用料(月額)";
+		//				ret.Add(contract);
+		//			}
+		//		}
+		//	}
+		//	// はなはなし購読
+		//	noList = Program.ContractServiceHanahanashi();
+		//	if (null != noList)
+		//	{
+		//		foreach (int no in noList)
+		//		{
+		//			int index = finisherList.FindIndex(p => p.CustomerID == no);
+		//			if (-1 != index)
+		//			{
+		//				ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+		//				contract.ServiceID = PcaGoodsIDDefine.Hanahanashi;
+		//				contract.ServiceName = "はなはなし";
+		//				ret.Add(contract);
+		//			}
+		//		}
+		//	}
+		//	// 介護連携、介護伝送
+		//	cuiList = Program.ContractServiceKaigo(checkList);
+		//	if (null != cuiList)
+		//	{
+		//		foreach (T_CUSSTOMER_USE_INFOMATION cui in cuiList)
+		//		{
+		//			int index = finisherList.FindIndex(p => p.CustomerID == cui.CUSTOMER_ID);
+		//			if (-1 != index)
+		//			{
+		//				ContractServiceUser contract = new ContractServiceUser(finisherList[index]);
+		//				contract.ServiceID = cui.SERVICE_ID.ToString();
+		//				contract.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.DATABACE_ACCEPT_CT);
+		//				contract.StartDate = cui.USE_START_DATE;
+		//				contract.EndDate = cui.USE_END_DATE;
+		//				ret.Add(contract);
+		//			}
+		//		}
+		//	}
+		//	return ret;
+		//}
 
 		/// <summary>
 		/// 契約中サービス確認 - ESET月額版

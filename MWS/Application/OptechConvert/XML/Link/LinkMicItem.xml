@@ -1,0 +1,334 @@
+﻿<LinkMicItem>
+<初診>処置_初診</初診> 
+<再診>処置_再診</再診> 
+
+<!-- 2008/11追加 -->
+<LinkInfo Type="処置_歯科疾患管理_１回目" MicItem="H00302" />
+<LinkInfo Type="処置_歯科疾患管理_２回目以降" MicItem="H00303" />
+<LinkInfo Type="処置_歯科疾患管理" MicItem="H00304" />
+<LinkInfo Type="処置_機械的歯面清掃加算" MicItem="H00312" />
+<LinkInfo Type="処置_歯科疾患継続指導料" MicItem="H00313" />
+<LinkInfo Type="処置_歯科疾患継続管理診断料" MicItem="H00540" />
+<LinkInfo Type="処置_直接覆罩" MicItem="H01131" />
+<LinkInfo Type="処置_補綴物維持管理料_歯冠補綴" MicItem="H00510" />
+<LinkInfo Type="処置_補綴物維持管理料_Ｂｒ5歯以下" MicItem="H00511" />
+<LinkInfo Type="処置_補綴物維持管理料_Ｂｒ6歯以上" MicItem="H00512" />
+<LinkInfo Type="処置_クラウン14Ｋ_前歯 3_4 冠" MicItem="H05420" />
+<LinkInfo Type="処置_クラウン12_パラ大_4_5 冠" MicItem="H05530" />
+<LinkInfo Type="処置_クラウン12_パラ大_ＦＣＫ" MicItem="H05540" />
+<LinkInfo Type="処置_クラウン12_パラ前_前歯 3_4 冠" MicItem="H05570" />
+<LinkInfo Type="処置_クラウン12_パラ小_4_5 冠" MicItem="H05580" />
+<LinkInfo Type="処置_クラウン12_パラ小_ＦＣＫ" MicItem="H05590" />
+<LinkInfo Type="処置_クラウン銀大_4_5 冠" MicItem="H05730" />
+<LinkInfo Type="処置_クラウン銀大_ＦＣＫ7" MicItem="H05740" />
+<LinkInfo Type="処置_クラウン銀前_前歯 3_4 冠" MicItem="H05770" />
+<LinkInfo Type="処置_クラウン銀小_4_5 冠" MicItem="H05780" />
+<LinkInfo Type="処置_クラウン銀小_ＦＣＫ" MicItem="H05790" />
+<LinkInfo Type="処置_前装鋳造冠12_パラ" MicItem="H05930" />
+<LinkInfo Type="処置_前装鋳造冠銀合金" MicItem="H05950" />
+<LinkInfo Type="処置_前装鋳造冠ニッケル" MicItem="H05940" />
+<LinkInfo Type="処置_接着冠14Ｋ" MicItem="" />
+<LinkInfo Type="処置_接着冠12 パラ" MicItem="" />
+<LinkInfo Type="処置_接着冠銀" MicItem="" />
+<LinkInfo Type="処置_接着冠ニッケル" MicItem="" />
+<LinkInfo Type="処置_乳歯金属冠" MicItem="H06210" />
+<LinkInfo Type="処置_ジャケット冠" MicItem="H06220" />
+<LinkInfo Type="処置_硬質レジンジャケット冠_加熱重合" MicItem="H06232" />
+<LinkInfo Type="処置_硬質レジンジャケット冠_光重合" MicItem="H06231" />
+<LinkInfo Type="処置_有床義歯_1_4歯" MicItem="H06610" />
+<LinkInfo Type="処置_有床義歯_5_8歯" MicItem="H06620" />
+<LinkInfo Type="処置_有床義歯_9_1歯" MicItem="H06630" />
+<LinkInfo Type="処置_有床義歯_12_14歯" MicItem="H06640" />
+<LinkInfo Type="処置_有床義歯_総義歯" MicItem="H06655" />
+<LinkInfo Type="処置_歯科矯正診断料" MicItem="H35001" />
+<LinkInfo Type="処置_顎口腔機能診断料" MicItem="H35002" />
+<LinkInfo Type="処置_上顎マルチブラケット装置ステップ I" MicItem="" />
+<LinkInfo Type="処置_下顎マルチブラケット装置ステップ I" MicItem="" />
+<LinkInfo Type="処置_動的処置" MicItem="" />
+<LinkInfo Type="処置_新製義歯調整料" MicItem="H00388" />
+<LinkInfo Type="処置_新製義歯調整料_選療" MicItem="" />
+<LinkInfo Type="処置_義管A" MicItem="H00437" />
+<LinkInfo Type="処置_義管A_選療" MicItem="" />
+<LinkInfo Type="処置_歯周基本検査_1歯以上10歯未満" MicItem="H01040" />
+<LinkInfo Type="処置_歯周基本検査_10歯以上20歯未満" MicItem="H01041" />
+<LinkInfo Type="処置_歯周基本検査_20歯以上" MicItem="H01042" />
+<LinkInfo Type="処置_歯周精密検査_1歯以上10歯未満" MicItem="H01050" />
+<LinkInfo Type="処置_歯周精密検査_10歯以上20歯未満" MicItem="H01051" />
+<LinkInfo Type="処置_歯周精密検査_20歯以上" MicItem="H01052" />
+<LinkInfo Type="処置_歯周基本検査_1歯以上10歯未満_50_100" MicItem="H01043" />
+<LinkInfo Type="処置_歯周基本検査_10歯以上20歯未満_50_100" MicItem="H01044" />
+<LinkInfo Type="処置_歯周基本検査_20歯以上_50_100" MicItem="H01045" />
+<LinkInfo Type="処置_歯周精密検査_1歯以上10歯未満_50_100" MicItem="H01053" />
+<LinkInfo Type="処置_歯周精密検査_10歯以上20歯未満_50_100" MicItem="H01054" />
+<LinkInfo Type="処置_歯周精密検査_20歯以上_50_100" MicItem="H01055" />
+<LinkInfo Type="処置_スケーリング" MicItem="H01631" />
+<LinkInfo Type="処置_スケーリング_加算" MicItem="H01632" />
+<LinkInfo Type="処置_SRP_前歯" MicItem="H01641" />
+<LinkInfo Type="処置_SRP_小臼歯" MicItem="H01642" />
+<LinkInfo Type="処置_SRP_大臼歯" MicItem="H01643" />
+<LinkInfo Type="処置_PCur_前歯" MicItem="H01651" />
+<LinkInfo Type="処置_PCur_小臼歯" MicItem="H01652" />
+<LinkInfo Type="処置_PCur_大臼歯" MicItem="H01653" />
+<LinkInfo Type="処置_歯周安定期治療_１年以内" MicItem="H01672" />
+<LinkInfo Type="処置_歯周安定期治療_１年超２年以内" MicItem="H01673" />
+<LinkInfo Type="処置_歯周安定期治療_２年超３年以内" MicItem="H01674" />
+<LinkInfo Type="処置_初診" MicItem="H00100" />
+<LinkInfo Type="処置_再診" MicItem="H00200" />
+<LinkInfo Type="処置_検診" MicItem="" />
+<LinkInfo Type="処置_学校検診" MicItem="" />
+<LinkInfo Type="処置_パントモ15x30" MicItem="" />
+<LinkInfo Type="処置_パントモ20_3x30_5" MicItem="" />
+<LinkInfo Type="処置_パントモ電" MicItem="" />
+
+<!-- 2010/10追加 --> 
+<LinkInfo Type="処置_補綴時診断" MicItem="H04110" />
+<LinkInfo Type="処置_歯周ポケット掻爬術" MicItem="H01970" />
+<LinkInfo Type="処置_GEct" MicItem="H01741" />
+<LinkInfo Type="処置_FOp" MicItem="H01961" />
+<LinkInfo Type="処置_新付着手術" MicItem="H01971" />
+<LinkInfo Type="処置_歯周組織再生誘導手術_1次手術" MicItem="H01984" />
+<LinkInfo Type="処置_歯周組織再生誘導手術_2次手術" MicItem="H01985" />
+<LinkInfo Type="処置_有床義歯熱可塑性樹脂_1_4歯" MicItem="H06612" />
+<LinkInfo Type="処置_有床義歯熱可塑性樹脂_5_8歯" MicItem="H06622" />
+<LinkInfo Type="処置_有床義歯熱可塑性樹脂_9_11歯" MicItem="H06632" />
+<LinkInfo Type="処置_有床義歯熱可塑性樹脂_12_14歯" MicItem="H06642" />
+<LinkInfo Type="処置_有床義歯熱可塑性樹脂_総義歯" MicItem="H06657" />
+<LinkInfo Type="処置_機械的歯面清掃加算_在宅" MicItem="" />
+<LinkInfo Type="処置_在宅患者等急性歯科疾患対応加算初診" MicItem="H00183" />
+<LinkInfo Type="処置_在宅患者等急性歯科疾患対応加算再診 1 回目" MicItem="H00282" />
+<LinkInfo Type="処置_在宅患者等急性歯科疾患対応加算再診 2 回目以降" MicItem="H00283" />
+<LinkInfo Type="処置_在宅診療_在宅患者等急性歯科疾患対応加算 1 回目" MicItem="H00485" />
+<LinkInfo Type="処置_在宅診療_在宅患者等急性歯科疾患対応加算 2 回目以降" MicItem="H00486" />
+<LinkInfo Type="処置_X線審査時標準_フィルム" MicItem="" />
+<LinkInfo Type="処置_X線審査時標準_電" MicItem="" />
+
+<!-- 2011/12追加 --> 
+<LinkInfo Type="処置_混合歯列期歯周組織検査" MicItem="H01057" />
+<LinkInfo Type="処置_混合歯列期歯周組織検査_50_100" MicItem="H01058" />
+<LinkInfo Type="処置_フッ化物局所応用" MicItem="H00322" />
+<LinkInfo Type="処置_フッ化物洗口" MicItem="H00328" />
+
+<!-- 2012/01追加 --> 
+<LinkInfo Type="処置_上顎床装置_簡単" MicItem="" />
+<LinkInfo Type="処置_下顎床装置_簡単" MicItem="" />
+<LinkInfo Type="処置_上顎床装置_複雑" MicItem="" />
+<LinkInfo Type="処置_下顎床装置_複雑" MicItem="" />
+<LinkInfo Type="処置_リトラクター" MicItem="H35037" />
+<LinkInfo Type="処置_プロトラクター" MicItem="H35040" />
+<LinkInfo Type="処置_上顎拡大装置_プレートタイプ" MicItem="" />
+<LinkInfo Type="処置_下顎拡大装置_プレートタイプ" MicItem="" />
+<LinkInfo Type="処置_上顎拡大装置_ポータータイプ" MicItem="" />
+<LinkInfo Type="処置_下顎拡大装置_ポータータイプ" MicItem="" />
+<LinkInfo Type="処置_上顎拡大装置_スケレトンタイプ" MicItem="" />
+<LinkInfo Type="処置_下顎拡大装置_スケレトンタイプ" MicItem="" />
+<LinkInfo Type="処置_アクチバトール" MicItem="" />
+<LinkInfo Type="処置_ダイナミックポジショナー" MicItem="" />
+<LinkInfo Type="処置_上顎リンガルアーチ_簡単" MicItem="" />
+<LinkInfo Type="処置_下顎リンガルアーチ_簡単" MicItem="" />
+<LinkInfo Type="処置_上顎リンガルアーチ_複雑" MicItem="" />
+<LinkInfo Type="処置_下顎リンガルアーチ_複雑" MicItem="" />
+<LinkInfo Type="処置_上顎レビアルアーチ_簡単" MicItem="" />
+<LinkInfo Type="処置_下顎レビアルアーチ_簡単" MicItem="" />
+<LinkInfo Type="処置_上顎レビアルアーチ_複雑" MicItem="" />
+<LinkInfo Type="処置_下顎レビアルアーチ_複雑" MicItem="" />
+<LinkInfo Type="処置_上顎セクショナルアーチ" MicItem="" />
+<LinkInfo Type="処置_下顎セクショナルアーチ" MicItem="" />
+<LinkInfo Type="処置_上顎双線弧線装置" MicItem="" />
+<LinkInfo Type="処置_下顎双線弧線装置" MicItem="" />
+<LinkInfo Type="処置_スケーリング_30_100" MicItem="H11631" />
+<LinkInfo Type="処置_スケーリング_加算_30_100" MicItem="H11632" />
+<LinkInfo Type="処置_SRP_前歯_30_100" MicItem="H01647" />
+<LinkInfo Type="処置_SRP_小臼歯_30_100" MicItem="H01648" />
+<LinkInfo Type="処置_SRP_大臼歯_30_100" MicItem="H01649" />
+<LinkInfo Type="処置_PCur_前歯_30_100" MicItem="H01657" />
+	<LinkInfo Type="処置_PCur_小臼歯_30_100" MicItem="H01658" />
+<LinkInfo Type="処置_PCur_大臼歯_30_100" MicItem="H01659" />
+
+<!-- 2012/04追加 --> 
+<LinkInfo Type="処置_機械的歯面清掃処置" MicItem="H01513" />
+<LinkInfo Type="処置_初診_急性対応_同一建物居住者以外" MicItem="H00193" />
+<LinkInfo Type="処置_初診_急性対応_同一建物居住者5人以下" MicItem="H00194" />
+<LinkInfo Type="処置_初診_急性対応_同一建物居住者6人以上" MicItem="H00195" />
+<LinkInfo Type="処置_再診_急性対応_同一建物居住者以外" MicItem="H00286" />
+<LinkInfo Type="処置_再診_急性対応_同一建物居住者5人以下" MicItem="H00287" />
+<LinkInfo Type="処置_再診_急性対応_同一建物居住者6人以上" MicItem="H00288" />
+<LinkInfo Type="処置_歯科訪問診療_急性対応_同一建物居住者以外" MicItem="H00491" />
+<LinkInfo Type="処置_歯科訪問診療_急性対応_同一建物居住者5人以下" MicItem="H00492" />
+<LinkInfo Type="処置_歯科訪問診療_急性対応_同一建物居住者6人以上" MicItem="H00493" />
+
+<!-- 2013/04追加 --> 
+<LinkInfo Type="処置_即時充填形成" MicItem="H04150" />
+<LinkInfo Type="処置_インレー修復形成" MicItem="H04160" />
+<LinkInfo Type="処置_アマルガム単純" MicItem="H05110" />
+<LinkInfo Type="処置_アマルガム複雑" MicItem="H05120" />
+<LinkInfo Type="処置_ＣＲ単純" MicItem="H05182" />
+<LinkInfo Type="処置_ＣＲ複雑" MicItem="H05192" />
+<LinkInfo Type="処置_グラスアイオノマー単純" MicItem="H05132" />
+<LinkInfo Type="処置_グラスアイオノマー複雑" MicItem="H05142" />
+<LinkInfo Type="処置_光重合単純" MicItem="H05152" />
+<LinkInfo Type="処置_光重合複雑" MicItem="H05162" />
+<LinkInfo Type="処置_その他充填" MicItem="" />
+<LinkInfo Type="処置_充填1単純" MicItem="H05103" />
+<LinkInfo Type="処置_充填1複雑" MicItem="H05104" />
+<LinkInfo Type="処置_充填2単純" MicItem="H05105" />
+<LinkInfo Type="処置_充填2複雑" MicItem="H05106" />
+<LinkInfo Type="処置_インレー14Ｋ複雑" MicItem="H05410" />
+<LinkInfo Type="処置_インレー12_パラ大単純" MicItem="H05510" />
+<LinkInfo Type="処置_インレー12_パラ大複雑" MicItem="H05520" />
+<LinkInfo Type="処置_インレー12_パラ小臼前単純" MicItem="H05550" />
+<LinkInfo Type="処置_インレー12_パラ小臼前複雑" MicItem="H05560" />
+<LinkInfo Type="処置_インレー銀大単純" MicItem="" />
+<LinkInfo Type="処置_インレー銀大複雑" MicItem="" />
+<LinkInfo Type="処置_インレー銀小単純" MicItem="" />
+<LinkInfo Type="処置_インレー銀小複雑" MicItem="" />
+<LinkInfo Type="処置_インレーニッケル大単純" MicItem="H05610" />
+<LinkInfo Type="処置_インレーニッケル大複雑" MicItem="H05620" />
+<LinkInfo Type="処置_インレーニッケル小臼前単純" MicItem="H05650" />
+<LinkInfo Type="処置_インレーニッケル小臼前複雑" MicItem="H05660" />
+<LinkInfo Type="処置_クリアフィルＣＲインレー単純" MicItem="" />
+<LinkInfo Type="処置_クリアフィルＣＲインレー複雑" MicItem="" />
+<LinkInfo Type="処置_ＳＲイソシットインレー単純" MicItem="" />
+<LinkInfo Type="処置_ＳＲイソシットインレー複雑" MicItem="" />
+<LinkInfo Type="処置_Ｐに対する咬調_1歯以上10歯未満" MicItem="H01186" />
+<LinkInfo Type="処置_Ｐに対する咬調_10歯以上" MicItem="H01187" />
+<LinkInfo Type="処置_ＴＦｉｘ簡単" MicItem="H02020" />
+<LinkInfo Type="処置_ＴＦｉｘ困難" MicItem="H02031" />
+<LinkInfo Type="処置_ＴＦｉｘ外傷性" MicItem="" />
+<LinkInfo Type="処置_ＴＦｉｘ著しく困難なもの" MicItem="" />
+<LinkInfo Type="処置_ＴＦｉｘ簡単_エナメルボンドシステム" MicItem="H02035" />
+<LinkInfo Type="処置_ＴＦｉｘ困難_エナメルボンドシステム" MicItem="H02036" />
+<LinkInfo Type="処置_ＴＦｉｘ外傷性_エナメルボンドシステム" MicItem="" />
+
+<!-- 2014/05追加 --> 
+<LinkInfo Type="処置_初診_歯科訪問診療料1" MicItem="H00401" />
+<LinkInfo Type="処置_初診_歯科訪問診療料2" MicItem="H00402" />
+<LinkInfo Type="処置_再診_歯科訪問診療料1" MicItem="H00401" />
+<LinkInfo Type="処置_再診_歯科訪問診療料2" MicItem="H00402" />
+
+<!-- 2014/04追加 --> 
+<LinkInfo Type="処置_初診_歯科訪問診療料3" MicItem="H01534" />
+<LinkInfo Type="処置_再診_歯科訪問診療料3" MicItem="H01534" />
+<LinkInfo Type="処置_歯周病安定期治療_1歯以上10歯未満" MicItem="H01677" />
+<LinkInfo Type="処置_歯周病安定期治療_10歯以上20歯未満" MicItem="H01678" />
+<LinkInfo Type="処置_歯周病安定期治療_20歯以上" MicItem="H01675" />
+<LinkInfo Type="処置_CAD_CAM冠" MicItem="H06238" />
+<LinkInfo Type="処置_フッ化物局所応用_在宅" MicItem="" />
+<LinkInfo Type="処置_新製義歯指導料_困難" MicItem="" />
+<LinkInfo Type="処置_光重合グラスアイオノマー単純" MicItem="H05155" />
+<LinkInfo Type="処置_光重合グラスアイオノマー複雑" MicItem="H05168" />
+<LinkInfo Type="処置_歯科訪問診療_急性対応_同一建物居住者" MicItem="" />
+<LinkInfo Type="処置_光重合レジン単純" MicItem="H05152" />
+<LinkInfo Type="処置_光重合レジン複雑" MicItem="H05162" />
+
+<!-- 2012/12追加 --> 
+<LinkInfo Type="処置_クラウンニッケル前_前歯3_4冠" MicItem="H05670" />
+<LinkInfo Type="処置_クラウンニッケル小_4_5冠" MicItem="H05680" />
+<LinkInfo Type="処置_クラウンニッケル小_ＦＭＣ" MicItem="H05690" />
+<LinkInfo Type="処置_クラウンニッケル大_4_5冠" MicItem="H05630" />
+<LinkInfo Type="処置_クラウンニッケル大_ＦＭＣ" MicItem="H05640" />
+<LinkInfo Type="処置_接着冠12_パラ小" MicItem="" />
+<LinkInfo Type="処置_接着冠12_パラ大" MicItem="" />
+<LinkInfo Type="処置_接着冠銀小" MicItem="" />
+<LinkInfo Type="処置_接着冠銀大" MicItem="" />
+<LinkInfo Type="処置_接着冠ニッケル小" MicItem="" />
+<LinkInfo Type="処置_接着冠ニッケル大" MicItem="" />
+<LinkInfo Type="処置_クラウン14Ｋ_前歯3_4冠_70_100" MicItem="" />
+<LinkInfo Type="処置_クラウン12_パラ前_前歯3_4 冠_70_100" MicItem="" />
+<LinkInfo Type="処置_クラウン12_パラ小_4_5冠_70_100" MicItem="" />
+<LinkInfo Type="処置_クラウン12_パラ大_4_5冠_70_100" MicItem="" />
+<LinkInfo Type="処置_クラウン銀前_前歯3_4冠_70_100" MicItem="" />
+<LinkInfo Type="処置_クラウン銀小_4_5冠_70_100" MicItem="" />
+<LinkInfo Type="処置_クラウン銀大_4_5冠_70_100" MicItem="" />
+<LinkInfo Type="処置_クラウンニッケル前_前歯3_4 冠_70_100" MicItem="" />
+<LinkInfo Type="処置_クラウンニッケル小_4_5冠_70_100" MicItem="" />
+<LinkInfo Type="処置_クラウンニッケル大_4_5冠_70_100" MicItem="" />
+<LinkInfo Type="処置_接着冠14Ｋ_70_100" MicItem="" />
+<LinkInfo Type="処置_接着冠12パラ_70_100" MicItem="" />
+<LinkInfo Type="処置_接着冠12_パラ小_70_100" MicItem="" />
+<LinkInfo Type="処置_接着冠12_パラ大_70_100" MicItem="" />
+<LinkInfo Type="処置_接着冠銀_70_100" MicItem="" />
+<LinkInfo Type="処置_接着冠銀小_70_100" MicItem="" />
+<LinkInfo Type="処置_接着冠銀大_70_100" MicItem="" />
+<LinkInfo Type="処置_接着冠ニッケル_70_100" MicItem="" />
+<LinkInfo Type="処置_接着冠ニッケル小_70_100" MicItem="" />
+<LinkInfo Type="処置_接着冠ニッケル大_70_100" MicItem="" />
+
+<!-- 2016/04追加 --> 
+<LinkInfo Type="処置_咀嚼機能_前_下顎運動測定と咀嚼能力測定" MicItem="" />
+<LinkInfo Type="処置_歯周病安定期治療2_1歯以上10歯未満" MicItem="H01685" />
+<LinkInfo Type="処置_歯周病安定期治療2_10歯以上20歯未満" MicItem="H01686" />
+<LinkInfo Type="処置_歯周病安定期治療2_20歯以上" MicItem="H01687" />
+<LinkInfo Type="処置_ＴＦｉｘ簡単_歯周外科手術予定あり" MicItem="" />
+<LinkInfo Type="処置_ＴＦｉｘ簡単_歯周外科手術後" MicItem="" />
+<LinkInfo Type="処置_ＴＦｉｘ困難_歯周外科手術後" MicItem="" />
+<LinkInfo Type="処置_ＴＦｉｘ簡単_エナメルボンドシステム_歯周外科手術予定あり" MicItem="" />
+<LinkInfo Type="処置_ＴＦｉｘ簡単_エナメルボンドシステム_歯周外科手術後" MicItem="" />
+<LinkInfo Type="処置_ＴＦｉｘ困難_エナメルボンドシステム_歯周外科手術後" MicItem="" />
+<LinkInfo Type="処置_補綴時診断料_床裏装の場合" MicItem="" />
+<LinkInfo Type="処置_補綴時診断料_義歯増歯の場合" MicItem="" />
+<LinkInfo Type="処置_フィクスドリテーナー保定装置" MicItem="" />
+
+<!-- 2018/04追加 --> 
+<LinkInfo Type="処置_咀嚼機能1ロ_前_咀嚼能力測定" MicItem="H00985" />
+<LinkInfo Type="処置_咀嚼機能2イ_前_下顎運動測定と咬合圧測定" MicItem="" />
+<LinkInfo Type="処置_咀嚼機能2ロ_前_咬合圧測定" MicItem="H00986" />
+<LinkInfo Type="処置_ＴＦｉｘ外傷性以外" MicItem="" />
+<LinkInfo Type="処置_ＴＦｉｘ外傷性以外_エナメルボンドシステム" MicItem="" />
+<LinkInfo Type="処置_グラスアイオノマーセメント充填単純_自動練和型" MicItem="" />
+<LinkInfo Type="処置_グラスアイオノマーセメント充填複雑_自動練和型" MicItem="" />
+<LinkInfo Type="処置_光重合グラスアイオノマー単純_自動練和型" MicItem="" />
+<LinkInfo Type="処置_光重合グラスアイオノマー複雑_自動練和型" MicItem="" />
+<LinkInfo Type="処置_高強度硬質レジンブリッジ" MicItem="H05961" />
+<LinkInfo Type="処置_CAD_CAM冠2_大臼歯" MicItem="H06234" />
+<LinkInfo Type="処置_レジンインレー単純" MicItem="H07634" />
+<LinkInfo Type="処置_レジンインレー複雑" MicItem="H07635" />
+
+<!-- 2019/06追加 --> 
+<LinkInfo Type="処置_EMR_1根" MicItem="H00910" />
+<LinkInfo Type="処置_EMR_2根" MicItem="H00920" />
+<LinkInfo Type="処置_EMR_3根" MicItem="H00930" />
+<LinkInfo Type="処置_EMR_4根" MicItem="H00940" />
+<LinkInfo Type="処置_抜髄_単根" MicItem="H01211" />
+<LinkInfo Type="処置_抜髄_2根" MicItem="H01221" />
+<LinkInfo Type="処置_抜髄_3根" MicItem="H01231" />
+<LinkInfo Type="処置_抜髄_4根" MicItem="H01235" />
+<LinkInfo Type="処置_感染根幹処置_単根" MicItem="H01270" />
+<LinkInfo Type="処置_感染根幹処置_2根" MicItem="H01280" />
+<LinkInfo Type="処置_感染根幹処置_3根" MicItem="H01290" />
+<LinkInfo Type="処置_感染根幹処置_4根" MicItem="H01295" />
+<LinkInfo Type="処置_根充_単根" MicItem="H01330" />
+<LinkInfo Type="処置_根充_2根" MicItem="H01340" />
+<LinkInfo Type="処置_根充_3根" MicItem="H01350" />
+<LinkInfo Type="処置_根充_4根" MicItem="H01355" />
+<LinkInfo Type="処置_抜髄即充_単根" MicItem="H01361" />
+<LinkInfo Type="処置_抜髄即充_2根" MicItem="H01371" />
+<LinkInfo Type="処置_抜髄即充_3根" MicItem="H01381" />
+<LinkInfo Type="処置_抜髄即充_4根" MicItem="H01521" />
+<LinkInfo Type="処置_感染根管即日根充_単根" MicItem="H01390" />
+<LinkInfo Type="処置_感染根管即日根充_2根" MicItem="H01400" />
+<LinkInfo Type="処置_感染根管即日根充_3根" MicItem="H01410" />
+<LinkInfo Type="処置_感染根管即日根充_4根" MicItem="H01415" />
+<LinkInfo Type="処置_生PZ_前歯3_4冠" MicItem="H04710" />
+<LinkInfo Type="処置_生PZ_FMC" MicItem="H04732" />
+<LinkInfo Type="処置_生PZ非金属冠_CAD_CAM冠" MicItem="H04770" />
+<LinkInfo Type="処置_失PZ_前歯3_4冠" MicItem="H04810" />
+<LinkInfo Type="処置_失PZ_FMC" MicItem="H04832" />
+<LinkInfo Type="処置_失PZ非金属冠_CAD_CAM冠" MicItem="H04870" />
+<LinkInfo Type="処置_コアImp" MicItem="" />
+<LinkInfo Type="処置_生PZレジン前装金属冠" MicItem="H04720" />
+<LinkInfo Type="処置_生PZレジン前装金属冠_小臼歯" MicItem="H04721" />
+<LinkInfo Type="処置_失PZレジン前装金属冠" MicItem="H04820" />
+<LinkInfo Type="処置_失PZレジン前装金属冠_小臼歯" MicItem="H04821" />
+<LinkInfo Type="処置_生PZ非金属冠_硬質レジンジャケット冠" MicItem="H04740" />
+<LinkInfo Type="処置_失PZ非金属冠_硬質レジンジャケット冠" MicItem="H04840" />
+
+<!-- 2019/11追加 --> 
+<LinkInfo Type="処置_支台築造_メタルコア_前小" MicItem="H05020" />
+<LinkInfo Type="処置_支台築造_メタルコア_大" MicItem="H05010" />
+
+<!-- 2020/09追加 --> 
+<LinkInfo Type="処置_F局_エナメル質初期う蝕患者" MicItem="" />
+<LinkInfo Type="処置_歯周病重症化予防治療_1歯以上10歯未満" MicItem="H01695" />
+<LinkInfo Type="処置_歯周病重症化予防治療_10歯以上20歯未満" MicItem="H01696" />
+<LinkInfo Type="処置_歯周病重症化予防治療_20歯以上" MicItem="H01697" />
+</LinkMicItem>

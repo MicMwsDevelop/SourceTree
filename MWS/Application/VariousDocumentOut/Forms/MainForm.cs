@@ -67,15 +67,18 @@ namespace VariousDocumentOut.Forms
 				Common.HeadOffice = HeadOfficeSettingsIF.GetSettings();
 
 				DocType = DocumentOut.DocumentType.MwsIDPassword;
-				//#if DEBUG
-				//				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("itagaki", Program.DATABASE_ACCESS_CT);
-				//				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("itagaki", Program.DATABASE_ACCESS_CT);
-				//#else
-				//			List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.DATABASE_ACCESS_CT);
-				//			List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.DATABASE_ACCESS_CT);
-				//#endif
+#if false
+	#if DEBUG
+				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("itagaki", Program.DATABASE_ACCESS_CT);
+				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("itagaki", Program.DATABASE_ACCESS_CT);
+	#else
 				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.DATABASE_ACCESS_CT);
 				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.DATABASE_ACCESS_CT);
+	#endif
+#else
+				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.DATABASE_ACCESS_CT);
+				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.DATABASE_ACCESS_CT);
+#endif
 				if (null == satelliteList && null == headOfficeList)
 				{
 					// 本社所属
@@ -132,7 +135,8 @@ namespace VariousDocumentOut.Forms
 		{
 			if (MwsDefine.TokuisakiNoLength == textBoxTokuisakiNo.Text.Length)
 			{
-				List<CustomerInfo> result = VariousDocumentOutAccess.Select_CustomerInfo(textBoxTokuisakiNo.Text, Program.DATABASE_ACCESS_CT);
+				// 得意先番号で検索
+				List<CustomerInfo> result = VariousDocumentOutAccess.Select_CustomerInfoByTokuisakiNo(textBoxTokuisakiNo.Text, Program.DATABASE_ACCESS_CT);
 				if (0 < result.Count)
 				{
 					CustomerInfo cust = result.First();
@@ -168,8 +172,49 @@ namespace VariousDocumentOut.Forms
 				}
 				textBoxCustomerName.Text = string.Empty;
 				Common.ClearCustomer();
+				MessageBox.Show(this, "該当顧客が見つかりません", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
-			MessageBox.Show(this, "該当顧客が見つかりません", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			if (MwsDefine.CustomerNoLength == textBoxCustomerNo.Text.Length)
+			{
+				// 顧客Noで検索
+				List<CustomerInfo> result = VariousDocumentOutAccess.Select_CustomerInfoByCustomerNo(textBoxCustomerNo.ToInt(), Program.DATABASE_ACCESS_CT);
+				if (0 < result.Count)
+				{
+					CustomerInfo cust = result.First();
+					textBoxCustomerName.Text = cust.顧客名;
+					Common.運用サポート情報 = cust.運用サポート情報;
+
+					if (cust.Enable)
+					{
+						// 出力可能
+						ReportOutEnable(true);
+						try
+						{
+							// 顧客詳細情報の読込
+							string whereStr = string.Format("顧客No = {0}", textBoxCustomerNo.ToInt());
+							List<vMic全ユーザー2> work = JunpDatabaseAccess.Select_vMic全ユーザー2(whereStr, "", Program.DATABASE_ACCESS_CT);
+							if (null != work)
+							{
+								Common.Customer = work.First();
+							}
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(this, string.Format("サーバー通信エラー：{0}", ex.Message), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+							return;
+						}
+					}
+					else
+					{
+						// 出力不可
+						ReportOutEnable(false);
+					}
+					return;
+				}
+				textBoxCustomerNo.Text = string.Empty;
+				Common.ClearCustomer();
+				MessageBox.Show(this, "該当顧客が見つかりません", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 		}
 
 		/// <summary>
@@ -182,6 +227,9 @@ namespace VariousDocumentOut.Forms
 		{
 			// 顧客情報クリア
 			Common.ClearCustomer();
+			textBoxTokuisakiNo.Text = string.Empty;
+			textBoxCustomerNo.Text = string.Empty;
+			textBoxCustomerName.Text = string.Empty;
 		}
 
 		/// <summary>
@@ -345,6 +393,16 @@ namespace VariousDocumentOut.Forms
 		}
 
 		/// <summary>
+		/// 作業報告書
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void radioButton作業報告書_CheckedChanged(object sender, EventArgs e)
+		{
+			DocType = DocumentOut.DocumentType.WorkReport;
+		}
+
+		/// <summary>
 		/// EXCEL出力
 		/// </summary>
 		/// <param name="sender"></param>
@@ -398,7 +456,7 @@ namespace VariousDocumentOut.Forms
 					/// オンライン請求届出
 					/// </summary>
 					case DocumentOut.DocumentType.Online:
-						DocumentOut.ExcelOutOnline(xlsPathname, Common);
+						DocumentOut.ExcelOutOnline(Common, xlsPathname, orgPpathname);
 						break;
 					/// <summary>
 					/// 取引条件確認書
@@ -484,6 +542,12 @@ namespace VariousDocumentOut.Forms
 					/// </summary>
 					case DocumentOut.DocumentType.Aplus:
 						DocumentOut.ExcelOutAplus(xlsPathname, Common);
+						break;
+					/// <summary>
+					/// 作業報告書
+					/// </summary>
+					case DocumentOut.DocumentType.WorkReport:
+						DocumentOut.ExcelOutWorkReport(xlsPathname, Common);
 						break;
 				}
 				// カーソルを元に戻す

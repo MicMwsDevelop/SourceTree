@@ -430,6 +430,33 @@ namespace MwsLib.DB.SqlServer.Junp
 			return tMikアプリケーション情報.DataTableToList(table);
 		}
 
+		/// <summary>
+		/// [JunpDB].[dbo].[tMic社内データ管理ヘッダ]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>tMic社内データ管理ヘッダ</returns>
+		public static List<tMic社内データ管理ヘッダ> Select_tMic社内データ管理ヘッダ(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMic社内データ管理ヘッダ], whereStr, orderStr, ct);
+			return tMic社内データ管理ヘッダ.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMic社内データ管理利用部署情報]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>tMic社内データ管理利用部署情報</returns>
+		public static List<tMic社内データ管理利用部署情報> Select_tMic社内データ管理利用部署情報(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMic社内データ管理利用部署情報], whereStr, orderStr, ct);
+			return tMic社内データ管理利用部署情報.DataTableToList(table);
+		}
+
+
 		//////////////////////////////
 		// UPDATE SET
 
@@ -638,5 +665,8 @@ namespace MwsLib.DB.SqlServer.Junp
 			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic翌月売上予想], whereStr, orderStr, ct);
 			return vMic翌月売上予想.DataTableToList(table);
 		}
+
+
+
 	}
 }
