@@ -127,7 +127,7 @@ namespace OptechConvert
 
 				string patient;
 				List<string> workHokenInf, workShoshinInf, workRezeptInf, workRezeptByomeiran, workDay, workBui, workSc;
-				OptechList[i].MakeConvertList(LinkInfo, textBoxClinicCode.Text, i + 1, out patient, out workHokenInf, out workShoshinInf, out workRezeptInf, out workRezeptByomeiran, out workDay, out workBui, out workSc);
+				OptechList[i].MakeConvertList(checkBoxExceptRezeptCheck.Checked, LinkInfo, textBoxClinicCode.Text, i + 1, out patient, out workHokenInf, out workShoshinInf, out workRezeptInf, out workRezeptByomeiran, out workDay, out workBui, out workSc);
 				patientList.Add(patient);
 				hokenInfList.AddRange(workHokenInf);
 				shoshinInfList.AddRange(workShoshinInf);

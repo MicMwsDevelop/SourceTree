@@ -283,7 +283,7 @@ namespace OptechConvert.XML.Patient
 			// KEY_LASTDATE
 			ret[33] = "0";
 			// DISP_PS
-			ret[34] = KanjiName;
+			ret[34] = Name;
 			// DISP_NAME
 			ret[35] = KanjiName;
 			// DISP_HOKENTYPE

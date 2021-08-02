@@ -55,7 +55,7 @@ namespace SoftwareMainteEarningsFile
 			gSettings = SoftwareMainteEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			CollectDate = new Date(2021, 6, 1);
+			CollectDate = new Date(2021, 9, 1);
 #else
 			// 集計日を当月初日に設定
 			CollectDate = Date.Today.FirstDayOfTheMonth();

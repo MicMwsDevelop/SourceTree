@@ -3,7 +3,7 @@
   <ExportDir>\\sqlsv\pcadata</ExportDir>
   <ExportFilename>ソフトウェア保守料売上データ.csv</ExportFilename>
   <PcaVersion>7</PcaVersion>
-  <SlipInitialNumber>610001</SlipInitialNumber>
+  <SlipInitialNumber>680001</SlipInitialNumber>
   <Mail>
     <From>eigyo_kanri@mic.jp</From>
     <To>keiri@mic.jp</To>

@@ -93,6 +93,7 @@ namespace OptechConvert.XML
 		/// <summary>
 		/// インポートファイルの作成
 		/// </summary>
+		/// <param name="exceptRezeptCheck">レセプトチェックデータを除外する</param>
 		/// <param name="link">オプテック識別子→MIC項目コード定義</param>
 		/// <param name="clinicCode">医療機関コード</param>
 		/// <param name="pnumber">内部患者番号</param>
@@ -104,7 +105,7 @@ namespace OptechConvert.XML
 		/// <param name="dayList">診療日リスト</param>
 		/// <param name="buiList">部位リスト</param>
 		/// <param name="scList">処置リスト</param>
-		public void MakeConvertList(LinkMicItem link, string clinicCode, int pnumber, out string patient, out List<string> hokenInfList, out List<string> shoshinInfList, out List<string> rezeptInfList, out List<string> rezeptByomeiranList, out List<string> dayList, out List<string> buiList, out List<string> scList)
+		public void MakeConvertList(bool exceptRezeptCheck, LinkMicItem link, string clinicCode, int pnumber, out string patient, out List<string> hokenInfList, out List<string> shoshinInfList, out List<string> rezeptInfList, out List<string> rezeptByomeiranList, out List<string> dayList, out List<string> buiList, out List<string> scList)
 		{
 			// 口腔内情報から欠損歯を取得
 			string missingTeethStr = string.Empty;
@@ -125,7 +126,7 @@ namespace OptechConvert.XML
 			MedicalXML.MakeConvertList(link, clinicCode, pnumber, missingTeethStr, out shoshinInfList, out rezeptInfList, out rezeptByomeiranList);
 
 			// インポートファイルの作成（診療日情報、部位情報、処置情報）
-			KarteXML.MakeConvertList(link, MedicalXML.TreatmentList, clinicCode, pnumber, out dayList, out buiList, out scList);
+			KarteXML.MakeConvertList(exceptRezeptCheck, link, MedicalXML.TreatmentList, clinicCode, pnumber, out dayList, out buiList, out scList);
 		}
 	}
 }

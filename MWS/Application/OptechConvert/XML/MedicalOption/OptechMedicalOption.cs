@@ -147,7 +147,7 @@ namespace OptechConvert.XML.MedicalOption
 			ret2[4] = "0";
 			// KAISIYMD
 			ret2[5] = spanList.First().Start.ToIntYMD().ToString();
-			// POIN
+			// POINT
 			ret2[6] = "0";
 			// MIRAIIN
 			ret2[7] = "0";
@@ -166,9 +166,9 @@ namespace OptechConvert.XML.MedicalOption
 			// SEQNO
 			ret3[3] = "0";
 			// BUI
-			ret3[4] = "";
+			ret3[4] = string.Empty;
 			// BYOMEI_NAME
-			ret3[5] = "";
+			ret3[5] = string.Empty;
 			// HEIKI_COUNT
 			ret3[6] = "0";
 			// BYOTAI_IKO

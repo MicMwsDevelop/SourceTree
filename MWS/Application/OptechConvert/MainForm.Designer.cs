@@ -37,6 +37,7 @@ namespace OptechConvert
 			this.textBoxOptechFolder = new System.Windows.Forms.TextBox();
 			this.listBoxPatient = new System.Windows.Forms.ListBox();
 			this.label3 = new System.Windows.Forms.Label();
+			this.checkBoxExceptRezeptCheck = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// buttonReadOptech
@@ -63,7 +64,7 @@ namespace OptechConvert
 			this.buttonImportFile.Location = new System.Drawing.Point(349, 93);
 			this.buttonImportFile.Name = "buttonImportFile";
 			this.buttonImportFile.Size = new System.Drawing.Size(118, 34);
-			this.buttonImportFile.TabIndex = 7;
+			this.buttonImportFile.TabIndex = 8;
 			this.buttonImportFile.Text = "インポートファイル出力";
 			this.buttonImportFile.UseVisualStyleBackColor = true;
 			this.buttonImportFile.Click += new System.EventHandler(this.buttonImportFile_Click);
@@ -114,11 +115,22 @@ namespace OptechConvert
 			this.label3.TabIndex = 5;
 			this.label3.Text = "■患者フォルダリスト";
 			// 
+			// checkBoxExceptRezeptCheck
+			// 
+			this.checkBoxExceptRezeptCheck.AutoSize = true;
+			this.checkBoxExceptRezeptCheck.Location = new System.Drawing.Point(173, 103);
+			this.checkBoxExceptRezeptCheck.Name = "checkBoxExceptRezeptCheck";
+			this.checkBoxExceptRezeptCheck.Size = new System.Drawing.Size(152, 16);
+			this.checkBoxExceptRezeptCheck.TabIndex = 7;
+			this.checkBoxExceptRezeptCheck.Text = "レセプトチェックデータを除外";
+			this.checkBoxExceptRezeptCheck.UseVisualStyleBackColor = true;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(481, 680);
+			this.Controls.Add(this.checkBoxExceptRezeptCheck);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.listBoxPatient);
 			this.Controls.Add(this.textBoxOptechFolder);
@@ -145,6 +157,7 @@ namespace OptechConvert
 		private System.Windows.Forms.TextBox textBoxOptechFolder;
 		private System.Windows.Forms.ListBox listBoxPatient;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.CheckBox checkBoxExceptRezeptCheck;
 	}
 }
 

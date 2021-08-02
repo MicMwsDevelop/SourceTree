@@ -78,6 +78,7 @@ namespace OptechConvert.XML.Karte
 		/// <summary>
 		/// インポートファイルの作成（診療日情報、部位情報、処置情報）
 		/// </summary>
+		/// <param name="exceptRezeptCheck">レセプトチェックデータを除外する</param>
 		/// <param name="link">オプテック識別子→MIC項目コード定義</param>
 		/// <param name="treatmentList">治療行為情報</param>
 		/// <param name="clinicCode">医療機関コード</param>
@@ -85,7 +86,7 @@ namespace OptechConvert.XML.Karte
 		/// <param name="dayList">診療日情報</param>
 		/// <param name="buiList">部位情報</param>
 		/// <param name="scList">処置情報</param>
-		public void MakeConvertList(LinkMicItem link, List<MedicalTreatment> treatmentList, string clinicCode, int pnumber, out List<string> dayList, out List<string> buiList, out List<string> scList)
+		public void MakeConvertList(bool exceptRezeptCheck, LinkMicItem link, List<MedicalTreatment> treatmentList, string clinicCode, int pnumber, out List<string> dayList, out List<string> buiList, out List<string> scList)
 		{
 			dayList = new List<string>();
 			buiList = new List<string>();
@@ -120,26 +121,30 @@ namespace OptechConvert.XML.Karte
 						scList.Add(scStr);
 					}
 				}
-				// 治療行為情報から保険処置項目を設定
-				List<MedicalTreatment> midicalList = treatmentList.FindAll(p => p.Date == d.Date);
-				if (null != midicalList)
+				if (false == exceptRezeptCheck)
 				{
-					List<string> micList = new List<string>();
-					foreach (MedicalTreatment medical in midicalList)
+					// レセプトチェックデータを追加
+					// 治療行為情報から保険処置項目を設定
+					List<MedicalTreatment> midicalList = treatmentList.FindAll(p => p.Date == d.Date);
+					if (null != midicalList)
 					{
-						string micCode = link.GetMicItemCode(medical.OptechType);
-						if (0 < micCode.Length)
+						List<string> micList = new List<string>();
+						foreach (MedicalTreatment medical in midicalList)
 						{
-							micList.Add(medical.OutputConvertScList(clinicCode, pnumber, ymd, daySeq, d.BuiList.Count, micList.Count, micCode));
+							string micCode = link.GetMicItemCode(medical.OptechType);
+							if (0 < micCode.Length)
+							{
+								micList.Add(medical.OutputConvertScList(clinicCode, pnumber, ymd, daySeq, d.BuiList.Count, micList.Count, micCode));
+							}
 						}
-					}
-					if (0 < micList.Count)
-					{
-						// ダミー部位の追加
-						buiList.Add(MedicalTreatment.OutputConvertBuiList(clinicCode, pnumber, ymd, daySeq, d.BuiList.Count));
+						if (0 < micList.Count)
+						{
+							// ダミー部位の追加
+							buiList.Add(MedicalTreatment.OutputConvertBuiList(clinicCode, pnumber, ymd, daySeq, d.BuiList.Count));
 
-						// オプテック識別子からMIC保険処置項目を追加
-						scList.AddRange(micList);
+							// オプテック識別子からMIC保険処置項目を追加
+							scList.AddRange(micList);
+						}
 					}
 				}
 			}
