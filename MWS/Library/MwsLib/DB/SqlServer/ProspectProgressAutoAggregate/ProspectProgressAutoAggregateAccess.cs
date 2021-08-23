@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2020/10/09 勝呂)
+// Ver1.00 新規作成(2021/08/04 勝呂)
 // 
 using MwsLib.Common;
 using MwsLib.BaseFactory.ProspectProgressAutoAggregate;

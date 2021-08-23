@@ -3,7 +3,7 @@
 //
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2021/05/19 勝呂)
+// Ver1.00 新規作成(2021/08/04 勝呂)
 //
 using MwsLib.DB;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Data;
 namespace MwsLib.BaseFactory.ProspectProgressAutoAggregate
 {
 	/// <summary>
-	/// 
+	/// 予測連絡用ES
 	/// </summary>
 	public class 予測連絡用ES
 	{

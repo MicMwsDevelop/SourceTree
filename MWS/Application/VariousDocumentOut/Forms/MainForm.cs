@@ -58,6 +58,9 @@ namespace VariousDocumentOut.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
+			// ウィンドウタイトルにバージョン情報を表示
+			this.Text = string.Format("{0} {1}", Program.ProgramName, Program.VersionStr);
+
 			try
 			{
 #if DEBUG

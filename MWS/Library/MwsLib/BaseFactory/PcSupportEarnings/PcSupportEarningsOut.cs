@@ -269,7 +269,7 @@ namespace MwsLib.BaseFactory.PcSupportEarnings
 			pca.担当者コード = fPca担当者コード;// 10:担当者コード(13)
 			pca.摘要コード = "0";// 11:摘要コード(6)
 			pca.摘要名 = 摘要名;//12:摘要名(30)｢利用年月分｣
-			pca.商品コード = PCA売上明細汎用データ.ArticleCode;// 15:000014(13) 
+			pca.商品コード = PcaGoodsIDDefine.ArticleCode;// 15:000014(13) 
 			pca.マスター区分 = 4;// 16:マスタ区分
 			pca.商品名 = 記事行1_品名;// 17:品名 ○○○○様分(36)
 			pca.倉庫コード = fPca倉庫コード.Value.ToString();// 19:倉庫コード(6)
@@ -351,7 +351,7 @@ namespace MwsLib.BaseFactory.PcSupportEarnings
 			pca.担当者コード = fPca担当者コード;// 10:担当者コード(13)
 			pca.摘要コード = "0";// 11:摘要コード(6)
 			pca.摘要名 = 摘要名;//12:摘要名(30)｢利用年月分｣
-			pca.商品コード = PCA売上明細汎用データ.ArticleCode;// 15:000014(13) 
+			pca.商品コード = PcaGoodsIDDefine.ArticleCode;// 15:000014(13) 
 			pca.マスター区分 = 4;// 16:マスタ区分
 			pca.商品名 = 記事行2_品名;// 17:品名 得意先No. XXXXXX(36)
 			pca.倉庫コード = fPca倉庫コード.Value.ToString();// 19:倉庫コード(6)

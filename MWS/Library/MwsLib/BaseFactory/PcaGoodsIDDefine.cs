@@ -11,6 +11,21 @@ namespace MwsLib.BaseFactory
 	public static class PcaGoodsIDDefine
 	{
 		/// <summary>
+		/// 記事レコード
+		/// </summary>
+		public const string ArticleCode = "000014";
+
+		/// <summary>
+		/// 送料 PCA商品コード
+		/// </summary>
+		public const string ShippingCode = "000600";
+
+		/// <summary>
+		/// 着日指定 PCA商品コード
+		/// </summary>
+		public const string ArrivalDateCode = "000020";
+
+		/// <summary>
 		/// PC安心サポート３年契約
 		/// </summary>
 		public const string PcSupport3 = "001871";

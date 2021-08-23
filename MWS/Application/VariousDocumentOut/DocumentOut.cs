@@ -1376,6 +1376,7 @@ namespace VariousDocumentOut
 				xlCells[1, 19] = string.Format("作成日　　{0}", Date.Today.GetJapaneseString(true, '0', true, true));
 				xlCells[36, 6] = common.Customer.フリガナ;
 				xlCells[37, 6] = common.Customer.顧客名;
+				xlCells[39, 6] = common.Customer.住所フリガナ;
 				xlCells[40, 6] = "〒" + common.Customer.郵便番号 + "\r\n" + common.Customer.住所;
 				xlCells[40, 22] = common.Customer.電話番号;
 				xlCells[41, 22] = common.Customer.FAX番号;

@@ -3,9 +3,8 @@
 //
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2021/05/07 勝呂)
+// Ver1.00 新規作成(2021/08/04 勝呂)
 //
-using MwsLib.Common;
 using MwsLib.DB;
 using System;
 using System.Collections.Generic;
@@ -13,9 +12,9 @@ using System.Data;
 
 namespace MwsLib.BaseFactory.ProspectProgressAutoAggregate
 {
-    /// <summary>
-    /// 
-    /// </summary>
+	/// <summary>
+	/// ES売上予想
+	/// </summary>
 	public class ES売上予想
 	{
         public string 部門コード { get; set; }
@@ -47,16 +46,6 @@ namespace MwsLib.BaseFactory.ProspectProgressAutoAggregate
             売上金額=0;
             計上月 = string.Empty;
         }
-
-        ///// <summary>
-        ///// 金額千円単位
-        ///// </summary>
-        ///// <param name="price">金額</param>
-        ///// <returns>金額千円単位</returns>
-        //public static int To金額千円単位(int price)
-        //{
-        //    return string.Format("{0:#,}", price).ToInt();
-        //}
 
         /// <summary>
         /// DataTable → リスト変換

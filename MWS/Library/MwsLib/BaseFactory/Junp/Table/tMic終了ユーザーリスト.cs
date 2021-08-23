@@ -161,17 +161,17 @@ namespace MwsLib.BaseFactory.Junp.Table
 				List<tMic終了ユーザーリスト> result = new List<tMic終了ユーザーリスト>();
 				foreach (DataRow row in table.Rows)
 				{
-					tMic終了ユーザーリスト data = new tMic終了ユーザーリスト
-					{
-						得意先No = row["得意先No"].ToString().Trim(),
-						終了月 = DataBaseValue.ConvObjectToYearMonthNull(row["終了月"]),
-						終了届受領日 = DataBaseValue.ConvObjectToDateNullByDate(row["終了届受領日"]),
-						終了事由 = row["終了事由"].ToString().Trim(),
-						リプレース = row["リプレース"].ToString().Trim(),
-						理由 = row["理由"].ToString().Trim(),
-						更新日時 = DataBaseValue.ConvObjectToDateTimeNull(row["更新日時"]),
-						非paletteユーザー = DataBaseValue.ConvObjectToBool(row["非paletteユーザー"])
-					};
+					tMic終了ユーザーリスト data = new tMic終了ユーザーリスト();
+					data.得意先No = row["得意先No"].ToString().Trim();
+					string buf = row["終了月"].ToString().Trim();
+					data.終了月 = YearMonth.Parse(buf);
+					buf = row["終了届受領日"].ToString().Trim();
+					data.終了届受領日 = Date.Parse(buf);
+					data.終了事由 = row["終了事由"].ToString().Trim();
+					data.リプレース = row["リプレース"].ToString().Trim();
+					data.理由 = row["理由"].ToString().Trim();
+					data.更新日時 = DataBaseValue.ConvObjectToDateTimeNull(row["更新日時"]);
+					data.非paletteユーザー = ("0" == row["非paletteユーザー"].ToString().Trim()) ? false : true;
 					result.Add(data);
 				}
 				return result;

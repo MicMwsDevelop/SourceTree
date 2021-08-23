@@ -24,16 +24,6 @@ namespace MwsLib.BaseFactory.Pca
 		/// </summary>
 		public static readonly string WebJucuTekimei = "Web受注分";
 
-		/// <summary>
-		/// 送料 PCA商品コード
-		/// </summary>
-		public static readonly string ShippingGoodsCode = "000600";
-
-		/// <summary>
-		/// 着日指定 PCA商品コード
-		/// </summary>
-		public static readonly string ArrivalDateGoodsCode = "000020";
-
 		public int 受注No { get; set; }
 		public string 受注日 { get; set; }
 		public string 納期 { get; set; }
@@ -218,7 +208,7 @@ namespace MwsLib.BaseFactory.Pca
 			ret.税率 = jucu.税率;
 			ret.摘要コード = "031";       // 031ではないのか？
 			ret.摘要名 = WebJucuTekimei;
-			ret.goods_code = PCA受注明細汎用データ.ArrivalDateGoodsCode;
+			ret.goods_code = PcaGoodsIDDefine.ArrivalDateCode;
 			ret.マスター区分 = "4";
 			ret.商品名 = PCA受注明細汎用データ.ArrivalDateGoodsName(pref_arrival_date);
 			ret.単価 = "0";

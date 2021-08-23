@@ -19,11 +19,6 @@ namespace MwsLib.BaseFactory.Pca
 	public class PCA売上明細汎用データ
 	{
 		/// <summary>
-		/// 記事コード
-		/// </summary>
-		public static readonly string ArticleCode = "000014";
-
-		/// <summary>
 		/// 0:掛売、1:現収、2:カード、3:そ の他、5:仮伝、6:契約
 		/// </summary>
 		public int 伝区 { get; set; }
@@ -97,6 +92,17 @@ namespace MwsLib.BaseFactory.Pca
 		public int 原価税込区分 { get; set; }
 		public int 原価税率 { get; set; }
 		public int 原価税種別 { get; set; }
+
+		/// <summary>
+		/// 記事レコードかどうか？
+		/// </summary>
+		public bool IsArticleRecord
+		{
+			get
+			{
+				return (PcaGoodsIDDefine.ArticleCode == 商品コード) ? true : false;
+			}
+		}
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -235,6 +241,98 @@ namespace MwsLib.BaseFactory.Pca
 				list.Add(原価税種別.ToString());
 			}
 			return String.Join(",", list.ToArray());
+		}
+
+		/// <summary>
+		/// CSVレコード格納
+		/// </summary>
+		/// <param name="csv"></param>
+		public bool SetCsvRecord(string[] csv)
+		{
+			if (53 <= csv.Length)
+			{
+				伝区 = int.Parse(csv[0].Trim('\"'));
+				売上日 = int.Parse(csv[1].Trim('\"'));
+				請求日 = int.Parse(csv[2].Trim('\"'));
+				伝票No = int.Parse(csv[3].Trim('\"'));
+				得意先コード = csv[4].Trim('\"');
+				得意先名 = csv[5].Trim('\"');
+				直送先コード = csv[6].Trim('\"');
+				先方担当者名 = csv[7].Trim('\"');
+				部門コード = csv[8].Trim('\"');
+				担当者コード = csv[9].Trim('\"');
+				摘要コード = csv[10].Trim('\"');
+				摘要名 = csv[11].Trim('\"');
+				分類コード = csv[12].Trim('\"');
+				伝票区分 = csv[13].Trim('\"');
+				商品コード = csv[14].Trim('\"');
+				マスター区分 = int.Parse(csv[15].Trim('\"'));
+				商品名 = csv[16].Trim('\"');
+				区 = int.Parse(csv[17].Trim('\"'));
+				倉庫コード = csv[18].Trim('\"');
+				入数 = int.Parse(csv[19].Trim('\"'));
+				箱数 = int.Parse(csv[20].Trim('\"'));
+				数量 = int.Parse(csv[21].Trim('\"'));
+				単位 = csv[22].Trim('\"');
+				単価 = int.Parse(csv[23].Trim('\"'));
+				売上金額 = int.Parse(csv[24].Trim('\"'));
+				原単価 = int.Parse(csv[25].Trim('\"'));
+				原価金額 = int.Parse(csv[26].Trim('\"'));
+				粗利益 = int.Parse(csv[27].Trim('\"'));
+				外税額 = int.Parse(csv[28].Trim('\"'));
+				内税額 = int.Parse(csv[29].Trim('\"'));
+				税区分 = int.Parse(csv[30].Trim('\"'));
+				税込区分 = int.Parse(csv[31].Trim('\"'));
+				備考 = csv[32].Trim('\"');
+				標準価格 = int.Parse(csv[33].Trim('\"'));
+				同時入荷区分 = int.Parse(csv[34].Trim('\"'));
+				売単価 = int.Parse(csv[35].Trim('\"'));
+				売価金額 = int.Parse(csv[36].Trim('\"'));
+				規格型番 = csv[37].Trim('\"');
+				色 = csv[38].Trim('\"');
+				サイズ = csv[39].Trim('\"');
+				計算式コード = int.Parse(csv[40].Trim('\"'));
+				商品項目１ = int.Parse(csv[41].Trim('\"'));
+				商品項目２ = int.Parse(csv[42].Trim('\"'));
+				商品項目３ = int.Parse(csv[43].Trim('\"'));
+				売上項目１ = int.Parse(csv[44].Trim('\"'));
+				売上項目２ = int.Parse(csv[45].Trim('\"'));
+				売上項目３ = int.Parse(csv[46].Trim('\"'));
+				税率 = int.Parse(csv[47].Trim('\"'));
+				伝票消費税額 = int.Parse(csv[48].Trim('\"'));
+				ﾌﾟﾛｼﾞｪｸﾄコード = csv[49].Trim('\"');
+				伝票No2 = csv[50].Trim('\"');
+				データ区分 = int.Parse(csv[51].Trim('\"'));
+				商品名２ = csv[52].Trim('\"');
+				if (53 < csv.Length)
+				{
+					単位区分 = int.Parse(csv[53].Trim('\"'));
+					ロットNo = csv[54].Trim('\"');
+					売上税種別 = int.Parse(csv[55].Trim('\"'));
+					原価税込区分 = int.Parse(csv[56].Trim('\"'));
+					原価税率 = int.Parse(csv[57].Trim('\"'));
+					原価税種別 = int.Parse(csv[58].Trim('\"'));
+				}
+				return true;
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// 請求先が違うかどうか？
+		/// </summary>
+		/// <param name="tokuisakiNo">得意先No</param>
+		/// <returns>判定</returns>
+		public bool IsDifferentSeikyusaki(string tokuisakiNo)
+		{
+			if (this.IsArticleRecord)
+			{
+				if (tokuisakiNo == 商品名.Replace("得意先No. ", ""))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }

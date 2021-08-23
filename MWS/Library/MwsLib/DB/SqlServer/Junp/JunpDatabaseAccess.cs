@@ -456,6 +456,19 @@ namespace MwsLib.DB.SqlServer.Junp
 			return tMic社内データ管理利用部署情報.DataTableToList(table);
 		}
 
+		/// <summary>
+		/// [JunpDB].[dbo].[tMic終了ユーザーリスト]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="ct">CT環境かどうか？</param>
+		/// <returns>tMic終了ユーザーリスト</returns>
+		public static List<tMic終了ユーザーリスト> Select_tMic終了ユーザーリスト(string whereStr, string orderStr, bool ct)
+		{
+			DataTable table = SelectJunpDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMic終了ユーザーリスト], whereStr, orderStr, ct);
+			return tMic終了ユーザーリスト.DataTableToList(table);
+		}
+
 
 		//////////////////////////////
 		// UPDATE SET

@@ -18,4 +18,3 @@ D:\SourceTree\MWS\Library\MwsLib\obj\Release\MwsLib.dll
 D:\SourceTree\MWS\Library\MwsLib\obj\Release\MwsLib.pdb
 D:\SourceTree\MWS\Library\MwsLib\bin\Release\JapaneseTextAlignment.dll
 D:\SourceTree\MWS\Library\MwsLib\bin\Release\System.Data.SQLite.dll
-D:\SourceTree\MWS\Library\MwsLib\obj\Release\MwsLib.csproj.AssemblyReference.cache

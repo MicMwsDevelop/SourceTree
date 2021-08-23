@@ -25,6 +25,11 @@ namespace VariousDocumentOut
 		public const string ProgramName = "各種書類出力";
 
 		/// <summary>
+		/// バージョン番号
+		/// </summary>
+		public const string VersionStr = "Ver1.01 (2021/08/06)";
+
+		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
 		/// </summary>
 		[STAThread]
