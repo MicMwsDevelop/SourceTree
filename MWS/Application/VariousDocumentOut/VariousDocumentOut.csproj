@@ -57,6 +57,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FaxOrderSheetGoods.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +74,8 @@
     <Compile Include="Forms\SelectSatelliteForm.Designer.cs">
       <DependentUpon>SelectSatelliteForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings\VariousDocumentOutSettings.cs" />
+    <Compile Include="Settings\VariousDocumentOutSettingsIF.cs" />
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,6 +119,7 @@
     <None Include="17-作業報告書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="18-消耗品FAXオーダーシート.xlsx.org" />
     <None Include="2-FAX送付状.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -193,14 +197,17 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Library\MicLib\MicLib.csproj">
-      <Project>{1ff897db-9d92-4630-a99d-d30b75e5d899}</Project>
-      <Name>MicLib</Name>
+    <ProjectReference Include="..\..\..\Library\CommonLib\CommonLib.csproj">
+      <Project>{f6f244a5-2379-416a-a321-4074ef6beb8c}</Project>
+      <Name>CommonLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Library\MwsLib\MwsLib.csproj">
+    <ProjectReference Include="..\..\..\Library\MwsLib\MwsLib.csproj">
       <Project>{dbcbf3f6-889c-4dd9-91ea-a2527aacede6}</Project>
       <Name>MwsLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Settings\VariousDocumentOutSettings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

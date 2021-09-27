@@ -7,7 +7,7 @@
 // 
 // Ver1.00(2021/08/18):新規作成(勝呂)
 //
-using MwsLib.Common;
+using CommonLib.Common;
 using System;
 using System.Windows.Forms;
 

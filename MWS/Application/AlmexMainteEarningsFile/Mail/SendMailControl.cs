@@ -7,8 +7,8 @@
 // 
 // Ver1.00 新規作成(2020/11/24 勝呂)
 //
-using MwsLib.Common;
-using MwsLib.BaseFactory.AlmexMainte;
+using CommonLib.BaseFactory.AlmexMainte;
+using CommonLib.Common;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -92,7 +92,8 @@ namespace AlmexMainteEarningsFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>保守サービス</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>更新月</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>終了</font></th>"
-								+ @"</tr>";
+								+ @"</tr>"
+								+ @"</table>";
 					msg.Body += @"<br><p>アルメックス保守サービス更新対象医院はありませんでした。</p>";
 				}
 				msg.Body += @"</div>"

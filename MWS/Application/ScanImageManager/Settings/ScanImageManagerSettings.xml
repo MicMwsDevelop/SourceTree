@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScanImageManagerSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ImagePath>\\sqlsv\data保存\ScanImageData</ImagePath>
+  <Connect>
+    <Junp>
+    <InstanceName>SQLSV</InstanceName>
+    <!-- InstanceName>TESTSV</InstanceName -->
+    <DatabaseName>JunpDB</DatabaseName>
+    <UserID>web</UserID>
+    <Password>02035612</Password>
+    </Junp>
+    <Charlie>
+    <InstanceName>SQLSV</InstanceName>
+    <!-- InstanceName>TESTSV</InstanceName -->
+    <DatabaseName>CharlieDB</DatabaseName>
+    <UserID>web</UserID>
+    <Password>02035612</Password>
+    </Charlie>
+    <Coupler>
+    <InstanceName>CP-DB01</InstanceName>
+    <!--InstanceName>CPTest-DB</InstanceName-->
+    <DatabaseName>COUPLER</DatabaseName>
+    <UserID>cpuser</UserID>
+    <!--UserID>sa</UserID-->
+    <Password>Sqladmin#39</Password>
+    </Coupler>
+  </Connect>
+</ScanImageManagerSettings>

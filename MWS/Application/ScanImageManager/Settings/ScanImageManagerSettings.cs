@@ -6,10 +6,10 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2021/07/06 勝呂)
+// Ver1.01 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 //
-using MwsLib.Common;
+using MwsLib.Settings.SqlServer;
 using System;
-using System.Collections.Specialized;
 
 namespace ScanImageManager.Settings
 {
@@ -25,11 +25,17 @@ namespace ScanImageManager.Settings
 		public string ImagePath;
 
 		/// <summary>
+		/// SQL Server接続情報
+		/// </summary>
+		public SqlServerConnectSettings Connect { get; set; }
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public ScanImageManagerSettings()
         {
 			ImagePath = string.Empty;
+			Connect = new SqlServerConnectSettings();
 		}
 
 		/// <summary>
@@ -51,7 +57,7 @@ namespace ScanImageManager.Settings
 		{
 			if (other != null)
 			{
-				if (ImagePath == other.ImagePath)
+				if (ImagePath == other.ImagePath && Connect.Equals(other.Connect))
 				{
 					return true;
 				}

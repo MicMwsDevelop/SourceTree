@@ -7,7 +7,7 @@
 // 
 // Ver1.000 新規作成(2020/04/17 勝呂)
 // 
-using MwsLib.BaseFactory.Junp.CheckOrderSlip;
+using CommonLib.BaseFactory.Junp.CheckOrderSlip;
 using System;
 using System.Windows.Forms;
 

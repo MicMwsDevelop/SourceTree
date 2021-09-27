@@ -5,20 +5,19 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2021/04/22 勝呂)
+// Ver1.00(2021/04/22):新規作成
+// Ver1.02(2021/09/01):Microsoft365利用申込書のFAX番号を本社から消耗品受注センターに変更
+// Ver1.02(2021/09/01):アプラス預金口座振替依頼書・自動払込利用申込書の記入例を元に戻す
+// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
 //
 using System;
 using System.Windows.Forms;
+using VariousDocumentOut.Settings;
 
 namespace VariousDocumentOut
 {
 	static class Program
 	{
-		/// <summary>
-		/// データベース接続先
-		/// </summary>
-		public const bool DATABASE_ACCESS_CT = false;
-
 		/// <summary>
 		/// プログラム名
 		/// </summary>
@@ -27,7 +26,12 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// バージョン番号
 		/// </summary>
-		public const string VersionStr = "Ver1.01 (2021/08/06)";
+		public const string VersionStr = "Ver1.02 (2021/09/01)";
+
+		/// <summary>
+		/// 環境設定
+		/// </summary>
+		public static VariousDocumentOutSettings gSettings { get; set; }
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -37,6 +41,9 @@ namespace VariousDocumentOut
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			gSettings = VariousDocumentOutSettingsIF.GetSettings();
+
 			Application.Run(new Forms.MainForm());
 		}
 	}

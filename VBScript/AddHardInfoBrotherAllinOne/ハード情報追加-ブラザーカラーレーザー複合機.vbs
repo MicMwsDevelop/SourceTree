@@ -87,7 +87,7 @@ Sub Main()
 					Dim rs3 : Set rs3 = OpenRecordSet(sql3)
 					If rs3.EOF = False Then
 						Dim hardNo : hardNo = rs3.Fields("hardNo").Value
-						Dim sql4 : sql4 = "INSERT INTO tMikハード構成 VALUES (" & CStr(clinicCode) & ", " & CStr(hardNo + 1) & ", 14, 'ﾌﾞﾗｻﾞｰ(ｶﾗｰﾚｰｻﾞｰ複合機) MFC-L8610CDW', '', CONVERT(nvarchar, getdate(), 11), getdate(), '営業管理部', CONVERT(nvarchar, getdate(), 11), '017752')"
+						Dim sql4 : sql4 = "INSERT INTO tMikハード構成 VALUES (" & CStr(clinicCode) & ", " & CStr(hardNo + 1) & ", 14, 'ﾌﾞﾗｻﾞｰ(ｶﾗｰﾚｰｻﾞｰ複合機) MFC-L8610CDW', '', CONVERT(nvarchar, getdate(), 11), getdate(), '営業管理部', CONVERT(nvarchar, DATEADD(day, -1, getdate()), 11), '017752')"
 						conn.Execute(sql4)
 					End If
 					rs3.Close

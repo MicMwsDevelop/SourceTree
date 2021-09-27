@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<PcSupportEarningsFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<ExportDir>C:\_TEST</ExportDir>
-	<ExportFilename>PC安心サポート継続売上データ.csv</ExportFilename>
-	<PcaVersion>7</PcaVersion>
-	<SlipInitialNumber>61001</SlipInitialNumber>
-</PcSupportEarningsFileSettings>

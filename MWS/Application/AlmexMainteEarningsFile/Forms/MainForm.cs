@@ -7,8 +7,8 @@
 // 
 // Ver1.00 新規作成(2021/01/20 勝呂)
 //
-using MwsLib.Common;
 using AlmexMainteEarningsFile.Settings;
+using CommonLib.Common;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -35,6 +35,8 @@ namespace AlmexMainteEarningsFile.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
+			this.Text = string.Format("{0}  {1}", Program.PROC_NAME, Program.VersionStr);
+
 			textBoxFolder.Text = Program.gSettings.ExportDir;
 			textBoxFilename.Text = Program.gSettings.ExportFilename;
 			textBoxPcaVer.Text = Program.gSettings.PcaVersion.ToString();

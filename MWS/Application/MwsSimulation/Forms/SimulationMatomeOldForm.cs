@@ -10,9 +10,9 @@
 // Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
 // 
 using CommonDialog.PrintPreview;
-using MwsLib.BaseFactory.MwsSimulation;
-using MwsLib.Common;
-using MwsLib.DB.SQLite.MwsSimulation;
+using CommonLib.BaseFactory.MwsSimulation;
+using CommonLib.Common;
+using CommonLib.DB.SQLite.MwsSimulation;
 using MwsSimulation.Print;
 using System;
 using System.Collections.Generic;

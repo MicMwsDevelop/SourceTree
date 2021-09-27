@@ -42,7 +42,7 @@ namespace OptechConvert
 			// 
 			// buttonReadOptech
 			// 
-			this.buttonReadOptech.Location = new System.Drawing.Point(349, 28);
+			this.buttonReadOptech.Location = new System.Drawing.Point(349, 90);
 			this.buttonReadOptech.Name = "buttonReadOptech";
 			this.buttonReadOptech.Size = new System.Drawing.Size(118, 34);
 			this.buttonReadOptech.TabIndex = 4;
@@ -61,7 +61,7 @@ namespace OptechConvert
 			// 
 			// buttonImportFile
 			// 
-			this.buttonImportFile.Location = new System.Drawing.Point(349, 93);
+			this.buttonImportFile.Location = new System.Drawing.Point(349, 686);
 			this.buttonImportFile.Name = "buttonImportFile";
 			this.buttonImportFile.Size = new System.Drawing.Size(118, 34);
 			this.buttonImportFile.TabIndex = 8;
@@ -76,16 +76,15 @@ namespace OptechConvert
 			this.textBoxClinicCode.Name = "textBoxClinicCode";
 			this.textBoxClinicCode.Size = new System.Drawing.Size(100, 19);
 			this.textBoxClinicCode.TabIndex = 1;
-			this.textBoxClinicCode.Text = "1234567";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(13, 50);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(167, 12);
+			this.label2.Size = new System.Drawing.Size(173, 12);
 			this.label2.TabIndex = 2;
-			this.label2.Text = "■オプテックコンバートデータフォルダ";
+			this.label2.Text = "■オプテックコンバートファイルフォルダ";
 			// 
 			// textBoxOptechFolder
 			// 
@@ -95,13 +94,12 @@ namespace OptechConvert
 			this.textBoxOptechFolder.ReadOnly = true;
 			this.textBoxOptechFolder.Size = new System.Drawing.Size(452, 19);
 			this.textBoxOptechFolder.TabIndex = 3;
-			this.textBoxOptechFolder.Text = "D:\\SourceTree\\MWS\\Application\\OptechConvert\\Doc\\Optechコンバート\\OptechXML";
 			// 
 			// listBoxPatient
 			// 
 			this.listBoxPatient.FormattingEnabled = true;
 			this.listBoxPatient.ItemHeight = 12;
-			this.listBoxPatient.Location = new System.Drawing.Point(15, 133);
+			this.listBoxPatient.Location = new System.Drawing.Point(15, 148);
 			this.listBoxPatient.Name = "listBoxPatient";
 			this.listBoxPatient.Size = new System.Drawing.Size(452, 532);
 			this.listBoxPatient.TabIndex = 6;
@@ -109,7 +107,7 @@ namespace OptechConvert
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(13, 115);
+			this.label3.Location = new System.Drawing.Point(13, 130);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(100, 12);
 			this.label3.TabIndex = 5;
@@ -118,7 +116,7 @@ namespace OptechConvert
 			// checkBoxExceptRezeptCheck
 			// 
 			this.checkBoxExceptRezeptCheck.AutoSize = true;
-			this.checkBoxExceptRezeptCheck.Location = new System.Drawing.Point(173, 103);
+			this.checkBoxExceptRezeptCheck.Location = new System.Drawing.Point(191, 696);
 			this.checkBoxExceptRezeptCheck.Name = "checkBoxExceptRezeptCheck";
 			this.checkBoxExceptRezeptCheck.Size = new System.Drawing.Size(152, 16);
 			this.checkBoxExceptRezeptCheck.TabIndex = 7;
@@ -129,7 +127,7 @@ namespace OptechConvert
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(481, 680);
+			this.ClientSize = new System.Drawing.Size(481, 733);
 			this.Controls.Add(this.checkBoxExceptRezeptCheck);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.listBoxPatient);
@@ -140,6 +138,7 @@ namespace OptechConvert
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.buttonReadOptech);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
 			this.Name = "MainForm";
 			this.Text = "オプテックカルテコンバータ";
 			this.ResumeLayout(false);

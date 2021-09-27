@@ -6,8 +6,10 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2020/10/09 勝呂)
+// Ver1.02 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 //
-using MwsLib.BaseFactory.Mail;
+using MwsLib.Settings.Mail;
+using MwsLib.Settings.SqlServer;
 using System;
 using System.IO;
 
@@ -44,6 +46,11 @@ namespace SoftwareMainteEarningsFile.Settings
 		public MailSettings Mail { get; set; }
 
 		/// <summary>
+		/// SQL Server接続情報
+		/// </summary>
+		public SqlServerConnectSettings Connect { get; set; }
+
+		/// <summary>
 		/// 売上データ出力ファイルパス名
 		/// </summary>
 		public string Pathname
@@ -64,6 +71,7 @@ namespace SoftwareMainteEarningsFile.Settings
 			PcaVersion = 7;
 			SlipInitialNumber = 60001;
 			Mail = new MailSettings();
+			Connect = new SqlServerConnectSettings();
 		}
 
 		/// <summary>
@@ -89,7 +97,8 @@ namespace SoftwareMainteEarningsFile.Settings
 					&& ExportFilename == other.ExportFilename
 					&& PcaVersion == other.PcaVersion
 					&& SlipInitialNumber == other.SlipInitialNumber
-					&& Mail.Equals(other.Mail))
+					&& Mail.Equals(other.Mail)
+					&& Connect.Equals(other.Connect))
 				{
 					return true;
 				}

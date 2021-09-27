@@ -151,7 +151,7 @@
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
-			this.Text = "クラウドバックアップ仕入データ作成  Ver1.01(2021/01/08)";
+			this.Text = "クラウドバックアップ仕入データ作成";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);

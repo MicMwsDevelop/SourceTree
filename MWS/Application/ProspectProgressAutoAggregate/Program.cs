@@ -6,13 +6,17 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2021/08/04 勝呂)
+// Ver1.01 新設の商品区分2(0030) paletteおまとめをpalette売上に含める(2021/09/06 勝呂)
+// Ver1.02 見込進捗詳細をPCA勘定科目の変更に対応(2021/09/15 勝呂)
+// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
 //
 using ClosedXML.Excel;
-using MwsLib.BaseFactory.Charlie.Table;
-using MwsLib.BaseFactory.ProspectProgressAutoAggregate;
-using MwsLib.Common;
-using MwsLib.DB.SqlServer.Charlie;
-using MwsLib.DB.SqlServer.ProspectProgressAutoAggregate;
+using CommonLib.BaseFactory.Charlie.Table;
+using CommonLib.BaseFactory.ProspectProgressAutoAggregate;
+using CommonLib.Common;
+using CommonLib.DB.SqlServer.Charlie;
+using CommonLib.DB.SqlServer.ProspectProgressAutoAggregate;
+using MwsLib.Settings.SqlServer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,14 +29,14 @@ namespace ProspectProgressAutoAggregate
 	static class Program
 	{
 		/// <summary>
-		/// データベース接続先
+		/// 環境設定
 		/// </summary>
-		private const bool DATABASE_ACCESS_CT = false;
+		private static SqlServerConnectSettings gSettings { get; set; }
 
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.00 (2021/08/04)";
+		public const string VersionStr = "Ver1.03 (2021/09/27)";
 
 		/// <summary>
 		/// 部門コード
@@ -43,6 +47,76 @@ namespace ProspectProgressAutoAggregate
 		/// PCA部門コード
 		/// </summary>
 		private static string[] gPcaBumonCoeds = { "081", "082", "083", "086", "087", "085" };
+
+		/// <summary>
+		/// palette売上 行番号
+		/// </summary>
+		private static readonly int ROW_palette売上 = 6;
+
+		/// <summary>
+		/// paletteES売上 行番号
+		/// </summary>
+		private static readonly int ROW_paletteES売上 = 13;
+
+		/// <summary>
+		/// その他ｿﾌﾄ売上 行番号
+		/// </summary>
+		private static readonly int ROW_その他ｿﾌﾄ売上 = 20;
+
+		/// <summary>
+		/// ハード売上 行番号
+		/// </summary>
+		private static readonly int ROW_ハード売上 = 28;
+
+		/// <summary>
+		/// 技術指導売上 行番号
+		/// </summary>
+		private static readonly int ROW_技術指導売上 = 35;
+
+		/// <summary>
+		/// ハード保守 行番号
+		/// </summary>
+		private static readonly int ROW_ハード保守 = 49;
+
+		/// <summary>
+		/// ソフト保守 行番号
+		/// </summary>
+		private static readonly int ROW_ソフト保守 = 56;
+
+		/// <summary>
+		/// 周辺機器売上 行番号
+		/// </summary>
+		private static readonly int ROW_周辺機器売上 = 63;
+
+		/// <summary>
+		/// その他売上 行番号
+		/// </summary>
+		private static readonly int ROW_その他売上 = 70;
+
+		/// <summary>
+		/// ｵﾝ資格導入売上 行番号
+		/// </summary>
+		private static readonly int ROW_ｵﾝ資格導入売上 = 78;
+
+		/// <summary>
+		/// Curline本体 行番号
+		/// </summary>
+		private static readonly int ROW_Curline本体_46 = 78;
+
+		/// <summary>
+		/// Curline替ﾌﾞﾗｼ 行番号
+		/// </summary>
+		private static readonly int ROW_Curline替ﾌﾞﾗｼ_46 = 86;
+
+		/// <summary>
+		/// Curline本体 行番号
+		/// </summary>
+		private static readonly int ROW_Curline本体_47 = 85;
+
+		/// <summary>
+		/// Curline替ﾌﾞﾗｼ 行番号
+		/// </summary>
+		private static readonly int ROW_Curline替ﾌﾞﾗｼ_47 = 93;
 
 		/// <summary>
 		/// 売上実績リスト
@@ -88,6 +162,8 @@ namespace ProspectProgressAutoAggregate
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
+			gSettings = SqlServerConnectSettingsIF.GetSettings();
+
 			string[] cmds = Environment.GetCommandLineArgs();
 			if (2 <= cmds.Length)
 			{
@@ -98,7 +174,7 @@ namespace ProspectProgressAutoAggregate
 					return AutoAggregate(Date.Today, out msg);
 				}
 			}
-			Application.Run(new MainForm());
+			Application.Run(new Forms.MainForm());
 			return 0;
 		}
 
@@ -112,6 +188,20 @@ namespace ProspectProgressAutoAggregate
 			Date start = new Date((today.Month < 8) ? today.Year - 1 : today.Year, 8, 1);
 			Date end = start.PlusYears(1).LastDayOfLasMonth();
 			return new Span(start, end);
+		}
+
+		/// <summary>
+		/// 期の取得
+		/// </summary>
+		/// <returns></returns>
+		private static int GetPeriod()
+		{
+			int year = BootDate.Year;
+			if (8 <= BootDate.Month)
+			{
+				year++;
+			}
+			return year - 1975;
 		}
 
 		/// <summary>
@@ -164,7 +254,7 @@ namespace ProspectProgressAutoAggregate
 				// カーソルを待機カーソルに変更
 				Cursor.Current = Cursors.WaitCursor;
 
-				売上実績List = CharlieDatabaseAccess.Select_売上実績(string.Format("実績日 >= {0} AND 実績日 <= {1}", Term.Start.ToIntYMD(), Term.End.ToIntYMD()), "実績日, 営業部コード", DATABASE_ACCESS_CT);
+				売上実績List = CharlieDatabaseAccess.Select_売上実績(string.Format("実績日 >= {0} AND 実績日 <= {1}", Term.Start.ToIntYMD(), Term.End.ToIntYMD()), "実績日, 営業部コード", gSettings.Charlie.ConnectionString);
 				if (null == 売上実績List)
 				{
 					msg = "当日の売上実績が登録されていないため見込進捗を出力できません。";
@@ -173,16 +263,16 @@ namespace ProspectProgressAutoAggregate
 				Date start = Term.Start;
 				for (int i = 0; i < 13; i++)
 				{
-					List<売上予想> work = ProspectProgressAutoAggregateAccess.Select_売上予想(start, DATABASE_ACCESS_CT);
+					List<売上予想> work = ProspectProgressAutoAggregateAccess.Select_売上予想(start, gSettings.Junp.ConnectionString);
 					if (null != work)
 					{
 						売上予想List.AddRange(work);
 					}
 					start = start.PlusMonths(1);
 				}
-				ES売上予想List = ProspectProgressAutoAggregateAccess.Select_ES売上予想(Term.Start, Term.End, DATABASE_ACCESS_CT);
-				予測連絡用_ESList = ProspectProgressAutoAggregateAccess.Select_予測連絡用ES(DATABASE_ACCESS_CT);
-				予測連絡用_まとめList = ProspectProgressAutoAggregateAccess.Select_予測連絡用まとめ(DATABASE_ACCESS_CT);
+				ES売上予想List = ProspectProgressAutoAggregateAccess.Select_ES売上予想(Term.Start, Term.End, gSettings.Junp.ConnectionString);
+				予測連絡用_ESList = ProspectProgressAutoAggregateAccess.Select_予測連絡用ES(gSettings.Junp.ConnectionString);
+				予測連絡用_まとめList = ProspectProgressAutoAggregateAccess.Select_予測連絡用まとめ(gSettings.Junp.ConnectionString);
 
 				// カーソルを元に戻す
 				Cursor.Current = preCursor;
@@ -279,11 +369,21 @@ namespace ProspectProgressAutoAggregate
 					ws.Cell(12, 5 + j).SetValue(result.予測営業損益);
 				}
 				// 進捗
+				int price = 0;
 				List<売上予想> sale = 売上予想List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.集計月 == thisYM);
 				if (null != sale)
 				{
-					ws.Cell(8, 7 + j).SetValue(sale.Sum(p => p.金額千円単位));
+					price = sale.Sum(p => p.金額);
 				}
+				// ソフト保守の売上を加算
+				// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
+				List<ES売上予想> soft = ES売上予想List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.計上月 == thisYM.ToString());
+				if (null != soft)
+				{
+					price += soft.Sum(p => p.売上金額);
+				}
+				ws.Cell(8, 7 + j).SetValue(To金額千円単位(price)); // 金額千円単位
+
 				List<予測連絡用ES> es = 予測連絡用_ESList.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == thisYM.ToString());
 				if (null != es)
 				{
@@ -323,6 +423,13 @@ namespace ProspectProgressAutoAggregate
 				if (null != sale)
 				{
 					price = sale.Sum(p => p.金額);
+				}
+				// ソフト保守の売上を加算
+				// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
+				List<ES売上予想> soft = ES売上予想List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.計上月 == nextYM.ToString());
+				if (null != soft)
+				{
+					price += soft.Sum(p => p.売上金額);
 				}
 				// 翌月分のpalette売上分には、まとめ分が含まれていないので、「予測連絡用-まとめ」の金額を加算する
 				List<予測連絡用まとめ> matome = 予測連絡用_まとめList.FindAll(p => p.営業部コード == gBumonCodes[i] && p.売上月 == nextYM.ToString());
@@ -434,148 +541,187 @@ namespace ProspectProgressAutoAggregate
 		/// <param name="col">カラム</param>
 		private static void 見込進捗詳細_実績値設定(IXLWorksheet ws, YearMonth ym, int col)
 		{
-			string[] bumon1 = { "081", "082", "083", "086", "087", "085" };
-			string[] bumon2 = { "081", "082", "083", "086", "087", "085", "075" };
-			string[] bumon3 = { "081", "082", "083", "086", "087", "085", "011", "075" };
+			string[] bumon1 = { "081", "082", "083", "086", "087", "085" };					// 東日本営業部、首都圏営業部、関東営業部、中部営業部、関西営業部、西日本営業部
+			string[] bumon2 = { "075", "081", "082", "083", "086", "087", "085" };          // ヘルスケア営業部、東日本営業部、首都圏営業部、関東営業部、中部営業部、関西営業部、西日本営業部
+			string[] bumon3 = { "081", "082", "083", "086", "087", "085", "011" };			// 東日本営業部、首都圏営業部、関東営業部、中部営業部、関西営業部、西日本営業部、営業管理部
+
+			// 期の取得
+			int period = GetPeriod();
 
 			List<売上予想> result = 売上予想List.FindAll(p => p.集計月 == ym);
 
 			// palette売上
-			List<売上予想> work = result.FindAll(p => p.商品区分コード == "28");
+			// Ver1.01 新設の商品区分2(0030) paletteおまとめをpalette売上に含める(2021/09/06 勝呂)
+			List<売上予想> pca = result.FindAll(p => p.商品区分コード == "28" || p.商品区分コード == "30");
 			YearMonth nextYM = BootDate.PlusMonths(1).ToYearMonth();
 			if (ym == nextYM)
 			{
 				// 翌月
-				for (int i = 0, j = 6; i < bumon1.Length; i++, j++)
+				for (int i = 0, j = ROW_palette売上; i < bumon1.Length; i++, j++)
 				{
-					int palette = 0;
-					List<売上予想> price = work.FindAll(p => p.部門コード == bumon1[i]);
-					if (null != price)
+					int price = 0;
+					List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon1[i]);
+					if (null != sale)
 					{
-						palette = price.Sum(p => p.金額);
+						price = sale.Sum(p => p.金額);
 					}
 					// 翌月分のpalette売上分には、まとめ分が含まれていないので、「予測連絡用-まとめ」の金額を加算する
 					List<予測連絡用まとめ> matome = 予測連絡用_まとめList.FindAll(p => p.営業部コード == gBumonCodes[i] && p.売上月 == nextYM.ToString());
 					if (null != matome)
 					{
-						palette += matome.Sum(p => p.金額);
+						price += matome.Sum(p => p.金額);
 					}
-					ws.Cell(j, col).SetValue(To金額千円単位(palette));
+					ws.Cell(j, col).SetValue(To金額千円単位(price));
 				}
 			}
 			else
 			{
 				// 翌月以外
-				for (int i = 0, j = 6; i < bumon1.Length; i++, j++)
+				for (int i = 0, j = ROW_palette売上; i < bumon1.Length; i++, j++)
 				{
-
-					List<売上予想> price = work.FindAll(p => p.部門コード == bumon1[i]);
-					if (null != price)
+					List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon1[i]);
+					if (null != sale)
 					{
-						ws.Cell(j, col).SetValue(To金額千円単位(price.Sum(p => p.金額)));
+						ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
 					}
 				}
 			}
 			// paletteES
-			work = result.FindAll(p => p.商品区分コード == "27");
-			for (int i = 0, j = 13; i < bumon1.Length; i++, j++)
+			pca = result.FindAll(p => p.商品区分コード == "27");
+			for (int i = 0, j = ROW_paletteES売上; i < bumon1.Length; i++, j++)
 			{
-				List<売上予想> price = work.FindAll(p => p.部門コード == bumon1[i]);
-				if (null != price)
+				List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon1[i]);
+				if (null != sale)
 				{
-					ws.Cell(j, col).SetValue(To金額千円単位(price.Sum(p => p.金額)));
+					ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
 				}
 			}
 			// その他ｿﾌﾄ売上
-			work = result.FindAll(p => p.商品区分コード == "1");
-			for (int i = 0, j = 20; i < bumon2.Length; i++, j++)
+			pca = result.FindAll(p => p.商品区分コード == "1");
+			for (int i = 0, j = ROW_その他ｿﾌﾄ売上; i < bumon2.Length; i++, j++)
 			{
-				List<売上予想> price = work.FindAll(p => p.部門コード == bumon2[i]);
-				if (null != price)
+				List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon2[i]);
+				if (null != sale)
 				{
-					ws.Cell(j, col).SetValue(To金額千円単位(price.Sum(p => p.金額)));
+					ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
 				}
 			}
 			// ハード売上
-			work = result.FindAll(p => p.商品区分コード == "2");
-			for (int i = 0, j = 28; i < bumon1.Length; i++, j++)
+			pca = result.FindAll(p => p.商品区分コード == "2");
+			for (int i = 0, j = ROW_ハード売上; i < bumon1.Length; i++, j++)
 			{
-				List<売上予想> price = work.FindAll(p => p.部門コード == bumon1[i]);
-				if (null != price)
+				List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon1[i]);
+				if (null != sale)
 				{
-					ws.Cell(j, col).SetValue(To金額千円単位(price.Sum(p => p.金額)));
+					ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
 				}
 			}
 			// 技術指導売上
-			work = result.FindAll(p => p.商品区分コード == "40");
-			for (int i = 0, j = 35; i < bumon1.Length; i++, j++)
+			pca = result.FindAll(p => p.商品区分コード == "40");
+			for (int i = 0, j = ROW_技術指導売上; i < bumon1.Length; i++, j++)
 			{
-				List<売上予想> price = work.FindAll(p => p.部門コード == bumon1[i]);
-				if (null != price)
+				List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon1[i]);
+				if (null != sale)
 				{
-					ws.Cell(j, col).SetValue(To金額千円単位(price.Sum(p => p.金額)));
+					ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
 				}
 			}
 			// ハード保守
-			work = result.FindAll(p => p.商品区分コード == "7");
-			for (int i = 0, j = 49; i < bumon1.Length; i++, j++)
+			pca = result.FindAll(p => p.商品区分コード == "7");
+			for (int i = 0, j = ROW_ハード保守; i < bumon1.Length; i++, j++)
 			{
-				List<売上予想> price = work.FindAll(p => p.部門コード == bumon1[i]);
-				if (null != price)
+				List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon1[i]);
+				if (null != sale)
 				{
-					ws.Cell(j, col).SetValue(To金額千円単位(price.Sum(p => p.金額)));
+					ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
 				}
 			}
 			// ソフト保守
 			// ソフト保守はES売上予想Listから金額を取得
 			List<ES売上予想> soft = ES売上予想List.FindAll(p => p.計上月 == ym.ToString());
-			for (int i = 0, j = 56; i < bumon1.Length; i++, j++)
+			for (int i = 0, j = ROW_ソフト保守; i < bumon1.Length; i++, j++)
 			{
-				List<ES売上予想> price = soft.FindAll(p => p.部門コード == bumon1[i]);
-				if (null != price)
+				List<ES売上予想> sale = soft.FindAll(p => p.部門コード == bumon1[i]);
+				if (null != sale)
 				{
-					ws.Cell(j, col).SetValue(To金額千円単位(price.Sum(p => p.売上金額)));
+					ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.売上金額)));
 				}
 			}
 			// 周辺機器売上
-			work = result.FindAll(p => p.商品区分コード == "97");
-			for (int i = 0, j = 63; i < bumon1.Length; i++, j++)
+			pca = result.FindAll(p => p.商品区分コード == "97");
+			for (int i = 0, j = ROW_周辺機器売上; i < bumon1.Length; i++, j++)
 			{
-				List<売上予想> price = work.FindAll(p => p.部門コード == bumon1[i]);
-				if (null != price)
+				List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon1[i]);
+				if (null != sale)
 				{
-					ws.Cell(j, col).SetValue(To金額千円単位(price.Sum(p => p.金額)));
+					ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
 				}
 			}
-			// その他売上
-			// ※50:ｵﾝﾗｲﾝ資格確認導入をその他に含める
-			work = result.FindAll(p => p.商品区分コード == "99" || p.商品区分コード == "50");
-			for (int i = 0, j = 70; i < bumon3.Length; i++, j++)
+			if (46 < period)
 			{
-				List<売上予想> price = work.FindAll(p => p.部門コード == bumon3[i]);
-				if (null != price)
+				// 47期以降
+				// その他売上
+				pca = result.FindAll(p => p.商品区分コード == "99");
+				for (int i = 0, j = ROW_その他売上; i < bumon3.Length; i++, j++)
 				{
-					ws.Cell(j, col).SetValue(To金額千円単位(price.Sum(p => p.金額)));
+					List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon3[i]);
+					if (null != sale)
+					{
+						ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
+					}
 				}
+				// ｵﾝ資格導入売上
+				pca = result.FindAll(p => p.商品区分コード == "50");
+				for (int i = 0, j = ROW_ｵﾝ資格導入売上; i < bumon1.Length; i++, j++)
+				{
+					List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon1[i]);
+					if (null != sale)
+					{
+						ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
+					}
+				}
+			}
+			else
+			{
+				// 46期
+				// その他売上
+				// ※50:ｵﾝﾗｲﾝ資格確認導入をその他に含める
+				pca = result.FindAll(p => p.商品区分コード == "99" || p.商品区分コード == "50");
+				for (int i = 0, j = ROW_その他売上; i < bumon3.Length; i++, j++)
+				{
+					List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon3[i]);
+					if (null != sale)
+					{
+						ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
+					}
+				}
+			}
+			int rowCurlineBody = ROW_Curline本体_47;
+			int rowCurlineBrush = ROW_Curline替ﾌﾞﾗｼ_47;
+			if (46 == period)
+			{
+				// 46期はｵﾝ資格導入売上がないので行数を変更
+				rowCurlineBody = ROW_Curline本体_46;
+				rowCurlineBrush = ROW_Curline替ﾌﾞﾗｼ_46;
 			}
 			// Curline本体
-			work = result.FindAll(p => p.商品区分コード == "201");
-			for (int i = 0, j = 79; i < bumon3.Length; i++, j++)
+			pca = result.FindAll(p => p.商品区分コード == "201");
+			for (int i = 0, j = rowCurlineBody; i < bumon3.Length; i++, j++)
 			{
-				List<売上予想> price = work.FindAll(p => p.部門コード == bumon3[i]);
-				if (null != price)
+				List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon3[i]);
+				if (null != sale)
 				{
-					ws.Cell(j, col).SetValue(To金額千円単位(price.Sum(p => p.金額)));
+					ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
 				}
 			}
 			// Curline替ﾌﾞﾗｼ
-			work = result.FindAll(p => p.商品区分コード == "202");
-			for (int i = 0, j = 88; i < bumon3.Length; i++, j++)
+			pca = result.FindAll(p => p.商品区分コード == "202");
+			for (int i = 0, j = rowCurlineBrush; i < bumon3.Length; i++, j++)
 			{
-				List<売上予想> price = work.FindAll(p => p.部門コード == bumon3[i]);
-				if (null != price)
+				List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon3[i]);
+				if (null != sale)
 				{
-					ws.Cell(j, col).SetValue(To金額千円単位(price.Sum(p => p.金額)));
+					ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
 				}
 			}
 		}

@@ -7,8 +7,8 @@
 // 
 // Ver1.00 新規作成(2020/11/24 勝呂)
 //
-using MwsLib.Common;
-using MwsLib.BaseFactory.Mail;
+using MwsLib.Settings.Mail;
+using MwsLib.Settings.SqlServer;
 using System;
 using System.IO;
 
@@ -43,6 +43,11 @@ namespace AlmexMainteEarningsFile.Settings
 		/// メール設定
 		/// </summary>
 		public MailSettings Mail { get; set; }
+
+		/// <summary>
+		/// SQL Server接続情報
+		/// </summary>
+		public SqlServerConnectSettings Connect { get; set; }
 
 		/// <summary>
 		/// 出力ファイル名
@@ -88,6 +93,7 @@ namespace AlmexMainteEarningsFile.Settings
 			PcaVersion = 7;
 			SlipInitialNumber = 61001;
 			Mail = new MailSettings();
+			Connect = new SqlServerConnectSettings();
 		}
 
 		/// <summary>
@@ -122,7 +128,8 @@ namespace AlmexMainteEarningsFile.Settings
 					&& ExportFilename == other.ExportFilename
 					&& PcaVersion == other.PcaVersion
 					&& SlipInitialNumber == other.SlipInitialNumber
-					&& Mail.Equals(other.Mail))
+					&& Mail.Equals(other.Mail)
+					&& Connect.Equals(other.Connect))
 				{
 					return true;
 				}

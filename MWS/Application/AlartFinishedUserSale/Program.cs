@@ -9,11 +9,11 @@
 //
 using AlartFinishedUserSale.Mail;
 using AlartFinishedUserSale.Settings;
-using MwsLib.BaseFactory.Junp.Table;
-using MwsLib.BaseFactory.Junp.View;
-using MwsLib.BaseFactory.Pca;
-using MwsLib.Common;
-using MwsLib.DB.SqlServer.Junp;
+using CommonLib.BaseFactory.Junp.Table;
+using CommonLib.BaseFactory.Junp.View;
+using CommonLib.BaseFactory.Pca;
+using CommonLib.Common;
+using CommonLib.DB.SqlServer.Junp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,11 +24,6 @@ namespace AlartFinishedUserSale
 {
 	static class Program
 	{
-		/// <summary>
-		/// データベース接続先 CT環境
-		/// </summary>
-		public const bool DATABACE_ACCEPT_CT = false;
-
 		/// <summary>
 		/// プログラム名
 		/// </summary>
@@ -127,7 +122,7 @@ namespace AlartFinishedUserSale
 			try
 			{
 				// (1) 先月の終了ユーザーの取得
-				List<tMic終了ユーザーリスト> userList = JunpDatabaseAccess.Select_tMic終了ユーザーリスト(string.Format("終了月 = '{0:D4}/{1:D2}'", FinishedDate.Year, FinishedDate.Month), "得意先No ASC", DATABACE_ACCEPT_CT);
+				List<tMic終了ユーザーリスト> userList = JunpDatabaseAccess.Select_tMic終了ユーザーリスト(string.Format("終了月 = '{0:D4}/{1:D2}'", FinishedDate.Year, FinishedDate.Month), "得意先No ASC", gSettings.Connect.Junp.ConnectionString);
 				if (0 == userList.Count)
 				{
 					msg = "当月終了ユーザーはいませんでした。";
@@ -203,7 +198,7 @@ namespace AlartFinishedUserSale
 				// 顧客Noと顧客名を格納
 				foreach (FinishedUserSale result in resultList)
 				{
-					List<vMic全ユーザー2> users = JunpDatabaseAccess.Select_vMic全ユーザー2(string.Format("[得意先No] = {0}", result.TokuisakiNo), "", DATABACE_ACCEPT_CT);
+					List<vMic全ユーザー2> users = JunpDatabaseAccess.Select_vMic全ユーザー2(string.Format("[得意先No] = {0}", result.TokuisakiNo), "", gSettings.Connect.Junp.ConnectionString);
 					if (null != users && 0 < users.Count)
 					{
 						result.CustomerNo = users.First().顧客No;

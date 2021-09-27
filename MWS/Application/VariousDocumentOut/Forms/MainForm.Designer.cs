@@ -30,6 +30,7 @@ namespace VariousDocumentOut.Forms
 		private void InitializeComponent()
 		{
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.radioButtonFaxOrderSheet = new System.Windows.Forms.RadioButton();
 			this.radioButton作業報告書 = new System.Windows.Forms.RadioButton();
 			this.radioアプラス預金口座振替依頼書 = new System.Windows.Forms.RadioButton();
 			this.radioPC安心サポート加入申込書 = new System.Windows.Forms.RadioButton();
@@ -62,6 +63,7 @@ namespace VariousDocumentOut.Forms
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.radioButtonFaxOrderSheet);
 			this.groupBox1.Controls.Add(this.radioButton作業報告書);
 			this.groupBox1.Controls.Add(this.radioアプラス預金口座振替依頼書);
 			this.groupBox1.Controls.Add(this.radioPC安心サポート加入申込書);
@@ -87,6 +89,19 @@ namespace VariousDocumentOut.Forms
 			this.groupBox1.TabIndex = 8;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "各種書類";
+			// 
+			// radioButtonFaxOrderSheet
+			// 
+			this.radioButtonFaxOrderSheet.AutoSize = true;
+			this.radioButtonFaxOrderSheet.Location = new System.Drawing.Point(281, 289);
+			this.radioButtonFaxOrderSheet.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+			this.radioButtonFaxOrderSheet.Name = "radioButtonFaxOrderSheet";
+			this.radioButtonFaxOrderSheet.Size = new System.Drawing.Size(161, 21);
+			this.radioButtonFaxOrderSheet.TabIndex = 17;
+			this.radioButtonFaxOrderSheet.Text = "消耗品FAXオーダーシート";
+			this.radioButtonFaxOrderSheet.UseVisualStyleBackColor = true;
+			this.radioButtonFaxOrderSheet.Visible = false;
+			this.radioButtonFaxOrderSheet.CheckedChanged += new System.EventHandler(this.radioButtonFaxOrderSheet_CheckedChanged);
 			// 
 			// radioButton作業報告書
 			// 
@@ -457,6 +472,7 @@ namespace VariousDocumentOut.Forms
 		private System.Windows.Forms.RadioButton radioButton作業報告書;
 		private System.Windows.Forms.Label label3;
 		private MwsLib.Component.NumericTextBox textBoxCustomerNo;
+		private System.Windows.Forms.RadioButton radioButtonFaxOrderSheet;
 	}
 }
 

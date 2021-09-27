@@ -7,7 +7,8 @@
 // 
 // Ver1.00 新規作成(2021/02/05 勝呂)
 //
-using MwsLib.BaseFactory.Mail;
+using MwsLib.Settings.Mail;
+using MwsLib.Settings.SqlServer;
 using System;
 
 namespace AlertCloudBackupPcSupportPlus.Settings
@@ -23,11 +24,17 @@ namespace AlertCloudBackupPcSupportPlus.Settings
 		public MailSettings Mail { get; set; }
 
 		/// <summary>
+		/// SQL Server接続情報
+		/// </summary>
+		public SqlServerConnectSettings Connect { get; set; }
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public AlertCloudBackupPcSupportPlusSettings()
         {
 			Mail = new MailSettings();
+			Connect = new SqlServerConnectSettings();
 		}
 
 		/// <summary>
@@ -49,7 +56,8 @@ namespace AlertCloudBackupPcSupportPlus.Settings
 		{
 			if (other != null)
 			{
-				if (Mail.Equals(other.Mail))
+				if (Mail.Equals(other.Mail)
+					&& Connect.Equals(other.Connect))
 				{
 					return true;
 				}

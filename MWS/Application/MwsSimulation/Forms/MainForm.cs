@@ -9,9 +9,9 @@
 // Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 // 
 using CommonDialog.PrintPreview;
-using MwsLib.BaseFactory.MwsSimulation;
-using MwsLib.Common;
-using MwsLib.DB.SQLite.MwsSimulation;
+using CommonLib.BaseFactory.MwsSimulation;
+using CommonLib.Common;
+using CommonLib.DB.SQLite.MwsSimulation;
 using MwsSimulation.Print;
 using MwsSimulation.Settings;
 using System;
@@ -1150,119 +1150,111 @@ namespace MwsSimulation.Forms
 		private void MakeSampleXmlData()
 		{
 			gSettings.StaffList.Clear();
-			gSettings.StaffList.Add("伊藤 正昭");
-			gSettings.StaffList.Add("大谷 純一");
+			gSettings.StaffList.Add("板垣 容子");
 			gSettings.StaffList.Add("木村 剛");
-			gSettings.StaffList.Add("佐々木 誠");
+			gSettings.StaffList.Add("藤井 利彦");
+			gSettings.StaffList.Add("秋 相文");
+			gSettings.StaffList.Add("大野 宗孝");
 			gSettings.StaffList.Add("小河 寛明");
 
 			gSettings.BranchList.Clear();
 			BranchSettings branch = new BranchSettings();
-			branch.Name = "札幌";
+			branch.Name = "株式会社ミック 札幌";
 			branch.Zipcode = "060-0061";
-			branch.Address1 = "北海道札幌市中央区南一条西 9-1-15";
-			branch.Address2 = "井門札幌ビル 6F";
+			branch.Address1 = "北海道札幌市中央区南一条西9-1-15";
+			branch.Address2 = "井門札幌S109ビル6F";
 			branch.Tel = "011-251-3936";
 			branch.Fax = "011-251-8488";
 			gSettings.BranchList.Add(branch);
 
 			branch = new BranchSettings();
-			branch.Name = "盛岡";
+			branch.Name = "株式会社ミック 盛岡";
 			branch.Zipcode = "020-0871";
-			branch.Address1 = "岩手県盛岡市中ノ橋通 1-4-22";
-			branch.Address2 = "中ノ橋 106 ビル 4F";
+			branch.Address1 = "岩手県盛岡市中ノ橋通1-4-22";
+			branch.Address2 = "中ノ橋106ビル4F";
 			branch.Tel = "019-604-6727";
 			branch.Fax = "019-604-6728";
 			gSettings.BranchList.Add(branch);
 
 			branch = new BranchSettings();
-			branch.Name = "仙台";
+			branch.Name = "株式会社ミック 仙台";
 			branch.Zipcode = "980-0802";
-			branch.Address1 = "宮城県仙台市青葉区二日町 14-15";
-			branch.Address2 = "アミ・グランデ二日町 2F";
+			branch.Address1 = "宮城県仙台市青葉区二日町14-15";
+			branch.Address2 = "アミ・グランデ二日町2F";
 			branch.Tel = "022-262-9361";
 			branch.Fax = "022-262-9362";
 			gSettings.BranchList.Add(branch);
 
 			branch = new BranchSettings();
-			branch.Name = "郡山";
-			branch.Zipcode = "963-8874";
-			branch.Address1 = "福島県郡山市深沢 1-6-3 8F";
-			branch.Address2 = "";
-			branch.Tel = "024-927-0484";
-			branch.Fax = "024-927-0485";
-			gSettings.BranchList.Add(branch);
-
-			branch = new BranchSettings();
-			branch.Name = "さいたま";
+			branch.Name = "株式会社ミック さいたま";
 			branch.Zipcode = "330-0844";
-			branch.Address1 = "埼玉県さいたま市大宮区下町 1-45";
-			branch.Address2 = "松亀センタービル 4F";
+			branch.Address1 = "埼玉県さいたま市大宮区下町1-45";
+			branch.Address2 = "松亀センタービル4F";
 			branch.Tel = "048-658-6025";
 			branch.Fax = "048-658-6026";
 			gSettings.BranchList.Add(branch);
 
 			branch = new BranchSettings();
-			branch.Name = "首都圏";
+			branch.Name = "株式会社ミック 東京";
 			branch.Zipcode = "103-0011";
-			branch.Address1 = "東京都中央区日本橋大伝馬町 2-7";
-			branch.Address2 = "日本橋第一ビル 7F";
+			branch.Address1 = "東京都中央区日本橋大伝馬町2-7";
+			branch.Address2 = "HF日本橋大伝馬町ビルディング7F";
 			branch.Tel = "03-5651-9930";
 			branch.Fax = "03-5651-9921";
 			gSettings.BranchList.Add(branch);
 
 			branch = new BranchSettings();
-			branch.Name = "横浜";
+			branch.Name = "株式会社ミック 横浜";
 			branch.Zipcode = "231-0011";
-			branch.Address1 = "神奈川県横浜市中区太田町 6-87";
-			branch.Address2 = "横浜フコク生命ビル 2F";
+			branch.Address1 = "神奈川県横浜市中区太田町6-87";
+			branch.Address2 = "横浜フコク生命ビル2F";
 			branch.Tel = "045-222-6780";
 			branch.Fax = "045-663-0866";
 			gSettings.BranchList.Add(branch);
 
 			branch = new BranchSettings();
-			branch.Name = "名古屋";
+			branch.Name = "株式会社ミック 名古屋";
 			branch.Zipcode = "461-0001";
-			branch.Address1 = "愛知県名古屋市東区泉 1-1-35";
-			branch.Address2 = "ハイエスト久屋ビル 7F";
+			branch.Address1 = "愛知県名古屋市東区泉1-1-35";
+			branch.Address2 = "ハイエスト久屋ビル7F";
 			branch.Tel = "052-950-2525";
 			branch.Fax = "052-950-2526";
 			gSettings.BranchList.Add(branch);
 
 			branch = new BranchSettings();
-			branch.Name = "大阪";
-			branch.Zipcode = "532-0011";
-			branch.Address1 = "大阪府淀川区西中島 6-1-3";
-			branch.Address2 = "アストロ新大阪第２ビル 3F";
-			branch.Tel = "06-6304-1044";
-			branch.Fax = "06-6304-1706";
-			gSettings.BranchList.Add(branch);
-
-			branch = new BranchSettings();
-			branch.Name = "金沢";
+			branch.Name = "株式会社ミック 金沢";
 			branch.Zipcode = "920-0027";
-			branch.Address1 = "福井県金沢市駅西新町 3-1-10";
-			branch.Address2 = "NEWSビル 3F";
+			branch.Address1 = "福井県金沢市駅西新町3-1-10";
+			branch.Address2 = "NEWSビル3F";
 			branch.Tel = "076-265-7203";
 			branch.Fax = "076-265-7204";
 			gSettings.BranchList.Add(branch);
 
 			branch = new BranchSettings();
-			branch.Name = "広島";
+			branch.Name = "株式会社ミック 大阪";
+			branch.Zipcode = "532-0011";
+			branch.Address1 = "大阪府大阪市淀川区西中島3-23-15";
+			branch.Address2 = "セントアーバンビル2F";
+			branch.Tel = "06-6304-1044";
+			branch.Fax = "06-6304-1706";
+			gSettings.BranchList.Add(branch);
+
+			branch = new BranchSettings();
+			branch.Name = "株式会社ミック 広島";
 			branch.Zipcode = "730-0016";
-			branch.Address1 = "広島県広島市中区幟町 13-11";
-			branch.Address2 = "明治安田生命広島幟町ビル 8F";
+			branch.Address1 = "広島県広島市中区幟町13-11";
+			branch.Address2 = "明治安田生命広島幟町ビル8F";
 			branch.Tel = "082-511-2167";
 			branch.Fax = "082-511-2168";
 			gSettings.BranchList.Add(branch);
 
 			branch = new BranchSettings();
-			branch.Name = "福岡";
-			branch.Zipcode = "812-0022";
-			branch.Address1 = "福岡県福岡市博多区博多駅前 1-15-20";
-			branch.Address2 = "NMF 博多駅前ビル 5F";
-			branch.Tel = "092-472-9645";
-			branch.Fax = "092-472-7492";
+			branch.Name = "株式会社ミック 福岡";
+			branch.Zipcode = "812-0042";
+			branch.Address1 = "福岡県福岡市中央区赤坂1-16-5";
+			branch.Address2 = "読売九州ビル6F";
+			branch.Tel = "092-738-9644";
+			branch.Fax = "092-711-6944";
 			gSettings.BranchList.Add(branch);
 		}
 	}

@@ -88,7 +88,11 @@
     <Content Include="Settings\CloudBackupPurchaseFileSettings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Library\MwsLib\MwsLib.csproj">
+    <ProjectReference Include="..\..\..\Library\CommonLib\CommonLib.csproj">
+      <Project>{f6f244a5-2379-416a-a321-4074ef6beb8c}</Project>
+      <Name>CommonLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Library\MwsLib\MwsLib.csproj">
       <Project>{dbcbf3f6-889c-4dd9-91ea-a2527aacede6}</Project>
       <Name>MwsLib</Name>
     </ProjectReference>

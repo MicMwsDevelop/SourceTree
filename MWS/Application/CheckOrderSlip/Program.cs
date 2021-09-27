@@ -9,7 +9,9 @@
 // Ver1.01 エラー検出条件にリプレースなしを追加(2020/08/19 勝呂)
 // Ver1.10 PC安心サポートPlus対応(2020/10/16 勝呂)
 // Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
+// Ver1.12 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 // 
+using MwsLib.Settings.SqlServer;
 using System;
 using System.Windows.Forms;
 
@@ -18,9 +20,14 @@ namespace CheckOrderSlip
 	static class Program
 	{
 		/// <summary>
-		/// データベース接続先
+		/// バージョン情報
 		/// </summary>
-		public const bool DATABASE_ACCESS_CT = false;
+		public const string VersionStr = "Ver1.12 (2021/09/07)";
+
+		/// <summary>
+		/// 環境設定
+		/// </summary>
+		public static SqlServerConnectSettings gSettings { get; set; }
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -30,6 +37,10 @@ namespace CheckOrderSlip
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			// 環境設定の読込
+			gSettings = SqlServerConnectSettingsIF.GetSettings();
+
 			Application.Run(new MainForm());
 		}
 	}

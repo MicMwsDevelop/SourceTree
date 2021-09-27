@@ -8,10 +8,10 @@
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // 
 using CommonDialog.PrintPreview;
-using MwsLib.BaseFactory.MwsSimulation;
-using MwsLib.Common;
-using MwsLib.DB.SQLite.MwsSimulation;
-using MwsLib.DB.SqlServer.Junp;
+using CommonLib.BaseFactory.MwsSimulation;
+using CommonLib.Common;
+using CommonLib.DB.SQLite.MwsSimulation;
+using CommonLib.DB.SqlServer.Junp;
 using MwsSimulation.Print;
 using System;
 using System.Collections.Generic;

@@ -7,7 +7,8 @@
 // 
 // Ver1.00(2021/08/18):新規作成(勝呂)
 //
-using MwsLib.BaseFactory.Mail;
+using MwsLib.Settings.Mail;
+using MwsLib.Settings.SqlServer;
 using System;
 
 namespace AlartFinishedUserSale.Settings
@@ -28,12 +29,18 @@ namespace AlartFinishedUserSale.Settings
 		public MailSettings Mail { get; set; }
 
 		/// <summary>
+		/// SQL Server接続情報
+		/// </summary>
+		public SqlServerConnectSettings Connect { get; set; }
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public AlartFinishedUserSaleSettings()
         {
 			FilePath = string.Empty;
 			Mail = new MailSettings();
+			Connect = new SqlServerConnectSettings();
 		}
 
 		/// <summary>
@@ -55,7 +62,8 @@ namespace AlartFinishedUserSale.Settings
 		{
 			if (other != null)
 			{
-				if (Mail.Equals(other.Mail))
+				if (Mail.Equals(other.Mail)
+					&& Connect.Equals(other.Connect))
 				{
 					return true;
 				}

@@ -7,8 +7,8 @@
 // 
 // Ver1.00 新規作成(2021/01/06 勝呂)
 // 
-using MwsLib.BaseFactory.Pca;
-using MwsLib.Common;
+using CommonLib.BaseFactory.Pca;
+using CommonLib.Common;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -107,7 +107,8 @@ namespace AlmexMaintePurchaseFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>金額</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>仕入先ｺｰﾄﾞ</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>仕入先名</font></th>"
-								+ @"</tr>";
+								+ @"</tr>"
+								+ @"</table>";
 					msg.Body += @"<br><p>アルメックス保守サービスの仕入データはありませんでした。</p>";
 				}
 				msg.Body += @"</div>"

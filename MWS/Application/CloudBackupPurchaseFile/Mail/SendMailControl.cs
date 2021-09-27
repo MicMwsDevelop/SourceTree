@@ -7,8 +7,8 @@
 // 
 // Ver1.00 新規作成(2020/10/09 勝呂)
 // 
-using MwsLib.BaseFactory.Pca;
-using MwsLib.Common;
+using CommonLib.BaseFactory.Pca;
+using CommonLib.Common;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -99,7 +99,8 @@ namespace CloudBackupPurchaseFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>単価</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>数量</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>金額</font></th>"
-								+ @"</tr>";
+								+ @"</tr>"
+								+ @"</table>";
 					msg.Body += @"<br><p>クラウドバックアップ仕入データはありませんでした。</p>";
 				}
 				msg.Body += @"</div>"

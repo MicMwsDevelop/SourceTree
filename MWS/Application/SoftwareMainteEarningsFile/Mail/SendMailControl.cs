@@ -7,7 +7,7 @@
 // 
 // Ver1.00 新規作成(2020/10/09 勝呂)
 // 
-using MwsLib.BaseFactory.SoftwareMainteEarnings;
+using CommonLib.BaseFactory.SoftwareMainteEarnings;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -79,7 +79,8 @@ namespace SoftwareMainteEarningsFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>更新期間</font></th>"
-								+ @"</tr>";
+								+ @"</tr>"
+								+ @"</table>";
 					msg.Body += @"<br><p>ソフトウェア保守料更新対象ユーザーはありませんでした。</p>";
 				}
 				msg.Body += @"</div>"

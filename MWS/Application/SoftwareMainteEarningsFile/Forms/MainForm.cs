@@ -7,7 +7,7 @@
 // 
 // Ver1.00 新規作成(2020/10/09 勝呂)
 //
-using MwsLib.Common;
+using CommonLib.Common;
 using SoftwareMainteEarningsFile.Settings;
 using System;
 using System.IO;
@@ -35,6 +35,8 @@ namespace SoftwareMainteEarningsFile.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
+			this.Text = string.Format("{0}  {1}", Program.PROC_NAME, Program.VersionStr);
+
 			textBoxFolder.Text = Program.gSettings.ExportDir;
 			textBoxFilename.Text = Program.gSettings.ExportFilename;
 			textBoxPcaVer.Text = Program.gSettings.PcaVersion.ToString();

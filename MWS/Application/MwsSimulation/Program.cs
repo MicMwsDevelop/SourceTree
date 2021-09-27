@@ -10,6 +10,7 @@
 // Ver2.101 おまとめプランの選択を12ヵ月、36ヵ月、60ヵ月に変更(2019/07/19 勝呂)
 // Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
 // Ver2.210 おまとめプランにクラウドバックアップが含まれないように対応(2020/11/20 勝呂)
+// Ver2.220 Web予約受付に対応(2021/09/07 勝呂)
 // 
 using MwsSimulation.Forms;
 using System;
@@ -19,11 +20,6 @@ namespace MwsSimulation
 {
 	static class Program
 	{
-		/// <summary>
-		/// データベース接続先 CT環境
-		/// </summary>
-		public static bool DATABACE_ACCEPT_CT = true;
-
 		/// <summary>
 		/// 電子カルテ標準サービス サービスコード
 		/// </summary>

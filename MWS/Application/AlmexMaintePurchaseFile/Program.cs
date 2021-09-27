@@ -10,12 +10,12 @@
 using AlmexMaintePurchaseFile.Forms;
 using AlmexMaintePurchaseFile.Mail;
 using AlmexMaintePurchaseFile.Settings;
-using MwsLib.BaseFactory.Junp.Table;
-using MwsLib.BaseFactory.Junp.View;
-using MwsLib.BaseFactory.Pca;
-using MwsLib.Common;
-using MwsLib.DB.SqlServer.AlmexMainte;
-using MwsLib.DB.SqlServer.Junp;
+using CommonLib.BaseFactory.Junp.Table;
+using CommonLib.BaseFactory.Junp.View;
+using CommonLib.BaseFactory.Pca;
+using CommonLib.Common;
+using CommonLib.DB.SqlServer.AlmexMainte;
+using CommonLib.DB.SqlServer.Junp;
 using MwsLib.Log;
 using System;
 using System.Collections.Generic;
@@ -26,19 +26,19 @@ namespace AlmexMaintePurchaseFile
 	static class Program
 	{
 		/// <summary>
-		/// データベース接続先
+		/// プログラム名
 		/// </summary>
-		private const bool DATABASE_ACCESS_CT = false;
+		public const string PROC_NAME = "アルメックス保守仕入データ作成";
+
+		/// <summary>
+		/// バージョン情報
+		/// </summary>
+		public const string VersionStr = "Ver1.00(2021/01/06)";
 
 		/// <summary>
 		/// 環境設定
 		/// </summary>
 		public static AlmexMaintePurchaseFileSettings gSettings;
-
-		/// <summary>
-		/// プログラム名
-		/// </summary>
-		public const string PROC_NAME = "ｱﾙﾒｯｸｽ保守仕入ﾃﾞｰﾀ作成";
 
 		/// <summary>
 		/// 集計日
@@ -57,7 +57,7 @@ namespace AlmexMaintePurchaseFile
 			gSettings = AlmexMaintePurchaseFileSettingsIF.GetSettings();
 
 #if DEBUG
-			CollectDate = new Date(2021, 1, 1);
+			CollectDate = new Date(2021, 10, 1);
 #else
 			// 集計日を当月初日に設定
 			CollectDate = Date.Today.FirstDayOfTheMonth();
@@ -97,7 +97,7 @@ namespace AlmexMaintePurchaseFile
 				{
 					List<MakePurchaseData> stockList = new List<MakePurchaseData>();
 
-					List<vMicPCA売上明細> pcaList = AlmexMainteAccess.GetAlmexMainteEarningsList(gSettings.GetAlmexMainteGoods(), collectDate.ToYearMonth().ToSpan(), DATABASE_ACCESS_CT);
+					List<vMicPCA売上明細> pcaList = AlmexMainteAccess.GetAlmexMainteEarningsList(gSettings.GetAlmexMainteGoods(), collectDate.ToYearMonth().ToSpan(), gSettings.Connect.Junp.ConnectionString);
 					if (0 < pcaList.Count)
 					{
 						// 商品マスタ
@@ -130,7 +130,7 @@ namespace AlmexMaintePurchaseFile
 									}
 									else
 									{
-										vMicPCA商品マスタ mst = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goods.仕入商品コード, DATABASE_ACCESS_CT);
+										vMicPCA商品マスタ mst = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goods.仕入商品コード, gSettings.Connect.Junp.ConnectionString);
 										if (null != mst)
 										{
 											stock.f商品名 = mst.sms_mei;
@@ -143,13 +143,13 @@ namespace AlmexMaintePurchaseFile
 									string stockCode = pca.sykd_tcd;
 									string whereStr = string.Format("sykd_uribi = {0} AND sykd_denno = {1} AND sykd_scd = '000014' AND sykd_mei like '%得意先No.%'"
 																		, pca.sykd_uribi, pca.sykd_denno);
-									List<vMicPCA売上明細> list = JunpDatabaseAccess.Select_vMicPCA売上明細(whereStr, "", DATABASE_ACCESS_CT);
+									List<vMicPCA売上明細> list = JunpDatabaseAccess.Select_vMicPCA売上明細(whereStr, "", gSettings.Connect.Junp.ConnectionString);
 									if (null != list && 0 < list.Count)
 									{
 										// 請求先が違う場合
 										stockCode = list[0].sykd_mei.Replace("得意先No.", "").Trim();
 									}
-									List<tMik基本情報> basic = JunpDatabaseAccess.Select_tMik基本情報(string.Format("[fkj得意先情報] = '{0}'", stockCode), "", DATABASE_ACCESS_CT);
+									List<tMik基本情報> basic = JunpDatabaseAccess.Select_tMik基本情報(string.Format("[fkj得意先情報] = '{0}'", stockCode), "", gSettings.Connect.Junp.ConnectionString);
 									whereStr = string.Format("faiCliMicID = {0} AND (faiアプリケーション名 = '{1}' OR faiアプリケーション名 = '{2}' OR faiアプリケーション名 = '{3}' OR faiアプリケーション名 = '{4}' OR faiアプリケーション名 = '{5}' OR faiアプリケーション名 = '{6}')"
 																		, basic[0].fkjCliMicID
 																		, tMikコードマスタ.fcmコード_AlmexMainteTex30_Cash
@@ -158,7 +158,7 @@ namespace AlmexMaintePurchaseFile
 																		, tMikコードマスタ.fcmコード_AlmexMainteFitA_QR
 																		, tMikコードマスタ.fcmコード_AlmexMainteFitA_QRCredit
 																		, tMikコードマスタ.fcmコード_AlmexMainteFitA_Credit);
-									List<tMikアプリケーション情報> apl = JunpDatabaseAccess.Select_tMikアプリケーション情報(whereStr, "faiアプリケーションNo, faiアプリケーション名", DATABASE_ACCESS_CT);
+									List<tMikアプリケーション情報> apl = JunpDatabaseAccess.Select_tMikアプリケーション情報(whereStr, "faiアプリケーションNo, faiアプリケーション名", gSettings.Connect.Junp.ConnectionString);
 									if (null != apl && 0 < apl.Count)
 									{
 										stock.f仕入先コード = apl[0].faiLicensedKey;
@@ -170,7 +170,7 @@ namespace AlmexMaintePurchaseFile
 										ErrorLogger.Error(msg);
 									}
 									//// 住所から仕入先コードを取得する方法
-									//List<tMik基本情報> basic = JunpDatabaseAccess.Select_tMik基本情報(string.Format("[fkj得意先情報] = '{0}'", pca.sykd_tcd), "", DATABASE_ACCESS_CT);
+									//List<tMik基本情報> basic = JunpDatabaseAccess.Select_tMik基本情報(string.Format("[fkj得意先情報] = '{0}'", pca.sykd_tcd), "", gSettings.Connect.Junp.ConnectionString);
 									//if (null != basic && 0 < basic.Count)
 									//{
 									//	stock.f仕入先コード = AlemxPurchase.仕入先コード(basic[0].県番号, basic[0].fkj住所１);
@@ -186,7 +186,7 @@ namespace AlmexMaintePurchaseFile
 										else
 										{
 											whereStr = string.Format("rms_tcd = '{0}'", stock.f仕入先コード);
-											List<vMicPCA仕入先マスタ> mst = JunpDatabaseAccess.Select_vMicPCA仕入先マスタ(whereStr, "", DATABASE_ACCESS_CT);
+											List<vMicPCA仕入先マスタ> mst = JunpDatabaseAccess.Select_vMicPCA仕入先マスタ(whereStr, "", gSettings.Connect.Junp.ConnectionString);
 											if (null != mst && 0 < mst.Count)
 											{
 												stock.f仕入先名 = string.Format("{0} {1}", mst[0].rms_mei1.Trim(), mst[0].rms_mei2.Trim());

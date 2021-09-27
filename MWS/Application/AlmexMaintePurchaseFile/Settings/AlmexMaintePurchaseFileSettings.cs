@@ -7,7 +7,8 @@
 // 
 // Ver1.00 新規作成(2021/01/06 勝呂)
 //
-using MwsLib.BaseFactory.Mail;
+using MwsLib.Settings.Mail;
+using MwsLib.Settings.SqlServer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -50,6 +51,11 @@ namespace AlmexMaintePurchaseFile.Settings
 		public MailSettings Mail { get; set; }
 
 		/// <summary>
+		/// SQL Server接続情報
+		/// </summary>
+		public SqlServerConnectSettings Connect { get; set; }
+
+		/// <summary>
 		/// 仕入データ出力ファイルパス名
 		/// </summary>
 		public string Pathname
@@ -71,6 +77,7 @@ namespace AlmexMaintePurchaseFile.Settings
 			InitDenNo = 20801;
 			AlmexMainteGoodsList = new List<AlmexMainteGoods>();
 			Mail = new MailSettings();
+			Connect = new SqlServerConnectSettings();
 		}
 
 		/// <summary>

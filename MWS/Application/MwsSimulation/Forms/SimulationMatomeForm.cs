@@ -9,9 +9,9 @@
 // Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 // 
 using CommonDialog.PrintPreview;
-using MwsLib.BaseFactory.MwsSimulation;
-using MwsLib.Common;
-using MwsLib.DB.SQLite.MwsSimulation;
+using CommonLib.BaseFactory.MwsSimulation;
+using CommonLib.Common;
+using CommonLib.DB.SQLite.MwsSimulation;
 using MwsSimulation.Print;
 using System;
 using System.Collections.Generic;

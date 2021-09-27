@@ -5,15 +5,20 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2021/04/22 勝呂)
+// Ver1.00(2021/04/22):新規作成
+// Ver1.02(2021/09/01):Microsoft365利用申込書のFAX番号を本社から消耗品受注センターに変更
+// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
 //
 using ClosedXML.Excel;
-using MwsLib.BaseFactory.Junp.Table;
-using MwsLib.Common;
+using Microsoft.Office.Core;
+using CommonLib.BaseFactory.Junp.Table;
+using CommonLib.BaseFactory.Junp.View;
+using CommonLib.Common;
+using CommonLib.DB.SqlServer.Junp;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
-using Microsoft.Office.Core;
 
 namespace VariousDocumentOut
 {
@@ -111,6 +116,11 @@ namespace VariousDocumentOut
 			/// 作業報告書
 			/// </summary>
 			WorkReport,
+
+			/// <summary>
+			/// 消耗品FAXオーダーシート
+			/// </summary>
+			FaxOrderSheet,
 		}
 
 		/// <summary>
@@ -135,6 +145,7 @@ namespace VariousDocumentOut
 			{ DocumentType.PcSupport, "15-PC安心サポート加入申込書.xlsx.org" },
 			{ DocumentType.Aplus, "16-アプラス預金口座振替依頼書・自動払込利用申込書.xlsx.org" },
 			{ DocumentType.WorkReport, "17-作業報告書.xlsx.org" },
+			{ DocumentType.FaxOrderSheet, "18-消耗品FAXオーダーシート.xlsx.org" },
 		};
 
 		/// <summary>
@@ -159,6 +170,7 @@ namespace VariousDocumentOut
 			{ DocumentType.PcSupport, "15-PC安心サポート加入申込書.xlsx" },
 			{ DocumentType.Aplus, "16-アプラス預金口座振替依頼書・自動払込利用申込書.xlsx" },
 			{ DocumentType.WorkReport, "17-作業報告書.xlsx" },
+			{ DocumentType.FaxOrderSheet, "18-消耗品FAXオーダーシート.xlsx" },
 		};
 
 		/// <summary>
@@ -169,7 +181,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - MWS IDパスワード
+		/// EXCEL出力 - 1 MWS IDパスワード
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -191,7 +203,7 @@ namespace VariousDocumentOut
 				xlShapes = xlSheet.Shapes;
 				foreach (Excel.Shape shape in xlShapes)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -262,7 +274,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - FAX送付状
+		/// EXCEL出力 - 2 FAX送付状
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -284,7 +296,7 @@ namespace VariousDocumentOut
 				xlShapes = xlSheet.Shapes;
 				foreach (Excel.Shape shape in xlShapes)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -314,6 +326,10 @@ namespace VariousDocumentOut
 					}
 				}
 			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
 			finally
 			{
 				if (null != xlSheet)
@@ -342,7 +358,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - 書類送付状
+		/// EXCEL出力 - 3 書類送付状
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -364,7 +380,7 @@ namespace VariousDocumentOut
 				xlShapes = xlSheet.Shapes;
 				foreach (Excel.Shape shape in xlShapes)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -394,6 +410,10 @@ namespace VariousDocumentOut
 					}
 				}
 			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
 			finally
 			{
 				if (null != xlSheet)
@@ -422,7 +442,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - 光ディスク請求届出
+		/// EXCEL出力 - 4 光ディスク請求届出
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -455,7 +475,7 @@ namespace VariousDocumentOut
 				// 光ディスク請求届出-社保用
 				foreach (Excel.Shape shape in xlShapes1)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -562,7 +582,7 @@ namespace VariousDocumentOut
 				xlShapes3 = xlSheet3.Shapes;
 				foreach (Excel.Shape shape in xlShapes3)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -653,7 +673,7 @@ namespace VariousDocumentOut
 				xlShapes4 = xlSheet4.Shapes;
 				foreach (Excel.Shape shape in xlShapes4)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -669,6 +689,10 @@ namespace VariousDocumentOut
 				}
 				// [光ディスク請求届出-社保]を選択状態
 				xlSheet1.Select();
+			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
 			}
 			finally
 			{
@@ -710,7 +734,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - オンライン請求届出
+		/// EXCEL出力 - 5 オンライン請求届出
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -722,7 +746,6 @@ namespace VariousDocumentOut
 				using (XLWorkbook wb = new XLWorkbook(xlsPathname, XLEventTracking.Disabled))
 				{
 					wb.Worksheet("オンライン請求届出").Delete();
-					wb.Worksheet("オンライン証明書発行依頼書").Delete();
 
 					IXLWorksheet ws = wb.Worksheet("電子証明書発行等依頼書");
 
@@ -779,13 +802,10 @@ namespace VariousDocumentOut
 			Excel.Worksheet xlSheet1 = null;
 			Excel.Workbook xlBookOrg = null;
 			Excel.Worksheet xlSheetOrg1 = null;
-			Excel.Worksheet xlSheetOrg2 = null;
 			Excel.Worksheet xlSheet2 = null;
-			Excel.Worksheet xlSheet3 = null;
 			Excel.Worksheet xlSheet4 = null;
 			Excel.Shapes xlShapes1 = null;
 			Excel.Shapes xlShapes2 = null;
-			Excel.Shapes xlShapes3 = null;
 			Excel.Shapes xlShapes4 = null;
 			try
 			{
@@ -798,8 +818,6 @@ namespace VariousDocumentOut
 				xlBookOrg = xlBooks.Open(orgPathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheetOrg1 = xlBookOrg.Worksheets["オンライン請求届出"] as Excel.Worksheet;
 				xlSheetOrg1.Copy(Type.Missing, xlSheet1);
-				xlSheetOrg2 = xlBookOrg.Worksheets["オンライン証明書発行依頼書"] as Excel.Worksheet;
-				xlSheetOrg2.Copy(Type.Missing, xlSheet1);
 
 				xlSheet1 = xlSheets["オンライン請求届出"] as Excel.Worksheet;
 				xlShapes1 = xlSheet1.Shapes;
@@ -809,7 +827,7 @@ namespace VariousDocumentOut
 				// オンライン請求届出-社保用
 				foreach (Excel.Shape shape in xlShapes1)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -911,97 +929,6 @@ namespace VariousDocumentOut
 						}
 					}
 				}
-				// オンライン証明書発行依頼書
-				xlSheet3 = xlSheets["オンライン証明書発行依頼書"] as Excel.Worksheet;
-				xlShapes3 = xlSheet3.Shapes;
-				foreach (Excel.Shape shape in xlShapes3)
-				{
-					if (MsoShapeType.msoTextBox == shape.Type)
-					{
-						dynamic textFrame = shape.TextFrame;
-						switch (shape.Name)
-						{
-							case "宛先１":
-								textFrame.Characters.Text = "社会保険診療報酬支払基金";
-								break;
-							case "宛先２":
-								textFrame.Characters.Text = common.Customer.支部名;
-								break;
-							case "院長名":
-								textFrame.Characters.Text = common.Customer.院長名;
-								break;
-							case "住所１":
-								textFrame.Characters.Text = common.Customer.住所1;
-								break;
-							case "住所２":
-								textFrame.Characters.Text = common.Customer.住所2;
-								break;
-							case "県番号１":
-								textFrame.Characters.Text = common.Customer.県番号.Substring(0, 1);
-								break;
-							case "県番号２":
-								textFrame.Characters.Text = common.Customer.県番号.Substring(1, 1);
-								break;
-							case "医療機関コード１":
-								textFrame.Characters.Text = clinicCode.Substring(0, 1);
-								break;
-							case "医療機関コード２":
-								textFrame.Characters.Text = clinicCode.Substring(1, 1);
-								break;
-							case "医療機関コード３":
-								textFrame.Characters.Text = clinicCode.Substring(2, 1);
-								break;
-							case "医療機関コード４":
-								textFrame.Characters.Text = clinicCode.Substring(3, 1);
-								break;
-							case "医療機関コード５":
-								textFrame.Characters.Text = clinicCode.Substring(4, 1);
-								break;
-							case "医療機関コード６":
-								textFrame.Characters.Text = clinicCode.Substring(5, 1);
-								break;
-							case "医療機関コード７":
-								textFrame.Characters.Text = clinicCode.Substring(6, 1);
-								break;
-							case "ﾌﾘｶﾞﾅ":
-								textFrame.Characters.Text = common.Customer.フリガナ;
-								break;
-							case "顧客名":
-								textFrame.Characters.Text = common.Customer.顧客名;
-								break;
-							case "住所":
-								textFrame.Characters.Text = common.Customer.住所;
-								break;
-							case "システム名称":
-								textFrame.Characters.Text = common.Customer.システム略称;
-								break;
-							case "電話番号":
-								textFrame.Characters.Text = common.Customer.電話番号;
-								break;
-							case "郵便番号１":
-								textFrame.Characters.Text = zipCode.Substring(0, 1);
-								break;
-							case "郵便番号２":
-								textFrame.Characters.Text = zipCode.Substring(1, 1);
-								break;
-							case "郵便番号３":
-								textFrame.Characters.Text = zipCode.Substring(2, 1);
-								break;
-							case "郵便番号４":
-								textFrame.Characters.Text = zipCode.Substring(3, 1);
-								break;
-							case "郵便番号５":
-								textFrame.Characters.Text = zipCode.Substring(4, 1);
-								break;
-							case "郵便番号６":
-								textFrame.Characters.Text = zipCode.Substring(5, 1);
-								break;
-							case "郵便番号７":
-								textFrame.Characters.Text = zipCode.Substring(6, 1);
-								break;
-						}
-					}
-				}
 				// 電子証明書発行等依頼書
 				xlSheet4 = xlSheets["電子証明書発行等依頼書"] as Excel.Worksheet;
 				xlShapes4 = xlSheet4.Shapes;
@@ -1009,8 +936,12 @@ namespace VariousDocumentOut
 				oval.Fill.Visible = MsoTriState.msoFalse;
 				oval.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
 
-				// [オンライン請求届出-社保]を選択状態
-				xlSheet1.Select();
+				// [電子証明書発行等依頼書]を選択状態
+				xlSheet4.Select();
+			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
 			}
 			finally
 			{
@@ -1022,17 +953,9 @@ namespace VariousDocumentOut
 				{
 					Marshal.ReleaseComObject(xlSheetOrg1);
 				}
-				if (null != xlSheetOrg2)
-				{
-					Marshal.ReleaseComObject(xlSheetOrg2);
-				}
 				if (null != xlSheet2)
 				{
 					Marshal.ReleaseComObject(xlSheet2);
-				}
-				if (null != xlSheet3)
-				{
-					Marshal.ReleaseComObject(xlSheet3);
 				}
 				if (null != xlSheet4)
 				{
@@ -1062,265 +985,10 @@ namespace VariousDocumentOut
 					Marshal.ReleaseComObject(xlApp);
 				}
 			}
-			//try
-			//{
-			//	xlApp = new Excel.Application();
-			//	xlBooks = xlApp.Workbooks;
-			//	xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-			//	xlSheets = xlBook.Worksheets;
-			//	xlSheet1 = xlSheets["オンライン請求届出"] as Excel.Worksheet;
-			//	xlShapes1 = xlSheet1.Shapes;
-
-			//	string clinicCode = common.Customer.NumericClinicCode;
-			//	string zipCode = common.Customer.NumericZipcode;
-
-			//	// オンライン請求届出-社保用
-			//	foreach (Excel.Shape shape in xlShapes1)
-			//	{
-			//		if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
-			//		{
-			//			dynamic textFrame = shape.TextFrame;
-			//			switch (shape.Name)
-			//			{
-			//				case "宛先１":
-			//					textFrame.Characters.Text = "社会保険診療報酬支払基金";
-			//					break;
-			//				case "宛先２":
-			//					textFrame.Characters.Text = common.Customer.支部名;
-			//					break;
-			//				case "院長名":
-			//					textFrame.Characters.Text = common.Customer.院長名;
-			//					break;
-			//				case "住所１":
-			//					textFrame.Characters.Text = common.Customer.住所1;
-			//					break;
-			//				case "住所２":
-			//					textFrame.Characters.Text = common.Customer.住所2;
-			//					break;
-			//				case "医療機関コード１":
-			//					textFrame.Characters.Text = clinicCode.Substring(0, 1);
-			//					break;
-			//				case "医療機関コード２":
-			//					textFrame.Characters.Text = clinicCode.Substring(1, 1);
-			//					break;
-			//				case "医療機関コード３":
-			//					textFrame.Characters.Text = clinicCode.Substring(2, 1);
-			//					break;
-			//				case "医療機関コード４":
-			//					textFrame.Characters.Text = clinicCode.Substring(3, 1);
-			//					break;
-			//				case "医療機関コード５":
-			//					textFrame.Characters.Text = clinicCode.Substring(4, 1);
-			//					break;
-			//				case "医療機関コード６":
-			//					textFrame.Characters.Text = clinicCode.Substring(5, 1);
-			//					break;
-			//				case "医療機関コード７":
-			//					textFrame.Characters.Text = clinicCode.Substring(6, 1);
-			//					break;
-			//				case "顧客名":
-			//					textFrame.Characters.Text = common.Customer.顧客名;
-			//					break;
-			//				case "住所":
-			//					textFrame.Characters.Text = common.Customer.住所;
-			//					break;
-			//				case "システム名称":
-			//					textFrame.Characters.Text = common.Customer.システム略称;
-			//					break;
-			//				case "電話番号":
-			//					textFrame.Characters.Text = common.Customer.電話番号;
-			//					break;
-			//				case "郵便番号１":
-			//					textFrame.Characters.Text = zipCode.Substring(0, 1);
-			//					break;
-			//				case "郵便番号２":
-			//					textFrame.Characters.Text = zipCode.Substring(1, 1);
-			//					break;
-			//				case "郵便番号３":
-			//					textFrame.Characters.Text = zipCode.Substring(2, 1);
-			//					break;
-			//				case "郵便番号４":
-			//					textFrame.Characters.Text = zipCode.Substring(3, 1);
-			//					break;
-			//				case "郵便番号５":
-			//					textFrame.Characters.Text = zipCode.Substring(4, 1);
-			//					break;
-			//				case "郵便番号６":
-			//					textFrame.Characters.Text = zipCode.Substring(5, 1);
-			//					break;
-			//				case "郵便番号７":
-			//					textFrame.Characters.Text = zipCode.Substring(6, 1);
-			//					break;
-			//				case "メーカー名":
-			//					textFrame.Characters.Text = common.社名;
-			//					break;
-			//			}
-			//		}
-			//	}
-			//	// オンライン請求届出-国保用
-			//	xlSheet1.Copy(Type.Missing, xlSheet1);
-			//	xlSheet2 = xlSheets["オンライン請求届出 (2)"] as Excel.Worksheet;
-			//	xlSheet1.Name = "オンライン請求届出-社保";
-			//	xlSheet2.Name = "オンライン請求届出-国保";
-			//	xlShapes2 = xlSheet2.Shapes;
-			//	foreach (Excel.Shape shape in xlShapes2)
-			//	{
-			//		if (MsoShapeType.msoTextBox == shape.Type)
-			//		{
-			//			dynamic textFrame = shape.TextFrame;
-			//			switch (shape.Name)
-			//			{
-			//				case "宛先１":
-			//					textFrame.Characters.Text = common.Customer.都道府県名 + "国民健康保険団体連合会";
-			//					break;
-			//				case "宛先２":
-			//					textFrame.Characters.Text = string.Empty;
-			//					break;
-			//			}
-			//		}
-			//	}
-			//	// オンライン証明書発行依頼書
-			//	xlSheet3 = xlSheets["オンライン証明書発行依頼書"] as Excel.Worksheet;
-			//	xlShapes3 = xlSheet3.Shapes;
-			//	foreach (Excel.Shape shape in xlShapes3)
-			//	{
-			//		if (MsoShapeType.msoTextBox == shape.Type)
-			//		{
-			//			dynamic textFrame = shape.TextFrame;
-			//			switch (shape.Name)
-			//			{
-			//				case "宛先１":
-			//					textFrame.Characters.Text = "社会保険診療報酬支払基金";
-			//					break;
-			//				case "宛先２":
-			//					textFrame.Characters.Text = common.Customer.支部名;
-			//					break;
-			//				case "院長名":
-			//					textFrame.Characters.Text = common.Customer.院長名;
-			//					break;
-			//				case "住所１":
-			//					textFrame.Characters.Text = common.Customer.住所1;
-			//					break;
-			//				case "住所２":
-			//					textFrame.Characters.Text = common.Customer.住所2;
-			//					break;
-			//				case "県番号１":
-			//					textFrame.Characters.Text = common.Customer.県番号.Substring(0, 1);
-			//					break;
-			//				case "県番号２":
-			//					textFrame.Characters.Text = common.Customer.県番号.Substring(1, 1);
-			//					break;
-			//				case "医療機関コード１":
-			//					textFrame.Characters.Text = clinicCode.Substring(0, 1);
-			//					break;
-			//				case "医療機関コード２":
-			//					textFrame.Characters.Text = clinicCode.Substring(1, 1);
-			//					break;
-			//				case "医療機関コード３":
-			//					textFrame.Characters.Text = clinicCode.Substring(2, 1);
-			//					break;
-			//				case "医療機関コード４":
-			//					textFrame.Characters.Text = clinicCode.Substring(3, 1);
-			//					break;
-			//				case "医療機関コード５":
-			//					textFrame.Characters.Text = clinicCode.Substring(4, 1);
-			//					break;
-			//				case "医療機関コード６":
-			//					textFrame.Characters.Text = clinicCode.Substring(5, 1);
-			//					break;
-			//				case "医療機関コード７":
-			//					textFrame.Characters.Text = clinicCode.Substring(6, 1);
-			//					break;
-			//				case "ﾌﾘｶﾞﾅ":
-			//					textFrame.Characters.Text = common.Customer.フリガナ;
-			//					break;
-			//				case "顧客名":
-			//					textFrame.Characters.Text = common.Customer.顧客名;
-			//					break;
-			//				case "住所":
-			//					textFrame.Characters.Text = common.Customer.住所;
-			//					break;
-			//				case "システム名称":
-			//					textFrame.Characters.Text = common.Customer.システム略称;
-			//					break;
-			//				case "電話番号":
-			//					textFrame.Characters.Text = common.Customer.電話番号;
-			//					break;
-			//				case "郵便番号１":
-			//					textFrame.Characters.Text = zipCode.Substring(0, 1);
-			//					break;
-			//				case "郵便番号２":
-			//					textFrame.Characters.Text = zipCode.Substring(1, 1);
-			//					break;
-			//				case "郵便番号３":
-			//					textFrame.Characters.Text = zipCode.Substring(2, 1);
-			//					break;
-			//				case "郵便番号４":
-			//					textFrame.Characters.Text = zipCode.Substring(3, 1);
-			//					break;
-			//				case "郵便番号５":
-			//					textFrame.Characters.Text = zipCode.Substring(4, 1);
-			//					break;
-			//				case "郵便番号６":
-			//					textFrame.Characters.Text = zipCode.Substring(5, 1);
-			//					break;
-			//				case "郵便番号７":
-			//					textFrame.Characters.Text = zipCode.Substring(6, 1);
-			//					break;
-			//			}
-			//		}
-			//	}
-			//	// 電子証明書発行等依頼書
-			//	xlSheet4 = xlSheets["電子証明書発行等依頼書"] as Excel.Worksheet;
-			//	xlShapes4 = xlSheet4.Shapes;
-			//	Microsoft.Office.Interop.Excel.Shape oval = xlShapes4.AddShape(MsoAutoShapeType.msoShapeOval, 215, 122, 75, 20);
-			//	oval.Fill.Visible = MsoTriState.msoFalse;
-			//	oval.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
-
-			//	// [オンライン請求届出-社保]を選択状態
-			//	xlSheet1.Select();
-			//}
-			//finally
-			//{
-			//	if (null != xlSheet1)
-			//	{
-			//		Marshal.ReleaseComObject(xlSheet1);
-			//	}
-			//	if (null != xlSheet2)
-			//	{
-			//		Marshal.ReleaseComObject(xlSheet2);
-			//	}
-			//	if (null != xlSheet3)
-			//	{
-			//		Marshal.ReleaseComObject(xlSheet3);
-			//	}
-			//	if (null != xlSheet4)
-			//	{
-			//		Marshal.ReleaseComObject(xlSheet4);
-			//	}
-			//	if (null != xlSheets)
-			//	{
-			//		Marshal.ReleaseComObject(xlSheets);
-			//	}
-			//	if (null != xlBook)
-			//	{
-			//		xlBook.Save();
-			//		Marshal.ReleaseComObject(xlBook);
-			//	}
-			//	if (null != xlBooks)
-			//	{
-			//		Marshal.ReleaseComObject(xlBooks);
-			//	}
-			//	if (null != xlApp)
-			//	{
-			//		xlApp.Quit();
-			//		Marshal.ReleaseComObject(xlApp);
-			//	}
-			//}
 		}
 
 		/// <summary>
-		/// EXCEL出力 - 取引条件確認書
+		/// EXCEL出力 - 6 取引条件確認書
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -1344,7 +1012,7 @@ namespace VariousDocumentOut
 				xlCells = xlSheet.Cells;
 				foreach (Excel.Shape shape in xlShapes)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -1381,6 +1049,10 @@ namespace VariousDocumentOut
 				xlCells[40, 22] = common.Customer.電話番号;
 				xlCells[41, 22] = common.Customer.FAX番号;
 			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
 			finally
 			{
 				if (null != xlCells)
@@ -1413,7 +1085,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - 登録データ確認カード
+		/// EXCEL出力 - 7 登録データ確認カード
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -1482,7 +1154,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - Microsoft365利用申請書
+		/// EXCEL出力 - 8 Microsoft365利用申請書
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -1502,12 +1174,15 @@ namespace VariousDocumentOut
 					ws.Cell(18, 11).SetValue(common.Customer.メールアドレス);
 
 					// 本社情報
-					ws.Cell(58, 19).SetValue(common.HeadOffice.Fax);
+					// Ver1.02(2021/09/01):Microsoft365利用申込書のFAX番号を本社から消耗品受注センターに変更
+					//ws.Cell(58, 19).SetValue(common.HeadOffice.Fax);
+					ws.Cell(58, 19).SetValue(Program.gSettings.HeadOffice.FaxExpendables);
+
 					ws.Cell(63, 21).SetValue(common.社名);
-					ws.Cell(64, 21).SetValue(common.HeadOffice.Zipcode);
-					ws.Cell(65, 21).SetValue(common.HeadOffice.住所);
-					ws.Cell(66, 21).SetValue(string.Format("e-mail {0}", common.HeadOffice.Email));
-					ws.Cell(67, 21).SetValue(common.HeadOffice.Url);
+					ws.Cell(64, 21).SetValue(Program.gSettings.HeadOffice.Zipcode);
+					ws.Cell(65, 21).SetValue(Program.gSettings.HeadOffice.住所);
+					ws.Cell(66, 21).SetValue(string.Format("e-mail {0}", Program.gSettings.HeadOffice.Email));
+					ws.Cell(67, 21).SetValue(Program.gSettings.HeadOffice.Url);
 
 					// Excelファイルの保存
 					wb.SaveAs(pathname);
@@ -1520,7 +1195,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - 請求先変更届
+		/// EXCEL出力 - 9 請求先変更届
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -1544,7 +1219,7 @@ namespace VariousDocumentOut
 				xlCells = xlSheet.Cells;
 				foreach (Excel.Shape shape in xlShapes)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -1583,6 +1258,10 @@ namespace VariousDocumentOut
 				xlCells[20, 21] = common.Customer.電話番号;
 				xlCells[22, 21] = common.Customer.FAX番号;
 			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
 			finally
 			{
 				if (null != xlCells)
@@ -1615,7 +1294,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - 終了届
+		/// EXCEL出力 - 10 終了届
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -1639,7 +1318,7 @@ namespace VariousDocumentOut
 				xlCells = xlSheet.Cells;
 				foreach (Excel.Shape shape in xlShapes)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -1681,6 +1360,10 @@ namespace VariousDocumentOut
 				xlCells[27, 5] = common.Customer.システム名称;
 				xlCells[27, 17] = common.Customer.クライアント;
 			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
 			finally
 			{
 				if (null != xlCells)
@@ -1713,7 +1396,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - 変更届
+		/// EXCEL出力 - 11 変更届
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -1737,7 +1420,7 @@ namespace VariousDocumentOut
 				xlCells = xlSheet.Cells;
 				foreach (Excel.Shape shape in xlShapes)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -1778,6 +1461,10 @@ namespace VariousDocumentOut
 				xlCells[24, 5] = common.Customer.医保医療コード;
 				xlCells[26, 5] = common.Customer.システム名称;
 				xlCells[26, 17] = common.Customer.クライアント;
+			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
 			}
 			finally
 			{
@@ -1836,11 +1523,11 @@ namespace VariousDocumentOut
 					ws1.Cell(13, 19).SetValue(common.電話番号);
 					ws1.Cell(13, 26).SetValue(common.FAX番号);
 					ws1.Cell(20, 12).SetValue(common.社名);
-					ws1.Cell(37, 6).SetValue(common.HeadOffice.Zipcode);
-					ws1.Cell(38, 5).SetValue(common.HeadOffice.住所);
+					ws1.Cell(37, 6).SetValue(Program.gSettings.HeadOffice.Zipcode);
+					ws1.Cell(38, 5).SetValue(Program.gSettings.HeadOffice.住所);
 					// 経理部
-					ws1.Cell(40, 5).SetValue(common.HeadOffice.TelKeiri);
-					ws1.Cell(40, 15).SetValue(common.HeadOffice.Fax);
+					ws1.Cell(40, 5).SetValue(Program.gSettings.HeadOffice.TelKeiri);
+					ws1.Cell(40, 15).SetValue(Program.gSettings.HeadOffice.Fax);
 
 					// 第一園芸販売店向け
 					IXLWorksheet ws2 = wb.Worksheet("第一園芸販売店向け");
@@ -1851,11 +1538,11 @@ namespace VariousDocumentOut
 					ws2.Cell(13, 19).SetValue(common.電話番号);
 					ws2.Cell(13, 26).SetValue(common.FAX番号);
 					ws2.Cell(20, 12).SetValue(common.社名);
-					ws2.Cell(37, 6).SetValue(common.HeadOffice.Zipcode);
-					ws2.Cell(38, 5).SetValue(common.HeadOffice.住所);
+					ws2.Cell(37, 6).SetValue(Program.gSettings.HeadOffice.Zipcode);
+					ws2.Cell(38, 5).SetValue(Program.gSettings.HeadOffice.住所);
 					// 経理部
-					ws2.Cell(40, 5).SetValue(common.HeadOffice.TelKeiri);
-					ws2.Cell(40, 15).SetValue(common.HeadOffice.Fax);
+					ws2.Cell(40, 5).SetValue(Program.gSettings.HeadOffice.TelKeiri);
+					ws2.Cell(40, 15).SetValue(Program.gSettings.HeadOffice.Fax);
 
 					// Excelファイルの保存
 					wb.SaveAs(pathname);
@@ -2050,9 +1737,9 @@ namespace VariousDocumentOut
 					{
 						// 本社
 						ws2.Cell(11, 28).SetValue(common.社名);					// 納品先
-						ws2.Cell(12, 12).SetValue(common.HeadOffice.Zipcode);	// 納品先郵便番号
-						ws2.Cell(12, 28).SetValue(common.HeadOffice.Tel);		// 納品先電話番号
-						ws2.Cell(13, 11).SetValue(common.HeadOffice.住所);		// 納品先住所
+						ws2.Cell(12, 12).SetValue(Program.gSettings.HeadOffice.Zipcode);	// 納品先郵便番号
+						ws2.Cell(12, 28).SetValue(Program.gSettings.HeadOffice.Tel);		// 納品先電話番号
+						ws2.Cell(13, 11).SetValue(Program.gSettings.HeadOffice.住所);		// 納品先住所
 					}
 					//【歯科医院情報】
 					ws2.Cell(18, 11).SetValue(common.Customer.顧客No);
@@ -2161,7 +1848,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - PC安心サポート加入申込書 or PC安心サポートPlus加入申込書
+		/// EXCEL出力 - 15 PC安心サポート加入申込書 or PC安心サポートPlus加入申込書
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -2208,7 +1895,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - アプラス預金口座振替依頼書・自動払込利用申込書
+		/// EXCEL出力 - 16 アプラス預金口座振替依頼書・自動払込利用申込書
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -2238,7 +1925,7 @@ namespace VariousDocumentOut
 
 				foreach (Excel.Shape shape in xlShapes)
 				{
-					if (Microsoft.Office.Core.MsoShapeType.msoTextBox == shape.Type)
+					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
 						switch (shape.Name)
@@ -2275,6 +1962,10 @@ namespace VariousDocumentOut
 					xlSheet.OLEObjects("新規登録CheckBox").Object.Value = 1;
 				}
 			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
 			finally
 			{
 				if (null != xlSheet)
@@ -2303,7 +1994,7 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// EXCEL出力 - 作業報告書
+		/// EXCEL出力 - 17 作業報告書
 		/// </summary>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
@@ -2319,6 +2010,117 @@ namespace VariousDocumentOut
 					ws.Cell(18, 3).SetValue(string.Format("〒{0}\r\n{1}\r\n{2}", common.Customer.郵便番号, common.Customer.住所1, common.Customer.住所2));
 					ws.Cell(34, 3).SetValue(string.Format("TEL {0}", common.Customer.電話番号));
 
+					// Excelファイルの保存
+					wb.SaveAs(pathname);
+				}
+			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
+		}
+
+		/// <summary>
+		/// EXCEL出力 - 消耗品FAXオーダーシート
+		/// </summary>
+		/// <param name="pathname">Excelファイルパス名</param>
+		/// <param name="common">各種書類出力 共通情報</param>
+		/// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
+		public static void ExcelOutFaxOrderSheet(string pathname, DocumentCommon common)
+		{
+			try
+			{
+				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
+				{
+					IXLWorksheet ws = wb.Worksheet("消耗品FAXオーダーシート");
+					ws.Cell(1, 37).SetValue(Program.gSettings.HeadOffice.FaxExpendables);
+					ws.Cell(8, 10).SetValue(common.Customer.得意先No);
+					ws.Cell(9, 10).SetValue(common.Customer.顧客名);
+					ws.Cell(10, 10).SetValue(common.Customer.FAX番号);
+
+					List<tMikユーザ> userList = JunpDatabaseAccess.Select_tMikユーザ(string.Format("fusCliMicID = {0}", common.Customer.顧客No), "", Program.gSettings.Connect.Junp.ConnectionString);
+					if (0 < userList.Count)
+					{
+						// 当日の消費税率
+						int taxRate = JunpDatabaseAccess.GetTaxRate(Date.Today, Program.gSettings.Connect.Junp.ConnectionString);
+
+						List< FaxOrderSheetGoods> orderList = new List<FaxOrderSheetGoods>();
+
+						// カルテ用紙の取得
+						List<tMikOS明細印字> chartList = JunpDatabaseAccess.Select_tMikOS明細印字(string.Format("fmsコード種別 = '03' AND fmsコード = '{0}'", userList[0].fusカルテ用紙), "", Program.gSettings.Connect.Junp.ConnectionString);
+						if (0 < chartList.Count)
+						{
+							string goodsCodes = chartList[0].GetGoodsCodes();
+							if (0 < goodsCodes.Length)
+							{
+								List<vMicPCA商品マスタ> pcaList = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goodsCodes, "sms_scd ASC", Program.gSettings.Connect.Junp.ConnectionString);
+								if (0 < pcaList.Count)
+								{
+									FaxOrderSheetGoods order = new FaxOrderSheetGoods();
+									foreach (vMicPCA商品マスタ pca in pcaList)
+									{
+										order.GoodsCode = pca.sms_scd;
+										order.GoodsName = pca.sms_mei;
+										order.Price = pca.sms_hyo;
+										order.Unit = chartList[0].fms発注単位;
+										orderList.Add(order);
+									}
+								}
+							}
+						}
+						// 領収証用紙の取得
+						List<tMikOS明細印字> receiptList = JunpDatabaseAccess.Select_tMikOS明細印字(string.Format("fmsコード種別 = '05' AND fmsコード = '{0}'", userList[0].fus領収書用紙), "", Program.gSettings.Connect.Junp.ConnectionString);
+						if (0 < receiptList.Count)
+						{
+							string goodsCodes = receiptList[0].GetGoodsCodes();
+							if (0 < goodsCodes.Length)
+							{
+								List<vMicPCA商品マスタ> pcaList = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goodsCodes, "sms_scd ASC", Program.gSettings.Connect.Junp.ConnectionString);
+								if (0 < pcaList.Count)
+								{
+									FaxOrderSheetGoods order = new FaxOrderSheetGoods();
+									foreach (vMicPCA商品マスタ pca in pcaList)
+									{
+										order.GoodsCode = pca.sms_scd;
+										order.GoodsName = pca.sms_mei;
+										order.Price = pca.sms_hyo;
+										order.Unit = receiptList[0].fms発注単位;
+										orderList.Add(order);
+									}
+								}
+							}
+						}
+						// トナータイプの取得
+						List<tMikOS明細印字> tonerList = JunpDatabaseAccess.Select_tMikOS明細印字(string.Format("fmsコード種別 = '05' AND fmsコード = '{0}'", userList[0].fus領収書用紙2), "", Program.gSettings.Connect.Junp.ConnectionString);
+						if (0 < tonerList.Count)
+						{
+							string goodsCodes = tonerList[0].GetGoodsCodes();
+							if (0 < goodsCodes.Length)
+							{
+								List<vMicPCA商品マスタ> pcaList = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goodsCodes, "sms_scd ASC", Program.gSettings.Connect.Junp.ConnectionString);
+								if (0 < pcaList.Count)
+								{
+									FaxOrderSheetGoods order = new FaxOrderSheetGoods();
+									foreach (vMicPCA商品マスタ pca in pcaList)
+									{
+										order.GoodsCode = pca.sms_scd;
+										order.GoodsName = pca.sms_mei;
+										order.Price = pca.sms_hyo;
+										order.Unit = tonerList[0].fms発注単位;
+										orderList.Add(order);
+									}
+								}
+							}
+						}
+						// 注文欄の設定
+						for (int i = 0; i < orderList.Count; i++)
+						{
+							ws.Cell(15 + i, 2).SetValue(orderList[i].GoodsCode);
+							ws.Cell(15 + i, 7).SetValue(orderList[i].GoodsName);
+							ws.Cell(15 + i, 26).SetValue(string.Format(@"\{0}―", StringUtil.CommaEdit(orderList[i].税込単価(taxRate))));
+							ws.Cell(15 + i, 36).SetValue(orderList[i].Unit);
+						}
+					}
 					// Excelファイルの保存
 					wb.SaveAs(pathname);
 				}

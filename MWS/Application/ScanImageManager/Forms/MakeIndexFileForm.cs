@@ -6,9 +6,10 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2021/07/06 勝呂)
+// Ver1.01 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 // 
-using MwsLib.BaseFactory.ScanImageManager;
-using MwsLib.DB.SqlServer.ScanImageManager;
+using CommonLib.BaseFactory.ScanImageManager;
+using CommonLib.DB.SqlServer.ScanImageManager;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -178,7 +179,7 @@ namespace ScanImageManager.Forms
 			{
 				if (0 == scan.TokuisakiNo.Length)
 				{
-					ScanImageFile work = ScanImageManagerAccess.GetCustomerInfo(scan.GetToluisakiNo(), Program.DATABACE_ACCEPT_CT);
+					ScanImageFile work = ScanImageManagerAccess.GetCustomerInfo(scan.GetToluisakiNo(), Program.gSettings.Connect.Junp.ConnectionString);
 					if (null != work)
 					{
 						scan.ClinicName = work.ClinicName;

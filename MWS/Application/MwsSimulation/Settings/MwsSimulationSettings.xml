@@ -16,98 +16,105 @@
     <BranchSettings>
       <Name>株式会社ミック 札幌</Name>
       <Zipcode>060-0061</Zipcode>
-      <Address1>北海道札幌市中央区南一条西9-1-15</Address1>
-      <Address2>井門札幌S109ビル6F</Address2>
+      <Address1>北海道札幌市中央区南一条西 9-1-15</Address1>
+      <Address2>井門札幌ビル 6F</Address2>
       <Tel>011-251-3936</Tel>
       <Fax>011-251-8488</Fax>
     </BranchSettings>
     <BranchSettings>
       <Name>株式会社ミック 盛岡</Name>
       <Zipcode>020-0871</Zipcode>
-      <Address1>岩手県盛岡市中ノ橋通1-4-22</Address1>
-      <Address2>中ノ橋106ビル4F</Address2>
+      <Address1>岩手県盛岡市中ノ橋通 1-4-22</Address1>
+      <Address2>中ノ橋 106 ビル 4F</Address2>
       <Tel>019-604-6727</Tel>
       <Fax>019-604-6728</Fax>
     </BranchSettings>
     <BranchSettings>
       <Name>株式会社ミック 仙台</Name>
       <Zipcode>980-0802</Zipcode>
-      <Address1>宮城県仙台市青葉区二日町14-15</Address1>
-      <Address2>アミ・グランデ二日町2F</Address2>
+      <Address1>宮城県仙台市青葉区二日町 14-15</Address1>
+      <Address2>アミ・グランデ二日町 2F</Address2>
       <Tel>022-262-9361</Tel>
       <Fax>022-262-9362</Fax>
     </BranchSettings>
     <BranchSettings>
+      <Name>株式会社ミック 郡山</Name>
+      <Zipcode>963-8874</Zipcode>
+      <Address1>福島県郡山市深沢 1-6-3 8F</Address1>
+      <Address2 />
+      <Tel>024-927-0484</Tel>
+      <Fax>024-927-0485</Fax>
+    </BranchSettings>
+    <BranchSettings>
       <Name>株式会社ミック さいたま</Name>
       <Zipcode>330-0844</Zipcode>
-      <Address1>埼玉県さいたま市大宮区下町1-45</Address1>
-      <Address2>松亀センタービル4F</Address2>
+      <Address1>埼玉県さいたま市大宮区下町 1-45</Address1>
+      <Address2>松亀センタービル 4F</Address2>
       <Tel>048-658-6025</Tel>
       <Fax>048-658-6026</Fax>
     </BranchSettings>
     <BranchSettings>
-      <Name>株式会社ミック 東京</Name>
+      <Name>株式会社ミック 首都圏</Name>
       <Zipcode>103-0011</Zipcode>
-      <Address1>東京都中央区日本橋大伝馬町2-7</Address1>
-      <Address2>HF日本橋大伝馬町ビルディング7F</Address2>
+      <Address1>東京都中央区日本橋大伝馬町 2-7</Address1>
+      <Address2>日本橋第一ビル 7F</Address2>
       <Tel>03-5651-9930</Tel>
       <Fax>03-5651-9921</Fax>
     </BranchSettings>
     <BranchSettings>
       <Name>株式会社ミック 横浜</Name>
       <Zipcode>231-0011</Zipcode>
-      <Address1>神奈川県横浜市中区太田町6-87</Address1>
-      <Address2>横浜フコク生命ビル2F</Address2>
+      <Address1>神奈川県横浜市中区太田町 6-87</Address1>
+      <Address2>横浜フコク生命ビル 2F</Address2>
       <Tel>045-222-6780</Tel>
       <Fax>045-663-0866</Fax>
     </BranchSettings>
     <BranchSettings>
       <Name>株式会社ミック 名古屋</Name>
       <Zipcode>461-0001</Zipcode>
-      <Address1>愛知県名古屋市東区泉1-1-35</Address1>
-      <Address2>ハイエスト久屋ビル7F</Address2>
+      <Address1>愛知県名古屋市東区泉 1-1-35</Address1>
+      <Address2>ハイエスト久屋ビル 7F</Address2>
       <Tel>052-950-2525</Tel>
       <Fax>052-950-2526</Fax>
     </BranchSettings>
     <BranchSettings>
       <Name>株式会社ミック 大阪</Name>
       <Zipcode>532-0011</Zipcode>
-      <Address1>大阪府大阪市淀川区西中島3-23-15</Address1>
-      <Address2>セントアーバンビル2F</Address2>
+      <Address1>大阪府淀川区西中島 6-1-3</Address1>
+      <Address2>アストロ新大阪第２ビル 3F</Address2>
       <Tel>06-6304-1044</Tel>
       <Fax>06-6304-1706</Fax>
     </BranchSettings>
     <BranchSettings>
       <Name>株式会社ミック 金沢</Name>
       <Zipcode>920-0027</Zipcode>
-      <Address1>福井県金沢市駅西新町3-1-10</Address1>
-      <Address2>NEWSビル3F</Address2>
+      <Address1>福井県金沢市駅西新町 3-1-10</Address1>
+      <Address2>NEWSビル 3F</Address2>
       <Tel>076-265-7203</Tel>
       <Fax>076-265-7204</Fax>
     </BranchSettings>
     <BranchSettings>
       <Name>株式会社ミック 広島</Name>
       <Zipcode>730-0016</Zipcode>
-      <Address1>広島県広島市中区幟町13-11</Address1>
-      <Address2>明治安田生命広島幟町ビル8F</Address2>
+      <Address1>広島県広島市中区幟町 13-11</Address1>
+      <Address2>明治安田生命広島幟町ビル 8F</Address2>
       <Tel>082-511-2167</Tel>
       <Fax>082-511-2168</Fax>
     </BranchSettings>
     <BranchSettings>
       <Name>株式会社ミック 福岡</Name>
-      <Zipcode>812-0042</Zipcode>
-      <Address1>福岡県福岡市中央区赤坂1-16-5</Address1>
-      <Address2>読売九州ビル6F</Address2>
-      <Tel>092-738-9644</Tel>
-      <Fax>092-711-6944</Fax>
+      <Zipcode>812-0022</Zipcode>
+      <Address1>福岡県福岡市博多区博多駅前 1-15-20</Address1>
+      <Address2>NMF 博多駅前ビル 5F</Address2>
+      <Tel>092-472-9645</Tel>
+      <Fax>092-472-7492</Fax>
     </BranchSettings>
   </BranchList>
   <StaffList>
-    <string>板垣 容子</string>
+    <string>伊藤 正昭</string>
+    <string>大谷 純一</string>
     <string>木村 剛</string>
-    <string>藤井 利彦</string>
-    <string>秋 相文</string>
-    <string>大野 宗孝</string>
+    <string>佐々木 誠</string>
     <string>小河 寛明</string>
   </StaffList>
   <CurrentBranchIndex>5</CurrentBranchIndex>

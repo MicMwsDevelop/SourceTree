@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HeadOfficeSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<CompanyName>株式会社ミック</CompanyName>
+	<Zipcode>277-0871</Zipcode>
+	<Address1>千葉県柏市若柴226番地44 中央141街区1</Address1>
+	<Address2>KOIL TERRACE 5F</Address2>
+	<Tel>04-7130-9003</Tel>
+	<Fax>04-7130-9002</Fax>
+	<Email>info@mic.jp</Email>
+	<Url>https://www.webservice.mic.jp</Url>
+	<TelSogoKikaku>04-7130-9004</TelSogoKikaku>
+	<TelKeiri>04-7130-9005</TelKeiri>
+	<TelServiceCenter>04-7130-9006</TelServiceCenter>
+	<TelEigyoKanri>04-7130-9007</TelEigyoKanri>
+	<TelHealthcare>04-7130-9008</TelHealthcare>
+  <FaxExpendables>050-3737-1395</FaxExpendables>
+  <FaxServiceCenter>050-3737-1539</FaxServiceCenter>
+  <FaxHealthcare>04-7130-9002</FaxHealthcare>
+</HeadOfficeSettings>

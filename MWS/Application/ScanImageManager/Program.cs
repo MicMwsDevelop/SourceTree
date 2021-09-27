@@ -6,9 +6,10 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2021/07/06 勝呂)
+// Ver1.01 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 //
-using MwsLib.BaseFactory.ScanImageManager;
-using MwsLib.DB.SqlServer.ScanImageManager;
+using CommonLib.BaseFactory.ScanImageManager;
+using CommonLib.DB.SqlServer.ScanImageManager;
 using MwsLib.Log;
 using ScanImageManager.Settings;
 using System;
@@ -25,9 +26,9 @@ namespace ScanImageManager
 	static class Program
 	{
 		/// <summary>
-		/// データベース接続先 CT環境
+		/// バージョン情報
 		/// </summary>
-		public const bool DATABACE_ACCEPT_CT = false;
+		public const string VersionStr = "Ver1.01 (2021/09/07)";
 
 		/// <summary>
 		/// プログラム名
@@ -84,7 +85,7 @@ namespace ScanImageManager
 			gSettings = ScanImageManagerSettingsIF.GetScanImageDataSettings();
 
 			// 顧客情報リストの取得
-			CustomerInfoList = ScanImageManagerAccess.GetCustomerInfoList(DATABACE_ACCEPT_CT);
+			CustomerInfoList = ScanImageManagerAccess.GetCustomerInfoList(gSettings.Connect.Junp.ConnectionString);
 
 			switch (bootType)
 			{
@@ -203,31 +204,31 @@ namespace ScanImageManager
 				try
 				{
 					// スキャンデータ登録情報リストの全削除
-					ScanImageManagerSetIO.DeleteDocumentIndex(Program.DATABACE_ACCEPT_CT);
+					ScanImageManagerSetIO.DeleteDocumentIndex(gSettings.Connect.Junp.ConnectionString);
 					Logger.Out(logPathname, "スキャンデータ登録情報リストの全削除  終了");
 
 					// 登録・変更の追加
-					ScanImageManagerSetIO.InsertIntoDocumentIndexList(1, torokuList, Program.DATABACE_ACCEPT_CT);
+					ScanImageManagerSetIO.InsertIntoDocumentIndexList(1, torokuList, gSettings.Connect.Junp.ConnectionString);
 					Logger.Out(logPathname, "登録・変更の追加  終了");
 
 					// 保守契約（解約）の追加
-					ScanImageManagerSetIO.InsertIntoDocumentIndexList(torokuList.Count + 1, kaiyakuList, Program.DATABACE_ACCEPT_CT);
+					ScanImageManagerSetIO.InsertIntoDocumentIndexList(torokuList.Count + 1, kaiyakuList, gSettings.Connect.Junp.ConnectionString);
 					Logger.Out(logPathname, "保守契約（解約）の追加  終了");
 
 					// 保守契約（加入）の追加
-					ScanImageManagerSetIO.InsertIntoDocumentIndexList(torokuList.Count + kaiyakuList.Count + 1, kanyuList, Program.DATABACE_ACCEPT_CT);
+					ScanImageManagerSetIO.InsertIntoDocumentIndexList(torokuList.Count + kaiyakuList.Count + 1, kanyuList, gSettings.Connect.Junp.ConnectionString);
 					Logger.Out(logPathname, "保守契約（加入）の追加  終了");
 
 					// 口座振替の追加
-					ScanImageManagerSetIO.InsertIntoDocumentIndexList(torokuList.Count + kaiyakuList.Count + kanyuList.Count + 1, kofuriList, Program.DATABACE_ACCEPT_CT);
+					ScanImageManagerSetIO.InsertIntoDocumentIndexList(torokuList.Count + kaiyakuList.Count + kanyuList.Count + 1, kofuriList, gSettings.Connect.Junp.ConnectionString);
 					Logger.Out(logPathname, "口座振替の追加  終了");
 
 					// 取引条件確認書の追加
-					ScanImageManagerSetIO.InsertIntoDocumentIndexList(torokuList.Count + kaiyakuList.Count + kanyuList.Count + kofuriList.Count + 1, transList, Program.DATABACE_ACCEPT_CT);
+					ScanImageManagerSetIO.InsertIntoDocumentIndexList(torokuList.Count + kaiyakuList.Count + kanyuList.Count + kofuriList.Count + 1, transList, gSettings.Connect.Junp.ConnectionString);
 					Logger.Out(logPathname, "取引条件確認書の追加  終了");
 
 					// リモートサービス利用規約同意書の追加
-					ScanImageManagerSetIO.InsertIntoDocumentIndexList(torokuList.Count + kaiyakuList.Count + kanyuList.Count + kofuriList.Count + transList.Count + 1, remoteList, Program.DATABACE_ACCEPT_CT);
+					ScanImageManagerSetIO.InsertIntoDocumentIndexList(torokuList.Count + kaiyakuList.Count + kanyuList.Count + kofuriList.Count + transList.Count + 1, remoteList, gSettings.Connect.Junp.ConnectionString);
 					Logger.Out(logPathname, "リモートサービス利用規約同意書の追加  終了");
 				}
 				catch (Exception ex)

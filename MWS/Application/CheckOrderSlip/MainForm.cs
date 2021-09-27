@@ -5,17 +5,18 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2020/04/17 勝呂)
+// Ver1.00 新規作成(2020/04/17 勝呂)
 // Ver1.10 PC安心サポートPlus対応(2020/10/16 勝呂)
 // Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
+// Ver1.12 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 // 
 using ClosedXML.Excel;
-using MwsLib.BaseFactory;
-using MwsLib.BaseFactory.Charlie.Table;
-using MwsLib.BaseFactory.Junp.CheckOrderSlip;
-using MwsLib.Common;
-using MwsLib.DB.SqlServer.Charlie;
-using MwsLib.DB.SqlServer.CheckOrderSlip;
+using CommonLib.BaseFactory;
+using CommonLib.BaseFactory.Charlie.Table;
+using CommonLib.BaseFactory.Junp.CheckOrderSlip;
+using CommonLib.Common;
+using CommonLib.DB.SqlServer.Charlie;
+using CommonLib.DB.SqlServer.CheckOrderSlip;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -85,6 +86,8 @@ namespace CheckOrderSlip
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
+			this.Text += string.Format("  {0}", Program.VersionStr);
+
 			// チェック対象コンボボックスの設定
 			comboBoxMode.Items.Add("paletteES");
 			comboBoxMode.Items.Add("おまとめプラン");
@@ -404,15 +407,15 @@ namespace CheckOrderSlip
 			List<OrderSlipData> list = null;
 			if (radioButtonOrder.Checked)
 			{
-				list = CheckOrderSlipAccess.GetOrderSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+				list = CheckOrderSlipAccess.GetOrderSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			}
 			else if (radioButtonOrderAccept.Checked)
 			{
-				list = CheckOrderSlipAccess.GetOrderAcceptSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+				list = CheckOrderSlipAccess.GetOrderAcceptSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			}
 			else
 			{
-				list = CheckOrderSlipAccess.GetSaleSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+				list = CheckOrderSlipAccess.GetSaleSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			}
 			if (null != list)
 			{
@@ -550,15 +553,15 @@ namespace CheckOrderSlip
 			List<OrderSlipData> list = null;
 			if (radioButtonOrder.Checked)
 			{
-				list = CheckOrderSlipAccess.GetOrderSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+				list = CheckOrderSlipAccess.GetOrderSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			}
 			else if (radioButtonOrderAccept.Checked)
 			{
-				list = CheckOrderSlipAccess.GetOrderAcceptSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+				list = CheckOrderSlipAccess.GetOrderAcceptSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			}
 			else
 			{
-				list = CheckOrderSlipAccess.GetSaleSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+				list = CheckOrderSlipAccess.GetSaleSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			}
 			if (null != list)
 			{
@@ -642,15 +645,15 @@ namespace CheckOrderSlip
 			List<OrderSlipData> list = null;
 			if (radioButtonOrder.Checked)
 			{
-				list = CheckOrderSlipAccess.GetOrderSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+				list = CheckOrderSlipAccess.GetOrderSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			}
 			else if (radioButtonOrderAccept.Checked)
 			{
-				list = CheckOrderSlipAccess.GetOrderAcceptSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+				list = CheckOrderSlipAccess.GetOrderAcceptSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			}
 			else
 			{
-				list = CheckOrderSlipAccess.GetSaleSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+				list = CheckOrderSlipAccess.GetSaleSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			}
 			if (null != list)
 			{
@@ -717,7 +720,7 @@ namespace CheckOrderSlip
 			goods.Add(PcaGoodsIDDefine.MwsPlatform);
 
 			// 受注伝票情報リストの取得
-			List<OrderSlipData> list = CheckOrderSlipAccess.GetOrderSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+			List<OrderSlipData> list = CheckOrderSlipAccess.GetOrderSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			if (null != list)
 			{
 				List<OrderSlipData> listPlat = list.FindAll(p =>p.販売種別 == MwsDefine.ApplyType.Monthly);
@@ -767,15 +770,15 @@ namespace CheckOrderSlip
 			List<OrderSlipData> list = null;
 			if (radioButtonOrder.Checked)
 			{
-				list = CheckOrderSlipAccess.GetOrderSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+				list = CheckOrderSlipAccess.GetOrderSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			}
 			else if (radioButtonOrderAccept.Checked)
 			{
-				list = CheckOrderSlipAccess.GetOrderAcceptSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+				list = CheckOrderSlipAccess.GetOrderAcceptSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			}
 			else
 			{
-				list = CheckOrderSlipAccess.GetSaleSlipList(checkDate, goods, Program.DATABASE_ACCESS_CT);
+				list = CheckOrderSlipAccess.GetSaleSlipList(checkDate, goods, Program.gSettings.Junp.ConnectionString);
 			}
 			if (null != list)
 			{
@@ -795,7 +798,7 @@ namespace CheckOrderSlip
 						{
 							slip.ErrorList.Add("サービス利用期間が未設定");
 						}
-						List<T_USE_PCCSUPPORT> pcList = CharlieDatabaseAccess.Select_T_USE_PCCSUPPORT(string.Format("[fCustomerID] = {0}", slip.顧客No), "", Program.DATABASE_ACCESS_CT);
+						List<T_USE_PCCSUPPORT> pcList = CharlieDatabaseAccess.Select_T_USE_PCCSUPPORT(string.Format("[fCustomerID] = {0}", slip.顧客No), "", Program.gSettings.Charlie.ConnectionString);
 						if (null != pcList)
 						{
 							T_USE_PCCSUPPORT pc = pcList.First();

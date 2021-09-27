@@ -33,7 +33,6 @@
 			this.textBoxImagePath = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.buttonMakeIndexFile = new System.Windows.Forms.Button();
-			this.label2 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// buttonRemakeScanData
@@ -89,22 +88,11 @@
 			this.buttonMakeIndexFile.UseVisualStyleBackColor = true;
 			this.buttonMakeIndexFile.Click += new System.EventHandler(this.buttonMakeIndexFile_Click);
 			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label2.Location = new System.Drawing.Point(472, 216);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(152, 15);
-			this.label2.TabIndex = 5;
-			this.label2.Text = "Ver.1.00 2021/07/07版";
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(644, 251);
-			this.Controls.Add(this.label2);
 			this.Controls.Add(this.buttonMakeIndexFile);
 			this.Controls.Add(this.buttonInputImagePath);
 			this.Controls.Add(this.textBoxImagePath);
@@ -129,7 +117,6 @@
 		private System.Windows.Forms.TextBox textBoxImagePath;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button buttonMakeIndexFile;
-		private System.Windows.Forms.Label label2;
 	}
 }
 

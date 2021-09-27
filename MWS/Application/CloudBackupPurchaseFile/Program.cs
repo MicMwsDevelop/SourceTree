@@ -7,16 +7,17 @@
 // 
 // Ver1.00 新規作成(2020/10/06 勝呂)
 // Ver1.01 仕入データの17:区(0:通常仕入, 1:返品, 2:単価訂正)を2から1に変更(2021/01/08 勝呂)
+// Ver1.02 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 //
 using CloudBackupPurchaseFile.Forms;
 using CloudBackupPurchaseFile.Mail;
 using CloudBackupPurchaseFile.Settings;
-using MwsLib.BaseFactory.CloudBackup;
-using MwsLib.BaseFactory.Junp.View;
-using MwsLib.BaseFactory.Pca;
-using MwsLib.Common;
-using MwsLib.DB.SqlServer.CloudBackup;
-using MwsLib.DB.SqlServer.Junp;
+using CommonLib.BaseFactory.CloudBackup;
+using CommonLib.BaseFactory.Junp.View;
+using CommonLib.BaseFactory.Pca;
+using CommonLib.Common;
+using CommonLib.DB.SqlServer.CloudBackup;
+using CommonLib.DB.SqlServer.Junp;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -26,19 +27,19 @@ namespace CloudBackupPurchaseFile
 	static class Program
 	{
 		/// <summary>
-		/// データベース接続先
+		/// プログラム名
 		/// </summary>
-		private const bool DATABASE_ACCESS_CT = false;
+		public const string PROC_NAME = "クラウドバックアップ仕入データ作成";
+
+		/// <summary>
+		/// バージョン情報
+		/// </summary>
+		public const string VersionStr = "Ver1.02(2021/09/07)";
 
 		/// <summary>
 		/// 環境設定
 		/// </summary>
 		public static CloudBackupPurchaseFileSettings gSettings;
-
-		/// <summary>
-		/// プログラム名
-		/// </summary>
-		public const string PROC_NAME = "クラウドバックアップ仕入データ作成";
 
 		/// <summary>
 		/// 集計日
@@ -57,7 +58,7 @@ namespace CloudBackupPurchaseFile
 			gSettings = CloudBackupPurchaseFileSettingsIF.GetSettings();
 
 #if DEBUG
-			CollectDate = new Date(2020, 12, 1);
+			CollectDate = new Date(2021, 8, 1);
 #else
 			// 集計日を先月初日に設定
 			CollectDate = Date.Today.FirstDayOfLasMonth();
@@ -96,7 +97,7 @@ namespace CloudBackupPurchaseFile
 				{
 					List<MakePurchaseData> stockList = new List<MakePurchaseData>();
 
-					List<GroupMicPCA売上明細> pcaList = CloudBackupAccess.GetCloudBackupEarningsList(gSettings.GetCloudBackupGoods(), collectDate.ToYearMonth().ToSpan(), DATABASE_ACCESS_CT);
+					List<GroupMicPCA売上明細> pcaList = CloudBackupAccess.GetCloudBackupEarningsList(gSettings.GetCloudBackupGoods(), collectDate.ToYearMonth().ToSpan(), gSettings.Connect.Junp.ConnectionString);
 					if (0 < pcaList.Count)
 					{
 						//var query = from PCA売上明細 in pcaList
@@ -129,7 +130,7 @@ namespace CloudBackupPurchaseFile
 									// MWS ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟ(月額) 仕入数1*数量
 									stock.f数量 = goods.仕入数 * pca.数量;
 
-									vMicPCA商品マスタ mst = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goods.仕入商品コード, DATABASE_ACCESS_CT);
+									vMicPCA商品マスタ mst = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goods.仕入商品コード, gSettings.Connect.Junp.ConnectionString);
 									if (null != mst)
 									{
 										stock.f商品名 = mst.sms_mei;

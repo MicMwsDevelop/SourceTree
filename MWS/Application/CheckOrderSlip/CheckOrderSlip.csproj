@@ -7,7 +7,7 @@
     <ProjectGuid>{F4490B6E-612F-4827-BE63-16A5CDB492F6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>CheckOrderSlip</RootNamespace>
-    <AssemblyName>CheckOrderSlip</AssemblyName>
+    <AssemblyName>伝票確認ツール</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -103,7 +103,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Library\MwsLib\MwsLib.csproj">
+    <Content Include="SqlServerConnectSettings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Library\CommonLib\CommonLib.csproj">
+      <Project>{f6f244a5-2379-416a-a321-4074ef6beb8c}</Project>
+      <Name>CommonLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Library\MwsLib\MwsLib.csproj">
       <Project>{dbcbf3f6-889c-4dd9-91ea-a2527aacede6}</Project>
       <Name>MwsLib</Name>
     </ProjectReference>

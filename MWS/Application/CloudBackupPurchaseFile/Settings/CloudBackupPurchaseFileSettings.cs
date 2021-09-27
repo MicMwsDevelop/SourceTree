@@ -6,8 +6,10 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2020/10/06 勝呂)
+// Ver1.02 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 //
-using MwsLib.BaseFactory.Mail;
+using MwsLib.Settings.Mail;
+using MwsLib.Settings.SqlServer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -50,6 +52,11 @@ namespace CloudBackupPurchaseFile.Settings
 		public MailSettings Mail { get; set; }
 
 		/// <summary>
+		/// SQL Server接続情報
+		/// </summary>
+		public SqlServerConnectSettings Connect { get; set; }
+
+		/// <summary>
 		/// 仕入データ出力ファイルパス名
 		/// </summary>
 		public string Pathname
@@ -71,6 +78,7 @@ namespace CloudBackupPurchaseFile.Settings
 			InitDenNo = 20501;
 			CloudBackupGoodsList = new List<CloudBackupGoods>();
 			Mail = new MailSettings();
+			Connect = new SqlServerConnectSettings();
 		}
 
 		/// <summary>

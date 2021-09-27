@@ -7,10 +7,9 @@
 // 
 // Ver1.00 新規作成(2021/04/22 勝呂)
 //
-using MicLib.HeadOffice;
-using MwsLib.BaseFactory.Junp.View;
-using MwsLib.BaseFactory.VariousDocumentOut;
-using MwsLib.Common;
+using CommonLib.BaseFactory.Junp.View;
+using CommonLib.BaseFactory.VariousDocumentOut;
+using CommonLib.Common;
 
 namespace VariousDocumentOut
 {
@@ -19,11 +18,6 @@ namespace VariousDocumentOut
 	/// </summary>
 	public class DocumentCommon
 	{
-		/// <summary>
-		/// 本社情報
-		/// </summary>
-		public HeadOfficeSettings HeadOffice { get; set; }
-
 		/// <summary>
 		/// 拠点情報
 		/// </summary>
@@ -57,7 +51,7 @@ namespace VariousDocumentOut
 		{
 			get
 			{
-				return HeadOffice.CompanyName;
+				return Program.gSettings.HeadOffice.CompanyName;
 			}
 		}
 
@@ -85,7 +79,7 @@ namespace VariousDocumentOut
 			{
 				if (IsHeadOffice)
 				{
-					return HeadOffice.Zipcode;
+					return Program.gSettings.HeadOffice.Zipcode;
 				}
 				return Satellite.Zipcode;
 			}
@@ -100,7 +94,7 @@ namespace VariousDocumentOut
 			{
 				if (IsHeadOffice)
 				{
-					return HeadOffice.Address1;
+					return Program.gSettings.HeadOffice.Address1;
 				}
 				return Satellite.Address1;
 			}
@@ -115,7 +109,7 @@ namespace VariousDocumentOut
 			{
 				if (IsHeadOffice)
 				{
-					return HeadOffice.Address2;
+					return Program.gSettings.HeadOffice.Address2;
 				}
 				return Satellite.Address2;
 			}
@@ -130,7 +124,7 @@ namespace VariousDocumentOut
 			{
 				if (IsHeadOffice)
 				{
-					return HeadOffice.住所;
+					return Program.gSettings.HeadOffice.住所;
 				}
 				return Satellite.住所;
 			}
@@ -145,7 +139,7 @@ namespace VariousDocumentOut
 			{
 				if (IsHeadOffice)
 				{
-					return HeadOffice.Tel;
+					return Program.gSettings.HeadOffice.Tel;
 				}
 				return Satellite.Tel;
 			}
@@ -160,7 +154,7 @@ namespace VariousDocumentOut
 			{
 				if (IsHeadOffice)
 				{
-					return HeadOffice.Fax;
+					return Program.gSettings.HeadOffice.Fax;
 				}
 				return Satellite.Fax;
 			}
@@ -173,7 +167,7 @@ namespace VariousDocumentOut
 		{
 			get
 			{
-				return HeadOffice.Email;
+				return Program.gSettings.HeadOffice.Email;
 			}
 		}
 
@@ -184,7 +178,7 @@ namespace VariousDocumentOut
 		{
 			get
 			{
-				return HeadOffice.Url;
+				return Program.gSettings.HeadOffice.Url;
 			}
 		}
 
@@ -197,9 +191,9 @@ namespace VariousDocumentOut
 			{
 				if (IsHeadOffice)
 				{
-					return HeadOffice.CompanyName;
+					return Program.gSettings.HeadOffice.CompanyName;
 				}
-				return HeadOffice.CompanyName + Satellite.SaleDepartment;
+				return Program.gSettings.HeadOffice.CompanyName + Satellite.SaleDepartment;
 			}
 		}
 
@@ -208,7 +202,6 @@ namespace VariousDocumentOut
 		/// </summary>
 		public DocumentCommon()
 		{
-			HeadOffice = null;
 			Satellite = null;
 			Customer = null;
 			運用サポート情報 = string.Empty;

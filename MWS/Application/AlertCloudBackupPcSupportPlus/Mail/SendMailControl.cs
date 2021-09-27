@@ -7,7 +7,7 @@
 // 
 // Ver1.00 新規作成(2021/02/05 勝呂)
 //
-using MwsLib.BaseFactory.AlertCloudBackupPcSupportPlus;
+using CommonLib.BaseFactory.AlertCloudBackupPcSupportPlus;
 using System;
 using System.Collections.Generic;
 using System.Net;

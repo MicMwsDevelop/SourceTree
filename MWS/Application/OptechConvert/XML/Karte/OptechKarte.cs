@@ -7,7 +7,7 @@
 // 
 // Ver1.00 新規作成(2021/07/20 勝呂)
 // 
-using MwsLib.Common;
+using CommonLib.Common;
 using OptechConvert.XML.Link;
 using OptechConvert.XML.MedicalOption;
 using System.Collections.Generic;

@@ -5,9 +5,9 @@
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // 
-using MwsLib.BaseFactory.MwsSimulation;
-using MwsLib.Common;
-using MwsLib.Print;
+using CommonLib.BaseFactory.MwsSimulation;
+using CommonLib.Common;
+using CommonLib.Print;
 using MwsSimulation.Forms;
 using MwsSimulation.Settings;
 using System.Drawing;

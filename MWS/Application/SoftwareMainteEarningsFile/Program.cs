@@ -7,11 +7,12 @@
 // 
 // Ver1.00 新規作成(2020/10/16 勝呂)
 // Ver1.01 売上日を前月末日から当月初日に変更(2020/11/30 勝呂)
+// Ver1.02 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 //
-using MwsLib.BaseFactory.SoftwareMainteEarnings;
-using MwsLib.Common;
-using MwsLib.DB.SqlServer.Junp;
-using MwsLib.DB.SqlServer.SoftwareMainteEarnings;
+using CommonLib.BaseFactory.SoftwareMainteEarnings;
+using CommonLib.Common;
+using CommonLib.DB.SqlServer.Junp;
+using CommonLib.DB.SqlServer.SoftwareMainteEarnings;
 using SoftwareMainteEarningsFile.Mail;
 using SoftwareMainteEarningsFile.Settings;
 using System;
@@ -24,19 +25,19 @@ namespace SoftwareMainteEarningsFile
 	static class Program
 	{
 		/// <summary>
-		/// データベース接続先
+		/// プログラム名
 		/// </summary>
-		private const bool DATABASE_ACCESS_CT = false;
+		public const string PROC_NAME = "ソフトウェア保守料売上データ作成";
+
+		/// <summary>
+		/// バージョン情報
+		/// </summary>
+		public const string VersionStr = "Ver1.02(2021/09/07)";
 
 		/// <summary>
 		/// 環境設定
 		/// </summary>
 		public static SoftwareMainteEarningsFileSettings gSettings;
-
-		/// <summary>
-		/// プログラム名
-		/// </summary>
-		public const string PROC_NAME = "ソフトウェア保守料売上データ作成";
 
 		/// <summary>
 		/// 集計日
@@ -95,7 +96,7 @@ namespace SoftwareMainteEarningsFile
 					List<SoftwareMainteEarningsOut> saleList = new List<SoftwareMainteEarningsOut>();
 
 					// ソフトウェア保守料１年 自動更新対象利用情報の取得
-					List<CustomerUseInfoSoftwareMainte> list = SoftwareMainteEarningsAccess.GetCustomerUseInfoSoftwareMainte12(collectDate, DATABASE_ACCESS_CT);
+					List<CustomerUseInfoSoftwareMainte> list = SoftwareMainteEarningsAccess.GetCustomerUseInfoSoftwareMainte12(collectDate, gSettings.Connect.Charlie.ConnectionString);
 					if (0 < list.Count)
 					{
 						// 伝票番号
@@ -105,11 +106,11 @@ namespace SoftwareMainteEarningsFile
 						foreach (CustomerUseInfoSoftwareMainte cui in list)
 						{
 							// 顧客Noに売上データ必須情報の取得
-							SoftwareMainteEarningsOut sale = SoftwareMainteEarningsAccess.GetSoftwareMainteEarningsOut(cui.CUSTOMER_ID, DATABASE_ACCESS_CT);
+							SoftwareMainteEarningsOut sale = SoftwareMainteEarningsAccess.GetSoftwareMainteEarningsOut(cui.CUSTOMER_ID, gSettings.Connect.Junp.ConnectionString);
 							if (null != sale)
 							{
 								// 消費税
-								int taxRate = JunpDatabaseAccess.GetTaxRate(cui.USE_START_DATE.Value, DATABASE_ACCESS_CT);
+								int taxRate = JunpDatabaseAccess.GetTaxRate(cui.USE_START_DATE.Value, gSettings.Connect.Junp.ConnectionString);
 
 								// 利用期間を１年後に設定
 								//sale.f利用期間 = new Span(cui.USE_START_DATE.Value, cui.USE_END_DATE.Value); 
@@ -147,15 +148,13 @@ namespace SoftwareMainteEarningsFile
 							foreach (CustomerUseInfoSoftwareMainte data in list)
 							{
 #if !DEBUG
-								SoftwareMainteEarningsAccess.UpdateSetCustomerUseInfo(data, PROC_NAME, DATABASE_ACCESS_CT);
+								SoftwareMainteEarningsAccess.UpdateSetCustomerUseInfo(data, PROC_NAME, gSettings.Connect.Charlie.ConnectionString);
 #endif
 							}
 						}
 					}
-#if !DEBUG
 					// 営業管理部にメール送信
 					SendMailControl.SoftwareMainteSendMail(saleList);
-#endif
 				}
 			}
 			catch (Exception ex)

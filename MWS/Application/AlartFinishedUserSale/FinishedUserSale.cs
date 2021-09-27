@@ -7,7 +7,7 @@
 // 
 // Ver1.00(2021/08/18):新規作成(勝呂)
 //
-using MwsLib.BaseFactory.Pca;
+using CommonLib.BaseFactory.Pca;
 using System.Collections.Generic;
 
 namespace AlartFinishedUserSale

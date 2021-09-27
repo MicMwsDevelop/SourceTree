@@ -39,6 +39,11 @@ namespace OptechConvert
 
 			OptechList = new List<OptechXML>();
 			LinkInfo = new LinkMicItem();
+
+#if DEBUG
+			textBoxClinicCode.Text = "1234567";
+			textBoxOptechFolder.Text = @"D:\_WonderWeb\●MBO\46期\下期\オプテックコンバータ\サンプル出力";
+#endif
 		}
 
 		/// <summary>
@@ -82,7 +87,7 @@ namespace OptechConvert
 					try
 					{
 						// オプテック識別子→MIC項目コード定義（LinkMicItem.xml）を読み込む
-						this.ReadXmlFile(textBoxOptechFolder.Text);
+						this.ReadXmlFile(Directory.GetCurrentDirectory());
 
 						// 患者毎のオプテックXMLファイルを読み込む
 						string[] folders = Directory.GetDirectories(textBoxOptechFolder.Text, "*", SearchOption.TopDirectoryOnly);
@@ -112,6 +117,16 @@ namespace OptechConvert
 		/// <param name="e"></param>
 		private void buttonImportFile_Click(object sender, EventArgs e)
 		{
+			if (0 == textBoxClinicCode.Text.Length)
+			{
+				MessageBox.Show("医療機関コードが設定されていません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+			if (0 == listBoxPatient.Items.Count)
+			{
+				MessageBox.Show("オプテックコンバートファイルを先に読み込んでください。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
 			// インポートファイルの作成
 			List<string> patientList = new List<string>();
 			List<string> hokenInfList = new List<string>();
@@ -140,63 +155,63 @@ namespace OptechConvert
 			try
 			{
 				// インポートファイル出力
-				using (var sw = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), OptechDef.USER_PATIENT_FILENAME), false, Encoding.GetEncoding("shift_jis")))
+				using (var sw = new StreamWriter(Path.Combine(textBoxOptechFolder.Text, OptechDef.USER_PATIENT_FILENAME), false, Encoding.GetEncoding("shift_jis")))
 				{
 					foreach (string str in patientList)
 					{
 						sw.WriteLine(str);
 					}
 				}
-				using (var sw = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), OptechDef.USER_HOKNEINF_FILENAME), false, Encoding.GetEncoding("shift_jis")))
+				using (var sw = new StreamWriter(Path.Combine(textBoxOptechFolder.Text, OptechDef.USER_HOKNEINF_FILENAME), false, Encoding.GetEncoding("shift_jis")))
 				{
 					foreach (string str in hokenInfList)
 					{
 						sw.WriteLine(str);
 					}
 				}
-				using (var sw = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), OptechDef.CONVERT_SHOSHIN_INF_FILENAME), false, Encoding.GetEncoding("shift_jis")))
+				using (var sw = new StreamWriter(Path.Combine(textBoxOptechFolder.Text, OptechDef.CONVERT_SHOSHIN_INF_FILENAME), false, Encoding.GetEncoding("shift_jis")))
 				{
 					foreach (string str in shoshinInfList)
 					{
 						sw.WriteLine(str);
 					}
 				}
-				using (var sw = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), OptechDef.CONVERT_REZEPT_INF_FILENAME), false, Encoding.GetEncoding("shift_jis")))
+				using (var sw = new StreamWriter(Path.Combine(textBoxOptechFolder.Text, OptechDef.CONVERT_REZEPT_INF_FILENAME), false, Encoding.GetEncoding("shift_jis")))
 				{
 					foreach (string str in rezeptInfoList)
 					{
 						sw.WriteLine(str);
 					}
 				}
-				using (var sw = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), OptechDef.CONVERT_REZEPT_BYOMEIRAN_INF_FILENAME), false, Encoding.GetEncoding("shift_jis")))
+				using (var sw = new StreamWriter(Path.Combine(textBoxOptechFolder.Text, OptechDef.CONVERT_REZEPT_BYOMEIRAN_INF_FILENAME), false, Encoding.GetEncoding("shift_jis")))
 				{
 					foreach (string str in rezeptByomeiranList)
 					{
 						sw.WriteLine(str);
 					}
 				}
-				using (var sw = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), OptechDef.CONVERT_DAYLIST_FILENAME), false, Encoding.GetEncoding("shift_jis")))
+				using (var sw = new StreamWriter(Path.Combine(textBoxOptechFolder.Text, OptechDef.CONVERT_DAYLIST_FILENAME), false, Encoding.GetEncoding("shift_jis")))
 				{
 					foreach (string str in dayList)
 					{
 						sw.WriteLine(str);
 					}
 				}
-				using (var sw = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), OptechDef.CONVERT_BUILIST_FILENAME), false, Encoding.GetEncoding("shift_jis")))
+				using (var sw = new StreamWriter(Path.Combine(textBoxOptechFolder.Text, OptechDef.CONVERT_BUILIST_FILENAME), false, Encoding.GetEncoding("shift_jis")))
 				{
 					foreach (string str in buiList)
 					{
 						sw.WriteLine(str);
 					}
 				}
-				using (var sw = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), OptechDef.CONVERT_SCLIST_FILENAME), false, Encoding.GetEncoding("shift_jis")))
+				using (var sw = new StreamWriter(Path.Combine(textBoxOptechFolder.Text, OptechDef.CONVERT_SCLIST_FILENAME), false, Encoding.GetEncoding("shift_jis")))
 				{
 					foreach (string str in scList)
 					{
 						sw.WriteLine(str);
 					}
 				}
-				MessageBox.Show("出力終了", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show(string.Format("{0} に出力しました。", textBoxOptechFolder.Text), "終了", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			catch (Exception ex)
 			{

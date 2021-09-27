@@ -9,10 +9,10 @@
 //
 using AlmexMainteEarningsFile.Mail;
 using AlmexMainteEarningsFile.Settings;
-using MwsLib.BaseFactory.AlmexMainte;
-using MwsLib.Common;
-using MwsLib.DB.SqlServer.AlmexMainte;
-using MwsLib.DB.SqlServer.Junp;
+using CommonLib.BaseFactory.AlmexMainte;
+using CommonLib.Common;
+using CommonLib.DB.SqlServer.AlmexMainte;
+using CommonLib.DB.SqlServer.Junp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,9 +23,19 @@ namespace AlmexMainteEarningsFile
 	static class Program
 	{
 		/// <summary>
-		/// データベース接続先
+		/// プログラム名
 		/// </summary>
-		private const bool DATABASE_ACCESS_CT = false;
+		public const string PROC_NAME = "アルメックス保守売上データ作成";
+
+		/// <summary>
+		/// バージョン情報
+		/// </summary>
+		public const string VersionStr = "Ver1.00(2021/01/20)";
+
+		/// <summary>
+		/// 環境設定
+		/// </summary>
+		public static AlmexMainteEarningsFileSettings gSettings;
 
 		/// <summary>
 		/// 売上日
@@ -38,16 +48,6 @@ namespace AlmexMainteEarningsFile
 		public static string gFormalFilename;
 
 		/// <summary>
-		/// 環境設定
-		/// </summary>
-		public static AlmexMainteEarningsFileSettings gSettings;
-
-		/// <summary>
-		/// プログラム名
-		/// </summary>
-		public const string PROC_NAME = "ｱﾙﾒｯｸｽ保守売上作成";
-
-		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
 		/// </summary>
 		[STAThread]
@@ -58,7 +58,11 @@ namespace AlmexMainteEarningsFile
 
 			gSettings = AlmexMainteEarningsFileSettingsIF.GetSettings();
 
+#if DEBUG
 			gSaleDate = new Date(2021, 10, 1);
+#else
+			gSaleDate = Date.Today;
+#endif
 
 			string[] cmds = Environment.GetCommandLineArgs();
 			if (2 <= cmds.Length)
@@ -96,11 +100,11 @@ namespace AlmexMainteEarningsFile
 			try
 			{
 				// アプリケーション情報からアルメックス保守サービスの更新対象医院の取得
-				List<AlmexMainteEarningsOut> saleList = AlmexMainteAccess.GetAlmexMainteEarningsOut(mainteEndDate.ToYearMonth(), DATABASE_ACCESS_CT);
+				List<AlmexMainteEarningsOut> saleList = AlmexMainteAccess.GetAlmexMainteEarningsOut(mainteEndDate.ToYearMonth(), gSettings.Connect.Junp.ConnectionString);
 				if (null != saleList && 0 < saleList.Count)
 				{
 					// 消費税
-					int taxRate = JunpDatabaseAccess.GetTaxRate(saleDate, DATABASE_ACCESS_CT);
+					int taxRate = JunpDatabaseAccess.GetTaxRate(saleDate, gSettings.Connect.Junp.ConnectionString);
 
 					// 中間ファイルの出力
 					using (var sw = new StreamWriter(gSettings.TemporaryPathname, false, System.Text.Encoding.GetEncoding("shift_jis")))
@@ -143,7 +147,7 @@ namespace AlmexMainteEarningsFile
 							sale.f終了フラグ = true;
 #if !DEBUG
 							// アプリケーション情報 終了フラグの設定
-							AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, DATABASE_ACCESS_CT);
+							AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, gSettings.Connect.Junp.ConnectionString);
 #endif
 						}
 						else
@@ -154,7 +158,7 @@ namespace AlmexMainteEarningsFile
 								sale.f保守終了月 = sale.f保守終了月.Value + 1;
 #if !DEBUG
 								// アプリケーション情報の更新
-								AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, DATABASE_ACCESS_CT);
+								AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, gSettings.Connect.Junp.ConnectionString);
 #endif
 							}
 						}

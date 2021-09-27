@@ -30,6 +30,7 @@ namespace ScanImageManager.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
+			this.Text += string.Format("  {0}", Program.VersionStr);
 			textBoxImagePath.Text = Program.gSettings.ImagePath;
 		}
 

@@ -107,13 +107,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ScanImageManagerSettings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Library\MwsLib\MwsLib.csproj">
-      <Project>{dbcbf3f6-889c-4dd9-91ea-a2527aacede6}</Project>
-      <Name>MwsLib</Name>
-    </ProjectReference>
+    <Content Include="Settings\ScanImageManagerSettings.xml" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="AcroPDFLib">
@@ -133,6 +127,16 @@
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Library\CommonLib\CommonLib.csproj">
+      <Project>{f6f244a5-2379-416a-a321-4074ef6beb8c}</Project>
+      <Name>CommonLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Library\MwsLib\MwsLib.csproj">
+      <Project>{dbcbf3f6-889c-4dd9-91ea-a2527aacede6}</Project>
+      <Name>MwsLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

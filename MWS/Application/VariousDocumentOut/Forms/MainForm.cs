@@ -5,15 +5,15 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2021/04/22 勝呂)
+// Ver1.00(2021/04/22):新規作成
+// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
 //
-using MicLib.HeadOffice;
-using MwsLib.BaseFactory;
-using MwsLib.BaseFactory.Junp.Table;
-using MwsLib.BaseFactory.Junp.View;
-using MwsLib.BaseFactory.VariousDocumentOut;
-using MwsLib.DB.SqlServer.Junp;
-using MwsLib.DB.SqlServer.VariousDocumentOut;
+using CommonLib.BaseFactory;
+using CommonLib.BaseFactory.Junp.Table;
+using CommonLib.BaseFactory.Junp.View;
+using CommonLib.BaseFactory.VariousDocumentOut;
+using CommonLib.DB.SqlServer.Junp;
+using CommonLib.DB.SqlServer.VariousDocumentOut;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -64,23 +64,21 @@ namespace VariousDocumentOut.Forms
 			try
 			{
 #if DEBUG
-				textBoxTokuisakiNo.Text = "010223";
+				textBoxTokuisakiNo.Text = "020512";
+				radioButtonFaxOrderSheet.Visible = true;
 #endif
-				// 本社情報の読込
-				Common.HeadOffice = HeadOfficeSettingsIF.GetSettings();
-
 				DocType = DocumentOut.DocumentType.MwsIDPassword;
 #if false
-	#if DEBUG
-				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("itagaki", Program.DATABASE_ACCESS_CT);
-				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("itagaki", Program.DATABASE_ACCESS_CT);
-	#else
-				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.DATABASE_ACCESS_CT);
-				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.DATABASE_ACCESS_CT);
-	#endif
+#if DEBUG
+				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("itagaki", Program.gSettings.Connect.Junp.ConnectionString);
+				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("itagaki", Program.gSettings.Connect.Junp.ConnectionString);
 #else
-				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.DATABASE_ACCESS_CT);
-				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.DATABASE_ACCESS_CT);
+				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.gSettings.Connect.Junp.ConnectionString);
+				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.gSettings.Connect.Junp.ConnectionString);
+#endif
+#else
+				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.gSettings.Connect.Junp.ConnectionString);
+				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.gSettings.Connect.Junp.ConnectionString);
 #endif
 				if (null == satelliteList && null == headOfficeList)
 				{
@@ -98,7 +96,7 @@ namespace VariousDocumentOut.Forms
 					Common.Satellite = headOfficeList.First();
 				}
 				// 支店情報の取得
-				BranchList = JunpDatabaseAccess.Select_tMih支店情報("", "", Program.DATABASE_ACCESS_CT);
+				BranchList = JunpDatabaseAccess.Select_tMih支店情報("", "", Program.gSettings.Connect.Junp.ConnectionString);
 			}
 			catch (Exception ex)
 			{
@@ -139,8 +137,8 @@ namespace VariousDocumentOut.Forms
 			if (MwsDefine.TokuisakiNoLength == textBoxTokuisakiNo.Text.Length)
 			{
 				// 得意先番号で検索
-				List<CustomerInfo> result = VariousDocumentOutAccess.Select_CustomerInfoByTokuisakiNo(textBoxTokuisakiNo.Text, Program.DATABASE_ACCESS_CT);
-				if (0 < result.Count)
+				List<CustomerInfo> result = VariousDocumentOutAccess.Select_CustomerInfoByTokuisakiNo(textBoxTokuisakiNo.Text, Program.gSettings.Connect.Junp.ConnectionString);
+				if (null != result && 0 < result.Count)
 				{
 					CustomerInfo cust = result.First();
 					textBoxCustomerName.Text = cust.顧客名;
@@ -154,7 +152,7 @@ namespace VariousDocumentOut.Forms
 						{
 							// 顧客詳細情報の読込
 							string whereStr = string.Format("得意先No = '{0}'", textBoxTokuisakiNo.Text);
-							List<vMic全ユーザー2> work = JunpDatabaseAccess.Select_vMic全ユーザー2(whereStr, "", Program.DATABASE_ACCESS_CT);
+							List<vMic全ユーザー2> work = JunpDatabaseAccess.Select_vMic全ユーザー2(whereStr, "", Program.gSettings.Connect.Junp.ConnectionString);
 							if (null != work)
 							{
 								Common.Customer = work.First();
@@ -173,15 +171,17 @@ namespace VariousDocumentOut.Forms
 					}
 					return;
 				}
+				MessageBox.Show(this, "該当顧客が見つかりません", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				textBoxCustomerNo.Text = string.Empty;
+				textBoxTokuisakiNo.Text = string.Empty;
 				textBoxCustomerName.Text = string.Empty;
 				Common.ClearCustomer();
-				MessageBox.Show(this, "該当顧客が見つかりません", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			if (MwsDefine.CustomerNoLength == textBoxCustomerNo.Text.Length)
 			{
 				// 顧客Noで検索
-				List<CustomerInfo> result = VariousDocumentOutAccess.Select_CustomerInfoByCustomerNo(textBoxCustomerNo.ToInt(), Program.DATABASE_ACCESS_CT);
-				if (0 < result.Count)
+				List<CustomerInfo> result = VariousDocumentOutAccess.Select_CustomerInfoByCustomerNo(textBoxCustomerNo.ToInt(), Program.gSettings.Connect.Junp.ConnectionString);
+				if (null != result && 0 < result.Count)
 				{
 					CustomerInfo cust = result.First();
 					textBoxCustomerName.Text = cust.顧客名;
@@ -195,7 +195,7 @@ namespace VariousDocumentOut.Forms
 						{
 							// 顧客詳細情報の読込
 							string whereStr = string.Format("顧客No = {0}", textBoxCustomerNo.ToInt());
-							List<vMic全ユーザー2> work = JunpDatabaseAccess.Select_vMic全ユーザー2(whereStr, "", Program.DATABASE_ACCESS_CT);
+							List<vMic全ユーザー2> work = JunpDatabaseAccess.Select_vMic全ユーザー2(whereStr, "", Program.gSettings.Connect.Junp.ConnectionString);
 							if (null != work)
 							{
 								Common.Customer = work.First();
@@ -214,9 +214,11 @@ namespace VariousDocumentOut.Forms
 					}
 					return;
 				}
-				textBoxCustomerNo.Text = string.Empty;
-				Common.ClearCustomer();
 				MessageBox.Show(this, "該当顧客が見つかりません", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				textBoxCustomerNo.Text = string.Empty;
+				textBoxTokuisakiNo.Text = string.Empty;
+				textBoxCustomerName.Text = string.Empty;
+				Common.ClearCustomer();
 			}
 		}
 
@@ -406,6 +408,17 @@ namespace VariousDocumentOut.Forms
 		}
 
 		/// <summary>
+		/// 消耗品FAXオーダーシート
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		/// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
+		private void radioButtonFaxOrderSheet_CheckedChanged(object sender, EventArgs e)
+		{
+			DocType = DocumentOut.DocumentType.FaxOrderSheet;
+		}
+
+		/// <summary>
 		/// EXCEL出力
 		/// </summary>
 		/// <param name="sender"></param>
@@ -551,6 +564,13 @@ namespace VariousDocumentOut.Forms
 					/// </summary>
 					case DocumentOut.DocumentType.WorkReport:
 						DocumentOut.ExcelOutWorkReport(xlsPathname, Common);
+						break;
+					/// <summary>
+					/// 消耗品FAXオーダーシート
+					/// </summary>
+					// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
+					case DocumentOut.DocumentType.FaxOrderSheet:
+						DocumentOut.ExcelOutFaxOrderSheet(xlsPathname, Common);
 						break;
 				}
 				// カーソルを元に戻す
