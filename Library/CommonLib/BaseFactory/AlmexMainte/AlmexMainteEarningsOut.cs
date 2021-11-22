@@ -242,7 +242,7 @@ namespace CommonLib.BaseFactory.AlmexMainte
 			pca.部門コード = fPCA部門コード.Value.ToString();// 9:部門コード(6)
 			pca.担当者コード = fPCA担当者コード;// 10:担当者コード(13)
 			pca.摘要コード = "0";// 11:摘要コード(6)
-			pca.摘要名 = 摘要名(saleDate.ToYearMonth() + 1);//12:摘要名(30)｢利用年月分｣
+			pca.摘要名 = 摘要名(saleDate.ToYearMonth());//12:摘要名(30)｢利用年月分｣
 			pca.商品コード = f商品コード;// 15:商品コード(13)
 			pca.マスター区分 = 0;// 16:マスタ区分
 			pca.商品名 = 商品名;// 17:品名(36)
@@ -279,7 +279,7 @@ namespace CommonLib.BaseFactory.AlmexMainte
 			pca.部門コード = fPCA部門コード.Value.ToString();// 9:部門コード(6)
 			pca.担当者コード = fPCA担当者コード;// 10:担当者コード(13)
 			pca.摘要コード = "0";// 11:摘要コード(6)
-			pca.摘要名 = 摘要名(saleDate.ToYearMonth() + 1);//12:摘要名(30)｢利用年月分｣
+			pca.摘要名 = 摘要名(saleDate.ToYearMonth());//12:摘要名(30)｢利用年月分｣
 			pca.商品コード = PcaGoodsIDDefine.ArticleCode;// 15:000014(13) 
 			pca.マスター区分 = 4;// 16:マスタ区分
 			pca.商品名 = 記事行1_品名;// 17:品名 ○○○○様分(36)
@@ -306,7 +306,7 @@ namespace CommonLib.BaseFactory.AlmexMainte
 			pca.部門コード = fPCA部門コード.Value.ToString();// 9:部門コード(6)
 			pca.担当者コード = fPCA担当者コード;// 10:担当者コード(13)
 			pca.摘要コード = "0";// 11:摘要コード(6)
-			pca.摘要名 = 摘要名(saleDate.ToYearMonth() + 1);//12:摘要名(30)｢利用年月分｣
+			pca.摘要名 = 摘要名(saleDate.ToYearMonth());//12:摘要名(30)｢利用年月分｣
 			pca.商品コード = PcaGoodsIDDefine.ArticleCode;// 15:000014(13) 
 			pca.マスター区分 = 4;// 16:マスタ区分
 			pca.商品名 = 記事行2_品名;// 17:品名 得意先No. XXXXXX(36)

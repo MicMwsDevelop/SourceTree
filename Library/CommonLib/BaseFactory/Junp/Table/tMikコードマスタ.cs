@@ -6,7 +6,8 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2019/06/28 勝呂)
+// Ver1.00 新規作成(2019/06/28 勝呂)
+// Ver1.02 002189 アルメックス FIT-A 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月 削除の対応(2021/01/20 勝呂)
 //
 using CommonLib.DB;
 using System;
@@ -26,34 +27,29 @@ namespace CommonLib.BaseFactory.Junp.Table
 		public const string fcmコード種別_ApplicationName = "18";
 
 		/// <summary>
-		/// fcmコード 031:アルメックス TEX-30 保守(現金仕様)1ヶ月
+		/// fcmコード 031:ｱﾙﾒｯｸｽ TEX-30 保守(現金仕様)1ヶ月
 		/// </summary>
 		public const string fcmコード_AlmexMainteTex30_Cash = "031";
 
 		/// <summary>
-		/// fcmコード 032:アルメックス TEX-30 保守(クレジット仕様)1ヶ月
+		/// fcmコード 032:ｱﾙﾒｯｸｽ TEX-30 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月
 		/// </summary>
 		public const string fcmコード_AlmexMainteTex30_Credit = "032";
 
 		/// <summary>
-		/// fcmコード 033:アルメックス FIT-A 保守(現金仕様)1ヶ月
+		/// fcmコード 033:ｱﾙﾒｯｸｽ FIT-A 保守(現金仕様)1ヶ月
 		/// </summary>
 		public const string fcmコード_AlmexMainteFitA_Cash = "033";
 
 		/// <summary>
-		/// fcmコード 034:アルメックス FIT-A 保守(QR仕様)1ヶ月
+		/// fcmコード 034:ｱﾙﾒｯｸｽ FIT-A保守(ｸﾚ仕様/取端無)1ヶ月
 		/// </summary>
-		public const string fcmコード_AlmexMainteFitA_QR = "034";
+		public const string fcmコード_AlmexMainteFitA_Credit = "034";
 
 		/// <summary>
-		/// fcmコード 035:アルメックス FIT-A 保守(QRｸﾚｼﾞｯﾄ仕様)1ヶ月
+		/// fcmコード 035:ｱﾙﾒｯｸｽ FIT-A 保守(QRｸﾚｼﾞｯﾄ仕様)1ヶ月
 		/// </summary>
 		public const string fcmコード_AlmexMainteFitA_QRCredit = "035";
-
-		/// <summary>
-		/// fcmコード 036:アルメックス FIT-A 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月
-		/// </summary>
-		public const string fcmコード_AlmexMainteFitA_Credit = "036";
 
 		/// <summary>
 		/// fcmID

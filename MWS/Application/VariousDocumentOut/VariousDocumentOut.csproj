@@ -119,7 +119,9 @@
     <None Include="17-作業報告書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="18-消耗品FAXオーダーシート.xlsx.org" />
+    <None Include="18-消耗品FAXオーダーシート.xlsx.org">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="2-FAX送付状.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

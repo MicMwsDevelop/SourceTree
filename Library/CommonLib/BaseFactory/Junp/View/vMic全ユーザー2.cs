@@ -6,7 +6,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2019/06/28 勝呂)
+// Ver1.00(2019/06/28):新規作成 勝呂
 //
 using CommonLib.Common;
 using CommonLib.DB;
@@ -265,19 +265,19 @@ namespace CommonLib.BaseFactory.Junp.View
             }
         }
 
-        /// <summary>
-        /// 支部名の取得
-        /// </summary>
-        public string 支部名
+		/// <summary>
+		/// 支部名の取得
+		/// </summary>
+		public string 支部名
         {
             get
             {
                 string ken = 都道府県名;
-                if ("北海道" != 都道府県名)
+                if ("北海道" != ken)
                 {
-                    ken = 都道府県名.Replace("県", "").Replace("都", "").Replace("府", "");
+                    ken = ken.Replace("県", "").Replace("都", "").Replace("府", "");
                 }
-                return string.Format("{0}支部名", ken);
+                return string.Format("{0}支部", ken);
             }
         }
 

@@ -27,12 +27,12 @@ namespace CommonLib.DB.SqlServer.AlmexMainte
 		/// <summary>
 		/// アプリケーション情報からアルメックス保守サービスの更新対象医院の取得
 		/// </summary>
-		/// <param name="mainteEndYM">保守終了年月</param>
+		/// <param name="mainteYM">保守終了年月</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>アルメックス保守サービス売上情報リスト</returns>
-		public static List<AlmexMainteEarningsOut> GetAlmexMainteEarningsOut(YearMonth mainteEndYM, string connectStr)
+		public static List<AlmexMainteEarningsOut> GetAlmexMainteEarningsOut(YearMonth mainteYM, string connectStr)
 		{
-			DataTable dt = AlmexMainteGetIO.GetAlmexMainteEarningsOut(mainteEndYM, connectStr);
+			DataTable dt = AlmexMainteGetIO.GetAlmexMainteEarningsOut(mainteYM, connectStr);
 			return AlmexMainteEarningsOut.DataTableToList(dt);
 		}
 

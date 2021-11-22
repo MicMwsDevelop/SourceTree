@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2020/11/24 勝呂)
+// Ver1.02 002189 アルメックス FIT-A 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月 削除の対応(2021/01/20 勝呂)
 // 
 using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.Common;
@@ -52,7 +53,7 @@ namespace CommonLib.DB.SqlServer.AlmexMainte
 									+ " INNER JOIN {2} as C on C.fcmコード = A.faiアプリケーション名"
 									+ " INNER JOIN {3} as S on S.sms_scd = C.fcmサブコード"
 									+ " INNER JOIN {4} as B on B.fBshCode3 = U.支店コード"
-									+ " WHERE U.終了フラグ = '0' AND A.fai終了フラグ = '0' AND A.fai保守契約終了 = '{5}' AND C.fcmコード種別 = '{6}' AND (C.fcmコード = '{7}' OR C.fcmコード = '{8}' OR C.fcmコード = '{9}' OR C.fcmコード = '{10}' OR C.fcmコード = '{11}' OR C.fcmコード = '{12}')"
+									+ " WHERE U.終了フラグ = '0' AND A.fai終了フラグ = '0' AND A.fai保守契約終了 = '{5}' AND C.fcmコード種別 = '{6}' AND (C.fcmコード = '{7}' OR C.fcmコード = '{8}' OR C.fcmコード = '{9}' OR C.fcmコード = '{10}' OR C.fcmコード = '{11}')"
 									+ " ORDER BY U.顧客No, S.sms_scd"
 									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー２]
 									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報]
@@ -64,9 +65,8 @@ namespace CommonLib.DB.SqlServer.AlmexMainte
 									, tMikコードマスタ.fcmコード_AlmexMainteTex30_Cash
 									, tMikコードマスタ.fcmコード_AlmexMainteTex30_Credit
 									, tMikコードマスタ.fcmコード_AlmexMainteFitA_Cash
-									, tMikコードマスタ.fcmコード_AlmexMainteFitA_QR
-									, tMikコードマスタ.fcmコード_AlmexMainteFitA_QRCredit
-									, tMikコードマスタ.fcmコード_AlmexMainteFitA_Credit);
+									, tMikコードマスタ.fcmコード_AlmexMainteFitA_Credit
+									, tMikコードマスタ.fcmコード_AlmexMainteFitA_QRCredit);
 
 			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
 		}

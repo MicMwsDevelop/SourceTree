@@ -54,7 +54,7 @@ namespace AlmexMaintePurchaseFile.Mail
 							+ @"</div>"
 							, Program.gSettings.ExportDir
 							, Program.gSettings.ExportFilename);
-				if (0 < stockList.Count)
+				if (null != stockList)
 				{
 					msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
 								+ @"<tr>"

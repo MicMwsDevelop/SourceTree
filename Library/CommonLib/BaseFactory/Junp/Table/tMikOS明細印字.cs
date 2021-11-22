@@ -66,48 +66,6 @@ namespace CommonLib.BaseFactory.Junp.Table
 		}
 
 		/// <summary>
-		/// 商品コード群文字列の取得
-		/// </summary>
-		/// <returns></returns>
-		public string GetGoodsCodes()
-		{
-			List<string> ret = new List<string>();
-			if (0 < fms商品コード1.Length)
-			{
-				ret.Add("'" + fms商品コード1 + "'");
-			}
-			if (0 < fms商品コード2.Length)
-			{
-				ret.Add("'" + fms商品コード2 + "'");
-			}
-			if (0 < fms商品コード3.Length)
-			{
-				ret.Add("'" + fms商品コード3 + "'");
-			}
-			if (0 < fms商品コード4.Length)
-			{
-				ret.Add("'" + fms商品コード4 + "'");
-			}
-			if (0 < fms商品コード5.Length)
-			{
-				ret.Add("'" + fms商品コード5 + "'");
-			}
-			if (0 < fms商品コード6.Length)
-			{
-				ret.Add("'" + fms商品コード6 + "'");
-			}
-			if (0 < fms商品コード7.Length)
-			{
-				ret.Add("'" + fms商品コード7 + "'");
-			}
-			if (0 < fms商品コード8.Length)
-			{
-				ret.Add("'" + fms商品コード8 + "'");
-			}
-			return string.Join(",", ret);
-		}
-
-		/// <summary>
 		/// DataTable → リスト変換
 		/// </summary>
 		/// <param name="table"></param>

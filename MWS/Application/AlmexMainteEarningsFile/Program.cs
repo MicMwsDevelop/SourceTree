@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2021/01/20 勝呂)
+// Ver1.02 002189 アルメックス FIT-A 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月 削除の対応(2021/01/20 勝呂)
 //
 using AlmexMainteEarningsFile.Mail;
 using AlmexMainteEarningsFile.Settings;
@@ -30,7 +31,7 @@ namespace AlmexMainteEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.00(2021/01/20)";
+		public const string VersionStr = "Ver1.02(2021/10/19)";
 
 		/// <summary>
 		/// 環境設定
@@ -38,9 +39,9 @@ namespace AlmexMainteEarningsFile
 		public static AlmexMainteEarningsFileSettings gSettings;
 
 		/// <summary>
-		/// 売上日
+		/// 実行日
 		/// </summary>
-		public static Date gSaleDate;
+		public static Date gBootDate;
 
 		/// <summary>
 		/// 出力ファイル名
@@ -59,9 +60,9 @@ namespace AlmexMainteEarningsFile
 			gSettings = AlmexMainteEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			gSaleDate = new Date(2021, 10, 1);
+			gBootDate = new Date(2021, 12, 1);
 #else
-			gSaleDate = Date.Today;
+			gBootDate = Date.Today;
 #endif
 
 			string[] cmds = Environment.GetCommandLineArgs();
@@ -70,7 +71,7 @@ namespace AlmexMainteEarningsFile
 				if ("AUTO" == cmds[1].ToUpper())
 				{
 					// サイレントモード
-					string msg = OutputCsvFile(gSaleDate);
+					string msg = OutputCsvFile(gBootDate);
 					AlmexMainteEarningsFileSettingsIF.SetSettings(gSettings);
 					if (0 < msg.Length)
 					{
@@ -86,25 +87,25 @@ namespace AlmexMainteEarningsFile
 		/// <summary>
 		/// アルメックス保守売上データ.csvの出力
 		/// </summary>
-		/// <param name="saleDate">売上日</param>
+		/// <param name="bootDate">実行日</param>
 		/// <returns>エラーメッセージ</returns>
-		public static string OutputCsvFile(Date saleDate)
+		public static string OutputCsvFile(Date bootDate)
 		{
 			// 伝票番号
 			int no = gSettings.SlipInitialNumber;
 
 			gFormalFilename = gSettings.FormalFilename;
 
-			// 保守終了月が当月
-			Date mainteEndDate = saleDate.LastDayOfTheMonth();
+			// 保守終了月が翌月
+			Date mainteDate = bootDate.FirstDayOfNextMonth();	// 翌月初日
 			try
 			{
 				// アプリケーション情報からアルメックス保守サービスの更新対象医院の取得
-				List<AlmexMainteEarningsOut> saleList = AlmexMainteAccess.GetAlmexMainteEarningsOut(mainteEndDate.ToYearMonth(), gSettings.Connect.Junp.ConnectionString);
+				List<AlmexMainteEarningsOut> saleList = AlmexMainteAccess.GetAlmexMainteEarningsOut(mainteDate.ToYearMonth(), gSettings.Connect.Junp.ConnectionString);
 				if (null != saleList && 0 < saleList.Count)
 				{
 					// 消費税
-					int taxRate = JunpDatabaseAccess.GetTaxRate(saleDate, gSettings.Connect.Junp.ConnectionString);
+					int taxRate = JunpDatabaseAccess.GetTaxRate(mainteDate, gSettings.Connect.Junp.ConnectionString);
 
 					// 中間ファイルの出力
 					using (var sw = new StreamWriter(gSettings.TemporaryPathname, false, System.Text.Encoding.GetEncoding("shift_jis")))
@@ -118,19 +119,19 @@ namespace AlmexMainteEarningsFile
 								if (0 == sale.f請求先コード.Length)
 								{
 									// 請求先がユーザーと同一
-									sw.WriteLine(sale.ToEarnings(no, sale.f得意先コード, saleDate, taxRate, gSettings.PcaVersion));
+									sw.WriteLine(sale.ToEarnings(no, sale.f得意先コード, mainteDate, taxRate, gSettings.PcaVersion));
 								}
 								else
 								{
 									// 請求先がユーザーと異なる
-									sw.WriteLine(sale.ToEarnings(no, sale.f請求先コード, saleDate, taxRate, gSettings.PcaVersion));
+									sw.WriteLine(sale.ToEarnings(no, sale.f請求先コード, mainteDate, taxRate, gSettings.PcaVersion));
 
 									// ○○○○様分 を記事行１を追加
-									sw.WriteLine(sale.ToArticle1(no, sale.f請求先コード, saleDate, gSettings.PcaVersion));
+									sw.WriteLine(sale.ToArticle1(no, sale.f請求先コード, mainteDate, gSettings.PcaVersion));
 
 									// 得意先No. を記事行２を追加
 									// ○○○○様分 を記事行１を追加
-									sw.WriteLine(sale.ToArticle2(no, sale.f請求先コード, saleDate, gSettings.PcaVersion));
+									sw.WriteLine(sale.ToArticle2(no, sale.f請求先コード, mainteDate, gSettings.PcaVersion));
 								}
 								no++;
 							}
@@ -174,7 +175,7 @@ namespace AlmexMainteEarningsFile
 					}
 				}
 				// 営業管理部にメール送信
-				SendMailControl.AlmexMainteSendMail(saleList, gFormalFilename, saleDate);
+				SendMailControl.AlmexMainteSendMail(saleList, gFormalFilename, mainteDate);
 			}
 			catch (Exception ex)
 			{

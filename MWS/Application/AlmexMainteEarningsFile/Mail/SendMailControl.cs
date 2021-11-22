@@ -55,15 +55,15 @@ namespace AlmexMainteEarningsFile.Mail
 							, Program.gSettings.ExportDir
 							, formalFilename);
 
-				YearMonth ym = saleDate.ToYearMonth() + 1;
-				if (0 < userList.Count)
+				YearMonth ym = saleDate.ToYearMonth();
+				if (null != userList)
 				{
 					msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
 								+ @"<tr>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>保守サービス</font></th>"
-								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>更新月</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>利用年月</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>終了</font></th>"
 								+ @"</tr>";
 					foreach (AlmexMainteEarningsOut user in userList)
@@ -90,7 +90,7 @@ namespace AlmexMainteEarningsFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>保守サービス</font></th>"
-								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>更新月</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>利用年月</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>終了</font></th>"
 								+ @"</tr>"
 								+ @"</table>";

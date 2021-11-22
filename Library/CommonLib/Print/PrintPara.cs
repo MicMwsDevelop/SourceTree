@@ -7,13 +7,13 @@
 // 
 // Ver1.000 新規作成(2018/08/01 勝呂)
 //
-using Microsoft.International.JapaneseTextAlignment;
 using CommonLib.Common;
+using Microsoft.International.JapaneseTextAlignment;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace CommonLib.Print
@@ -202,12 +202,37 @@ namespace CommonLib.Print
             return value / 14.4F;
         }
 
-        /// <summary>
-        /// 0.1mmから1/100インチに変換
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <returns></returns>
-        public static Rectangle ToInchRect(Rectangle rect)
+		/// <summary>
+		/// 文字列から数字のみ抽出
+		/// </summary>
+		/// <param name="str">文字列</param>
+		/// <returns>数字</returns>
+		public static int ExtractionNumeral(string str)
+		{
+			string strDecimal = Regex.Replace(str, @"[^0-9]", "");
+			return int.Parse(strDecimal);
+		}
+
+		/// <summary>
+		/// カンマ数字文字列の取得（\付き）
+		/// </summary>
+		/// <param name="str"></param>
+		/// <returns></returns>
+		public static string CommaEditString(string str)
+		{
+			if (0 < str.Length)
+			{
+				return @"\" + StringUtil.CommaEdit(str);
+			}
+			return string.Empty;
+		}
+
+		/// <summary>
+		/// 0.1mmから1/100インチに変換
+		/// </summary>
+		/// <param name="rect"></param>
+		/// <returns></returns>
+		public static Rectangle ToInchRect(Rectangle rect)
         {
             return new Rectangle(ToInch(rect.Left), ToInch(rect.Top), ToInch(rect.Width), ToInch(rect.Height));
         }
@@ -346,85 +371,93 @@ namespace CommonLib.Print
             return false;
         }
 
-        /// <summary>
-        /// 印刷種別コマンドを取得
-        /// </summary>
-        /// <returns>印刷種別コマンド</returns>
-        public PrintParaDef.PrintParaType GetPrintParaType()
-        {
-            string entry = this.Entry;
-            if (1 < entry.Length)
-            {
-                if (this.IsPageFirst(entry) || this.IsPageLast(entry))
-                {
-                    entry = entry.Substring(2);
-                }
-            }
-            if (this.IsPrintEntry(entry))
-            {
-                if (PrintParaDef.LINE == entry)
-                {
-                    // 実線
-                    return PrintParaDef.PrintParaType.Line;
-                }
-                if (PrintParaDef.DOTLINE == entry)
-                {
-                    // 破線
-                    return PrintParaDef.PrintParaType.DotLine;
-                }
-                if (PrintParaDef.ELLIPSE == entry)
-                {
-                    // 楕円
-                    return PrintParaDef.PrintParaType.Ellipse;
-                }
-                if (PrintParaDef.FRAME == entry)
-                {
-                    // 矩形
-                    return PrintParaDef.PrintParaType.Frame;
-                }
-                if (PrintParaDef.RNDFRAME == entry)
-                {
-                    // 角丸矩形
-                    return PrintParaDef.PrintParaType.RoundFrame;
-                }
-                if (PrintParaDef.FILLBOX == entry)
-                {
-                    // 矩形塗りつぶし
-                    return PrintParaDef.PrintParaType.FillBox;
-                }
-                if (PrintParaDef.FILLCOLORBOX == entry)
-                {
-                    // 短形指定塗りつぶし
-                    return PrintParaDef.PrintParaType.FillColorBox;
-                }
-				if (PrintParaDef.FILLCOLORRNDBOX == entry)
+		/// <summary>
+		/// 印刷種別コマンドを取得
+		/// </summary>
+		/// <returns>印刷種別コマンド</returns>
+		public PrintParaDef.PrintParaType GetPrintParaType(string entryStr)
+		{
+			if (1 < entryStr.Length)
+			{
+				if (this.IsPageFirst(entryStr) || this.IsPageLast(entryStr))
+				{
+					entryStr = entryStr.Substring(2);
+				}
+			}
+			if (this.IsPrintEntry(entryStr))
+			{
+				if (PrintParaDef.LINE == entryStr)
+				{
+					// 実線
+					return PrintParaDef.PrintParaType.Line;
+				}
+				if (PrintParaDef.DOTLINE == entryStr)
+				{
+					// 破線
+					return PrintParaDef.PrintParaType.DotLine;
+				}
+				if (PrintParaDef.ELLIPSE == entryStr)
+				{
+					// 楕円
+					return PrintParaDef.PrintParaType.Ellipse;
+				}
+				if (PrintParaDef.FRAME == entryStr)
+				{
+					// 矩形
+					return PrintParaDef.PrintParaType.Frame;
+				}
+				if (PrintParaDef.RNDFRAME == entryStr)
+				{
+					// 角丸矩形
+					return PrintParaDef.PrintParaType.RoundFrame;
+				}
+				if (PrintParaDef.FILLBOX == entryStr)
+				{
+					// 矩形塗りつぶし
+					return PrintParaDef.PrintParaType.FillBox;
+				}
+				if (PrintParaDef.FILLCOLORBOX == entryStr)
+				{
+					// 短形指定塗りつぶし
+					return PrintParaDef.PrintParaType.FillColorBox;
+				}
+				if (PrintParaDef.FILLCOLORRNDBOX == entryStr)
 				{
 					// 短形指定塗りつぶし
 					return PrintParaDef.PrintParaType.FillColorRoundBox;
 				}
-				if (PrintParaDef.PICTURE == entry)
-                {
-                    // 画像
-                    return PrintParaDef.PrintParaType.Picture;
-                }
-                if (PrintParaDef.PICTURE_STRETCH == entry)
-                {
-                    // 画像(ストレッチ)
-                    return PrintParaDef.PrintParaType.PictureStretch;
-                }
-            }
-            else if (this.IsSpecialEntry(entry))
-            {
-                // 特殊エントリ
-                return PrintParaDef.PrintParaType.Special;
-            }
-            else if (this.IsCommandEntry(entry))
-            {
-                // 命令エントリ
-                return PrintParaDef.PrintParaType.Command;
-            }
-            // 印字文字列
-            return PrintParaDef.PrintParaType.String;
+				if (PrintParaDef.PICTURE == entryStr)
+				{
+					// 画像
+					return PrintParaDef.PrintParaType.Picture;
+				}
+				if (PrintParaDef.PICTURE_STRETCH == entryStr)
+				{
+					// 画像(ストレッチ)
+					return PrintParaDef.PrintParaType.PictureStretch;
+				}
+			}
+			else if (this.IsSpecialEntry(entryStr))
+			{
+				// 特殊エントリ
+				return PrintParaDef.PrintParaType.Special;
+			}
+			else if (this.IsCommandEntry(entryStr))
+			{
+				// 命令エントリ
+				return PrintParaDef.PrintParaType.Command;
+			}
+			// 印字文字列
+			return PrintParaDef.PrintParaType.String;
+		}
+
+		/// <summary>
+		/// 印刷種別コマンドを取得
+		/// </summary>
+		/// <returns>印刷種別コマンド</returns>
+		public PrintParaDef.PrintParaType GetPrintParaType()
+        {
+			return GetPrintParaType(Entry);
         }
 
         /// <summary>
@@ -435,7 +468,7 @@ namespace CommonLib.Print
         /// <param name="foreColor">前景色</param>
         public void PrintLine(Graphics g, Point offset, Color? foreColor = null)
         {
-            foreColor = foreColor ?? Color.Black;
+            foreColor = foreColor ?? Option.ForeColor;
 
             Pen pen = null;
             if (!this.Interchange)
@@ -469,7 +502,7 @@ namespace CommonLib.Print
         /// <param name="foreColor">前景色</param>
         public void PrintDotLine(Graphics g, Point offset, Color? foreColor = null)
         {
-            foreColor = foreColor ?? Color.Black;
+            foreColor = foreColor ?? Option.ForeColor;
 
             Pen pen = null;
             if (!this.Interchange)
@@ -512,7 +545,7 @@ namespace CommonLib.Print
         /// <param name="foreColor">前景色</param>
         public void PrintCrossLine(Graphics g, Point offset, Color? foreColor = null)
         {
-            foreColor = foreColor ?? Color.Black;
+            foreColor = foreColor ?? Option.ForeColor;
 
             Pen pen = new Pen(foreColor.Value, ToInch(this.Option.Width));
             RectangleF rect = this.Option.Rect;
@@ -532,7 +565,7 @@ namespace CommonLib.Print
         /// <param name="foreColor">前景色</param>
         public void PrintEllipse(Graphics g, Point offset, Color? foreColor = null)
         {
-            foreColor = foreColor ?? Color.Black;
+            foreColor = foreColor ?? Option.ForeColor;
 
             Pen pen = null;
             // 	VISTAに正式に対応していないプリンタドライバでは、円の描画で線が細いと印字されない
@@ -578,7 +611,7 @@ namespace CommonLib.Print
         /// <param name="foreColor">前景色</param>
         public void PrintFrame(Graphics g, Point offset, Color? foreColor = null)
         {
-            foreColor = foreColor ?? Color.Black;
+            foreColor = foreColor ?? Option.ForeColor;
 
             Pen pen = null;
             if (!this.Interchange)
@@ -613,7 +646,7 @@ namespace CommonLib.Print
         /// <param name="foreColor">前景色</param>
         public void PrintRoundFrame(Graphics g, Point offset, PointF round, Color? foreColor = null)
         {
-            foreColor = foreColor ?? Color.Black;
+            foreColor = foreColor ?? Option.ForeColor;
 
             RectangleF rect = this.Option.Rect;
             rect.Offset(offset);
@@ -677,22 +710,14 @@ namespace CommonLib.Print
         {
             RectangleF rect = this.Option.Rect;
             rect.Offset(offset);
+			rect = ToInchRect(rect);
 
-            Color color = Color.White;
-            // 指定色の生成
-            if (!string.IsNullOrEmpty(this.Option.PlusString))
-            {
-                var split = this.Option.PlusString.Split('#');
-                if (0 < split.Count())
-                {
-                    int red, green, blue;
-                    if (int.TryParse(split[0], out red) && int.TryParse(split[1], out green) && int.TryParse(split[2], out blue))
-                    {
-                        color = Color.FromArgb(red, green, blue);
-                    }
-                }
-            }
-            rect = ToInchRect(rect);
+			Color color = Color.White;
+			if (Color.Black != Option.ForeColor)
+			{
+				// 指定色の生成
+				color = Option.ForeColor;
+			}
             using (SolidBrush brush = new SolidBrush(color))
             {
                 g.FillRectangle(brush, rect.Left, rect.Top, rect.Width, rect.Height);
@@ -708,7 +733,7 @@ namespace CommonLib.Print
 		/// <param name="foreColor">前景色</param>
 		public void PrintFillColorRoundFrame(Graphics g, Point offset, PointF round, Color? foreColor = null)
 		{
-			foreColor = foreColor ?? Color.Black;
+			foreColor = foreColor ?? Option.ForeColor;
 
 			RectangleF rect = this.Option.Rect;
 			rect.Offset(offset);
@@ -730,18 +755,10 @@ namespace CommonLib.Print
 			path.CloseFigure();
 
 			Color color = Color.White;
-			// 指定色の生成
-			if (!string.IsNullOrEmpty(this.Option.PlusString))
+			if (Color.Black != Option.ForeColor)
 			{
-				var split = this.Option.PlusString.Split('#');
-				if (0 < split.Count())
-				{
-					int red, green, blue;
-					if (int.TryParse(split[0], out red) && int.TryParse(split[1], out green) && int.TryParse(split[2], out blue))
-					{
-						color = Color.FromArgb(red, green, blue);
-					}
-				}
+				// 指定色の生成
+				color = Option.ForeColor;
 			}
 			SolidBrush brush = new SolidBrush(color);
 			g.FillPath(brush, path);
@@ -853,7 +870,7 @@ namespace CommonLib.Print
         /// <param name="foreColor">前景色</param>
         public void PrintString(Graphics g, Point offset, string str, Color? foreColor = null)
         {
-            foreColor = foreColor ?? Color.Black;
+            foreColor = foreColor ?? Option.ForeColor;
 
             if (string.IsNullOrEmpty(str) || this.Option.Rect.IsEmpty)
             {
@@ -898,10 +915,14 @@ namespace CommonLib.Print
                 {
                     if (!this.Interchange)
                     {
-                        // フォントの高さは指定矩形幅の3/5
-                        int font_points = (((this.Option.IsDirection) ? (int)rect.Width : (int)rect.Height) * 4) / 7;
-
-                        FontStyle fs = FontStyle.Regular;
+						// フォントの高さは指定矩形幅の4/7
+						int font_points = (((this.Option.IsDirection) ? (int)rect.Width : (int)rect.Height) * 4) / 7;
+						if (this.Option.IsLargeFont)
+						{
+							// フォントの高さは指定矩形幅の5/7
+							font_points = (((this.Option.IsDirection) ? (int)rect.Width : (int)rect.Height) * 5) / 7;
+						}
+						FontStyle fs = FontStyle.Regular;
                         if (this.Option.IsItalic)
                         {
                             fs = FontStyle.Italic;
@@ -1319,6 +1340,5 @@ namespace CommonLib.Print
             // 別コンテナ終了
             g.EndContainer(containerState);
         }
-
     }
 }

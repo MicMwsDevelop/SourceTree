@@ -6,7 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2021/04/22):新規作成
-// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
+// Ver1.05(2021/11/12):消耗品FAXオーダーシートの新規追加
 //
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Junp.Table;
@@ -65,7 +65,8 @@ namespace VariousDocumentOut.Forms
 			{
 #if DEBUG
 				textBoxTokuisakiNo.Text = "020512";
-				radioButtonFaxOrderSheet.Visible = true;
+#else
+				//radioButtonFaxOrderSheet.Visible = false;
 #endif
 				DocType = DocumentOut.DocumentType.MwsIDPassword;
 #if false
@@ -448,25 +449,25 @@ namespace VariousDocumentOut.Forms
 					/// MWS IDパスワード
 					/// </summary>
 					case DocumentOut.DocumentType.MwsIDPassword:
-						DocumentOut.ExcelOutMwsIDPassword(xlsPathname, Common);
+						DocumentOut.ExcelOutMwsIDPassword(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// FAX送付状
 					/// </summary>
 					case DocumentOut.DocumentType.FaxLetter:
-						DocumentOut.ExcelOutFaxLetter(xlsPathname, Common);
+						DocumentOut.ExcelOutFaxLetter(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 書類送付状
 					/// </summary>
 					case DocumentOut.DocumentType.DocumentLetter:
-						DocumentOut.ExcelOutDocumentLetter(xlsPathname, Common);
+						DocumentOut.ExcelOutDocumentLetter(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 光ディスク請求届出
 					/// </summary>
 					case DocumentOut.DocumentType.LightDisk:
-						DocumentOut.ExcelOutLightDisk(xlsPathname, Common);
+						DocumentOut.ExcelOutLightDisk(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// オンライン請求届出
@@ -478,49 +479,49 @@ namespace VariousDocumentOut.Forms
 					/// 取引条件確認書
 					/// </summary>
 					case DocumentOut.DocumentType.Transaction:
-						DocumentOut.ExcelOutTransaction(xlsPathname, Common);
+						DocumentOut.ExcelOutTransaction(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 登録データ確認カード
 					/// </summary>
 					case DocumentOut.DocumentType.ConfirmCard:
-						DocumentOut.ExcelOutConfirmCard(xlsPathname, Common);
+						DocumentOut.ExcelOutConfirmCard(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// Microsoft365利用申請書
 					/// </summary>
 					case DocumentOut.DocumentType.Microsoft365:
-						DocumentOut.ExcelOutMicrosoft365(xlsPathname, Common);
+						DocumentOut.ExcelOutMicrosoft365(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 請求先変更届
 					/// </summary>
 					case DocumentOut.DocumentType.SeikyuChange:
-						DocumentOut.ExcelOutSeikyuChange(xlsPathname, Common);
+						DocumentOut.ExcelOutSeikyuChange(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 終了届
 					/// </summary>
 					case DocumentOut.DocumentType.UserFinished:
-						DocumentOut.ExcelOutUserFinished(xlsPathname, Common);
+						DocumentOut.ExcelOutUserFinished(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 変更届
 					/// </summary>
 					case DocumentOut.DocumentType.UserChange:
-						DocumentOut.ExcelOutUserChange(xlsPathname, Common);
+						DocumentOut.ExcelOutUserChange(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 第一園芸注文書
 					/// </summary>
 					case DocumentOut.DocumentType.FirstEngei:
-						DocumentOut.ExcelOutFirstEngei(xlsPathname, Common);
+						DocumentOut.ExcelOutFirstEngei(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 納品補助作業依頼書
 					/// </summary>
 					case DocumentOut.DocumentType.Delivery:
-						DocumentOut.ExcelOutDelivery(xlsPathname, Common);
+						DocumentOut.ExcelOutDelivery(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 二次キッティング依頼書
@@ -529,7 +530,7 @@ namespace VariousDocumentOut.Forms
 						if (Common.IsHeadOffice)
 						{
 							// 本社
-							DocumentOut.ExcelOutSecondKitting(xlsPathname, Common, string.Empty, null);
+							DocumentOut.ExcelOutSecondKitting(Common, xlsPathname, string.Empty, null);
 						}
 						else
 						{
@@ -543,7 +544,7 @@ namespace VariousDocumentOut.Forms
 									return;
 								}
 								tMih支店情報 branch = BranchList.Find(p => p.f支店名 == dlg.Branch);
-								DocumentOut.ExcelOutSecondKitting(xlsPathname, Common, dlg.SaleDepartment, branch);
+								DocumentOut.ExcelOutSecondKitting(Common, xlsPathname, dlg.SaleDepartment, branch);
 							}
 						}
 						break;
@@ -551,35 +552,38 @@ namespace VariousDocumentOut.Forms
 					/// PC安心サポート加入申込書
 					/// </summary>
 					case DocumentOut.DocumentType.PcSupport:
-						DocumentOut.ExcelOutPcSupport(xlsPathname, Common);
+						DocumentOut.ExcelOutPcSupport(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// アプラス預金口座振替依頼書・自動払込利用申込書
 					/// </summary>
 					case DocumentOut.DocumentType.Aplus:
-						DocumentOut.ExcelOutAplus(xlsPathname, Common);
+						DocumentOut.ExcelOutAplus(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 作業報告書
 					/// </summary>
 					case DocumentOut.DocumentType.WorkReport:
-						DocumentOut.ExcelOutWorkReport(xlsPathname, Common);
+						DocumentOut.ExcelOutWorkReport(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 消耗品FAXオーダーシート
 					/// </summary>
 					// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
 					case DocumentOut.DocumentType.FaxOrderSheet:
-						DocumentOut.ExcelOutFaxOrderSheet(xlsPathname, Common);
+						DocumentOut.ExcelOutFaxOrderSheet(Common, xlsPathname);
 						break;
 				}
 				// カーソルを元に戻す
 				Cursor.Current = preCursor;
 
 				// Excelの起動
-				ProcessStartInfo pInfo = new ProcessStartInfo();
-				pInfo.FileName = xlsPathname;
-				Process.Start(pInfo);
+				using (Process process = new Process())
+				{
+					process.StartInfo.FileName = xlsPathname;
+					process.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
+					process.Start();
+				}
 			}
 			catch (Exception ex)
 			{

@@ -41,7 +41,7 @@ namespace AlmexMaintePurchaseFile.Forms
 			textBoxFilename.Text = Program.gSettings.ExportFilename;
 			textBoxPcaVer.Text = Program.gSettings.PcaVersion.ToString();
 
-			dateTimePickerMonth.Value = Program.CollectDate.ToDateTime();
+			dateTimePickerMonth.Value = Program.BootDate.ToDateTime();
 		}
 
 		/// <summary>

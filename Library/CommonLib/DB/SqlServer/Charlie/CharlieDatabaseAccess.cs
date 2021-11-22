@@ -176,6 +176,17 @@ namespace CommonLib.DB.SqlServer.Charlie
 			return DatabaseAccess.UpdateSetDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters(), connectStr);
 		}
 
+		/// <summary>
+		/// [charlieDB].[dbo].[売上実績]の更新
+		/// </summary>
+		/// <param name="data">売上実績</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		public static int UpdateSet_売上実績(売上実績 data, string connectStr)
+		{
+			return DatabaseAccess.UpdateSetDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters(), connectStr);
+		}
+
 
 		//////////////////////////////
 		// INSERT INTO
@@ -227,6 +238,17 @@ namespace CommonLib.DB.SqlServer.Charlie
 				paramList.Add(data.GetInsertIntoParameters());
 			}
 			return DatabaseAccess.InsertIntoListDatabase(T_USE_PCCSUPPORT.InsertIntoSqlString, paramList, connectStr);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[売上実績]の新規追加
+		/// </summary>
+		/// <param name="data">売上実績</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		public static int InsertInto_売上実績(売上実績 data, string connectStr)
+		{
+			return DatabaseAccess.InsertIntoDatabase(売上実績.InsertIntoSqlString, data.GetInsertIntoParameters(), connectStr);
 		}
 
 

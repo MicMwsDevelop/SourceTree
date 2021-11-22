@@ -112,7 +112,7 @@
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(48, 20);
 			this.label5.TabIndex = 0;
-			this.label5.Text = "集計月";
+			this.label5.Text = "実行月";
 			// 
 			// dateTimePickerMonth
 			// 

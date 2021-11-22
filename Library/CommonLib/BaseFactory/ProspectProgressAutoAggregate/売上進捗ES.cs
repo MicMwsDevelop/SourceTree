@@ -1,5 +1,5 @@
 ﻿//
-// 予測連絡用ES.cs
+// 売上進捗ES.cs
 //
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -12,9 +12,9 @@ using System.Data;
 namespace CommonLib.BaseFactory.ProspectProgressAutoAggregate
 {
 	/// <summary>
-	/// 予測連絡用ES
+	/// 売上進捗ES
 	/// </summary>
-	public class 予測連絡用ES
+	public class 売上進捗ES
 	{
 		public string 売上月 { get; set; }
 		public int 受注番号 { get; set; }
@@ -45,7 +45,7 @@ namespace CommonLib.BaseFactory.ProspectProgressAutoAggregate
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public 予測連絡用ES()
+		public 売上進捗ES()
 		{
 			売上月 = string.Empty;
 			受注番号 = 0;
@@ -79,14 +79,14 @@ namespace CommonLib.BaseFactory.ProspectProgressAutoAggregate
 		/// </summary>
 		/// <param name="table"></param>
 		/// <returns></returns>
-		public static List<予測連絡用ES> DataTableToList(DataTable table)
+		public static List<売上進捗ES> DataTableToList(DataTable table)
 		{
 			if (null != table && 0 < table.Rows.Count)
 			{
-				List<予測連絡用ES> result = new List<予測連絡用ES>();
+				List<売上進捗ES> result = new List<売上進捗ES>();
 				foreach (DataRow row in table.Rows)
 				{
-					予測連絡用ES data = new 予測連絡用ES
+					売上進捗ES data = new 売上進捗ES
 					{
 						売上月 = row["売上月"].ToString().Trim(),
 						受注番号 = DataBaseValue.ConvObjectToInt(row["受注番号"]),

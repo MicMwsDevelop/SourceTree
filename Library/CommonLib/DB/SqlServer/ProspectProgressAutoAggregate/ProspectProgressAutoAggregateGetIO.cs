@@ -88,13 +88,13 @@ namespace CommonLib.DB.SqlServer.ProspectProgressAutoAggregate
 		}
 
 		/// <summary>
-		/// ES売上予想情報の取得
+		/// 売上予想ES情報の取得
 		/// </summary>
 		/// <param name="start">計上開始月</param>
 		/// <param name="end">計上終了月</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>レコード数</returns>
-		public static DataTable Select_ES売上予想(Date start, Date end, string connectStr)
+		public static DataTable Select_売上予想ES(Date start, Date end, string connectStr)
 		{
 			string strSQL = string.Format(@"SELECT"
 								+ " 部門コード, 営業部名, 拠点コード, 拠点名, 顧客No, 顧客名, 受注番号, 受注承認日, 売上承認日, 納期, 売上金額, 計上月"
@@ -117,11 +117,11 @@ namespace CommonLib.DB.SqlServer.ProspectProgressAutoAggregate
 		}
 
 		/// <summary>
-		/// 予測連絡用ESの取得
+		/// 売上進捗ESの取得
 		/// </summary>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>レコード数</returns>
-		public static DataTable Select_予測連絡用ES(string connectStr)
+		public static DataTable Select_売上進捗ES(string connectStr)
 		{
 			string strSQL = string.Format(@"SELECT"
 										+ " iif(f売上承認日 is null, LEFT(f納期, 7), LEFT(CONVERT(nvarchar, f売上承認日, 111), 7)) as 売上月"
@@ -145,11 +145,11 @@ namespace CommonLib.DB.SqlServer.ProspectProgressAutoAggregate
 		}
 
 		/// <summary>
-		/// 予測連絡用まとめ（WonderWeb起票分）の取得
+		/// 売上進捗まとめ（WonderWeb起票分）の取得
 		/// </summary>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>レコード数</returns>
-		public static DataTable Select_予測連絡用まとめ_WW(string connectStr)
+		public static DataTable Select_売上進捗まとめ_WW(string connectStr)
 		{
 			string strSQL = string.Format(@"SELECT"
 										+ " iif(f売上承認日 is null, LEFT(f納期, 7), LEFT(CONVERT(nvarchar, f売上承認日, 111), 7)) AS 売上月"
@@ -173,11 +173,11 @@ namespace CommonLib.DB.SqlServer.ProspectProgressAutoAggregate
 		}
 
 		/// <summary>
-		/// 予測連絡用まとめ（契約情報）の取得
+		/// 売上進捗まとめ（契約情報）の取得
 		/// </summary>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>レコード数</returns>
-		public static DataTable Select_予測連絡用まとめ_契約情報(string connectStr)
+		public static DataTable Select_売上進捗まとめ_契約情報(string connectStr)
 		{
 			string strSQL = string.Format(@"SELECT"
 										+ " LEFT(CONVERT(NVARCHAR, EOMonth(H.fContractStartDate, -1), 111), 7) As 売上月, U.営業部コード AS 営業部コード, U.営業部名 AS 営業部名"

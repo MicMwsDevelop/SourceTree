@@ -1,5 +1,5 @@
 ﻿//
-// 予測連絡用まとめ.cs
+// 売上進捗まとめ.cs
 //
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -12,9 +12,9 @@ using System.Data;
 namespace CommonLib.BaseFactory.ProspectProgressAutoAggregate
 {
 	/// <summary>
-	/// 予測連絡用まとめ
+	/// 売上進捗まとめ
 	/// </summary>
-	public class 予測連絡用まとめ
+	public class 売上進捗まとめ
 	{
 		public string 売上月 { get; set; }
 		public string 営業部コード { get; set; }
@@ -35,7 +35,7 @@ namespace CommonLib.BaseFactory.ProspectProgressAutoAggregate
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public 予測連絡用まとめ()
+		public 売上進捗まとめ()
 		{
 			売上月 = string.Empty;
 			営業部コード = string.Empty;
@@ -59,14 +59,14 @@ namespace CommonLib.BaseFactory.ProspectProgressAutoAggregate
 		/// </summary>
 		/// <param name="table"></param>
 		/// <returns></returns>
-		public static List<予測連絡用まとめ> DataTableToList(DataTable table)
+		public static List<売上進捗まとめ> DataTableToList(DataTable table)
 		{
 			if (null != table && 0 < table.Rows.Count)
 			{
-				List<予測連絡用まとめ> result = new List<予測連絡用まとめ>();
+				List<売上進捗まとめ> result = new List<売上進捗まとめ>();
 				foreach (DataRow row in table.Rows)
 				{
-					予測連絡用まとめ data = new 予測連絡用まとめ
+					売上進捗まとめ data = new 売上進捗まとめ
 					{
 						売上月 = row["売上月"].ToString().Trim(),
 						営業部コード = row["営業部コード"].ToString().Trim(),

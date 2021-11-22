@@ -40,7 +40,7 @@ namespace AlmexMainteEarningsFile.Forms
 			textBoxFolder.Text = Program.gSettings.ExportDir;
 			textBoxFilename.Text = Program.gSettings.ExportFilename;
 			textBoxPcaVer.Text = Program.gSettings.PcaVersion.ToString();
-			dateTimePickerMonth.Value = Program.gSaleDate.ToDateTime();
+			dateTimePickerMonth.Value = Program.gBootDate.ToDateTime();
 		}
 
 		/// <summary>

@@ -31,7 +31,9 @@ namespace ProspectProgressAutoAggregate.Forms
 		{
 			this.buttonExec = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
-			this.dateTimePickerBootDate = new System.Windows.Forms.DateTimePicker();
+			this.buttonAddNew = new System.Windows.Forms.Button();
+			this.buttonModify = new System.Windows.Forms.Button();
+			this.comboBoxPeriod = new System.Windows.Forms.ComboBox();
 			this.SuspendLayout();
 			// 
 			// buttonExec
@@ -53,22 +55,49 @@ namespace ProspectProgressAutoAggregate.Forms
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(69, 19);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "■集計日";
+			this.label1.Text = "■決算期";
 			// 
-			// dateTimePickerBootDate
+			// buttonAddNew
 			// 
-			this.dateTimePickerBootDate.Location = new System.Drawing.Point(97, 15);
-			this.dateTimePickerBootDate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.dateTimePickerBootDate.Name = "dateTimePickerBootDate";
-			this.dateTimePickerBootDate.Size = new System.Drawing.Size(298, 27);
-			this.dateTimePickerBootDate.TabIndex = 1;
+			this.buttonAddNew.Enabled = false;
+			this.buttonAddNew.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonAddNew.Location = new System.Drawing.Point(171, 253);
+			this.buttonAddNew.Name = "buttonAddNew";
+			this.buttonAddNew.Size = new System.Drawing.Size(109, 27);
+			this.buttonAddNew.TabIndex = 3;
+			this.buttonAddNew.Text = "来期追加";
+			this.buttonAddNew.UseVisualStyleBackColor = true;
+			this.buttonAddNew.Click += new System.EventHandler(this.buttonAddNew_Click);
+			// 
+			// buttonModify
+			// 
+			this.buttonModify.Enabled = false;
+			this.buttonModify.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonModify.Location = new System.Drawing.Point(286, 253);
+			this.buttonModify.Name = "buttonModify";
+			this.buttonModify.Size = new System.Drawing.Size(109, 27);
+			this.buttonModify.TabIndex = 4;
+			this.buttonModify.Text = "実績設定";
+			this.buttonModify.UseVisualStyleBackColor = true;
+			this.buttonModify.Click += new System.EventHandler(this.buttonModify_Click);
+			// 
+			// comboBoxPeriod
+			// 
+			this.comboBoxPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxPeriod.FormattingEnabled = true;
+			this.comboBoxPeriod.Location = new System.Drawing.Point(96, 18);
+			this.comboBoxPeriod.Name = "comboBoxPeriod";
+			this.comboBoxPeriod.Size = new System.Drawing.Size(80, 27);
+			this.comboBoxPeriod.TabIndex = 1;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(417, 256);
-			this.Controls.Add(this.dateTimePickerBootDate);
+			this.ClientSize = new System.Drawing.Size(417, 296);
+			this.Controls.Add(this.comboBoxPeriod);
+			this.Controls.Add(this.buttonModify);
+			this.Controls.Add(this.buttonAddNew);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.buttonExec);
 			this.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -89,7 +118,9 @@ namespace ProspectProgressAutoAggregate.Forms
 
 		private System.Windows.Forms.Button buttonExec;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.DateTimePicker dateTimePickerBootDate;
+		private System.Windows.Forms.Button buttonAddNew;
+		private System.Windows.Forms.Button buttonModify;
+		private System.Windows.Forms.ComboBox comboBoxPeriod;
 	}
 }
 

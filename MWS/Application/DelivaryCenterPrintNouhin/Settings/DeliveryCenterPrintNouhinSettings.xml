@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DeliveryCenterPrintNouhinSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <PaperOffset>
+    <X>140</X>
+    <Y>0</Y>
+  </PaperOffset>
+  <NouhinDir>C:\PrintNouhin\納品書用データ</NouhinDir>
+  <NouhinFile>Nouhin.csv</NouhinFile>
+  <ParamFile>NOUHIN_01.PRM</ParamFile>
+	<PrintRectangle>1</PrintRectangle>
+	<PrintPreview>1</PrintPreview>
+</DeliveryCenterPrintNouhinSettings>

@@ -335,20 +335,6 @@ namespace CommonLib.DB.SqlServer.Junp
 		}
 
 		/// <summary>
-		/// vMicPCA商品マスタの取得
-		/// </summary>
-		/// <param name="goodsCodes">PCA商品マスタ群</param>
-		/// <param name="orderStr">Order句</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns></returns>
-		public static List<vMicPCA商品マスタ> Select_vMicPCA商品マスタ(string goodsCodes, string orderStr, string connectStr)
-		{
-			string sql = string.Format("SELECT * FROM {0} WHERE sms_scd IN ({1}) ORDER BY {2}", JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ], goodsCodes, orderStr);
-			DataTable table = DatabaseAccess.SelectDatabase(sql, connectStr);
-			return vMicPCA商品マスタ.DataTableToList(table);
-		}
-
-		/// <summary>
 		/// vSoftwareMainteLimitの取得
 		/// </summary>
 		/// <param name="whereStr"></param>

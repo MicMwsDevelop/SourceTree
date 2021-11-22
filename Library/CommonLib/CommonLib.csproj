@@ -115,9 +115,9 @@
     <Compile Include="BaseFactory\Pca\PCA受注明細汎用データ.cs" />
     <Compile Include="BaseFactory\Pca\PCA売上明細汎用データ.cs" />
     <Compile Include="BaseFactory\Pca\PCA仕入明細汎用データ.cs" />
-    <Compile Include="BaseFactory\ProspectProgressAutoAggregate\ES売上予想.cs" />
-    <Compile Include="BaseFactory\ProspectProgressAutoAggregate\予測連絡用ES.cs" />
-    <Compile Include="BaseFactory\ProspectProgressAutoAggregate\予測連絡用まとめ.cs" />
+    <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上予想ES.cs" />
+    <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上進捗ES.cs" />
+    <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上進捗まとめ.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上予想.cs" />
     <Compile Include="BaseFactory\ScanImageManager\IndexFileInfo.cs" />
     <Compile Include="BaseFactory\ScanImageManager\ScanImageFile.cs" />

@@ -58,10 +58,15 @@ namespace CommonLib.Print
         /// </summary>
         public bool IsItalic { get; set; }
 
-        /// <summary>
-        /// 線幅	mm単位, 塗りつぶし 色, 文字列 箱数
-        /// </summary>
-        public int Width { get; set; }
+		/// <summary>
+		/// フォントの高さが5/7 'F'
+		/// </summary>
+		public bool IsLargeFont { get; set; }
+		
+		/// <summary>
+		/// 線幅	mm単位, 塗りつぶし 色, 文字列 箱数
+		/// </summary>
+		public int Width { get; set; }
 
         /// <summary>
         /// フォーマット 'L':DT_LEFT, 'C':DT_CENTER, 'R':DT_RIGHT, 'P':均等割付
@@ -72,6 +77,11 @@ namespace CommonLib.Print
         /// 印字文字列の前に付加する文字列
         /// </summary>
         public string PlusString { get; set; }
+
+		/// <summary>
+		/// ForeColor構造体
+		/// </summary>
+		public Color ForeColor { get; set; }
 
         /// <summary>
         /// コンストラクタ
@@ -145,7 +155,12 @@ namespace CommonLib.Print
                                 // Quria OCR-B
                                 this.Fontname = "Quria OCR-B";
                             }
-                            else if (Char.IsDigit(p))
+							else if ('F' == p)
+							{
+								// 通常フォントの高さは矩形の4/7だが 'F' 指定時は5/7
+								this.IsLargeFont = true;
+							}
+							else if (Char.IsDigit(p))
                             {
                                 // 数値(文字桁数または線幅指定あり)
                                 this.Width = (short)(this.Width * 10 + Convert.ToString(p).ToInt());
@@ -162,8 +177,20 @@ namespace CommonLib.Print
                         // 付加文字列
                         this.PlusString = split[5];
                     }
-                }
-            }
+					if (7 <= split.Count())
+					{
+						// ForeColor
+						if (0 < split[6].Length)
+						{
+							this.ForeColor = ColorTranslator.FromHtml(split[6]);
+						}
+						else
+						{
+							this.ForeColor = Color.Black;
+						}
+					}
+				}
+			}
         }
 
         /// <summary>
@@ -176,10 +203,12 @@ namespace CommonLib.Print
             this.Fontname = string.Empty;
             this.IsDirection = false;
             this.IsItalic = false;
-            this.Width = 0;
+			this.IsLargeFont = false;
+			this.Width = 0;
             this.Format = '\0';
             this.PlusString = string.Empty;
-        }
+			this.ForeColor = Color.Black;
+		}
 
         /// <summary>
         /// 同一かどうかを判断する
@@ -196,7 +225,8 @@ namespace CommonLib.Print
                     && this.IsItalic == other.IsItalic
                     && this.Width == other.Width
                     && this.Format == other.Format
-                    && this.PlusString == other.PlusString)
+                    && this.PlusString == other.PlusString
+					&& this.ForeColor == other.ForeColor)
                 {
                     return true;
                 }
@@ -232,7 +262,6 @@ namespace CommonLib.Print
                         ^ IsItalic.GetHashCode() ^ Width.GetHashCode() ^ Format.GetHashCode()
                         ^ PlusString.GetHashCode();
             return code;
-            //return ToString().GetHashCode();
         }
 
         /// <summary>

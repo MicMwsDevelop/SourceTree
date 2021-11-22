@@ -9,6 +9,9 @@
 // Ver1.01 新設の商品区分2(0030) paletteおまとめをpalette売上に含める(2021/09/06 勝呂)
 // Ver1.02 見込進捗詳細をPCA勘定科目の変更に対応(2021/09/15 勝呂)
 // Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
+// Ver1.04 来期追加と売上実績設定機能を追加（管理者用）(2021/10/20 勝呂)
+// Ver1.05 予測連絡用シート名と売上進捗シートの変更(2021/11/10 勝呂)
+// Ver1.06 予測連絡用の内容を元の見込進捗に合わせる(2021/11/16 勝呂)
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Charlie.Table;
@@ -31,22 +34,37 @@ namespace ProspectProgressAutoAggregate
 		/// <summary>
 		/// 環境設定
 		/// </summary>
-		private static SqlServerConnectSettings gSettings { get; set; }
+		public static SqlServerConnectSettings gSettings { get; set; }
 
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.03 (2021/09/27)";
+		public static readonly string VersionStr = "Ver1.06 (2021/11/16)";
+
+		/// <summary>
+		/// 起動日
+		/// </summary>
+		public static Date BootDate { get; set; }
+
+		/// <summary>
+		/// MIC創立年
+		/// </summary>
+		private static readonly int gMicStartYear = 1974;
+
+		/// <summary>
+		/// カレント決算期
+		/// </summary>
+		public static readonly int gCurrentPeriod = 47;
 
 		/// <summary>
 		/// 部門コード
 		/// </summary>
-		private static string[] gBumonCodes = { "50", "70", "60", "75", "76", "80" };
+		public static readonly string[] gBumonCodes = { "50", "70", "60", "75", "76", "80" };
 
 		/// <summary>
 		/// PCA部門コード
 		/// </summary>
-		private static string[] gPcaBumonCoeds = { "081", "082", "083", "086", "087", "085" };
+		private static readonly string[] gPcaBumonCoeds = { "081", "082", "083", "086", "087", "085" };
 
 		/// <summary>
 		/// palette売上 行番号
@@ -121,37 +139,27 @@ namespace ProspectProgressAutoAggregate
 		/// <summary>
 		/// 売上実績リスト
 		/// </summary>
-		private static List<売上実績> 売上実績List { get; set; }
+		private static List<売上実績> 売上実績_List { get; set; }
 
 		/// <summary>
 		/// 売上予想リスト
 		/// </summary>
-		private static List<売上予想> 売上予想List { get; set; }
+		private static List<売上予想> 売上予想_List { get; set; }
 
 		/// <summary>
 		/// paletteES 売上予想リスト
 		/// </summary>
-		private static List<ES売上予想> ES売上予想List { get; set; }
+		private static List<売上予想ES> 売上予想ES_List { get; set; }
 
 		/// <summary>
-		/// palette ES 予測連絡用リスト
+		/// palette ES 売上進捗リスト
 		/// </summary>
-		private static List<予測連絡用ES> 予測連絡用_ESList { get; set; }
+		private static List<売上進捗ES> 売上進捗ES_List { get; set; }
 
 		/// <summary>
-		/// おまとめプラン 予測連絡用リスト
+		/// おまとめプラン 売上進捗リスト
 		/// </summary>
-		private static List<予測連絡用まとめ> 予測連絡用_まとめList { get; set; }
-
-		/// <summary>
-		/// 起動日
-		/// </summary>
-		private static Date BootDate { get; set; }
-
-		/// <summary>
-		/// 起動日に対する今期期間
-		/// </summary>
-		private static Span Term { get; set; }
+		private static List<売上進捗まとめ> 売上進捗まとめ_List { get; set; }
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -164,14 +172,22 @@ namespace ProspectProgressAutoAggregate
 
 			gSettings = SqlServerConnectSettingsIF.GetSettings();
 
+#if DEBUG
+			//BootDate = new Date(2020, 8, 1);
+			BootDate = Date.Today;
+#else
+			BootDate = Date.Today;
+#endif
+
 			string[] cmds = Environment.GetCommandLineArgs();
 			if (2 <= cmds.Length)
 			{
 				if ("AUTO" == cmds[1].ToUpper())
 				{
 					// サイレントモード
+					int period = GetPeriod(BootDate);
 					string msg;
-					return AutoAggregate(Date.Today, out msg);
+					return AutoAggregate(period, out msg);
 				}
 			}
 			Application.Run(new Forms.MainForm());
@@ -179,13 +195,13 @@ namespace ProspectProgressAutoAggregate
 		}
 
 		/// <summary>
-		/// 今期期間の取得
+		/// 決算期間の取得
 		/// </summary>
-		/// <param name="today"></param>
+		/// <param name="period">決算期</param>
 		/// <returns></returns>
-		private static Span GetTerm(Date today)
+		private static Span GetTerm(int period)
 		{
-			Date start = new Date((today.Month < 8) ? today.Year - 1 : today.Year, 8, 1);
+			Date start = new Date(gMicStartYear + period, 8, 1);
 			Date end = start.PlusYears(1).LastDayOfLasMonth();
 			return new Span(start, end);
 		}
@@ -194,58 +210,64 @@ namespace ProspectProgressAutoAggregate
 		/// 期の取得
 		/// </summary>
 		/// <returns></returns>
-		private static int GetPeriod()
+		public static int GetPeriod(Date date)
 		{
-			int year = BootDate.Year;
-			if (8 <= BootDate.Month)
+			int year = date.Year;
+			if (date.Month < 8)
 			{
-				year++;
+				year--;
 			}
-			return year - 1975;
+			return year - gMicStartYear;
+		}
+
+		/// <summary>
+		/// 期→開始日付
+		/// </summary>
+		/// <param name="period">期</param>
+		/// <returns>開始日付</returns>
+		public static Date PeriodToDate(int period)
+		{
+			return new Date(gMicStartYear + period, 8, 1);
 		}
 
 		/// <summary>
 		/// Excelオリジナルファイルパス名の取得
 		/// </summary>
-		/// <param name="today">当日</param>
+		/// <param name="period">決算期</param>
 		/// <returns></returns>
-		private static string GetExcelOriginalPathname(Date today)
+		private static string GetExcelOriginalPathname(int period)
 		{
-			return Path.Combine(Directory.GetCurrentDirectory(), string.Format("見込進捗_{0:D2}期.xlsx.org", today.Year - 1974));
+			return Path.Combine(Directory.GetCurrentDirectory(), string.Format("見込進捗_{0:D2}期.xlsx.org", period));
 		}
 
 		/// <summary>
 		/// Excel出力ファイルパス名の取得
 		/// </summary>
-		/// <param name="today"></param>
+		/// <param name="period">決算期</param>
 		/// <returns></returns>
-		private static string GetExcelPathname(Date today)
+		private static string GetExcelPathname(int period)
 		{
-			return Path.Combine(Directory.GetCurrentDirectory(), string.Format("見込進捗_{0:D2}期_{1}.xlsx", today.Year - 1974, Date.Today.GetNumeralString()));
+			return Path.Combine(Directory.GetCurrentDirectory(), string.Format("見込進捗_{0:D2}期_{1}.xlsx", period, Date.Today.GetNumeralString()));
 		}
 
 		/// <summary>
 		/// 自動進捗Excelファイル出力
 		/// </summary>
-		/// <param name="today">集計日</param>
+		/// <param name="period">決算期</param>
 		/// <param name="msg">エラーメッセージ</param>
 		/// <returns>判定</returns>
-		public static int AutoAggregate(Date today, out string msg)
+		public static int AutoAggregate(int period, out string msg)
 		{
 			msg = string.Empty;
 
-			売上実績List = null;
-			売上予想List = new List<売上予想>();
-			ES売上予想List = new List<ES売上予想>();
-			予測連絡用_ESList = new List<予測連絡用ES>();
-			予測連絡用_まとめList = new List<予測連絡用まとめ>();
-
-			// 起動日の設定
-			BootDate = today;
+			売上実績_List = null;
+			売上予想_List = new List<売上予想>();
+			売上予想ES_List = new List<売上予想ES>();
+			売上進捗ES_List = new List<売上進捗ES>();
+			売上進捗まとめ_List = new List<売上進捗まとめ>();
 
 			// 上期８月～来期８月
-			Term = GetTerm(BootDate);
-
+			Span term = GetTerm(period);
 			try
 			{
 				// 元のカーソルを保持
@@ -254,25 +276,25 @@ namespace ProspectProgressAutoAggregate
 				// カーソルを待機カーソルに変更
 				Cursor.Current = Cursors.WaitCursor;
 
-				売上実績List = CharlieDatabaseAccess.Select_売上実績(string.Format("実績日 >= {0} AND 実績日 <= {1}", Term.Start.ToIntYMD(), Term.End.ToIntYMD()), "実績日, 営業部コード", gSettings.Charlie.ConnectionString);
-				if (null == 売上実績List)
+				売上実績_List = CharlieDatabaseAccess.Select_売上実績(string.Format("実績日 >= {0} AND 実績日 <= {1}", term.Start.ToIntYMD(), term.End.ToIntYMD()), "実績日, 営業部コード", gSettings.Charlie.ConnectionString);
+				if (null == 売上実績_List)
 				{
 					msg = "当日の売上実績が登録されていないため見込進捗を出力できません。";
 					return 1;
 				}
-				Date start = Term.Start;
+				Date start = term.Start;
 				for (int i = 0; i < 13; i++)
 				{
 					List<売上予想> work = ProspectProgressAutoAggregateAccess.Select_売上予想(start, gSettings.Junp.ConnectionString);
 					if (null != work)
 					{
-						売上予想List.AddRange(work);
+						売上予想_List.AddRange(work);
 					}
 					start = start.PlusMonths(1);
 				}
-				ES売上予想List = ProspectProgressAutoAggregateAccess.Select_ES売上予想(Term.Start, Term.End, gSettings.Junp.ConnectionString);
-				予測連絡用_ESList = ProspectProgressAutoAggregateAccess.Select_予測連絡用ES(gSettings.Junp.ConnectionString);
-				予測連絡用_まとめList = ProspectProgressAutoAggregateAccess.Select_予測連絡用まとめ(gSettings.Junp.ConnectionString);
+				売上予想ES_List = ProspectProgressAutoAggregateAccess.Select_売上予想ES(term.Start, term.End, gSettings.Junp.ConnectionString);
+				売上進捗ES_List = ProspectProgressAutoAggregateAccess.Select_売上進捗ES(gSettings.Junp.ConnectionString);
+				売上進捗まとめ_List = ProspectProgressAutoAggregateAccess.Select_売上進捗まとめ(gSettings.Junp.ConnectionString);
 
 				// カーソルを元に戻す
 				Cursor.Current = preCursor;
@@ -284,8 +306,8 @@ namespace ProspectProgressAutoAggregate
 			}
 			try
 			{
-				string pathname = GetExcelPathname(Term.Start);
-				File.Copy(GetExcelOriginalPathname(Term.Start), pathname, true);
+				string pathname = GetExcelPathname(period);
+				File.Copy(GetExcelOriginalPathname(period), pathname, true);
 				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
 				{
 					// 元のカーソルを保持
@@ -295,13 +317,13 @@ namespace ProspectProgressAutoAggregate
 					Cursor.Current = Cursors.WaitCursor;
 
 					//「予測連絡用」
-					予測連絡用(wb);
+					予測連絡用(wb, period);
 
 					//「売上実績」
-					売上実績(wb);
+					売上実績(wb, term);
 
 					//「見込進捗_詳細」
-					見込進捗詳細(wb);
+					見込進捗詳細(wb, period, term);
 
 					// Excelファイルの保存
 					wb.SaveAs(pathname);
@@ -310,9 +332,12 @@ namespace ProspectProgressAutoAggregate
 					Cursor.Current = preCursor;
 
 					// Excelの起動
-					ProcessStartInfo pInfo = new ProcessStartInfo();
-					pInfo.FileName = pathname;
-					Process.Start(pInfo);
+					using (Process process = new Process())
+					{
+						process.StartInfo.FileName = pathname;
+						process.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
+						process.Start();
+					}
 				}
 			}
 			catch (Exception ex)
@@ -327,15 +352,24 @@ namespace ProspectProgressAutoAggregate
 		/// 「予測連絡用」
 		/// </summary>
 		/// <param name="wb">workbook</param>
-		private static void 予測連絡用(XLWorkbook wb)
+		/// <param name="period">決算期</param>
+		private static void 予測連絡用(XLWorkbook wb, int period)
 		{
 			IXLWorksheet ws = wb.Worksheet("予測連絡用");
 
+			if (period != gCurrentPeriod)
+			{
+				// カレント決算期でない時は8/1とする
+				BootDate = GetTerm(period).Start;
+			}
+			// 前月実績値の設定
+			予測連絡用_前月実績値設定(ws, period, BootDate);
+
 			// 当月予算予測進捗値の設定
-			予測連絡用_当月予算予測進捗値設定(ws);
+			予測連絡用_当月予算予測進捗値設定(ws, period, BootDate);
 
 			// 翌月予算予測進捗値の設定
-			予測連絡用_翌月予算進捗値設定(ws);
+			予測連絡用_翌月予算進捗値設定(ws, period, BootDate);
 
 			// バージョン情報
 			ws.Cell(21, 25).SetValue(VersionStr);
@@ -345,54 +379,151 @@ namespace ProspectProgressAutoAggregate
 		}
 
 		/// <summary>
+		/// 「予測連絡用」前月実績値の設定
+		/// </summary>
+		/// <param name="ws">worksheet</param>
+		/// <param name="period">決算期</param>
+		/// <param name="bootDate">カレント日</param>
+		private static void 予測連絡用_前月実績値設定(IXLWorksheet ws, int period, Date bootDate)
+		{
+			// 先月初日
+			YearMonth lastYM = bootDate.FirstDayOfLasMonth().ToYearMonth();
+			ws.Cell(6, 2).SetValue(string.Format("{0:D4}年{1:D2}月\r\n(実績)", lastYM.Year, lastYM.Month));
+
+			int lastFirstDay = bootDate.FirstDayOfLasMonth().ToIntYMD();
+			if (7 == lastYM.Month)
+			{
+				// 前期
+				Span term = GetTerm(period - 1);
+				List<売上実績> list = CharlieDatabaseAccess.Select_売上実績(string.Format("実績日 >= {0} AND 実績日 <= {1}", term.Start.ToIntYMD(), term.End.ToIntYMD()), "実績日, 営業部コード", gSettings.Charlie.ConnectionString);
+
+				// 前期７月の実績値の設定
+				for (int i = 0, j = 0; i < gBumonCodes.Length; i++, j += 3)
+				{
+					売上実績 result = list.Find(p => p.営業部コード == gBumonCodes[i] && p.実績日 == lastFirstDay);
+					if (null != result)
+					{
+						ws.Cell(6, 5 + j).SetValue(result.予算ES);
+						ws.Cell(6, 6 + j).SetValue(result.予算まとめ);
+						ws.Cell(6, 7 + j).SetValue(result.予算売上);
+						ws.Cell(7, 5 + j).SetValue(result.実績ES);
+						ws.Cell(7, 6 + j).SetValue(result.実績まとめ);
+						ws.Cell(7, 7 + j).SetValue(result.実績売上);
+						ws.Cell(10, 5 + j).SetValue(result.予算営業損益);
+						ws.Cell(11, 5 + j).SetValue(result.実績営業損益);
+					}
+				}
+				// 前期累計実績値の設定
+				for (int i = 0, j = 0; i < gBumonCodes.Length; i++, j += 3)
+				{
+					List<売上実績> result = list.FindAll(p => p.営業部コード == gBumonCodes[i]);
+					if (null != result)
+					{
+						ws.Cell(14, 5 + j).SetValue(result.Sum(p =>p.予算ES));
+						ws.Cell(14, 6 + j).SetValue(result.Sum(p => p.予算まとめ));
+						ws.Cell(14, 7 + j).SetValue(result.Sum(p => p.予算売上));
+						ws.Cell(15, 5 + j).SetValue(result.Sum(p => p.実績ES));
+						ws.Cell(15, 6 + j).SetValue(result.Sum(p => p.実績まとめ));
+						ws.Cell(15, 7 + j).SetValue(result.Sum(p => p.実績売上));
+						ws.Cell(18, 5 + j).SetValue(result.Sum(p => p.予算営業損益));
+						ws.Cell(19, 5 + j).SetValue(result.Sum(p => p.実績営業損益));
+					}
+				}
+				ws.Cell(14, 2).SetValue(string.Format("{0}期累計\r\n(実績)", period - 1));
+			}
+			else
+			{
+				// 前月の実績値の設定
+				for (int i = 0, j = 0; i < gBumonCodes.Length; i++, j += 3)
+				{
+					売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes[i] && p.実績日 == lastFirstDay);
+					if (null != result)
+					{
+						ws.Cell(6, 5 + j).SetValue(result.予算ES);
+						ws.Cell(6, 6 + j).SetValue(result.予算まとめ);
+						ws.Cell(6, 7 + j).SetValue(result.予算売上);
+						ws.Cell(7, 5 + j).SetValue(result.実績ES);
+						ws.Cell(7, 6 + j).SetValue(result.実績まとめ);
+						ws.Cell(7, 7 + j).SetValue(result.実績売上);
+						ws.Cell(10, 5 + j).SetValue(result.予算営業損益);
+						ws.Cell(11, 5 + j).SetValue(result.実績営業損益);
+					}
+				}
+				// 今期累計実績値の設定
+				Span term = GetTerm(period);
+				term = new Span(term.Start, bootDate.LastDayOfLasMonth());
+				for (int i = 0, j = 0; i < gBumonCodes.Length; i++, j += 3)
+				{
+					List<売上実績> result = 売上実績_List.FindAll(p => p.営業部コード == gBumonCodes[i] && p.実績日 >=term.Start.ToIntYMD() && p.実績日 <= term.End.ToIntYMD());
+					if (null != result)
+					{
+						ws.Cell(14, 5 + j).SetValue(result.Sum(p => p.予算ES));
+						ws.Cell(14, 6 + j).SetValue(result.Sum(p => p.予算まとめ));
+						ws.Cell(14, 7 + j).SetValue(result.Sum(p => p.予算売上));
+						ws.Cell(15, 5 + j).SetValue(result.Sum(p => p.実績ES));
+						ws.Cell(15, 6 + j).SetValue(result.Sum(p => p.実績まとめ));
+						ws.Cell(15, 7 + j).SetValue(result.Sum(p => p.実績売上));
+						ws.Cell(18, 5 + j).SetValue(result.Sum(p => p.予算営業損益));
+						ws.Cell(19, 5 + j).SetValue(result.Sum(p => p.実績営業損益));
+					}
+				}
+				ws.Cell(14, 2).SetValue(string.Format("{0}期累計\r\n(実績)", period));
+			}
+		}
+
+		/// <summary>
 		/// 「予測連絡用」当月予算予測進捗値設定
 		/// </summary>
 		/// <param name="ws">worksheet</param>
-		private static void 予測連絡用_当月予算予測進捗値設定(IXLWorksheet ws)
+		/// <param name="period">決算期</param>
+		/// <param name="bootDate">カレント日</param>
+		private static void 予測連絡用_当月予算予測進捗値設定(IXLWorksheet ws, int period, Date bootDate)
 		{
 			// 当月初日
-			int date = BootDate.FirstDayOfTheMonth().ToIntYMD();
-			YearMonth thisYM = BootDate.ToYearMonth();
+			int thisFirstDay = bootDate.FirstDayOfTheMonth().ToIntYMD();
+			YearMonth thisYM = bootDate.ToYearMonth();
+			ws.Cell(22, 2).SetValue(string.Format("{0:D4}年{1:D2}月\r\n(進捗)", thisYM.Year, thisYM.Month));
+
 			for (int i = 0, j = 0; i < gBumonCodes.Length; i++, j += 3)
 			{
 				// 予算・予測
-				売上実績 result = 売上実績List.Find(p => p.営業部コード == gBumonCodes[i] && p.実績日 == date);
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes[i] && p.実績日 == thisFirstDay);
 				if (null != result)
 				{
-					ws.Cell(6, 5 + j).SetValue(result.予算ES);
-					ws.Cell(6, 6 + j).SetValue(result.予算まとめ);
-					ws.Cell(6, 7 + j).SetValue(result.予算売上);
-					ws.Cell(7, 5 + j).SetValue(result.予測ES);
-					ws.Cell(7, 6 + j).SetValue(result.予測まとめ);
-					ws.Cell(7, 7 + j).SetValue(result.予測売上);
-					ws.Cell(11, 5 + j).SetValue(result.予算営業損益);
-					ws.Cell(12, 5 + j).SetValue(result.予測営業損益);
+					ws.Cell(22, 5 + j).SetValue(result.予算ES);
+					ws.Cell(22, 6 + j).SetValue(result.予算まとめ);
+					ws.Cell(22, 7 + j).SetValue(result.予算売上);
+					ws.Cell(23, 5 + j).SetValue(result.予測ES);
+					ws.Cell(23, 6 + j).SetValue(result.予測まとめ);
+					ws.Cell(23, 7 + j).SetValue(result.予測売上);
+					ws.Cell(27, 5 + j).SetValue(result.予算営業損益);
+					ws.Cell(28, 5 + j).SetValue(result.予測営業損益);
 				}
 				// 進捗
 				int price = 0;
-				List<売上予想> sale = 売上予想List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.集計月 == thisYM);
+				List<売上予想> sale = 売上予想_List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.集計月 == thisYM);
 				if (null != sale)
 				{
 					price = sale.Sum(p => p.金額);
 				}
 				// ソフト保守の売上を加算
 				// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
-				List<ES売上予想> soft = ES売上予想List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.計上月 == thisYM.ToString());
+				List<売上予想ES> soft = 売上予想ES_List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.計上月 == thisYM.ToString());
 				if (null != soft)
 				{
 					price += soft.Sum(p => p.売上金額);
 				}
-				ws.Cell(8, 7 + j).SetValue(To金額千円単位(price)); // 金額千円単位
+				ws.Cell(24, 7 + j).SetValue(To金額千円単位(price)); // 金額千円単位
 
-				List<予測連絡用ES> es = 予測連絡用_ESList.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == thisYM.ToString());
+				List<売上進捗ES> es = 売上進捗ES_List.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == thisYM.ToString());
 				if (null != es)
 				{
-					ws.Cell(8, 5 + j).SetValue(es.Count());
+					ws.Cell(24, 5 + j).SetValue(es.Count());
 				}
-				List<予測連絡用まとめ> matome = 予測連絡用_まとめList.FindAll(p => p.営業部コード == gBumonCodes[i] && p.売上月 == thisYM.ToString());
+				List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes[i] && p.売上月 == thisYM.ToString());
 				if (null != matome)
 				{
-					ws.Cell(8, 6 + j).SetValue(matome.Count);
+					ws.Cell(24, 6 + j).SetValue(matome.Count);
 				}
 			}
 		}
@@ -401,49 +532,53 @@ namespace ProspectProgressAutoAggregate
 		/// 「予測連絡用」翌月予算進捗値設定
 		/// </summary>
 		/// <param name="ws">worksheet</param>
-		private static void 予測連絡用_翌月予算進捗値設定(IXLWorksheet ws)
+		/// <param name="period">決算期</param>
+		/// <param name="bootDate">カレント日</param>
+		private static void 予測連絡用_翌月予算進捗値設定(IXLWorksheet ws, int period, Date bootDate)
 		{
 			// 来月初日
-			int date = BootDate.FirstDayOfNextMonth().ToIntYMD();
-			YearMonth nextYM = BootDate.FirstDayOfNextMonth().ToYearMonth();
+			int nextFirstDay = bootDate.FirstDayOfNextMonth().ToIntYMD();
+			YearMonth nextYM = bootDate.FirstDayOfNextMonth().ToYearMonth();
+			ws.Cell(31, 2).SetValue(string.Format("{0:D4}年{1:D2}月\r\n(進捗)", nextYM.Year, nextYM.Month));
+
 			for (int i = 0, j = 0; i < gBumonCodes.Length; i++, j += 3)
 			{
 				// 予算・予測
-				売上実績 result = 売上実績List.Find(p => p.営業部コード == gBumonCodes[i] && p.実績日 == date);
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes[i] && p.実績日 == nextFirstDay);
 				if (null != result)
 				{
-					ws.Cell(15, 5 + j).SetValue(result.予算ES);
-					ws.Cell(15, 6 + j).SetValue(result.予算まとめ);
-					ws.Cell(15, 7 + j).SetValue(result.予算売上);
-					ws.Cell(19, 5 + j).SetValue(result.予算営業損益);
+					ws.Cell(31, 5 + j).SetValue(result.予算ES);
+					ws.Cell(31, 6 + j).SetValue(result.予算まとめ);
+					ws.Cell(31, 7 + j).SetValue(result.予算売上);
+					ws.Cell(35, 5 + j).SetValue(result.予算営業損益);
 				}
 				// 進捗
 				int price = 0;
-				List<売上予想> sale = 売上予想List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.集計月 == nextYM);
+				List<売上予想> sale = 売上予想_List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.集計月 == nextYM);
 				if (null != sale)
 				{
 					price = sale.Sum(p => p.金額);
 				}
 				// ソフト保守の売上を加算
 				// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
-				List<ES売上予想> soft = ES売上予想List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.計上月 == nextYM.ToString());
+				List<売上予想ES> soft = 売上予想ES_List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.計上月 == nextYM.ToString());
 				if (null != soft)
 				{
 					price += soft.Sum(p => p.売上金額);
 				}
-				// 翌月分のpalette売上分には、まとめ分が含まれていないので、「予測連絡用-まとめ」の金額を加算する
-				List<予測連絡用まとめ> matome = 予測連絡用_まとめList.FindAll(p => p.営業部コード == gBumonCodes[i] && p.売上月 == nextYM.ToString());
+				// 翌月分のpalette売上分には、まとめ分が含まれていないので、「売上進捗-まとめ」の金額を加算する
+				List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes[i] && p.売上月 == nextYM.ToString());
 				if (null != matome)
 				{
 					price += matome.Sum(p => p.金額);
-					ws.Cell(16, 6 + j).SetValue(matome.Count);
+					ws.Cell(32, 6 + j).SetValue(matome.Count);
 				}
-				ws.Cell(16, 7 + j).SetValue(To金額千円単位(price));
+				ws.Cell(32, 7 + j).SetValue(To金額千円単位(price));
 
-				List<予測連絡用ES> es = 予測連絡用_ESList.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == nextYM.ToString());
+				List<売上進捗ES> es = 売上進捗ES_List.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == nextYM.ToString());
 				if (null != es)
 				{
-					ws.Cell(16, 5 + j).SetValue(es.Count());
+					ws.Cell(32, 5 + j).SetValue(es.Count());
 				}
 			}
 		}
@@ -452,10 +587,11 @@ namespace ProspectProgressAutoAggregate
 		/// 「売上実績」
 		/// </summary>
 		/// <param name="wb">workbool</param>
-		private static void 売上実績(XLWorkbook wb)
+		/// <param name="term">決算期間</param>
+		private static void 売上実績(XLWorkbook wb, Span term)
 		{
 			IXLWorksheet ws = wb.Worksheet("売上実績");
-			Date date = Term.Start;
+			Date date = term.Start;
 
 			売上実績_予算予測実績値設定(ws, date.ToIntYMD(), 6);  // 上期8月実績
 			date = date.PlusMonths(1);
@@ -495,7 +631,7 @@ namespace ProspectProgressAutoAggregate
 		{
 			for (int i = 0, j = 0; i < gBumonCodes.Length; i++, j += 3)
 			{
-				売上実績 result = 売上実績List.Find(p => p.営業部コード == gBumonCodes[i] && p.実績日 == date);
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes[i] && p.実績日 == date);
 				if (null != result)
 				{
 					ws.Cell(row, 5 + j).SetValue(result.予算ES);
@@ -518,15 +654,17 @@ namespace ProspectProgressAutoAggregate
 		/// 「見込進捗_詳細」
 		/// </summary>
 		/// <param name="wb">workbook</param>
-		private static void 見込進捗詳細(XLWorkbook wb)
+		/// <param name="period">決算期</param>
+		/// <param name="term">決算期間</param>
+		private static void 見込進捗詳細(XLWorkbook wb, int period, Span term)
 		{
 			IXLWorksheet ws = wb.Worksheet("見込進捗_詳細");
-			Date start = Term.Start;
+			Date start = term.Start;
 
 			// 上期８月～来期８月
 			for (int i = 0, j = 6; i < 13; i++, j += 4)
 			{
-				見込進捗詳細_実績値設定(ws, start.ToYearMonth(), j);
+				見込進捗詳細_実績値設定(ws, period, start.ToYearMonth(), j);
 				start = start.PlusMonths(1);
 			}
 			// 更新日
@@ -537,46 +675,59 @@ namespace ProspectProgressAutoAggregate
 		/// 「見込進捗_詳細」実績値設定
 		/// </summary>
 		/// <param name="ws">worksheet</param>
+		/// <param name="period">決算期</param>
 		/// <param name="ym">該当月</param>
 		/// <param name="col">カラム</param>
-		private static void 見込進捗詳細_実績値設定(IXLWorksheet ws, YearMonth ym, int col)
+		private static void 見込進捗詳細_実績値設定(IXLWorksheet ws, int period, YearMonth ym, int col)
 		{
 			string[] bumon1 = { "081", "082", "083", "086", "087", "085" };					// 東日本営業部、首都圏営業部、関東営業部、中部営業部、関西営業部、西日本営業部
 			string[] bumon2 = { "075", "081", "082", "083", "086", "087", "085" };          // ヘルスケア営業部、東日本営業部、首都圏営業部、関東営業部、中部営業部、関西営業部、西日本営業部
 			string[] bumon3 = { "081", "082", "083", "086", "087", "085", "011" };			// 東日本営業部、首都圏営業部、関東営業部、中部営業部、関西営業部、西日本営業部、営業管理部
 
-			// 期の取得
-			int period = GetPeriod();
-
-			List<売上予想> result = 売上予想List.FindAll(p => p.集計月 == ym);
+			List<売上予想> result = 売上予想_List.FindAll(p => p.集計月 == ym);
 
 			// palette売上
 			// Ver1.01 新設の商品区分2(0030) paletteおまとめをpalette売上に含める(2021/09/06 勝呂)
 			List<売上予想> pca = result.FindAll(p => p.商品区分コード == "28" || p.商品区分コード == "30");
-			YearMonth nextYM = BootDate.PlusMonths(1).ToYearMonth();
-			if (ym == nextYM)
+			if (gCurrentPeriod == period)
 			{
-				// 翌月
-				for (int i = 0, j = ROW_palette売上; i < bumon1.Length; i++, j++)
+				// カレント決算期
+				YearMonth nextYM = Date.Today.PlusMonths(1).ToYearMonth();
+				if (ym == nextYM)
 				{
-					int price = 0;
-					List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon1[i]);
-					if (null != sale)
+					// 翌月
+					for (int i = 0, j = ROW_palette売上; i < bumon1.Length; i++, j++)
 					{
-						price = sale.Sum(p => p.金額);
+						int price = 0;
+						List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon1[i]);
+						if (null != sale)
+						{
+							price = sale.Sum(p => p.金額);
+						}
+						// 翌月分のpalette売上分には、まとめ分が含まれていないので、「売上進捗-まとめ」の金額を加算する
+						List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes[i] && p.売上月 == nextYM.ToString());
+						if (null != matome)
+						{
+							price += matome.Sum(p => p.金額);
+						}
+						ws.Cell(j, col).SetValue(To金額千円単位(price));
 					}
-					// 翌月分のpalette売上分には、まとめ分が含まれていないので、「予測連絡用-まとめ」の金額を加算する
-					List<予測連絡用まとめ> matome = 予測連絡用_まとめList.FindAll(p => p.営業部コード == gBumonCodes[i] && p.売上月 == nextYM.ToString());
-					if (null != matome)
+				}
+				else
+				{
+					// 翌月以外
+					for (int i = 0, j = ROW_palette売上; i < bumon1.Length; i++, j++)
 					{
-						price += matome.Sum(p => p.金額);
+						List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon1[i]);
+						if (null != sale)
+						{
+							ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.金額)));
+						}
 					}
-					ws.Cell(j, col).SetValue(To金額千円単位(price));
 				}
 			}
 			else
 			{
-				// 翌月以外
 				for (int i = 0, j = ROW_palette売上; i < bumon1.Length; i++, j++)
 				{
 					List<売上予想> sale = pca.FindAll(p => p.部門コード == bumon1[i]);
@@ -638,10 +789,10 @@ namespace ProspectProgressAutoAggregate
 			}
 			// ソフト保守
 			// ソフト保守はES売上予想Listから金額を取得
-			List<ES売上予想> soft = ES売上予想List.FindAll(p => p.計上月 == ym.ToString());
+			List<売上予想ES> soft = 売上予想ES_List.FindAll(p => p.計上月 == ym.ToString());
 			for (int i = 0, j = ROW_ソフト保守; i < bumon1.Length; i++, j++)
 			{
-				List<ES売上予想> sale = soft.FindAll(p => p.部門コード == bumon1[i]);
+				List<売上予想ES> sale = soft.FindAll(p => p.部門コード == bumon1[i]);
 				if (null != sale)
 				{
 					ws.Cell(j, col).SetValue(To金額千円単位(sale.Sum(p => p.売上金額)));

@@ -119,9 +119,9 @@
 			this.label5.Location = new System.Drawing.Point(21, 17);
 			this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(74, 20);
+			this.label5.Size = new System.Drawing.Size(48, 20);
 			this.label5.TabIndex = 0;
-			this.label5.Text = "保守終了月";
+			this.label5.Text = "実行月";
 			// 
 			// textBoxPcaVer
 			// 

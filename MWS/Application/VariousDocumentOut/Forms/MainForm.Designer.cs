@@ -100,7 +100,6 @@ namespace VariousDocumentOut.Forms
 			this.radioButtonFaxOrderSheet.TabIndex = 17;
 			this.radioButtonFaxOrderSheet.Text = "消耗品FAXオーダーシート";
 			this.radioButtonFaxOrderSheet.UseVisualStyleBackColor = true;
-			this.radioButtonFaxOrderSheet.Visible = false;
 			this.radioButtonFaxOrderSheet.CheckedChanged += new System.EventHandler(this.radioButtonFaxOrderSheet_CheckedChanged);
 			// 
 			// radioButton作業報告書

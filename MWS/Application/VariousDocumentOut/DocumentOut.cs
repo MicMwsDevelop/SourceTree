@@ -7,14 +7,15 @@
 // 
 // Ver1.00(2021/04/22):新規作成
 // Ver1.02(2021/09/01):Microsoft365利用申込書のFAX番号を本社から消耗品受注センターに変更
-// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
+// Ver1.03(2021/09/28):5 オンライン請求届出 電子証明書発行等依頼内訳に対応
+// Ver1.05(2021/11/12):消耗品FAXオーダーシートの新規追加
 //
 using ClosedXML.Excel;
-using Microsoft.Office.Core;
 using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.BaseFactory.Junp.View;
 using CommonLib.Common;
 using CommonLib.DB.SqlServer.Junp;
+using Microsoft.Office.Core;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -120,6 +121,7 @@ namespace VariousDocumentOut
 			/// <summary>
 			/// 消耗品FAXオーダーシート
 			/// </summary>
+			/// Ver1.05(2021/11/12):消耗品FAXオーダーシートの新規追加
 			FaxOrderSheet,
 		}
 
@@ -183,9 +185,9 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// EXCEL出力 - 1 MWS IDパスワード
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutMwsIDPassword(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutMwsIDPassword(DocumentCommon common, string pathname)
 		{
 			Excel.Application xlApp = null;
 			Excel.Workbooks xlBooks = null;
@@ -195,7 +197,7 @@ namespace VariousDocumentOut
 			Excel.Shapes xlShapes = null;
 			try
 			{
-				xlApp = new Excel.Application();
+				xlApp = new Microsoft.Office.Interop.Excel.Application();
 				xlBooks = xlApp.Workbooks;
 				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheets = xlBook.Worksheets;
@@ -270,15 +272,17 @@ namespace VariousDocumentOut
 					xlApp.Quit();
 					Marshal.ReleaseComObject(xlApp);
 				}
+				// ガベージコレクションを直ちに強制実行する
+				GC.Collect();
 			}
 		}
 
 		/// <summary>
 		/// EXCEL出力 - 2 FAX送付状
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutFaxLetter(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutFaxLetter(DocumentCommon common, string pathname)
 		{
 			Excel.Application xlApp = null;
 			Excel.Workbooks xlBooks = null;
@@ -288,7 +292,7 @@ namespace VariousDocumentOut
 			Excel.Shapes xlShapes = null;
 			try
 			{
-				xlApp = new Excel.Application();
+				xlApp = new Microsoft.Office.Interop.Excel.Application();
 				xlBooks = xlApp.Workbooks;
 				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheets = xlBook.Worksheets;
@@ -354,15 +358,17 @@ namespace VariousDocumentOut
 					xlApp.Quit();
 					Marshal.ReleaseComObject(xlApp);
 				}
+				// ガベージコレクションを直ちに強制実行する
+				GC.Collect();
 			}
 		}
 
 		/// <summary>
 		/// EXCEL出力 - 3 書類送付状
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutDocumentLetter(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutDocumentLetter(DocumentCommon common, string pathname)
 		{
 			Excel.Application xlApp = null;
 			Excel.Workbooks xlBooks = null;
@@ -372,7 +378,7 @@ namespace VariousDocumentOut
 			Excel.Shapes xlShapes = null;
 			try
 			{
-				xlApp = new Excel.Application();
+				xlApp = new Microsoft.Office.Interop.Excel.Application();
 				xlBooks = xlApp.Workbooks;
 				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheets = xlBook.Worksheets;
@@ -438,15 +444,17 @@ namespace VariousDocumentOut
 					xlApp.Quit();
 					Marshal.ReleaseComObject(xlApp);
 				}
+				// ガベージコレクションを直ちに強制実行する
+				GC.Collect();
 			}
 		}
 
 		/// <summary>
 		/// EXCEL出力 - 4 光ディスク請求届出
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutLightDisk(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutLightDisk(DocumentCommon common, string pathname)
 		{
 			Excel.Application xlApp = null;
 			Excel.Workbooks xlBooks = null;
@@ -462,7 +470,7 @@ namespace VariousDocumentOut
 			Excel.Shapes xlShapes4 = null;
 			try
 			{
-				xlApp = new Excel.Application();
+				xlApp = new Microsoft.Office.Interop.Excel.Application();
 				xlBooks = xlApp.Workbooks;
 				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheets = xlBook.Worksheets;
@@ -687,8 +695,6 @@ namespace VariousDocumentOut
 						}
 					}
 				}
-				// [光ディスク請求届出-社保]を選択状態
-				xlSheet1.Select();
 			}
 			catch (Exception e)
 			{
@@ -730,65 +736,90 @@ namespace VariousDocumentOut
 					xlApp.Quit();
 					Marshal.ReleaseComObject(xlApp);
 				}
+				// ガベージコレクションを直ちに強制実行する
+				GC.Collect();
 			}
 		}
 
 		/// <summary>
 		/// EXCEL出力 - 5 オンライン請求届出
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
+		/// <param name="xlsPathname">Excelファイルパス名</param>
+		/// <param name="orgPathname">Excelファイルパス名(org)</param>
 		public static void ExcelOutOnline(DocumentCommon common, string xlsPathname, string orgPathname)
 		{
-			// 電子証明書発行等依頼書
 			try
 			{
 				using (XLWorkbook wb = new XLWorkbook(xlsPathname, XLEventTracking.Disabled))
 				{
 					wb.Worksheet("オンライン請求届出").Delete();
 
-					IXLWorksheet ws = wb.Worksheet("電子証明書発行等依頼書");
+					// 電子証明書発行等依頼書
+					IXLWorksheet ws1 = wb.Worksheet("電子証明書発行等依頼書");
 
 					// 基金支部名
-					ws.Cell(6, 2).SetValue(common.Customer.支部名);
+					ws1.Cell(6, 2).SetValue(common.Customer.支部名);
 
 					// 都道府県
-					ws.Cell(11, 38).SetValue(common.Customer.県番号.Substring(0, 1));
-					ws.Cell(11, 42).SetValue(common.Customer.県番号.Substring(1, 1));
+					ws1.Cell(11, 38).SetValue(common.Customer.県番号.Substring(0, 1));
+					ws1.Cell(11, 42).SetValue(common.Customer.県番号.Substring(1, 1));
 
 					// 機関コード
 					string clinicCode2 = common.Customer.NumericClinicCode;
 					if (7 == clinicCode2.Length)
 					{
-						ws.Cell(11, 50).SetValue(clinicCode2.Substring(0, 1));
-						ws.Cell(11, 54).SetValue(clinicCode2.Substring(1, 1));
-						ws.Cell(11, 58).SetValue(clinicCode2.Substring(2, 1));
-						ws.Cell(11, 62).SetValue(clinicCode2.Substring(3, 1));
-						ws.Cell(11, 66).SetValue(clinicCode2.Substring(4, 1));
-						ws.Cell(11, 70).SetValue(clinicCode2.Substring(5, 1));
-						ws.Cell(11, 74).SetValue(clinicCode2.Substring(6, 1));
+						ws1.Cell(11, 50).SetValue(clinicCode2.Substring(0, 1));
+						ws1.Cell(11, 54).SetValue(clinicCode2.Substring(1, 1));
+						ws1.Cell(11, 58).SetValue(clinicCode2.Substring(2, 1));
+						ws1.Cell(11, 62).SetValue(clinicCode2.Substring(3, 1));
+						ws1.Cell(11, 66).SetValue(clinicCode2.Substring(4, 1));
+						ws1.Cell(11, 70).SetValue(clinicCode2.Substring(5, 1));
+						ws1.Cell(11, 74).SetValue(clinicCode2.Substring(6, 1));
 					}
-					ws.Cell(13, 19).SetValue(common.Customer.フリガナ);
-					ws.Cell(14, 19).SetValue(common.Customer.顧客名);
+					ws1.Cell(13, 19).SetValue(common.Customer.フリガナ);
+					ws1.Cell(14, 19).SetValue(common.Customer.顧客名);
 
 					// 郵便番号
 					string zipcode = common.Customer.NumericZipcode;
 					if (7 == zipcode.Length)
 					{
-						ws.Cell(16, 14).SetValue(zipcode.Substring(0, 1));
-						ws.Cell(16, 16).SetValue(zipcode.Substring(1, 1));
-						ws.Cell(16, 18).SetValue(zipcode.Substring(2, 1));
-						ws.Cell(16, 22).SetValue(zipcode.Substring(3, 1));
-						ws.Cell(16, 24).SetValue(zipcode.Substring(4, 1));
-						ws.Cell(16, 26).SetValue(zipcode.Substring(5, 1));
-						ws.Cell(16, 28).SetValue(zipcode.Substring(6, 1));
+						ws1.Cell(16, 14).SetValue(zipcode.Substring(0, 1));
+						ws1.Cell(16, 16).SetValue(zipcode.Substring(1, 1));
+						ws1.Cell(16, 18).SetValue(zipcode.Substring(2, 1));
+						ws1.Cell(16, 22).SetValue(zipcode.Substring(3, 1));
+						ws1.Cell(16, 24).SetValue(zipcode.Substring(4, 1));
+						ws1.Cell(16, 26).SetValue(zipcode.Substring(5, 1));
+						ws1.Cell(16, 28).SetValue(zipcode.Substring(6, 1));
 					}
-					ws.Cell(17, 15).SetValue(common.Customer.住所);
-					ws.Cell(18, 13).SetValue(common.Customer.電話番号);
-					ws.Cell(18, 51).SetValue(common.Customer.メールアドレス);
+					ws1.Cell(17, 15).SetValue(common.Customer.住所);
+					ws1.Cell(18, 13).SetValue(common.Customer.電話番号);
+					ws1.Cell(18, 51).SetValue(common.Customer.メールアドレス);
+
+					// 電子証明書発行等依頼内訳
+					// Ver1.03(2021/09/28):5 オンライン請求届出 電子証明書発行等依頼内訳に対応
+					IXLWorksheet ws2 = wb.Worksheet("電子証明書発行等依頼内訳");
+
+					// 都道府県
+					ws2.Cell(9, 73).SetValue(common.Customer.県番号.Substring(0, 1));
+					ws2.Cell(9, 80).SetValue(common.Customer.県番号.Substring(1, 1));
+
+					// 機関コード
+					if (7 == clinicCode2.Length)
+					{
+						ws2.Cell(9, 96).SetValue(clinicCode2.Substring(0, 1));
+						ws2.Cell(9, 103).SetValue(clinicCode2.Substring(1, 1));
+						ws2.Cell(9, 110).SetValue(clinicCode2.Substring(2, 1));
+						ws2.Cell(9, 117).SetValue(clinicCode2.Substring(3, 1));
+						ws2.Cell(9, 124).SetValue(clinicCode2.Substring(4, 1));
+						ws2.Cell(9, 131).SetValue(clinicCode2.Substring(5, 1));
+						ws2.Cell(9, 138).SetValue(clinicCode2.Substring(6, 1));
+					}
+					// 機関名称
+					ws2.Cell(12, 24).SetValue(common.Customer.顧客名);
 
 					// Excelファイルの保存
-					wb.SaveAs(xlsPathname);
+					wb.Save();
 				}
 			}
 			catch (Exception e)
@@ -803,24 +834,40 @@ namespace VariousDocumentOut
 			Excel.Workbook xlBookOrg = null;
 			Excel.Worksheet xlSheetOrg1 = null;
 			Excel.Worksheet xlSheet2 = null;
+			Excel.Worksheet xlSheet3 = null;
 			Excel.Worksheet xlSheet4 = null;
 			Excel.Shapes xlShapes1 = null;
 			Excel.Shapes xlShapes2 = null;
+			Excel.Shapes xlShapes3 = null;
 			Excel.Shapes xlShapes4 = null;
 			try
 			{
-				xlApp = new Excel.Application();
+				xlApp = new Microsoft.Office.Interop.Excel.Application();
 				xlBooks = xlApp.Workbooks;
 				xlBook = xlBooks.Open(xlsPathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheets = xlBook.Worksheets;
-				xlSheet1 = xlSheets["電子証明書発行等依頼書"] as Excel.Worksheet;
+				xlSheet3 = xlSheets["電子証明書発行等依頼書"] as Excel.Worksheet;
+				xlShapes3 = xlSheet3.Shapes;
+
+				//「電子証明書発行等依頼書」新規発行丸付け
+				Microsoft.Office.Interop.Excel.Shape oval3 = xlShapes3.AddShape(MsoAutoShapeType.msoShapeOval, 215, 122, 75, 20);
+				oval3.Fill.Visible = MsoTriState.msoFalse;
+				oval3.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
+
+				//「電子証明書発行等依頼内訳」新規発行丸付け
+				xlSheet4 = xlSheets["電子証明書発行等依頼内訳"] as Excel.Worksheet;
+				xlShapes4 = xlSheet4.Shapes;
+				Microsoft.Office.Interop.Excel.Shape oval4 = xlShapes4.AddShape(MsoAutoShapeType.msoShapeOval, 125, 95, 70, 20);
+				oval4.Fill.Visible = MsoTriState.msoFalse;
+				oval4.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
 
 				xlBookOrg = xlBooks.Open(orgPathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheetOrg1 = xlBookOrg.Worksheets["オンライン請求届出"] as Excel.Worksheet;
-				xlSheetOrg1.Copy(Type.Missing, xlSheet1);
+				xlSheetOrg1.Copy(xlSheet3, Type.Missing);   // 「電子証明書発行等依頼書」の前に「オンライン請求届出」をコピー
 
 				xlSheet1 = xlSheets["オンライン請求届出"] as Excel.Worksheet;
 				xlShapes1 = xlSheet1.Shapes;
+
 				string clinicCode = common.Customer.NumericClinicCode;
 				string zipCode = common.Customer.NumericZipcode;
 
@@ -908,7 +955,7 @@ namespace VariousDocumentOut
 					}
 				}
 				// オンライン請求届出-国保用
-				xlSheet1.Copy(Type.Missing, xlSheet1);
+				xlSheet1.Copy(Type.Missing, xlSheet1);  //「オンライン請求届出」の後に同シートをコピー
 				xlSheet2 = xlSheets["オンライン請求届出 (2)"] as Excel.Worksheet;
 				xlSheet1.Name = "オンライン請求届出-社保";
 				xlSheet2.Name = "オンライン請求届出-国保";
@@ -929,15 +976,6 @@ namespace VariousDocumentOut
 						}
 					}
 				}
-				// 電子証明書発行等依頼書
-				xlSheet4 = xlSheets["電子証明書発行等依頼書"] as Excel.Worksheet;
-				xlShapes4 = xlSheet4.Shapes;
-				Microsoft.Office.Interop.Excel.Shape oval = xlShapes4.AddShape(MsoAutoShapeType.msoShapeOval, 215, 122, 75, 20);
-				oval.Fill.Visible = MsoTriState.msoFalse;
-				oval.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
-
-				// [電子証明書発行等依頼書]を選択状態
-				xlSheet4.Select();
 			}
 			catch (Exception e)
 			{
@@ -956,6 +994,10 @@ namespace VariousDocumentOut
 				if (null != xlSheet2)
 				{
 					Marshal.ReleaseComObject(xlSheet2);
+				}
+				if (null != xlSheet3)
+				{
+					Marshal.ReleaseComObject(xlSheet3);
 				}
 				if (null != xlSheet4)
 				{
@@ -984,15 +1026,17 @@ namespace VariousDocumentOut
 					xlApp.Quit();
 					Marshal.ReleaseComObject(xlApp);
 				}
+				// ガベージコレクションを直ちに強制実行する
+				GC.Collect();
 			}
 		}
 
 		/// <summary>
 		/// EXCEL出力 - 6 取引条件確認書
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutTransaction(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutTransaction(DocumentCommon common, string pathname)
 		{
 			Excel.Application xlApp = null;
 			Excel.Workbooks xlBooks = null;
@@ -1003,7 +1047,7 @@ namespace VariousDocumentOut
 			Excel.Range xlCells = null;
 			try
 			{
-				xlApp = new Excel.Application();
+				xlApp = new Microsoft.Office.Interop.Excel.Application();
 				xlBooks = xlApp.Workbooks;
 				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheets = xlBook.Worksheets;
@@ -1081,15 +1125,17 @@ namespace VariousDocumentOut
 					xlApp.Quit();
 					Marshal.ReleaseComObject(xlApp);
 				}
+				// ガベージコレクションを直ちに強制実行する
+				GC.Collect();
 			}
 		}
 
 		/// <summary>
 		/// EXCEL出力 - 7 登録データ確認カード
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutConfirmCard(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutConfirmCard(DocumentCommon common, string pathname)
 		{
 			try
 			{
@@ -1144,7 +1190,7 @@ namespace VariousDocumentOut
 					ws.Cell(39, 7).SetValue(common.運用サポート情報);
 
 					// Excelファイルの保存
-					wb.SaveAs(pathname);
+					wb.Save();
 				}
 			}
 			catch (Exception e)
@@ -1156,9 +1202,9 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// EXCEL出力 - 8 Microsoft365利用申請書
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutMicrosoft365(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutMicrosoft365(DocumentCommon common, string pathname)
 		{
 			try
 			{
@@ -1185,7 +1231,7 @@ namespace VariousDocumentOut
 					ws.Cell(67, 21).SetValue(Program.gSettings.HeadOffice.Url);
 
 					// Excelファイルの保存
-					wb.SaveAs(pathname);
+					wb.Save();
 				}
 			}
 			catch (Exception e)
@@ -1197,9 +1243,9 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// EXCEL出力 - 9 請求先変更届
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutSeikyuChange(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutSeikyuChange(DocumentCommon common, string pathname)
 		{
 			Excel.Application xlApp = null;
 			Excel.Workbooks xlBooks = null;
@@ -1210,7 +1256,7 @@ namespace VariousDocumentOut
 			Excel.Range xlCells = null;
 			try
 			{
-				xlApp = new Excel.Application();
+				xlApp = new Microsoft.Office.Interop.Excel.Application();
 				xlBooks = xlApp.Workbooks;
 				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheets = xlBook.Worksheets;
@@ -1290,15 +1336,17 @@ namespace VariousDocumentOut
 					xlApp.Quit();
 					Marshal.ReleaseComObject(xlApp);
 				}
+				// ガベージコレクションを直ちに強制実行する
+				GC.Collect();
 			}
 		}
 
 		/// <summary>
 		/// EXCEL出力 - 10 終了届
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutUserFinished(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutUserFinished(DocumentCommon common, string pathname)
 		{
 			Excel.Application xlApp = null;
 			Excel.Workbooks xlBooks = null;
@@ -1309,7 +1357,7 @@ namespace VariousDocumentOut
 			Excel.Range xlCells = null;
 			try
 			{
-				xlApp = new Excel.Application();
+				xlApp = new Microsoft.Office.Interop.Excel.Application();
 				xlBooks = xlApp.Workbooks;
 				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheets = xlBook.Worksheets;
@@ -1392,15 +1440,17 @@ namespace VariousDocumentOut
 					xlApp.Quit();
 					Marshal.ReleaseComObject(xlApp);
 				}
+				// ガベージコレクションを直ちに強制実行する
+				GC.Collect();
 			}
 		}
 
 		/// <summary>
 		/// EXCEL出力 - 11 変更届
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutUserChange(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutUserChange(DocumentCommon common, string pathname)
 		{
 			Excel.Application xlApp = null;
 			Excel.Workbooks xlBooks = null;
@@ -1411,7 +1461,7 @@ namespace VariousDocumentOut
 			Excel.Range xlCells = null;
 			try
 			{
-				xlApp = new Excel.Application();
+				xlApp = new Microsoft.Office.Interop.Excel.Application();
 				xlBooks = xlApp.Workbooks;
 				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheets = xlBook.Worksheets;
@@ -1494,15 +1544,17 @@ namespace VariousDocumentOut
 					xlApp.Quit();
 					Marshal.ReleaseComObject(xlApp);
 				}
+				// ガベージコレクションを直ちに強制実行する
+				GC.Collect();
 			}
 		}
 
 		/// <summary>
 		/// EXCEL出力 - 12-第一園芸注文書
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutFirstEngei(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutFirstEngei(DocumentCommon common, string pathname)
 		{
 			try
 			{
@@ -1545,7 +1597,7 @@ namespace VariousDocumentOut
 					ws2.Cell(40, 15).SetValue(Program.gSettings.HeadOffice.Fax);
 
 					// Excelファイルの保存
-					wb.SaveAs(pathname);
+					wb.Save();
 				}
 			}
 			catch (Exception e)
@@ -1557,9 +1609,9 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// EXCEL出力 - 13-納品補助作業依頼書
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutDelivery(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutDelivery(DocumentCommon common, string pathname)
 		{
 			try
 			{
@@ -1579,7 +1631,7 @@ namespace VariousDocumentOut
 					ws.Cell(15, 27).SetValue(common.Customer.電話番号);
 
 					// Excelファイルの保存
-					wb.SaveAs(pathname);
+					wb.Save();
 				}
 			}
 			catch (Exception e)
@@ -1591,9 +1643,9 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// EXCEL出力 - 14-2次キッティング依頼書
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutSecondKitting(string pathname, DocumentCommon common, string saleDepartment, tMih支店情報 branch)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutSecondKitting(DocumentCommon common, string pathname, string saleDepartment, tMih支店情報 branch)
 		{
 			try
 			{
@@ -1838,7 +1890,7 @@ namespace VariousDocumentOut
 					ws2.Cell(59, 3).SetValue("");
 
 					// Excelファイルの保存
-					wb.SaveAs(pathname);
+					wb.Save();
 				}
 			}
 			catch (Exception e)
@@ -1850,9 +1902,9 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// EXCEL出力 - 15 PC安心サポート加入申込書 or PC安心サポートPlus加入申込書
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutPcSupport(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutPcSupport(DocumentCommon common, string pathname)
 		{
 			try
 			{
@@ -1885,7 +1937,7 @@ namespace VariousDocumentOut
 					ws2.Cell(48, 12).SetValue(common.社名);
 
 					// Excelファイルの保存
-					wb.SaveAs(pathname);
+					wb.Save();
 				}
 			}
 			catch (Exception e)
@@ -1897,9 +1949,9 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// EXCEL出力 - 16 アプラス預金口座振替依頼書・自動払込利用申込書
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutAplus(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutAplus(DocumentCommon common, string pathname)
 		{
 			Excel.Application xlApp = null;
 			Excel.Workbooks xlBooks = null;
@@ -1909,7 +1961,7 @@ namespace VariousDocumentOut
 			Excel.Shapes xlShapes = null;
 			try
 			{
-				xlApp = new Excel.Application();
+				xlApp = new Microsoft.Office.Interop.Excel.Application();
 				xlBooks = xlApp.Workbooks;
 				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheets = xlBook.Worksheets;
@@ -1990,15 +2042,17 @@ namespace VariousDocumentOut
 					xlApp.Quit();
 					Marshal.ReleaseComObject(xlApp);
 				}
+				// ガベージコレクションを直ちに強制実行する
+				GC.Collect();
 			}
 		}
 
 		/// <summary>
 		/// EXCEL出力 - 17 作業報告書
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		public static void ExcelOutWorkReport(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		public static void ExcelOutWorkReport(DocumentCommon common, string pathname)
 		{
 			try
 			{
@@ -2011,7 +2065,7 @@ namespace VariousDocumentOut
 					ws.Cell(34, 3).SetValue(string.Format("TEL {0}", common.Customer.電話番号));
 
 					// Excelファイルの保存
-					wb.SaveAs(pathname);
+					wb.Save();
 				}
 			}
 			catch (Exception e)
@@ -2023,106 +2077,177 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// EXCEL出力 - 消耗品FAXオーダーシート
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="common">各種書類出力 共通情報</param>
-		/// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
-		public static void ExcelOutFaxOrderSheet(string pathname, DocumentCommon common)
+		/// <param name="pathname">Excelファイルパス名</param>
+		/// Ver1.05(2021/11/12):消耗品FAXオーダーシートの新規追加
+		public static void ExcelOutFaxOrderSheet(DocumentCommon common, string pathname)
 		{
 			try
 			{
 				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
 				{
 					IXLWorksheet ws = wb.Worksheet("消耗品FAXオーダーシート");
-					ws.Cell(1, 37).SetValue(Program.gSettings.HeadOffice.FaxExpendables);
-					ws.Cell(8, 10).SetValue(common.Customer.得意先No);
-					ws.Cell(9, 10).SetValue(common.Customer.顧客名);
-					ws.Cell(10, 10).SetValue(common.Customer.FAX番号);
+					ws.Cell(1, 36).SetValue(Program.gSettings.HeadOffice.FaxExpendables);
+					ws.Cell(9, 9).SetValue(common.Customer.得意先No);
+					ws.Cell(10, 9).SetValue(common.Customer.顧客名);
+					ws.Cell(11, 9).SetValue(common.Customer.FAX番号);
 
 					List<tMikユーザ> userList = JunpDatabaseAccess.Select_tMikユーザ(string.Format("fusCliMicID = {0}", common.Customer.顧客No), "", Program.gSettings.Connect.Junp.ConnectionString);
-					if (0 < userList.Count)
+					if (null != userList && 0 < userList.Count)
 					{
 						// 当日の消費税率
 						int taxRate = JunpDatabaseAccess.GetTaxRate(Date.Today, Program.gSettings.Connect.Junp.ConnectionString);
 
+						// オーダーリスト
 						List< FaxOrderSheetGoods> orderList = new List<FaxOrderSheetGoods>();
 
-						// カルテ用紙の取得
-						List<tMikOS明細印字> chartList = JunpDatabaseAccess.Select_tMikOS明細印字(string.Format("fmsコード種別 = '03' AND fmsコード = '{0}'", userList[0].fusカルテ用紙), "", Program.gSettings.Connect.Junp.ConnectionString);
-						if (0 < chartList.Count)
+						// 電子レセプト請求用CD-Rの取得
+						List<tMikOS明細印字> cdrList = JunpDatabaseAccess.Select_tMikOS明細印字(string.Format("fmsコード種別 = '10' AND fmsコード = '{0}'", userList[0].fus連単), "", Program.gSettings.Connect.Junp.ConnectionString);
+						if (null != cdrList && 0 < cdrList.Count)
 						{
-							string goodsCodes = chartList[0].GetGoodsCodes();
-							if (0 < goodsCodes.Length)
+							for (int i = 0; i < 8; i++)
 							{
-								List<vMicPCA商品マスタ> pcaList = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goodsCodes, "sms_scd ASC", Program.gSettings.Connect.Junp.ConnectionString);
-								if (0 < pcaList.Count)
+								string code = string.Empty;
+								switch (i)
+								{
+									case 0: code = cdrList[0].fms商品コード1; break;
+									case 1: code = cdrList[0].fms商品コード2; break;
+									case 2: code = cdrList[0].fms商品コード3; break;
+									case 3: code = cdrList[0].fms商品コード4; break;
+									case 4: code = cdrList[0].fms商品コード5; break;
+									case 5: code = cdrList[0].fms商品コード6; break;
+									case 6: code = cdrList[0].fms商品コード7; break;
+									case 7: code = cdrList[0].fms商品コード8; break;
+								}
+								if (0 == code.Length)
+								{
+									break;
+								}
+								vMicPCA商品マスタ pca = JunpDatabaseAccess.Select_vMicPCA商品マスタ(code, Program.gSettings.Connect.Junp.ConnectionString);
+								if (null != pca)
 								{
 									FaxOrderSheetGoods order = new FaxOrderSheetGoods();
-									foreach (vMicPCA商品マスタ pca in pcaList)
-									{
-										order.GoodsCode = pca.sms_scd;
-										order.GoodsName = pca.sms_mei;
-										order.Price = pca.sms_hyo;
-										order.Unit = chartList[0].fms発注単位;
-										orderList.Add(order);
-									}
+									order.GoodsCode = pca.sms_scd;
+									order.GoodsName = pca.sms_mei;
+									order.Price = pca.sms_hyo;
+									order.Unit = cdrList[0].fms発注単位;
+									orderList.Add(order);
+								}
+							}
+						}
+						// カルテ用紙の取得
+						List<tMikOS明細印字> chartList = JunpDatabaseAccess.Select_tMikOS明細印字(string.Format("fmsコード種別 = '03' AND fmsコード = '{0}'", userList[0].fusカルテ用紙), "", Program.gSettings.Connect.Junp.ConnectionString);
+						if (null != chartList && 0 < chartList.Count)
+						{
+							for (int i = 0; i < 8; i++)
+							{
+								string code = string.Empty;
+								switch (i)
+								{
+									case 0: code = chartList[0].fms商品コード1; break;
+									case 1: code = chartList[0].fms商品コード2; break;
+									case 2: code = chartList[0].fms商品コード3; break;
+									case 3: code = chartList[0].fms商品コード4; break;
+									case 4: code = chartList[0].fms商品コード5; break;
+									case 5: code = chartList[0].fms商品コード6; break;
+									case 6: code = chartList[0].fms商品コード7; break;
+									case 7: code = chartList[0].fms商品コード8; break;
+								}
+								if (0 == code.Length)
+								{
+									break;
+								}
+								vMicPCA商品マスタ pca = JunpDatabaseAccess.Select_vMicPCA商品マスタ(code, Program.gSettings.Connect.Junp.ConnectionString);
+								if (null != pca)
+								{
+									FaxOrderSheetGoods order = new FaxOrderSheetGoods();
+									order.GoodsCode = pca.sms_scd;
+									order.GoodsName = pca.sms_mei;
+									order.Price = pca.sms_hyo;
+									order.Unit = chartList[0].fms発注単位;
+									orderList.Add(order);
 								}
 							}
 						}
 						// 領収証用紙の取得
 						List<tMikOS明細印字> receiptList = JunpDatabaseAccess.Select_tMikOS明細印字(string.Format("fmsコード種別 = '05' AND fmsコード = '{0}'", userList[0].fus領収書用紙), "", Program.gSettings.Connect.Junp.ConnectionString);
-						if (0 < receiptList.Count)
+						if (null != receiptList && 0 < receiptList.Count)
 						{
-							string goodsCodes = receiptList[0].GetGoodsCodes();
-							if (0 < goodsCodes.Length)
+							for (int i = 0; i < 8; i++)
 							{
-								List<vMicPCA商品マスタ> pcaList = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goodsCodes, "sms_scd ASC", Program.gSettings.Connect.Junp.ConnectionString);
-								if (0 < pcaList.Count)
+								string code = string.Empty;
+								switch (i)
+								{
+									case 0: code = receiptList[0].fms商品コード1; break;
+									case 1: code = receiptList[0].fms商品コード2; break;
+									case 2: code = receiptList[0].fms商品コード3; break;
+									case 3: code = receiptList[0].fms商品コード4; break;
+									case 4: code = receiptList[0].fms商品コード5; break;
+									case 5: code = receiptList[0].fms商品コード6; break;
+									case 6: code = receiptList[0].fms商品コード7; break;
+									case 7: code = receiptList[0].fms商品コード8; break;
+								}
+								if (0 == code.Length)
+								{
+									break;
+								}
+								vMicPCA商品マスタ pca = JunpDatabaseAccess.Select_vMicPCA商品マスタ(code, Program.gSettings.Connect.Junp.ConnectionString);
+								if (null != pca)
 								{
 									FaxOrderSheetGoods order = new FaxOrderSheetGoods();
-									foreach (vMicPCA商品マスタ pca in pcaList)
-									{
-										order.GoodsCode = pca.sms_scd;
-										order.GoodsName = pca.sms_mei;
-										order.Price = pca.sms_hyo;
-										order.Unit = receiptList[0].fms発注単位;
-										orderList.Add(order);
-									}
+									order.GoodsCode = pca.sms_scd;
+									order.GoodsName = pca.sms_mei;
+									order.Price = pca.sms_hyo;
+									order.Unit = receiptList[0].fms発注単位;
+									orderList.Add(order);
 								}
 							}
 						}
 						// トナータイプの取得
 						List<tMikOS明細印字> tonerList = JunpDatabaseAccess.Select_tMikOS明細印字(string.Format("fmsコード種別 = '05' AND fmsコード = '{0}'", userList[0].fus領収書用紙2), "", Program.gSettings.Connect.Junp.ConnectionString);
-						if (0 < tonerList.Count)
+						if (null != tonerList && 0 < tonerList.Count)
 						{
-							string goodsCodes = tonerList[0].GetGoodsCodes();
-							if (0 < goodsCodes.Length)
+							for (int i = 0; i < 8; i++)
 							{
-								List<vMicPCA商品マスタ> pcaList = JunpDatabaseAccess.Select_vMicPCA商品マスタ(goodsCodes, "sms_scd ASC", Program.gSettings.Connect.Junp.ConnectionString);
-								if (0 < pcaList.Count)
+								string code = string.Empty;
+								switch (i)
+								{
+									case 0: code = tonerList[0].fms商品コード1; break;
+									case 1: code = tonerList[0].fms商品コード2; break;
+									case 2: code = tonerList[0].fms商品コード3; break;
+									case 3: code = tonerList[0].fms商品コード4; break;
+									case 4: code = tonerList[0].fms商品コード5; break;
+									case 5: code = tonerList[0].fms商品コード6; break;
+									case 6: code = tonerList[0].fms商品コード7; break;
+									case 7: code = tonerList[0].fms商品コード8; break;
+								}
+								if (0 == code.Length)
+								{
+									break;
+								}
+								vMicPCA商品マスタ pca = JunpDatabaseAccess.Select_vMicPCA商品マスタ(code, Program.gSettings.Connect.Junp.ConnectionString);
+								if (null != pca)
 								{
 									FaxOrderSheetGoods order = new FaxOrderSheetGoods();
-									foreach (vMicPCA商品マスタ pca in pcaList)
-									{
-										order.GoodsCode = pca.sms_scd;
-										order.GoodsName = pca.sms_mei;
-										order.Price = pca.sms_hyo;
-										order.Unit = tonerList[0].fms発注単位;
-										orderList.Add(order);
-									}
+									order.GoodsCode = pca.sms_scd;
+									order.GoodsName = pca.sms_mei;
+									order.Price = pca.sms_hyo;
+									order.Unit = tonerList[0].fms発注単位;
+									orderList.Add(order);
 								}
 							}
 						}
 						// 注文欄の設定
 						for (int i = 0; i < orderList.Count; i++)
 						{
-							ws.Cell(15 + i, 2).SetValue(orderList[i].GoodsCode);
-							ws.Cell(15 + i, 7).SetValue(orderList[i].GoodsName);
-							ws.Cell(15 + i, 26).SetValue(string.Format(@"\{0}―", StringUtil.CommaEdit(orderList[i].税込単価(taxRate))));
-							ws.Cell(15 + i, 36).SetValue(orderList[i].Unit);
+							ws.Cell(16 + i, 1).SetValue(orderList[i].GoodsCode);
+							ws.Cell(16 + i, 7).SetValue(orderList[i].GoodsName);
+							ws.Cell(16 + i, 27).SetValue(string.Format(@"\{0}―", StringUtil.CommaEdit(orderList[i].税込単価(taxRate))));
+							ws.Cell(16 + i, 35).SetValue(orderList[i].Unit);
 						}
 					}
 					// Excelファイルの保存
-					wb.SaveAs(pathname);
+					wb.Save();
 				}
 			}
 			catch (Exception e)

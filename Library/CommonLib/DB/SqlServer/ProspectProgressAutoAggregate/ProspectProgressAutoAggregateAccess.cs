@@ -33,41 +33,41 @@ namespace CommonLib.DB.SqlServer.ProspectProgressAutoAggregate
 		}
 
 		/// <summary>
-		/// ES売上予想の取得
+		/// 売上予想ESの取得
 		/// </summary>
 		/// <param name="start">計上開始月</param>
 		/// <param name="end">計上終了月</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>売上予想リスト</returns>
-		public static List<ES売上予想> Select_ES売上予想(Date start, Date end, string connectStr)
+		public static List<売上予想ES> Select_売上予想ES(Date start, Date end, string connectStr)
 		{
-			DataTable dt = ProspectProgressAutoAggregateGetIO.Select_ES売上予想(start, end, connectStr);
-			return ES売上予想.DataTableToList(dt);
+			DataTable dt = ProspectProgressAutoAggregateGetIO.Select_売上予想ES(start, end, connectStr);
+			return 売上予想ES.DataTableToList(dt);
 		}
 
 		/// <summary>
-		/// 予測連絡用ESの取得
+		/// 売上進捗ESの取得
 		/// </summary>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>売上予想リスト</returns>
-		public static List<予測連絡用ES> Select_予測連絡用ES(string connectStr)
+		public static List<売上進捗ES> Select_売上進捗ES(string connectStr)
 		{
-			DataTable dt = ProspectProgressAutoAggregateGetIO.Select_予測連絡用ES(connectStr);
-			return 予測連絡用ES.DataTableToList(dt);
+			DataTable dt = ProspectProgressAutoAggregateGetIO.Select_売上進捗ES(connectStr);
+			return 売上進捗ES.DataTableToList(dt);
 		}
 
 		/// <summary>
-		/// 予測連絡用まとめの取得
+		/// 売上進捗まとめの取得
 		/// </summary>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>売上予想リスト</returns>
-		public static List<予測連絡用まとめ> Select_予測連絡用まとめ(string connectStr)
+		public static List<売上進捗まとめ> Select_売上進捗まとめ(string connectStr)
 		{
-			DataTable dt = ProspectProgressAutoAggregateGetIO.Select_予測連絡用まとめ_WW(connectStr);
-			List<予測連絡用まとめ> wwList = 予測連絡用まとめ.DataTableToList(dt);
-			dt = ProspectProgressAutoAggregateGetIO.Select_予測連絡用まとめ_契約情報(connectStr);
-			List<予測連絡用まとめ> agreeList = 予測連絡用まとめ.DataTableToList(dt);
-			foreach (予測連絡用まとめ agree in agreeList)
+			DataTable dt = ProspectProgressAutoAggregateGetIO.Select_売上進捗まとめ_WW(connectStr);
+			List<売上進捗まとめ> wwList = 売上進捗まとめ.DataTableToList(dt);
+			dt = ProspectProgressAutoAggregateGetIO.Select_売上進捗まとめ_契約情報(connectStr);
+			List<売上進捗まとめ> agreeList = 売上進捗まとめ.DataTableToList(dt);
+			foreach (売上進捗まとめ agree in agreeList)
 			{
 				if (-1 == wwList.FindIndex(p => p.顧客No == agree.顧客No && p.課金開始日 == agree.課金開始日 && p.課金終了日 == agree.課金終了日))
 				{

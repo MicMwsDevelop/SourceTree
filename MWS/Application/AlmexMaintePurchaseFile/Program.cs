@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2021/01/20 勝呂)
+// Ver1.02 002189 アルメックス FIT-A 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月 削除の対応(2021/01/20 勝呂)
 //
 using AlmexMaintePurchaseFile.Forms;
 using AlmexMaintePurchaseFile.Mail;
@@ -33,7 +34,7 @@ namespace AlmexMaintePurchaseFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.00(2021/01/06)";
+		public const string VersionStr = "Ver1.02(2021/10/19)";
 
 		/// <summary>
 		/// 環境設定
@@ -41,9 +42,9 @@ namespace AlmexMaintePurchaseFile
 		public static AlmexMaintePurchaseFileSettings gSettings;
 
 		/// <summary>
-		/// 集計日
+		/// 実行日
 		/// </summary>
-		public static Date CollectDate;
+		public static Date BootDate;
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -57,10 +58,9 @@ namespace AlmexMaintePurchaseFile
 			gSettings = AlmexMaintePurchaseFileSettingsIF.GetSettings();
 
 #if DEBUG
-			CollectDate = new Date(2021, 10, 1);
+			BootDate = new Date(2021, 12, 1);
 #else
-			// 集計日を当月初日に設定
-			CollectDate = Date.Today.FirstDayOfTheMonth();
+			BootDate = Date.Today;
 #endif
 
 			string[] cmds = Environment.GetCommandLineArgs();
@@ -68,7 +68,7 @@ namespace AlmexMaintePurchaseFile
 			{
 				if ("AUTO" == cmds[1].ToUpper())
 				{
-					string msg = OutputCsvFile(CollectDate);
+					string msg = OutputCsvFile(BootDate);
 					AlmexMaintePurchaseFileSettingsIF.SetSettings(gSettings);
 					if (0 < msg.Length)
 					{
@@ -84,10 +84,9 @@ namespace AlmexMaintePurchaseFile
 		/// <summary>
 		/// アルメックス保守仕入データ.csv
 		/// </summary>
-		/// <param name="settings">出力ファイルパス名</param>
-		/// <param name="collectDate">集計日</param>
+		/// <param name="bootDate">実行日</param>
 		/// <returns>エラーメッセージ</returns>
-		public static string OutputCsvFile(Date collectDate)
+		public static string OutputCsvFile(Date bootDate)
 		{
 			string msg = string.Empty;
 			try
@@ -97,7 +96,10 @@ namespace AlmexMaintePurchaseFile
 				{
 					List<MakePurchaseData> stockList = new List<MakePurchaseData>();
 
-					List<vMicPCA売上明細> pcaList = AlmexMainteAccess.GetAlmexMainteEarningsList(gSettings.GetAlmexMainteGoods(), collectDate.ToYearMonth().ToSpan(), gSettings.Connect.Junp.ConnectionString);
+					// 売上日
+					Date saleDate = BootDate.FirstDayOfNextMonth();	// 翌月初日
+
+					List<vMicPCA売上明細> pcaList = AlmexMainteAccess.GetAlmexMainteEarningsList(gSettings.GetAlmexMainteGoods(), saleDate.ToYearMonth().ToSpan(), gSettings.Connect.Junp.ConnectionString);
 					if (0 < pcaList.Count)
 					{
 						// 商品マスタ
@@ -150,14 +152,13 @@ namespace AlmexMaintePurchaseFile
 										stockCode = list[0].sykd_mei.Replace("得意先No.", "").Trim();
 									}
 									List<tMik基本情報> basic = JunpDatabaseAccess.Select_tMik基本情報(string.Format("[fkj得意先情報] = '{0}'", stockCode), "", gSettings.Connect.Junp.ConnectionString);
-									whereStr = string.Format("faiCliMicID = {0} AND (faiアプリケーション名 = '{1}' OR faiアプリケーション名 = '{2}' OR faiアプリケーション名 = '{3}' OR faiアプリケーション名 = '{4}' OR faiアプリケーション名 = '{5}' OR faiアプリケーション名 = '{6}')"
+									whereStr = string.Format("faiCliMicID = {0} AND (faiアプリケーション名 = '{1}' OR faiアプリケーション名 = '{2}' OR faiアプリケーション名 = '{3}' OR faiアプリケーション名 = '{4}' OR faiアプリケーション名 = '{5}')"
 																		, basic[0].fkjCliMicID
 																		, tMikコードマスタ.fcmコード_AlmexMainteTex30_Cash
 																		, tMikコードマスタ.fcmコード_AlmexMainteTex30_Credit
 																		, tMikコードマスタ.fcmコード_AlmexMainteFitA_Cash
-																		, tMikコードマスタ.fcmコード_AlmexMainteFitA_QR
-																		, tMikコードマスタ.fcmコード_AlmexMainteFitA_QRCredit
-																		, tMikコードマスタ.fcmコード_AlmexMainteFitA_Credit);
+																		, tMikコードマスタ.fcmコード_AlmexMainteFitA_Credit
+																		, tMikコードマスタ.fcmコード_AlmexMainteFitA_QRCredit);
 									List<tMikアプリケーション情報> apl = JunpDatabaseAccess.Select_tMikアプリケーション情報(whereStr, "faiアプリケーションNo, faiアプリケーション名", gSettings.Connect.Junp.ConnectionString);
 									if (null != apl && 0 < apl.Count)
 									{
