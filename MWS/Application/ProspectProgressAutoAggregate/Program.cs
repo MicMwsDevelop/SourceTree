@@ -286,7 +286,7 @@ namespace ProspectProgressAutoAggregate
 				for (int i = 0; i < 13; i++)
 				{
 					List<売上予想> work = ProspectProgressAutoAggregateAccess.Select_売上予想(start, gSettings.Junp.ConnectionString);
-					if (null != work)
+					if (null != work && 0 < work.Count)
 					{
 						売上予想_List.AddRange(work);
 					}

@@ -119,6 +119,17 @@
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上進捗ES.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上進捗まとめ.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上予想.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\PCA仕入明細.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\PCA仕入明細貯蔵品.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\PCA出荷明細.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\PCA出荷明細貯蔵品.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\q先月ナルコーム仕入集計.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\仕入振替月次.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\仕入振替月次追加.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\在庫一覧表.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\在庫評価単価.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\対象月社内仕入伝票.cs" />
+    <Compile Include="BaseFactory\PurchaseTransfer\当月仕入単価.cs" />
     <Compile Include="BaseFactory\ScanImageManager\IndexFileInfo.cs" />
     <Compile Include="BaseFactory\ScanImageManager\ScanImageFile.cs" />
     <Compile Include="BaseFactory\ScanImageManager\ScanImageManagerDef.cs" />
@@ -215,6 +226,7 @@
     <Compile Include="DB\SqlServer\PCA\PcaDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\ProspectProgressAutoAggregate\ProspectProgressAutoAggregateAccess.cs" />
     <Compile Include="DB\SqlServer\ProspectProgressAutoAggregate\ProspectProgressAutoAggregateGetIO.cs" />
+    <Compile Include="DB\SqlServer\PurchaseTransfer\PurchaseTransferAccess.cs" />
     <Compile Include="DB\SqlServer\ScanImageManager\ScanImageManagerAccess.cs" />
     <Compile Include="DB\SqlServer\ScanImageManager\ScanImageManagerGetIO.cs" />
     <Compile Include="DB\SqlServer\ScanImageManager\ScanImageManagerSetIO.cs" />

@@ -12,6 +12,7 @@
 // Ver1.03(2021/09/30):XXXX支部がXXXX支部名と設定されていた
 // Ver1.04(2021/10/18):オンライン請求届出エクセル出力時に例外エラー(0x800a03ec)が発生する
 // Ver1.05(2021/11/12):消耗品FAXオーダーシートの新規追加
+// Ver1.06(2021/12/13):経理部確認後、消耗品FAXオーダーシートの修正
 //
 using System;
 using System.Windows.Forms;
@@ -29,7 +30,7 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// バージョン番号
 		/// </summary>
-		public const string VersionStr = "Ver1.05 (2021/11/12)";
+		public const string VersionStr = "Ver1.06 (2021/12/13)";
 
 		/// <summary>
 		/// 環境設定

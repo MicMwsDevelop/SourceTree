@@ -181,7 +181,7 @@ namespace CommonLib.DB.SqlServer
 				}
 				catch
 				{
-					throw;
+					throw new ApplicationException("InsertIntoListDatabase() Error!");
 				}
 				finally
 				{
@@ -193,6 +193,30 @@ namespace CommonLib.DB.SqlServer
 				}
 			}
 			return rowCount;
+		}
+
+		/// <summary>
+		/// Bulk Insert
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <param name="tableName">テーブル名</param>
+		/// <param name="dt"></param>
+		public static void BulkInsert(string connectStr, string tableName, DataTable dt)
+		{
+			using (SqlConnection con = new SqlConnection(connectStr))
+			{
+				SqlBulkCopy bc = new SqlBulkCopy(con);
+				bc.DestinationTableName = tableName;
+				try
+				{
+					con.Open();
+					bc.WriteToServer(dt);
+				}
+				finally
+				{
+					con.Close();
+				}
+			}
 		}
 
 		/// <summary>
@@ -236,7 +260,7 @@ namespace CommonLib.DB.SqlServer
 				}
 				catch
 				{
-					throw;
+					throw new ApplicationException("UpdateSetDatabase() Error!");
 				}
 				finally
 				{
@@ -290,7 +314,7 @@ namespace CommonLib.DB.SqlServer
 				}
 				catch
 				{
-					throw;
+					throw new ApplicationException("DeleteDatabase() Error!");
 				}
 				finally
 				{
