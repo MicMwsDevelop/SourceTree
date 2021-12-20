@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using CommonLib.DB;
+using CommonLib.BaseFactory.Pca;
 
 namespace CommonLib.BaseFactory.PurchaseTransfer
 {
@@ -27,7 +28,7 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 		public string 摘要コード { get; set; }
 		public string 摘要名 { get; set; }
 		public string 商品コード { get; set; }
-		public string マスター区分 { get; set; }
+		public short マスター区分 { get; set; }
 		public string 品名 { get; set; }
 		public short 区 { get; set; }
 		public string 倉庫コード { get; set; }
@@ -56,7 +57,7 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 		public int 伝票消費税外税 { get; set; }
 		public string プロジェクトコード { get; set; }
 		public string 伝票No2 { get; set; }
-		public string データ区分 { get; set; }
+		public int データ区分 { get; set; }
 		public string 商品名2 { get; set; }
 
 		/// <summary>
@@ -78,7 +79,7 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 			摘要コード = string.Empty;
 			摘要名 = string.Empty;
 			商品コード = string.Empty;
-			マスター区分 = string.Empty;
+			マスター区分 = 0;
 			品名 = string.Empty;
 			区 = 0;
 			倉庫コード = string.Empty;
@@ -107,8 +108,67 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 			伝票消費税外税 = 0;
 			プロジェクトコード = string.Empty;
 			伝票No2 = string.Empty;
-			データ区分 = "0";
+			データ区分 = 0;
 			商品名2 = string.Empty;
+		}
+
+		/// <summary>
+		/// PCA仕入明細汎用データにPCA仕入明細のデータを格納
+		/// </summary>
+		/// <returns>PCA仕入明細汎用データ</returns>
+		public PCA仕入明細汎用データ SetPCA仕入明細汎用データ()
+		{
+			PCA仕入明細汎用データ data = new PCA仕入明細汎用データ();
+			data.入荷方法 = 入荷方法;
+			data.科目区分 = 科目区分;
+			data.伝区 = 伝区;
+			data.仕入日 = 仕入日;
+			data.精算日 = 精算日;
+			data.伝票No = 伝票No;
+			data.仕入先コード = 仕入先コード;
+			data.仕入先名 = 仕入先名;
+			data.先方担当者名 = 先方担当者名;
+			data.部門コード = 部門コード;
+			data.担当者コード = 担当者コード;
+			data.摘要コード = 摘要コード;
+			data.摘要名 = 摘要名;
+			data.商品コード = 商品コード;
+			data.マスター区分 = マスター区分;
+			data.商品名 = 品名;
+			data.区 = 区;
+			data.倉庫コード = 倉庫コード;
+			data.入数 = 入数;
+			data.箱数 = 箱数;
+			data.数量 = 数量;
+			data.単位 = 単位;
+			data.単価 = 単価;
+			data.金額 = 金額;
+			data.外税額 = 外税額;
+			data.内税額 = 内税額;
+			data.税区分 = 税区分;
+			data.税込区分 = 税込区分;
+			data.備考 = 備考;
+			data.規格型番 = 規格型番;
+			data.色 = 色;
+			data.サイズ = サイズ;
+			data.計算式コード = 計算式コード;
+			data.商品項目1 = 商品項目1;
+			data.商品項目2 = 商品項目2;
+			data.商品項目3 = 商品項目3;
+			data.仕入項目1 = 仕入項目1;
+			data.仕入項目2 = 仕入項目2;
+			data.仕入項目3 = 仕入項目3;
+			data.税率 = 税率;
+			data.伝票消費税額 = 伝票消費税外税;
+			data.ﾌﾟﾛｼﾞｪｸﾄコード = プロジェクトコード;
+			data.伝票No2 = 伝票No2;
+			data.データ区分 = データ区分;
+			data.商品名2 = 商品名2;
+			data.単位区分 = 0;
+			data.ロットNo = string.Empty;
+			data.ロット有効期限 = 0;
+			data.仕入税種別 = 0;
+			return data;
 		}
 
 		/// <summary>
@@ -139,7 +199,7 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 						摘要コード = row["摘要コード"].ToString().Trim(),
 						摘要名 = row["摘要名"].ToString().Trim(),
 						商品コード = row["商品コード"].ToString().Trim(),
-						マスター区分 = row["マスター区分"].ToString().Trim(),
+						マスター区分 = DataBaseValue.ConvObjectToShort(row["マスター区分"]),
 						品名 = row["品名"].ToString().Trim(),
 						区 = DataBaseValue.ConvObjectToShort(row["区"]),
 						倉庫コード = row["倉庫コード"].ToString().Trim(),
@@ -168,7 +228,7 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 						伝票消費税外税 = DataBaseValue.ConvObjectToInt(row["伝票消費税外税"]),
 						プロジェクトコード = row["プロジェクトコード"].ToString().Trim(),
 						伝票No2 = row["伝票No2"].ToString().Trim(),
-						データ区分 = row["データ区分"].ToString().Trim(),
+						データ区分 = DataBaseValue.ConvObjectToInt(row["データ区分"]),
 						商品名2 = row["商品名2"].ToString().Trim(),
 					};
 					result.Add(data);

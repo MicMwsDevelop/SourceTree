@@ -18,79 +18,79 @@ namespace PurchaseTransfer.Settings
 	public class PurchaseTransferSettings : ICloneable, IEquatable<PurchaseTransferSettings>
 	{
 		/// <summary>
-		/// 在庫一覧表入力ファイル名
+		/// 在庫一覧表入力パス名
 		/// </summary>
-		public string 在庫一覧表入力ファイル名 { get; set; }
+		public string 在庫一覧表入力パス名 { get; set; }
 
 		/// <summary>
-		/// 仕入振替出力ファイル名
+		/// 仕入振替出力パス名
 		/// </summary>
-		public string 仕入振替出力ファイル名 { get; set; }
+		public string 仕入振替出力パス名 { get; set; }
 
 		/// <summary>
-		/// 社内使用分振替出力ファイル名
+		/// 社内使用分振替出力パス名
 		/// </summary>
-		public string 社内使用分振替出力ファイル名 { get; set; }
+		public string 社内使用分振替出力パス名 { get; set; }
 
 		/// <summary>
-		/// 貯蔵品社内使用分振替出力ファイル名
+		/// 貯蔵品社内使用分振替出力パス名
 		/// </summary>
-		public string 貯蔵品社内使用分振替出力ファイル名 { get; set; }
+		public string 貯蔵品社内使用分振替出力パス名 { get; set; }
 
 		/// <summary>
-		/// りすとん振替出力ファイル名
+		/// りすとん振替出力パス名
 		/// </summary>
-		public string りすとん振替出力ファイル名 { get; set; }
+		public string りすとん振替出力パス名 { get; set; }
 
 		/// <summary>
-		/// りすとん出荷ファイル名
+		/// りすとん出荷パス名
 		/// </summary>
-		public string りすとん出荷ファイル名 { get; set; }
+		public string りすとん出荷パス名 { get; set; }
 
 		/// <summary>
-		/// りすとん月額振替出力ファイル名
+		/// りすとん月額振替出力パス名
 		/// </summary>
-		public string りすとん月額振替出力ファイル名 { get; set; }
+		public string りすとん月額振替出力パス名 { get; set; }
 
 		/// <summary>
-		/// りすとん月額出荷ファイル名
+		/// りすとん月額出荷パス名
 		/// </summary>
-		public string りすとん月額出荷ファイル名 { get; set; }
+		public string りすとん月額出荷パス名 { get; set; }
 
 		/// <summary>
-		/// Office365振替出力ファイル名
+		/// Office365振替出力パス名
 		/// </summary>
-		public string Office365振替出力ファイル名 { get; set; }
+		public string Office365振替出力パス名 { get; set; }
 
 		/// <summary>
-		/// Office365出荷ファイル名
+		/// Office365出荷パス名
 		/// </summary>
-		public string Office365出荷ファイル名 { get; set; }
+		public string Office365出荷パス名 { get; set; }
 
 		/// <summary>
-		/// 問心伝振替出力ファイル名
+		/// 問心伝振替出力パス名
 		/// </summary>
-		public string 問心伝振替出力ファイル名 { get; set; }
+		public string 問心伝振替出力パス名 { get; set; }
 
 		/// <summary>
-		/// 問心伝出荷ファイル名
+		/// 問心伝出荷パス名
 		/// </summary>
-		public string 問心伝出荷ファイル名 { get; set; }
+		public string 問心伝出荷パス名 { get; set; }
 
 		/// <summary>
-		/// 問心伝月額振替出力ファイル名
+		/// 問心伝月額振替出力パス名
 		/// </summary>
-		public string 問心伝月額振替出力ファイル名 { get; set; }
+		public string 問心伝月額振替出力パス名 { get; set; }
 
 		/// <summary>
-		/// ソフトバンク振替出力ファイル名
+		/// ソフトバンク振替出力パス名
 		/// </summary>
-		public string ソフトバンク振替出力ファイル名 { get; set; }
+		public string ソフトバンク振替出力パス名 { get; set; }
 
 		/// <summary>
-		/// Curline本体アプリ出力ファイル名
+		/// Curline本体アプリ出力パス名
 		/// </summary>
-		public string Curline本体アプリ出力ファイル名 { get; set; }
+		public string Curline本体アプリ出力パス名 { get; set; }
 
 		/// <summary>
 		/// 対象年月
@@ -117,21 +117,21 @@ namespace PurchaseTransfer.Settings
 		/// </summary>
 		public PurchaseTransferSettings()
         {
-			在庫一覧表入力ファイル名 = string.Empty;
-			仕入振替出力ファイル名 = string.Empty;
-			社内使用分振替出力ファイル名 = string.Empty;
-			貯蔵品社内使用分振替出力ファイル名 = string.Empty;
-			りすとん振替出力ファイル名 = string.Empty;
-			りすとん出荷ファイル名 = string.Empty;
-			りすとん月額振替出力ファイル名 = string.Empty;
-			りすとん月額出荷ファイル名 = string.Empty;
-			Office365振替出力ファイル名 = string.Empty;
-			Office365出荷ファイル名 = string.Empty;
-			問心伝振替出力ファイル名 = string.Empty;
-			問心伝出荷ファイル名 = string.Empty;
-			問心伝月額振替出力ファイル名 = string.Empty;
-			ソフトバンク振替出力ファイル名 = string.Empty;
-			Curline本体アプリ出力ファイル名 = string.Empty;
+			在庫一覧表入力パス名 = string.Empty;
+			仕入振替出力パス名 = string.Empty;
+			社内使用分振替出力パス名 = string.Empty;
+			貯蔵品社内使用分振替出力パス名 = string.Empty;
+			りすとん振替出力パス名 = string.Empty;
+			りすとん出荷パス名 = string.Empty;
+			りすとん月額振替出力パス名 = string.Empty;
+			りすとん月額出荷パス名 = string.Empty;
+			Office365振替出力パス名 = string.Empty;
+			Office365出荷パス名 = string.Empty;
+			問心伝振替出力パス名 = string.Empty;
+			問心伝出荷パス名 = string.Empty;
+			問心伝月額振替出力パス名 = string.Empty;
+			ソフトバンク振替出力パス名 = string.Empty;
+			Curline本体アプリ出力パス名 = string.Empty;
 			対象年月 = string.Empty;
 			対象年月開始日 = 0;
 			対象年月終了日 = 0;
@@ -157,21 +157,21 @@ namespace PurchaseTransfer.Settings
 		{
 			if (other != null)
 			{
-				if (在庫一覧表入力ファイル名 == other.在庫一覧表入力ファイル名
-					&& 仕入振替出力ファイル名 == other.仕入振替出力ファイル名
-					&& 社内使用分振替出力ファイル名 == other.社内使用分振替出力ファイル名
-					&& 貯蔵品社内使用分振替出力ファイル名 == other.貯蔵品社内使用分振替出力ファイル名
-					&& りすとん振替出力ファイル名 == other.りすとん振替出力ファイル名
-					&& りすとん出荷ファイル名 == other.りすとん出荷ファイル名
-					&& りすとん月額振替出力ファイル名 == other.りすとん月額振替出力ファイル名
-					&& りすとん月額出荷ファイル名 == other.りすとん月額出荷ファイル名
-					&& Office365振替出力ファイル名 == other.Office365振替出力ファイル名
-					&& Office365出荷ファイル名 == other.Office365出荷ファイル名
-					&& 問心伝振替出力ファイル名 == other.問心伝振替出力ファイル名
-					&& 問心伝出荷ファイル名 == other.問心伝出荷ファイル名
-					&& 問心伝月額振替出力ファイル名 == other.問心伝月額振替出力ファイル名
-					&& ソフトバンク振替出力ファイル名 == other.ソフトバンク振替出力ファイル名
-					&& Curline本体アプリ出力ファイル名 == other.Curline本体アプリ出力ファイル名
+				if (在庫一覧表入力パス名 == other.在庫一覧表入力パス名
+					&& 仕入振替出力パス名 == other.仕入振替出力パス名
+					&& 社内使用分振替出力パス名 == other.社内使用分振替出力パス名
+					&& 貯蔵品社内使用分振替出力パス名 == other.貯蔵品社内使用分振替出力パス名
+					&& りすとん振替出力パス名 == other.りすとん振替出力パス名
+					&& りすとん出荷パス名 == other.りすとん出荷パス名
+					&& りすとん月額振替出力パス名 == other.りすとん月額振替出力パス名
+					&& りすとん月額出荷パス名 == other.りすとん月額出荷パス名
+					&& Office365振替出力パス名 == other.Office365振替出力パス名
+					&& Office365出荷パス名 == other.Office365出荷パス名
+					&& 問心伝振替出力パス名 == other.問心伝振替出力パス名
+					&& 問心伝出荷パス名 == other.問心伝出荷パス名
+					&& 問心伝月額振替出力パス名 == other.問心伝月額振替出力パス名
+					&& ソフトバンク振替出力パス名 == other.ソフトバンク振替出力パス名
+					&& Curline本体アプリ出力パス名 == other.Curline本体アプリ出力パス名
 					&& 対象年月 == other.対象年月
 					&& 対象年月開始日 == other.対象年月開始日
 					&& 対象年月終了日 == other.対象年月終了日

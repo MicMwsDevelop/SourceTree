@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PurchaseTransferSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <在庫一覧表入力パス名>\\storage\公開データ\業務部公開用\経理共有\仕入振替\在庫一覧表\在庫一覧表30年11月末.txt</在庫一覧表入力パス名>
+  <仕入振替出力パス名>C:\_仕入振替\振替仕入データ.txt</仕入振替出力パス名>
+  <社内使用分振替出力パス名>C:\_仕入振替\仕入振替出力用ﾌｧｲﾙ.xlsx</社内使用分振替出力パス名>
+  <貯蔵品社内使用分振替出力パス名>C:\_仕入振替\仕入振替\貯蔵品振替出力用ファイル.xlsx</貯蔵品社内使用分振替出力パス名>
+  <りすとん振替出力パス名>C:\_仕入振替\りすとん振替仕入データ.txt</りすとん振替出力パス名>
+  <りすとん出荷パス名>C:\_仕入振替\りすとん出荷データ.txt</りすとん出荷パス名>
+  <りすとん月額振替出力パス名>C:\_仕入振替\りすとん月額振替仕入データ.txt</りすとん月額振替出力パス名>
+  <りすとん月額出荷パス名>C:\_仕入振替\りすとん月額出荷データ.txt</りすとん月額出荷パス名>
+  <Office365振替出力パス名>C:\_仕入振替\Office365振替仕入データ.txt</Office365振替出力パス名>
+  <Office365出荷パス名>C:\_仕入振替\Office365出荷データ.txt</Office365出荷パス名>
+  <問心伝振替出力パス名>C:\_仕入振替\問心伝振替仕入データ.txt</問心伝振替出力パス名>
+  <問心伝出荷パス名>C:\_仕入振替\問心伝出荷データ.txt</問心伝出荷パス名>
+  <問心伝月額振替出力パス名>C:\_仕入振替\問心伝月額振替仕入データ.txt</問心伝月額振替出力パス名>
+  <ソフトバンク振替出力パス名>C:\_仕入振替\ソフトバンク振替仕入データ.txt</ソフトバンク振替出力パス名>
+  <Curline本体アプリ出力パス名>C:\_仕入振替\Curline本体アプリ仕入データ.txt</Curline本体アプリ出力パス名>
+  <対象年月>2021/11</対象年月>
+  <対象年月開始日>20211101</対象年月開始日>
+  <対象年月終了日>20211130</対象年月終了日>
+  <Connect>
+    <Junp>
+      <InstanceName>SQLSV</InstanceName>
+      <!-- InstanceName>TESTSV</InstanceName -->
+      <DatabaseName>JunpDB</DatabaseName>
+      <UserID>web</UserID>
+      <Password>02035612</Password>
+    </Junp>
+    <Charlie>
+      <InstanceName>SQLSV</InstanceName>
+      <!-- InstanceName>TESTSV</InstanceName -->
+      <DatabaseName>CharlieDB</DatabaseName>
+      <UserID>web</UserID>
+      <Password>02035612</Password>
+    </Charlie>
+    <Coupler>
+      <InstanceName>CP-DB01</InstanceName>
+      <!--InstanceName>CPTest-DB</InstanceName-->
+      <DatabaseName>COUPLER</DatabaseName>
+      <UserID>cpuser</UserID>
+      <!--UserID>sa</UserID-->
+      <Password>Sqladmin#39</Password>
+    </Coupler>
+  </Connect>
+</PurchaseTransferSettings>

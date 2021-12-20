@@ -156,11 +156,11 @@ namespace CommonLib.BaseFactory.Pca
 		}
 
 		/// <summary>
-		/// CSV文字列の取得
+		/// CSV文字列の取得(ダブルクォーテーションあり)
 		/// </summary>
 		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>CSV文字列</returns>
-		public string ToCsvString(int pcaVer)
+		public string ToCsvStringDoubleQuotation(int pcaVer)
 		{
 			List<string> list = new List<string>();
 			list.Add(入荷方法.ToString());
@@ -213,6 +213,70 @@ namespace CommonLib.BaseFactory.Pca
 				// 汎用データレイアウト指定 7: Rev4.20、8: Rev4.50
 				list.Add(単位区分.ToString());
 				list.Add("\"" + ロットNo + "\"");
+				list.Add(ロット有効期限.ToString());
+				list.Add(仕入税種別.ToString());
+			}
+			return String.Join(",", list.ToArray());
+		}
+
+		/// <summary>
+		/// CSV文字列の取得(ダブルクォーテーションなし)
+		/// </summary>
+		/// <param name="pcaVer">PCAバージョン情報 </param>
+		/// <returns>CSV文字列</returns>
+		public string ToCsvString(int pcaVer)
+		{
+			List<string> list = new List<string>();
+			list.Add(入荷方法.ToString());
+			list.Add(科目区分.ToString());
+			list.Add(伝区);
+			list.Add(仕入日.ToString());
+			list.Add(精算日.ToString());
+			list.Add(伝票No.ToString());
+			list.Add(仕入先コード);
+			list.Add(仕入先名);
+			list.Add(先方担当者名);
+			list.Add(部門コード);
+			list.Add(担当者コード);
+			list.Add(摘要コード);
+			list.Add(摘要名);
+			list.Add(商品コード);
+			list.Add(マスター区分.ToString());
+			list.Add(商品名);
+			list.Add(区.ToString());
+			list.Add(倉庫コード);
+			list.Add(((int)入数).ToString());
+			list.Add(((int)箱数).ToString());
+			list.Add(((int)数量).ToString());
+			list.Add(単位);
+			list.Add(((int)単価).ToString());
+			list.Add(((int)金額).ToString());
+			list.Add(((int)外税額).ToString());
+			list.Add(((int)内税額).ToString());
+			list.Add(税区分.ToString());
+			list.Add(税込区分.ToString());
+			list.Add(備考);
+			list.Add(規格型番);
+			list.Add(色);
+			list.Add(サイズ);
+			list.Add(計算式コード.ToString());
+			list.Add(商品項目1.ToString());
+			list.Add(商品項目2.ToString());
+			list.Add(商品項目2.ToString());
+			list.Add(仕入項目1.ToString());
+			list.Add(仕入項目2.ToString());
+			list.Add(仕入項目3.ToString());
+			list.Add(税率.ToString());
+			list.Add(伝票消費税額.ToString());
+			list.Add(ﾌﾟﾛｼﾞｪｸﾄコード);
+			list.Add(伝票No2);
+			list.Add(データ区分.ToString());
+			list.Add(商品名2);
+			if (8 == pcaVer)
+			{
+				// 汎用データレイアウト指定 7: Rev4.20、8: Rev4.50
+				list.Add(単位区分.ToString());
+				list.Add(ロットNo);
 				list.Add(ロット有効期限.ToString());
 				list.Add(仕入税種別.ToString());
 			}
