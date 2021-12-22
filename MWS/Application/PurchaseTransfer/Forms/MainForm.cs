@@ -146,50 +146,22 @@ namespace PurchaseTransfer.Forms
 					/////////////////////////////////////
 					// 7. りすとん月額仕入振替月次データ作成
 
-					// (1)りすとん月額仕入振替月次 選択クエリの実行：7 りすとん月額仕入振替月次.sql
-					List<仕入振替月次> りすとん月額仕入振替月次_List = PurchaseTransferAccess.Select_りすとん月額仕入振替月次(CollectMonth, gSettings.Connect.Junp.ConnectionString);
-
-					// (2)\\SQLSV\PCADATAにりすとん月額振替仕入データファイルの新規作成
-					// 環境設定.りすとん月額振替出力パス名：\\SQLSV\PCADATA\りすとん月額振替仕入データ.txt
-					// りすとん月額仕入振替月次の結果をファイルに出力
-					// (3)プラス分振替データ出力
-					;
+					りすとん月額仕入振替月次データファイル出力(fp, 在庫評価単価_List, 当月仕入単価_List);
 
 					/////////////////////////////////////
 					// 8. Office365仕入振替月次データ作成
 
-					// (1) Office365仕入振替月次 選択クエリの実行：8 Office365仕入振替月次.sql
-					List<仕入振替月次> Office365仕入振替月次_List = PurchaseTransferAccess.Select_Office365仕入振替月次(CollectMonth, gSettings.Connect.Junp.ConnectionString);
-
-					// (2)\\SQLSV\PCADATAにOffice365振替仕入データファイルの新規作成
-					// 環境設定.Office365振替出力パス名：\\SQLSV\PCADATA\Office365振替仕入データ.txt
-					// Office365仕入振替月次の結果をファイルに出力
-					// (3)プラス分振替データ出力
-					;
+					Office365仕入振替月次データファイル出力(fp, 在庫評価単価_List, 当月仕入単価_List);
 
 					/////////////////////////////////////
 					// 9. 問心伝月額仕入振替月次データ作成
 
-					// (1) 問心伝月額仕入振替月次 選択クエリの実行：9 問心伝月額仕入振替月次.sql
-					List<仕入振替月次> 問心伝月額仕入振替月次_List = PurchaseTransferAccess.Select_問心伝月額仕入振替月次(CollectMonth, gSettings.Connect.Junp.ConnectionString);
-
-					// (2)\\SQLSV\PCADATAに問心伝月額振替仕入データファイルの新規作成
-					// 環境設定.問心伝月額振替出力パス名：\\SQLSV\PCADATA\問心伝月額振替仕入データ.txt
-					// 問心伝月額仕入振替月次の結果をファイルに出力
-					// (3)プラス分振替データ出力
-					;
+					問心伝月額仕入振替月次データファイル出力(fp, 在庫評価単価_List, 当月仕入単価_List);
 
 					/////////////////////////////////////
 					// 10. ソフトバンク仕入振替月次データ作成
 
-					// (1) ソフトバンク仕入振替月次 選択クエリの実行：10 ソフトバンク仕入振替月次.sql
-					List<仕入振替月次> ソフトバンク仕入振替月次_List = PurchaseTransferAccess.Select_ソフトバンク仕入振替月次(CollectMonth, gSettings.Connect.Junp.ConnectionString);
-
-					// (2)\\SQLSV\PCADATAにソフトバンク振替仕入データファイルの新規作成
-					// 環境設定.ソフトバンク振替出力パス名：\\SQLSV\PCADATA\ソフトバンク振替仕入データ.txt
-					// ソフトバンク仕入振替月次の結果をファイルに出力
-					// (3)プラス分振替データ出力
-					;
+					ソフトバンク仕入振替月次データファイル出力(fp, 在庫評価単価_List, 当月仕入単価_List);
 
 					/////////////////////////////////////
 					// 11. Curline本体アプリ仕入作成月次データ作成
@@ -627,6 +599,305 @@ namespace PurchaseTransfer.Forms
 			// (4)\\SQLSV\PCADATAに問心伝振替仕入データファイルの新規作成
 			// 環境設定.問心伝振替出力パス名：\\SQLSV\PCADATA\問心伝振替仕入データ.txt
 			using (var sw = new StreamWriter(gSettings.問心伝振替出力パス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+			{
+				foreach (PCA仕入明細汎用データ pca in outputList)
+				{
+					string record = pca.ToCsvString(7);
+					sw.WriteLine(record);
+				}
+			}
+		}
+		/// <summary>
+		/// 7.りすとん月額仕入振替月次データ作成
+		/// </summary>
+		/// <param name="fp">仕入振替単価不明伝票ファイルポインタ</param>
+		/// <param name="在庫単価"></param>
+		/// <param name="仕入単価"></param>
+		public void りすとん月額仕入振替月次データファイル出力(StreamWriter fp, List<在庫評価単価> 在庫単価, List<当月仕入単価> 仕入単価)
+		{
+			// (1)りすとん月額仕入振替月次 選択クエリの実行：7 りすとん月額仕入振替月次.sql
+			List<仕入振替月次> りすとん月額仕入振替月次_List = PurchaseTransferAccess.Select_りすとん月額仕入振替月次(CollectMonth, gSettings.Connect.Junp.ConnectionString);
+
+			// (2)プラス分振替データ出力
+			List<PCA仕入明細汎用データ> outputList = new List<PCA仕入明細汎用データ>();
+
+			int denNo = 20020;
+			string bumonCode = string.Empty;
+			foreach (仕入振替月次 data in りすとん月額仕入振替月次_List)
+			{
+				if (bumonCode != data.sykd_jbmn)
+				{
+					bumonCode = data.sykd_jbmn;
+					denNo++;
+				}
+				PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
+				pca.入荷方法 = 0;   // 0:通常仕入
+				pca.仕入日 = CollectMonth.Last.ToIntYMD(); // 対象月末日
+				pca.精算日 = pca.仕入日;
+				pca.伝票No = denNo;
+				pca.仕入先コード =  data.仕入先;
+				pca.仕入先名 = string.Empty;   // 仕入先名は空白
+				pca.先方担当者名 = string.Empty;
+				pca.部門コード = data.sykd_jbmn.Substring(1);
+				pca.担当者コード = "0";
+				pca.摘要名 = string.Empty;
+				pca.商品コード = data.sykd_scd;
+				pca.商品名 = data.sykd_mei;
+				pca.区 = 0;  // 仕入
+				pca.倉庫コード = "0";
+				pca.数量 = data.数量;
+				pca.単位 = string.Empty;
+				pca.単価 = data.評価単価;
+				pca.金額 = pca.数量 * pca.単価;
+				pca.税区分 = 2;
+				//pca.備考 = string.Empty;
+				//pca.規格型番 = string.Empty;
+				pca.税率 = data.sykd_rate;
+				outputList.Add(pca);
+			}
+			// (3)\\SQLSV\PCADATAにりすとん月額振替仕入データファイルの新規作成
+			// 環境設定.りすとん月額振替出力パス名：\\SQLSV\PCADATA\りすとん月額振替仕入データ.txt
+			using (var sw = new StreamWriter(gSettings.りすとん月額振替出力パス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+			{
+				foreach (PCA仕入明細汎用データ pca in outputList)
+				{
+					string record = pca.ToCsvString(7);
+					sw.WriteLine(record);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 8.Office365仕入振替月次データ作成
+		/// </summary>
+		/// <param name="fp">仕入振替単価不明伝票ファイルポインタ</param>
+		/// <param name="在庫単価"></param>
+		/// <param name="仕入単価"></param>
+		public void Office365仕入振替月次データファイル出力(StreamWriter fp, List<在庫評価単価> 在庫単価, List<当月仕入単価> 仕入単価)
+		{
+			// (1) Office365仕入振替月次 選択クエリの実行：8 Office365仕入振替月次.sql
+			List<仕入振替月次> Office365仕入振替月次_List = PurchaseTransferAccess.Select_Office365仕入振替月次(CollectMonth, gSettings.Connect.Junp.ConnectionString);
+
+			// (2)プラス分振替データ出力
+			List<PCA仕入明細汎用データ> outputList = new List<PCA仕入明細汎用データ>();
+
+			int denNo = 20040;
+			string bumonCode = string.Empty;
+			foreach (仕入振替月次 data in Office365仕入振替月次_List)
+			{
+				if (bumonCode != data.sykd_jbmn)
+				{
+					bumonCode = data.sykd_jbmn;
+					denNo++;
+				}
+				PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
+				pca.入荷方法 = 0;   // 0:通常仕入
+				pca.仕入日 = CollectMonth.Last.ToIntYMD(); // 対象月末日
+				pca.精算日 = CollectMonth.First.FirstDayOfNextMonth().ToIntYMD(); // 対象月翌月初日
+				pca.伝票No = denNo;
+				pca.仕入先コード = data.仕入先;
+				pca.仕入先名 = string.Empty;   // 仕入先名は空白
+				pca.先方担当者名 = string.Empty;
+				pca.部門コード = data.sykd_jbmn.Substring(1);
+				pca.担当者コード = "0";
+				pca.摘要名 = string.Empty;
+				pca.商品コード = data.sykd_scd;
+				pca.商品名 = data.sykd_mei;
+				pca.区 = 0;  // 仕入
+				pca.倉庫コード = "0";
+				pca.数量 = data.数量;
+				pca.単位 = string.Empty;
+				pca.単価 = data.評価単価;
+				pca.金額 = pca.数量 * pca.単価;
+				pca.税区分 = 2;
+				//pca.備考 = string.Empty;
+				//pca.規格型番 = string.Empty;
+				pca.税率 = data.sykd_rate;
+				outputList.Add(pca);
+			}
+			// (2)\\SQLSV\PCADATAにOffice365振替仕入データファイルの新規作成
+			// 環境設定.Office365振替出力パス名：\\SQLSV\PCADATA\Office365振替仕入データ.txt
+			using (var sw = new StreamWriter(gSettings.Office365振替出力パス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+			{
+				foreach (PCA仕入明細汎用データ pca in outputList)
+				{
+					string record = pca.ToCsvString(7);
+					sw.WriteLine(record);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 9.問心伝月額仕入振替月次データ作成
+		/// </summary>
+		/// <param name="fp">仕入振替単価不明伝票ファイルポインタ</param>
+		/// <param name="在庫単価"></param>
+		/// <param name="仕入単価"></param>
+		public void 問心伝月額仕入振替月次データファイル出力(StreamWriter fp, List<在庫評価単価> 在庫単価, List<当月仕入単価> 仕入単価)
+		{
+			// (1) 問心伝月額仕入振替月次 選択クエリの実行：9 問心伝月額仕入振替月次.sql
+			List<仕入振替月次> 問心伝月額仕入振替月次_List = PurchaseTransferAccess.Select_問心伝月額仕入振替月次(CollectMonth, gSettings.Connect.Junp.ConnectionString);
+
+			// (2)プラス分振替データ出力
+			List<PCA仕入明細汎用データ> outputList = new List<PCA仕入明細汎用データ>();
+
+			int denNo = 20080;
+			string bumonCode = string.Empty;
+			foreach (仕入振替月次 data in 問心伝月額仕入振替月次_List)
+			{
+				if (bumonCode != data.sykd_jbmn)
+				{
+					bumonCode = data.sykd_jbmn;
+					denNo++;
+				}
+				PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
+				pca.入荷方法 = 0;   // 0:通常仕入
+				pca.仕入日 = CollectMonth.Last.ToIntYMD(); // 対象月末日
+				pca.精算日 = pca.仕入日;
+				pca.伝票No = denNo;
+				pca.仕入先コード = data.仕入先;
+				pca.仕入先名 = string.Empty;   // 仕入先名は空白
+				pca.先方担当者名 = string.Empty;
+				pca.部門コード = data.sykd_jbmn.Substring(1);
+				pca.担当者コード = "0";
+				pca.摘要名 = string.Empty;
+				pca.商品コード = data.sykd_scd;
+				pca.商品名 = data.sykd_mei;
+				pca.区 = 0;  // 仕入
+				pca.倉庫コード = "0";
+				pca.数量 = data.数量;
+				pca.単位 = string.Empty;
+				pca.単価 = data.評価単価;
+				pca.金額 = pca.数量 * pca.単価;
+				pca.税区分 = 2;
+				//pca.備考 = string.Empty;
+				//pca.規格型番 = string.Empty;
+				pca.税率 = data.sykd_rate;
+				outputList.Add(pca);
+			}
+			// (3)\\SQLSV\PCADATAに問心伝月額振替仕入データファイルの新規作成
+			// 環境設定.問心伝月額振替出力パス名：\\SQLSV\PCADATA\問心伝月額振替仕入データ.txt
+			using (var sw = new StreamWriter(gSettings.問心伝月額振替出力パス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+			{
+				foreach (PCA仕入明細汎用データ pca in outputList)
+				{
+					string record = pca.ToCsvString(7);
+					sw.WriteLine(record);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 10.ソフトバンク仕入振替月次データ作成
+		/// </summary>
+		/// <param name="fp">仕入振替単価不明伝票ファイルポインタ</param>
+		/// <param name="在庫単価"></param>
+		/// <param name="仕入単価"></param>
+		public void ソフトバンク仕入振替月次データファイル出力(StreamWriter fp, List<在庫評価単価> 在庫単価, List<当月仕入単価> 仕入単価)
+		{
+			// (1) ソフトバンク仕入振替月次 選択クエリの実行：10 ソフトバンク仕入振替月次.sql
+			List<仕入振替月次> ソフトバンク仕入振替月次_List = PurchaseTransferAccess.Select_ソフトバンク仕入振替月次(CollectMonth, gSettings.Connect.Junp.ConnectionString);
+
+			// (2)プラス分振替データ出力
+			List<PCA仕入明細汎用データ> outputList = new List<PCA仕入明細汎用データ>();
+
+			int denNo = 20100;
+			string bumonCode = string.Empty;
+			foreach (仕入振替月次 data in ソフトバンク仕入振替月次_List)
+			{
+				if (bumonCode != data.sykd_jbmn)
+				{
+					bumonCode = data.sykd_jbmn;
+					denNo++;
+				}
+				PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
+				pca.入荷方法 = 0;   // 0:通常仕入
+				pca.仕入日 = CollectMonth.Last.ToIntYMD(); // 対象月末日
+				pca.精算日 = CollectMonth.First.FirstDayOfNextMonth().ToIntYMD(); // 対象月翌月初日
+				pca.伝票No = denNo;
+				pca.仕入先コード = data.仕入先;
+				pca.仕入先名 = string.Empty;   // 仕入先名は空白
+				pca.先方担当者名 = string.Empty;
+				pca.部門コード = data.sykd_jbmn.Substring(1);
+				pca.担当者コード = "0";
+				pca.摘要名 = string.Empty;
+				pca.商品コード = data.sykd_scd;
+				pca.商品名 = data.sykd_mei;
+				pca.区 = 0;  // 仕入
+				pca.倉庫コード = "0";
+				pca.数量 = data.数量;
+				pca.単位 = string.Empty;
+				pca.単価 = data.評価単価;
+				pca.金額 = pca.数量 * pca.単価;
+				pca.税区分 = 2;
+				//pca.備考 = string.Empty;
+				//pca.規格型番 = string.Empty;
+				pca.税率 = data.sykd_rate;
+				outputList.Add(pca);
+			}
+			// (3)\\SQLSV\PCADATAにソフトバンク振替仕入データファイルの新規作成
+			// 環境設定.ソフトバンク振替出力パス名：\\SQLSV\PCADATA\ソフトバンク振替仕入データ.txt
+			using (var sw = new StreamWriter(gSettings.ソフトバンク振替出力パス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+			{
+				foreach (PCA仕入明細汎用データ pca in outputList)
+				{
+					string record = pca.ToCsvString(7);
+					sw.WriteLine(record);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 11.Curline本体アプリ仕入作成月次データ作成
+		/// </summary>
+		/// <param name="fp">仕入振替単価不明伝票ファイルポインタ</param>
+		/// <param name="在庫単価"></param>
+		/// <param name="仕入単価"></param>
+		public void Curline本体アプリ仕入作成月次データファイル出力(StreamWriter fp, List<在庫評価単価> 在庫単価, List<当月仕入単価> 仕入単価)
+		{
+			// Curline本体アプリ仕入作成月次 選択クエリの実行：11 Curline本体アプリ仕入作成月次.sql
+			List<仕入振替月次> Curline本体アプリ仕入作成月次_List = PurchaseTransferAccess.Select_Curline本体アプリ仕入作成月次(CollectMonth, gSettings.Connect.Junp.ConnectionString);
+
+			// (2)プラス分振替データ出力
+			List<PCA仕入明細汎用データ> outputList = new List<PCA仕入明細汎用データ>();
+
+			int denNo = 20120;
+			string bumonCode = string.Empty;
+			foreach (仕入振替月次 data in Curline本体アプリ仕入作成月次_List)
+			{
+				if (bumonCode != data.sykd_jbmn)
+				{
+					bumonCode = data.sykd_jbmn;
+					denNo++;
+				}
+				PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
+				pca.入荷方法 = 0;   // 0:通常仕入
+				pca.仕入日 = CollectMonth.Last.ToIntYMD(); // 対象月末日
+				pca.精算日 = pca.仕入日;
+				pca.伝票No = denNo;
+				pca.仕入先コード = data.仕入先;
+				pca.仕入先名 = string.Empty;   // 仕入先名は空白
+				pca.先方担当者名 = string.Empty;
+				pca.部門コード = data.sykd_jbmn.Substring(1);
+				pca.担当者コード = "0";
+				pca.摘要名 = string.Empty;
+				pca.商品コード = data.sykd_scd;
+				pca.商品名 = data.sykd_mei;
+				pca.区 = 0;  // 仕入
+				pca.倉庫コード = "0";
+				pca.数量 = data.数量;
+				pca.単位 = string.Empty;
+				pca.単価 = data.評価単価;
+				pca.金額 = pca.数量 * pca.単価;
+				pca.税区分 = 2;
+				//pca.備考 = string.Empty;
+				//pca.規格型番 = string.Empty;
+				pca.税率 = data.sykd_rate;
+				outputList.Add(pca);
+			}
+			// (3)\\SQLSV\PCADATAにCurline本体アプリ仕入データファイルの新規作成
+			// 環境設定.Curline本体アプリ出力パス名：\\SQLSV\PCADATA\Curline本体アプリ仕入データ.txt
+			using (var sw = new StreamWriter(gSettings.Curline本体アプリ出力パス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
 			{
 				foreach (PCA仕入明細汎用データ pca in outputList)
 				{
