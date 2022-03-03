@@ -8,6 +8,7 @@
 // Ver1.00 新規作成(2020/10/16 勝呂)
 // Ver1.01 売上日を前月末日から当月初日に変更(2020/11/30 勝呂)
 // Ver1.02 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
+// Ver1.03 奇数月の時、摘要の利用期間の開始月が正しくない(2022/01/05 勝呂)
 //
 using CommonLib.BaseFactory.SoftwareMainteEarnings;
 using CommonLib.Common;
@@ -32,7 +33,7 @@ namespace SoftwareMainteEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.02(2021/09/07)";
+		public const string VersionStr = "Ver1.03(2022/01/05)";
 
 		/// <summary>
 		/// 環境設定
@@ -56,7 +57,7 @@ namespace SoftwareMainteEarningsFile
 			gSettings = SoftwareMainteEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			CollectDate = new Date(2021, 12, 1);
+			CollectDate = new Date(2022, 3, 1);
 #else
 			// 集計日を当月初日に設定
 			CollectDate = Date.Today.FirstDayOfTheMonth();
@@ -114,7 +115,9 @@ namespace SoftwareMainteEarningsFile
 
 								// 利用期間を１年後に設定
 								//sale.f利用期間 = new Span(cui.USE_START_DATE.Value, cui.USE_END_DATE.Value); 
-								sale.Set利用期間(cui.USE_END_DATE.Value);
+								// Ver1.03 奇数月の時、摘要の利用期間の開始月が正しくない(2022/01/05 勝呂)
+								//sale.Set利用期間(cui.USE_END_DATE.Value);
+								sale.Set利用期間(collectDate);
 
 								// 売上データ追加
 								if (0 == sale.f請求先コード.Length)

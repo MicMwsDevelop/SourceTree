@@ -42,4 +42,26 @@
     <Password>Sqladmin#39</Password>
     </Coupler>
   </Connect>
+	<OnlineGoodsList>
+		<OnlineGoods>
+			<商品コード>018025</商品コード>
+			<項目>資格確認端末関係</項目>
+			<内訳>資格確認端末 エレコム MINIBOXPC FSF362(デスクトップPC)</内訳>
+		</OnlineGoods>
+		<OnlineGoods>
+			<商品コード>018027</商品コード>
+			<項目>ネットワーク設定作業等</項目>
+			<内訳>資格確認端末及び顔認証カードリーダ設置設定作業費</内訳>
+		</OnlineGoods>
+		<OnlineGoods>
+			<商品コード>018037</商品コード>
+			<項目>院内のネットワーク関連機器</項目>
+			<内訳>ルーター ヤマハ RTX830</内訳>
+		</OnlineGoods>
+		<OnlineGoods>
+			<商品コード>018021</商品コード>
+			<項目>レセコン等既存システムの改修に係るパッケージソフトの購入及び導入</項目>
+			<内訳>オンライン資格確認用ソフト改修費</内訳>
+		</OnlineGoods>
+	</OnlineGoodsList>
 </VariousDocumentOutSettings>

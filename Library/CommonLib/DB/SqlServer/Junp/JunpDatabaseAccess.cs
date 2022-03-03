@@ -119,6 +119,19 @@ namespace CommonLib.DB.SqlServer.Junp
 		}
 
 		/// <summary>
+		/// [JunpDB].[dbo].[tBusho]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>tMih支店情報</returns>
+		public static List<tBusho> Select_tBusho(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tBusho], whereStr, orderStr, connectStr);
+			return tBusho.DataTableToList(table);
+		}
+
+		/// <summary>
 		/// [JunpDB].[dbo].[tMih支店情報]の取得
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
@@ -387,6 +400,19 @@ namespace CommonLib.DB.SqlServer.Junp
 		}
 
 		/// <summary>
+		/// [JunpDB].[dbo].[vMic全ユーザー3]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>vMic全ユーザー3</returns>
+		public static List<vMic全ユーザー3> Select_vMic全ユーザー3(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー3], whereStr, orderStr, connectStr);
+			return vMic全ユーザー3.DataTableToList(table);
+		}
+
+		/// <summary>
 		/// [JunpDB].[dbo].[vMic当月売上予想]の取得
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
@@ -410,6 +436,19 @@ namespace CommonLib.DB.SqlServer.Junp
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic翌月売上予想], whereStr, orderStr, connectStr);
 			return vMic翌月売上予想.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[vMicソフトウェア保守料売上予測]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>vMicソフトウェア保守料売上予測</returns>
+		public static List<vMicソフトウェア保守料売上予測> Select_vMicソフトウェア保守料売上予測(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicソフトウェア保守料売上予測], whereStr, orderStr, connectStr);
+			return vMicソフトウェア保守料売上予測.DataTableToList(table);
 		}
 	}
 }

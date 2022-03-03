@@ -1,17 +1,13 @@
-﻿using System;
+﻿using CommonLib.DB;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
-using CommonLib.DB;
 
 namespace CommonLib.BaseFactory.PurchaseTransfer
 {
 	public class 当月仕入単価
 	{
 		public string 商品コード { get; set; }
-		public int 単価 { get; set; }
+		public decimal 単価 { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -37,7 +33,7 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 					当月仕入単価 data = new 当月仕入単価
 					{
 						商品コード = row["商品コード"].ToString().Trim(),
-						単価 = DataBaseValue.ConvObjectToInt(row["単価"]),
+						単価 = DataBaseValue.ConvObjectToDecimal(row["単価"]),
 					};
 					result.Add(data);
 				}

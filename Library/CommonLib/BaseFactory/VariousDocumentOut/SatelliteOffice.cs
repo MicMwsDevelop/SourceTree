@@ -19,9 +19,19 @@ namespace CommonLib.BaseFactory.VariousDocumentOut
 	public class SatelliteOffice
 	{
 		/// <summary>
+		/// 営業部コード
+		/// </summary>
+		public string SaleDepartmentCode { get; set; }
+
+		/// <summary>
 		/// 営業部
 		/// </summary>
 		public string SaleDepartment { get; set; }
+
+		/// <summary>
+		/// 拠点コード
+		/// </summary>
+		public string BranchCode { get; set; }
 
 		/// <summary>
 		/// 拠点
@@ -81,8 +91,10 @@ namespace CommonLib.BaseFactory.VariousDocumentOut
 		/// </summary>
 		public void Empty()
 		{
+			SaleDepartmentCode = string.Empty;
 			SaleDepartment = string.Empty;
 			Branch = string.Empty;
+			BranchCode = string.Empty;
 			Zipcode = string.Empty;
 			Address1 = string.Empty;
 			Address2 = string.Empty;
@@ -109,7 +121,9 @@ namespace CommonLib.BaseFactory.VariousDocumentOut
 		{
 			if (other != null)
 			{
-				if (SaleDepartment == other.SaleDepartment
+				if (SaleDepartmentCode == other.SaleDepartmentCode
+					&& SaleDepartment == other.SaleDepartment
+					&& BranchCode == other.BranchCode
 					&& Branch == other.Branch
 					&& Zipcode == other.Zipcode
 					&& Address1 == other.Address1
@@ -164,7 +178,9 @@ namespace CommonLib.BaseFactory.VariousDocumentOut
                 {
 					SatelliteOffice data = new SatelliteOffice
 					{
+						SaleDepartmentCode = row["営業部コード"].ToString().Trim(),
 						SaleDepartment = row["部署名"].ToString().Trim(),
+						BranchCode = row["拠点コード"].ToString().Trim(),
 						Branch = row["拠点名"].ToString().Trim(),
 						Zipcode = row["郵便番号"].ToString().Trim(),
 						Address1 = row["住所1"].ToString().Trim(),

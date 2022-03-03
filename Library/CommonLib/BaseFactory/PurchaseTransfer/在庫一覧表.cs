@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace CommonLib.BaseFactory.PurchaseTransfer
 {
@@ -30,7 +27,7 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 
 		public int 在庫数 { get; set; }
 
-		public int 評価単価 { get; set; }
+		public decimal 評価単価 { get; set; }
 
 		public int 在庫金額 { get; set; }
 
@@ -41,7 +38,29 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 		{
 			get
 			{
-				return @"INSERT INTO TEST_在庫一覧表 (倉庫ｺｰﾄﾞ, 倉庫名, ﾃﾞｰﾀ区分, 商品ｺｰﾄﾞ, 品名, 繰越在庫, 入荷数, 出荷数, 現品数, 在庫数, 評価単価, 在庫金額) VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12)";
+				return @"INSERT INTO TMP_在庫一覧表 (倉庫ｺｰﾄﾞ, 倉庫名, ﾃﾞｰﾀ区分, 商品ｺｰﾄﾞ, 品名, 繰越在庫, 入荷数, 出荷数, 現品数, 在庫数, 評価単価, 在庫金額) VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12)";
+			}
+		}
+
+		/// <summary>
+		/// CREATE TABLE SQL文字列の取得
+		/// </summary>
+		public static string CreateTableString
+		{
+			get
+			{
+				return "CREATE TABLE TMP_在庫一覧表 ([倉庫ｺｰﾄﾞ] [nvarchar](50) NULL, [倉庫名] [nvarchar](50) NULL, [ﾃﾞｰﾀ区分] [int] NULL, [商品ｺｰﾄﾞ] [nvarchar](50) NULL, [品名] [nvarchar](50) NULL, [繰越在庫] [int] NULL, [入荷数] [int] NULL, [出荷数] [int] NULL, [現品数] [int] NULL, [在庫数] [int] NULL, [評価単価] [money] NULL, [在庫金額] [int] NULL) ON [PRIMARY]";
+			}
+		}
+
+		/// <summary>
+		/// CREDROPATE TABLE SQL文字列の取得
+		/// </summary>
+		public static string DropTableString
+		{
+			get
+			{
+				return "IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TMP_在庫一覧表]') AND type in (N'U')) DROP TABLE[dbo].[TMP_在庫一覧表]";
 			}
 		}
 
@@ -109,7 +128,7 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 					在庫数 = int.Parse(split[9]);
 					if ("" != split[10] && null != split[10])
 					{
-						評価単価 = (int)double.Parse(split[10]);
+						評価単価 = decimal.Parse(split[10]);
 					}
 					在庫金額 = int.Parse(split[11]);
 				}
@@ -148,7 +167,7 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 			dt.Columns.Add(dc);
 			dc = new DataColumn("在庫数", Type.GetType("System.Int32"));
 			dt.Columns.Add(dc);
-			dc = new DataColumn("評価単価", Type.GetType("System.Int32"));
+			dc = new DataColumn("評価単価", Type.GetType("System.Decimal"));
 			dt.Columns.Add(dc);
 			dc = new DataColumn("在庫金額", Type.GetType("System.Int32"));
 			dt.Columns.Add(dc);

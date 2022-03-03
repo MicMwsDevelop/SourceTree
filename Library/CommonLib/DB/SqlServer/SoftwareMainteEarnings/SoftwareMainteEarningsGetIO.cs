@@ -49,7 +49,7 @@ namespace CommonLib.DB.SqlServer.SoftwareMainteEarnings
 										+ " INNER JOIN {1} as B on B.fBshCode3 = U.支店コード"
 										+ " INNER JOIN {2} as S on S.sms_scd = '{3}'"
 										+ " WHERE U.顧客No = {4}"
-									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー２]
+									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー2]
 									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]
 									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
 									, PcaGoodsIDDefine.PaletteES_Mainte12

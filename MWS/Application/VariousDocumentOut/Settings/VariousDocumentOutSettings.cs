@@ -10,6 +10,7 @@
 using MwsLib.Settings.HeadOffice;
 using MwsLib.Settings.SqlServer;
 using System;
+using System.Collections.Generic;
 
 namespace VariousDocumentOut.Settings
 {
@@ -29,12 +30,18 @@ namespace VariousDocumentOut.Settings
 		public SqlServerConnectSettings Connect { get; set; }
 
 		/// <summary>
+		/// オンライン資格確認関連商品
+		/// </summary>
+		public List<OnlineGoods> OnlineGoodsList { get; set; }
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public VariousDocumentOutSettings()
         {
 			HeadOffice = new HeadOfficeSettings();
 			Connect = new SqlServerConnectSettings();
+			OnlineGoodsList = new List<OnlineGoods>();
 		}
 
 		/// <summary>
@@ -57,7 +64,8 @@ namespace VariousDocumentOut.Settings
 			if (other != null)
 			{
 				if (HeadOffice.Equals(other.HeadOffice)
-					&& Connect.Equals(other.Connect))
+					&& Connect.Equals(other.Connect)
+					&& OnlineGoodsList.Equals(other.OnlineGoodsList))
 				{
 					return true;
 				}

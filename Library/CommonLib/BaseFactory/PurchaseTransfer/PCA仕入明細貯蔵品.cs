@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CommonLib.BaseFactory.PurchaseTransfer
+﻿namespace CommonLib.BaseFactory.PurchaseTransfer
 {
 	/// <summary>
 	/// 3-2 当月仕入単価貯蔵品

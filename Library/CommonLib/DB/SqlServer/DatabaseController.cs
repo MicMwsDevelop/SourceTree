@@ -20,15 +20,41 @@ namespace CommonLib.DB.SqlServer
 	/// </summary>
 	public static class DatabaseController
     {
-        /// <summary>
-        /// SQLコマンドの実行
-        /// </summary>
-        /// <param name="con">SqlConnection</param>
-        /// <param name="tran">SqlTransaction</param>
-        /// <param name="table">DataTable</param>
-        /// <param name="sqlString">クエリ</param>
-        /// <returns>実行結果</returns>
-        public static int SqlExecuteCommand(SqlConnection con, SqlTransaction tran, string sqlString, SqlParameter[] param = null)
+		/// <summary>
+		/// SQLコマンドの実行
+		/// </summary>
+		/// <param name="con">SqlConnection</param>
+		/// <param name="sqlString">クエリ</param>
+		/// <returns>実行結果</returns>
+		public static int SqlExecuteNonQuery(SqlConnection con, string sqlString)
+		{
+			int result = -1;
+			{
+				using (SqlCommand cmd = new SqlCommand(sqlString, con))
+				{
+					try
+					{
+						// 実行
+						result = cmd.ExecuteNonQuery();
+					}
+					catch
+					{
+						throw;
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// SQLコマンドの実行
+		/// </summary>
+		/// <param name="con">SqlConnection</param>
+		/// <param name="tran">SqlTransaction</param>
+		/// <param name="table">DataTable</param>
+		/// <param name="sqlString">クエリ</param>
+		/// <returns>実行結果</returns>
+		public static int SqlExecuteCommand(SqlConnection con, SqlTransaction tran, string sqlString, SqlParameter[] param = null)
         {
             int result = -1;
             {

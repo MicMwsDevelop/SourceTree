@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2021/10/25 勝呂)
+// Ver1.01 着日指定の金額が０円で印刷されるので、金額が０円の時は印刷しない(2021/12/22 勝呂)
 //
 using System;
 using System.Windows.Forms;
@@ -22,7 +23,7 @@ namespace DeliveryCenterPrintNouhin
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		static public readonly string ProgramVersion = "Ver1.00(2021/11/22)";
+		static public readonly string ProgramVersion = "Ver1.01(2021/12/22)";
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。

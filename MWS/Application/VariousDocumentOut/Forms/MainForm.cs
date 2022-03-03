@@ -7,9 +7,11 @@
 // 
 // Ver1.00(2021/04/22):新規作成
 // Ver1.05(2021/11/12):消耗品FAXオーダーシートの新規追加
+// Ver1.07(2021/12/24):経理部専用 オンライン資格確認等事業完了報告書の対応
+// Ver1.09(2022/02/10):二次キッティング依頼書 2022/02組織変更対応
+// Ver1.11(2022/02/21):二次キッティング依頼書 使用廃止によりメニューから削除
 //
 using CommonLib.BaseFactory;
-using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.BaseFactory.Junp.View;
 using CommonLib.BaseFactory.VariousDocumentOut;
 using CommonLib.DB.SqlServer.Junp;
@@ -38,7 +40,8 @@ namespace VariousDocumentOut.Forms
 		/// <summary>
 		/// 支店情報
 		/// </summary>
-		private List<tMih支店情報> BranchList { get; set; }
+		// Ver1.11(2022/02/21):二次キッティング依頼書 使用廃止によりメニューから削除
+		//private List<tMih支店情報> BranchList { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -48,7 +51,22 @@ namespace VariousDocumentOut.Forms
 			InitializeComponent();
 
 			Common = new DocumentCommon();
-			BranchList = null;
+			//BranchList = null;
+		}
+
+
+		/// <summary>
+		/// Ctrl+Shift+Alt 経理部専用
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.07(2021/12/24):経理部専用 オンライン資格確認等事業完了報告書の対応
+		private void textBoxTokuisakiNo_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Shift && e.Control && e.Alt)
+			{
+				radioButtonOnlineConfirm.Visible = true;
+			}
 		}
 
 		/// <summary>
@@ -64,19 +82,14 @@ namespace VariousDocumentOut.Forms
 			try
 			{
 #if DEBUG
-				textBoxTokuisakiNo.Text = "020512";
-#else
-				//radioButtonFaxOrderSheet.Visible = false;
+				textBoxTokuisakiNo.Text = "210798";
+				radioButtonOnlineConfirm.Visible = true;
 #endif
 				DocType = DocumentOut.DocumentType.MwsIDPassword;
-#if false
+
 #if DEBUG
-				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("itagaki", Program.gSettings.Connect.Junp.ConnectionString);
-				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("itagaki", Program.gSettings.Connect.Junp.ConnectionString);
-#else
-				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.gSettings.Connect.Junp.ConnectionString);
-				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.gSettings.Connect.Junp.ConnectionString);
-#endif
+				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("k-sugawara", Program.gSettings.Connect.Junp.ConnectionString);
+				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("k-sugawara", Program.gSettings.Connect.Junp.ConnectionString);
 #else
 				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.gSettings.Connect.Junp.ConnectionString);
 				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.gSettings.Connect.Junp.ConnectionString);
@@ -97,7 +110,8 @@ namespace VariousDocumentOut.Forms
 					Common.Satellite = headOfficeList.First();
 				}
 				// 支店情報の取得
-				BranchList = JunpDatabaseAccess.Select_tMih支店情報("", "", Program.gSettings.Connect.Junp.ConnectionString);
+				// Ver1.11(2022/02/21):二次キッティング依頼書 使用廃止によりメニューから削除
+				//BranchList = JunpDatabaseAccess.Select_tMih支店情報("", "", Program.gSettings.Connect.Junp.ConnectionString);
 			}
 			catch (Exception ex)
 			{
@@ -112,7 +126,7 @@ namespace VariousDocumentOut.Forms
 		{
 			radioアプラス預金口座振替依頼書.Enabled = enable;
 			radioPC安心サポート加入申込書.Enabled = enable;
-			radio二次キッティング依頼書.Enabled = enable;
+			//radio二次キッティング依頼書.Enabled = enable;
 			radio納品補助作業依頼書.Enabled = enable;
 			radio第一園芸注文書.Enabled = enable;
 			radio変更届.Enabled = enable;
@@ -153,10 +167,15 @@ namespace VariousDocumentOut.Forms
 						{
 							// 顧客詳細情報の読込
 							string whereStr = string.Format("得意先No = '{0}'", textBoxTokuisakiNo.Text);
-							List<vMic全ユーザー2> work = JunpDatabaseAccess.Select_vMic全ユーザー2(whereStr, "", Program.gSettings.Connect.Junp.ConnectionString);
-							if (null != work)
+							List<vMic全ユーザー2> work2 = JunpDatabaseAccess.Select_vMic全ユーザー2(whereStr, "", Program.gSettings.Connect.Junp.ConnectionString);
+							if (null != work2)
 							{
-								Common.Customer = work.First();
+								Common.Customer = work2.First();
+							}
+							List<vMic全ユーザー3> work3 = JunpDatabaseAccess.Select_vMic全ユーザー3(whereStr, "", Program.gSettings.Connect.Junp.ConnectionString);
+							if (null != work3)
+							{
+								Common.Customer3 = work3.First();
 							}
 						}
 						catch (Exception ex)
@@ -196,10 +215,15 @@ namespace VariousDocumentOut.Forms
 						{
 							// 顧客詳細情報の読込
 							string whereStr = string.Format("顧客No = {0}", textBoxCustomerNo.ToInt());
-							List<vMic全ユーザー2> work = JunpDatabaseAccess.Select_vMic全ユーザー2(whereStr, "", Program.gSettings.Connect.Junp.ConnectionString);
-							if (null != work)
+							List<vMic全ユーザー2> work2 = JunpDatabaseAccess.Select_vMic全ユーザー2(whereStr, "", Program.gSettings.Connect.Junp.ConnectionString);
+							if (null != work2)
 							{
-								Common.Customer = work.First();
+								Common.Customer = work2.First();
+							}
+							List<vMic全ユーザー3> work3 = JunpDatabaseAccess.Select_vMic全ユーザー3(whereStr, "", Program.gSettings.Connect.Junp.ConnectionString);
+							if (null != work3)
+							{
+								Common.Customer3 = work3.First();
 							}
 						}
 						catch (Exception ex)
@@ -285,7 +309,7 @@ namespace VariousDocumentOut.Forms
 		/// <param name="e"></param>
 		private void radioオンライン請求届出_CheckedChanged(object sender, EventArgs e)
 		{
-			DocType = DocumentOut.DocumentType.Online;
+			DocType = DocumentOut.DocumentType.OnlineApply;
 		}
 
 		/// <summary>
@@ -375,7 +399,7 @@ namespace VariousDocumentOut.Forms
 		/// <param name="e"></param>
 		private void radio二次キッティング依頼書_CheckedChanged(object sender, EventArgs e)
 		{
-			DocType = DocumentOut.DocumentType.SecondKitting;
+			//DocType = DocumentOut.DocumentType.SecondKitting;
 		}
 
 		/// <summary>
@@ -417,6 +441,17 @@ namespace VariousDocumentOut.Forms
 		private void radioButtonFaxOrderSheet_CheckedChanged(object sender, EventArgs e)
 		{
 			DocType = DocumentOut.DocumentType.FaxOrderSheet;
+		}
+
+		/// <summary>
+		/// オンライン資格確認等事業完了報告書
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		/// Ver1.07(2021/12/24):経理部専用 オンライン資格確認等事業完了報告書の対応
+		private void radioButtonOnlineConfirm_CheckedChanged(object sender, EventArgs e)
+		{
+			DocType = DocumentOut.DocumentType.OnlineConfirmKeiri;
 		}
 
 		/// <summary>
@@ -472,7 +507,7 @@ namespace VariousDocumentOut.Forms
 					/// <summary>
 					/// オンライン請求届出
 					/// </summary>
-					case DocumentOut.DocumentType.Online:
+					case DocumentOut.DocumentType.OnlineApply:
 						DocumentOut.ExcelOutOnline(Common, xlsPathname, orgPpathname);
 						break;
 					/// <summary>
@@ -523,31 +558,33 @@ namespace VariousDocumentOut.Forms
 					case DocumentOut.DocumentType.Delivery:
 						DocumentOut.ExcelOutDelivery(Common, xlsPathname);
 						break;
-					/// <summary>
-					/// 二次キッティング依頼書
-					/// </summary>
-					case DocumentOut.DocumentType.SecondKitting:
-						if (Common.IsHeadOffice)
-						{
-							// 本社
-							DocumentOut.ExcelOutSecondKitting(Common, xlsPathname, string.Empty, null);
-						}
-						else
-						{
-							// 営業部
-							using (SelectSatelliteForm dlg = new SelectSatelliteForm())
-							{
-								dlg.SaleDepartment = Common.Satellite.SaleDepartment;
-								dlg.Branch = Common.Satellite.Branch;
-								if (DialogResult.Cancel == dlg.ShowDialog())
-								{
-									return;
-								}
-								tMih支店情報 branch = BranchList.Find(p => p.f支店名 == dlg.Branch);
-								DocumentOut.ExcelOutSecondKitting(Common, xlsPathname, dlg.SaleDepartment, branch);
-							}
-						}
-						break;
+					///// <summary>
+					///// 二次キッティング依頼書
+					///// </summary>
+					///// Ver1.09(2022/02/10):二次キッティング依頼書 2022/02組織変更対応
+					//// Ver1.11(2022/02/21):二次キッティング依頼書 使用廃止によりメニューから削除
+					//case DocumentOut.DocumentType.SecondKitting:
+					//	if (Common.IsHeadOffice)
+					//	{
+					//		// 本社
+					//		DocumentOut.ExcelOutSecondKitting(Common, xlsPathname, string.Empty, null);
+					//	}
+					//	else
+					//	{
+					//		// 営業部
+					//		using (SelectSatelliteForm dlg = new SelectSatelliteForm())
+					//		{
+					//			dlg.Office = Common.Satellite;
+					//			;
+					//			if (DialogResult.Cancel == dlg.ShowDialog())
+					//			{
+					//				return;
+					//			}
+					//			tMih支店情報 branch = BranchList.Find(p => p.fBshCode2 == dlg.SelectBusho.fBshCode2 && p.fBshCode3 == dlg.SelectBusho.fBshCode3);
+					//			DocumentOut.ExcelOutSecondKitting(Common, xlsPathname, dlg.SelectBusho.fBshName2, branch);
+					//		}
+					//	}
+					//	break;
 					/// <summary>
 					/// PC安心サポート加入申込書
 					/// </summary>
@@ -569,9 +606,32 @@ namespace VariousDocumentOut.Forms
 					/// <summary>
 					/// 消耗品FAXオーダーシート
 					/// </summary>
-					// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
+					/// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
 					case DocumentOut.DocumentType.FaxOrderSheet:
 						DocumentOut.ExcelOutFaxOrderSheet(Common, xlsPathname);
+						break;
+					/// <summary>
+					/// オンライン資格確認等事業完了報告書(経理部専用)
+					/// </summary>
+					/// Ver1.07(2021/12/24):経理部専用 オンライン資格確認等事業完了報告書の対応
+					case DocumentOut.DocumentType.OnlineConfirmKeiri:
+						{
+							try
+							{
+								// 顧客詳細情報の読込
+								string whereStr = string.Format("顧客No = {0}", textBoxCustomerNo.ToInt());
+								List<オンライン資格確認対象商品売上明細> goodsList = VariousDocumentOutAccess.Select_オンライン資格確認対象商品売上明細(Common.Customer.得意先No, Program.gSettings.Connect.Junp.ConnectionString);
+								if (null != goodsList)
+								{
+									DocumentOut.ExcelOutOnlineConfirm(Common, xlsPathname, orgPpathname, goodsList);
+								}
+							}
+							catch (Exception ex)
+							{
+								MessageBox.Show(this, string.Format("サーバー通信エラー：{0}", ex.Message), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+								return;
+							}
+						}
 						break;
 				}
 				// カーソルを元に戻す

@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2021/01/20 勝呂)
 // Ver1.02 002189 アルメックス FIT-A 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月 削除の対応(2021/01/20 勝呂)
+// Ver1.03 売上日が翌月初日になっていたのを当月初日に修正(2021/12/23 勝呂)
 //
 using AlmexMaintePurchaseFile.Forms;
 using AlmexMaintePurchaseFile.Mail;
@@ -34,7 +35,7 @@ namespace AlmexMaintePurchaseFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.02(2021/10/19)";
+		public const string VersionStr = "Ver1.03(2021/12/23)";
 
 		/// <summary>
 		/// 環境設定
@@ -58,7 +59,8 @@ namespace AlmexMaintePurchaseFile
 			gSettings = AlmexMaintePurchaseFileSettingsIF.GetSettings();
 
 #if DEBUG
-			BootDate = new Date(2021, 12, 1);
+			//BootDate = new Date(2022, 1, 1);
+			BootDate = Date.Today;
 #else
 			BootDate = Date.Today;
 #endif
@@ -97,7 +99,9 @@ namespace AlmexMaintePurchaseFile
 					List<MakePurchaseData> stockList = new List<MakePurchaseData>();
 
 					// 売上日
-					Date saleDate = BootDate.FirstDayOfNextMonth();	// 翌月初日
+					// Ver1.03 売上日が翌月初日になっていたのを当月初日に修正(2021/12/23 勝呂)
+					//Date saleDate = BootDate.FirstDayOfNextMonth(); // 翌月初日
+					Date saleDate = BootDate.FirstDayOfTheMonth(); // 当月初日
 
 					List<vMicPCA売上明細> pcaList = AlmexMainteAccess.GetAlmexMainteEarningsList(gSettings.GetAlmexMainteGoods(), saleDate.ToYearMonth().ToSpan(), gSettings.Connect.Junp.ConnectionString);
 					if (0 < pcaList.Count)

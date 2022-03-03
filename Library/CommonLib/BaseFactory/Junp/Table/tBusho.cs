@@ -8,6 +8,8 @@
 // 
 // Ver1.000 新規作成(2019/06/28 勝呂)
 //
+using System.Collections.Generic;
+using System.Data;
 
 namespace CommonLib.BaseFactory.Junp.Table
 {
@@ -27,6 +29,10 @@ namespace CommonLib.BaseFactory.Junp.Table
 		/// 拠点コード
 		/// </summary>
 		public string fBshCode3 { get; set; }
+
+		/// <summary>
+		/// 所属名
+		/// </summary>
 		public string fBshName1 { get; set; }
 
 		/// <summary>
@@ -68,6 +74,37 @@ namespace CommonLib.BaseFactory.Junp.Table
 			fBshBumon = string.Empty;
 			fBshType = string.Empty;
 			fBshNameRyaku = string.Empty;
+		}
+
+		/// <summary>
+		/// DataTable → リスト変換
+		/// </summary>
+		/// <param name="table"></param>
+		/// <returns></returns>
+		public static List<tBusho> DataTableToList(DataTable table)
+		{
+			if (null != table && 0 < table.Rows.Count)
+			{
+				List<tBusho> result = new List<tBusho>();
+				foreach (DataRow row in table.Rows)
+				{
+					tBusho data = new tBusho
+					{
+						fBshCode1 = row["fBshCode1"].ToString().Trim(),
+						fBshCode2 = row["fBshCode2"].ToString().Trim(),
+						fBshCode3 = row["fBshCode3"].ToString().Trim(),
+						fBshName1 = row["fBshName1"].ToString().Trim(),
+						fBshName2 = row["fBshName2"].ToString().Trim(),
+						fBshName3 = row["fBshName3"].ToString().Trim(),
+						fBshBumon = row["fBshBumon"].ToString().Trim(),
+						fBshType = row["fBshType"].ToString().Trim(),
+						fBshNameRyaku = row["fBshNameRyaku"].ToString().Trim(),
+					};
+					result.Add(data);
+				}
+				return result;
+			}
+			return null;
 		}
 	}
 }

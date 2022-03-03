@@ -27,8 +27,8 @@ namespace AlmexMainteEarningsFile.Mail
 		/// </summary>
 		/// <param name="userList">ユーザーリスト</param>
 		/// <param name="formalFilename">出力ファイル名</param>
-		/// <param name="saleDate">売上日</param>
-		public static void AlmexMainteSendMail(List<AlmexMainteEarningsOut> userList, string formalFilename, Date saleDate)
+		/// <param name="useDate">利用日</param>
+		public static void AlmexMainteSendMail(List<AlmexMainteEarningsOut> userList, string formalFilename, Date useDate)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -55,7 +55,7 @@ namespace AlmexMainteEarningsFile.Mail
 							, Program.gSettings.ExportDir
 							, formalFilename);
 
-				YearMonth ym = saleDate.ToYearMonth();
+				YearMonth ym = useDate.ToYearMonth();
 				if (null != userList)
 				{
 					msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"

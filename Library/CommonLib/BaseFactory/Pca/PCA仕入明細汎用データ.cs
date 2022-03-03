@@ -21,74 +21,200 @@ namespace CommonLib.BaseFactory.Pca
 	public class PCA仕入明細汎用データ
 	{
 		/// <summary>
-		/// 0:通常仕入、1:製品完成
+		/// 0 0:通常仕入、1:製品完成
 		/// </summary>
 		public short 入荷方法 { get; set; }
 		/// <summary>
-		/// 0:仕入、1:仕入以外
+		/// 1 0:仕入、1:仕入以外
 		/// </summary>
 		public short 科目区分 { get; set; }
 		/// <summary>
-		/// 0:掛買、1:現金、2:カード、3:そ の他、5:内製、6:契約
+		/// 2 0:掛買、1:現金、2:カード、3:そ の他、5:内製、6:契約
 		/// </summary>
 		public string 伝区 { get; set; }
+		/// <summary>
+		/// 3
+		/// </summary>
 		public int 仕入日 { get; set; }
+		/// <summary>
+		/// 4
+		/// </summary>
 		public int 精算日 { get; set; }
+		/// <summary>
+		/// 5
+		/// </summary>
 		public int 伝票No { get; set; }
+		/// <summary>
+		/// 6
+		/// </summary>
 		public string 仕入先コード { get; set; }
+		/// <summary>
+		/// 7
+		/// </summary>
 		public string 仕入先名 { get; set; }
+		/// <summary>
+		/// 8
+		/// </summary>
 		public string 先方担当者名 { get; set; }
+		/// <summary>
+		/// 9
+		/// </summary>
 		public string 部門コード { get; set; }
+		/// <summary>
+		/// 10
+		/// </summary>
 		public string 担当者コード { get; set; }
+		/// <summary>
+		/// 11
+		/// </summary>
 		public string 摘要コード { get; set; }
+		/// <summary>
+		/// 12
+		/// </summary>
 		public string 摘要名 { get; set; }
+		/// <summary>
+		/// 13
+		/// </summary>
 		public string 商品コード { get; set; }
 		/// <summary>
-		/// 0:一般商品、1:雑商品、2:諸雑 費、3:値引、4:記事
+		/// 14 0:一般商品、1:雑商品、2:諸雑 費、3:値引、4:記事
 		/// </summary>
 		public short マスター区分 { get; set; }
+		/// <summary>
+		/// 15
+		/// </summary>
 		public string 商品名 { get; set; }
 		/// <summary>
-		/// 0:仕入、1:返品、2:単価訂正、9: 一般商品以外を示す
+		/// 16 0:仕入、1:返品、2:単価訂正、9: 一般商品以外を示す
 		/// </summary>
 		public short 区 { get; set; }
+		/// <summary>
+		/// 17
+		/// </summary>
 		public string 倉庫コード { get; set; }
+		/// <summary>
+		/// 18
+		/// </summary>
 		public decimal 入数 { get; set; }
+		/// <summary>
+		/// 19
+		/// </summary>
 		public decimal 箱数 { get; set; }
+		/// <summary>
+		/// 20
+		/// </summary>
 		public decimal 数量 { get; set; }
+		/// <summary>
+		/// 21
+		/// </summary>
 		public string 単位 { get; set; }
+		/// <summary>
+		/// 22
+		/// </summary>
 		public decimal 単価 { get; set; }
+		/// <summary>
+		/// 23
+		/// </summary>
 		public decimal 金額 { get; set; }
+		/// <summary>
+		/// 24
+		/// </summary>
 		public decimal 外税額 { get; set; }
+		/// <summary>
+		/// 25
+		/// </summary>
 		public decimal 内税額 { get; set; }
 		/// <summary>
-		/// 0:非課税、1～9:会社基本情報の税 率ﾃｰﾌﾞﾙ
+		/// 26 0:非課税、1～9:会社基本情報の税 率ﾃｰﾌﾞﾙ
 		/// </summary>
 		public short 税区分 { get; set; }
 		/// <summary>
-		/// 0:税抜き、1:税込み
+		/// 27 0:税抜き、1:税込み
 		/// </summary>
 		public short 税込区分 { get; set; }
+		/// <summary>
+		/// 28
+		/// </summary>
 		public string 備考 { get; set; }
+		/// <summary>
+		/// 29
+		/// </summary>
 		public string 規格型番 { get; set; }
+		/// <summary>
+		/// 30
+		/// </summary>
 		public string 色 { get; set; }
+		/// <summary>
+		/// 31
+		/// </summary>
 		public string サイズ { get; set; }
+		/// <summary>
+		/// 32
+		/// </summary>
 		public int 計算式コード { get; set; }
+		/// <summary>
+		/// 33
+		/// </summary>
 		public int 商品項目1 { get; set; }
+		/// <summary>
+		/// 34
+		/// </summary>
 		public int 商品項目2 { get; set; }
+		/// <summary>
+		/// 35
+		/// </summary>
 		public int 商品項目3 { get; set; }
+		/// <summary>
+		/// 36
+		/// </summary>
 		public int 仕入項目1 { get; set; }
+		/// <summary>
+		/// 37
+		/// </summary>
 		public int 仕入項目2 { get; set; }
+		/// <summary>
+		/// 38
+		/// </summary>
 		public int 仕入項目3 { get; set; }
+		/// <summary>
+		/// 39
+		/// </summary>
 		public decimal 税率 { get; set; }
+		/// <summary>
+		/// 40
+		/// </summary>
 		public int 伝票消費税額 { get; set; }
+		/// <summary>
+		/// 41
+		/// </summary>
 		public string ﾌﾟﾛｼﾞｪｸﾄコード { get; set; }
+		/// <summary>
+		/// 42
+		/// </summary>
 		public string 伝票No2 { get; set; }
+		/// <summary>
+		/// 43
+		/// </summary>
 		public int データ区分 { get; set; }
+		/// <summary>
+		/// 44
+		/// </summary>
 		public string 商品名2 { get; set; }
+		/// <summary>
+		/// 45
+		/// </summary>
 		public int 単位区分 { get; set; }
+		/// <summary>
+		/// 46
+		/// </summary>
 		public string ロットNo { get; set; }
+		/// <summary>
+		/// 47
+		/// </summary>
 		public int ロット有効期限 { get; set; }
+		/// <summary>
+		/// 48
+		/// </summary>
 		public int 仕入税種別 { get; set; }
 
 		/// <summary>

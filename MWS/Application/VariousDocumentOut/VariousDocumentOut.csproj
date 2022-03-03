@@ -74,6 +74,7 @@
     <Compile Include="Forms\SelectSatelliteForm.Designer.cs">
       <DependentUpon>SelectSatelliteForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings\OnlineGoods.cs" />
     <Compile Include="Settings\VariousDocumentOutSettings.cs" />
     <Compile Include="Settings\VariousDocumentOutSettingsIF.cs" />
     <EmbeddedResource Include="Forms\MainForm.resx">
@@ -107,9 +108,7 @@
     <None Include="13-納品補助作業依頼書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="14-2次キッティング依頼書.xlsx.org">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="14-2次キッティング依頼書.xlsx.org" />
     <None Include="15-PC安心サポート加入申込書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -120,6 +119,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="18-消耗品FAXオーダーシート.xlsx.org">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="19-オンライン資格確認等事業完了報告書.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="2-FAX送付状.xlsx.org">
@@ -209,7 +211,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Settings\VariousDocumentOutSettings.xml" />
+    <Content Include="VariousDocumentOutSettings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

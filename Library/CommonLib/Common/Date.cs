@@ -342,14 +342,19 @@ namespace CommonLib.Common
             // DateTimeのAddMonths関数で月を進める（戻す）処理をする
             DateTime dateTime = DateValue.AddMonths(monthes);
 
-            // 月を進めた状況で日が丸め込まれた(例.3月31日→2月28日)場合、翌月の１日を返す
-            if (monthes > 0 && (dateTime.Day < Day))
-            {
-                return new Date(dateTime.AddDays(1));
-            }
-            else
-            {
-                return new Date(dateTime);
+			// この処理では 1/31の翌月は3/1になってしまうので、下記の処理はコメントアウト(2021/01/05 勝呂)
+			// 1/31の翌月、3/1
+			// 3/31の翌月、5/1
+			// 8/31の翌月、10/1
+			// 10/31の翌月、12/1
+			//// 月を進めた状況で日が丸め込まれた(例.3月31日→2月28日)場合、翌月の１日を返す
+			//if (monthes > 0 && (dateTime.Day < Day))
+			//{
+			//    return new Date(dateTime.AddDays(1));
+			//}
+			//else
+			{
+				return new Date(dateTime);
             }
         }
 

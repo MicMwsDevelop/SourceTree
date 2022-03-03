@@ -20,6 +20,74 @@ namespace CommonLib.DB.SqlServer
 	public static class DatabaseAccess
     {
 		/// <summary>
+		/// テーブル新規作成
+		/// </summary>
+		/// <param name="strSQL">SQL文</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>結果</returns>
+		public static int CreateTable(string strSQL, string connectStr)
+		{
+			int result = 0;
+			using (SqlConnection con = new SqlConnection(connectStr))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					result = DatabaseController.SqlExecuteNonQuery(con, strSQL);
+				}
+				catch
+				{
+					throw new ApplicationException("CreateTable() Error!");
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// テーブル削除
+		/// </summary>
+		/// <param name="strSQL">SQL文</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>結果</returns>
+		public static int DropTable(string strSQL, string connectStr)
+		{
+			int result = 0;
+			using (SqlConnection con = new SqlConnection(connectStr))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					result = DatabaseController.SqlExecuteNonQuery(con, strSQL);
+				}
+				catch
+				{
+					throw new ApplicationException("DropTable() Error!");
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
 		/// レコードの取得
 		/// </summary>
 		/// <param name="strSQL">SQL文</param>

@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommonLib.BaseFactory.PurchaseTransfer;
-using System.Data.SqlClient;
+﻿using CommonLib.BaseFactory.PurchaseTransfer;
 using CommonLib.Common;
-using System.Data;
 using CommonLib.DB.SqlServer.Junp;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace CommonLib.DB.SqlServer.PurchaseTransfer
 {
 	public static class PurchaseTransferAccess
 	{
 		/// <summary>
-		/// [charlieDB].[dbo].[TEST_在庫一覧表]の新規追加
+		/// [charlieDB].[dbo].[TMP_在庫一覧表]の新規追加
 		/// </summary>
 		/// <param name="list">在庫一覧表</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
@@ -27,6 +23,86 @@ namespace CommonLib.DB.SqlServer.PurchaseTransfer
 				paramList.Add(data.GetInsertIntoParameters());
 			}
 			return DatabaseAccess.InsertIntoListDatabase(在庫一覧表.InsertIntoSqlString, paramList, connectStr);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[TMP_Curline本体アプリ商品]の新規追加
+		/// </summary>
+		/// <param name="list">仕入商品情報</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		public static int InsertIntoList_Curline本体アプリ商品(List<仕入商品情報> list, string connectStr)
+		{
+			List<SqlParameter[]> paramList = new List<SqlParameter[]>();
+			foreach (仕入商品情報 data in list)
+			{
+				paramList.Add(data.GetInsertIntoParameters());
+			}
+			return DatabaseAccess.InsertIntoListDatabase(仕入商品情報.InsertIntoSqlString_Curline本体アプリ商品, paramList, connectStr);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[TMP_Office365商品]の新規追加
+		/// </summary>
+		/// <param name="list">仕入商品情報</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		public static int InsertIntoList_Office365商品(List<仕入商品情報> list, string connectStr)
+		{
+			List<SqlParameter[]> paramList = new List<SqlParameter[]>();
+			foreach (仕入商品情報 data in list)
+			{
+				paramList.Add(data.GetInsertIntoParameters());
+			}
+			return DatabaseAccess.InsertIntoListDatabase(仕入商品情報.InsertIntoSqlString_Office365商品, paramList, connectStr);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[TMP_りすとん月額商品]の新規追加
+		/// </summary>
+		/// <param name="list">仕入商品情報</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		public static int InsertIntoList_りすとん月額商品(List<仕入商品情報> list, string connectStr)
+		{
+			List<SqlParameter[]> paramList = new List<SqlParameter[]>();
+			foreach (仕入商品情報 data in list)
+			{
+				paramList.Add(data.GetInsertIntoParameters());
+			}
+			return DatabaseAccess.InsertIntoListDatabase(仕入商品情報.InsertIntoSqlString_りすとん月額商品, paramList, connectStr);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[TMP_問心伝月額商品]の新規追加
+		/// </summary>
+		/// <param name="list">仕入商品情報</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		public static int InsertIntoList_問心伝月額商品(List<仕入商品情報> list, string connectStr)
+		{
+			List<SqlParameter[]> paramList = new List<SqlParameter[]>();
+			foreach (仕入商品情報 data in list)
+			{
+				paramList.Add(data.GetInsertIntoParameters());
+			}
+			return DatabaseAccess.InsertIntoListDatabase(仕入商品情報.InsertIntoSqlString_問心伝月額商品, paramList, connectStr);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[TMP_ナルコーム商品]の新規追加
+		/// </summary>
+		/// <param name="list">ナルコーム仕入商品情報</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		public static int InsertIntoList_ナルコーム商品(List<ナルコーム仕入商品情報> list, string connectStr)
+		{
+			List<SqlParameter[]> paramList = new List<SqlParameter[]>();
+			foreach (ナルコーム仕入商品情報 data in list)
+			{
+				paramList.Add(data.GetInsertIntoParameters());
+			}
+			return DatabaseAccess.InsertIntoListDatabase(ナルコーム仕入商品情報.InsertIntoSqlString, paramList, connectStr);
 		}
 
 		/// <summary>
@@ -71,6 +147,7 @@ namespace CommonLib.DB.SqlServer.PurchaseTransfer
 											+ " WHERE urid_scd Between '000000' And '999999'"
 										+ ") AS PCA出荷明細"
 										+ " WHERE PCA出荷明細.出荷日 Between {1} AND {2} AND PCA出荷明細.出荷先コード Between '000387' AND '000475'"
+										+ " ORDER BY 出荷日, 伝票No"
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA出荷データ]
 										, ym.ToSpan().Start.ToIntYMD()
 										, ym.ToSpan().End.ToIntYMD());
@@ -86,7 +163,7 @@ namespace CommonLib.DB.SqlServer.PurchaseTransfer
 		public static List<在庫評価単価> Select_在庫評価単価(string connectStr)
 		{
 			string sqlStr = @"SELECT 商品コード, 評価単価"
-							+ " FROM [charlieDB].[dbo].TEST_在庫一覧表"
+							+ " FROM [charlieDB].[dbo].TMP_在庫一覧表"
 							+ " GROUP BY 商品コード, 評価単価"
 							+ " HAVING 商品コード <> '' AND 評価単価 <> 0"
 							+ " ORDER BY 商品コード";
@@ -103,76 +180,76 @@ namespace CommonLib.DB.SqlServer.PurchaseTransfer
 		public static List<当月仕入単価> Select_当月仕入単価(YearMonth ym, string connectStr)
 		{
 			string sqlStr = string.Format("SELECT"
-								  + " 対象月全仕入れ明細.商品コード"
-								  + ", CONVERT(int, 対象月全仕入れ明細.単価) AS 単価"
-								+ " FROM"
-								+ " ("
-									+ "SELECT"
-									+ " PCA仕入明細.*"
-									+ ", CONVERT(varchar, RTrim(倉庫コード)) AS 倉庫code"
-									+ " FROM"
-									+ " ("
-										+ " SELECT"
-										+ " NYKD.nykd_hoho AS 入荷方法"
-										+ ", NYKD.nykd_flid AS 科目区分"
-										+ ", NYKD.nykd_denku AS 伝区"
-										+ ", NYKD.nykd_uribi AS 仕入日"
-										+ ", NYKD.nykd_seibi AS 精算日"
-										+ ", NYKD.nykd_denno AS 伝票No"
-										+ ", NYKD.nykd_tcd AS 仕入先コード"
-										+ ", RMS.rms_mei1 AS 仕入先名"
-										+ ", RMS.rms_tanmei AS 先方担当者名"
-										+ ", NYKD.nykd_jbmn AS 部門コード"
-										+ ", NYKD.nykd_jtan AS 担当者コード"
-										+ ", NYKD.nykd_tekcd AS 摘要コード"
-										+ ", NYKD.nykd_tekmei AS 摘要名"
-										+ ", NYKD.nykd_scd AS 商品コード"
-										+ ", NYKD.nykd_mkbn AS マスター区分"
-										+ ", NYKD.nykd_mei AS 品名"
-										+ ", NYKD.nykd_ku AS 区"
-										+ ", NYKD.nykd_souko AS 倉庫コード"
-										+ ", NYKD.nykd_iri AS 入数"
-										+ ", NYKD.nykd_hako AS 箱数"
-										+ ", NYKD.nykd_suryo AS 数量"
-										+ ", NYKD.nykd_tani AS 単位"
-										+ ", NYKD.nykd_tanka AS 単価"
-										+ ", NYKD.nykd_kingaku AS 金額"
-										+ ", NYKD.nykd_zei AS 外税額"
-										+ ", NYKD.nykd_uchi AS 内税額"
-										+ ", NYKD.nykd_tax AS 税区分"
-										+ ", NYKD.nykd_komi AS 税込区分"
-										+ ", NYKD.nykd_biko AS 備考"
-										+ ", '' AS 規格型番"
-										+ ", '' AS 色"
-										+ ", '' AS サイズ"
-										+ ", 0 AS 計算式コード"
-										+ ", 0 AS 商品項目1"
-										+ ", 0 AS 商品項目2"
-										+ ", 0 AS 商品項目3"
-										+ ", 0 AS 仕入項目1"
-										+ ", 0 AS 仕入項目2"
-										+ ", 0 AS 仕入項目3"
-										+ ", NYKD.nykd_rate AS 税率"
-										+ ", 0 AS 伝票消費税外税"
-										+ ", '' AS プロジェクトコード"
-										+ ", '' AS 伝票No2"
-										+ ", '0' AS データ区分"
-										+ ", '' AS 商品名2"
-										+ " FROM {0} AS NYKD"
-										+ " INNER JOIN {1} AS RMS ON NYKD.nykd_tcd = RMS.rms_tcd"
-										+ " WHERE NYKD.nykd_scd Between '000000' And '999999'"
-									+ ") AS PCA仕入明細"
-									+ " WHERE CONVERT(varchar, RTrim(倉庫コード)) <> '99' AND PCA仕入明細.仕入日 Between {2} And {3} AND PCA仕入明細.科目区分 = 0) as 対象月全仕入れ明細"
-									+ " LEFT JOIN"
-									+ " ("
-										+ " SELECT 商品ｺｰﾄﾞ, 評価単価"
-										+ " FROM [charlieDB].[dbo].TEST_在庫一覧表"
-										+ " GROUP BY 商品ｺｰﾄﾞ, 評価単価"
-										+ " HAVING 商品ｺｰﾄﾞ <> '' AND 評価単価 <> 0"
-									+ ") AS 在庫評価単価 ON 対象月全仕入れ明細.商品コード = 在庫評価単価.商品ｺｰﾄﾞ"
-								+ " GROUP BY 対象月全仕入れ明細.商品コード, 対象月全仕入れ明細.単価, 在庫評価単価.商品ｺｰﾄﾞ, 対象月全仕入れ明細.仕入日"
-								+ " HAVING 対象月全仕入れ明細.商品コード <> '' AND 対象月全仕入れ明細.単価 <> 0 AND 在庫評価単価.商品ｺｰﾄﾞ Is Null"
-								+ " ORDER BY 対象月全仕入れ明細.商品コード, 対象月全仕入れ明細.仕入日 DESC"
+										  + " 対象月全仕入れ明細.商品コード"
+										  + ", CONVERT(int, 対象月全仕入れ明細.単価) AS 単価"
+										+ " FROM"
+										+ " ("
+											+ "SELECT"
+											+ " PCA仕入明細.*"
+											+ ", CONVERT(varchar, RTrim(倉庫コード)) AS 倉庫code"
+											+ " FROM"
+											+ " ("
+												+ " SELECT"
+												+ " NYKD.nykd_hoho AS 入荷方法"
+												+ ", NYKD.nykd_flid AS 科目区分"
+												+ ", NYKD.nykd_denku AS 伝区"
+												+ ", NYKD.nykd_uribi AS 仕入日"
+												+ ", NYKD.nykd_seibi AS 精算日"
+												+ ", NYKD.nykd_denno AS 伝票No"
+												+ ", NYKD.nykd_tcd AS 仕入先コード"
+												+ ", RMS.rms_mei1 AS 仕入先名"
+												+ ", RMS.rms_tanmei AS 先方担当者名"
+												+ ", NYKD.nykd_jbmn AS 部門コード"
+												+ ", NYKD.nykd_jtan AS 担当者コード"
+												+ ", NYKD.nykd_tekcd AS 摘要コード"
+												+ ", NYKD.nykd_tekmei AS 摘要名"
+												+ ", NYKD.nykd_scd AS 商品コード"
+												+ ", NYKD.nykd_mkbn AS マスター区分"
+												+ ", NYKD.nykd_mei AS 品名"
+												+ ", NYKD.nykd_ku AS 区"
+												+ ", NYKD.nykd_souko AS 倉庫コード"
+												+ ", NYKD.nykd_iri AS 入数"
+												+ ", NYKD.nykd_hako AS 箱数"
+												+ ", NYKD.nykd_suryo AS 数量"
+												+ ", NYKD.nykd_tani AS 単位"
+												+ ", NYKD.nykd_tanka AS 単価"
+												+ ", NYKD.nykd_kingaku AS 金額"
+												+ ", NYKD.nykd_zei AS 外税額"
+												+ ", NYKD.nykd_uchi AS 内税額"
+												+ ", NYKD.nykd_tax AS 税区分"
+												+ ", NYKD.nykd_komi AS 税込区分"
+												+ ", NYKD.nykd_biko AS 備考"
+												+ ", '' AS 規格型番"
+												+ ", '' AS 色"
+												+ ", '' AS サイズ"
+												+ ", 0 AS 計算式コード"
+												+ ", 0 AS 商品項目1"
+												+ ", 0 AS 商品項目2"
+												+ ", 0 AS 商品項目3"
+												+ ", 0 AS 仕入項目1"
+												+ ", 0 AS 仕入項目2"
+												+ ", 0 AS 仕入項目3"
+												+ ", NYKD.nykd_rate AS 税率"
+												+ ", 0 AS 伝票消費税外税"
+												+ ", '' AS プロジェクトコード"
+												+ ", '' AS 伝票No2"
+												+ ", '0' AS データ区分"
+												+ ", '' AS 商品名2"
+												+ " FROM {0} AS NYKD"
+												+ " INNER JOIN {1} AS RMS ON NYKD.nykd_tcd = RMS.rms_tcd"
+												+ " WHERE NYKD.nykd_scd Between '000000' And '999999'"
+											+ ") AS PCA仕入明細"
+											+ " WHERE CONVERT(varchar, RTrim(倉庫コード)) <> '99' AND PCA仕入明細.仕入日 Between {2} AND {3} AND PCA仕入明細.科目区分 = 0) as 対象月全仕入れ明細"
+											+ " LEFT JOIN"
+											+ " ("
+												+ " SELECT 商品ｺｰﾄﾞ, 評価単価"
+												+ " FROM [charlieDB].[dbo].TMP_在庫一覧表"
+												+ " GROUP BY 商品ｺｰﾄﾞ, 評価単価"
+												+ " HAVING 商品ｺｰﾄﾞ <> '' AND 評価単価 <> 0"
+											+ ") AS 在庫評価単価 ON 対象月全仕入れ明細.商品コード = 在庫評価単価.商品ｺｰﾄﾞ"
+										+ " GROUP BY 対象月全仕入れ明細.商品コード, 対象月全仕入れ明細.単価, 在庫評価単価.商品ｺｰﾄﾞ, 対象月全仕入れ明細.仕入日"
+										+ " HAVING 対象月全仕入れ明細.商品コード <> '' AND 対象月全仕入れ明細.単価 <> 0 AND 在庫評価単価.商品ｺｰﾄﾞ Is Null"
+										+ " ORDER BY 対象月全仕入れ明細.商品コード, 対象月全仕入れ明細.仕入日 DESC"
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA仕入データ]
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA仕入先マスタ]
 										, ym.ToSpan().Start.ToIntYMD()
@@ -221,7 +298,7 @@ namespace CommonLib.DB.SqlServer.PurchaseTransfer
 											+ " FROM {0}"
 											+ " WHERE urid_scd LIKE 'A%' OR urid_scd LIKE 'B%' OR urid_scd LIKE 'C%' OR urid_scd LIKE 'D%' OR urid_scd LIKE 'E%'"
 										+ ") AS PCA出荷明細貯蔵品"
-										+ " WHERE PCA出荷明細貯蔵品.出荷先コード Between '000387' AND '000475' AND(PCA出荷明細貯蔵品.倉庫コード = '0011' OR PCA出荷明細貯蔵品.倉庫コード = '0050') AND PCA出荷明細貯蔵品.出荷日 Between {1} AND {2}"
+										+ " WHERE PCA出荷明細貯蔵品.出荷先コード Between '000387' AND '000475' AND (PCA出荷明細貯蔵品.倉庫コード = '0011' OR PCA出荷明細貯蔵品.倉庫コード = '0050') AND PCA出荷明細貯蔵品.出荷日 Between {1} AND {2}"
 										+ " ORDER BY 出荷日, 伝票No, 商品コード"
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA出荷データ]
 										, ym.ToSpan().Start.ToIntYMD()
@@ -299,7 +376,7 @@ namespace CommonLib.DB.SqlServer.PurchaseTransfer
 										+ " LEFT JOIN"
 										+ " ("
 											+ " SELECT 商品ｺｰﾄﾞ, 評価単価"
-											+ " FROM [charlieDB].[dbo].TEST_在庫一覧表"
+											+ " FROM [charlieDB].[dbo].TMP_在庫一覧表"
 											+ " GROUP BY 商品ｺｰﾄﾞ, 評価単価"
 											+ " HAVING 商品ｺｰﾄﾞ <> '' AND 評価単価 <> 0"
 										+ ") AS 在庫評価単価 ON 対象月仕入明細貯蔵品.商品コード = 在庫評価単価.商品ｺｰﾄﾞ"
@@ -532,289 +609,289 @@ namespace CommonLib.DB.SqlServer.PurchaseTransfer
 			return PCA仕入明細.DataTableToList(dt);
 		}
 
-		/// <summary>
-		/// 5-2 りすとん仕入振替月次合計行追加
-		/// </summary>
-		/// <param name="ym">集計月</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>結果</returns>
-		public static List<仕入振替月次追加> Select_りすとん仕入振替月次合計行追加(YearMonth ym, string connectStr)
-		{
-			string sqlStr = string.Format("SELECT"
-										+ "'011' AS sykd_jbmn"
-										+ ", '0099' AS sykd_jtan"
-										+ ", りすとん仕入振替月次_準備.sykd_scd"
-										+ ", りすとん仕入振替月次_準備.sykd_mkbn"
-										+ ", りすとん仕入振替月次_準備.sykd_mei"
-										+ ", SUM(りすとん仕入振替月次_準備.数量計) AS 数量"
-										+ ", りすとん仕入振替月次_準備.sykd_tani"
-										+ ", りすとん仕入振替月次_準備.評価単価"
-										+ ", CONVERT(int, りすとん仕入振替月次_準備.sykd_rate) AS sykd_rate"
-										+ " FROM"
-										+ " ("
-											+ " SELECT"
-											+ " 売上明細月次.sykd_jbmn"
-											+ ", 売上明細月次.sykd_jtan"
-											+ ", 在庫評価単価.商品ｺｰﾄﾞ AS sykd_scd"
-											+ ", 売上明細月次.sykd_mkbn"
-											+ ", SMS.sms_mei AS sykd_mei"
-											+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量計"
-											+ ", 売上明細月次.sykd_tani"
-											+ ", 在庫評価単価.評価単価"
-											+ ", 売上明細月次.sykd_rate"
-											+ " FROM {0} AS SMS"
-											+ " INNER JOIN (("
-											+ "("
-												+ " SELECT *"
-												+ " FROM {1}"
-												+ " WHERE sykd_uribi / 100 = {2}"
-											+ ") as 売上明細月次"
-											+ " INNER JOIN"
-											+ " ("
-												+ " SELECT *"
-												+ " FROM [charlieDB].[dbo].[TEST_りすとん商品コード]"
-												+ ") AS りすとん商品コード ON 売上明細月次.sykd_scd = りすとん商品コード.Palette商品コード)"
-												+ " INNER JOIN"
-												+ "("
-													+ " SELECT 商品ｺｰﾄﾞ, 評価単価"
-													+ " FROM [charlieDB].[dbo].TEST_在庫一覧表"
-													+ " GROUP BY 商品ｺｰﾄﾞ, 評価単価"
-													+ " HAVING 商品ｺｰﾄﾞ <> '' AND 評価単価 <> 0"
-												+ ") AS 在庫評価単価 ON りすとん商品コード.りすとん商品コード = 在庫評価単価.商品ｺｰﾄﾞ) ON SMS.sms_scd = 在庫評価単価.商品ｺｰﾄﾞ"
-												+ " GROUP BY 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, 在庫評価単価.商品ｺｰﾄﾞ, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, 在庫評価単価.評価単価, 売上明細月次.sykd_scd, 売上明細月次.sykd_rate"
-												+ " HAVING 売上明細月次.sykd_scd = '800102' OR 売上明細月次.sykd_scd = '800103' OR 売上明細月次.sykd_scd = '800104' OR 売上明細月次.sykd_scd = '800105' OR 売上明細月次.sykd_scd = '800106' OR 売上明細月次.sykd_scd = '800107'"
-										+ ") AS りすとん仕入振替月次_準備"
-										+ " GROUP BY りすとん仕入振替月次_準備.sykd_jbmn, りすとん仕入振替月次_準備.sykd_jtan, りすとん仕入振替月次_準備.sykd_scd, りすとん仕入振替月次_準備.sykd_mkbn, りすとん仕入振替月次_準備.sykd_mei, りすとん仕入振替月次_準備.sykd_tani, りすとん仕入振替月次_準備.評価単価, りすとん仕入振替月次_準備.sykd_rate"
-										+ " HAVING SUM(りすとん仕入振替月次_準備.数量計) <> 0"
-										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
-										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
-										, ym.ToIntYM());
-			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
-			return 仕入振替月次追加.DataTableToList(dt);
-		}
+		///// <summary>
+		///// 5-2 りすとん仕入振替月次合計行追加
+		///// </summary>
+		///// <param name="ym">集計月</param>
+		///// <param name="connectStr">SQL Server接続文字列</param>
+		///// <returns>結果</returns>
+		//public static List<仕入振替月次追加> Select_りすとん仕入振替月次合計行追加(YearMonth ym, string connectStr)
+		//{
+		//	string sqlStr = string.Format("SELECT"
+		//								+ "'011' AS sykd_jbmn"
+		//								+ ", '0099' AS sykd_jtan"
+		//								+ ", りすとん仕入振替月次_準備.sykd_scd"
+		//								+ ", りすとん仕入振替月次_準備.sykd_mkbn"
+		//								+ ", りすとん仕入振替月次_準備.sykd_mei"
+		//								+ ", SUM(りすとん仕入振替月次_準備.数量計) AS 数量"
+		//								+ ", りすとん仕入振替月次_準備.sykd_tani"
+		//								+ ", りすとん仕入振替月次_準備.評価単価"
+		//								+ ", CONVERT(int, りすとん仕入振替月次_準備.sykd_rate) AS sykd_rate"
+		//								+ " FROM"
+		//								+ " ("
+		//									+ " SELECT"
+		//									+ " 売上明細月次.sykd_jbmn"
+		//									+ ", 売上明細月次.sykd_jtan"
+		//									+ ", 在庫評価単価.商品ｺｰﾄﾞ AS sykd_scd"
+		//									+ ", 売上明細月次.sykd_mkbn"
+		//									+ ", SMS.sms_mei AS sykd_mei"
+		//									+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量計"
+		//									+ ", 売上明細月次.sykd_tani"
+		//									+ ", 在庫評価単価.評価単価"
+		//									+ ", 売上明細月次.sykd_rate"
+		//									+ " FROM {0} AS SMS"
+		//									+ " INNER JOIN (("
+		//									+ "("
+		//										+ " SELECT *"
+		//										+ " FROM {1}"
+		//										+ " WHERE sykd_uribi / 100 = {2}"
+		//									+ ") AS 売上明細月次"
+		//									+ " INNER JOIN"
+		//									+ " ("
+		//										+ " SELECT *"
+		//										+ " FROM [charlieDB].[dbo].[TEST_りすとん商品コード]"
+		//										+ ") AS りすとん商品コード ON 売上明細月次.sykd_scd = りすとん商品コード.Palette商品コード)"
+		//										+ " INNER JOIN"
+		//										+ "("
+		//											+ " SELECT 商品ｺｰﾄﾞ, 評価単価"
+		//											+ " FROM [charlieDB].[dbo].TMP_在庫一覧表"
+		//											+ " GROUP BY 商品ｺｰﾄﾞ, 評価単価"
+		//											+ " HAVING 商品ｺｰﾄﾞ <> '' AND 評価単価 <> 0"
+		//										+ ") AS 在庫評価単価 ON りすとん商品コード.りすとん商品コード = 在庫評価単価.商品ｺｰﾄﾞ) ON SMS.sms_scd = 在庫評価単価.商品ｺｰﾄﾞ"
+		//										+ " GROUP BY 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, 在庫評価単価.商品ｺｰﾄﾞ, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, 在庫評価単価.評価単価, 売上明細月次.sykd_scd, 売上明細月次.sykd_rate"
+		//										+ " HAVING 売上明細月次.sykd_scd = '800102' OR 売上明細月次.sykd_scd = '800103' OR 売上明細月次.sykd_scd = '800104' OR 売上明細月次.sykd_scd = '800105' OR 売上明細月次.sykd_scd = '800106' OR 売上明細月次.sykd_scd = '800107'"
+		//								+ ") AS りすとん仕入振替月次_準備"
+		//								+ " GROUP BY りすとん仕入振替月次_準備.sykd_jbmn, りすとん仕入振替月次_準備.sykd_jtan, りすとん仕入振替月次_準備.sykd_scd, りすとん仕入振替月次_準備.sykd_mkbn, りすとん仕入振替月次_準備.sykd_mei, りすとん仕入振替月次_準備.sykd_tani, りすとん仕入振替月次_準備.評価単価, りすとん仕入振替月次_準備.sykd_rate"
+		//								+ " HAVING SUM(りすとん仕入振替月次_準備.数量計) <> 0"
+		//								, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
+		//								, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
+		//								, ym.ToIntYM());
+		//	DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		//	return 仕入振替月次追加.DataTableToList(dt);
+		//}
+
+		///// <summary>
+		///// 5-2 りすとん仕入振替月次追加
+		///// </summary>
+		///// <param name="ym">集計月</param>
+		///// <param name="connectStr">SQL Server接続文字列</param>
+		///// <returns>結果</returns>
+		//public static List<仕入振替月次追加> Select_りすとん仕入振替月次追加(YearMonth ym, string connectStr)
+		//{
+		//	string sqlStr = string.Format("SELECT"
+		//								+ " りすとん仕入振替月次_準備.sykd_jbmn"
+		//								+ ", りすとん仕入振替月次_準備.sykd_jtan"
+		//								+ ", りすとん仕入振替月次_準備.sykd_scd"
+		//								+ ", りすとん仕入振替月次_準備.sykd_mkbn"
+		//								+ ", りすとん仕入振替月次_準備.sykd_mei"
+		//								+ ", SUM(りすとん仕入振替月次_準備.数量計) AS 数量"
+		//								+ ", りすとん仕入振替月次_準備.sykd_tani"
+		//								+ ", りすとん仕入振替月次_準備.評価単価"
+		//								+ ", CONVERT(int, りすとん仕入振替月次_準備.sykd_rate) AS sykd_rate"
+		//								+ " FROM"
+		//								+ " ("
+		//									+ " SELECT"
+		//									+ " 売上明細月次.sykd_jbmn"
+		//									+ ", 売上明細月次.sykd_jtan"
+		//									+ ", 在庫評価単価.商品ｺｰﾄﾞ AS sykd_scd"
+		//									+ ", 売上明細月次.sykd_mkbn"
+		//									+ ", SMS.sms_mei AS sykd_mei"
+		//									+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量計"
+		//									+ ", 売上明細月次.sykd_tani"
+		//									+ ", 在庫評価単価.評価単価"
+		//									+ ", 売上明細月次.sykd_rate"
+		//									+ " FROM {0} AS SMS"
+		//									+ " INNER JOIN (("
+		//									+ "("
+		//										+ " SELECT *"
+		//										+ " FROM {1}"
+		//										+ " WHERE sykd_uribi / 100 = {2}"
+		//									+ ") AS 売上明細月次"
+		//									+ " INNER JOIN"
+		//									+ " ("
+		//										+ " SELECT *"
+		//										+ " FROM [charlieDB].[dbo].[TEST_りすとん商品コード]"
+		//									+ ") AS りすとん商品コード ON 売上明細月次.sykd_scd = りすとん商品コード.Palette商品コード)"
+		//									+ " INNER JOIN"
+		//									+ " ("
+		//										+ " SELECT 商品ｺｰﾄﾞ, 評価単価"
+		//										+ " FROM [charlieDB].[dbo].TMP_在庫一覧表"
+		//										+ " GROUP BY 商品ｺｰﾄﾞ, 評価単価"
+		//										+ " HAVING 商品ｺｰﾄﾞ <> '' AND 評価単価 <> 0"
+		//									+ ") AS 在庫評価単価 ON りすとん商品コード.りすとん商品コード = 在庫評価単価.商品ｺｰﾄﾞ"
+		//									+ ") ON SMS.sms_scd = 在庫評価単価.商品ｺｰﾄﾞ"
+		//									+ " GROUP BY 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, 在庫評価単価.商品ｺｰﾄﾞ, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, 在庫評価単価.評価単価, 売上明細月次.sykd_scd, 売上明細月次.sykd_rate"
+		//									+ " HAVING 売上明細月次.sykd_scd = '800102' OR 売上明細月次.sykd_scd = '800103' OR 売上明細月次.sykd_scd = '800104' OR 売上明細月次.sykd_scd = '800105' OR 売上明細月次.sykd_scd = '800106' OR 売上明細月次.sykd_scd = '800107'"
+		//								+ ") AS りすとん仕入振替月次_準備"
+		//								+ " GROUP BY りすとん仕入振替月次_準備.sykd_jbmn, りすとん仕入振替月次_準備.sykd_jtan, りすとん仕入振替月次_準備.sykd_scd, りすとん仕入振替月次_準備.sykd_mkbn, りすとん仕入振替月次_準備.sykd_mei, りすとん仕入振替月次_準備.sykd_tani, りすとん仕入振替月次_準備.評価単価, りすとん仕入振替月次_準備.sykd_rate"
+		//								+ " HAVING SUM(りすとん仕入振替月次_準備.数量計) <> 0"
+		//								, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
+		//								, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
+		//								, ym.ToIntYM());
+		//	DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		//	return 仕入振替月次追加.DataTableToList(dt);
+		//}
+
+		///// <summary>
+		///// 6-2 問心伝仕入振替月次合計行追加
+		///// </summary>
+		///// <param name="ym">集計月</param>
+		///// <param name="connectStr">SQL Server接続文字列</param>
+		///// <returns>結果</returns>
+		//public static List<仕入振替月次追加> Select_問心伝仕入振替月次合計行追加(YearMonth ym, string connectStr)
+		//{
+		//	string sqlStr = string.Format("SELECT"
+		//								+ " '011' AS sykd_jbmn"
+		//								+ ", '0099' AS sykd_jtan"
+		//								+ ", 問心伝仕入振替月次_準備.sykd_scd"
+		//								+ ", 問心伝仕入振替月次_準備.sykd_mkbn"
+		//								+ ", 問心伝仕入振替月次_準備.sykd_mei"
+		//								+ ", SUM(問心伝仕入振替月次_準備.数量計) AS 数量"
+		//								+ ", 問心伝仕入振替月次_準備.sykd_tani"
+		//								+ ", 問心伝仕入振替月次_準備.評価単価"
+		//								+ ", CONVERT(int, 問心伝仕入振替月次_準備.sykd_rate) AS sykd_rate"
+		//								+ " FROM"
+		//								+ " ("
+		//									+ " SELECT"
+		//									+ " BSH.fPca倉庫コード"
+		//									+ ", 売上明細月次.sykd_jbmn"
+		//									+ ", 売上明細月次.sykd_jtan"
+		//									+ ", 在庫評価単価.商品ｺｰﾄﾞ AS sykd_scd"
+		//									+ ", 売上明細月次.sykd_mkbn"
+		//									+ ", SMS.sms_mei AS sykd_mei"
+		//									+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量計"
+		//									+ ", 売上明細月次.sykd_tani"
+		//									+ ", 在庫評価単価.評価単価"
+		//									+ ", JH.fBshCode1"
+		//									+ ", JH.fBshCode2"
+		//									+ ", JH.fBshCode3"
+		//									+ ", 売上明細月次.sykd_rate"
+		//									+ " FROM {0} AS BSH"
+		//									+ " INNER JOIN ({1} AS JH"
+		//									+ " INNER JOIN ({2} AS SMS"
+		//									+ " INNER JOIN (("
+		//									+ "("
+		//										+ " SELECT *"
+		//										+ " FROM {3}"
+		//										+ " WHERE sykd_uribi / 100 = {4}"
+		//									+ ") AS 売上明細月次"
+		//									+ " INNER JOIN"
+		//									+ " ("
+		//										+ " SELECT * FROM [charlieDB].[dbo].[TEST_問心伝商品コード]"
+		//									+ ") AS 問心伝商品コード ON 売上明細月次.sykd_scd = 問心伝商品コード.Palette商品コード"
+		//									+ ") INNER JOIN"
+		//									+ " ("
+		//										+ " SELECT 商品ｺｰﾄﾞ, 評価単価"
+		//										+ " FROM [charlieDB].[dbo].TMP_在庫一覧表"
+		//										+ " GROUP BY 商品ｺｰﾄﾞ, 評価単価"
+		//										+ " HAVING 商品ｺｰﾄﾞ <> '' AND 評価単価 <> 0"
+		//									+ ") AS 在庫評価単価 ON 問心伝商品コード.問心伝商品コード = 在庫評価単価.商品ｺｰﾄﾞ"
+		//									+ ") ON SMS.sms_scd = 在庫評価単価.商品ｺｰﾄﾞ"
+		//									+ ") ON JH.f受注番号 = 売上明細月次.sykd_denno"
+		//									+ ") ON BSH.fBshCode1 = JH.fBshCode1 AND BSH.fBshCode2 = JH.fBshCode2 AND BSH.fBshCode3 = JH.fBshCode3"
+		//									+ " GROUP BY BSH.fPca倉庫コード, 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, 在庫評価単価.商品ｺｰﾄﾞ, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, 在庫評価単価.評価単価, JH.fBshCode1, JH.fBshCode2, JH.fBshCode3, 売上明細月次.sykd_scd, 売上明細月次.sykd_rate"
+		//									+ " HAVING 売上明細月次.sykd_scd = '800104' OR 売上明細月次.sykd_scd = '800105' OR 売上明細月次.sykd_scd = '800106' OR 売上明細月次.sykd_scd = '800107'"
+		//								+ ") AS 問心伝仕入振替月次_準備"
+		//								+ " GROUP BY 問心伝仕入振替月次_準備.sykd_jbmn, 問心伝仕入振替月次_準備.sykd_jtan, 問心伝仕入振替月次_準備.sykd_scd, 問心伝仕入振替月次_準備.sykd_mkbn, 問心伝仕入振替月次_準備.sykd_mei, 問心伝仕入振替月次_準備.sykd_tani, 問心伝仕入振替月次_準備.評価単価, 問心伝仕入振替月次_準備.sykd_rate"
+		//								+ " HAVING SUM(問心伝仕入振替月次_準備.数量計) <> 0"
+		//								, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]
+		//								, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注ヘッダ]
+		//								, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
+		//								, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
+		//								, ym.ToIntYM());
+		//	DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		//	return 仕入振替月次追加.DataTableToList(dt);
+		//}
+
+		///// <summary>
+		///// 6-3 問心伝仕入振替月次追加
+		///// </summary>
+		///// <param name="ym">集計月</param>
+		///// <param name="connectStr">SQL Server接続文字列</param>
+		///// <returns>結果</returns>
+		//public static List<仕入振替月次追加> Select_問心伝仕入振替月次追加(YearMonth ym, string connectStr)
+		//{
+		//	string sqlStr = string.Format("SELECT"
+		//								+ " 問心伝仕入振替月次_準備.sykd_jbmn"
+		//								+ ", 問心伝仕入振替月次_準備.sykd_jtan"
+		//								+ ", 問心伝仕入振替月次_準備.sykd_scd"
+		//								+ ", 問心伝仕入振替月次_準備.sykd_mkbn"
+		//								+ ", 問心伝仕入振替月次_準備.sykd_mei"
+		//								+ ", SUM(問心伝仕入振替月次_準備.数量計) AS 数量"
+		//								+ ", 問心伝仕入振替月次_準備.sykd_tani"
+		//								+ ", 問心伝仕入振替月次_準備.評価単価"
+		//								+ ", CONVERT(int, 問心伝仕入振替月次_準備.sykd_rate) AS sykd_rate"
+		//								+ " FROM"
+		//								+ " ("
+		//									+ " SELECT"
+		//									+ " BSH.fPca倉庫コード"
+		//									+ ", 売上明細月次.sykd_jbmn"
+		//									+ ", 売上明細月次.sykd_jtan"
+		//									+ ", 在庫評価単価.商品ｺｰﾄﾞ AS sykd_scd"
+		//									+ ", 売上明細月次.sykd_mkbn"
+		//									+ ", SMS.sms_mei AS sykd_mei"
+		//									+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量計"
+		//									+ ", 売上明細月次.sykd_tani"
+		//									+ ", 在庫評価単価.評価単価"
+		//									+ ", JH.fBshCode1"
+		//									+ ", JH.fBshCode2"
+		//									+ ", JH.fBshCode3"
+		//									+ ", 売上明細月次.sykd_rate"
+		//									+ " FROM {0} AS BSH"
+		//									+ " INNER JOIN ({1} AS JH"
+		//									+ " INNER JOIN ({2} AS SMS"
+		//									+ " INNER JOIN (("
+		//									+ "("
+		//										+ " SELECT *"
+		//										+ " FROM {3}"
+		//										+ " WHERE sykd_uribi / 100 = {4}"
+		//									+ ") AS 売上明細月次"
+		//									+ " INNER JOIN"
+		//									+ " ("
+		//										+ " SELECT * FROM[charlieDB].[dbo].[TEST_問心伝商品コード]"
+		//									+ ") AS 問心伝商品コード ON 売上明細月次.sykd_scd = 問心伝商品コード.Palette商品コード)"
+		//									+ " INNER JOIN"
+		//									+ " ("
+		//										+ " SELECT 商品ｺｰﾄﾞ, 評価単価"
+		//										+ " FROM [charlieDB].[dbo].TMP_在庫一覧表"
+		//										+ " GROUP BY 商品ｺｰﾄﾞ, 評価単価"
+		//										+ " HAVING 商品ｺｰﾄﾞ <> '' AND 評価単価 <> 0"
+		//									+ ") AS 在庫評価単価 ON 問心伝商品コード.問心伝商品コード = 在庫評価単価.商品ｺｰﾄﾞ"
+		//									+ ") ON SMS.sms_scd = 在庫評価単価.商品ｺｰﾄﾞ"
+		//									+ ") ON JH.f受注番号 = 売上明細月次.sykd_denno"
+		//									+ ") ON BSH.fBshCode1 = JH.fBshCode1 AND BSH.fBshCode2 = JH.fBshCode2 AND BSH.fBshCode3 = JH.fBshCode3"
+		//									+ " GROUP BY BSH.fPca倉庫コード, 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, 在庫評価単価.商品ｺｰﾄﾞ, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, 在庫評価単価.評価単価, JH.fBshCode1, JH.fBshCode2, JH.fBshCode3, 売上明細月次.sykd_scd, 売上明細月次.sykd_rate"
+		//									+ " HAVING 売上明細月次.sykd_scd = '800104' OR 売上明細月次.sykd_scd = '800105' OR 売上明細月次.sykd_scd = '800106' OR 売上明細月次.sykd_scd = '800107'"
+		//								+ ") AS 問心伝仕入振替月次_準備"
+		//								+ " GROUP BY 問心伝仕入振替月次_準備.sykd_jbmn, 問心伝仕入振替月次_準備.sykd_jtan, 問心伝仕入振替月次_準備.sykd_scd, 問心伝仕入振替月次_準備.sykd_mkbn, 問心伝仕入振替月次_準備.sykd_mei, 問心伝仕入振替月次_準備.sykd_tani, 問心伝仕入振替月次_準備.評価単価, 問心伝仕入振替月次_準備.sykd_rate"
+		//								+ " HAVING SUM(問心伝仕入振替月次_準備.数量計) <> 0"
+		//								, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]
+		//								, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注ヘッダ]
+		//								, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
+		//								, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
+		//								, ym.ToIntYM());
+		//	DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		//	return 仕入振替月次追加.DataTableToList(dt);
+		//}
 
 		/// <summary>
-		/// 5-2 りすとん仕入振替月次追加
+		/// 7 りすとん月額仕入集計
 		/// </summary>
 		/// <param name="ym">集計月</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>結果</returns>
-		public static List<仕入振替月次追加> Select_りすとん仕入振替月次追加(YearMonth ym, string connectStr)
+		public static List<仕入集計> Select_りすとん月額仕入集計(YearMonth ym, string connectStr)
 		{
 			string sqlStr = string.Format("SELECT"
-										+ " りすとん仕入振替月次_準備.sykd_jbmn"
-										+ ", りすとん仕入振替月次_準備.sykd_jtan"
-										+ ", りすとん仕入振替月次_準備.sykd_scd"
-										+ ", りすとん仕入振替月次_準備.sykd_mkbn"
-										+ ", りすとん仕入振替月次_準備.sykd_mei"
-										+ ", SUM(りすとん仕入振替月次_準備.数量計) AS 数量"
-										+ ", りすとん仕入振替月次_準備.sykd_tani"
-										+ ", りすとん仕入振替月次_準備.評価単価"
-										+ ", CONVERT(int, りすとん仕入振替月次_準備.sykd_rate) AS sykd_rate"
-										+ " FROM"
-										+ " ("
-											+ " SELECT"
-											+ " 売上明細月次.sykd_jbmn"
-											+ ", 売上明細月次.sykd_jtan"
-											+ ", 在庫評価単価.商品ｺｰﾄﾞ AS sykd_scd"
-											+ ", 売上明細月次.sykd_mkbn"
-											+ ", SMS.sms_mei AS sykd_mei"
-											+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量計"
-											+ ", 売上明細月次.sykd_tani"
-											+ ", 在庫評価単価.評価単価"
-											+ ", 売上明細月次.sykd_rate"
-											+ " FROM {0} AS SMS"
-											+ " INNER JOIN (("
-											+ "("
-												+ " SELECT *"
-												+ " FROM {1}"
-												+ " WHERE sykd_uribi / 100 = {2}"
-											+ ") AS 売上明細月次"
-											+ " INNER JOIN"
-											+ " ("
-												+ " SELECT *"
-												+ " FROM [charlieDB].[dbo].[TEST_りすとん商品コード]"
-											+ ") AS りすとん商品コード ON 売上明細月次.sykd_scd = りすとん商品コード.Palette商品コード)"
-											+ " INNER JOIN"
-											+ " ("
-												+ " SELECT 商品ｺｰﾄﾞ, 評価単価"
-												+ " FROM [charlieDB].[dbo].TEST_在庫一覧表"
-												+ " GROUP BY 商品ｺｰﾄﾞ, 評価単価"
-												+ " HAVING 商品ｺｰﾄﾞ <> '' AND 評価単価 <> 0"
-											+ ") AS 在庫評価単価 ON りすとん商品コード.りすとん商品コード = 在庫評価単価.商品ｺｰﾄﾞ"
-											+ ") ON SMS.sms_scd = 在庫評価単価.商品ｺｰﾄﾞ"
-											+ " GROUP BY 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, 在庫評価単価.商品ｺｰﾄﾞ, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, 在庫評価単価.評価単価, 売上明細月次.sykd_scd, 売上明細月次.sykd_rate"
-											+ " HAVING 売上明細月次.sykd_scd = '800102' OR 売上明細月次.sykd_scd = '800103' OR 売上明細月次.sykd_scd = '800104' OR 売上明細月次.sykd_scd = '800105' OR 売上明細月次.sykd_scd = '800106' OR 売上明細月次.sykd_scd = '800107'"
-										+ ") AS りすとん仕入振替月次_準備"
-										+ " GROUP BY りすとん仕入振替月次_準備.sykd_jbmn, りすとん仕入振替月次_準備.sykd_jtan, りすとん仕入振替月次_準備.sykd_scd, りすとん仕入振替月次_準備.sykd_mkbn, りすとん仕入振替月次_準備.sykd_mei, りすとん仕入振替月次_準備.sykd_tani, りすとん仕入振替月次_準備.評価単価, りすとん仕入振替月次_準備.sykd_rate"
-										+ " HAVING SUM(りすとん仕入振替月次_準備.数量計) <> 0"
-										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
-										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
-										, ym.ToIntYM());
-			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
-			return 仕入振替月次追加.DataTableToList(dt);
-		}
-
-		/// <summary>
-		/// 6-2 問心伝仕入振替月次合計行追加
-		/// </summary>
-		/// <param name="ym">集計月</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>結果</returns>
-		public static List<仕入振替月次追加> Select_問心伝仕入振替月次合計行追加(YearMonth ym, string connectStr)
-		{
-			string sqlStr = string.Format("SELECT"
-										+ " '011' AS sykd_jbmn"
-										+ ", '0099' AS sykd_jtan"
-										+ ", 問心伝仕入振替月次_準備.sykd_scd"
-										+ ", 問心伝仕入振替月次_準備.sykd_mkbn"
-										+ ", 問心伝仕入振替月次_準備.sykd_mei"
-										+ ", SUM(問心伝仕入振替月次_準備.数量計) AS 数量"
-										+ ", 問心伝仕入振替月次_準備.sykd_tani"
-										+ ", 問心伝仕入振替月次_準備.評価単価"
-										+ ", CONVERT(int, 問心伝仕入振替月次_準備.sykd_rate) AS sykd_rate"
-										+ " FROM"
-										+ " ("
-											+ " SELECT"
-											+ " BSH.fPca倉庫コード"
+											+ " りすとん月額商品.仕入先"
 											+ ", 売上明細月次.sykd_jbmn"
 											+ ", 売上明細月次.sykd_jtan"
-											+ ", 在庫評価単価.商品ｺｰﾄﾞ AS sykd_scd"
-											+ ", 売上明細月次.sykd_mkbn"
-											+ ", SMS.sms_mei AS sykd_mei"
-											+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量計"
-											+ ", 売上明細月次.sykd_tani"
-											+ ", 在庫評価単価.評価単価"
-											+ ", JH.fBshCode1"
-											+ ", JH.fBshCode2"
-											+ ", JH.fBshCode3"
-											+ ", 売上明細月次.sykd_rate"
-											+ " FROM {0} AS BSH"
-											+ " INNER JOIN ({1} AS JH"
-											+ " INNER JOIN ({2} AS SMS"
-											+ " INNER JOIN (("
-											+ "("
-												+ " SELECT *"
-												+ " FROM {3}"
-												+ " WHERE sykd_uribi / 100 = {4}"
-											+ ") AS 売上明細月次"
-											+ " INNER JOIN"
-											+ " ("
-												+ " SELECT * FROM [charlieDB].[dbo].[TEST_問心伝商品コード]"
-											+ ") AS 問心伝商品コード ON 売上明細月次.sykd_scd = 問心伝商品コード.Palette商品コード"
-											+ ") INNER JOIN"
-											+ " ("
-												+ " SELECT 商品ｺｰﾄﾞ, 評価単価"
-												+ " FROM [charlieDB].[dbo].TEST_在庫一覧表"
-												+ " GROUP BY 商品ｺｰﾄﾞ, 評価単価"
-												+ " HAVING 商品ｺｰﾄﾞ <> '' AND 評価単価 <> 0"
-											+ ") AS 在庫評価単価 ON 問心伝商品コード.問心伝商品コード = 在庫評価単価.商品ｺｰﾄﾞ"
-											+ ") ON SMS.sms_scd = 在庫評価単価.商品ｺｰﾄﾞ"
-											+ ") ON JH.f受注番号 = 売上明細月次.sykd_denno"
-											+ ") ON BSH.fBshCode1 = JH.fBshCode1 AND BSH.fBshCode2 = JH.fBshCode2 AND BSH.fBshCode3 = JH.fBshCode3"
-											+ " GROUP BY BSH.fPca倉庫コード, 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, 在庫評価単価.商品ｺｰﾄﾞ, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, 在庫評価単価.評価単価, JH.fBshCode1, JH.fBshCode2, JH.fBshCode3, 売上明細月次.sykd_scd, 売上明細月次.sykd_rate"
-											+ " HAVING 売上明細月次.sykd_scd = '800104' OR 売上明細月次.sykd_scd = '800105' OR 売上明細月次.sykd_scd = '800106' OR 売上明細月次.sykd_scd = '800107'"
-										+ ") AS 問心伝仕入振替月次_準備"
-										+ " GROUP BY 問心伝仕入振替月次_準備.sykd_jbmn, 問心伝仕入振替月次_準備.sykd_jtan, 問心伝仕入振替月次_準備.sykd_scd, 問心伝仕入振替月次_準備.sykd_mkbn, 問心伝仕入振替月次_準備.sykd_mei, 問心伝仕入振替月次_準備.sykd_tani, 問心伝仕入振替月次_準備.評価単価, 問心伝仕入振替月次_準備.sykd_rate"
-										+ " HAVING SUM(問心伝仕入振替月次_準備.数量計) <> 0"
-										, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]
-										, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注ヘッダ]
-										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
-										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
-										, ym.ToIntYM());
-			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
-			return 仕入振替月次追加.DataTableToList(dt);
-		}
-
-		/// <summary>
-		/// 6-3 問心伝仕入振替月次追加
-		/// </summary>
-		/// <param name="ym">集計月</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>結果</returns>
-		public static List<仕入振替月次追加> Select_問心伝仕入振替月次追加(YearMonth ym, string connectStr)
-		{
-			string sqlStr = string.Format("SELECT"
-										+ " 問心伝仕入振替月次_準備.sykd_jbmn"
-										+ ", 問心伝仕入振替月次_準備.sykd_jtan"
-										+ ", 問心伝仕入振替月次_準備.sykd_scd"
-										+ ", 問心伝仕入振替月次_準備.sykd_mkbn"
-										+ ", 問心伝仕入振替月次_準備.sykd_mei"
-										+ ", SUM(問心伝仕入振替月次_準備.数量計) AS 数量"
-										+ ", 問心伝仕入振替月次_準備.sykd_tani"
-										+ ", 問心伝仕入振替月次_準備.評価単価"
-										+ ", CONVERT(int, 問心伝仕入振替月次_準備.sykd_rate) AS sykd_rate"
-										+ " FROM"
-										+ " ("
-											+ " SELECT"
-											+ " BSH.fPca倉庫コード"
-											+ ", 売上明細月次.sykd_jbmn"
-											+ ", 売上明細月次.sykd_jtan"
-											+ ", 在庫評価単価.商品ｺｰﾄﾞ AS sykd_scd"
-											+ ", 売上明細月次.sykd_mkbn"
-											+ ", SMS.sms_mei AS sykd_mei"
-											+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量計"
-											+ ", 売上明細月次.sykd_tani"
-											+ ", 在庫評価単価.評価単価"
-											+ ", JH.fBshCode1"
-											+ ", JH.fBshCode2"
-											+ ", JH.fBshCode3"
-											+ ", 売上明細月次.sykd_rate"
-											+ " FROM {0} AS BSH"
-											+ " INNER JOIN ({1} AS JH"
-											+ " INNER JOIN ({2} AS SMS"
-											+ " INNER JOIN (("
-											+ "("
-												+ " SELECT *"
-												+ " FROM {3}"
-												+ " WHERE sykd_uribi / 100 = {4}"
-											+ ") AS 売上明細月次"
-											+ " INNER JOIN"
-											+ " ("
-												+ " SELECT * FROM[charlieDB].[dbo].[TEST_問心伝商品コード]"
-											+ ") AS 問心伝商品コード ON 売上明細月次.sykd_scd = 問心伝商品コード.Palette商品コード)"
-											+ " INNER JOIN"
-											+ " ("
-												+ " SELECT 商品ｺｰﾄﾞ, 評価単価"
-												+ " FROM [charlieDB].[dbo].TEST_在庫一覧表"
-												+ " GROUP BY 商品ｺｰﾄﾞ, 評価単価"
-												+ " HAVING 商品ｺｰﾄﾞ <> '' AND 評価単価 <> 0"
-											+ ") AS 在庫評価単価 ON 問心伝商品コード.問心伝商品コード = 在庫評価単価.商品ｺｰﾄﾞ"
-											+ ") ON SMS.sms_scd = 在庫評価単価.商品ｺｰﾄﾞ"
-											+ ") ON JH.f受注番号 = 売上明細月次.sykd_denno"
-											+ ") ON BSH.fBshCode1 = JH.fBshCode1 AND BSH.fBshCode2 = JH.fBshCode2 AND BSH.fBshCode3 = JH.fBshCode3"
-											+ " GROUP BY BSH.fPca倉庫コード, 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, 在庫評価単価.商品ｺｰﾄﾞ, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, 在庫評価単価.評価単価, JH.fBshCode1, JH.fBshCode2, JH.fBshCode3, 売上明細月次.sykd_scd, 売上明細月次.sykd_rate"
-											+ " HAVING 売上明細月次.sykd_scd = '800104' OR 売上明細月次.sykd_scd = '800105' OR 売上明細月次.sykd_scd = '800106' OR 売上明細月次.sykd_scd = '800107'"
-										+ ") AS 問心伝仕入振替月次_準備"
-										+ " GROUP BY 問心伝仕入振替月次_準備.sykd_jbmn, 問心伝仕入振替月次_準備.sykd_jtan, 問心伝仕入振替月次_準備.sykd_scd, 問心伝仕入振替月次_準備.sykd_mkbn, 問心伝仕入振替月次_準備.sykd_mei, 問心伝仕入振替月次_準備.sykd_tani, 問心伝仕入振替月次_準備.評価単価, 問心伝仕入振替月次_準備.sykd_rate"
-										+ " HAVING SUM(問心伝仕入振替月次_準備.数量計) <> 0"
-										, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]
-										, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注ヘッダ]
-										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
-										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
-										, ym.ToIntYM());
-			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
-			return 仕入振替月次追加.DataTableToList(dt);
-		}
-
-		/// <summary>
-		/// 7 りすとん月額仕入振替月次
-		/// </summary>
-		/// <param name="ym">集計月</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>結果</returns>
-		public static List<仕入振替月次> Select_りすとん月額仕入振替月次(YearMonth ym, string connectStr)
-		{
-			string sqlStr = string.Format("SELECT"
-											+ " りすとん月額商品コード.仕入先"
-											+ ", 売上明細月次.sykd_jbmn"
-											+ ", 売上明細月次.sykd_jtan"
-											+ ", りすとん月額商品コード.仕入商品コード AS sykd_scd"
+											+ ", りすとん月額商品.仕入商品コード AS sykd_scd"
 											+ ", 売上明細月次.sykd_mkbn"
 											+ ", SMS.sms_mei AS sykd_mei"
 											+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量"
 											+ ", 売上明細月次.sykd_tani"
-											+ ", りすとん月額商品コード.仕入価格 AS 評価単価"
+											+ ", りすとん月額商品.仕入価格 AS 評価単価"
 											+ ", CONVERT(int, 売上明細月次.sykd_rate) AS sykd_rate"
 											+ " FROM ("
 											+ "("
@@ -824,36 +901,36 @@ namespace CommonLib.DB.SqlServer.PurchaseTransfer
 											+ ") AS 売上明細月次"
 											+ " INNER JOIN"
 											+ " ("
-												+ " SELECT * FROM [charlieDB].[dbo].[TEST_りすとん月額商品コード]"
-											+ ") AS りすとん月額商品コード ON 売上明細月次.sykd_scd = りすとん月額商品コード.商品コード)"
-											+ " INNER JOIN {2} AS SMS ON りすとん月額商品コード.仕入商品コード = SMS.sms_scd"
-											+ " GROUP BY りすとん月額商品コード.仕入先, 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, りすとん月額商品コード.仕入商品コード, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, りすとん月額商品コード.仕入価格, 売上明細月次.sykd_rate"
+												+ " SELECT * FROM [charlieDB].[dbo].[TMP_りすとん月額商品]"
+											+ ") AS りすとん月額商品 ON 売上明細月次.sykd_scd = りすとん月額商品.商品コード)"
+											+ " INNER JOIN {2} AS SMS ON りすとん月額商品.仕入商品コード = SMS.sms_scd"
+											+ " GROUP BY りすとん月額商品.仕入先, 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, りすとん月額商品.仕入商品コード, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, りすとん月額商品.仕入価格, 売上明細月次.sykd_rate"
 											+ " HAVING SUM(CONVERT(int, sykd_suryo)) <> 0"
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
 										, ym.ToIntYM()
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]);
 			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
-			return 仕入振替月次.DataTableToList(dt);
+			return 仕入集計.DataTableToList(dt);
 		}
 
 		/// <summary>
-		/// 8 Office365仕入振替月次
+		/// 8 Office365仕入集計
 		/// </summary>
 		/// <param name="ym">集計月</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>結果</returns>
-		public static List<仕入振替月次> Select_Office365仕入振替月次(YearMonth ym, string connectStr)
+		public static List<仕入集計> Select_Office365仕入集計(YearMonth ym, string connectStr)
 		{
 			string sqlStr = string.Format("SELECT"
-											+ " Office365商品コード.仕入先"
+											+ " Office365商品.仕入先"
 											+ ", 売上明細月次.sykd_jbmn"
 											+ ", 売上明細月次.sykd_jtan"
-											+ ", Office365商品コード.仕入商品コード AS sykd_scd"
+											+ ", Office365商品.仕入商品コード AS sykd_scd"
 											+ ", 売上明細月次.sykd_mkbn"
 											+ ", SMS.sms_mei AS sykd_mei"
 											+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量"
 											+ ", 売上明細月次.sykd_tani"
-											+ ", Office365商品コード.仕入価格 AS 評価単価"
+											+ ", Office365商品.仕入価格 AS 評価単価"
 											+ ", CONVERT(int, 売上明細月次.sykd_rate) AS sykd_rate"
 											+ " FROM ("
 											+ "("
@@ -863,75 +940,36 @@ namespace CommonLib.DB.SqlServer.PurchaseTransfer
 											+ ") AS 売上明細月次"
 											+ " INNER JOIN"
 											+ " ("
-												+ " SELECT * FROM [charlieDB].[dbo].[TEST_Office365商品コード]"
-											+ ") AS Office365商品コード ON 売上明細月次.sykd_scd = Office365商品コード.商品コード)"
-											+ " INNER JOIN {2} AS SMS ON Office365商品コード.仕入商品コード = SMS.sms_scd"
-											+ " GROUP BY Office365商品コード.仕入先, 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, Office365商品コード.仕入商品コード, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, Office365商品コード.仕入価格, 売上明細月次.sykd_rate"
+												+ " SELECT * FROM [charlieDB].[dbo].[TMP_Office365商品]"
+											+ ") AS Office365商品 ON 売上明細月次.sykd_scd = Office365商品.商品コード)"
+											+ " INNER JOIN {2} AS SMS ON Office365商品.仕入商品コード = SMS.sms_scd"
+											+ " GROUP BY Office365商品.仕入先, 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, Office365商品.仕入商品コード, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, Office365商品.仕入価格, 売上明細月次.sykd_rate"
 											+ " HAVING SUM(CONVERT(int, sykd_suryo)) <> 0"
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
 										, ym.ToIntYM()
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]);
 			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
-			return 仕入振替月次.DataTableToList(dt);
+			return 仕入集計.DataTableToList(dt);
 		}
 
 		/// <summary>
-		/// 9 問心伝月額仕入振替月次
+		/// 9 問心伝月額仕入集計
 		/// </summary>
 		/// <param name="ym">集計月</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>結果</returns>
-		public static List<仕入振替月次> Select_問心伝月額仕入振替月次(YearMonth ym, string connectStr)
+		public static List<仕入集計> Select_問心伝月額仕入集計(YearMonth ym, string connectStr)
 		{
 			string sqlStr = string.Format("SELECT"
-											+ " 問心伝月額商品コード.仕入先"
+											+ " 問心伝月額商品.仕入先"
 											+ ", 売上明細月次.sykd_jbmn"
 											+ ", 売上明細月次.sykd_jtan"
-											+ ", 問心伝月額商品コード.仕入商品コード AS sykd_scd"
+											+ ", 問心伝月額商品.仕入商品コード AS sykd_scd"
 											+ ", 売上明細月次.sykd_mkbn"
 											+ ", SMS.sms_mei AS sykd_mei"
 											+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量"
 											+ ", 売上明細月次.sykd_tani"
-											+ ", 問心伝月額商品コード.仕入価格 AS 評価単価"
-											+ ", CONVERT(int, 売上明細月次.sykd_rate) AS sykd_rate"
-											+ " FROM ("
-											+ "("
-												+ " SELECT *"
-												+ " FROM {0}"
-												+ " WHERE sykd_uribi / 100 = {1}"
-											+ ") as 売上明細月次"
-											+ " INNER JOIN"
-											+ " ("
-												+ " SELECT * FROM [charlieDB].[dbo].[TEST_問心伝月額商品コード]"
-											+ ") as 問心伝月額商品コード ON 売上明細月次.sykd_scd = 問心伝月額商品コード.商品コード)"
-											+ " INNER JOIN {2} AS SMS ON 問心伝月額商品コード.仕入商品コード = SMS.sms_scd"
-											+ " GROUP BY 問心伝月額商品コード.仕入先, 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, 問心伝月額商品コード.仕入商品コード, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, 問心伝月額商品コード.仕入価格, 売上明細月次.sykd_rate"
-											+ " HAVING SUM(CONVERT(int, sykd_suryo)) <> 0"
-										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
-										, ym.ToIntYM()
-										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]);
-			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
-			return 仕入振替月次.DataTableToList(dt);
-		}
-
-		/// <summary>
-		/// 10 ソフトバンク仕入振替月次
-		/// </summary>
-		/// <param name="ym">集計月</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>結果</returns>
-		public static List<仕入振替月次> Select_ソフトバンク仕入振替月次(YearMonth ym, string connectStr)
-		{
-			string sqlStr = string.Format("SELECT"
-											+ " ソフトバンク商品コード.仕入先"
-											+ ", 売上明細月次.sykd_jbmn"
-											+ ", 売上明細月次.sykd_jtan"
-											+ ", ソフトバンク商品コード.仕入商品コード AS sykd_scd"
-											+ ", 売上明細月次.sykd_mkbn"
-											+ ", SMS.sms_mei AS sykd_mei"
-											+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量"
-											+ ", 売上明細月次.sykd_tani"
-											+ ", ソフトバンク商品コード.仕入価格 AS 評価単価"
+											+ ", 問心伝月額商品.仕入価格 AS 評価単価"
 											+ ", CONVERT(int, 売上明細月次.sykd_rate) AS sykd_rate"
 											+ " FROM ("
 											+ "("
@@ -941,36 +979,75 @@ namespace CommonLib.DB.SqlServer.PurchaseTransfer
 											+ ") AS 売上明細月次"
 											+ " INNER JOIN"
 											+ " ("
-												+ " SELECT * FROM [charlieDB].[dbo].[TEST_ソフトバンク商品コード]"
-											+ ") AS ソフトバンク商品コード ON 売上明細月次.sykd_scd = ソフトバンク商品コード.商品コード)"
-											+ " INNER JOIN {2} AS SMS ON ソフトバンク商品コード.仕入商品コード = SMS.sms_scd"
-											+ " GROUP BY ソフトバンク商品コード.仕入先, 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, ソフトバンク商品コード.仕入商品コード, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, ソフトバンク商品コード.仕入価格, 売上明細月次.sykd_rate"
+												+ " SELECT * FROM [charlieDB].[dbo].[TMP_問心伝月額商品]"
+											+ ") AS 問心伝月額商品 ON 売上明細月次.sykd_scd = 問心伝月額商品.商品コード)"
+											+ " INNER JOIN {2} AS SMS ON 問心伝月額商品.仕入商品コード = SMS.sms_scd"
+											+ " GROUP BY 問心伝月額商品.仕入先, 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, 問心伝月額商品.仕入商品コード, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, 問心伝月額商品.仕入価格, 売上明細月次.sykd_rate"
 											+ " HAVING SUM(CONVERT(int, sykd_suryo)) <> 0"
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
 										, ym.ToIntYM()
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]);
 			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
-			return 仕入振替月次.DataTableToList(dt);
+			return 仕入集計.DataTableToList(dt);
 		}
 
+		///// <summary>
+		///// 10 ソフトバンク仕入振替月次
+		///// </summary>
+		///// <param name="ym">集計月</param>
+		///// <param name="connectStr">SQL Server接続文字列</param>
+		///// <returns>結果</returns>
+		//public static List<仕入振替月次> Select_ソフトバンク仕入振替月次(YearMonth ym, string connectStr)
+		//{
+		//	string sqlStr = string.Format("SELECT"
+		//									+ " ソフトバンク商品コード.仕入先"
+		//									+ ", 売上明細月次.sykd_jbmn"
+		//									+ ", 売上明細月次.sykd_jtan"
+		//									+ ", ソフトバンク商品コード.仕入商品コード AS sykd_scd"
+		//									+ ", 売上明細月次.sykd_mkbn"
+		//									+ ", SMS.sms_mei AS sykd_mei"
+		//									+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量"
+		//									+ ", 売上明細月次.sykd_tani"
+		//									+ ", ソフトバンク商品コード.仕入価格 AS 評価単価"
+		//									+ ", CONVERT(int, 売上明細月次.sykd_rate) AS sykd_rate"
+		//									+ " FROM ("
+		//									+ "("
+		//										+ " SELECT *"
+		//										+ " FROM {0}"
+		//										+ " WHERE sykd_uribi / 100 = {1}"
+		//									+ ") AS 売上明細月次"
+		//									+ " INNER JOIN"
+		//									+ " ("
+		//										+ " SELECT * FROM [charlieDB].[dbo].[TMP_ソフトバンク商品]"
+		//									+ ") AS ソフトバンク商品コード ON 売上明細月次.sykd_scd = ソフトバンク商品コード.商品コード)"
+		//									+ " INNER JOIN {2} AS SMS ON ソフトバンク商品コード.仕入商品コード = SMS.sms_scd"
+		//									+ " GROUP BY ソフトバンク商品コード.仕入先, 売上明細月次.sykd_jbmn, 売上明細月次.sykd_jtan, ソフトバンク商品コード.仕入商品コード, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, ソフトバンク商品コード.仕入価格, 売上明細月次.sykd_rate"
+		//									+ " HAVING SUM(CONVERT(int, sykd_suryo)) <> 0"
+		//								, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
+		//								, ym.ToIntYM()
+		//								, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]);
+		//	DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		//	return 仕入振替月次.DataTableToList(dt);
+		//}
+
 		/// <summary>
-		/// 11 Curline本体アプリ仕入作成月次
+		/// 11 Curline本体アプリ仕入集計
 		/// </summary>
 		/// <param name="ym">集計月</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>結果</returns>
-		public static List<仕入振替月次> Select_Curline本体アプリ仕入作成月次(YearMonth ym, string connectStr)
+		public static List<仕入集計> Select_Curline本体アプリ仕入集計(YearMonth ym, string connectStr)
 		{
 			string sqlStr = string.Format("SELECT"
-											+ " Curline本体アプリ商品コード.仕入先"
+											+ " Curline本体アプリ商品.仕入先"
 											+ ", '075' AS sykd_jbmn"
 											+ ", 売上明細月次.sykd_jtan"
-											+ ", Curline本体アプリ商品コード.仕入商品コード AS sykd_scd"
+											+ ", Curline本体アプリ商品.仕入商品コード AS sykd_scd"
 											+ ", 売上明細月次.sykd_mkbn"
 											+ ", SMS.sms_mei AS sykd_mei"
 											+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量"
 											+ ", 売上明細月次.sykd_tani"
-											+ ", Curline本体アプリ商品コード.仕入価格 AS 評価単価"
+											+ ", Curline本体アプリ商品.仕入価格 AS 評価単価"
 											+ ", CONVERT(int, 売上明細月次.sykd_rate) AS sykd_rate"
 											+ " FROM ("
 											+ "("
@@ -980,16 +1057,70 @@ namespace CommonLib.DB.SqlServer.PurchaseTransfer
 											+ ") AS 売上明細月次"
 											+ " INNER JOIN"
 											+ " ("
-												+ " SELECT * FROM [charlieDB].[dbo].[TEST_Curline本体アプリ商品コード]"
-											+ ") AS Curline本体アプリ商品コード ON 売上明細月次.sykd_scd = Curline本体アプリ商品コード.商品コード)"
-											+ " INNER JOIN {2} AS SMS ON Curline本体アプリ商品コード.仕入商品コード = SMS.sms_scd"
-											+ " GROUP BY Curline本体アプリ商品コード.仕入先, sykd_jbmn, 売上明細月次.sykd_jtan, Curline本体アプリ商品コード.仕入商品コード, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, Curline本体アプリ商品コード.仕入価格, 売上明細月次.sykd_rate"
+												+ " SELECT * FROM [charlieDB].[dbo].[TMP_Curline本体アプリ商品]"
+											+ ") AS Curline本体アプリ商品 ON 売上明細月次.sykd_scd = Curline本体アプリ商品.商品コード)"
+											+ " INNER JOIN {2} AS SMS ON Curline本体アプリ商品.仕入商品コード = SMS.sms_scd"
+											+ " GROUP BY Curline本体アプリ商品.仕入先, sykd_jbmn, 売上明細月次.sykd_jtan, Curline本体アプリ商品.仕入商品コード, 売上明細月次.sykd_mkbn, SMS.sms_mei, 売上明細月次.sykd_tani, Curline本体アプリ商品.仕入価格, 売上明細月次.sykd_rate"
 											+ " HAVING SUM(CONVERT(int, sykd_suryo)) <> 0"
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
 										, ym.ToIntYM()
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]);
 			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
-			return 仕入振替月次.DataTableToList(dt);
+			return 仕入集計.DataTableToList(dt);
+		}
+
+		/// <summary>
+		/// 12 ナルコーム仕入集計
+		/// </summary>
+		/// <param name="ym">集計月</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>結果</returns>
+		public static List<ナルコーム仕入集計> Select_ナルコーム仕入集計(YearMonth ym, string connectStr)
+		{
+			string sqlStr = string.Format("SELECT" 
+										+ " ナルコーム商品売上伝票.仕入先"
+										+ ", ナルコーム商品売上伝票.sykd_jbmn"
+										+ ", ナルコーム商品売上伝票.sykd_jtan"
+										+ ", ナルコーム商品売上伝票.仕入商品コード AS sykd_scd"
+										+ ", ナルコーム商品売上伝票.sykd_mkbn"
+										+ ", 商品マスタ.sms_mei AS sykd_mei"
+										+ ", SUM(Convert(int, sykd_suryo)) AS 数量"
+										+ ", ナルコーム商品売上伝票.sykd_tani"
+										+ ", ナルコーム商品売上伝票.仕入価格 AS 評価単価"
+										+ ", ナルコーム商品売上伝票.sykd_uribi"
+										+ ", ナルコーム商品売上伝票.仕入フラグ"
+										+ ", ナルコーム商品売上伝票.sykd_rate"
+										+ " FROM"
+										+ " ("
+											+ " SELECT"
+											+ " 売上明細.*"
+											+ ", ナルコーム商品.仕入商品コード"
+											+ ", ナルコーム商品.仕入価格"
+											+ ", ナルコーム商品.仕入先"
+											+ ", ナルコーム商品.仕入フラグ"
+											+ " FROM ("
+											+ " ("
+												+ " SELECT *"
+												+ " FROM {0}"
+												+ " WHERE sykh_uribi >= {1} AND sykh_uribi <= {2}"
+											+ ") AS 売上伝票"
+											+ " INNER JOIN {3} AS 売上明細 ON 売上伝票.sykh_uribi = 売上明細.sykd_uribi AND 売上伝票.sykh_denno = 売上明細.sykd_denno AND 売上伝票.sykh_seibi = 売上明細.sykd_seibi)"
+											+ " INNER JOIN"
+											+ " ("
+												+ " SELECT * FROM [charlieDB].[dbo].[TMP_ナルコーム商品]"
+											+ ") AS ナルコーム商品 ON 売上明細.sykd_scd = ナルコーム商品.商品コード"
+											+ " WHERE 売上明細.sykd_kingaku <> 0"
+										+ ") AS ナルコーム商品売上伝票"
+										+ " INNER JOIN {4} AS 商品マスタ ON ナルコーム商品売上伝票.仕入商品コード = 商品マスタ.sms_scd"
+										+ " GROUP BY ナルコーム商品売上伝票.仕入先, ナルコーム商品売上伝票.sykd_jbmn, ナルコーム商品売上伝票.sykd_jtan, ナルコーム商品売上伝票.仕入商品コード, ナルコーム商品売上伝票.sykd_mkbn, 商品マスタ.sms_mei, ナルコーム商品売上伝票.sykd_tani, ナルコーム商品売上伝票.仕入価格, ナルコーム商品売上伝票.sykd_uribi, ナルコーム商品売上伝票.仕入フラグ, ナルコーム商品売上伝票.sykd_rate"
+										+ " ORDER BY ナルコーム商品売上伝票.sykd_jbmn, ナルコーム商品売上伝票.仕入フラグ, ナルコーム商品売上伝票.sykd_uribi, ナルコーム商品売上伝票.仕入商品コード"
+										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上ヘッダ]
+										, ym.ToSpan().Start.ToIntYMD()
+										, ym.ToSpan().End.ToIntYMD()
+										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
+										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]);
+			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+			return ナルコーム仕入集計.DataTableToList(dt);
 		}
 	}
 }

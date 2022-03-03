@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using CommonLib.BaseFactory.Pca;
 using CommonLib.DB;
-using CommonLib.BaseFactory.Pca;
+using System.Collections.Generic;
+using System.Data;
 
 namespace CommonLib.BaseFactory.PurchaseTransfer
 {

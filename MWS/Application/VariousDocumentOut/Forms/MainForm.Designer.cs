@@ -30,11 +30,11 @@ namespace VariousDocumentOut.Forms
 		private void InitializeComponent()
 		{
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.radioButtonOnlineConfirm = new System.Windows.Forms.RadioButton();
 			this.radioButtonFaxOrderSheet = new System.Windows.Forms.RadioButton();
 			this.radioButton作業報告書 = new System.Windows.Forms.RadioButton();
 			this.radioアプラス預金口座振替依頼書 = new System.Windows.Forms.RadioButton();
 			this.radioPC安心サポート加入申込書 = new System.Windows.Forms.RadioButton();
-			this.radio二次キッティング依頼書 = new System.Windows.Forms.RadioButton();
 			this.radio納品補助作業依頼書 = new System.Windows.Forms.RadioButton();
 			this.radio第一園芸注文書 = new System.Windows.Forms.RadioButton();
 			this.radio変更届 = new System.Windows.Forms.RadioButton();
@@ -63,11 +63,11 @@ namespace VariousDocumentOut.Forms
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.radioButtonOnlineConfirm);
 			this.groupBox1.Controls.Add(this.radioButtonFaxOrderSheet);
 			this.groupBox1.Controls.Add(this.radioButton作業報告書);
 			this.groupBox1.Controls.Add(this.radioアプラス預金口座振替依頼書);
 			this.groupBox1.Controls.Add(this.radioPC安心サポート加入申込書);
-			this.groupBox1.Controls.Add(this.radio二次キッティング依頼書);
 			this.groupBox1.Controls.Add(this.radio納品補助作業依頼書);
 			this.groupBox1.Controls.Add(this.radio第一園芸注文書);
 			this.groupBox1.Controls.Add(this.radio変更届);
@@ -90,14 +90,27 @@ namespace VariousDocumentOut.Forms
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "各種書類";
 			// 
+			// radioButtonOnlineConfirm
+			// 
+			this.radioButtonOnlineConfirm.AutoSize = true;
+			this.radioButtonOnlineConfirm.Location = new System.Drawing.Point(442, 40);
+			this.radioButtonOnlineConfirm.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+			this.radioButtonOnlineConfirm.Name = "radioButtonOnlineConfirm";
+			this.radioButtonOnlineConfirm.Size = new System.Drawing.Size(230, 21);
+			this.radioButtonOnlineConfirm.TabIndex = 17;
+			this.radioButtonOnlineConfirm.Text = "オンライン資格確認等事業完了報告書";
+			this.radioButtonOnlineConfirm.UseVisualStyleBackColor = true;
+			this.radioButtonOnlineConfirm.Visible = false;
+			this.radioButtonOnlineConfirm.CheckedChanged += new System.EventHandler(this.radioButtonOnlineConfirm_CheckedChanged);
+			// 
 			// radioButtonFaxOrderSheet
 			// 
 			this.radioButtonFaxOrderSheet.AutoSize = true;
-			this.radioButtonFaxOrderSheet.Location = new System.Drawing.Point(281, 289);
+			this.radioButtonFaxOrderSheet.Location = new System.Drawing.Point(281, 258);
 			this.radioButtonFaxOrderSheet.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.radioButtonFaxOrderSheet.Name = "radioButtonFaxOrderSheet";
 			this.radioButtonFaxOrderSheet.Size = new System.Drawing.Size(161, 21);
-			this.radioButtonFaxOrderSheet.TabIndex = 17;
+			this.radioButtonFaxOrderSheet.TabIndex = 16;
 			this.radioButtonFaxOrderSheet.Text = "消耗品FAXオーダーシート";
 			this.radioButtonFaxOrderSheet.UseVisualStyleBackColor = true;
 			this.radioButtonFaxOrderSheet.CheckedChanged += new System.EventHandler(this.radioButtonFaxOrderSheet_CheckedChanged);
@@ -117,11 +130,11 @@ namespace VariousDocumentOut.Forms
 			// radioアプラス預金口座振替依頼書
 			// 
 			this.radioアプラス預金口座振替依頼書.AutoSize = true;
-			this.radioアプラス預金口座振替依頼書.Location = new System.Drawing.Point(281, 258);
+			this.radioアプラス預金口座振替依頼書.Location = new System.Drawing.Point(281, 227);
 			this.radioアプラス預金口座振替依頼書.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.radioアプラス預金口座振替依頼書.Name = "radioアプラス預金口座振替依頼書";
 			this.radioアプラス預金口座振替依頼書.Size = new System.Drawing.Size(306, 21);
-			this.radioアプラス預金口座振替依頼書.TabIndex = 16;
+			this.radioアプラス預金口座振替依頼書.TabIndex = 15;
 			this.radioアプラス預金口座振替依頼書.Text = "アプラス預金口座振替依頼書・自動払込利用申込書";
 			this.radioアプラス預金口座振替依頼書.UseVisualStyleBackColor = true;
 			this.radioアプラス預金口座振替依頼書.CheckedChanged += new System.EventHandler(this.radioアプラス預金口座振替依頼書_CheckedChanged);
@@ -129,26 +142,14 @@ namespace VariousDocumentOut.Forms
 			// radioPC安心サポート加入申込書
 			// 
 			this.radioPC安心サポート加入申込書.AutoSize = true;
-			this.radioPC安心サポート加入申込書.Location = new System.Drawing.Point(281, 227);
+			this.radioPC安心サポート加入申込書.Location = new System.Drawing.Point(281, 195);
 			this.radioPC安心サポート加入申込書.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.radioPC安心サポート加入申込書.Name = "radioPC安心サポート加入申込書";
 			this.radioPC安心サポート加入申込書.Size = new System.Drawing.Size(176, 21);
-			this.radioPC安心サポート加入申込書.TabIndex = 15;
+			this.radioPC安心サポート加入申込書.TabIndex = 14;
 			this.radioPC安心サポート加入申込書.Text = "PC安心サポート加入申込書";
 			this.radioPC安心サポート加入申込書.UseVisualStyleBackColor = true;
 			this.radioPC安心サポート加入申込書.CheckedChanged += new System.EventHandler(this.radioPC安心サポート加入申込書_CheckedChanged);
-			// 
-			// radio二次キッティング依頼書
-			// 
-			this.radio二次キッティング依頼書.AutoSize = true;
-			this.radio二次キッティング依頼書.Location = new System.Drawing.Point(281, 195);
-			this.radio二次キッティング依頼書.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-			this.radio二次キッティング依頼書.Name = "radio二次キッティング依頼書";
-			this.radio二次キッティング依頼書.Size = new System.Drawing.Size(147, 21);
-			this.radio二次キッティング依頼書.TabIndex = 14;
-			this.radio二次キッティング依頼書.Text = "二次キッティング依頼書";
-			this.radio二次キッティング依頼書.UseVisualStyleBackColor = true;
-			this.radio二次キッティング依頼書.CheckedChanged += new System.EventHandler(this.radio二次キッティング依頼書_CheckedChanged);
 			// 
 			// radio納品補助作業依頼書
 			// 
@@ -410,6 +411,7 @@ namespace VariousDocumentOut.Forms
 			this.textBoxTokuisakiNo.Name = "textBoxTokuisakiNo";
 			this.textBoxTokuisakiNo.Size = new System.Drawing.Size(141, 26);
 			this.textBoxTokuisakiNo.TabIndex = 1;
+			this.textBoxTokuisakiNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxTokuisakiNo_KeyDown);
 			// 
 			// MainForm
 			// 
@@ -446,7 +448,6 @@ namespace VariousDocumentOut.Forms
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.RadioButton radioアプラス預金口座振替依頼書;
 		private System.Windows.Forms.RadioButton radioPC安心サポート加入申込書;
-		private System.Windows.Forms.RadioButton radio二次キッティング依頼書;
 		private System.Windows.Forms.RadioButton radio納品補助作業依頼書;
 		private System.Windows.Forms.RadioButton radio第一園芸注文書;
 		private System.Windows.Forms.RadioButton radio変更届;
@@ -472,6 +473,7 @@ namespace VariousDocumentOut.Forms
 		private System.Windows.Forms.Label label3;
 		private MwsLib.Component.NumericTextBox textBoxCustomerNo;
 		private System.Windows.Forms.RadioButton radioButtonFaxOrderSheet;
+		private System.Windows.Forms.RadioButton radioButtonOnlineConfirm;
 	}
 }
 

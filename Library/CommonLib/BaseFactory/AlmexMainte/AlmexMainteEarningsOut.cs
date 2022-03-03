@@ -229,10 +229,11 @@ namespace CommonLib.BaseFactory.AlmexMainte
 		/// <param name="no">伝票No</param>
 		/// <param name="hanbaisakiCode">販売先コード</param>
 		/// <param name="saleDate">売上日 </param>
+		/// <param name="useDate">利用日 </param>
 		/// <param name="tax">税率</param>
 		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>CSV文字列</returns>
-		public string ToEarnings(int no, string hanbaisakiCode, Date saleDate, int tax, int pcaVer)
+		public string ToEarnings(int no, string hanbaisakiCode, Date saleDate, Date useDate, int tax, int pcaVer)
 		{
 			PCA売上明細汎用データ pca = new PCA売上明細汎用データ();
 			pca.売上日 = saleDate.ToIntYMD();// 2:売上年月日
@@ -242,7 +243,7 @@ namespace CommonLib.BaseFactory.AlmexMainte
 			pca.部門コード = fPCA部門コード.Value.ToString();// 9:部門コード(6)
 			pca.担当者コード = fPCA担当者コード;// 10:担当者コード(13)
 			pca.摘要コード = "0";// 11:摘要コード(6)
-			pca.摘要名 = 摘要名(saleDate.ToYearMonth());//12:摘要名(30)｢利用年月分｣
+			pca.摘要名 = 摘要名(useDate.ToYearMonth());//12:摘要名(30)｢利用年月分｣
 			pca.商品コード = f商品コード;// 15:商品コード(13)
 			pca.マスター区分 = 0;// 16:マスタ区分
 			pca.商品名 = 商品名;// 17:品名(36)

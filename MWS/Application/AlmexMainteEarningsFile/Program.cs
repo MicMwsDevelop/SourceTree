@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2021/01/20 勝呂)
 // Ver1.02 002189 アルメックス FIT-A 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月 削除の対応(2021/01/20 勝呂)
+// Ver1.03 売上日が翌月初日になっていたのを当月初日に修正(2021/12/23 勝呂)
 //
 using AlmexMainteEarningsFile.Mail;
 using AlmexMainteEarningsFile.Settings;
@@ -31,7 +32,7 @@ namespace AlmexMainteEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.02(2021/10/19)";
+		public const string VersionStr = "Ver1.03(2021/12/23)";
 
 		/// <summary>
 		/// 環境設定
@@ -60,7 +61,7 @@ namespace AlmexMainteEarningsFile
 			gSettings = AlmexMainteEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			gBootDate = new Date(2021, 12, 1);
+			gBootDate = new Date(2022, 1, 1);
 #else
 			gBootDate = Date.Today;
 #endif
@@ -110,6 +111,9 @@ namespace AlmexMainteEarningsFile
 					// 中間ファイルの出力
 					using (var sw = new StreamWriter(gSettings.TemporaryPathname, false, System.Text.Encoding.GetEncoding("shift_jis")))
 					{
+						// 売上日
+						// Ver1.03 売上日が翌月初日になっていたのを当月初日に修正(2021/12/23 勝呂)
+						Date saleDate = bootDate.FirstDayOfTheMonth();	// 当月初日
 						foreach (AlmexMainteEarningsOut sale in saleList)
 						{
 							YearMonth? endYM = sale.最終保守終了月;
@@ -119,19 +123,19 @@ namespace AlmexMainteEarningsFile
 								if (0 == sale.f請求先コード.Length)
 								{
 									// 請求先がユーザーと同一
-									sw.WriteLine(sale.ToEarnings(no, sale.f得意先コード, mainteDate, taxRate, gSettings.PcaVersion));
+									sw.WriteLine(sale.ToEarnings(no, sale.f得意先コード, saleDate, mainteDate, taxRate, gSettings.PcaVersion));
 								}
 								else
 								{
 									// 請求先がユーザーと異なる
-									sw.WriteLine(sale.ToEarnings(no, sale.f請求先コード, mainteDate, taxRate, gSettings.PcaVersion));
+									sw.WriteLine(sale.ToEarnings(no, sale.f請求先コード, saleDate, mainteDate, taxRate, gSettings.PcaVersion));
 
 									// ○○○○様分 を記事行１を追加
-									sw.WriteLine(sale.ToArticle1(no, sale.f請求先コード, mainteDate, gSettings.PcaVersion));
+									sw.WriteLine(sale.ToArticle1(no, sale.f請求先コード, saleDate, gSettings.PcaVersion));
 
 									// 得意先No. を記事行２を追加
 									// ○○○○様分 を記事行１を追加
-									sw.WriteLine(sale.ToArticle2(no, sale.f請求先コード, mainteDate, gSettings.PcaVersion));
+									sw.WriteLine(sale.ToArticle2(no, sale.f請求先コード, saleDate, gSettings.PcaVersion));
 								}
 								no++;
 							}

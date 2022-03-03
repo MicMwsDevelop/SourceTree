@@ -9,16 +9,22 @@
 // Ver1.02(2021/09/01):Microsoft365利用申込書のFAX番号を本社から消耗品受注センターに変更
 // Ver1.03(2021/09/28):5 オンライン請求届出 電子証明書発行等依頼内訳に対応
 // Ver1.05(2021/11/12):消耗品FAXオーダーシートの新規追加
+// Ver1.07(2021/12/24):経理部専用 オンライン資格確認等事業完了報告書の対応
+// Ver1.08(2022/01/14):5 オンライン請求届出 電子情報処理組織の使用による費用の請求に関する届出 新用紙対応
+// Ver1.11(2022/02/21):二次キッティング依頼書 使用廃止によりメニューから削除
+// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.BaseFactory.Junp.View;
+using CommonLib.BaseFactory.VariousDocumentOut;
 using CommonLib.Common;
 using CommonLib.DB.SqlServer.Junp;
 using Microsoft.Office.Core;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using VariousDocumentOut.Settings;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace VariousDocumentOut
@@ -56,7 +62,7 @@ namespace VariousDocumentOut
 			/// <summary>
 			/// オンライン請求届出
 			/// </summary>
-			Online,
+			OnlineApply,
 
 			/// <summary>
 			/// 取引条件確認書
@@ -101,7 +107,8 @@ namespace VariousDocumentOut
 			/// <summary>
 			/// 二次キッティング依頼書
 			/// </summary>
-			SecondKitting,
+			// Ver1.11(2022/02/21):二次キッティング依頼書 使用廃止によりメニューから削除
+			//SecondKitting,
 
 			/// <summary>
 			/// PC安心サポート加入申込書
@@ -123,6 +130,12 @@ namespace VariousDocumentOut
 			/// </summary>
 			/// Ver1.05(2021/11/12):消耗品FAXオーダーシートの新規追加
 			FaxOrderSheet,
+
+			/// <summary>
+			/// オンライン資格確認等事業完了報告書(経理部専用)
+			/// </summary>
+			// Ver1.07(2021/12/24):経理部専用 オンライン資格確認等事業完了報告書の対応
+			OnlineConfirmKeiri,
 		}
 
 		/// <summary>
@@ -134,7 +147,7 @@ namespace VariousDocumentOut
 			{ DocumentType.FaxLetter, "2-FAX送付状.xlsx.org" },
 			{ DocumentType.DocumentLetter, "3-書類送付状.xlsx.org" },
 			{ DocumentType.LightDisk, "4-光ディスク請求届出.xlsx.org" },
-			{ DocumentType.Online, "5-オンライン請求届出.xlsx.org" },
+			{ DocumentType.OnlineApply, "5-オンライン請求届出.xlsx.org" },
 			{ DocumentType.Transaction, "6-取引条件確認書.xlsx.org" },
 			{ DocumentType.ConfirmCard, "7-登録データ確認カード.xlsx.org" },
 			{ DocumentType.Microsoft365, "8-Microsoft365利用申請書.xlsx.org" },
@@ -143,11 +156,12 @@ namespace VariousDocumentOut
 			{ DocumentType.UserChange, "11-変更届.xlsx.org" },
 			{ DocumentType.FirstEngei, "12-第一園芸注文書.xlsx.org" },
 			{ DocumentType.Delivery, "13-納品補助作業依頼書.xlsx.org" },
-			{ DocumentType.SecondKitting, "14-2次キッティング依頼書.xlsx.org" },
+			//{ DocumentType.SecondKitting, "14-2次キッティング依頼書.xlsx.org" },
 			{ DocumentType.PcSupport, "15-PC安心サポート加入申込書.xlsx.org" },
 			{ DocumentType.Aplus, "16-アプラス預金口座振替依頼書・自動払込利用申込書.xlsx.org" },
 			{ DocumentType.WorkReport, "17-作業報告書.xlsx.org" },
 			{ DocumentType.FaxOrderSheet, "18-消耗品FAXオーダーシート.xlsx.org" },
+			{ DocumentType.OnlineConfirmKeiri, "19-オンライン資格確認等事業完了報告書.xlsx.org" },
 		};
 
 		/// <summary>
@@ -159,7 +173,7 @@ namespace VariousDocumentOut
 			{ DocumentType.FaxLetter, "2-FAX送付状.xlsx" },
 			{ DocumentType.DocumentLetter, "3-書類送付状.xlsx" },
 			{ DocumentType.LightDisk, "4-光ディスク請求届出.xlsx" },
-			{ DocumentType.Online, "5-オンライン請求届出.xlsx" },
+			{ DocumentType.OnlineApply, "5-オンライン請求届出.xlsx" },
 			{ DocumentType.Transaction, "6-取引条件確認書.xlsx" },
 			{ DocumentType.ConfirmCard, "7-登録データ確認カード.xlsx" },
 			{ DocumentType.Microsoft365, "8-Microsoft365利用申請書.xlsx" },
@@ -168,11 +182,12 @@ namespace VariousDocumentOut
 			{ DocumentType.UserChange, "11-変更届.xlsx" },
 			{ DocumentType.FirstEngei, "12-第一園芸注文書.xlsx" },
 			{ DocumentType.Delivery, "13-納品補助作業依頼書.xlsx" },
-			{ DocumentType.SecondKitting, "14-2次キッティング依頼書.xlsx" },
+			//{ DocumentType.SecondKitting, "14-2次キッティング依頼書.xlsx" },
 			{ DocumentType.PcSupport, "15-PC安心サポート加入申込書.xlsx" },
 			{ DocumentType.Aplus, "16-アプラス預金口座振替依頼書・自動払込利用申込書.xlsx" },
 			{ DocumentType.WorkReport, "17-作業報告書.xlsx" },
 			{ DocumentType.FaxOrderSheet, "18-消耗品FAXオーダーシート.xlsx" },
+			{ DocumentType.OnlineConfirmKeiri, "19-オンライン資格確認等事業完了報告書.xlsx" },
 		};
 
 		/// <summary>
@@ -1640,264 +1655,264 @@ namespace VariousDocumentOut
 			}
 		}
 
-		/// <summary>
-		/// EXCEL出力 - 14-2次キッティング依頼書
-		/// </summary>
-		/// <param name="common">各種書類出力 共通情報</param>
-		/// <param name="pathname">Excelファイルパス名</param>
-		public static void ExcelOutSecondKitting(DocumentCommon common, string pathname, string saleDepartment, tMih支店情報 branch)
-		{
-			try
-			{
-				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
-				{
-					// 2次キッティング依頼書（医院）
-					IXLWorksheet ws1 = wb.Worksheet("2次キッティング依頼書（医院）");
-					// 依頼日
-					ws1.Cell(2, 29).SetValue(string.Format("{0:D4}", Date.Today.Year));
-					ws1.Cell(2, 32).SetValue(string.Format("{0:D2}", Date.Today.Month));
-					ws1.Cell(2, 34).SetValue(string.Format("{0:D2}", Date.Today.Day));
-					ws1.Cell(6, 3).SetValue("入力必須");					// ＷＷ受注番号
-					//【依頼者情報】
-					ws1.Cell(10, 11).SetValue((common.IsHeadOffice) ? "選択してください" : saleDepartment);	// MIC担当拠点
-					ws1.Cell(10, 28).SetValue("-");							// MIC担当者
-					ws1.Cell(11, 11).SetValue("-");							// 希望納期
-					ws1.Cell(11, 16).SetValue("-");
-					ws1.Cell(11, 19).SetValue("-");
-					ws1.Cell(11, 28).SetValue("医院直送");					// 納品先
-					ws1.Cell(12, 12).SetValue(common.Customer.郵便番号);	// 納品先郵便番号
-					ws1.Cell(12, 28).SetValue(common.Customer.電話番号);	// 納品先電話番号
-					ws1.Cell(13, 11).SetValue(common.Customer.住所);		// 納品先住所
-					//【歯科医院情報】
-					ws1.Cell(18, 11).SetValue(common.Customer.顧客No);
-					ws1.Cell(19, 11).SetValue(common.Customer.顧客名);
-					if (0 == common.Customer.院長名.Length)
-					{
-						ws1.Cell(21, 11).SetValue("入力必須");
-						ws1.Cell(21, 28).SetValue("入力必須");
-					}
-					else
-					{
-						ws1.Cell(21, 11).SetValue(common.Customer.院長名);
-						ws1.Cell(21, 28).SetValue(common.Customer.院長名);
-					}
-					ws1.Cell(22, 12).SetValue(common.Customer.郵便番号);
-					ws1.Cell(23, 11).SetValue(common.Customer.住所);
-					ws1.Cell(26, 11).SetValue(common.Customer.電話番号);
-					ws1.Cell(26, 28).SetValue(common.Customer.FAX番号);
-					ws1.Cell(27, 11).SetValue("入力必須");
-					ws1.Cell(27, 28).SetValue(common.Customer.医保医療コード);
-					ws1.Cell(28, 11).SetValue("-");
-					//【システム構成情報】
-					ws1.Cell(31, 11).SetValue("-");
-					ws1.Cell(31, 28).SetValue("-");
-					//【システム構成詳細】
-					ws1.Cell(36, 10).SetValue("-");
-					ws1.Cell(36, 15).SetValue("-");
-					ws1.Cell(36, 20).SetValue("-");
-					ws1.Cell(36, 25).SetValue("-");
-					ws1.Cell(36, 30).SetValue("-");
-					ws1.Cell(37, 10).SetValue("-");
-					ws1.Cell(37, 15).SetValue("-");
-					ws1.Cell(37, 20).SetValue("-");
-					ws1.Cell(37, 25).SetValue("-");
-					ws1.Cell(37, 30).SetValue("-");
-					ws1.Cell(38, 10).SetValue("-");
-					ws1.Cell(38, 15).SetValue("-");
-					ws1.Cell(38, 20).SetValue("-");
-					ws1.Cell(38, 25).SetValue("-");
-					ws1.Cell(38, 30).SetValue("-");
-					ws1.Cell(39, 10).SetValue("-");
-					ws1.Cell(39, 15).SetValue("-");
-					ws1.Cell(39, 20).SetValue("-");
-					ws1.Cell(39, 25).SetValue("-");
-					ws1.Cell(39, 30).SetValue("-");
-					ws1.Cell(40, 10).SetValue("-");
-					ws1.Cell(40, 15).SetValue("-");
-					ws1.Cell(40, 20).SetValue("-");
-					ws1.Cell(40, 25).SetValue("-");
-					ws1.Cell(40, 30).SetValue("-");
-					ws1.Cell(41, 10).SetValue("-");
-					ws1.Cell(41, 15).SetValue("-");
-					ws1.Cell(41, 20).SetValue("-");
-					ws1.Cell(41, 25).SetValue("-");
-					ws1.Cell(41, 30).SetValue("-");
-					ws1.Cell(42, 10).SetValue("-");
-					ws1.Cell(42, 15).SetValue("-");
-					ws1.Cell(42, 20).SetValue("-");
-					ws1.Cell(42, 25).SetValue("-");
-					ws1.Cell(42, 30).SetValue("-");
-					ws1.Cell(43, 10).SetValue("-");
-					ws1.Cell(43, 15).SetValue("-");
-					ws1.Cell(43, 20).SetValue("-");
-					ws1.Cell(43, 25).SetValue("-");
-					ws1.Cell(43, 30).SetValue("-");
-					//【IPアドレス(固定の場合のみ記載)】
-					ws1.Cell(47, 10).SetValue("-");
-					ws1.Cell(47, 15).SetValue("-");
-					ws1.Cell(47, 20).SetValue("-");
-					ws1.Cell(47, 25).SetValue("-");
-					ws1.Cell(47, 30).SetValue("-");
-					ws1.Cell(48, 10).SetValue("-");
-					ws1.Cell(48, 15).SetValue("-");
-					ws1.Cell(48, 20).SetValue("-");
-					ws1.Cell(48, 25).SetValue("-");
-					ws1.Cell(48, 30).SetValue("-");
-					ws1.Cell(49, 10).SetValue("-");
-					ws1.Cell(49, 15).SetValue("-");
-					ws1.Cell(49, 20).SetValue("-");
-					ws1.Cell(49, 25).SetValue("-");
-					ws1.Cell(49, 30).SetValue("-");
-					ws1.Cell(50, 10).SetValue("-");
-					ws1.Cell(50, 15).SetValue("-");
-					ws1.Cell(50, 20).SetValue("-");
-					ws1.Cell(50, 25).SetValue("-");
-					ws1.Cell(50, 30).SetValue("-");
-					ws1.Cell(51, 10).SetValue("-");
-					ws1.Cell(51, 15).SetValue("-");
-					ws1.Cell(51, 20).SetValue("-");
-					ws1.Cell(51, 25).SetValue("-");
-					ws1.Cell(51, 30).SetValue("-");
-					//【PLM・訪問診療使用時のパラメ-ター】
-					ws1.Cell(55, 9).SetValue("PC-00");
-					ws1.Cell(55, 23).SetValue(@"\\PC-00\MIC_PALETTE\");
-					//【備考】
-					ws1.Cell(59, 3).SetValue("");
+		///// <summary>
+		///// EXCEL出力 - 14-2次キッティング依頼書
+		///// </summary>
+		///// <param name="common">各種書類出力 共通情報</param>
+		///// <param name="pathname">Excelファイルパス名</param>
+		//public static void ExcelOutSecondKitting(DocumentCommon common, string pathname, string saleDepartment, tMih支店情報 branch)
+		//{
+		//	try
+		//	{
+		//		using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
+		//		{
+		//			// 2次キッティング依頼書（医院）
+		//			IXLWorksheet ws1 = wb.Worksheet("2次キッティング依頼書（医院）");
+		//			// 依頼日
+		//			ws1.Cell(2, 29).SetValue(string.Format("{0:D4}", Date.Today.Year));
+		//			ws1.Cell(2, 32).SetValue(string.Format("{0:D2}", Date.Today.Month));
+		//			ws1.Cell(2, 34).SetValue(string.Format("{0:D2}", Date.Today.Day));
+		//			ws1.Cell(6, 3).SetValue("入力必須");					// ＷＷ受注番号
+		//			//【依頼者情報】
+		//			ws1.Cell(10, 11).SetValue((common.IsHeadOffice) ? "選択してください" : saleDepartment);	// MIC担当拠点
+		//			ws1.Cell(10, 28).SetValue("-");							// MIC担当者
+		//			ws1.Cell(11, 11).SetValue("-");							// 希望納期
+		//			ws1.Cell(11, 16).SetValue("-");
+		//			ws1.Cell(11, 19).SetValue("-");
+		//			ws1.Cell(11, 28).SetValue("医院直送");					// 納品先
+		//			ws1.Cell(12, 12).SetValue(common.Customer.郵便番号);	// 納品先郵便番号
+		//			ws1.Cell(12, 28).SetValue(common.Customer.電話番号);	// 納品先電話番号
+		//			ws1.Cell(13, 11).SetValue(common.Customer.住所);		// 納品先住所
+		//			//【歯科医院情報】
+		//			ws1.Cell(18, 11).SetValue(common.Customer.顧客No);
+		//			ws1.Cell(19, 11).SetValue(common.Customer.顧客名);
+		//			if (0 == common.Customer.院長名.Length)
+		//			{
+		//				ws1.Cell(21, 11).SetValue("入力必須");
+		//				ws1.Cell(21, 28).SetValue("入力必須");
+		//			}
+		//			else
+		//			{
+		//				ws1.Cell(21, 11).SetValue(common.Customer.院長名);
+		//				ws1.Cell(21, 28).SetValue(common.Customer.院長名);
+		//			}
+		//			ws1.Cell(22, 12).SetValue(common.Customer.郵便番号);
+		//			ws1.Cell(23, 11).SetValue(common.Customer.住所);
+		//			ws1.Cell(26, 11).SetValue(common.Customer.電話番号);
+		//			ws1.Cell(26, 28).SetValue(common.Customer.FAX番号);
+		//			ws1.Cell(27, 11).SetValue("入力必須");
+		//			ws1.Cell(27, 28).SetValue(common.Customer.医保医療コード);
+		//			ws1.Cell(28, 11).SetValue("-");
+		//			//【システム構成情報】
+		//			ws1.Cell(31, 11).SetValue("-");
+		//			ws1.Cell(31, 28).SetValue("-");
+		//			//【システム構成詳細】
+		//			ws1.Cell(36, 10).SetValue("-");
+		//			ws1.Cell(36, 15).SetValue("-");
+		//			ws1.Cell(36, 20).SetValue("-");
+		//			ws1.Cell(36, 25).SetValue("-");
+		//			ws1.Cell(36, 30).SetValue("-");
+		//			ws1.Cell(37, 10).SetValue("-");
+		//			ws1.Cell(37, 15).SetValue("-");
+		//			ws1.Cell(37, 20).SetValue("-");
+		//			ws1.Cell(37, 25).SetValue("-");
+		//			ws1.Cell(37, 30).SetValue("-");
+		//			ws1.Cell(38, 10).SetValue("-");
+		//			ws1.Cell(38, 15).SetValue("-");
+		//			ws1.Cell(38, 20).SetValue("-");
+		//			ws1.Cell(38, 25).SetValue("-");
+		//			ws1.Cell(38, 30).SetValue("-");
+		//			ws1.Cell(39, 10).SetValue("-");
+		//			ws1.Cell(39, 15).SetValue("-");
+		//			ws1.Cell(39, 20).SetValue("-");
+		//			ws1.Cell(39, 25).SetValue("-");
+		//			ws1.Cell(39, 30).SetValue("-");
+		//			ws1.Cell(40, 10).SetValue("-");
+		//			ws1.Cell(40, 15).SetValue("-");
+		//			ws1.Cell(40, 20).SetValue("-");
+		//			ws1.Cell(40, 25).SetValue("-");
+		//			ws1.Cell(40, 30).SetValue("-");
+		//			ws1.Cell(41, 10).SetValue("-");
+		//			ws1.Cell(41, 15).SetValue("-");
+		//			ws1.Cell(41, 20).SetValue("-");
+		//			ws1.Cell(41, 25).SetValue("-");
+		//			ws1.Cell(41, 30).SetValue("-");
+		//			ws1.Cell(42, 10).SetValue("-");
+		//			ws1.Cell(42, 15).SetValue("-");
+		//			ws1.Cell(42, 20).SetValue("-");
+		//			ws1.Cell(42, 25).SetValue("-");
+		//			ws1.Cell(42, 30).SetValue("-");
+		//			ws1.Cell(43, 10).SetValue("-");
+		//			ws1.Cell(43, 15).SetValue("-");
+		//			ws1.Cell(43, 20).SetValue("-");
+		//			ws1.Cell(43, 25).SetValue("-");
+		//			ws1.Cell(43, 30).SetValue("-");
+		//			//【IPアドレス(固定の場合のみ記載)】
+		//			ws1.Cell(47, 10).SetValue("-");
+		//			ws1.Cell(47, 15).SetValue("-");
+		//			ws1.Cell(47, 20).SetValue("-");
+		//			ws1.Cell(47, 25).SetValue("-");
+		//			ws1.Cell(47, 30).SetValue("-");
+		//			ws1.Cell(48, 10).SetValue("-");
+		//			ws1.Cell(48, 15).SetValue("-");
+		//			ws1.Cell(48, 20).SetValue("-");
+		//			ws1.Cell(48, 25).SetValue("-");
+		//			ws1.Cell(48, 30).SetValue("-");
+		//			ws1.Cell(49, 10).SetValue("-");
+		//			ws1.Cell(49, 15).SetValue("-");
+		//			ws1.Cell(49, 20).SetValue("-");
+		//			ws1.Cell(49, 25).SetValue("-");
+		//			ws1.Cell(49, 30).SetValue("-");
+		//			ws1.Cell(50, 10).SetValue("-");
+		//			ws1.Cell(50, 15).SetValue("-");
+		//			ws1.Cell(50, 20).SetValue("-");
+		//			ws1.Cell(50, 25).SetValue("-");
+		//			ws1.Cell(50, 30).SetValue("-");
+		//			ws1.Cell(51, 10).SetValue("-");
+		//			ws1.Cell(51, 15).SetValue("-");
+		//			ws1.Cell(51, 20).SetValue("-");
+		//			ws1.Cell(51, 25).SetValue("-");
+		//			ws1.Cell(51, 30).SetValue("-");
+		//			//【PLM・訪問診療使用時のパラメ-ター】
+		//			ws1.Cell(55, 9).SetValue("PC-00");
+		//			ws1.Cell(55, 23).SetValue(@"\\PC-00\MIC_PALETTE\");
+		//			//【備考】
+		//			ws1.Cell(59, 3).SetValue("");
 
-					// 2次キッティング依頼書（拠点）
-					IXLWorksheet ws2 = wb.Worksheet("2次キッティング依頼書（拠点）");
-					// 依頼日
-					ws2.Cell(2, 29).SetValue(string.Format("{0:D4}", Date.Today.Year));
-					ws2.Cell(2, 32).SetValue(string.Format("{0:D2}", Date.Today.Month));
-					ws2.Cell(2, 34).SetValue(string.Format("{0:D2}", Date.Today.Day));
-					ws2.Cell(6, 3).SetValue("入力必須");			// ＷＷ受注番号
-					//【依頼者情報】
-					ws2.Cell(10, 11).SetValue((common.IsHeadOffice) ? "選択してください" : saleDepartment);	// MIC担当拠点
-					ws2.Cell(10, 28).SetValue("-");					// MIC担当者
-					ws2.Cell(11, 11).SetValue("-");					// 希望納期
-					ws2.Cell(11, 16).SetValue("-");
-					ws2.Cell(11, 19).SetValue("-");
-					if (false == common.IsHeadOffice)
-					{
-						// 営業部
-						ws2.Cell(11, 28).SetValue(string.Format("{0} {1}", common.社名, branch.f支店名));	// 納品先
-						ws2.Cell(12, 12).SetValue(branch.f郵便番号);	// 納品先郵便番号
-						ws2.Cell(12, 28).SetValue(branch.f電話番号);	// 納品先電話番号
-						ws2.Cell(13, 11).SetValue(branch.住所);			// 納品先住所
-					}
-					else
-					{
-						// 本社
-						ws2.Cell(11, 28).SetValue(common.社名);					// 納品先
-						ws2.Cell(12, 12).SetValue(Program.gSettings.HeadOffice.Zipcode);	// 納品先郵便番号
-						ws2.Cell(12, 28).SetValue(Program.gSettings.HeadOffice.Tel);		// 納品先電話番号
-						ws2.Cell(13, 11).SetValue(Program.gSettings.HeadOffice.住所);		// 納品先住所
-					}
-					//【歯科医院情報】
-					ws2.Cell(18, 11).SetValue(common.Customer.顧客No);
-					ws2.Cell(19, 11).SetValue(common.Customer.顧客名);
-					if (0 == common.Customer.院長名.Length)
-					{
-						ws2.Cell(21, 11).SetValue("入力必須");
-						ws2.Cell(21, 28).SetValue("入力必須");
-					}
-					else
-					{
-						ws2.Cell(21, 11).SetValue(common.Customer.院長名);
-						ws2.Cell(21, 28).SetValue(common.Customer.院長名);
-					}
-					ws2.Cell(22, 12).SetValue(common.Customer.郵便番号);
-					ws2.Cell(23, 11).SetValue(common.Customer.住所);
-					ws2.Cell(26, 11).SetValue(common.Customer.電話番号);
-					ws2.Cell(26, 28).SetValue(common.Customer.FAX番号);
-					ws2.Cell(27, 11).SetValue("入力必須");
-					ws2.Cell(27, 28).SetValue(common.Customer.医保医療コード);
-					ws2.Cell(28, 11).SetValue("-");
-					//【システム構成情報】
-					ws2.Cell(31, 11).SetValue("-");
-					ws2.Cell(31, 28).SetValue("-");
-					//【システム構成詳細】
-					ws2.Cell(36, 10).SetValue("-");
-					ws2.Cell(36, 15).SetValue("-");
-					ws2.Cell(36, 20).SetValue("-");
-					ws2.Cell(36, 25).SetValue("-");
-					ws2.Cell(36, 30).SetValue("-");
-					ws2.Cell(37, 10).SetValue("-");
-					ws2.Cell(37, 15).SetValue("-");
-					ws2.Cell(37, 20).SetValue("-");
-					ws2.Cell(37, 25).SetValue("-");
-					ws2.Cell(37, 30).SetValue("-");
-					ws2.Cell(38, 10).SetValue("-");
-					ws2.Cell(38, 15).SetValue("-");
-					ws2.Cell(38, 20).SetValue("-");
-					ws2.Cell(38, 25).SetValue("-");
-					ws2.Cell(38, 30).SetValue("-");
-					ws2.Cell(39, 10).SetValue("-");
-					ws2.Cell(39, 15).SetValue("-");
-					ws2.Cell(39, 20).SetValue("-");
-					ws2.Cell(39, 25).SetValue("-");
-					ws2.Cell(39, 30).SetValue("-");
-					ws2.Cell(40, 10).SetValue("-");
-					ws2.Cell(40, 15).SetValue("-");
-					ws2.Cell(40, 20).SetValue("-");
-					ws2.Cell(40, 25).SetValue("-");
-					ws2.Cell(40, 30).SetValue("-");
-					ws2.Cell(41, 10).SetValue("-");
-					ws2.Cell(41, 15).SetValue("-");
-					ws2.Cell(41, 20).SetValue("-");
-					ws2.Cell(41, 25).SetValue("-");
-					ws2.Cell(41, 30).SetValue("-");
-					ws2.Cell(42, 10).SetValue("-");
-					ws2.Cell(42, 15).SetValue("-");
-					ws2.Cell(42, 20).SetValue("-");
-					ws2.Cell(42, 25).SetValue("-");
-					ws2.Cell(42, 30).SetValue("-");
-					ws2.Cell(43, 10).SetValue("-");
-					ws2.Cell(43, 15).SetValue("-");
-					ws2.Cell(43, 20).SetValue("-");
-					ws2.Cell(43, 25).SetValue("-");
-					ws2.Cell(43, 30).SetValue("-");
-					//【IPアドレス(固定の場合のみ記載)】
-					ws2.Cell(47, 10).SetValue("-");
-					ws2.Cell(47, 15).SetValue("-");
-					ws2.Cell(47, 20).SetValue("-");
-					ws2.Cell(47, 25).SetValue("-");
-					ws2.Cell(47, 30).SetValue("-");
-					ws2.Cell(48, 10).SetValue("-");
-					ws2.Cell(48, 15).SetValue("-");
-					ws2.Cell(48, 20).SetValue("-");
-					ws2.Cell(48, 25).SetValue("-");
-					ws2.Cell(48, 30).SetValue("-");
-					ws2.Cell(49, 10).SetValue("-");
-					ws2.Cell(49, 15).SetValue("-");
-					ws2.Cell(49, 20).SetValue("-");
-					ws2.Cell(49, 25).SetValue("-");
-					ws2.Cell(49, 30).SetValue("-");
-					ws2.Cell(50, 10).SetValue("-");
-					ws2.Cell(50, 15).SetValue("-");
-					ws2.Cell(50, 20).SetValue("-");
-					ws2.Cell(50, 25).SetValue("-");
-					ws2.Cell(50, 30).SetValue("-");
-					ws2.Cell(51, 10).SetValue("-");
-					ws2.Cell(51, 15).SetValue("-");
-					ws2.Cell(51, 20).SetValue("-");
-					ws2.Cell(51, 25).SetValue("-");
-					ws2.Cell(51, 30).SetValue("-");
-					//【PLM・訪問診療使用時のパラメ-ター】
-					ws2.Cell(55, 9).SetValue("PC-00");
-					ws2.Cell(55, 23).SetValue(@"\\PC-00\MIC_PALETTE\");
-					//【備考】
-					ws2.Cell(59, 3).SetValue("");
+		//			// 2次キッティング依頼書（拠点）
+		//			IXLWorksheet ws2 = wb.Worksheet("2次キッティング依頼書（拠点）");
+		//			// 依頼日
+		//			ws2.Cell(2, 29).SetValue(string.Format("{0:D4}", Date.Today.Year));
+		//			ws2.Cell(2, 32).SetValue(string.Format("{0:D2}", Date.Today.Month));
+		//			ws2.Cell(2, 34).SetValue(string.Format("{0:D2}", Date.Today.Day));
+		//			ws2.Cell(6, 3).SetValue("入力必須");			// ＷＷ受注番号
+		//			//【依頼者情報】
+		//			ws2.Cell(10, 11).SetValue((common.IsHeadOffice) ? "選択してください" : saleDepartment);	// MIC担当拠点
+		//			ws2.Cell(10, 28).SetValue("-");					// MIC担当者
+		//			ws2.Cell(11, 11).SetValue("-");					// 希望納期
+		//			ws2.Cell(11, 16).SetValue("-");
+		//			ws2.Cell(11, 19).SetValue("-");
+		//			if (false == common.IsHeadOffice)
+		//			{
+		//				// 営業部
+		//				ws2.Cell(11, 28).SetValue(branch.f支店名);		// 納品先
+		//				ws2.Cell(12, 12).SetValue(branch.f郵便番号);	// 納品先郵便番号
+		//				ws2.Cell(12, 28).SetValue(branch.f電話番号);	// 納品先電話番号
+		//				ws2.Cell(13, 11).SetValue(branch.住所);			// 納品先住所
+		//			}
+		//			else
+		//			{
+		//				// 本社
+		//				ws2.Cell(11, 28).SetValue(common.社名);								// 納品先
+		//				ws2.Cell(12, 12).SetValue(Program.gSettings.HeadOffice.Zipcode);	// 納品先郵便番号
+		//				ws2.Cell(12, 28).SetValue(Program.gSettings.HeadOffice.Tel);		// 納品先電話番号
+		//				ws2.Cell(13, 11).SetValue(Program.gSettings.HeadOffice.住所);		// 納品先住所
+		//			}
+		//			//【歯科医院情報】
+		//			ws2.Cell(18, 11).SetValue(common.Customer.顧客No);
+		//			ws2.Cell(19, 11).SetValue(common.Customer.顧客名);
+		//			if (0 == common.Customer.院長名.Length)
+		//			{
+		//				ws2.Cell(21, 11).SetValue("入力必須");
+		//				ws2.Cell(21, 28).SetValue("入力必須");
+		//			}
+		//			else
+		//			{
+		//				ws2.Cell(21, 11).SetValue(common.Customer.院長名);
+		//				ws2.Cell(21, 28).SetValue(common.Customer.院長名);
+		//			}
+		//			ws2.Cell(22, 12).SetValue(common.Customer.郵便番号);
+		//			ws2.Cell(23, 11).SetValue(common.Customer.住所);
+		//			ws2.Cell(26, 11).SetValue(common.Customer.電話番号);
+		//			ws2.Cell(26, 28).SetValue(common.Customer.FAX番号);
+		//			ws2.Cell(27, 11).SetValue("入力必須");
+		//			ws2.Cell(27, 28).SetValue(common.Customer.医保医療コード);
+		//			ws2.Cell(28, 11).SetValue("-");
+		//			//【システム構成情報】
+		//			ws2.Cell(31, 11).SetValue("-");
+		//			ws2.Cell(31, 28).SetValue("-");
+		//			//【システム構成詳細】
+		//			ws2.Cell(36, 10).SetValue("-");
+		//			ws2.Cell(36, 15).SetValue("-");
+		//			ws2.Cell(36, 20).SetValue("-");
+		//			ws2.Cell(36, 25).SetValue("-");
+		//			ws2.Cell(36, 30).SetValue("-");
+		//			ws2.Cell(37, 10).SetValue("-");
+		//			ws2.Cell(37, 15).SetValue("-");
+		//			ws2.Cell(37, 20).SetValue("-");
+		//			ws2.Cell(37, 25).SetValue("-");
+		//			ws2.Cell(37, 30).SetValue("-");
+		//			ws2.Cell(38, 10).SetValue("-");
+		//			ws2.Cell(38, 15).SetValue("-");
+		//			ws2.Cell(38, 20).SetValue("-");
+		//			ws2.Cell(38, 25).SetValue("-");
+		//			ws2.Cell(38, 30).SetValue("-");
+		//			ws2.Cell(39, 10).SetValue("-");
+		//			ws2.Cell(39, 15).SetValue("-");
+		//			ws2.Cell(39, 20).SetValue("-");
+		//			ws2.Cell(39, 25).SetValue("-");
+		//			ws2.Cell(39, 30).SetValue("-");
+		//			ws2.Cell(40, 10).SetValue("-");
+		//			ws2.Cell(40, 15).SetValue("-");
+		//			ws2.Cell(40, 20).SetValue("-");
+		//			ws2.Cell(40, 25).SetValue("-");
+		//			ws2.Cell(40, 30).SetValue("-");
+		//			ws2.Cell(41, 10).SetValue("-");
+		//			ws2.Cell(41, 15).SetValue("-");
+		//			ws2.Cell(41, 20).SetValue("-");
+		//			ws2.Cell(41, 25).SetValue("-");
+		//			ws2.Cell(41, 30).SetValue("-");
+		//			ws2.Cell(42, 10).SetValue("-");
+		//			ws2.Cell(42, 15).SetValue("-");
+		//			ws2.Cell(42, 20).SetValue("-");
+		//			ws2.Cell(42, 25).SetValue("-");
+		//			ws2.Cell(42, 30).SetValue("-");
+		//			ws2.Cell(43, 10).SetValue("-");
+		//			ws2.Cell(43, 15).SetValue("-");
+		//			ws2.Cell(43, 20).SetValue("-");
+		//			ws2.Cell(43, 25).SetValue("-");
+		//			ws2.Cell(43, 30).SetValue("-");
+		//			//【IPアドレス(固定の場合のみ記載)】
+		//			ws2.Cell(47, 10).SetValue("-");
+		//			ws2.Cell(47, 15).SetValue("-");
+		//			ws2.Cell(47, 20).SetValue("-");
+		//			ws2.Cell(47, 25).SetValue("-");
+		//			ws2.Cell(47, 30).SetValue("-");
+		//			ws2.Cell(48, 10).SetValue("-");
+		//			ws2.Cell(48, 15).SetValue("-");
+		//			ws2.Cell(48, 20).SetValue("-");
+		//			ws2.Cell(48, 25).SetValue("-");
+		//			ws2.Cell(48, 30).SetValue("-");
+		//			ws2.Cell(49, 10).SetValue("-");
+		//			ws2.Cell(49, 15).SetValue("-");
+		//			ws2.Cell(49, 20).SetValue("-");
+		//			ws2.Cell(49, 25).SetValue("-");
+		//			ws2.Cell(49, 30).SetValue("-");
+		//			ws2.Cell(50, 10).SetValue("-");
+		//			ws2.Cell(50, 15).SetValue("-");
+		//			ws2.Cell(50, 20).SetValue("-");
+		//			ws2.Cell(50, 25).SetValue("-");
+		//			ws2.Cell(50, 30).SetValue("-");
+		//			ws2.Cell(51, 10).SetValue("-");
+		//			ws2.Cell(51, 15).SetValue("-");
+		//			ws2.Cell(51, 20).SetValue("-");
+		//			ws2.Cell(51, 25).SetValue("-");
+		//			ws2.Cell(51, 30).SetValue("-");
+		//			//【PLM・訪問診療使用時のパラメ-ター】
+		//			ws2.Cell(55, 9).SetValue("PC-00");
+		//			ws2.Cell(55, 23).SetValue(@"\\PC-00\MIC_PALETTE\");
+		//			//【備考】
+		//			ws2.Cell(59, 3).SetValue("");
 
-					// Excelファイルの保存
-					wb.Save();
-				}
-			}
-			catch (Exception e)
-			{
-				throw new Exception(e.Message);
-			}
-		}
+		//			// Excelファイルの保存
+		//			wb.Save();
+		//		}
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		throw new Exception(e.Message);
+		//	}
+		//}
 
 		/// <summary>
 		/// EXCEL出力 - 15 PC安心サポート加入申込書 or PC安心サポートPlus加入申込書
@@ -2253,6 +2268,221 @@ namespace VariousDocumentOut
 			catch (Exception e)
 			{
 				throw new Exception(e.Message);
+			}
+		}
+
+		/// <summary>
+		/// EXCEL出力 - 19-オンライン資格確認等事業完了報告書(経理部専用)
+		/// </summary>
+		/// <param name="common">各種書類出力 共通情報</param>
+		/// <param name="pathname">Excelファイルパス名</param>
+		/// <param name="orgPathname">Excelファイルパス名(org)</param>
+		/// <param name="goodsList">オンライン資格確認対象商品売上明細</param>
+		/// Ver1.07(2021/12/24):経理部専用 オンライン資格確認等事業完了報告書の対応
+		/// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
+		public static void ExcelOutOnlineConfirm(DocumentCommon common, string pathname, string orgPathname, List<オンライン資格確認対象商品売上明細> goodsList)
+		{
+			try
+			{
+				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
+				{
+					string clinicCode = common.Customer.NumericClinicCode;
+
+					// 領収証
+					IXLWorksheet ws1 = wb.Worksheet("領収証");
+					ws1.Cell(5, 2).SetValue(common.Customer.顧客名);
+					ws1.Cell(13, 3).SetValue(string.Format("{0,4} 年 {1,2} 月 {2,2} 日", Date.Today.Year, Date.Today.Month, Date.Today.Day));
+					ws1.Cell(16, 7).SetValue(common.社名);
+					ws1.Cell(18, 7).SetValue(common.住所1);
+					ws1.Cell(19, 7).SetValue(common.住所2);
+					ws1.Cell(20, 7).SetValue(string.Format("TEL {0}", common.電話番号));
+
+					// 領収書内訳書
+					IXLWorksheet ws2 = wb.Worksheet("領収書内訳書");
+					ws2.Cell(3, 42).SetValue(string.Format("{0,4}", Date.Today.Year));
+					ws2.Cell(3, 45).SetValue(string.Format("{0,2}", Date.Today.Month));
+					ws2.Cell(3, 47).SetValue(string.Format("{0,2}", Date.Today.Day));
+					ws2.Cell(6, 9).SetValue(common.Customer.県番号.Substring(0, 1));
+					ws2.Cell(6, 10).SetValue(common.Customer.県番号.Substring(1, 1));
+					ws2.Cell(8, 9).SetValue(clinicCode.Substring(0, 1));
+					ws2.Cell(8, 10).SetValue(clinicCode.Substring(1, 1));
+					ws2.Cell(8, 11).SetValue(clinicCode.Substring(2, 1));
+					ws2.Cell(8, 12).SetValue(clinicCode.Substring(3, 1));
+					ws2.Cell(8, 13).SetValue(clinicCode.Substring(4, 1));
+					ws2.Cell(8, 14).SetValue(clinicCode.Substring(5, 1));
+					ws2.Cell(8, 16).SetValue(clinicCode.Substring(6, 1));
+					ws2.Cell(10, 9).SetValue(string.Format("{0}  様", common.Customer.顧客名));
+
+					// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
+					//ws2.Cell(8, 40).SetValue(common.社名);
+					//ws2.Cell(10, 40).SetValue(common.住所1);
+					//ws2.Cell(12, 40).SetValue(common.電話番号);
+
+					int total = 0;
+					for (int i = 0; i < goodsList.Count; i++)
+					{
+						オンライン資格確認対象商品売上明細 goods = goodsList[i];
+						OnlineGoods online = Program.gSettings.OnlineGoodsList.Find(p => p.商品コード == goods.商品コード);
+						if (null != online)
+						{
+							// 項目
+							ws2.Cell(16 + i, 4).SetValue(online.項目);
+
+							// 内訳
+							ws2.Cell(16 + i, 16).SetValue(online.内訳);
+						}
+						else
+						{
+							// 項目
+							ws2.Cell(16 + i, 4).SetValue(goods.商品コード);
+
+							// 内訳
+							ws2.Cell(16 + i, 16).SetValue(goods.商品名);
+						}
+						// ①補助対象金額
+						ws2.Cell(16 + i, 38).SetValue(goods.補助対象金額);
+						total += goods.補助対象金額;
+
+						// ②補助対象外金額
+						;
+
+					}
+					// ①小計
+					//ws2.Cell(31, 42).SetValue(total);
+
+					// ②小計
+					//;
+
+					// 総額（①＋②）
+					//ws2.Cell(12, 9).SetValue(total);
+
+					// 作業完了報告書
+					IXLWorksheet ws3 = wb.Worksheet("作業完了報告書");
+					ws3.Cell(2, 20).SetValue(string.Format("{0,4}", Date.Today.Year));
+					ws3.Cell(2, 23).SetValue(string.Format("{0,2}", Date.Today.Month));
+					ws3.Cell(2, 25).SetValue(string.Format("{0,2}", Date.Today.Day));
+					ws3.Cell(7, 19).SetValue(common.Customer.県番号.Substring(0, 1));
+					ws3.Cell(7, 20).SetValue(common.Customer.県番号.Substring(1, 1));
+					ws3.Cell(8, 19).SetValue(clinicCode.Substring(0, 1));
+					ws3.Cell(8, 20).SetValue(clinicCode.Substring(1, 1));
+					ws3.Cell(8, 21).SetValue(clinicCode.Substring(2, 1));
+					ws3.Cell(8, 22).SetValue(clinicCode.Substring(3, 1));
+					ws3.Cell(8, 23).SetValue(clinicCode.Substring(4, 1));
+					ws3.Cell(8, 24).SetValue(clinicCode.Substring(5, 1));
+					ws3.Cell(8, 25).SetValue(clinicCode.Substring(6, 1));
+					ws3.Cell(9, 19).SetValue(common.Customer.顧客名);
+					ws3.Cell(11, 18).SetValue(common.Customer.郵便番号);
+					ws3.Cell(12, 15).SetValue(common.Customer.住所1);
+					ws3.Cell(13, 19).SetValue(common.Customer.電話番号);
+
+					// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
+					if (0 == common.Customer3.開設者名.Length)
+					{
+						// 開設者がいない時は院長を印字
+						ws3.Cell(10, 19).SetValue(common.Customer3.院長名);
+					}
+					else
+					{
+						ws3.Cell(10, 19).SetValue(common.Customer3.開設者名);
+					}
+					// Excelファイルの保存
+					wb.Save();
+				}
+			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
+			// 書類送付状
+			Excel.Application xlApp = null;
+			Excel.Workbooks xlBooks = null;
+			Excel.Workbook xlBook = null;
+			Excel.Sheets xlSheets = null;
+			Excel.Worksheet xlSheet = null;
+			Excel.Shapes xlShapes = null;
+			Excel.Workbook xlBookOrg = null;
+			Excel.Worksheet xlSheetOrg = null;
+			Excel.Worksheet xlSheetCopy = null;
+			Excel.Worksheet xlSheetDelete = null;
+			try
+			{
+				xlApp = new Excel.Application();
+				xlApp.DisplayAlerts = false;
+				xlBooks = xlApp.Workbooks;
+				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+				xlSheets = xlBook.Worksheets;
+
+				// 書類送付状の削除
+				xlSheetDelete = xlSheets["書類送付状"] as Excel.Worksheet;
+				xlSheetDelete.Delete();
+
+				// 作業完了報告書の後ろに19-オンライン資格確認等事業完了報告書.xlsx.orgの書類送付状をコピー
+				xlSheetCopy = xlSheets["作業完了報告書"] as Excel.Worksheet;
+				xlBookOrg = xlBooks.Open(orgPathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+				xlSheetOrg = xlBookOrg.Worksheets["書類送付状"] as Excel.Worksheet;
+				xlSheetOrg.Copy(Type.Missing, xlSheetCopy);   // 「作業完了報告書」の後ろに「書類送付状」をコピー
+
+				// 書類送付状の設定
+				xlSheet = xlSheets["書類送付状"] as Excel.Worksheet;
+				xlShapes = xlSheet.Shapes;
+				foreach (Excel.Shape shape in xlShapes)
+				{
+					if (MsoShapeType.msoTextBox == shape.Type)
+					{
+						dynamic textFrame = shape.TextFrame;
+						switch (shape.Name)
+						{
+							case "日付":
+								// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
+								//textFrame.Characters.Text = Date.Today.GetJapaneseString(true, '0', true, true);
+								textFrame.Characters.Text = Date.Today.GetJapaneseString(true, ' ', true, true);
+								break;
+							case "送付先":
+								textFrame.Characters.Text = string.Format("〒{0}\r\n{1}\r\n{2}\r\n{3}　御中", common.Customer.郵便番号, common.Customer.住所1, common.Customer.住所2, common.Customer.顧客名);
+								break;
+							case "FAX":
+								textFrame.Characters.Text = string.Format("FAX {0}", common.Customer.FAX番号);
+								break;
+							case "送付元":
+								// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
+								//textFrame.Characters.Text = string.Format("〒{0}\r\n{1}\r\n{2}\r\n{3}\r\n{4}", common.郵便番号, common.住所1, common.住所2, common.社名, common.電話番号);
+								textFrame.Characters.Text = string.Format("〒{0}\r\n{1}\r\n{2}\r\n{3}\r\n04-7130-9005", common.郵便番号, common.住所1, common.住所2, common.社名);
+								break;
+						}
+					}
+				}
+				xlApp.DisplayAlerts = true;
+			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
+			finally
+			{
+				if (null != xlSheet)
+				{
+					Marshal.ReleaseComObject(xlSheet);
+				}
+				if (null != xlSheets)
+				{
+					Marshal.ReleaseComObject(xlSheets);
+				}
+				if (null != xlBook)
+				{
+					xlBook.Save();
+					Marshal.ReleaseComObject(xlBook);
+				}
+				if (null != xlBooks)
+				{
+					Marshal.ReleaseComObject(xlBooks);
+				}
+				if (null != xlApp)
+				{
+					xlApp.Quit();
+					Marshal.ReleaseComObject(xlApp);
+				}
+				// ガベージコレクションを直ちに強制実行する
+				GC.Collect();
 			}
 		}
 	}

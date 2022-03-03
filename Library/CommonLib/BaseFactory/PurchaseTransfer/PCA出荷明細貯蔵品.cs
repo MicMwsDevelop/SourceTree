@@ -1,10 +1,6 @@
-﻿using System;
+﻿using CommonLib.DB;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
-using CommonLib.DB;
 
 namespace CommonLib.BaseFactory.PurchaseTransfer
 {
@@ -90,6 +86,7 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 						伝票No = DataBaseValue.ConvObjectToInt(row["伝票No"]),
 						出荷先コード = row["出荷先コード"].ToString().Trim(),
 						出荷先名 = row["出荷先名"].ToString().Trim(),
+						先方担当者名 = row["先方担当者名"].ToString().Trim(),
 						部門コード = row["部門コード"].ToString().Trim(),
 						担当者コード = row["担当者コード"].ToString().Trim(),
 						商品コード = row["商品コード"].ToString().Trim(),

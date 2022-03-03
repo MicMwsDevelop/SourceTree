@@ -1,5 +1,5 @@
 ﻿//
-// 売上予想ES.cs
+// 売上予測ES保守.cs
 //
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -13,9 +13,9 @@ using System.Data;
 namespace CommonLib.BaseFactory.ProspectProgressAutoAggregate
 {
 	/// <summary>
-	/// 売上予想ES
+	/// 売上予測ES保守
 	/// </summary>
-	public class 売上予想ES
+	public class 売上予測ES保守
 	{
         public string 部門コード { get; set; }
         public string 営業部名 { get; set; }
@@ -33,7 +33,7 @@ namespace CommonLib.BaseFactory.ProspectProgressAutoAggregate
         /// <summary>
         /// デフォルトコンストラクタ
         /// </summary>
-        public 売上予想ES()
+        public 売上予測ES保守()
         {
             部門コード = string.Empty;
             営業部名 = string.Empty;
@@ -52,15 +52,15 @@ namespace CommonLib.BaseFactory.ProspectProgressAutoAggregate
         /// </summary>
         /// <param name="table"></param>
         /// <returns></returns>
-        public static List<売上予想ES> DataTableToList(DataTable table)
+        public static List<売上予測ES保守> DataTableToList(DataTable table)
         {
             if (null != table && 0 < table.Rows.Count)
             {
-                List<売上予想ES> result = new List<売上予想ES>();
+                List<売上予測ES保守> result = new List<売上予測ES保守>();
                 foreach (DataRow row in table.Rows)
                 {
-                    売上予想ES data = new 売上予想ES
-                    {
+					売上予測ES保守 data = new 売上予測ES保守
+					{
                         部門コード = row["部門コード"].ToString().Trim(),
                         営業部名 = row["営業部名"].ToString().Trim(),
                         拠点コード = row["拠点コード"].ToString().Trim(),

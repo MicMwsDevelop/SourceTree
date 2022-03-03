@@ -1,5 +1,5 @@
 ﻿//
-// 売上予想.cs
+// 売上進捗.cs
 //
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -12,7 +12,7 @@ using System.Data;
 
 namespace CommonLib.BaseFactory.ProspectProgressAutoAggregate
 {
-	public class 売上予想
+	public class 売上進捗
 	{
         public YearMonth 集計月 { get; set; }
         public string 売上区分 { get; set; }
@@ -36,7 +36,7 @@ namespace CommonLib.BaseFactory.ProspectProgressAutoAggregate
         /// <summary>
         /// デフォルトコンストラクタ
         /// </summary>
-        public 売上予想()
+        public 売上進捗()
         {
             売上区分 = string.Empty;
             部門コード = string.Empty;
@@ -51,14 +51,14 @@ namespace CommonLib.BaseFactory.ProspectProgressAutoAggregate
         /// </summary>
         /// <param name="table"></param>
         /// <returns></returns>
-        public static List<売上予想> DataTableToList(DataTable table, Date today)
+        public static List<売上進捗> DataTableToList(DataTable table, Date today)
         {
             if (null != table && 0 < table.Rows.Count)
             {
-                List<売上予想> result = new List<売上予想>();
+                List<売上進捗> result = new List<売上進捗>();
                 foreach (DataRow row in table.Rows)
                 {
-                    売上予想 data = new 売上予想
+                    売上進捗 data = new 売上進捗
                     {
                         集計月 = today.ToYearMonth(),
                         売上区分 = row["売上区分"].ToString().Trim(),

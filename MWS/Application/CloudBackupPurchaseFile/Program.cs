@@ -58,8 +58,9 @@ namespace CloudBackupPurchaseFile
 			gSettings = CloudBackupPurchaseFileSettingsIF.GetSettings();
 
 #if DEBUG
-			CollectDate = new Date(2021, 8, 1);
-#else
+			//CollectDate = new Date(2021, 8, 1);
+			CollectDate = Date.Today.FirstDayOfLasMonth();
+
 			// 集計日を先月初日に設定
 			CollectDate = Date.Today.FirstDayOfLasMonth();
 #endif

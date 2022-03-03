@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿//
+// ナルコーム仕入集計.cs
+// 
+// ナルコーム仕入集計クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.00 新規作成(2022/01/07 勝呂)
+//
 using CommonLib.DB;
+using System.Collections.Generic;
+using System.Data;
 
-namespace CommonLib.BaseFactory.PurchaseTransfer
+namespace CommonLib.BaseFactory.MakePurchaseFile
 {
 	/// <summary>
-	/// 7 りすとん月額仕入振替月次
-	/// 8 office365仕入振替月次
-	/// 9 問心伝月額仕入振替月次
-	/// 10 ソフトバンク仕入振替月次
-	/// 11 Curline本体アプリ仕入作成月次
+	/// 12 ナルコーム仕入集計
 	/// </summary>
-	public class 仕入振替月次
+	public class ナルコーム仕入集計
 	{
 		public string 仕入先 { get; set; }
 		public string sykd_jbmn { get; set; }
@@ -26,12 +27,14 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 		public int 数量 { get; set; }
 		public string sykd_tani { get; set; }
 		public int 評価単価 { get; set; }
+		public int sykd_uribi { get; set; }
+		public short 仕入フラグ { get; set; }
 		public int sykd_rate { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public 仕入振替月次()
+		public ナルコーム仕入集計()
 		{
 			仕入先 = string.Empty;
 			sykd_jbmn = string.Empty;
@@ -42,6 +45,8 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 			数量 = 0;
 			sykd_tani = string.Empty;
 			評価単価 = 0;
+			sykd_uribi = 0;
+			仕入フラグ = 0;
 			sykd_rate = 0;
 		}
 
@@ -50,14 +55,14 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 		/// </summary>
 		/// <param name="table"></param>
 		/// <returns></returns>
-		public static List<仕入振替月次> DataTableToList(DataTable table)
+		public static List<ナルコーム仕入集計> DataTableToList(DataTable table)
 		{
-			List<仕入振替月次> result = new List<仕入振替月次>();
+			List<ナルコーム仕入集計> result = new List<ナルコーム仕入集計>();
 			if (null != table && 0 < table.Rows.Count)
 			{
 				foreach (DataRow row in table.Rows)
 				{
-					仕入振替月次 data = new 仕入振替月次
+					ナルコーム仕入集計 data = new ナルコーム仕入集計
 					{
 						仕入先 = row["仕入先"].ToString().Trim(),
 						sykd_jbmn = row["sykd_jbmn"].ToString().Trim(),
@@ -68,6 +73,8 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 						数量 = DataBaseValue.ConvObjectToInt(row["数量"]),
 						sykd_tani = row["sykd_tani"].ToString().Trim(),
 						評価単価 = DataBaseValue.ConvObjectToInt(row["評価単価"]),
+						sykd_uribi = DataBaseValue.ConvObjectToInt(row["sykd_uribi"]),
+						仕入フラグ = DataBaseValue.ConvObjectToShort(row["仕入フラグ"]),
 						sykd_rate = DataBaseValue.ConvObjectToInt(row["sykd_rate"]),
 					};
 					result.Add(data);

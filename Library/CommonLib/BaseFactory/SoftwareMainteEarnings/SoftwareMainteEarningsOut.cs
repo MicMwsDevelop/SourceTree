@@ -155,11 +155,11 @@ namespace CommonLib.BaseFactory.SoftwareMainteEarnings
 		/// <summary>
 		/// 利用期間を１年後に設定
 		/// </summary>
-		/// <param name="end">終了日</param>
-		public void Set利用期間(Date end)
+		/// <param name="today">当日</param>
+		public void Set利用期間(Date today)
 		{
 			// 開始：翌月初日、終了：１年後の当月末日
-			f利用期間 = new Span(end.FirstDayOfNextMonth(), end.PlusYears(1).LastDayOfTheMonth());
+			f利用期間 = new Span(today.FirstDayOfNextMonth(), today.PlusYears(1).LastDayOfTheMonth());
 		}
 
 		/// <summary>

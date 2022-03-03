@@ -4,6 +4,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2021/10/25 勝呂)
+// Ver1.01 着日指定の金額が０円で印刷されるので、金額が０円の時は印刷しない(2021/12/22 勝呂)
 // 
 using CommonLib.Common;
 using CommonLib.Print;
@@ -245,7 +246,11 @@ namespace DeliveryCenterPrintNouhin.Print
 									int line = PrintPara.ExtractionNumeral(entry) - 1;
 									if (index.Item2 + line < data.GoodsList.Count)
 									{
-										para.PrintString(g, offset, PrintPara.CommaEditString(data.GoodsList[index.Item2 + line].Price));
+										if (0 < data.GoodsList[index.Item2 + line].Price.Length && "0" != data.GoodsList[index.Item2 + line].Price)
+										{
+											// Ver1.01 着日指定の金額が０円で印刷されるので、金額が０円の時は印刷しない(2021/12/22 勝呂)
+											para.PrintString(g, offset, PrintPara.CommaEditString(data.GoodsList[index.Item2 + line].Price));
+										}
 									}
 								}
 								else if ("<備考" == StringUtil.Left(entry, 3))

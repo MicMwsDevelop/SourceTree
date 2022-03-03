@@ -1,10 +1,6 @@
-﻿using System;
+﻿using CommonLib.DB;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
-using CommonLib.DB;
 
 namespace CommonLib.BaseFactory.PurchaseTransfer
 {

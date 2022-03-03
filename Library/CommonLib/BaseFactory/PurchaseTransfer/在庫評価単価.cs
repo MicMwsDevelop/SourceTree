@@ -1,10 +1,6 @@
-﻿using System;
+﻿using CommonLib.DB;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
-using CommonLib.DB;
 
 namespace CommonLib.BaseFactory.PurchaseTransfer
 {
@@ -14,7 +10,7 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 	public class 在庫評価単価
 	{
 		public string 商品コード { get; set; }
-		public int 評価単価 { get; set; }
+		public decimal 評価単価 { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -40,7 +36,7 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 					在庫評価単価 data = new 在庫評価単価
 					{
 						商品コード = row["商品コード"].ToString().Trim(),
-						評価単価 = DataBaseValue.ConvObjectToInt(row["評価単価"]),
+						評価単価 = DataBaseValue.ConvObjectToDecimal(row["評価単価"]),
 					};
 					result.Add(data);
 				}

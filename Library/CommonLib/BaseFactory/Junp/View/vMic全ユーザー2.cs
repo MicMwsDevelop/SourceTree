@@ -303,10 +303,10 @@ namespace CommonLib.BaseFactory.Junp.View
             }
         }
 
-        /// <summary>
-        /// デフォルトコンストラクタ
-        /// </summary>
-        public vMic全ユーザー2()
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
+		public vMic全ユーザー2()
         {
             this.Clear();
         }

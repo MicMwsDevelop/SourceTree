@@ -29,6 +29,11 @@ namespace VariousDocumentOut
 		public vMic全ユーザー2 Customer { get; set; }
 
 		/// <summary>
+		/// 顧客情報
+		/// </summary>
+		public vMic全ユーザー3 Customer3 { get; set; }
+
+		/// <summary>
 		/// 運用サポート情報
 		/// </summary>
 		public string 運用サポート情報 { get; set; }
@@ -204,6 +209,7 @@ namespace VariousDocumentOut
 		{
 			Satellite = null;
 			Customer = null;
+			Customer3 = null;
 			運用サポート情報 = string.Empty;
 		}
 
@@ -213,6 +219,7 @@ namespace VariousDocumentOut
 		public void ClearCustomer()
 		{
 			Customer = null;
+			Customer3 = null;
 			運用サポート情報 = string.Empty;
 		}
 

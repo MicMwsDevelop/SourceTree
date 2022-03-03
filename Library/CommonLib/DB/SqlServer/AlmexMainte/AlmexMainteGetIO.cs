@@ -55,7 +55,7 @@ namespace CommonLib.DB.SqlServer.AlmexMainte
 									+ " INNER JOIN {4} as B on B.fBshCode3 = U.支店コード"
 									+ " WHERE U.終了フラグ = '0' AND A.fai終了フラグ = '0' AND A.fai保守契約終了 = '{5}' AND C.fcmコード種別 = '{6}' AND (C.fcmコード = '{7}' OR C.fcmコード = '{8}' OR C.fcmコード = '{9}' OR C.fcmコード = '{10}' OR C.fcmコード = '{11}')"
 									+ " ORDER BY U.顧客No, S.sms_scd"
-									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー２]
+									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー2]
 									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報]
 									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ]
 									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]

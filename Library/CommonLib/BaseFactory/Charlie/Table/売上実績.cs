@@ -22,17 +22,20 @@ namespace CommonLib.BaseFactory.Charlie.Table
         public string 営業部コード { get; set; }
         public short 予算VP { get; set; }
         public short 予算ES { get; set; }
-        public short 予算まとめ { get; set; }
+		public short 予算課金 { get; set; }
+		public short 予算まとめ { get; set; }
         public int 予算売上 { get; set; }
         public int 予算営業損益 { get; set; }
         public short 予測VP { get; set; }
         public short 予測ES { get; set; }
-        public short 予測まとめ { get; set; }
+		public short 予測課金 { get; set; }
+		public short 予測まとめ { get; set; }
         public int 予測売上 { get; set; }
         public int 予測営業損益 { get; set; }
         public short 実績VP { get; set; }
         public short 実績ES { get; set; }
-        public short 実績まとめ { get; set; }
+		public short 実績課金 { get; set; }
+		public short 実績まとめ { get; set; }
         public int 実績売上 { get; set; }
         public int 実績営業損益 { get; set; }
 
@@ -43,7 +46,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		{
 			get
 			{
-				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17)"
+				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20)"
 								, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.売上実績]);
 			}
 		}
@@ -55,8 +58,8 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		{
 			get
 			{
-				return string.Format(@"UPDATE {0} SET 予算ES = @1, 予算まとめ = @2, 予算売上 = @3, 予算営業損益 = @4, 予測ES = @5, 予測まとめ = @6"
-									+ ", 予測売上 = @7, 予測営業損益 = @8, 実績ES = @9, 実績まとめ = @10, 実績売上 = @11, 実績営業損益 = @12"
+				return string.Format(@"UPDATE {0} SET 予算ES = @1, 予算課金 = @2, 予算まとめ = @3, 予算売上 = @4, 予算営業損益 = @5, 予測ES = @6, 予測課金 = @7, 予測まとめ = @8"
+									+ ", 予測売上 = @9, 予測営業損益 = @10, 実績ES = @11, 実績課金 = @12, 実績まとめ = @13, 実績売上 = @14, 実績営業損益 = @15"
 									+ " WHERE 実績日 = {1} AND 営業部コード = '{2}'"
 								, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.売上実績]
 								, 実績日
@@ -73,17 +76,20 @@ namespace CommonLib.BaseFactory.Charlie.Table
             営業部コード = string.Empty;
             予算VP = 0;
             予算ES = 0;
-            予算まとめ = 0;
+			予算課金 = 0;
+			予算まとめ = 0;
             予算売上 = 0;
             予算営業損益 = 0;
             予測VP = 0;
             予測ES = 0;
-            予測まとめ = 0;
+			予測課金 = 0;
+			予測まとめ = 0;
             予測売上 = 0;
             予測営業損益 = 0;
             実績VP = 0;
             実績ES = 0;
-            実績まとめ = 0;
+			実績課金 = 0;
+			実績まとめ = 0;
             実績売上 = 0;
             実績営業損益 = 0;
         }
@@ -106,17 +112,20 @@ namespace CommonLib.BaseFactory.Charlie.Table
                         営業部コード = row["営業部コード"].ToString().Trim(),
                         予算VP = DataBaseValue.ConvObjectToShort(row["予算VP"]),
                         予算ES = DataBaseValue.ConvObjectToShort(row["予算ES"]),
-                        予算まとめ = DataBaseValue.ConvObjectToShort(row["予算まとめ"]),
+						予算課金 = DataBaseValue.ConvObjectToShort(row["予算課金"]),
+						予算まとめ = DataBaseValue.ConvObjectToShort(row["予算まとめ"]),
                         予算売上 = DataBaseValue.ConvObjectToInt(row["予算売上"]),
                         予算営業損益 = DataBaseValue.ConvObjectToInt(row["予算営業損益"]),
                         予測VP = DataBaseValue.ConvObjectToShort(row["予測VP"]),
                         予測ES = DataBaseValue.ConvObjectToShort(row["予測ES"]),
-                        予測まとめ = DataBaseValue.ConvObjectToShort(row["予測まとめ"]),
+						予測課金 = DataBaseValue.ConvObjectToShort(row["予測課金"]),
+						予測まとめ = DataBaseValue.ConvObjectToShort(row["予測まとめ"]),
                         予測売上 = DataBaseValue.ConvObjectToInt(row["予測売上"]),
                         予測営業損益 = DataBaseValue.ConvObjectToInt(row["予測営業損益"]),
                         実績VP = DataBaseValue.ConvObjectToShort(row["実績VP"]),
                         実績ES = DataBaseValue.ConvObjectToShort(row["実績ES"]),
-                        実績まとめ = DataBaseValue.ConvObjectToShort(row["実績まとめ"]),
+						実績課金 = DataBaseValue.ConvObjectToShort(row["実績課金"]),
+						実績まとめ = DataBaseValue.ConvObjectToShort(row["実績まとめ"]),
                         実績売上 = DataBaseValue.ConvObjectToInt(row["実績売上"]),
                         実績営業損益 = DataBaseValue.ConvObjectToInt(row["実績営業損益"]),
                     };
@@ -138,19 +147,22 @@ namespace CommonLib.BaseFactory.Charlie.Table
 				new SqlParameter("@2", 営業部コード ?? System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@3", 予算VP),
 				new SqlParameter("@4", 予算ES),
-				new SqlParameter("@5", 予算まとめ),
-				new SqlParameter("@6", 予算売上),
-				new SqlParameter("@7", 予算営業損益),
-				new SqlParameter("@8", 予測VP),
-				new SqlParameter("@9", 予測ES),
-				new SqlParameter("@10", 予測まとめ),
-				new SqlParameter("@11", 予測売上),
-				new SqlParameter("@12", 予測営業損益),
-				new SqlParameter("@13", 実績VP),
-				new SqlParameter("@14", 実績ES),
-				new SqlParameter("@15", 実績まとめ),
-				new SqlParameter("@16", 実績売上),
-				new SqlParameter("@17", 実績営業損益),
+				new SqlParameter("@5", 予算課金),
+				new SqlParameter("@6", 予算まとめ),
+				new SqlParameter("@7", 予算売上),
+				new SqlParameter("@8", 予算営業損益),
+				new SqlParameter("@9", 予測VP),
+				new SqlParameter("@10", 予測ES),
+				new SqlParameter("@11", 予測課金),
+				new SqlParameter("@12", 予測まとめ),
+				new SqlParameter("@13", 予測売上),
+				new SqlParameter("@14", 予測営業損益),
+				new SqlParameter("@15", 実績VP),
+				new SqlParameter("@16", 実績ES),
+				new SqlParameter("@17", 実績課金),
+				new SqlParameter("@18", 実績まとめ),
+				new SqlParameter("@19", 実績売上),
+				new SqlParameter("@20", 実績営業損益),
 			};
 			return param;
 		}
@@ -163,17 +175,20 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		{
 			SqlParameter[] param = {
 				new SqlParameter("@1", 予算ES),
-				new SqlParameter("@2", 予算まとめ),
-				new SqlParameter("@3", 予算売上),
-				new SqlParameter("@4", 予算営業損益),
-				new SqlParameter("@5", 予測ES),
-				new SqlParameter("@6", 予測まとめ),
-				new SqlParameter("@7", 予測売上),
-				new SqlParameter("@8", 予測営業損益),
-				new SqlParameter("@9", 実績ES),
-				new SqlParameter("@10", 実績まとめ),
-				new SqlParameter("@11", 実績売上),
-				new SqlParameter("@12", 実績営業損益),
+				new SqlParameter("@2", 予算課金),
+				new SqlParameter("@3", 予算まとめ),
+				new SqlParameter("@4", 予算売上),
+				new SqlParameter("@5", 予算営業損益),
+				new SqlParameter("@6", 予測ES),
+				new SqlParameter("@7", 予測課金),
+				new SqlParameter("@8", 予測まとめ),
+				new SqlParameter("@9", 予測売上),
+				new SqlParameter("@10", 予測営業損益),
+				new SqlParameter("@11", 実績ES),
+				new SqlParameter("@12", 実績課金),
+				new SqlParameter("@13", 実績まとめ),
+				new SqlParameter("@14", 実績売上),
+				new SqlParameter("@15", 実績営業損益),
 			};
 			return param;
 		}

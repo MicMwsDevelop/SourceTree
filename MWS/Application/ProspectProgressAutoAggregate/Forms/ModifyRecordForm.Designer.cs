@@ -46,20 +46,26 @@ namespace ProspectProgressAutoAggregate.Forms
 			this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column予算VP = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column予測VP = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column実績VP = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column実績日 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column営業部コード = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column予算ES = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column予算課金 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column予算まとめ = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column予算売上 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column予算営業損益 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column予測ES = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column予測課金 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column予測まとめ = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column予測売上 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column予測営業損益 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column実績ES = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column実績課金 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column実績まとめ = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column実績売上 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column実績営業損益 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -75,38 +81,44 @@ namespace ProspectProgressAutoAggregate.Forms
             this.Column実績日,
             this.Column営業部コード,
             this.Column予算ES,
-            this.Column予算まとめ,
+			this.Column予算課金,
+			this.Column予算まとめ,
             this.Column予算売上,
             this.Column予算営業損益,
             this.Column予測ES,
-            this.Column予測まとめ,
+			this.Column予測課金,
+			this.Column予測まとめ,
             this.Column予測売上,
             this.Column予測営業損益,
             this.Column実績ES,
-            this.Column実績まとめ,
+			this.Column実績課金,
+			this.Column実績まとめ,
             this.Column実績売上,
             this.Column実績営業損益});
-			this.dataGridViewRecord.Location = new System.Drawing.Point(13, 38);
+			this.dataGridViewRecord.Location = new System.Drawing.Point(17, 48);
+			this.dataGridViewRecord.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.dataGridViewRecord.Name = "dataGridViewRecord";
 			this.dataGridViewRecord.RowTemplate.Height = 21;
-			this.dataGridViewRecord.Size = new System.Drawing.Size(885, 199);
+			this.dataGridViewRecord.Size = new System.Drawing.Size(1180, 249);
 			this.dataGridViewRecord.TabIndex = 0;
 			// 
 			// comboBoxYearMonth
 			// 
 			this.comboBoxYearMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxYearMonth.FormattingEnabled = true;
-			this.comboBoxYearMonth.Location = new System.Drawing.Point(13, 12);
+			this.comboBoxYearMonth.Location = new System.Drawing.Point(17, 15);
+			this.comboBoxYearMonth.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.comboBoxYearMonth.Name = "comboBoxYearMonth";
-			this.comboBoxYearMonth.Size = new System.Drawing.Size(93, 20);
+			this.comboBoxYearMonth.Size = new System.Drawing.Size(123, 23);
 			this.comboBoxYearMonth.TabIndex = 2;
 			this.comboBoxYearMonth.SelectedIndexChanged += new System.EventHandler(this.comboBoxYearMonth_SelectedIndexChanged);
 			// 
 			// buttonUpdateSet
 			// 
-			this.buttonUpdateSet.Location = new System.Drawing.Point(779, 9);
+			this.buttonUpdateSet.Location = new System.Drawing.Point(1039, 11);
+			this.buttonUpdateSet.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.buttonUpdateSet.Name = "buttonUpdateSet";
-			this.buttonUpdateSet.Size = new System.Drawing.Size(119, 23);
+			this.buttonUpdateSet.Size = new System.Drawing.Size(159, 29);
 			this.buttonUpdateSet.TabIndex = 3;
 			this.buttonUpdateSet.Text = "更新";
 			this.buttonUpdateSet.UseVisualStyleBackColor = true;
@@ -139,79 +151,103 @@ namespace ProspectProgressAutoAggregate.Forms
 			// 
 			// dataGridViewTextBoxColumn4
 			// 
-			this.dataGridViewTextBoxColumn4.DataPropertyName = "予算まとめ";
-			this.dataGridViewTextBoxColumn4.HeaderText = "予算まとめ";
+			this.dataGridViewTextBoxColumn4.DataPropertyName = "予算課金";
+			this.dataGridViewTextBoxColumn4.HeaderText = "予算課金";
 			this.dataGridViewTextBoxColumn4.MaxInputLength = 2;
 			this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
 			this.dataGridViewTextBoxColumn4.Width = 40;
 			// 
 			// dataGridViewTextBoxColumn5
 			// 
-			this.dataGridViewTextBoxColumn5.DataPropertyName = "予算売上";
-			this.dataGridViewTextBoxColumn5.HeaderText = "予算売上";
+			this.dataGridViewTextBoxColumn5.DataPropertyName = "予算まとめ";
+			this.dataGridViewTextBoxColumn5.HeaderText = "予算まとめ";
+			this.dataGridViewTextBoxColumn5.MaxInputLength = 2;
 			this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+			this.dataGridViewTextBoxColumn5.Width = 40;
 			// 
 			// dataGridViewTextBoxColumn6
 			// 
-			this.dataGridViewTextBoxColumn6.DataPropertyName = "予算営業損益";
-			this.dataGridViewTextBoxColumn6.HeaderText = "予算営業損益";
+			this.dataGridViewTextBoxColumn6.DataPropertyName = "予算売上";
+			this.dataGridViewTextBoxColumn6.HeaderText = "予算売上";
 			this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
 			// 
 			// dataGridViewTextBoxColumn7
 			// 
-			this.dataGridViewTextBoxColumn7.DataPropertyName = "予測ES";
-			this.dataGridViewTextBoxColumn7.HeaderText = "予測ES";
-			this.dataGridViewTextBoxColumn7.MaxInputLength = 2;
+			this.dataGridViewTextBoxColumn7.DataPropertyName = "予算営業損益";
+			this.dataGridViewTextBoxColumn7.HeaderText = "予算営業損益";
 			this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-			this.dataGridViewTextBoxColumn7.Width = 40;
 			// 
 			// dataGridViewTextBoxColumn8
 			// 
-			this.dataGridViewTextBoxColumn8.DataPropertyName = "予測まとめ";
-			this.dataGridViewTextBoxColumn8.HeaderText = "予測まとめ";
+			this.dataGridViewTextBoxColumn8.DataPropertyName = "予測ES";
+			this.dataGridViewTextBoxColumn8.HeaderText = "予測ES";
 			this.dataGridViewTextBoxColumn8.MaxInputLength = 2;
 			this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
 			this.dataGridViewTextBoxColumn8.Width = 40;
 			// 
 			// dataGridViewTextBoxColumn9
 			// 
-			this.dataGridViewTextBoxColumn9.DataPropertyName = "予測売上";
-			this.dataGridViewTextBoxColumn9.HeaderText = "予測売上";
+			this.dataGridViewTextBoxColumn9.DataPropertyName = "予測課金";
+			this.dataGridViewTextBoxColumn9.HeaderText = "予測課金";
+			this.dataGridViewTextBoxColumn9.MaxInputLength = 2;
 			this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+			this.dataGridViewTextBoxColumn9.Width = 40;
 			// 
 			// dataGridViewTextBoxColumn10
 			// 
-			this.dataGridViewTextBoxColumn10.DataPropertyName = "予測営業損益";
-			this.dataGridViewTextBoxColumn10.HeaderText = "予測営業損益";
+			this.dataGridViewTextBoxColumn10.DataPropertyName = "予測まとめ";
+			this.dataGridViewTextBoxColumn10.HeaderText = "予測まとめ";
+			this.dataGridViewTextBoxColumn10.MaxInputLength = 2;
 			this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+			this.dataGridViewTextBoxColumn10.Width = 40;
 			// 
 			// dataGridViewTextBoxColumn11
 			// 
-			this.dataGridViewTextBoxColumn11.DataPropertyName = "実績ES";
-			this.dataGridViewTextBoxColumn11.HeaderText = "実績ES";
-			this.dataGridViewTextBoxColumn11.MaxInputLength = 2;
+			this.dataGridViewTextBoxColumn11.DataPropertyName = "予測売上";
+			this.dataGridViewTextBoxColumn11.HeaderText = "予測売上";
 			this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-			this.dataGridViewTextBoxColumn11.Width = 40;
 			// 
 			// dataGridViewTextBoxColumn12
 			// 
-			this.dataGridViewTextBoxColumn12.DataPropertyName = "実績まとめ";
-			this.dataGridViewTextBoxColumn12.HeaderText = "実績まとめ";
-			this.dataGridViewTextBoxColumn12.MaxInputLength = 2;
+			this.dataGridViewTextBoxColumn12.DataPropertyName = "予測営業損益";
+			this.dataGridViewTextBoxColumn12.HeaderText = "予測営業損益";
 			this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
-			this.dataGridViewTextBoxColumn12.Width = 40;
 			// 
 			// dataGridViewTextBoxColumn13
 			// 
-			this.dataGridViewTextBoxColumn13.DataPropertyName = "実績売上";
-			this.dataGridViewTextBoxColumn13.HeaderText = "実績売上";
+			this.dataGridViewTextBoxColumn13.DataPropertyName = "実績ES";
+			this.dataGridViewTextBoxColumn13.HeaderText = "実績ES";
+			this.dataGridViewTextBoxColumn13.MaxInputLength = 2;
 			this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
+			this.dataGridViewTextBoxColumn13.Width = 40;
 			// 
 			// dataGridViewTextBoxColumn14
 			// 
-			this.dataGridViewTextBoxColumn14.DataPropertyName = "実績営業損益";
-			this.dataGridViewTextBoxColumn14.HeaderText = "実績営業損益";
+			this.dataGridViewTextBoxColumn14.DataPropertyName = "実績課金";
+			this.dataGridViewTextBoxColumn14.HeaderText = "実績課金";
+			this.dataGridViewTextBoxColumn14.MaxInputLength = 2;
 			this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
+			this.dataGridViewTextBoxColumn14.Width = 40;
+			// 
+			// dataGridViewTextBoxColumn15
+			// 
+			this.dataGridViewTextBoxColumn15.DataPropertyName = "実績まとめ";
+			this.dataGridViewTextBoxColumn15.HeaderText = "実績まとめ";
+			this.dataGridViewTextBoxColumn15.MaxInputLength = 2;
+			this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
+			this.dataGridViewTextBoxColumn15.Width = 40;
+			// 
+			// dataGridViewTextBoxColumn16
+			// 
+			this.dataGridViewTextBoxColumn16.DataPropertyName = "実績売上";
+			this.dataGridViewTextBoxColumn16.HeaderText = "実績売上";
+			this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
+			// 
+			// dataGridViewTextBoxColumn17
+			// 
+			this.dataGridViewTextBoxColumn17.DataPropertyName = "実績営業損益";
+			this.dataGridViewTextBoxColumn17.HeaderText = "実績営業損益";
+			this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
 			// 
 			// Column予算VP
 			// 
@@ -234,7 +270,6 @@ namespace ProspectProgressAutoAggregate.Forms
 			this.Column実績日.MinimumWidth = 8;
 			this.Column実績日.Name = "Column実績日";
 			this.Column実績日.ReadOnly = true;
-			this.Column実績日.Width = 70;
 			// 
 			// Column営業部コード
 			// 
@@ -255,6 +290,15 @@ namespace ProspectProgressAutoAggregate.Forms
 			this.Column予算ES.MaxInputLength = 2;
 			this.Column予算ES.Name = "Column予算ES";
 			this.Column予算ES.Width = 40;
+			// 
+			// Column予算課金
+			// 
+			this.Column予算課金.DataPropertyName = "予算課金";
+			this.Column予算課金.FillWeight = 81.643F;
+			this.Column予算課金.HeaderText = "予算課金";
+			this.Column予算課金.MaxInputLength = 2;
+			this.Column予算課金.Name = "Column予算課金";
+			this.Column予算課金.Width = 40;
 			// 
 			// Column予算まとめ
 			// 
@@ -290,6 +334,15 @@ namespace ProspectProgressAutoAggregate.Forms
 			this.Column予測ES.Name = "Column予測ES";
 			this.Column予測ES.Width = 40;
 			// 
+			// Column予測課金
+			// 
+			this.Column予測課金.DataPropertyName = "予測課金";
+			this.Column予測課金.FillWeight = 97.75877F;
+			this.Column予測課金.HeaderText = "予測課金";
+			this.Column予測課金.MaxInputLength = 2;
+			this.Column予測課金.Name = "Column予測課金";
+			this.Column予測課金.Width = 40;
+			// 
 			// Column予測まとめ
 			// 
 			this.Column予測まとめ.DataPropertyName = "予測まとめ";
@@ -324,6 +377,15 @@ namespace ProspectProgressAutoAggregate.Forms
 			this.Column実績ES.Name = "Column実績ES";
 			this.Column実績ES.Width = 40;
 			// 
+			// Column実績課金
+			// 
+			this.Column実績課金.DataPropertyName = "実績課金";
+			this.Column実績課金.FillWeight = 110.7647F;
+			this.Column実績課金.HeaderText = "実績課金";
+			this.Column実績課金.MaxInputLength = 2;
+			this.Column実績課金.Name = "Column実績課金";
+			this.Column実績課金.Width = 40;
+			// 
 			// Column実績まとめ
 			// 
 			this.Column実績まとめ.DataPropertyName = "実績まとめ";
@@ -351,13 +413,15 @@ namespace ProspectProgressAutoAggregate.Forms
 			// 
 			// ModifyRecordForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(912, 254);
+			this.ClientSize = new System.Drawing.Size(1216, 318);
 			this.Controls.Add(this.buttonUpdateSet);
 			this.Controls.Add(this.comboBoxYearMonth);
 			this.Controls.Add(this.dataGridViewRecord);
+			this.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "ModifyRecordForm";
@@ -391,17 +455,23 @@ namespace ProspectProgressAutoAggregate.Forms
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column実績日;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column営業部コード;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column予算ES;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column予算課金;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column予算まとめ;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column予算売上;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column予算営業損益;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column予測ES;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column予測課金;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column予測まとめ;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column予測売上;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column予測営業損益;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column実績ES;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column実績課金;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column実績まとめ;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column実績売上;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column実績営業損益;
