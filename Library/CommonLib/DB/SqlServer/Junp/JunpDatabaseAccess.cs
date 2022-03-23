@@ -209,6 +209,19 @@ namespace CommonLib.DB.SqlServer.Junp
 			return tMic終了ユーザーリスト.DataTableToList(table);
 		}
 
+		/// <summary>
+		/// [JunpDB].[dbo].[tUser]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>tUser</returns>
+		public static List<tUser> Select_tUser(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tUser], whereStr, orderStr, connectStr);
+			return tUser.DataTableToList(table);
+		}
+
 
 		//////////////////////////////
 		// UPDATE SET

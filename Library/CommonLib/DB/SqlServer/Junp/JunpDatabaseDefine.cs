@@ -48,6 +48,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			tMic社内データ管理詳細 = 20,
 			tMic文書インデクス = 21,
 			tMikOS明細印字 = 22,
+			tUser = 23,
 		}
 
 		/// <summary>
@@ -77,6 +78,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			{ TableType.tMic社内データ管理詳細, string.Format("{0}.tMic社内データ管理詳細", DatabaseName) },
 			{ TableType.tMic文書インデクス, string.Format("{0}.tMic文書インデクス", DatabaseName) },
 			{ TableType.tMikOS明細印字, string.Format("{0}.tMikOS明細印字", DatabaseName) },
+			{ TableType.tUser, string.Format("{0}.tUser", DatabaseName) },
 		};
 
 		/// <summary>

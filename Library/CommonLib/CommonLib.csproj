@@ -75,6 +75,7 @@
     <Compile Include="BaseFactory\Junp\Table\tMikOS明細印字.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMikアプリケーション情報.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMikユーザ.cs" />
+    <Compile Include="BaseFactory\Junp\Table\tUser.cs" />
     <Compile Include="BaseFactory\Junp\View\vMicソフトウェア保守料売上予測.cs" />
     <Compile Include="BaseFactory\Junp\View\vMic全ユーザー3.cs" />
     <Compile Include="BaseFactory\Junp\View\vMic当月売上予想.cs" />
@@ -147,6 +148,9 @@
     <Compile Include="BaseFactory\PurchaseUnitPriceFile\在庫一覧表.cs" />
     <Compile Include="BaseFactory\PurchaseUnitPriceFile\在庫評価単価.cs" />
     <Compile Include="BaseFactory\PurchaseUnitPriceFile\当月仕入単価.cs" />
+    <Compile Include="BaseFactory\Sales\Table\オン資格ヒアリングシート.cs" />
+    <Compile Include="BaseFactory\Sales\Table\進捗管理表_作業情報.cs" />
+    <Compile Include="BaseFactory\Sales\View\vオンライン資格確認ユーザー.cs" />
     <Compile Include="BaseFactory\ScanImageManager\IndexFileInfo.cs" />
     <Compile Include="BaseFactory\ScanImageManager\ScanImageFile.cs" />
     <Compile Include="BaseFactory\ScanImageManager\ScanImageManagerDef.cs" />
@@ -247,6 +251,8 @@
     <Compile Include="DB\SqlServer\ProspectProgressAutoAggregate\ProspectProgressAutoAggregateGetIO.cs" />
     <Compile Include="DB\SqlServer\PurchaseTransfer\PurchaseTransferAccess.cs" />
     <Compile Include="DB\SqlServer\PurchaseUnitPriceFile\PurchaseUnitPriceFileAccess.cs" />
+    <Compile Include="DB\SqlServer\Sales\SalesDatabaseAccess.cs" />
+    <Compile Include="DB\SqlServer\Sales\SalesDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\ScanImageManager\ScanImageManagerAccess.cs" />
     <Compile Include="DB\SqlServer\ScanImageManager\ScanImageManagerGetIO.cs" />
     <Compile Include="DB\SqlServer\ScanImageManager\ScanImageManagerSetIO.cs" />

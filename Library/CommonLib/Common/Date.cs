@@ -246,10 +246,32 @@ namespace CommonLib.Common
             return result;
         }
 
-        /// <summary>
-        /// 当日（マシン日付）の日付を取得
-        /// </summary>
-        public static Date Today
+		/// <summary>
+		/// 文字列を解析して日付インスタンスを生成し、引数retValにセット。解析に成功したかどうかを返す。
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="retVal"></param>
+		/// <returns></returns>
+		public static bool TryParse(int source, out Date retVal)
+		{
+			bool result = false;
+			retVal = MinValue;
+			try
+			{
+				retVal = Parse(source);
+				result = true;
+			}
+			catch
+			{
+				result = false;
+			}
+			return result;
+		}
+		
+		/// <summary>
+		/// 当日（マシン日付）の日付を取得
+		/// </summary>
+		public static Date Today
         {
             get
             {

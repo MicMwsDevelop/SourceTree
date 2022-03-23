@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NoticeOnlineLicenseConfirmSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Mail>
+		<From>営業管理部&lt;eigyo_kanri@mic.jp&gt;</From>
+		<To></To>
+		<CC>営業管理部&lt;eigyo_kanri@mic.jp&gt;</CC>
+		<TestTo>勝呂 幹雄&lt;suguro@mic.jp&gt;</TestTo>
+		<TestCC>勝呂 幹雄&lt;suguro@mic.jp&gt;</TestCC>
+		<Smtp>dove.mic.jp</Smtp>
+		<Port>25</Port>
+		<User></User>
+		<Pass></Pass>
+	</Mail>
+  <ConnectJunp>
+    <InstanceName>SQLSV</InstanceName>
+    <!-- InstanceName>TESTSV</InstanceName -->
+    <DatabaseName>JunpDB</DatabaseName>
+    <UserID>web</UserID>
+    <Password>02035612</Password>
+  </ConnectJunp>
+  <ConnectSales>
+    <InstanceName>SQLSV</InstanceName>
+    <!-- InstanceName>TESTSV</InstanceName -->
+    <DatabaseName>SalesDB</DatabaseName>
+    <UserID>web</UserID>
+    <Password>02035612</Password>
+  </ConnectSales>
+</NoticeOnlineLicenseConfirmSettings>
