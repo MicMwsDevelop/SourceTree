@@ -8,6 +8,7 @@
 // Ver1.00 新規作成(2021/01/20 勝呂)
 // Ver1.02 002189 アルメックス FIT-A 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月 削除の対応(2021/01/20 勝呂)
 // Ver1.03 売上日が翌月初日になっていたのを当月初日に修正(2021/12/23 勝呂)
+// Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
 //
 using AlmexMainteEarningsFile.Mail;
 using AlmexMainteEarningsFile.Settings;
@@ -32,7 +33,7 @@ namespace AlmexMainteEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.03(2021/12/23)";
+		public const string VersionStr = "Ver1.04(2022/05/25)";
 
 		/// <summary>
 		/// 環境設定

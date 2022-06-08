@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2022/03/10 勝呂)
+// Ver1.06 通知５の判定を本日以降の工事確定日付のみ検索するように抽出条件を変更(2022/05/17 勝呂)
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Junp.Table;
@@ -22,6 +23,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace NoticeOnlineLicenseConfirm.Forms
 {
@@ -61,16 +63,6 @@ namespace NoticeOnlineLicenseConfirm.Forms
 		/// オンライン資格確認通知結果「通知5-西日本」
 		/// </summary>
 		private const string SheetNameNotice5West = "通知5-西日本";
-
-		/// <summary>
-		/// SalesDB接続文字列
-		/// </summary>
-		//private const string SalesConnectionString = @"Server=SQLSV;Database=SalesDB;User ID=web;Password=02035612;Min Pool Size=1";
-
-		/// <summary>
-		/// JunpDB接続文字列
-		/// </summary>
-		//private const string JunpConnectionString = @"Server=SQLSV;Database=JunpDB;User ID=web;Password=02035612;Min Pool Size=1";
 
 		/// <summary>
 		/// 環境設定
@@ -184,6 +176,9 @@ namespace NoticeOnlineLicenseConfirm.Forms
 				ConfirmPathname = xlsPathname;
 				textBoxConfirmFile.Text = ConfirmFilename;
 			}
+#if DEBUG
+			checkBoxTestMail.Checked = true;
+#endif
 		}
 
 		/// <summary>
@@ -378,7 +373,15 @@ namespace NoticeOnlineLicenseConfirm.Forms
 					{
 						// NTT東日本とNTT西日本の通知
 						List<進捗管理表_NTT東日本> eastList = Read進捗管理表_NTT東日本();
+						if (null == eastList)
+						{
+							return;
+						}
 						List<進捗管理表_NTT西日本> westList = Read進捗管理表_NTT西日本();
+						if (null == westList)
+						{
+							return;
+						}
 						List<連絡票_NTT西日本> contractList = Read連絡票_NTT西日本();
 
 						// 通知１：作業日決定を担当者へ通知
@@ -403,7 +406,10 @@ namespace NoticeOnlineLicenseConfirm.Forms
 					{
 						// NTT東日本の通知
 						List<進捗管理表_NTT東日本> eastList = Read進捗管理表_NTT東日本();
-
+						if (null == eastList)
+						{
+							return;
+						}
 						// 通知１：作業日決定を担当者へ通知
 						notice1 = Notice1(eastList, null, wb);
 
@@ -423,6 +429,10 @@ namespace NoticeOnlineLicenseConfirm.Forms
 					{
 						// NTT西日本の通知
 						List<進捗管理表_NTT西日本> westList = Read進捗管理表_NTT西日本();
+						if (null == westList)
+						{
+							return;
+						}
 						List<連絡票_NTT西日本> contractList = Read連絡票_NTT西日本();
 
 						// 通知１：作業日決定を担当者へ通知
@@ -545,7 +555,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 								break;
 							}
 							進捗管理表_NTT東日本 data = new 進捗管理表_NTT東日本();
-							data.ReadWorksheetByオンライン資格確認通知結果(ws1_east, i, 進捗管理表_NTT東日本.Verion);
+							data.ReadWorksheetByオンライン資格確認通知結果(ws1_east, i);
 							notice1EastList.Add(data);
 						}
 						IXLWorksheet ws1_west = wb.Worksheet(SheetNameNotice1West);
@@ -556,7 +566,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 								break;
 							}
 							進捗管理表_NTT西日本 data = new 進捗管理表_NTT西日本();
-							data.SetWorksheetByオンライン資格確認通知結果(ws1_west, i, 進捗管理表_NTT西日本.Verion);
+							data.SetWorksheetByオンライン資格確認通知結果(ws1_west, i);
 							notice1WestList.Add(data);
 						}
 					}
@@ -571,7 +581,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 								break;
 							}
 							進捗管理表_NTT東日本 data = new 進捗管理表_NTT東日本();
-							data.ReadWorksheetByオンライン資格確認通知結果(ws3, i, 進捗管理表_NTT東日本.Verion);
+							data.ReadWorksheetByオンライン資格確認通知結果(ws3, i);
 							notice3List.Add(data);
 						}
 					}
@@ -586,7 +596,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 								break;
 							}
 							進捗管理表_NTT西日本 data = new 進捗管理表_NTT西日本();
-							data.SetWorksheetByオンライン資格確認通知結果(ws4, i, 進捗管理表_NTT西日本.Verion);
+							data.SetWorksheetByオンライン資格確認通知結果(ws4, i);
 							notice4List.Add(data);
 						}
 					}
@@ -601,7 +611,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 								break;
 							}
 							進捗管理表_NTT東日本 data = new 進捗管理表_NTT東日本();
-							data.ReadWorksheetByオンライン資格確認通知結果(ws5_east, i, 進捗管理表_NTT東日本.Verion);
+							data.ReadWorksheetByオンライン資格確認通知結果(ws5_east, i);
 							notice5EastList.Add(data);
 						}
 						IXLWorksheet ws5_west = wb.Worksheet(SheetNameNotice5West);
@@ -612,7 +622,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 								break;
 							}
 							進捗管理表_NTT西日本 data = new 進捗管理表_NTT西日本();
-							data.SetWorksheetByオンライン資格確認通知結果(ws5_west, i, 進捗管理表_NTT西日本.Verion);
+							data.SetWorksheetByオンライン資格確認通知結果(ws5_west, i);
 							notice5WestList.Add(data);
 						}
 					}
@@ -623,7 +633,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							if (east.Notice.IsEnableSendMail)
 							{
-								SendMailControl.Notice1East(Settings.Mail, east);
+								SendMailControl.Notice1East(Settings.Mail, east, checkBoxTestMail.Checked);
 							}
 						}
 						// 通知１-NTT西日本
@@ -631,7 +641,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							if (west.Notice.IsEnableSendMail)
 							{
-								SendMailControl.Notice1West(Settings.Mail, west);
+								SendMailControl.Notice1West(Settings.Mail, west, checkBoxTestMail.Checked);
 							}
 						}
 						// 通知３-NTT東日本
@@ -639,7 +649,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							if (east.Notice.IsEnableSendMail)
 							{
-								SendMailControl.Notice3(Settings.Mail, east);
+								SendMailControl.Notice3(Settings.Mail, east, checkBoxTestMail.Checked);
 							}
 						}
 						// 通知４-NTT西日本
@@ -647,7 +657,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							if (west.Notice.IsEnableSendMail)
 							{
-								SendMailControl.Notice4(Settings.Mail, west);
+								SendMailControl.Notice4(Settings.Mail, west, checkBoxTestMail.Checked);
 							}
 						}
 						// 通知５-NTT東日本
@@ -655,7 +665,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							if (east.Notice.IsEnableSendMail)
 							{
-								SendMailControl.Notice5East(Settings.Mail, east);
+								SendMailControl.Notice5East(Settings.Mail, east, checkBoxTestMail.Checked);
 							}
 						}
 						// 通知５-NTT西日本
@@ -663,7 +673,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							if (west.Notice.IsEnableSendMail)
 							{
-								SendMailControl.Notice5West(Settings.Mail, west);
+								SendMailControl.Notice5West(Settings.Mail, west, checkBoxTestMail.Checked);
 							}
 						}
 						MessageBox.Show("メール送信が終了しました。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -741,9 +751,26 @@ namespace NoticeOnlineLicenseConfirm.Forms
 							break;
 						}
 						進捗管理表_NTT東日本 data = new 進捗管理表_NTT東日本();
-						data.SetWorksheetBy進捗管理表(ws, i, 進捗管理表_NTT東日本.Verion);
+						data.SetWorksheetBy進捗管理表(ws, i);
 						eastList.Add(data);
 					}
+				}
+				List<進捗管理表_NTT東日本> irigaruID = eastList.FindAll(p => p.病院ID < 10000000 || p.病院ID >= 100000000);
+				if (0 < irigaruID.Count)
+				{
+					List<int> idList = new List<int>();
+					foreach (進捗管理表_NTT東日本 east in irigaruID)
+					{
+						idList.Add(east.病院ID);
+					}
+					MessageBox.Show(string.Format("病院IDが重複しています。進捗管理表を確認してください。\n\n{0}", string.Join(", ", idList.ToArray())), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return null;
+				}
+				var duplicate = eastList.GroupBy(s => s.病院ID).Where(g => g.Count() > 1).Select(g => g.Key).ToList();
+				if (0 < duplicate.Count)
+				{
+					MessageBox.Show(string.Format("病院IDが重複しています。進捗管理表を確認してください。\n\n{0}", string.Join(", ", duplicate.ToArray())), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return null;
 				}
 			}
 			catch (Exception ex)
@@ -771,10 +798,33 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							break;
 						}
+						// Ver1.04 NTT西日本進捗管理表新フォームに対応(2022/04/22 勝呂)
+						if ("請求金額" != ws.Cell(4, 129).GetString())
+						{
+							MessageBox.Show("2022/04/19以前のNTT西日本進捗管理表には対応していません。\n過去プログラムで実行してください。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+							return null;
+						}
 						進捗管理表_NTT西日本 data = new 進捗管理表_NTT西日本();
-						data.SetWorksheetBy進捗管理表(ws, i, 進捗管理表_NTT西日本.Verion);
+						data.SetWorksheetBy進捗管理表(ws, i);
 						westList.Add(data);
 					}
+				}
+				List<進捗管理表_NTT西日本> irigaruID = westList.FindAll(p => p.病院ID < 10000000 || p.病院ID >= 100000000);
+				if (0 < irigaruID.Count)
+				{
+					List<int> idList = new List<int>();
+					foreach (進捗管理表_NTT西日本 west in irigaruID)
+					{
+						idList.Add(west.病院ID);
+					}
+					MessageBox.Show(string.Format("病院IDが重複しています。進捗管理表を確認してください。\n\n{0}", string.Join(", ", idList.ToArray())), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return null;
+				}
+				var duplicate = westList.GroupBy(s => s.病院ID).Where(g => g.Count() > 1).Select(g => g.Key).ToList();
+				if (0 < duplicate.Count)
+				{
+					MessageBox.Show(string.Format("病院IDが重複しています。進捗管理表を確認してください。\n\n{0}", string.Join(", ", duplicate.ToArray())), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return null;
 				}
 			}
 			catch (Exception ex)
@@ -1080,8 +1130,8 @@ namespace NoticeOnlineLicenseConfirm.Forms
 							連絡票_NTT西日本 contract = contractList.Find(p => p.NTT通番 == west.受付通番);
 							if (null != contract)
 							{
-								ws.Cell(row, record.Length + 1).SetValue(contract.連絡項目);
-								ws.Cell(row, record.Length + 2).SetValue(contract.連絡内容);
+								ws.Cell(row, record.Length - 1).SetValue(contract.連絡項目);
+								ws.Cell(row, record.Length).SetValue(contract.連絡内容);
 							}
 						}
 						row++;
@@ -1119,23 +1169,26 @@ namespace NoticeOnlineLicenseConfirm.Forms
 					{
 						if (east.回答結果1_NG || east.回答結果2_NG)
 						{
-							int a = date.Value - Date.Today;
-							if (14 >= (date.Value - Date.Today))
+							// Ver1.06 通知５の判定を本日以降の工事確定日付のみ検索するように抽出条件を変更(2022/05/17 勝呂)
+							if (Date.Today <= date.Value)
 							{
-								// MIC連絡担当者の通知情報を取得
-								NoticeInfo notice = GetNoticeInfo(east.病院ID);
-								if (null != notice)
+								if (14 >= (date.Value - Date.Today))
 								{
-									east.Notice = notice;
+									// MIC連絡担当者の通知情報を取得
+									NoticeInfo notice = GetNoticeInfo(east.病院ID);
+									if (null != notice)
+									{
+										east.Notice = notice;
+									}
+									// シートに追加
+									string[] record = east.GetData();
+									for (int i = 0; i < record.Length; i++)
+									{
+										ws.Cell(row, i + 1).SetValue(record[i]);
+									}
+									row++;
+									ret++;
 								}
-								// シートに追加
-								string[] record = east.GetData();
-								for (int i = 0; i < record.Length; i++)
-								{
-									ws.Cell(row, i + 1).SetValue(record[i]);
-								}
-								row++;
-								ret++;
 							}
 						}
 					}
@@ -1153,33 +1206,37 @@ namespace NoticeOnlineLicenseConfirm.Forms
 					{
 						if (west.ヒアリングシートチェック結果_NG)
 						{
-							if (14 >= (date.Value - Date.Today))
+							// Ver1.06 通知５の判定を本日以降の工事確定日付のみ検索するように抽出条件を変更(2022/05/17 勝呂)
+							if (Date.Today <= date.Value)
 							{
-								// MIC連絡担当者の通知情報を取得
-								NoticeInfo notice = GetNoticeInfo(west.病院ID);
-								if (null != notice)
+								if (14 >= (date.Value - Date.Today))
 								{
-									west.Notice = notice;
-								}
-								// シートに追加
-								string[] record = west.GetData();
-								for (int i = 0; i < record.Length; i++)
-								{
-									ws.Cell(row, i + 1).SetValue(record[i]);
-								}
-								if (null != contractList)
-								{
-									// NTT西日本進捗管理表のヒアリングシート修正依頼日とNTT西日本連絡票の依頼日が違う場合があり、NTT通番がユニークでないため、正しくマッチングできない
-									//連絡票_NTT西日本 contract = contractList.Find(p => p.NTT通番 == west.受付通番 && p.依頼日付.Value == west.ヒアリングシート修正依頼日付.Value);
-									連絡票_NTT西日本 contract = contractList.Find(p => p.NTT通番 == west.受付通番);
-									if (null != contract)
+									// MIC連絡担当者の通知情報を取得
+									NoticeInfo notice = GetNoticeInfo(west.病院ID);
+									if (null != notice)
 									{
-										ws.Cell(row, record.Length + 1).SetValue(contract.連絡項目);
-										ws.Cell(row, record.Length + 2).SetValue(contract.連絡内容);
+										west.Notice = notice;
 									}
+									// シートに追加
+									string[] record = west.GetData();
+									for (int i = 0; i < record.Length; i++)
+									{
+										ws.Cell(row, i + 1).SetValue(record[i]);
+									}
+									if (null != contractList)
+									{
+										// NTT西日本進捗管理表のヒアリングシート修正依頼日とNTT西日本連絡票の依頼日が違う場合があり、NTT通番がユニークでないため、正しくマッチングできない
+										//連絡票_NTT西日本 contract = contractList.Find(p => p.NTT通番 == west.受付通番 && p.依頼日付.Value == west.ヒアリングシート修正依頼日付.Value);
+										連絡票_NTT西日本 contract = contractList.Find(p => p.NTT通番 == west.受付通番);
+										if (null != contract)
+										{
+											ws.Cell(row, record.Length - 1).SetValue(contract.連絡項目);
+											ws.Cell(row, record.Length).SetValue(contract.連絡内容);
+										}
+									}
+									row++;
+									ret++;
 								}
-								row++;
-								ret++;
 							}
 						}
 					}

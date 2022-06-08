@@ -112,9 +112,9 @@ namespace CommonLib.BaseFactory.PurchaseTransfer
 		/// PCA仕入明細汎用データにPCA仕入明細のデータを格納
 		/// </summary>
 		/// <returns>PCA仕入明細汎用データ</returns>
-		public PCA仕入明細汎用データ SetPCA仕入明細汎用データ()
+		public 汎用データレイアウト仕入明細データ SetPCA仕入明細汎用データ()
 		{
-			PCA仕入明細汎用データ data = new PCA仕入明細汎用データ();
+			汎用データレイアウト仕入明細データ data = new 汎用データレイアウト仕入明細データ();
 			data.入荷方法 = 入荷方法;
 			data.科目区分 = 科目区分;
 			data.伝区 = 伝区;

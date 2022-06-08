@@ -160,7 +160,7 @@ namespace CommonLib.BaseFactory.Pca
 		/// <returns>CSV文字列</returns>
 		public string ToPurchase(int no, int pcaVer)
 		{
-			PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
+			汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
 			pca.科目区分 = f仕入フラグ;				// 2:科目区分
 			pca.仕入日 = f売上日;					// 4:仕入年月日
 			pca.精算日 = f売上日;					// 5:精算年月日

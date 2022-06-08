@@ -51,6 +51,8 @@ namespace MakePurchaseFile.Forms
 			this.label10 = new System.Windows.Forms.Label();
 			this.textBoxAlmexFilename = new System.Windows.Forms.TextBox();
 			this.label11 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.textBoxPcaVersion = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -88,7 +90,7 @@ namespace MakePurchaseFile.Forms
 			this.buttonExit.Location = new System.Drawing.Point(610, 434);
 			this.buttonExit.Name = "buttonExit";
 			this.buttonExit.Size = new System.Drawing.Size(122, 49);
-			this.buttonExit.TabIndex = 21;
+			this.buttonExit.TabIndex = 23;
 			this.buttonExit.Text = "終了";
 			this.buttonExit.UseVisualStyleBackColor = true;
 			this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
@@ -257,11 +259,32 @@ namespace MakePurchaseFile.Forms
 			this.label11.TabIndex = 17;
 			this.label11.Text = "アルメックス保守仕入データファイル名";
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(565, 182);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(124, 19);
+			this.label2.TabIndex = 21;
+			this.label2.Text = "PCAバージョン番号";
+			// 
+			// textBoxPcaVersion
+			// 
+			this.textBoxPcaVersion.BackColor = System.Drawing.Color.White;
+			this.textBoxPcaVersion.Location = new System.Drawing.Point(695, 179);
+			this.textBoxPcaVersion.Name = "textBoxPcaVersion";
+			this.textBoxPcaVersion.ReadOnly = true;
+			this.textBoxPcaVersion.Size = new System.Drawing.Size(37, 27);
+			this.textBoxPcaVersion.TabIndex = 22;
+			this.textBoxPcaVersion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(751, 506);
+			this.Controls.Add(this.textBoxPcaVersion);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.textBoxAlmexFilename);
 			this.Controls.Add(this.label11);
 			this.Controls.Add(this.textBoxCloudBackupFilename);
@@ -323,6 +346,8 @@ namespace MakePurchaseFile.Forms
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.TextBox textBoxAlmexFilename;
 		private System.Windows.Forms.Label label11;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.TextBox textBoxPcaVersion;
 	}
 }
 

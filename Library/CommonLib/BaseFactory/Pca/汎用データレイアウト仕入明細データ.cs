@@ -1,11 +1,12 @@
 ﻿//
-// PCA仕入明細.cs
+// 汎用データレイアウト仕入明細データ.cs
 //
-// PCA汎用データ 仕入明細データ
+// PCA汎用データレイアウト 仕入明細データ
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2019/11/15 勝呂)
+// Ver1.02 汎用データレイアウト 仕入明細データ Version 9(DX-Rev3.00)に対応(2022/05/25 勝呂)
 // 
 using CommonLib.DB;
 using System;
@@ -15,212 +16,212 @@ using System.Data;
 namespace CommonLib.BaseFactory.Pca
 {
 	/// <summary>
-	/// PCA汎用データ 仕入明細データ
+	/// PCA汎用データレイアウト仕入明細データ
 	/// </summary>
 	[Serializable]
-	public class PCA仕入明細汎用データ
+	public class 汎用データレイアウト仕入明細データ
 	{
 		/// <summary>
-		/// 0 0:通常仕入、1:製品完成
+		/// 1 0:通常仕入、1:製品完成
 		/// </summary>
 		public short 入荷方法 { get; set; }
 		/// <summary>
-		/// 1 0:仕入、1:仕入以外
+		/// 2 0:仕入、1:仕入以外
 		/// </summary>
 		public short 科目区分 { get; set; }
 		/// <summary>
-		/// 2 0:掛買、1:現金、2:カード、3:そ の他、5:内製、6:契約
+		/// 3 0:掛買、1:現金、2:カード、3:そ の他、5:内製、6:契約
 		/// </summary>
 		public string 伝区 { get; set; }
 		/// <summary>
-		/// 3
+		/// 4
 		/// </summary>
 		public int 仕入日 { get; set; }
 		/// <summary>
-		/// 4
+		/// 5
 		/// </summary>
 		public int 精算日 { get; set; }
 		/// <summary>
-		/// 5
+		/// 6
 		/// </summary>
 		public int 伝票No { get; set; }
 		/// <summary>
-		/// 6
+		/// 7
 		/// </summary>
 		public string 仕入先コード { get; set; }
 		/// <summary>
-		/// 7
+		/// 8
 		/// </summary>
 		public string 仕入先名 { get; set; }
 		/// <summary>
-		/// 8
+		/// 9
 		/// </summary>
 		public string 先方担当者名 { get; set; }
 		/// <summary>
-		/// 9
+		/// 10
 		/// </summary>
 		public string 部門コード { get; set; }
 		/// <summary>
-		/// 10
+		/// 11
 		/// </summary>
 		public string 担当者コード { get; set; }
 		/// <summary>
-		/// 11
+		/// 12
 		/// </summary>
 		public string 摘要コード { get; set; }
 		/// <summary>
-		/// 12
+		/// 13
 		/// </summary>
 		public string 摘要名 { get; set; }
 		/// <summary>
-		/// 13
+		/// 14
 		/// </summary>
 		public string 商品コード { get; set; }
 		/// <summary>
-		/// 14 0:一般商品、1:雑商品、2:諸雑 費、3:値引、4:記事
+		/// 15 0:一般商品、1:雑商品、2:諸雑 費、3:値引、4:記事
 		/// </summary>
 		public short マスター区分 { get; set; }
 		/// <summary>
-		/// 15
+		/// 16
 		/// </summary>
 		public string 商品名 { get; set; }
 		/// <summary>
-		/// 16 0:仕入、1:返品、2:単価訂正、9: 一般商品以外を示す
+		/// 17 0:仕入、1:返品、2:単価訂正、9: 一般商品以外を示す
 		/// </summary>
 		public short 区 { get; set; }
 		/// <summary>
-		/// 17
+		/// 18
 		/// </summary>
 		public string 倉庫コード { get; set; }
 		/// <summary>
-		/// 18
+		/// 19
 		/// </summary>
 		public decimal 入数 { get; set; }
 		/// <summary>
-		/// 19
+		/// 20
 		/// </summary>
 		public decimal 箱数 { get; set; }
 		/// <summary>
-		/// 20
+		/// 21
 		/// </summary>
 		public decimal 数量 { get; set; }
 		/// <summary>
-		/// 21
+		/// 22
 		/// </summary>
 		public string 単位 { get; set; }
 		/// <summary>
-		/// 22
+		/// 23
 		/// </summary>
 		public decimal 単価 { get; set; }
 		/// <summary>
-		/// 23
+		/// 24
 		/// </summary>
 		public decimal 金額 { get; set; }
 		/// <summary>
-		/// 24
+		/// 25
 		/// </summary>
 		public decimal 外税額 { get; set; }
 		/// <summary>
-		/// 25
+		/// 26
 		/// </summary>
 		public decimal 内税額 { get; set; }
 		/// <summary>
-		/// 26 0:非課税、1～9:会社基本情報の税 率ﾃｰﾌﾞﾙ
+		/// 27 0:非課税、1～9:会社基本情報の税 率ﾃｰﾌﾞﾙ
 		/// </summary>
 		public short 税区分 { get; set; }
 		/// <summary>
-		/// 27 0:税抜き、1:税込み
+		/// 28 0:税抜き、1:税込み
 		/// </summary>
 		public short 税込区分 { get; set; }
 		/// <summary>
-		/// 28
+		/// 29
 		/// </summary>
 		public string 備考 { get; set; }
 		/// <summary>
-		/// 29
+		/// 30
 		/// </summary>
 		public string 規格型番 { get; set; }
 		/// <summary>
-		/// 30
+		/// 31
 		/// </summary>
 		public string 色 { get; set; }
 		/// <summary>
-		/// 31
+		/// 32
 		/// </summary>
 		public string サイズ { get; set; }
 		/// <summary>
-		/// 32
+		/// 33
 		/// </summary>
 		public int 計算式コード { get; set; }
 		/// <summary>
-		/// 33
+		/// 34
 		/// </summary>
 		public int 商品項目1 { get; set; }
 		/// <summary>
-		/// 34
+		/// 35
 		/// </summary>
 		public int 商品項目2 { get; set; }
 		/// <summary>
-		/// 35
+		/// 36
 		/// </summary>
 		public int 商品項目3 { get; set; }
 		/// <summary>
-		/// 36
+		/// 37
 		/// </summary>
 		public int 仕入項目1 { get; set; }
 		/// <summary>
-		/// 37
+		/// 38
 		/// </summary>
 		public int 仕入項目2 { get; set; }
 		/// <summary>
-		/// 38
+		/// 39
 		/// </summary>
 		public int 仕入項目3 { get; set; }
 		/// <summary>
-		/// 39
+		/// 40
 		/// </summary>
 		public decimal 税率 { get; set; }
 		/// <summary>
-		/// 40
+		/// 41
 		/// </summary>
 		public int 伝票消費税額 { get; set; }
 		/// <summary>
-		/// 41
+		/// 42
 		/// </summary>
 		public string ﾌﾟﾛｼﾞｪｸﾄコード { get; set; }
 		/// <summary>
-		/// 42
+		/// 43
 		/// </summary>
 		public string 伝票No2 { get; set; }
 		/// <summary>
-		/// 43
+		/// 44
 		/// </summary>
 		public int データ区分 { get; set; }
 		/// <summary>
-		/// 44
+		/// 45
 		/// </summary>
 		public string 商品名2 { get; set; }
 		/// <summary>
-		/// 45
+		/// 46
 		/// </summary>
 		public int 単位区分 { get; set; }
 		/// <summary>
-		/// 46
+		/// 47
 		/// </summary>
 		public string ロットNo { get; set; }
 		/// <summary>
-		/// 47
+		/// 48
 		/// </summary>
 		public int ロット有効期限 { get; set; }
 		/// <summary>
-		/// 48
+		/// 49
 		/// </summary>
 		public int 仕入税種別 { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public PCA仕入明細汎用データ()
+		public 汎用データレイアウト仕入明細データ()
 		{
 			this.Clear();
 		}
@@ -288,59 +289,65 @@ namespace CommonLib.BaseFactory.Pca
 		/// <returns>CSV文字列</returns>
 		public string ToCsvStringDoubleQuotation(int pcaVer)
 		{
+			// 汎用データレイアウト指定 7: Rev4.20
 			List<string> list = new List<string>();
-			list.Add(入荷方法.ToString());
-			list.Add(科目区分.ToString());
-			list.Add(伝区);
-			list.Add("\"" + 仕入日.ToString() + "\"");
-			list.Add("\"" + 精算日.ToString() + "\"");
-			list.Add(伝票No.ToString());
-			list.Add("\"" + 仕入先コード + "\"");
-			list.Add("\"" + 仕入先名 + "\"");
-			list.Add("\"" + 先方担当者名 + "\"");
-			list.Add("\"" + 部門コード + "\"");
-			list.Add("\"" + 担当者コード + "\"");
-			list.Add(摘要コード);
-			list.Add("\"" + 摘要名 + "\"");
-			list.Add("\"" + 商品コード + "\"");
-			list.Add(マスター区分.ToString());
-			list.Add("\"" + 商品名 + "\"");
-			list.Add(区.ToString());
-			list.Add("\"" + 倉庫コード + "\"");
-			list.Add(((int)入数).ToString());
-			list.Add(((int)箱数).ToString());
-			list.Add(((int)数量).ToString());
-			list.Add("\"" + 単位 + "\"");
-			list.Add(((int)単価).ToString());
-			list.Add(((int)金額).ToString());
-			list.Add(((int)外税額).ToString());
-			list.Add(((int)内税額).ToString());
-			list.Add(税区分.ToString());
-			list.Add(税込区分.ToString());
-			list.Add("\"" + 備考 + "\"");
-			list.Add("\"" + 規格型番 + "\"");
-			list.Add("\"" + 色 + "\"");
-			list.Add("\"" + サイズ + "\"");
-			list.Add(計算式コード.ToString());
-			list.Add(商品項目1.ToString());
-			list.Add(商品項目2.ToString());
-			list.Add(商品項目2.ToString());
-			list.Add(仕入項目1.ToString());
-			list.Add(仕入項目2.ToString());
-			list.Add(仕入項目3.ToString());
-			list.Add(税率.ToString());
-			list.Add(伝票消費税額.ToString());
-			list.Add("\"" + ﾌﾟﾛｼﾞｪｸﾄコード + "\"");
-			list.Add("\"" + 伝票No2 + "\"");
-			list.Add(データ区分.ToString());
-			list.Add("\"" + 商品名2 + "\"");
-			if (8 == pcaVer)
+			/*01*/list.Add(入荷方法.ToString());
+			/*02*/list.Add(科目区分.ToString());
+			/*03*/list.Add(伝区);
+			/*04*/list.Add("\"" + 仕入日.ToString() + "\"");
+			/*05*/list.Add("\"" + 精算日.ToString() + "\"");
+			/*06*/list.Add(伝票No.ToString());
+			/*07*/list.Add("\"" + 仕入先コード + "\"");
+			/*08*/list.Add("\"" + 仕入先名 + "\"");
+			/*09*/list.Add("\"" + 先方担当者名 + "\"");
+			/*10*/list.Add("\"" + 部門コード + "\"");
+			/*11*/list.Add("\"" + 担当者コード + "\"");
+			/*12*/list.Add(摘要コード);
+			/*13*/list.Add("\"" + 摘要名 + "\"");
+			/*14*/list.Add("\"" + 商品コード + "\"");
+			/*15*/list.Add(マスター区分.ToString());
+			/*16*/list.Add("\"" + 商品名 + "\"");
+			/*17*/list.Add(区.ToString());
+			/*18*/list.Add("\"" + 倉庫コード + "\"");
+			/*19*/list.Add(((int)入数).ToString());
+			/*20*/list.Add(((int)箱数).ToString());
+			/*21*/list.Add(((int)数量).ToString());
+			/*22*/list.Add("\"" + 単位 + "\"");
+			/*23*/list.Add(((int)単価).ToString());
+			/*24*/list.Add(((int)金額).ToString());
+			/*25*/list.Add(((int)外税額).ToString());
+			/*26*/list.Add(((int)内税額).ToString());
+			/*27*/list.Add(税区分.ToString());
+			/*28*/list.Add(税込区分.ToString());
+			/*29*/list.Add("\"" + 備考 + "\"");
+			/*30*/list.Add("\"" + 規格型番 + "\"");
+			/*31*/list.Add("\"" + 色 + "\"");
+			/*32*/list.Add("\"" + サイズ + "\"");
+			/*33*/list.Add(計算式コード.ToString());
+			/*34*/list.Add(商品項目1.ToString());
+			/*35*/list.Add(商品項目2.ToString());
+			/*36*/list.Add(商品項目2.ToString());
+			/*37*/list.Add(仕入項目1.ToString());
+			/*38*/list.Add(仕入項目2.ToString());
+			/*39*/list.Add(仕入項目3.ToString());
+			/*40*/list.Add(税率.ToString());
+			/*41*/list.Add(伝票消費税額.ToString());
+			/*42*/list.Add("\"" + ﾌﾟﾛｼﾞｪｸﾄコード + "\"");
+			/*43*/list.Add("\"" + 伝票No2 + "\"");
+			/*44*/list.Add(データ区分.ToString());
+			/*45*/list.Add("\"" + 商品名2 + "\"");
+			if (8 <= pcaVer)
 			{
-				// 汎用データレイアウト指定 7: Rev4.20、8: Rev4.50
-				list.Add(単位区分.ToString());
-				list.Add("\"" + ロットNo + "\"");
-				list.Add(ロット有効期限.ToString());
-				list.Add(仕入税種別.ToString());
+				// 汎用データレイアウト指定 8: Rev4.50
+				/*46*/list.Add(単位区分.ToString());
+				/*47*/list.Add("\"" + ロットNo + "\"");
+				/*48*/list.Add(ロット有効期限.ToString());
+			}
+			// Ver1.02 汎用データレイアウト 仕入明細データ Version 9(DX-Rev3.00)に対応(2022/05/25 勝呂)
+			if (9 <= pcaVer)
+			{
+				// 汎用データレイアウト指定 9: DX-Rev3.00
+				/*49*/list.Add(仕入税種別.ToString());
 			}
 			return String.Join(",", list.ToArray());
 		}
@@ -352,59 +359,65 @@ namespace CommonLib.BaseFactory.Pca
 		/// <returns>CSV文字列</returns>
 		public string ToCsvString(int pcaVer)
 		{
+			// 汎用データレイアウト指定 7: Rev4.20
 			List<string> list = new List<string>();
-			list.Add(入荷方法.ToString());
-			list.Add(科目区分.ToString());
-			list.Add(伝区);
-			list.Add(仕入日.ToString());
-			list.Add(精算日.ToString());
-			list.Add(伝票No.ToString());
-			list.Add(仕入先コード);
-			list.Add(仕入先名);
-			list.Add(先方担当者名);
-			list.Add(部門コード);
-			list.Add(担当者コード);
-			list.Add(摘要コード);
-			list.Add(摘要名);
-			list.Add(商品コード);
-			list.Add(マスター区分.ToString());
-			list.Add(商品名);
-			list.Add(区.ToString());
-			list.Add(倉庫コード);
-			list.Add(((int)入数).ToString());
-			list.Add(((int)箱数).ToString());
-			list.Add(((int)数量).ToString());
-			list.Add(単位);
-			list.Add(((int)単価).ToString());
-			list.Add(((int)金額).ToString());
-			list.Add(((int)外税額).ToString());
-			list.Add(((int)内税額).ToString());
-			list.Add(税区分.ToString());
-			list.Add(税込区分.ToString());
-			list.Add(備考);
-			list.Add(規格型番);
-			list.Add(色);
-			list.Add(サイズ);
-			list.Add(計算式コード.ToString());
-			list.Add(商品項目1.ToString());
-			list.Add(商品項目2.ToString());
-			list.Add(商品項目2.ToString());
-			list.Add(仕入項目1.ToString());
-			list.Add(仕入項目2.ToString());
-			list.Add(仕入項目3.ToString());
-			list.Add(税率.ToString());
-			list.Add(伝票消費税額.ToString());
-			list.Add(ﾌﾟﾛｼﾞｪｸﾄコード);
-			list.Add(伝票No2);
-			list.Add(データ区分.ToString());
-			list.Add(商品名2);
-			if (8 == pcaVer)
+			/*01*/list.Add(入荷方法.ToString());
+			/*02*/list.Add(科目区分.ToString());
+			/*03*/list.Add(伝区);
+			/*04*/list.Add(仕入日.ToString());
+			/*05*/list.Add(精算日.ToString());
+			/*06*/list.Add(伝票No.ToString());
+			/*07*/list.Add(仕入先コード);
+			/*08*/list.Add(仕入先名);
+			/*09*/list.Add(先方担当者名);
+			/*10*/list.Add(部門コード);
+			/*11*/list.Add(担当者コード);
+			/*12*/list.Add(摘要コード);
+			/*13*/list.Add(摘要名);
+			/*14*/list.Add(商品コード);
+			/*15*/list.Add(マスター区分.ToString());
+			/*16*/list.Add(商品名);
+			/*17*/list.Add(区.ToString());
+			/*18*/list.Add(倉庫コード);
+			/*19*/list.Add(((int)入数).ToString());
+			/*20*/list.Add(((int)箱数).ToString());
+			/*21*/list.Add(((int)数量).ToString());
+			/*22*/list.Add(単位);
+			/*23*/list.Add(((int)単価).ToString());
+			/*24*/list.Add(((int)金額).ToString());
+			/*25*/list.Add(((int)外税額).ToString());
+			/*26*/list.Add(((int)内税額).ToString());
+			/*27*/list.Add(税区分.ToString());
+			/*28*/list.Add(税込区分.ToString());
+			/*29*/list.Add(備考);
+			/*30*/list.Add(規格型番);
+			/*31*/list.Add(色);
+			/*32*/list.Add(サイズ);
+			/*33*/list.Add(計算式コード.ToString());
+			/*34*/list.Add(商品項目1.ToString());
+			/*35*/list.Add(商品項目2.ToString());
+			/*36*/list.Add(商品項目2.ToString());
+			/*37*/list.Add(仕入項目1.ToString());
+			/*38*/list.Add(仕入項目2.ToString());
+			/*39*/list.Add(仕入項目3.ToString());
+			/*40*/list.Add(税率.ToString());
+			/*41*/list.Add(伝票消費税額.ToString());
+			/*42*/list.Add(ﾌﾟﾛｼﾞｪｸﾄコード);
+			/*43*/list.Add(伝票No2);
+			/*44*/list.Add(データ区分.ToString());
+			/*45*/list.Add(商品名2);
+			if (8 <= pcaVer)
 			{
-				// 汎用データレイアウト指定 7: Rev4.20、8: Rev4.50
-				list.Add(単位区分.ToString());
-				list.Add(ロットNo);
-				list.Add(ロット有効期限.ToString());
-				list.Add(仕入税種別.ToString());
+				// 汎用データレイアウト指定 8: Rev4.50
+				/*46*/list.Add(単位区分.ToString());
+				/*47*/list.Add(ロットNo);
+				/*48*/list.Add(ロット有効期限.ToString());
+			}
+			// Ver1.02 汎用データレイアウト 仕入明細データ Version 9(DX-Rev3.00)に対応(2022/05/25 勝呂)
+			if (9 <= pcaVer)
+			{
+				// 汎用データレイアウト指定 9: DX-Rev3.00
+				/*49*/list.Add(仕入税種別.ToString());
 			}
 			return String.Join(",", list.ToArray());
 		}
@@ -414,14 +427,14 @@ namespace CommonLib.BaseFactory.Pca
 		/// </summary>
 		/// <param name="table"></param>
 		/// <returns></returns>
-		public static List<PCA仕入明細汎用データ> DataTableToList(DataTable table)
+		public static List<汎用データレイアウト仕入明細データ> DataTableToList(DataTable table)
 		{
-			List<PCA仕入明細汎用データ> result = new List<PCA仕入明細汎用データ>();
+			List<汎用データレイアウト仕入明細データ> result = new List<汎用データレイアウト仕入明細データ>();
 			if (null != table && 0 < table.Rows.Count)
 			{
 				foreach (DataRow row in table.Rows)
 				{
-					PCA仕入明細汎用データ data = new PCA仕入明細汎用データ
+					汎用データレイアウト仕入明細データ data = new 汎用データレイアウト仕入明細データ
 					{
 						入荷方法 = DataBaseValue.ConvObjectToShort(row["nykd_hoho"]),
 						科目区分 = DataBaseValue.ConvObjectToShort(row["nykd_flid"]),

@@ -13,6 +13,8 @@
 // Ver1.08(2022/01/14):5 オンライン請求届出 電子情報処理組織の使用による費用の請求に関する届出 新用紙対応
 // Ver1.11(2022/02/21):二次キッティング依頼書 使用廃止によりメニューから削除
 // Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
+// Ver1.13(2022/05/02):Microsoft365利用申込書新フォーム対応
+// Ver1.13(2022/05/09):アプラス預金口座振替依頼書・自動払込利用申込書新フォーム対応
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Junp.Table;
@@ -1219,6 +1221,7 @@ namespace VariousDocumentOut
 		/// </summary>
 		/// <param name="common">各種書類出力 共通情報</param>
 		/// <param name="pathname">Excelファイルパス名</param>
+		/// Ver1.13(2022/05/02):Microsoft365利用申込書新フォーム対応
 		public static void ExcelOutMicrosoft365(DocumentCommon common, string pathname)
 		{
 			try
@@ -1226,24 +1229,24 @@ namespace VariousDocumentOut
 				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
 				{
 					IXLWorksheet ws = wb.Worksheet("Microsoft365利用申請書");
-					ws.Cell(10, 11).SetValue(common.Customer.顧客No);
-					ws.Cell(11, 11).SetValue(common.Customer.顧客名);
-					ws.Cell(13, 11).SetValue(common.Customer.院長名);
-					ws.Cell(13, 28).SetValue(common.Customer.電話番号);
-					ws.Cell(14, 12).SetValue(common.Customer.郵便番号);
-					ws.Cell(15, 11).SetValue(common.Customer.住所);
-					ws.Cell(18, 11).SetValue(common.Customer.メールアドレス);
+					ws.Cell(8, 11).SetValue(common.Customer.顧客No);
+					ws.Cell(9, 11).SetValue(common.Customer.顧客名);
+					ws.Cell(11, 11).SetValue(common.Customer.院長名);
+					ws.Cell(11, 28).SetValue(common.Customer.電話番号);
+					ws.Cell(12, 12).SetValue(common.Customer.郵便番号);
+					ws.Cell(13, 11).SetValue(common.Customer.住所);
+					ws.Cell(16, 11).SetValue(common.Customer.メールアドレス);
 
 					// 本社情報
 					// Ver1.02(2021/09/01):Microsoft365利用申込書のFAX番号を本社から消耗品受注センターに変更
 					//ws.Cell(58, 19).SetValue(common.HeadOffice.Fax);
-					ws.Cell(58, 19).SetValue(Program.gSettings.HeadOffice.FaxExpendables);
+					ws.Cell(47, 20).SetValue(Program.gSettings.HeadOffice.FaxExpendables);
 
-					ws.Cell(63, 21).SetValue(common.社名);
-					ws.Cell(64, 21).SetValue(Program.gSettings.HeadOffice.Zipcode);
-					ws.Cell(65, 21).SetValue(Program.gSettings.HeadOffice.住所);
-					ws.Cell(66, 21).SetValue(string.Format("e-mail {0}", Program.gSettings.HeadOffice.Email));
-					ws.Cell(67, 21).SetValue(Program.gSettings.HeadOffice.Url);
+					ws.Cell(52, 21).SetValue(common.社名);
+					ws.Cell(53, 21).SetValue(Program.gSettings.HeadOffice.Zipcode);
+					ws.Cell(54, 21).SetValue(Program.gSettings.HeadOffice.住所);
+					ws.Cell(55, 21).SetValue(string.Format("e-mail {0}", Program.gSettings.HeadOffice.Email));
+					ws.Cell(56, 21).SetValue(Program.gSettings.HeadOffice.Url);
 
 					// Excelファイルの保存
 					wb.Save();
@@ -1966,6 +1969,7 @@ namespace VariousDocumentOut
 		/// </summary>
 		/// <param name="common">各種書類出力 共通情報</param>
 		/// <param name="pathname">Excelファイルパス名</param>
+		/// Ver1.13(2022/05/09):アプラス預金口座振替依頼書・自動払込利用申込書新フォーム対応
 		public static void ExcelOutAplus(DocumentCommon common, string pathname)
 		{
 			Excel.Application xlApp = null;
@@ -1985,10 +1989,16 @@ namespace VariousDocumentOut
 
 				// シート内コントロール初期化
 				// ※チェックボックスはクリックすると容易にチェックがついてしまうため
-				xlSheet.OLEObjects("新規登録CheckBox").Object.Value = 0;
-				xlSheet.OLEObjects("申込書不備CheckBox").Object.Value = 0;
-				xlSheet.OLEObjects("変更_引落CheckBox").Object.Value = 0;
-				xlSheet.OLEObjects("変更_振込CheckBox").Object.Value = 0;
+				// 0x800A03EC のエラーが発生するので、下記の処理に修正
+				//xlSheet.OLEObjects("新規").Object.Value = 0;
+				//xlSheet.OLEObjects("変更").Object.Value = 0;
+				//xlSheet.OLEObjects("不備").Object.Value = 0;
+				Excel.CheckBox chkBoxNew = (Excel.CheckBox)xlSheet.CheckBoxes(1);
+				chkBoxNew.Value = 0;
+				Excel.CheckBox chkBoxModify = (Excel.CheckBox)xlSheet.CheckBoxes(2);
+				chkBoxModify.Value = 0;
+				Excel.CheckBox chkBoxDefect = (Excel.CheckBox)xlSheet.CheckBoxes(3);
+				chkBoxDefect.Value = 0;
 
 				foreach (Excel.Shape shape in xlShapes)
 				{
@@ -2026,7 +2036,7 @@ namespace VariousDocumentOut
 				}
 				if ("予約" == common.Customer.代行回収状態)
 				{
-					xlSheet.OLEObjects("新規登録CheckBox").Object.Value = 1;
+					chkBoxNew.Value = 1;
 				}
 			}
 			catch (Exception e)

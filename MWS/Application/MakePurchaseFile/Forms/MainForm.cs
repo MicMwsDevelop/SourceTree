@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2022/01/07 勝呂)
+// Ver1.02 汎用データレイアウト 仕入明細データ Version 9(Rev3.00)に対応(2022/05/25 勝呂)
 //
 using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.BaseFactory.Junp.View;
@@ -86,6 +87,9 @@ namespace MakePurchaseFile.Forms
 			textBoxNarcohmFilename.Text = Settings.ナルコーム仕入データファイル名;
 			textBoxCloudBackupFilename.Text = Settings.クラウドバックアップ仕入データファイル名;
 			textBoxAlmexFilename.Text = Settings.アルメックス保守仕入データファイル名;
+
+			// Ver1.02 汎用データレイアウト 仕入明細データ Version 9(Rev3.00)に対応(2022/05/25 勝呂)
+			textBoxPcaVersion.Text = Settings.PcaVersion.ToString();
 	}
 
 	/// <summary>
@@ -296,7 +300,7 @@ namespace MakePurchaseFile.Forms
 			List<仕入集計> りすとん月額仕入集計 = MakePurchaseFileAccess.Select_りすとん月額仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
 
 			// (2)プラス分振替データ出力
-			List<PCA仕入明細汎用データ> outputList = new List<PCA仕入明細汎用データ>();
+			List<汎用データレイアウト仕入明細データ> outputList = new List<汎用データレイアウト仕入明細データ>();
 
 			int denNo = Settings.りすとん月額開始伝票番号;
 			string bumonCode = string.Empty;
@@ -307,7 +311,7 @@ namespace MakePurchaseFile.Forms
 					bumonCode = data.sykd_jbmn;
 					denNo++;
 				}
-				PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
+				汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
 				pca.入荷方法 = 0;   // 0:通常仕入
 				pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
 				pca.精算日 = pca.仕入日;
@@ -342,7 +346,7 @@ namespace MakePurchaseFile.Forms
 			// 環境設定.りすとん月額振替出力パス名：\\SQLSV\PCADATA\りすとん月額振替仕入データ.txt
 			using (var sw = new StreamWriter(Settings.りすとん月額仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
 			{
-				foreach (PCA仕入明細汎用データ pca in outputList)
+				foreach (汎用データレイアウト仕入明細データ pca in outputList)
 				{
 					string record = pca.ToCsvString(Settings.PcaVersion);
 					sw.WriteLine(record);
@@ -358,7 +362,7 @@ namespace MakePurchaseFile.Forms
 		{
 			List<仕入集計> Microsoft365仕入集計 = MakePurchaseFileAccess.Select_Microsoft365仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
 
-			List<PCA仕入明細汎用データ> outputList = new List<PCA仕入明細汎用データ>();
+			List<汎用データレイアウト仕入明細データ> outputList = new List<汎用データレイアウト仕入明細データ>();
 			int denNo = Settings.Microsoft365開始伝票番号;
 			string bumonCode = string.Empty;
 			foreach (仕入集計 data in Microsoft365仕入集計)
@@ -368,7 +372,7 @@ namespace MakePurchaseFile.Forms
 					bumonCode = data.sykd_jbmn;
 					denNo++;
 				}
-				PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
+				汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
 				pca.入荷方法 = 0;   // 0:通常仕入
 				pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
 				pca.精算日 = collectMonth.First.FirstDayOfNextMonth().ToIntYMD(); // 対象月翌月初日
@@ -401,7 +405,7 @@ namespace MakePurchaseFile.Forms
 			}
 			using (var sw = new StreamWriter(Settings.Microsoft365仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
 			{
-				foreach (PCA仕入明細汎用データ pca in outputList)
+				foreach (汎用データレイアウト仕入明細データ pca in outputList)
 				{
 					string record = pca.ToCsvString(Settings.PcaVersion);
 					sw.WriteLine(record);
@@ -417,7 +421,7 @@ namespace MakePurchaseFile.Forms
 		{
 			List<仕入集計> 問心伝月額仕入集計 = MakePurchaseFileAccess.Select_問心伝月額仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
 
-			List<PCA仕入明細汎用データ> outputList = new List<PCA仕入明細汎用データ>();
+			List<汎用データレイアウト仕入明細データ> outputList = new List<汎用データレイアウト仕入明細データ>();
 
 			int denNo = Settings.問心伝月額開始伝票番号;
 			string bumonCode = string.Empty;
@@ -428,7 +432,7 @@ namespace MakePurchaseFile.Forms
 					bumonCode = data.sykd_jbmn;
 					denNo++;
 				}
-				PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
+				汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
 				pca.入荷方法 = 0;   // 0:通常仕入
 				pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
 				pca.精算日 = pca.仕入日;
@@ -461,7 +465,7 @@ namespace MakePurchaseFile.Forms
 			}
 			using (var sw = new StreamWriter(Settings.問心伝月額仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
 			{
-				foreach (PCA仕入明細汎用データ pca in outputList)
+				foreach (汎用データレイアウト仕入明細データ pca in outputList)
 				{
 					string record = pca.ToCsvString(Settings.PcaVersion);
 					sw.WriteLine(record);
@@ -477,7 +481,7 @@ namespace MakePurchaseFile.Forms
 		{
 			List<仕入集計> Curline本体アプリ仕入集計 = MakePurchaseFileAccess.Select_Curline本体アプリ仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
 
-			List<PCA仕入明細汎用データ> outputList = new List<PCA仕入明細汎用データ>();
+			List<汎用データレイアウト仕入明細データ> outputList = new List<汎用データレイアウト仕入明細データ>();
 
 			int denNo = Settings.Curline本体アプリ開始伝票番号;
 			string bumonCode = string.Empty;
@@ -488,7 +492,7 @@ namespace MakePurchaseFile.Forms
 					bumonCode = data.sykd_jbmn;
 					denNo++;
 				}
-				PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
+				汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
 				pca.入荷方法 = 0;   // 0:通常仕入
 				pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
 				pca.精算日 = pca.仕入日;
@@ -521,7 +525,7 @@ namespace MakePurchaseFile.Forms
 			}
 			using (var sw = new StreamWriter(Settings.Curline本体アプリ仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
 			{
-				foreach (PCA仕入明細汎用データ pca in outputList)
+				foreach (汎用データレイアウト仕入明細データ pca in outputList)
 				{
 					string record = pca.ToCsvString(Settings.PcaVersion);
 					sw.WriteLine(record);
@@ -537,7 +541,7 @@ namespace MakePurchaseFile.Forms
 		{
 			List<ナルコーム仕入集計> ナルコーム仕入集計 = MakePurchaseFileAccess.Select_ナルコーム仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
 
-			List<PCA仕入明細汎用データ> outputList = new List<PCA仕入明細汎用データ>();
+			List<汎用データレイアウト仕入明細データ> outputList = new List<汎用データレイアウト仕入明細データ>();
 
 			int denNo = Settings.ナルコーム開始伝票番号;
 			string bumonCode = string.Empty;
@@ -548,7 +552,7 @@ namespace MakePurchaseFile.Forms
 					bumonCode = data.sykd_jbmn;
 					denNo++;
 				}
-				PCA仕入明細汎用データ pca = new PCA仕入明細汎用データ();
+				汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
 				pca.科目区分 = data.仕入フラグ;
 				pca.仕入日 = data.sykd_uribi;
 				pca.精算日 = data.sykd_uribi;
@@ -583,7 +587,7 @@ namespace MakePurchaseFile.Forms
 			}
 			using (var sw = new StreamWriter(Settings.ナルコーム仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
 			{
-				foreach (PCA仕入明細汎用データ pca in outputList)
+				foreach (汎用データレイアウト仕入明細データ pca in outputList)
 				{
 					string record = pca.ToCsvString(Settings.PcaVersion);
 					sw.WriteLine(record);

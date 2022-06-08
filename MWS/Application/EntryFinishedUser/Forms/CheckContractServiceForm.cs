@@ -5,13 +5,15 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver2.000 契約中サービスの確認機能の追加(2020/07/17 勝呂)
+// Ver2.00 契約中サービスの確認機能の追加(2020/07/17 勝呂)
+// Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
 // 
 using ClosedXML.Excel;
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.EntryFinishedUser;
 using CommonLib.DB.SqlServer.Charlie;
+using EntryFinishedUser.BaseFactory;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -205,6 +207,25 @@ namespace EntryFinishedUser.Forms
 					}
 				}
 			}
+			// ソフトウェア保守料１年の契約期間チェック
+			// Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
+			List<CheckSoftwareMainte> mntList = Program.ContractSoftwareMainte(checkList);
+			if (null != cuiList)
+			{
+				foreach (CheckSoftwareMainte mnt in mntList)
+				{
+					int index = CheckUserList.FindIndex(p => p.CustomerID == mnt.CustomerID);
+					if (-1 != index)
+					{
+						ContractServiceUser data = new ContractServiceUser(CheckUserList[index]);
+						data.StartDate = mnt.EsUseEndDate.Value;
+						data.EndDate = mnt.MainteUseEndDate.Value;
+						ListViewItem lvItem = new ListViewItem(data.GetListViewData3());
+						lvItem.Tag = data;
+						listViewSoftwareMainte.Items.Add(lvItem);
+					}
+				}
+			}
 			// カーソルを元に戻す
 			Cursor.Current = preCursor;
 		}
@@ -283,6 +304,16 @@ namespace EntryFinishedUser.Forms
 				{
 					ContractServiceUser user = listViewKaigo.Items[i].Tag as ContractServiceUser;
 					sheetKaigo.Cell(i + 2, 1).InsertData(new[] { user.GetExcelData() });
+				}
+				// ソフトウェア保守料１年
+				// Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
+				var titleArray3 = new[] { "顧客No", "得意先No", "顧客名", "終了月", "拠点コード", "拠点名", "paletteES利用終了日", "ソフトウェア保守料１年利用終了日", "ユーザー" };
+				IXLWorksheet sheetSoftwareMainte = workbook.Worksheets.Add("ソフトウェア保守料１年");
+				sheetSoftwareMainte.Cell("A1").InsertData(new[] { titleArray3 });
+				for (int i = 0; i < listViewSoftwareMainte.Items.Count; i++)
+				{
+					ContractServiceUser user = listViewSoftwareMainte.Items[i].Tag as ContractServiceUser;
+					sheetSoftwareMainte.Cell(i + 2, 1).InsertData(new[] { user.GetExcelData3() });
 				}
 				// Excelファイルの保存
 				workbook.SaveAs(Path.Combine(Directory.GetCurrentDirectory(), @"契約中サービス一覧.xlsx"));

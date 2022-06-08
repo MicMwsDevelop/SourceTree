@@ -11,18 +11,18 @@
 		<User></User>
 		<Pass></Pass>
 	</Mail>
-  <ConnectJunp>
-    <InstanceName>SQLSV</InstanceName>
-    <!-- InstanceName>TESTSV</InstanceName -->
-    <DatabaseName>JunpDB</DatabaseName>
-    <UserID>web</UserID>
-    <Password>02035612</Password>
-  </ConnectJunp>
-  <ConnectSales>
-    <InstanceName>SQLSV</InstanceName>
-    <!-- InstanceName>TESTSV</InstanceName -->
-    <DatabaseName>SalesDB</DatabaseName>
-    <UserID>web</UserID>
-    <Password>02035612</Password>
-  </ConnectSales>
+	<ConnectJunp>
+		<InstanceName>SQLSV</InstanceName>
+		<!-- InstanceName>TESTSV</InstanceName -->
+		<DatabaseName>JunpDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</ConnectJunp>
+	<ConnectSales>
+		<InstanceName>SQLSV</InstanceName>
+		<!-- InstanceName>TESTSV</InstanceName -->
+		<DatabaseName>SalesDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</ConnectSales>
 </NoticeOnlineLicenseConfirmSettings>

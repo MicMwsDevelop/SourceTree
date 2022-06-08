@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2022/01/07 勝呂)
+// Ver1.01 新規作成(2022/04/04 勝呂):ナルコーム仕入データ作成時に数量０を除外する
 //
 using CommonLib.BaseFactory.Junp.View;
 using CommonLib.BaseFactory.MakePurchaseFile;
@@ -270,6 +271,7 @@ namespace CommonLib.DB.SqlServer.MakePurchaseFile
 		/// <returns>結果</returns>
 		public static List<ナルコーム仕入集計> Select_ナルコーム仕入集計(YearMonth ym, string connectStr)
 		{
+			// Ver1.01 新規作成(2022/04/04 勝呂):ナルコーム仕入データ作成時に数量０を除外する
 			string sqlStr = string.Format("SELECT" 
 										+ " ナルコーム商品売上伝票.仕入先"
 										+ ", ナルコーム商品売上伝票.sykd_jbmn"
@@ -277,7 +279,7 @@ namespace CommonLib.DB.SqlServer.MakePurchaseFile
 										+ ", ナルコーム商品売上伝票.仕入商品コード AS sykd_scd"
 										+ ", ナルコーム商品売上伝票.sykd_mkbn"
 										+ ", 商品マスタ.sms_mei AS sykd_mei"
-										+ ", SUM(Convert(int, sykd_suryo)) AS 数量"
+										+ ", SUM(CONVERT(int, sykd_suryo)) AS 数量"
 										+ ", ナルコーム商品売上伝票.sykd_tani"
 										+ ", ナルコーム商品売上伝票.仕入価格 AS 評価単価"
 										+ ", ナルコーム商品売上伝票.sykd_uribi"
@@ -306,6 +308,7 @@ namespace CommonLib.DB.SqlServer.MakePurchaseFile
 										+ ") AS ナルコーム商品売上伝票"
 										+ " INNER JOIN {4} AS 商品マスタ ON ナルコーム商品売上伝票.仕入商品コード = 商品マスタ.sms_scd"
 										+ " GROUP BY ナルコーム商品売上伝票.仕入先, ナルコーム商品売上伝票.sykd_jbmn, ナルコーム商品売上伝票.sykd_jtan, ナルコーム商品売上伝票.仕入商品コード, ナルコーム商品売上伝票.sykd_mkbn, 商品マスタ.sms_mei, ナルコーム商品売上伝票.sykd_tani, ナルコーム商品売上伝票.仕入価格, ナルコーム商品売上伝票.sykd_uribi, ナルコーム商品売上伝票.仕入フラグ, ナルコーム商品売上伝票.sykd_rate"
+										+ " HAVING SUM(CONVERT(int, sykd_suryo)) <> 0"
 										+ " ORDER BY ナルコーム商品売上伝票.sykd_jbmn, ナルコーム商品売上伝票.仕入フラグ, ナルコーム商品売上伝票.sykd_uribi, ナルコーム商品売上伝票.仕入商品コード"
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上ヘッダ]
 										, ym.ToSpan().Start.ToIntYMD()

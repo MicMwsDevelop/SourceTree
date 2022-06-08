@@ -67,7 +67,7 @@ namespace EntryMemo.BaseFactory
 		/// <param name="row">行</param>
 		public void ReadWorksheet(IXLWorksheet ws, int row)
 		{
-			得意先コード = ws.Cell(row, 3).GetString();
+			得意先コード = ws.Cell(row, 1).GetString();
 			入金日 = Program.GetDate(ws.Cell(row, 4));
 			入金額 = Program.GetDouble(ws.Cell(row, 5));
 			発送 = Program.GetDate(ws.Cell(row, 6));

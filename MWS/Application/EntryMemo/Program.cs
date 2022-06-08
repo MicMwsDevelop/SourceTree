@@ -5,7 +5,8 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2022/03/17 勝呂)
+// Ver1.00(2022/03/17 勝呂):新規作成
+// Ver1.01(2022/03/25 勝呂):メモ種別と更新者を経理部に変更
 //
 using ClosedXML.Excel;
 using CommonLib.Common;
@@ -25,7 +26,7 @@ namespace EntryMemo
 		/// <summary>
 		/// プログラムバージョン
 		/// </summary>
-		public const string ProgramVersion = "Ver1.00 2022/03/23";
+		public const string ProgramVersion = "Ver1.01 2022/03/25";
 
 		/// <summary>
 		/// tMemo.fMemTable 格納文字列
@@ -35,7 +36,7 @@ namespace EntryMemo
 		/// <summary>
 		/// tMemo.fMemUpdateMan 格納文字列
 		/// </summary>
-		public const string MemoUpdateManString = "営業管理部";
+		public const string MemoUpdateManString = "経理部";
 
 		/// <summary>
 		/// 環境設定
@@ -102,7 +103,7 @@ namespace EntryMemo
 		/// <returns></returns>
 		public static string MemoTypeString()
 		{
-			return string.Format("{0} {1} 営業管理部", Date.Today.GetNormalString(), Time.Now.ToString());
+			return string.Format("{0} {1} {2}", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString(), MemoUpdateManString);
 		}
 	}
 }

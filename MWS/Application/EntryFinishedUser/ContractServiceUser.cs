@@ -1,4 +1,13 @@
-﻿using CommonLib.BaseFactory;
+﻿//
+// ContractServiceUser.cs
+//
+// 契約中サービスの確認情報クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
+// 
+using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.EntryFinishedUser;
 using CommonLib.Common;
 using System;
@@ -141,6 +150,27 @@ namespace EntryFinishedUser
 		}
 
 		/// <summary>
+		/// エクセル行出力用
+		/// ソフトウェア保守料１年用
+		/// </summary>
+		/// <returns></returns>
+		/// Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
+		public object[] GetExcelData3()
+		{
+			return new object[] {
+			CustomerID
+			, TokuisakiNo
+			, UserName
+			, FinishedYearMonth.HasValue ? FinishedYearMonth.Value.ToString() : ""
+			, AreaCode
+			, AreaName
+			, StartDate.HasValue ? StartDate.Value.ToShortDateString() : ""
+			, EndDate.HasValue ? EndDate.Value.ToShortDateString() : ""
+			, FinishedUser ? "非ユーザー" : "MICユーザー"
+			};
+		}
+
+		/// <summary>
 		/// ListView表示情報の取得 
 		/// </summary>
 		/// <returns>表示情報</returns>
@@ -173,6 +203,25 @@ namespace EntryFinishedUser
 			array[3] = AreaName;
 			array[4] = ServiceID;
 			array[5] = ServiceName;
+			array[6] = FinishedUser ? "非" : "MIC";
+			return array;
+		}
+
+		/// <summary>
+		/// ListView表示情報の取得 
+		/// ソフトウェア保守料１年用
+		/// </summary>
+		/// <returns>表示情報</returns>
+		/// Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
+		public string[] GetListViewData3()
+		{
+			string[] array = new string[7];
+			array[0] = TokuisakiNo;
+			array[1] = UserName;
+			array[2] = FinishedYearMonth.HasValue ? FinishedYearMonth.Value.ToString() : "";
+			array[3] = AreaName;
+			array[4] = StartDate.HasValue ? StartDate.Value.ToShortDateString() : "";
+			array[5] = EndDate.HasValue ? EndDate.Value.ToShortDateString() : "";
 			array[6] = FinishedUser ? "非" : "MIC";
 			return array;
 		}

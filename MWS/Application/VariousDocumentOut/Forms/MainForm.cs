@@ -463,7 +463,7 @@ namespace VariousDocumentOut.Forms
 		{
 			if (null == Common.Customer)
 			{
-				MessageBox.Show(this, "得意先Noを指定してください。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(this, "得意先番号を指定してください。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 			try

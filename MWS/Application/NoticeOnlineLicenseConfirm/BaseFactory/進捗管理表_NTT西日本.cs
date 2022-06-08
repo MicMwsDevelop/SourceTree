@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2022/03/08 勝呂)
+// Ver1.04 NTT西日本進捗管理表新フォームに対応(2022/04/22 勝呂)
 // 
 using ClosedXML.Excel;
 using CommonLib.Common;
@@ -16,11 +17,6 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 {
 	public class 進捗管理表_NTT西日本
 	{
-		/// <summary>
-		/// NTT西日本 進捗管理表バージョン番号
-		/// </summary>
-		public static int Verion = 100;
-
 		/// <summary>
 		/// 通知情報
 		/// </summary>
@@ -172,6 +168,16 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		public string 機器設定作業料金_プランB_平日日中帯 { get; set; }
 		public string 機器設定作業料金_プランB_夜間土休日 { get; set; }
 		public string 機器設定作業料金_機器代金のみ { get; set; }
+
+		// Ver1.04 NTT西日本進捗管理表新フォームに対応(2022/04/22 勝呂)
+		public string プランA_新価格_平日日中帯 { get; set; }
+		public string プランA_新価格_夜間土休日 { get; set; }
+		public string プランB_新価格_平日日中帯 { get; set; }
+		public string プランB_新価格_夜間土休日 { get; set; }
+		public string 機器代金_新価格 { get; set; }
+		public string HUB_オプション { get; set; }
+		public string モバイルディスプレイ_オプション { get; set; }
+
 		public string 機器設定作業料金_再派遣料金ver1_平日日中帯 { get; set; }
 		public string 機器設定作業料金_再派遣料金ver1_夜間土休日 { get; set; }
 		public string 機器設定作業料金_再派遣料金ver2_平日日中帯 { get; set; }
@@ -227,135 +233,6 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		/// </summary>
 		public string 連絡項目 { get; set; }
 		public string 連絡内容 { get; set; }
-
-		/// <summary>
-		/// 進捗管理表フィールド番号定義(Ver1.00)
-		/// </summary>
-		public static readonly Dictionary<string, int> FieldNumber100 = new Dictionary<string, int>()
-		{
-			{ "受付通番", 1 },
-			{ "申込日", 2 },
-			{ "担当拠点", 3 },
-			{ "担当者", 4 },
-			{ "病院ID", 5 },
-			{ "医療機関名", 6 },
-			{ "工事確定日", 7 },
-			{ "工事確定時間", 8 },
-			{ "工事結果", 9 },
-			{ "工事結果詳細_工事NG時", 10 },
-			{ "工事確定日_過去日", 11 },
-			{ "完了報告書受領日", 12 },
-			{ "備考_工事関連", 13 },
-			{ "第1希望日", 14 },
-			{ "第1希望時間", 15 },
-			{ "第2希望日", 16 },
-			{ "第2希望時間", 17 },
-			{ "第3希望日", 18 },
-			{ "第3希望時間", 19 },
-			{ "OK曜日_時間含む", 20 },
-			{ "平日夜間土休日", 21 },
-			{ "取消", 22 },
-			{ "直前リスケ数", 23 },
-			{ "直前リスケ内容", 24 },
-			{ "BO", 25 },
-			{ "フレッツ新規手配", 26 },
-			{ "既存回線ID_新設回線ID", 27 },
-			{ "回線品目", 28 },
-			{ "フレッツ工事_工事確定日", 29 },
-			{ "フレッツ工事工事確定時間", 30 },
-			{ "フレッツ工事工事結果", 31 },
-			{ "フレッツ工事工事確定日_過去日", 32 },
-			{ "フレッツ工事備考_工事関連", 33 },
-			{ "都道府県", 34 },
-			{ "住所", 35 },
-			{ "架電先対応者", 36 },
-			{ "架電番号", 37 },
-			{ "入館調整ステータス", 38 },
-			{ "ヒアリングシートチェック結果", 39 },
-			{ "ヒアリングシート修正依頼日", 40 },
-			{ "連絡票受領日", 41 },
-			{ "モバイルディスプレイ", 42 },
-			{ "VGA端子", 43 },
-			{ "CPU切替器", 44 },
-			{ "GW設置確認", 45 },
-			{ "HUB台数", 46 },
-			{ "オン資ルータ", 47 },
-			{ "PCモニタ", 48 },
-			{ "既存ルータ型番", 49 },
-			{ "V6変更有無", 50 },
-			{ "V6オプション開通確認日", 51 },
-			{ "新規開通申込み完了_営業", 52 },
-			{ "機器到着予定日", 53 },
-			{ "到着完了確認日", 54 },
-			{ "LAN調査_有無", 55 },
-			{ "LAN調査_依頼日", 56 },
-			{ "LAN調査_工事日", 57 },
-			{ "LAN調査_直前リスト回数", 58 },
-			{ "LAN調査_リスケ内容", 59 },
-			{ "LAN調査_完了報告受領日", 60 },
-			{ "LAN調査_平日夜間土休日", 61 },
-			{ "LAN調査_呼び線挿入不可", 62 },
-			{ "LAN調査_NG営業連絡日", 63 },
-			{ "LAN調査_BO", 64 },
-			{ "LAN調査_NG記事", 65 },
-			{ "LAN配線_必要可否", 66 },
-			{ "LAN配線_依頼日", 67 },
-			{ "LAN配線_工事日", 68 },
-			{ "LAN配線_取消", 69 },
-			{ "LAN配線_直前リスケ回数", 70 },
-			{ "LAN配線_リスケ内容", 71 },
-			{ "LAN配線_平日夜間土休日", 72 },
-			{ "LAN配線_工事完了受領日", 73 },
-			{ "LAN配線_延長単位_10m", 74 },
-			{ "LAN配線_ワイプロ延長単位_1m", 75 },
-			{ "LAN配線_BO", 76 },
-			{ "LAN配線_記事", 77 },
-			{ "委託業務完成通知書送付日", 78 },
-			{ "作業報告書_PDF_送付月25日締め_NTT_ミック", 79 },
-			{ "追加費用1", 80 },
-			{ "追加費用2", 81 },
-			{ "補助金申請書類送付日_NTT_医療機関", 82 },
-			{ "機器設定作業料金_プランA_平日日中帯", 83 },
-			{ "機器設定作業料金_プランA_夜間土休日", 84 },
-			{ "機器設定作業料金_プランB_平日日中帯", 85 },
-			{ "機器設定作業料金_プランB_夜間土休日", 86 },
-			{ "機器設定作業料金_機器代金のみ", 87 },
-			{ "機器設定作業料金_再派遣料金ver1_平日日中帯", 88 },
-			{ "機器設定作業料金_再派遣料金ver1_夜間土休日", 89 },
-			{ "機器設定作業料金_再派遣料金ver2_平日日中帯", 90 },
-			{ "機器設定作業料金_再派遣料金ver2_夜間土休日", 91 },
-			{ "機器設定作業料金_再派遣料金ver3_平日日中帯", 92 },
-			{ "機器設定作業料金_再派遣料金ver3_夜間土休日", 93 },
-			{ "機器設定作業料金_規定後リスケ料金_平日日中帯", 94 },
-			{ "機器設定作業料金_規定後リスケ料金_夜間土休日", 95 },
-			{ "機器設定作業料金_作業キャンセルA_平日日中帯", 96 },
-			{ "機器設定作業料金_作業キャンセルA_夜間土休日", 97 },
-			{ "機器設定作業料金_作業キャンセルA1_平日日中帯", 98 },
-			{ "機器設定作業料金_作業キャンセルA1_夜間土休日", 99 },
-			{ "現地調査_割増料金_夜間土休日", 100 },
-			{ "現地調査_再派遣料金_平日日中帯", 101 },
-			{ "現地調査_再派遣料金_夜間土休日", 102 },
-			{ "現地調査_規定後リスケ料金_平日日中帯", 103 },
-			{ "現地調査_規定後リスケ料金_夜間土休日", 104 },
-			{ "現地調査_作業キャンセル_平日日中帯", 105 },
-			{ "現地調査_作業キャンセル_夜間土休日", 106 },
-			{ "LAN配線作業_割増料金_夜間土休日", 107 },
-			{ "LAN配線作業_再派遣料金_平日日中帯", 108 },
-			{ "LAN配線作業_再派遣料金_夜間土休日", 109 },
-			{ "LAN配線作業_規定後リスケ料金_平日日中帯", 110 },
-			{ "LAN配線作業_規定後リスケ料金_夜間土休日", 111 },
-			{ "LAN配線作業_作業キャンセルB_平日日中帯", 112 },
-			{ "LAN配線作業_作業キャンセルB_夜間土休日", 113 },
-			{ "LAN配線作業_作業キャンセルB1_平日日中帯", 114 },
-			{ "LAN配線作業_作業キャンセルB1_夜間土休日", 115 },
-			{ "LAN配線_延長", 116 },
-			{ "ワイプロ_延長", 117 },
-			{ "その他実費費", 118 },
-			{ "備考", 119 },
-			{ "請求金額", 120 },
-			{ "連絡項目", 121 },
-			{ "連絡内容", 122 },
-		};
 
 		/// <summary>
 		/// 工事確定日付の取得
@@ -416,21 +293,6 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		{
 			Notice = new NoticeInfo();
 			Clear();
-		}
-
-		/// <summary>
-		/// 進捗管理表バージョン番号に対応するフィールド番号を取得
-		/// </summary>
-		/// <param name="fieldName">フィールド名</param>
-		/// <param name="version">進捗管理表バージョン番号</param>
-		/// <returns></returns>
-		public int GetFieldNumber(string fieldName, int version)
-		{
-			switch (version)
-			{
-				case 100: return FieldNumber100[fieldName];
-			}
-			return 0;
 		}
 
 		/// <summary>
@@ -526,6 +388,16 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			機器設定作業料金_プランB_平日日中帯 = string.Empty;
 			機器設定作業料金_プランB_夜間土休日 = string.Empty;
 			機器設定作業料金_機器代金のみ = string.Empty;
+
+			// Ver1.04 NTT西日本進捗管理表新フォームに対応(2022/04/22 勝呂)
+			プランA_新価格_平日日中帯 = string.Empty;
+			プランA_新価格_夜間土休日 = string.Empty;
+			プランB_新価格_平日日中帯 = string.Empty;
+			プランB_新価格_夜間土休日 = string.Empty;
+			機器代金_新価格 = string.Empty;
+			HUB_オプション = string.Empty;
+			モバイルディスプレイ_オプション = string.Empty;
+
 			機器設定作業料金_再派遣料金ver1_平日日中帯 = string.Empty;
 			機器設定作業料金_再派遣料金ver1_夜間土休日 = string.Empty;
 			機器設定作業料金_再派遣料金ver2_平日日中帯 = string.Empty;
@@ -658,6 +530,16 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			ret.Add(機器設定作業料金_プランB_平日日中帯);
 			ret.Add(機器設定作業料金_プランB_夜間土休日);
 			ret.Add(機器設定作業料金_機器代金のみ);
+
+			// Ver1.04 NTT西日本進捗管理表新フォームに対応(2022/04/22 勝呂)
+			ret.Add(プランA_新価格_平日日中帯);
+			ret.Add(プランA_新価格_夜間土休日);
+			ret.Add(プランB_新価格_平日日中帯);
+			ret.Add(プランB_新価格_夜間土休日);
+			ret.Add(機器代金_新価格);
+			ret.Add(HUB_オプション);
+			ret.Add(モバイルディスプレイ_オプション);
+
 			ret.Add(機器設定作業料金_再派遣料金ver1_平日日中帯);
 			ret.Add(機器設定作業料金_再派遣料金ver1_夜間土休日);
 			ret.Add(機器設定作業料金_再派遣料金ver2_平日日中帯);
@@ -701,10 +583,9 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		/// </summary>
 		/// <param name="ws">ワークシート</param>
 		/// <param name="row">行</param>
-		/// <param name="version">進捗管理表バージョン番号</param>
-		public void SetWorksheetBy進捗管理表(IXLWorksheet ws, int row, int version)
+		public void SetWorksheetBy進捗管理表(IXLWorksheet ws, int row)
 		{
-			ReadWorksheet(ws, row, version, 2);
+			ReadWorksheet(ws, row, 2);
 		}
 
 		/// <summary>
@@ -712,11 +593,10 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		/// </summary>
 		/// <param name="ws">ワークシート</param>
 		/// <param name="row">行</param>
-		/// <param name="version">進捗管理表バージョン番号</param>
-		public void SetWorksheetByオンライン資格確認通知結果(IXLWorksheet ws, int row, int version)
+		public void SetWorksheetByオンライン資格確認通知結果(IXLWorksheet ws, int row)
 		{
 			Notice.ReadWorksheet(ws, row);
-			ReadWorksheet(ws, row, version, Notice.GetColumn);
+			ReadWorksheet(ws, row, Notice.GetColumn);
 		}
 
 		/// <summary>
@@ -724,132 +604,138 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		/// </summary>
 		/// <param name="ws">ワークシート</param>
 		/// <param name="row">行</param>
-		/// <param name="version">進捗管理表バージョン番号</param>
 		/// <param name="startCol">開始カラム</param>
-		private void ReadWorksheet(IXLWorksheet ws, int row, int version, int startCol)
+		private void ReadWorksheet(IXLWorksheet ws, int row, int startCol)
 		{
-			受付通番 = ws.Cell(row, GetFieldNumber("受付通番", version) + startCol).GetString();
-			申込日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("申込日", version) + startCol));
-			担当拠点 = ws.Cell(row, GetFieldNumber("担当拠点", version) + startCol).GetString();
-			担当者 = ws.Cell(row, GetFieldNumber("担当者", version) + startCol).GetString();
-			病院ID = ws.Cell(row, GetFieldNumber("病院ID", version) + startCol).GetString().ToInt();
-			医療機関名 = ws.Cell(row, GetFieldNumber("医療機関名", version) + startCol).GetString();
-			工事確定日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("工事確定日", version) + startCol));
-			工事確定時間 = Program.GetTimeString(ws.Cell(row, GetFieldNumber("工事確定時間", version) + startCol));
-			工事結果 = ws.Cell(row, GetFieldNumber("工事結果", version) + startCol).GetString();
-			工事結果詳細_工事NG時 = ws.Cell(row, GetFieldNumber("工事結果詳細_工事NG時", version) + startCol).GetString();
-			工事確定日_過去日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("工事確定日_過去日", version) + startCol));
-			完了報告書受領日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("完了報告書受領日", version) + startCol));
-			備考_工事関連 = ws.Cell(row, GetFieldNumber("備考_工事関連", version) + startCol).GetString();
-			第1希望日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("第1希望日", version) + startCol));
-			第1希望時間 = Program.GetTimeString(ws.Cell(row, GetFieldNumber("第1希望時間", version) + startCol));
-			第2希望日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("第2希望日", version) + startCol));
-			第2希望時間 = Program.GetTimeString(ws.Cell(row, GetFieldNumber("第2希望時間", version) + startCol));
-			第3希望日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("第3希望日", version) + startCol));
-			第3希望時間 = Program.GetTimeString(ws.Cell(row, GetFieldNumber("第3希望時間", version) + startCol));
-			OK曜日_時間含む = ws.Cell(row, GetFieldNumber("OK曜日_時間含む", version) + startCol).GetString();
-			平日夜間土休日 = ws.Cell(row, GetFieldNumber("平日夜間土休日", version) + startCol).GetString();
-			取消 = ws.Cell(row, GetFieldNumber("取消", version) + startCol).GetString();
-			直前リスケ数 = ws.Cell(row, GetFieldNumber("直前リスケ数", version) + startCol).GetString();
-			直前リスケ内容 = ws.Cell(row, GetFieldNumber("直前リスケ内容", version) + startCol).GetString();
-			BO = ws.Cell(row, GetFieldNumber("BO", version) + startCol).GetString();
-			フレッツ新規手配 = ws.Cell(row, GetFieldNumber("フレッツ新規手配", version) + startCol).GetString();
-			既存回線ID_新設回線ID = ws.Cell(row, GetFieldNumber("既存回線ID_新設回線ID", version) + startCol).GetString();
-			回線品目 = ws.Cell(row, GetFieldNumber("回線品目", version) + startCol).GetString();
-			フレッツ工事_工事確定日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("フレッツ工事_工事確定日", version) + startCol));
-			フレッツ工事工事確定時間 = ws.Cell(row, GetFieldNumber("フレッツ工事工事確定時間", version) + startCol).GetString();
-			フレッツ工事工事結果 = ws.Cell(row, GetFieldNumber("フレッツ工事工事結果", version) + startCol).GetString();
-			フレッツ工事工事確定日_過去日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("フレッツ工事工事確定日_過去日", version) + startCol));
-			フレッツ工事備考_工事関連 = ws.Cell(row, GetFieldNumber("フレッツ工事備考_工事関連", version) + startCol).GetString();
-			都道府県 = ws.Cell(row, GetFieldNumber("都道府県", version) + startCol).GetString();
-			住所 = ws.Cell(row, GetFieldNumber("住所", version) + startCol).GetString();
-			架電先対応者 = ws.Cell(row, GetFieldNumber("架電先対応者", version) + startCol).GetString();
-			架電番号 = ws.Cell(row, GetFieldNumber("架電番号", version) + startCol).GetString();
-			入館調整ステータス = ws.Cell(row, GetFieldNumber("入館調整ステータス", version) + startCol).GetString();
-			ヒアリングシートチェック結果 = ws.Cell(row, GetFieldNumber("ヒアリングシートチェック結果", version) + startCol).GetString();
-			ヒアリングシート修正依頼日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("ヒアリングシート修正依頼日", version) + startCol));
-			連絡票受領日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("連絡票受領日", version) + startCol));
-			モバイルディスプレイ = ws.Cell(row, GetFieldNumber("モバイルディスプレイ", version) + startCol).GetString();
-			VGA端子 = ws.Cell(row, GetFieldNumber("VGA端子", version) + startCol).GetString();
-			CPU切替器 = ws.Cell(row, GetFieldNumber("CPU切替器", version) + startCol).GetString();
-			GW設置確認 = ws.Cell(row, GetFieldNumber("GW設置確認", version) + startCol).GetString();
-			HUB台数 = ws.Cell(row, GetFieldNumber("HUB台数", version) + startCol).GetString();
-			オン資ルータ = ws.Cell(row, GetFieldNumber("オン資ルータ", version) + startCol).GetString();
-			PCモニタ = ws.Cell(row, GetFieldNumber("PCモニタ", version) + startCol).GetString();
-			既存ルータ型番 = ws.Cell(row, GetFieldNumber("既存ルータ型番", version) + startCol).GetString();
-			V6変更有無 = ws.Cell(row, GetFieldNumber("V6変更有無", version) + startCol).GetString();
-			V6オプション開通確認日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("V6オプション開通確認日", version) + startCol));
-			新規開通申込み完了_営業 = ws.Cell(row, GetFieldNumber("新規開通申込み完了_営業", version) + startCol).GetString();
-			機器到着予定日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("機器到着予定日", version) + startCol));
-			到着完了確認日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("到着完了確認日", version) + startCol));
-			LAN調査_有無 = ws.Cell(row, GetFieldNumber("LAN調査_有無", version) + startCol).GetString();
-			LAN調査_依頼日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("LAN調査_依頼日", version) + startCol));
-			LAN調査_工事日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("LAN調査_工事日", version) + startCol));
-			LAN調査_直前リスト回数 = ws.Cell(row, GetFieldNumber("LAN調査_直前リスト回数", version) + startCol).GetString();
-			LAN調査_リスケ内容 = ws.Cell(row, GetFieldNumber("LAN調査_リスケ内容", version) + startCol).GetString();
-			LAN調査_完了報告受領日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("LAN調査_完了報告受領日", version) + startCol));
-			LAN調査_平日夜間土休日 = ws.Cell(row, GetFieldNumber("LAN調査_平日夜間土休日", version) + startCol).GetString();
-			LAN調査_呼び線挿入不可 = ws.Cell(row, GetFieldNumber("LAN調査_呼び線挿入不可", version) + startCol).GetString();
-			LAN調査_NG営業連絡日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("LAN調査_NG営業連絡日", version) + startCol));
-			LAN調査_BO = ws.Cell(row, GetFieldNumber("LAN調査_BO", version) + startCol).GetString();
-			LAN調査_NG記事 = ws.Cell(row, GetFieldNumber("LAN調査_NG記事", version) + startCol).GetString();
-			LAN配線_必要可否 = ws.Cell(row, GetFieldNumber("LAN配線_必要可否", version) + startCol).GetString();
-			LAN配線_依頼日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("LAN配線_依頼日", version) + startCol));
-			LAN配線_工事日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("LAN配線_工事日", version) + startCol));
-			LAN配線_取消 = ws.Cell(row, GetFieldNumber("LAN配線_取消", version) + startCol).GetString();
-			LAN配線_直前リスケ回数 = ws.Cell(row, GetFieldNumber("LAN配線_直前リスケ回数", version) + startCol).GetString();
-			LAN配線_リスケ内容 = ws.Cell(row, GetFieldNumber("LAN配線_リスケ内容", version) + startCol).GetString();
-			LAN配線_平日夜間土休日 = ws.Cell(row, GetFieldNumber("LAN配線_平日夜間土休日", version) + startCol).GetString();
-			LAN配線_工事完了受領日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("LAN配線_工事完了受領日", version) + startCol));
-			LAN配線_延長単位_10m = ws.Cell(row, GetFieldNumber("LAN配線_延長単位_10m", version) + startCol).GetString();
-			LAN配線_ワイプロ延長単位_1m = ws.Cell(row, GetFieldNumber("LAN配線_ワイプロ延長単位_1m", version) + startCol).GetString();
-			LAN配線_BO = ws.Cell(row, GetFieldNumber("LAN配線_BO", version) + startCol).GetString();
-			LAN配線_記事 = ws.Cell(row, GetFieldNumber("LAN配線_記事", version) + startCol).GetString();
-			委託業務完成通知書送付日 = Program.GetDateString(ws.Cell(row, GetFieldNumber("委託業務完成通知書送付日", version) + startCol));
-			作業報告書_PDF_送付月25日締め_NTT_ミック = ws.Cell(row, GetFieldNumber("作業報告書_PDF_送付月25日締め_NTT_ミック", version) + startCol).GetString();
-			追加費用1 = ws.Cell(row, GetFieldNumber("追加費用1", version) + startCol).GetString();
-			追加費用2 = ws.Cell(row, GetFieldNumber("追加費用2", version) + startCol).GetString();
-			補助金申請書類送付日_NTT_医療機関 = ws.Cell(row, GetFieldNumber("補助金申請書類送付日_NTT_医療機関", version) + startCol).GetString();
-			機器設定作業料金_プランA_平日日中帯 = ws.Cell(row, GetFieldNumber("機器設定作業料金_プランA_平日日中帯", version) + startCol).GetString();
-			機器設定作業料金_プランA_夜間土休日 = ws.Cell(row, GetFieldNumber("機器設定作業料金_プランA_夜間土休日", version) + startCol).GetString();
-			機器設定作業料金_プランB_平日日中帯 = ws.Cell(row, GetFieldNumber("機器設定作業料金_プランB_平日日中帯", version) + startCol).GetString();
-			機器設定作業料金_プランB_夜間土休日 = ws.Cell(row, GetFieldNumber("機器設定作業料金_プランB_夜間土休日", version) + startCol).GetString();
-			機器設定作業料金_機器代金のみ = ws.Cell(row, GetFieldNumber("機器設定作業料金_機器代金のみ", version) + startCol).GetString();
-			機器設定作業料金_再派遣料金ver1_平日日中帯 = ws.Cell(row, GetFieldNumber("機器設定作業料金_再派遣料金ver1_平日日中帯", version) + startCol).GetString();
-			機器設定作業料金_再派遣料金ver1_夜間土休日 = ws.Cell(row, GetFieldNumber("機器設定作業料金_再派遣料金ver1_夜間土休日", version) + startCol).GetString();
-			機器設定作業料金_再派遣料金ver2_平日日中帯 = ws.Cell(row, GetFieldNumber("機器設定作業料金_再派遣料金ver2_平日日中帯", version) + startCol).GetString();
-			機器設定作業料金_再派遣料金ver2_夜間土休日 = ws.Cell(row, GetFieldNumber("機器設定作業料金_再派遣料金ver2_夜間土休日", version) + startCol).GetString();
-			機器設定作業料金_再派遣料金ver3_平日日中帯 = ws.Cell(row, GetFieldNumber("機器設定作業料金_再派遣料金ver3_平日日中帯", version) + startCol).GetString();
-			機器設定作業料金_再派遣料金ver3_夜間土休日 = ws.Cell(row, GetFieldNumber("機器設定作業料金_再派遣料金ver3_夜間土休日", version) + startCol).GetString();
-			機器設定作業料金_規定後リスケ料金_平日日中帯 = ws.Cell(row, GetFieldNumber("機器設定作業料金_規定後リスケ料金_平日日中帯", version) + startCol).GetString();
-			機器設定作業料金_規定後リスケ料金_夜間土休日 = ws.Cell(row, GetFieldNumber("機器設定作業料金_規定後リスケ料金_夜間土休日", version) + startCol).GetString();
-			機器設定作業料金_作業キャンセルA_平日日中帯 = ws.Cell(row, GetFieldNumber("機器設定作業料金_作業キャンセルA_平日日中帯", version) + startCol).GetString();
-			機器設定作業料金_作業キャンセルA_夜間土休日 = ws.Cell(row, GetFieldNumber("機器設定作業料金_作業キャンセルA_夜間土休日", version) + startCol).GetString();
-			機器設定作業料金_作業キャンセルA1_平日日中帯 = ws.Cell(row, GetFieldNumber("機器設定作業料金_作業キャンセルA1_平日日中帯", version) + startCol).GetString();
-			機器設定作業料金_作業キャンセルA1_夜間土休日 = ws.Cell(row, GetFieldNumber("機器設定作業料金_作業キャンセルA1_夜間土休日", version) + startCol).GetString();
-			現地調査_割増料金_夜間土休日 = ws.Cell(row, GetFieldNumber("現地調査_割増料金_夜間土休日", version) + startCol).GetString();
-			現地調査_再派遣料金_平日日中帯 = ws.Cell(row, GetFieldNumber("現地調査_再派遣料金_平日日中帯", version) + startCol).GetString();
-			現地調査_再派遣料金_夜間土休日 = ws.Cell(row, GetFieldNumber("現地調査_再派遣料金_夜間土休日", version) + startCol).GetString();
-			現地調査_規定後リスケ料金_平日日中帯 = ws.Cell(row, GetFieldNumber("現地調査_規定後リスケ料金_平日日中帯", version) + startCol).GetString();
-			現地調査_規定後リスケ料金_夜間土休日 = ws.Cell(row, GetFieldNumber("現地調査_規定後リスケ料金_夜間土休日", version) + startCol).GetString();
-			現地調査_作業キャンセル_平日日中帯 = ws.Cell(row, GetFieldNumber("現地調査_作業キャンセル_平日日中帯", version) + startCol).GetString();
-			現地調査_作業キャンセル_夜間土休日 = ws.Cell(row, GetFieldNumber("現地調査_作業キャンセル_夜間土休日", version) + startCol).GetString();
-			LAN配線作業_割増料金_夜間土休日 = ws.Cell(row, GetFieldNumber("LAN配線作業_割増料金_夜間土休日", version) + startCol).GetString();
-			LAN配線作業_再派遣料金_平日日中帯 = ws.Cell(row, GetFieldNumber("LAN配線作業_再派遣料金_平日日中帯", version) + startCol).GetString();
-			LAN配線作業_再派遣料金_夜間土休日 = ws.Cell(row, GetFieldNumber("LAN配線作業_再派遣料金_夜間土休日", version) + startCol).GetString();
-			LAN配線作業_規定後リスケ料金_平日日中帯 = ws.Cell(row, GetFieldNumber("LAN配線作業_規定後リスケ料金_平日日中帯", version) + startCol).GetString();
-			LAN配線作業_規定後リスケ料金_夜間土休日 = ws.Cell(row, GetFieldNumber("LAN配線作業_規定後リスケ料金_夜間土休日", version) + startCol).GetString();
-			LAN配線作業_作業キャンセルB_平日日中帯 = ws.Cell(row, GetFieldNumber("LAN配線作業_作業キャンセルB_平日日中帯", version) + startCol).GetString();
-			LAN配線作業_作業キャンセルB_夜間土休日 = ws.Cell(row, GetFieldNumber("LAN配線作業_作業キャンセルB_夜間土休日", version) + startCol).GetString();
-			LAN配線作業_作業キャンセルB1_平日日中帯 = ws.Cell(row, GetFieldNumber("LAN配線作業_作業キャンセルB1_平日日中帯", version) + startCol).GetString();
-			LAN配線作業_作業キャンセルB1_夜間土休日 = ws.Cell(row, GetFieldNumber("LAN配線作業_作業キャンセルB1_夜間土休日", version) + startCol).GetString();
-			LAN配線_延長 = ws.Cell(row, GetFieldNumber("LAN配線_延長", version) + startCol).GetString();
-			ワイプロ_延長 = ws.Cell(row, GetFieldNumber("ワイプロ_延長", version) + startCol).GetString();
-			その他実費費 = ws.Cell(row, GetFieldNumber("その他実費費", version) + startCol).GetString();
-			備考 = ws.Cell(row, GetFieldNumber("備考", version) + startCol).GetString();
-			請求金額 = ws.Cell(row, GetFieldNumber("請求金額", version) + startCol).GetString();
-			連絡項目 = ws.Cell(row, GetFieldNumber("連絡項目", version) + startCol).GetString();
-			連絡内容 = ws.Cell(row, GetFieldNumber("連絡内容", version) + startCol).GetString();
+			受付通番 = ws.Cell(row, 1 + startCol).GetString();
+			申込日 = Program.GetDateString(ws.Cell(row, 2 + startCol));
+			担当拠点 = ws.Cell(row, 3 + startCol).GetString();
+			担当者 = ws.Cell(row, 4 + startCol).GetString();
+			病院ID = ws.Cell(row, 5 + startCol).GetString().ToInt();
+			医療機関名 = ws.Cell(row, 6 + startCol).GetString();
+			工事確定日 = Program.GetDateString(ws.Cell(row, 7 + startCol));
+			工事確定時間 = Program.GetTimeString(ws.Cell(row, 8 + startCol));
+			工事結果 = ws.Cell(row, 9 + startCol).GetString();
+			工事結果詳細_工事NG時 = ws.Cell(row, 10 + startCol).GetString();
+			工事確定日_過去日 = Program.GetDateString(ws.Cell(row, 11 + startCol));
+			完了報告書受領日 = Program.GetDateString(ws.Cell(row, 12 + startCol));
+			備考_工事関連 = ws.Cell(row, 13 + startCol).GetString();
+			第1希望日 = Program.GetDateString(ws.Cell(row, 14 + startCol));
+			第1希望時間 = Program.GetTimeString(ws.Cell(row, 15 + startCol));
+			第2希望日 = Program.GetDateString(ws.Cell(row, 16 + startCol));
+			第2希望時間 = Program.GetTimeString(ws.Cell(row, 17 + startCol));
+			第3希望日 = Program.GetDateString(ws.Cell(row, 18 + startCol));
+			第3希望時間 = Program.GetTimeString(ws.Cell(row, 19 + startCol));
+			OK曜日_時間含む = ws.Cell(row, 20 + startCol).GetString();
+			平日夜間土休日 = ws.Cell(row, 21 + startCol).GetString();
+			取消 = ws.Cell(row, 22 + startCol).GetString();
+			直前リスケ数 = ws.Cell(row, 23 + startCol).GetString();
+			直前リスケ内容 = ws.Cell(row, 24 + startCol).GetString();
+			BO = ws.Cell(row, 25 + startCol).GetString();
+			フレッツ新規手配 = ws.Cell(row, 26 + startCol).GetString();
+			既存回線ID_新設回線ID = ws.Cell(row, 27 + startCol).GetString();
+			回線品目 = ws.Cell(row, 28 + startCol).GetString();
+			フレッツ工事_工事確定日 = Program.GetDateString(ws.Cell(row, 29 + startCol));
+			フレッツ工事工事確定時間 = ws.Cell(row, 30 + startCol).GetString();
+			フレッツ工事工事結果 = ws.Cell(row, 31 + startCol).GetString();
+			フレッツ工事工事確定日_過去日 = Program.GetDateString(ws.Cell(row, 32 + startCol));
+			フレッツ工事備考_工事関連 = ws.Cell(row, 33 + startCol).GetString();
+			都道府県 = ws.Cell(row, 34 + startCol).GetString();
+			住所 = ws.Cell(row, 35 + startCol).GetString();
+			架電先対応者 = ws.Cell(row, 36 + startCol).GetString();
+			架電番号 = ws.Cell(row, 37 + startCol).GetString();
+			入館調整ステータス = ws.Cell(row, 38 + startCol).GetString();
+			ヒアリングシートチェック結果 = ws.Cell(row, 39 + startCol).GetString();
+			ヒアリングシート修正依頼日 = Program.GetDateString(ws.Cell(row, 40 + startCol));
+			連絡票受領日 = Program.GetDateString(ws.Cell(row, 41 + startCol));
+			モバイルディスプレイ = ws.Cell(row, 42 + startCol).GetString();
+			VGA端子 = ws.Cell(row, 43 + startCol).GetString();
+			CPU切替器 = ws.Cell(row, 44 + startCol).GetString();
+			GW設置確認 = ws.Cell(row, 45 + startCol).GetString();
+			HUB台数 = ws.Cell(row, 46 + startCol).GetString();
+			オン資ルータ = ws.Cell(row, 47 + startCol).GetString();
+			PCモニタ = ws.Cell(row, 48 + startCol).GetString();
+			既存ルータ型番 = ws.Cell(row, 49 + startCol).GetString();
+			V6変更有無 = ws.Cell(row, 50 + startCol).GetString();
+			V6オプション開通確認日 = Program.GetDateString(ws.Cell(row, 51 + startCol));
+			新規開通申込み完了_営業 = ws.Cell(row, 52 + startCol).GetString();
+			機器到着予定日 = Program.GetDateString(ws.Cell(row, 53 + startCol));
+			到着完了確認日 = Program.GetDateString(ws.Cell(row, 54 + startCol));
+			LAN調査_有無 = ws.Cell(row, 55 + startCol).GetString();
+			LAN調査_依頼日 = Program.GetDateString(ws.Cell(row, 56 + startCol));
+			LAN調査_工事日 = Program.GetDateString(ws.Cell(row, 57 + startCol));
+			LAN調査_直前リスト回数 = ws.Cell(row, 58 + startCol).GetString();
+			LAN調査_リスケ内容 = ws.Cell(row, 59 + startCol).GetString();
+			LAN調査_完了報告受領日 = Program.GetDateString(ws.Cell(row, 60 + startCol));
+			LAN調査_平日夜間土休日 = ws.Cell(row, 61 + startCol).GetString();
+			LAN調査_呼び線挿入不可 = ws.Cell(row, 62 + startCol).GetString();
+			LAN調査_NG営業連絡日 = Program.GetDateString(ws.Cell(row, 63 + startCol));
+			LAN調査_BO = ws.Cell(row, 64 + startCol).GetString();
+			LAN調査_NG記事 = ws.Cell(row, 65 + startCol).GetString();
+			LAN配線_必要可否 = ws.Cell(row, 66 + startCol).GetString();
+			LAN配線_依頼日 = Program.GetDateString(ws.Cell(row, 67 + startCol));
+			LAN配線_工事日 = Program.GetDateString(ws.Cell(row, 68 + startCol));
+			LAN配線_取消 = ws.Cell(row, 69 + startCol).GetString();
+			LAN配線_直前リスケ回数 = ws.Cell(row, 70 + startCol).GetString();
+			LAN配線_リスケ内容 = ws.Cell(row, 71 + startCol).GetString();
+			LAN配線_平日夜間土休日 = ws.Cell(row, 72 + startCol).GetString();
+			LAN配線_工事完了受領日 = Program.GetDateString(ws.Cell(row, 73 + startCol));
+			LAN配線_延長単位_10m = ws.Cell(row, 74 + startCol).GetString();
+			LAN配線_ワイプロ延長単位_1m = ws.Cell(row, 75 + startCol).GetString();
+			LAN配線_BO = ws.Cell(row, 76 + startCol).GetString();
+			LAN配線_記事 = ws.Cell(row, 77 + startCol).GetString();
+			委託業務完成通知書送付日 = Program.GetDateString(ws.Cell(row, 78 + startCol));
+			作業報告書_PDF_送付月25日締め_NTT_ミック = ws.Cell(row, 79 + startCol).GetString();
+			追加費用1 = ws.Cell(row, 80 + startCol).GetString();
+			追加費用2 = ws.Cell(row, 81 + startCol).GetString();
+			補助金申請書類送付日_NTT_医療機関 = ws.Cell(row, 82 + startCol).GetString();
+			機器設定作業料金_プランA_平日日中帯 = ws.Cell(row, 83 + startCol).GetString();
+			機器設定作業料金_プランA_夜間土休日 = ws.Cell(row, 84 + startCol).GetString();
+			機器設定作業料金_プランB_平日日中帯 = ws.Cell(row, 85 + startCol).GetString();
+			機器設定作業料金_プランB_夜間土休日 = ws.Cell(row, 86 + startCol).GetString();
+			機器設定作業料金_機器代金のみ = ws.Cell(row, 87 + startCol).GetString();
+			プランA_新価格_平日日中帯 = ws.Cell(row, 88 + startCol).GetString();
+			プランA_新価格_夜間土休日 = ws.Cell(row, 89 + startCol).GetString();
+			プランB_新価格_平日日中帯 = ws.Cell(row, 90 + startCol).GetString();
+			プランB_新価格_夜間土休日 = ws.Cell(row, 91 + startCol).GetString();
+			機器代金_新価格 = ws.Cell(row, 92 + startCol).GetString();
+			HUB_オプション = ws.Cell(row, 93 + startCol).GetString();
+			モバイルディスプレイ_オプション = ws.Cell(row, 94 + startCol).GetString();
+			機器設定作業料金_再派遣料金ver1_平日日中帯 = ws.Cell(row, 95 + startCol).GetString();
+			機器設定作業料金_再派遣料金ver1_夜間土休日 = ws.Cell(row, 96 + startCol).GetString();
+			機器設定作業料金_再派遣料金ver2_平日日中帯 = ws.Cell(row, 97 + startCol).GetString();
+			機器設定作業料金_再派遣料金ver2_夜間土休日 = ws.Cell(row, 98 + startCol).GetString();
+			機器設定作業料金_再派遣料金ver3_平日日中帯 = ws.Cell(row, 99 + startCol).GetString();
+			機器設定作業料金_再派遣料金ver3_夜間土休日 = ws.Cell(row, 100 + startCol).GetString();
+			機器設定作業料金_規定後リスケ料金_平日日中帯 = ws.Cell(row, 101 + startCol).GetString();
+			機器設定作業料金_規定後リスケ料金_夜間土休日 = ws.Cell(row, 102 + startCol).GetString();
+			機器設定作業料金_作業キャンセルA_平日日中帯 = ws.Cell(row, 103 + startCol).GetString();
+			機器設定作業料金_作業キャンセルA_夜間土休日 = ws.Cell(row, 104 + startCol).GetString();
+			機器設定作業料金_作業キャンセルA1_平日日中帯 = ws.Cell(row, 105 + startCol).GetString();
+			機器設定作業料金_作業キャンセルA1_夜間土休日 = ws.Cell(row, 106 + startCol).GetString();
+			現地調査_割増料金_夜間土休日 = ws.Cell(row, 107 + startCol).GetString();
+			現地調査_再派遣料金_平日日中帯 = ws.Cell(row, 108 + startCol).GetString();
+			現地調査_再派遣料金_夜間土休日 = ws.Cell(row, 109 + startCol).GetString();
+			現地調査_規定後リスケ料金_平日日中帯 = ws.Cell(row, 110 + startCol).GetString();
+			現地調査_規定後リスケ料金_夜間土休日 = ws.Cell(row, 111 + startCol).GetString();
+			現地調査_作業キャンセル_平日日中帯 = ws.Cell(row, 112 + startCol).GetString();
+			現地調査_作業キャンセル_夜間土休日 = ws.Cell(row, 113 + startCol).GetString();
+			LAN配線作業_割増料金_夜間土休日 = ws.Cell(row, 114 + startCol).GetString();
+			LAN配線作業_再派遣料金_平日日中帯 = ws.Cell(row, 115 + startCol).GetString();
+			LAN配線作業_再派遣料金_夜間土休日 = ws.Cell(row, 116 + startCol).GetString();
+			LAN配線作業_規定後リスケ料金_平日日中帯 = ws.Cell(row, 117 + startCol).GetString();
+			LAN配線作業_規定後リスケ料金_夜間土休日 = ws.Cell(row, 118 + startCol).GetString();
+			LAN配線作業_作業キャンセルB_平日日中帯 = ws.Cell(row, 119 + startCol).GetString();
+			LAN配線作業_作業キャンセルB_夜間土休日 = ws.Cell(row, 120 + startCol).GetString();
+			LAN配線作業_作業キャンセルB1_平日日中帯 = ws.Cell(row, 121 + startCol).GetString();
+			LAN配線作業_作業キャンセルB1_夜間土休日 = ws.Cell(row, 122 + startCol).GetString();
+			LAN配線_延長 = ws.Cell(row, 123 + startCol).GetString();
+			ワイプロ_延長 = ws.Cell(row, 124 + startCol).GetString();
+			その他実費費 = ws.Cell(row, 125 + startCol).GetString();
+			備考 = ws.Cell(row, 126 + startCol).GetString();
+			請求金額 = ws.Cell(row, 127 + startCol).GetString();
+			連絡項目 = ws.Cell(row, 128 + startCol).GetString();
+			連絡内容 = ws.Cell(row, 129 + startCol).GetString();
 		}
 	}
 }

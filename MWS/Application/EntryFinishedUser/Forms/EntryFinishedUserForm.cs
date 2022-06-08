@@ -5,7 +5,8 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2019/06/28 勝呂)
+// Ver1.00 新規作成(2019/06/28 勝呂)
+// Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
 // 
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Charlie.Table;
@@ -14,6 +15,7 @@ using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.Common;
 using CommonLib.DB.SqlServer.Charlie;
 using CommonLib.DB.SqlServer.Junp;
+using EntryFinishedUser.BaseFactory;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -284,6 +286,14 @@ namespace EntryFinishedUser.Forms
 			if (null != cuiList && 0 < cuiList.Count)
 			{
 				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(cuiList[0].SERVICE_ID, Program.gSettings.Charlie.ConnectionString), cuiList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				exist = true;
+			}
+			// palette ESとソフトウェア保守料１年の契約期間
+			// Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
+			List<CheckSoftwareMainte> mntList = Program.ContractSoftwareMainte(checkList);
+			if (null != cuiList && 0 < cuiList.Count)
+			{
+				MessageBox.Show("paletteESの契約中に対し、ソフトウェア保守料１年の残期間が存在します。", "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				exist = true;
 			}
 			// カーソルを元に戻す

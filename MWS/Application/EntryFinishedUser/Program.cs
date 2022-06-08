@@ -8,6 +8,7 @@
 // Ver1.00 新規作成(2019/06/28 勝呂)
 // Ver2.00 契約中サービスの確認機能の追加(2020/07/17 勝呂)
 // Ver2.01 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
+// Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
 // 
 using ClosedXML.Excel;
 using CommonLib.BaseFactory;
@@ -19,6 +20,7 @@ using CommonLib.DB.SqlServer;
 using CommonLib.DB.SqlServer.Charlie;
 using CommonLib.DB.SqlServer.EntryFinishedUser;
 using CommonLib.DB.SqlServer.Junp;
+using EntryFinishedUser.BaseFactory;
 using MwsLib.Settings.SqlServer;
 using System;
 using System.Collections.Generic;
@@ -80,7 +82,7 @@ namespace EntryFinishedUser
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver2.01 (2021/09/07)";
+		public const string VersionStr = "Ver2.02 (2022/05/13)";
 
 		/// <summary>
 		/// 製品名
@@ -823,6 +825,34 @@ namespace EntryFinishedUser
 			string whereStr = string.Format("PAUSE_END_STATUS = '0' AND CUSTOMER_ID IN ({0}) AND SERVICE_ID IN ({1})", userStr, string.Join(",", ContractServiceUser.KaigoSeriveID()));
 			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, "CUSTOMER_ID, SERVICE_ID", gSettings.Charlie.ConnectionString);
 			List<T_CUSSTOMER_USE_INFOMATION> ret = T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
+			if (null != ret && 0 < ret.Count)
+			{
+				return ret;
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// 契約中サービス確認 - palette ESとソフトウェア保守料１年の契約期間チェック
+		/// </summary>
+		/// <param name="usetList"></param>
+		/// <returns></returns>
+		/// Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
+		public static List<CheckSoftwareMainte> ContractSoftwareMainte(List<int> usetList)
+		{
+			string sql = "SELECT MN.CUSTOMER_ID, ES.USE_END_DATE as ES_USE_END_DATE, MN.USE_END_DATE as MN_USE_END_DATE"
+							+ " FROM {0} as MN"
+							+ " LEFT JOIN ("
+							+ " SELECT CUSTOMER_ID, USE_END_DATE"
+							+ " FROM {0}"
+							+ " WHERE SERVICE_ID = {1} AND PAUSE_END_STATUS = 0 AND CUSTOMER_ID IN ({2})"
+							+ ") as ES on MN.CUSTOMER_ID = ES.CUSTOMER_ID"
+							+ " WHERE MN.CUSTOMER_ID = ES.CUSTOMER_ID AND MN.SERVICE_ID = {3} AND MN.PAUSE_END_STATUS = 0 AND ES.USE_END_DATE <> MN.USE_END_DATE"
+							+ " ORDER BY MN.CUSTOMER_ID";
+			string userStr = string.Join(",", usetList);
+			string sqlStr = string.Format(sql, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], (int)ServiceCodeDefine.ServiceCode.PaletteES, userStr, (int)ServiceCodeDefine.ServiceCode.SoftwareMainte1);
+			DataTable table = DatabaseAccess.SelectDatabase(sqlStr, gSettings.Charlie.ConnectionString);
+			List<CheckSoftwareMainte> ret = CheckSoftwareMainte.DataTableToList(table);
 			if (null != ret && 0 < ret.Count)
 			{
 				return ret;

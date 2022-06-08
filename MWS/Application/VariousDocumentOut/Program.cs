@@ -19,6 +19,9 @@
 // Ver1.10(2022/02/17):消耗品FAXオーダーシート印刷枚数不具合対応
 // Ver1.11(2022/02/21):二次キッティング依頼書 使用廃止によりメニューから削除
 // Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
+// Ver1.13(2022/05/02):Microsoft365利用申込書新フォーム対応
+// Ver1.13(2022/05/09):アプラス預金口座振替依頼書・自動払込利用申込書新フォーム対応
+// Ver1.14(2022/06/08):ユーザーID＆初期パスワード通知書新フォーム対応
 //
 using System;
 using System.Windows.Forms;
@@ -36,7 +39,7 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// バージョン番号
 		/// </summary>
-		public const string VersionStr = "Ver1.12 (2022/02/22)";
+		public const string VersionStr = "Ver1.14 (2022/06/08)";
 
 		/// <summary>
 		/// 環境設定

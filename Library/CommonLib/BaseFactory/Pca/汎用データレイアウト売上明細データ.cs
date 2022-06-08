@@ -1,11 +1,12 @@
 ﻿//
-// PcaEarningsDetail.cs
+// 汎用データレイアウト売上明細データ.cs
 //
-// PCA汎用データ 売上明細データ
+// 汎用データレイアウト売上明細データ
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2019/11/15 勝呂)
+// Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
 // 
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,10 @@ using System.Collections.Generic;
 namespace CommonLib.BaseFactory.Pca
 {
 	/// <summary>
-	/// PCA汎用データ 売上明細データ
+	/// 汎用データレイアウト売上明細データ
 	/// </summary>
 	[Serializable]
-	public class PCA売上明細汎用データ
+	public class 汎用データレイアウト売上明細データ
 	{
 		/// <summary>
 		/// 0:掛売、1:現収、2:カード、3:そ の他、5:仮伝、6:契約
@@ -88,9 +89,73 @@ namespace CommonLib.BaseFactory.Pca
 		public string 商品名２ { get; set; }
 		public int 単位区分 { get; set; }
 		public string ロットNo { get; set; }
+
+		/// <summary>
+		/// 56 DX-Rev1.00
+		/// </summary>
+		public string 直送先名 { get; set; }
+
+		/// <summary>
+		/// 57 DX-Rev2.00
+		/// </summary>
+		public string 決済会社コード { get; set; }
+		/// <summary>
+		/// 58 DX-Rev2.00
+		/// </summary>
+		public string 決済会社名 { get; set; }
+		/// <summary>
+		/// 59 DX-Rev2.00
+		/// </summary>
+		public int 決済日 { get; set; }
+		/// <summary>
+		/// 60 DX-Rev2.00
+		/// </summary>
+		public int 決済手数料 { get; set; }
+		/// <summary>
+		/// 61 DX-Rev2.00
+		/// </summary>
+		public int 手数料外税額 { get; set; }
+		/// <summary>
+		/// 62 DX-Rev2.00
+		/// </summary>
+		public int 手数料内税額 { get; set; }
+		/// <summary>
+		/// 63 DX-Rev2.00
+		/// </summary>
+		public int 手数料税区分 { get; set; }
+		/// <summary>
+		/// 64 DX-Rev2.00
+		/// </summary>
+		public int 手数料税率 { get; set; }
+		/// <summary>
+		/// 65 DX-Rev2.00
+		/// </summary>
+		public int 手数料税込区分 { get; set; }
+		/// <summary>
+		/// 66 DX-Rev2.00
+		/// </summary>
+		public string 決済摘要コード { get; set; }
+		/// <summary>
+		/// 67 DX-Rev2.00
+		/// </summary>
+		public string 決済摘要名 { get; set; }
+		/// <summary>
+		/// 68 DX-Rev3.00
+		/// </summary>
 		public int 売上税種別 { get; set; }
+
+		/// Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
+		/// <summary>
+		/// 69 DX-Rev3.00
+		/// </summary>
 		public int 原価税込区分 { get; set; }
+		/// <summary>
+		/// 70 DX-Rev3.00
+		/// </summary>
 		public int 原価税率 { get; set; }
+		/// <summary>
+		/// 71 DX-Rev3.00
+		/// </summary>
 		public int 原価税種別 { get; set; }
 
 		/// <summary>
@@ -107,7 +172,7 @@ namespace CommonLib.BaseFactory.Pca
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public PCA売上明細汎用データ()
+		public 汎用データレイアウト売上明細データ()
 		{
 			伝区 = 0;
 			売上日 = 0;
@@ -164,6 +229,22 @@ namespace CommonLib.BaseFactory.Pca
 			商品名２ = string.Empty;
 			単位区分 = 0;
 			ロットNo = string.Empty;
+
+			直送先名 = string.Empty;
+
+			決済会社コード = string.Empty;
+			決済会社名 = string.Empty;
+			決済日 = 0;
+			決済手数料 = 0;
+			手数料外税額 = 0;
+			手数料内税額 = 0;
+			手数料税区分 = 0;
+			手数料税率 = 0;
+			手数料税込区分 = 0;
+			決済摘要コード = string.Empty;
+			決済摘要名 = string.Empty;
+
+			// Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
 			売上税種別 = 0;
 			原価税込区分 = 0;
 			原価税率 = 0;
@@ -177,68 +258,95 @@ namespace CommonLib.BaseFactory.Pca
 		/// <returns>CSV文字列</returns>
 		public string ToCsvString(int pcaVer)
 		{
+			// 汎用データレイアウト指定 7: Rev4.20
 			List<string> list = new List<string>();
-			list.Add(伝区.ToString());
-			list.Add("\"" + 売上日.ToString() + "\"");
-			list.Add("\"" + 請求日.ToString() + "\"");
-			list.Add(伝票No.ToString());
-			list.Add("\"" + 得意先コード + "\"");
-			list.Add("\"" + 得意先名 + "\"");
-			list.Add("\"" + 直送先コード + "\"");
-			list.Add("\"" + 先方担当者名 + "\"");
-			list.Add("\"" + 部門コード + "\"");
-			list.Add("\"" + 担当者コード + "\"");
-			list.Add(摘要コード);
-			list.Add("\"" + 摘要名 + "\"");
-			list.Add("\"" + 分類コード + "\"");
-			list.Add("\"" + 伝票区分 + "\"");
-			list.Add("\"" + 商品コード + "\"");
-			list.Add(マスター区分.ToString());
-			list.Add("\"" + 商品名 + "\"");
-			list.Add(区.ToString());
-			list.Add("\"" + 倉庫コード + "\"");
-			list.Add(入数.ToString());
-			list.Add(箱数.ToString());
-			list.Add(数量.ToString());
-			list.Add("\"" + 単位 + "\"");
-			list.Add(単価.ToString());
-			list.Add(売上金額.ToString());
-			list.Add(原単価.ToString());
-			list.Add(原価金額.ToString());
-			list.Add(粗利益.ToString());
-			list.Add(外税額.ToString());
-			list.Add(内税額.ToString());
-			list.Add(税区分.ToString());
-			list.Add(税込区分.ToString());
-			list.Add("\"" + 備考 + "\"");
-			list.Add(標準価格.ToString());
-			list.Add(同時入荷区分.ToString());
-			list.Add(売単価.ToString());
-			list.Add(売価金額.ToString());
-			list.Add("\"" + 規格型番 + "\"");
-			list.Add("\"" + 色 + "\"");
-			list.Add("\"" + サイズ + "\"");
-			list.Add(計算式コード.ToString());
-			list.Add(商品項目１.ToString());
-			list.Add(商品項目２.ToString());
-			list.Add(商品項目３.ToString());
-			list.Add(売上項目１.ToString());
-			list.Add(売上項目２.ToString());
-			list.Add(売上項目３.ToString());
-			list.Add(税率.ToString());
-			list.Add(伝票消費税額.ToString());
-			list.Add("\"" + ﾌﾟﾛｼﾞｪｸﾄコード + "\"");
-			list.Add("\"" + 伝票No2 + "\"");
-			list.Add(データ区分.ToString());
-			list.Add("\"" + 商品名２ + "\"");
+			/*01*/list.Add(伝区.ToString());
+			/*02*/list.Add("\"" + 売上日.ToString() + "\"");
+			/*03*/list.Add("\"" + 請求日.ToString() + "\"");
+			/*04*/list.Add(伝票No.ToString());
+			/*05*/list.Add("\"" + 得意先コード + "\"");
+			/*06*/list.Add("\"" + 得意先名 + "\"");
+			/*07*/list.Add("\"" + 直送先コード + "\"");
+			/*08*/list.Add("\"" + 先方担当者名 + "\"");
+			/*09*/list.Add("\"" + 部門コード + "\"");
+			/*10*/list.Add("\"" + 担当者コード + "\"");
+			/*11*/list.Add(摘要コード);
+			/*12*/list.Add("\"" + 摘要名 + "\"");
+			/*13*/list.Add("\"" + 分類コード + "\"");
+			/*14*/list.Add("\"" + 伝票区分 + "\"");
+			/*15*/list.Add("\"" + 商品コード + "\"");
+			/*16*/list.Add(マスター区分.ToString());
+			/*17*/list.Add("\"" + 商品名 + "\"");
+			/*18*/list.Add(区.ToString());
+			/*19*/list.Add("\"" + 倉庫コード + "\"");
+			/*20*/list.Add(入数.ToString());
+			/*21*/list.Add(箱数.ToString());
+			/*22*/list.Add(数量.ToString());
+			/*23*/list.Add("\"" + 単位 + "\"");
+			/*24*/list.Add(単価.ToString());
+			/*25*/list.Add(売上金額.ToString());
+			/*26*/list.Add(原単価.ToString());
+			/*27*/list.Add(原価金額.ToString());
+			/*28*/list.Add(粗利益.ToString());
+			/*29*/list.Add(外税額.ToString());
+			/*30*/list.Add(内税額.ToString());
+			/*31*/list.Add(税区分.ToString());
+			/*32*/list.Add(税込区分.ToString());
+			/*33*/list.Add("\"" + 備考 + "\"");
+			/*34*/list.Add(標準価格.ToString());
+			/*35*/list.Add(同時入荷区分.ToString());
+			/*36*/list.Add(売単価.ToString());
+			/*37*/list.Add(売価金額.ToString());
+			/*38*/list.Add("\"" + 規格型番 + "\"");
+			/*39*/list.Add("\"" + 色 + "\"");
+			/*40*/list.Add("\"" + サイズ + "\"");
+			/*41*/list.Add(計算式コード.ToString());
+			/*42*/list.Add(商品項目１.ToString());
+			/*43*/list.Add(商品項目２.ToString());
+			/*44*/list.Add(商品項目３.ToString());
+			/*45*/list.Add(売上項目１.ToString());
+			/*46*/list.Add(売上項目２.ToString());
+			/*47*/list.Add(売上項目３.ToString());
+			/*48*/list.Add(税率.ToString());
+			/*49*/list.Add(伝票消費税額.ToString());
+			/*50*/list.Add("\"" + ﾌﾟﾛｼﾞｪｸﾄコード + "\"");
+			/*51*/list.Add("\"" + 伝票No2 + "\"");
+			/*52*/list.Add(データ区分.ToString());
+			/*53*/list.Add("\"" + 商品名２ + "\"");
 			if (8 <= pcaVer)
 			{
-				list.Add(単位区分.ToString());
-				list.Add(@""" + ロットNo + """);
-				list.Add(売上税種別.ToString());
-				list.Add(原価税込区分.ToString());
-				list.Add(原価税率.ToString());
-				list.Add(原価税種別.ToString());
+				// 汎用データレイアウト指定 8: Rev4.50
+				/*54*/list.Add(単位区分.ToString());
+				/*55*/list.Add("\"" + ロットNo + "\"");
+			}
+			if (9 <= pcaVer)
+			{
+				// 汎用データレイアウト指定 9: DX-Rev1.00
+				/*56*/list.Add("\"" + 直送先名 + "\"");
+			}
+			if (10 <= pcaVer)
+			{
+				// 汎用データレイアウト指定 10: DX-Rev2.00
+				/*57*/list.Add("\"" + 決済会社コード + "\"");
+				/*58*/list.Add("\"" + 決済会社名 + "\"");
+				/*59*/list.Add(決済日.ToString());
+				/*60*/list.Add(決済手数料.ToString());
+				/*61*/list.Add(手数料外税額.ToString());
+				/*62*/list.Add(手数料内税額.ToString());
+				/*63*/list.Add(手数料税区分.ToString());
+				/*64*/list.Add(手数料税率.ToString());
+				/*65*/list.Add(手数料税込区分.ToString());
+				/*66*/list.Add("\"" + 決済摘要コード + "\"");
+				/*67*/list.Add("\"" + 決済摘要名 + "\"");
+			}
+			// Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
+			if (11 <= pcaVer)
+			{
+				// 汎用データレイアウト指定 11: DX-Rev3.00
+				/*68*/list.Add(売上税種別.ToString());
+				/*69*/list.Add(原価税込区分.ToString());
+				/*70*/list.Add(原価税率.ToString());
+				/*71*/list.Add(原価税種別.ToString());
 			}
 			return String.Join(",", list.ToArray());
 		}
@@ -251,6 +359,7 @@ namespace CommonLib.BaseFactory.Pca
 		{
 			if (53 <= csv.Length)
 			{
+				// 汎用データレイアウト指定 7: Rev4.20
 				伝区 = int.Parse(csv[0].Trim('\"'));
 				売上日 = int.Parse(csv[1].Trim('\"'));
 				請求日 = int.Parse(csv[2].Trim('\"'));
@@ -304,14 +413,40 @@ namespace CommonLib.BaseFactory.Pca
 				伝票No2 = csv[50].Trim('\"');
 				データ区分 = int.Parse(csv[51].Trim('\"'));
 				商品名２ = csv[52].Trim('\"');
-				if (53 < csv.Length)
+				if (54 <= csv.Length)
 				{
+					// 汎用データレイアウト指定 8: Rev4.50
 					単位区分 = int.Parse(csv[53].Trim('\"'));
 					ロットNo = csv[54].Trim('\"');
-					売上税種別 = int.Parse(csv[55].Trim('\"'));
-					原価税込区分 = int.Parse(csv[56].Trim('\"'));
-					原価税率 = int.Parse(csv[57].Trim('\"'));
-					原価税種別 = int.Parse(csv[58].Trim('\"'));
+				}
+				if (56 <= csv.Length)
+				{
+					// 汎用データレイアウト指定 9: DX-Rev1.00
+					直送先名 = csv[55].Trim('\"');
+				}
+				if (57 <= csv.Length)
+				{
+					// 汎用データレイアウト指定 10: DX-Rev2.00
+					決済会社コード = csv[56].Trim('\"');
+					決済会社名 = csv[57].Trim('\"');
+					決済日 = int.Parse(csv[58].Trim('\"'));
+					決済手数料 = int.Parse(csv[59].Trim('\"'));
+					手数料外税額 = int.Parse(csv[60].Trim('\"'));
+					手数料内税額 = int.Parse(csv[61].Trim('\"'));
+					手数料税区分 = int.Parse(csv[62].Trim('\"'));
+					手数料税率 = int.Parse(csv[63].Trim('\"'));
+					手数料税込区分 = int.Parse(csv[64].Trim('\"'));
+					決済摘要コード = csv[65].Trim('\"');
+					決済摘要名 = csv[66].Trim('\"');
+				}
+				// Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
+				if (68 <= csv.Length)
+				{
+					// 汎用データレイアウト指定 11: DX-Rev3.00
+					売上税種別 = int.Parse(csv[67].Trim('\"'));
+					原価税込区分 = int.Parse(csv[68].Trim('\"'));
+					原価税率 = int.Parse(csv[69].Trim('\"'));
+					原価税種別 = int.Parse(csv[70].Trim('\"'));
 				}
 				return true;
 			}

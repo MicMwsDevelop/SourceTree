@@ -6,6 +6,9 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2022/03/10 勝呂)
+// Ver1.03 メール件名に顧客Noを追加(2022/04/05 勝呂)
+// Ver1.03 メール本文に保存先を追加(2022/04/05 勝呂)
+// Ver1.05 メール本文にファイル名記載例を追加(2022/05/12 勝呂)
 //
 using CommonLib.Common;
 using MwsLib.Settings.Mail;
@@ -27,7 +30,8 @@ namespace NoticeOnlineLicenseConfirm.Mail
 		/// </summary>
 		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT東日本進捗管理表</param>
-		public static void Notice1East(MailSettings mail, 進捗管理表_NTT東日本 east)
+		/// <param name="testMail">テストメール</param>
+		public static void Notice1East(MailSettings mail, 進捗管理表_NTT東日本 east, bool testMail)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -41,9 +45,11 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"<font face=""MS UI Gothic"" size=""3"">";
 
 				// 件名
-				msg.Subject = "【オンライン資格確認通知】 NTT東日本より工事確定日の連絡";
+				// Ver1.03 メール件名に顧客Noを追加(2022/04/05 勝呂)
+				msg.Subject = string.Format("【オンライン資格確認通知】 NTT東日本より工事確定日の連絡(顧客No:{0})", east.病院ID);
 
 				// 本文
+				// Ver1.03 メール本文に保存先を追加(2022/04/05 勝呂)
 				msg.Body += string.Format(@"<div>"
 							+ @"<p>ご担当者様</p>"
 							+ @"<p>NTT東日本より工事確定日の連絡が来ましたので通知します。<br>"
@@ -54,7 +60,8 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"顧客No：{0}<br>"
 							+ @"医院名：{1}<br>"
 							+ @"受付通番：{2}<br>"
-							+ @"工事確定日：{3}<br></ p>"
+							+ @"工事確定日：{3}<br>"
+							+ @"保存先：\\wwsv\ons-pics\{0}<br></ p>"
 							+ @"</div>"
 							, east.病院ID
 							, east.医療機関名
@@ -69,7 +76,7 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"</html>";
 
 				// メール送信
-				SendMailControl.SendMail(mail, msg, east.Notice.MailAddress);
+				SendMailControl.SendMail(mail, msg, east.Notice.MailAddress, testMail);
 			}
 		}
 
@@ -78,7 +85,8 @@ namespace NoticeOnlineLicenseConfirm.Mail
 		/// </summary>
 		/// <param name="mail">メール送信情報</param>
 		/// <param name="west">NTT西日本進捗管理表</param>
-		public static void Notice1West(MailSettings mail, 進捗管理表_NTT西日本 west)
+		/// <param name="testMail">テストメール</param>
+		public static void Notice1West(MailSettings mail, 進捗管理表_NTT西日本 west, bool testMail)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -92,9 +100,11 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"<font face=""MS UI Gothic"" size=""3"">";
 
 				// 件名
-				msg.Subject = "【オンライン資格確認通知】 NTT西日本より工事確定日の連絡";
+				// Ver1.03 メール件名に顧客Noを追加(2022/04/05 勝呂)
+				msg.Subject = string.Format("【オンライン資格確認通知】 NTT西日本より工事確定日の連絡(顧客No:{0})", west.病院ID);
 
 				// 本文
+				// Ver1.03 メール本文に保存先を追加(2022/04/05 勝呂)
 				msg.Body += string.Format(@"<div>"
 							+ @"<p>ご担当者様</p>"
 							+ @"<p>NTT西日本より工事確定日の連絡が来ましたので通知します。<br>"
@@ -105,7 +115,8 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"顧客No：{0}<br>"
 							+ @"医院名：{1}<br>"
 							+ @"受付通番：{2}<br>"
-							+ @"工事確定日：{3}<br></ p>"
+							+ @"工事確定日：{3}<br>"
+							+ @"保存先：\\wwsv\ons-pics\{0}<br></ p>"
 							+ @"</div>"
 							, west.病院ID
 							, west.医療機関名
@@ -120,7 +131,7 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"</html>";
 
 				// メール送信
-				SendMailControl.SendMail(mail, msg, west.Notice.MailAddress);
+				SendMailControl.SendMail(mail, msg, west.Notice.MailAddress, testMail);
 			}
 		}
 
@@ -129,7 +140,8 @@ namespace NoticeOnlineLicenseConfirm.Mail
 		/// </summary>
 		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT東日本進捗管理表</param>
-		public static void Notice3(MailSettings mail, 進捗管理表_NTT東日本 east)
+		/// <param name="testMail">テストメール</param>
+		public static void Notice3(MailSettings mail, 進捗管理表_NTT東日本 east, bool testMail)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -143,9 +155,12 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"<font face=""MS UI Gothic"" size=""3"">";
 
 				// 件名
-				msg.Subject = "【オンライン資格確認通知】 NTT東日本よりヒアリングシート不備の連絡";
+				// Ver1.03 メール件名に顧客Noを追加(2022/04/05 勝呂)
+				msg.Subject = string.Format("【オンライン資格確認通知】 NTT東日本よりヒアリングシート不備の連絡(顧客No:{0})", east.病院ID);
 
 				// 本文
+				// Ver1.03 メール本文に保存先を追加(2022/04/05 勝呂)
+				// Ver1.05 メール本文にファイル名記載例を追加(2022/05/12 勝呂)
 				msg.Body += string.Format(@"<div>"
 							+ @"<p>ご担当者様</p>"
 							+ @"<p>NTT東日本よりヒアリングシートの不備の連絡が来ましたので通知します。<br>"
@@ -159,7 +174,8 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"回答結果１：{4}<br>"
 							+ @"修正箇所１：{5}<br>"
 							+ @"回答結果２：{6}<br>"
-							+ @"修正箇所２：{7}<br></ p>"
+							+ @"修正箇所２：{7}<br>"
+							+ @"保存先：\\wwsv\ons-pics\{0}<br></ p>"
 							+ @"</div>"
 							, east.病院ID
 							, east.医療機関名
@@ -172,6 +188,11 @@ namespace NoticeOnlineLicenseConfirm.Mail
 				msg.Body += @"</div>"
 							+ @"<div>"
 							+ @"<p>最新のヒアリングシートにて修正後、こちらのメールに添付し返信してください。<br>"
+							+ @"<br>"
+							+ @"ファイル名は以下の形式でお願いいたします。<br>"
+							+ @"「受付通番_ヒアリングシート_医院名_バージョン_提出日.xlsx」<br>"
+							+ @"「例：東0123_ヒアリングシート_サンプル歯科医院_r26_20220501.xlsx」<br>"
+							+ @"<br>"
 							+ @"以上、よろしくお願いいたします。<br><br>営業管理部</p>"
 							+ @"</div>"
 							+ @"</font>"
@@ -179,7 +200,7 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"</html>";
 
 				// メール送信
-				SendMailControl.SendMail(mail, msg, east.Notice.MailAddress);
+				SendMailControl.SendMail(mail, msg, east.Notice.MailAddress, testMail);
 			}
 		}
 
@@ -188,7 +209,8 @@ namespace NoticeOnlineLicenseConfirm.Mail
 		/// </summary>
 		/// <param name="mail">メール送信情報</param>
 		/// <param name="west">NTT西日本進捗管理表</param>
-		public static void Notice4(MailSettings mail, 進捗管理表_NTT西日本 west)
+		/// <param name="testMail">テストメール</param>
+		public static void Notice4(MailSettings mail, 進捗管理表_NTT西日本 west, bool testMail)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -202,9 +224,12 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"<font face=""MS UI Gothic"" size=""3"">";
 
 				// 件名
-				msg.Subject = "【オンライン資格確認通知】 NTT西日本よりヒアリングシート不備の連絡";
+				// Ver1.03 メール件名に顧客Noを追加(2022/04/05 勝呂)
+				msg.Subject = string.Format("【オンライン資格確認通知】 NTT西日本よりヒアリングシート不備の連絡(顧客No:{0})", west.病院ID);
 
 				// 本文
+				// Ver1.03 メール本文に保存先を追加(2022/04/05 勝呂)
+				// Ver1.05 メール本文にファイル名記載例を追加(2022/05/12 勝呂)
 				msg.Body += string.Format(@"<div>"
 							+ @"<p>ご担当者様</p>"
 							+ @"<p>NTT西日本よりヒアリングシートの不備の連絡が来ましたので通知します。<br>"
@@ -216,7 +241,8 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"受付通番：{2}<br>"
 							+ @"ヒアリングシート修正依頼日：{3}<br>"
 							+ @"連絡票-連絡項目：{4}<br>"
-							+ @"連絡票-連絡内容：{5}<br></ p>"
+							+ @"連絡票-連絡内容：{5}<br>"
+							+ @"保存先：\\wwsv\ons-pics\{0}<br></ p>"
 							+ @"</div>"
 							, west.病院ID
 							, west.医療機関名
@@ -226,14 +252,20 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							, west.連絡内容);
 				msg.Body += @"</div>"
 							+ @"<div>"
-							+ @"<p>以上、よろしくお願いいたします。<br><br>営業管理部</p>"
+							+ @"<p>最新のヒアリングシートにて修正後、こちらのメールに添付し返信してください。<br>"
+							+ @"<br>"
+							+ @"ファイル名は以下の形式でお願いいたします。<br>"
+							+ @"「受付通番_ヒアリングシート_医院名_バージョン_提出日.xlsx」<br>"
+							+ @"「例：西0123_ヒアリングシート_サンプル歯科医院_r8_20220501.xlsx」<br>"
+							+ @"<br>"
+							+ @"以上、よろしくお願いいたします。<br><br>営業管理部</p>"
 							+ @"</div>"
 							+ @"</font>"
 							+ @"</body>"
 							+ @"</html>";
 
 				// メール送信
-				SendMailControl.SendMail(mail, msg, west.Notice.MailAddress);
+				SendMailControl.SendMail(mail, msg, west.Notice.MailAddress, testMail);
 			}
 		}
 
@@ -242,7 +274,8 @@ namespace NoticeOnlineLicenseConfirm.Mail
 		/// </summary>
 		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT東日本進捗管理表</param>
-		public static void Notice5East(MailSettings mail, 進捗管理表_NTT東日本 east)
+		/// <param name="testMail">テストメール</param>
+		public static void Notice5East(MailSettings mail, 進捗管理表_NTT東日本 east, bool testMail)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -256,9 +289,12 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"<font face=""MS UI Gothic"" size=""3"">";
 
 				// 件名
-				msg.Subject = "【オンライン資格確認通知】 工事確定日14日前ヒアリングシート未完成通知（NTT東日本）";
+				// Ver1.03 メール件名に顧客Noを追加(2022/04/05 勝呂)
+				msg.Subject = string.Format("【オンライン資格確認通知】 工事確定日14日前ヒアリングシート未完成通知（NTT東日本）(顧客No:{0})", east.病院ID);
 
 				// 本文
+				// Ver1.03 メール本文に保存先を追加(2022/04/05 勝呂)
+				// Ver1.05 メール本文にファイル名記載例を追加(2022/05/12 勝呂)
 				msg.Body += string.Format(@"<div>"
 							+ @"<p>ご担当者様</p>"
 							+ @"<p>工事確定日の14日前になりましたが、未修正箇所があります。<br>"
@@ -271,7 +307,8 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"回答結果１：{3}<br>"
 							+ @"修正箇所１：{4}<br>"
 							+ @"回答結果２：{5}<br>"
-							+ @"修正箇所２：{6}<br></ p>"
+							+ @"修正箇所２：{6}<br>"
+							+ @"保存先：\\wwsv\ons-pics\{0}<br></ p>"
 							+ @"</div>"
 							, east.病院ID
 							, east.医療機関名
@@ -283,6 +320,11 @@ namespace NoticeOnlineLicenseConfirm.Mail
 				msg.Body += @"</div>"
 							+ @"<div>"
 							+ @"<p>最新のヒアリングシートにて修正後、こちらのメールに添付し返信してください。<br>"
+							+ @"<br>"
+							+ @"ファイル名は以下の形式でお願いいたします。<br>"
+							+ @"「受付通番_ヒアリングシート_医院名_バージョン_提出日.xlsx」<br>"
+							+ @"「例：東0123_ヒアリングシート_サンプル歯科医院_r26_20220501.xlsx」<br>"
+							+ @"<br>"
 							+ @"以上、よろしくお願いいたします。<br><br>営業管理部</p>"
 							+ @"</div>"
 							+ @"</font>"
@@ -290,7 +332,7 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"</html>";
 
 				// メール送信
-				SendMailControl.SendMail(mail, msg, east.Notice.MailAddress);
+				SendMailControl.SendMail(mail, msg, east.Notice.MailAddress, testMail);
 			}
 		}
 
@@ -299,7 +341,8 @@ namespace NoticeOnlineLicenseConfirm.Mail
 		/// </summary>
 		/// <param name="mail">メール送信情報</param>
 		/// <param name="west">NTT西日本進捗管理表</param>
-		public static void Notice5West(MailSettings mail, 進捗管理表_NTT西日本 west)
+		/// <param name="testMail">テストメール</param>
+		public static void Notice5West(MailSettings mail, 進捗管理表_NTT西日本 west, bool testMail)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -313,9 +356,12 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"<font face=""MS UI Gothic"" size=""3"">";
 
 				// 件名
-				msg.Subject = "【オンライン資格確認通知】 工事確定日14日前ヒアリングシート未完成通知（NTT西日本）";
+				// Ver1.03 メール件名に顧客Noを追加(2022/04/05 勝呂)
+				msg.Subject = string.Format("【オンライン資格確認通知】 工事確定日14日前ヒアリングシート未完成通知（NTT西日本）(顧客No:{0})", west.病院ID);
 
 				// 本文
+				// Ver1.03 メール本文に保存先を追加(2022/04/05 勝呂)
+				// Ver1.05 メール本文にファイル名記載例を追加(2022/05/12 勝呂)
 				msg.Body += string.Format(@"<div>"
 							+ @"<p>ご担当者様</p>"
 							+ @"<p>工事確定日の14日前になりましたが、未修正箇所があります。<br>"
@@ -327,7 +373,8 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"工事確定日：{2}<br>"
 							+ @"ヒアリングシート修正依頼日：{3}<br>"
 							+ @"連絡票-連絡項目：{4}<br>"
-							+ @"連絡票-連絡内容：{5}<br></ p>"
+							+ @"連絡票-連絡内容：{5}<br>"
+							+ @"保存先：\\wwsv\ons-pics\{0}<br></ p>"
 							+ @"</div>"
 							, west.病院ID
 							, west.医療機関名
@@ -338,6 +385,11 @@ namespace NoticeOnlineLicenseConfirm.Mail
 				msg.Body += @"</div>"
 							+ @"<div>"
 							+ @"<p>最新のヒアリングシートにて修正後、こちらのメールに添付し返信してください。<br>"
+							+ @"<br>"
+							+ @"ファイル名は以下の形式でお願いいたします。<br>"
+							+ @"「受付通番_ヒアリングシート_医院名_バージョン_提出日.xlsx」<br>"
+							+ @"「例：西0123_ヒアリングシート_サンプル歯科医院_r8_20220501.xlsx」<br>"
+							+ @"<br>"
 							+ @"以上、よろしくお願いいたします。<br><br>営業管理部</p>"
 							+ @"</div>"
 							+ @"</font>"
@@ -345,7 +397,7 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"</html>";
 
 				// メール送信
-				SendMailControl.SendMail(mail, msg, west.Notice.MailAddress);
+				SendMailControl.SendMail(mail, msg, west.Notice.MailAddress, testMail);
 			}
 		}
 
@@ -355,27 +407,31 @@ namespace NoticeOnlineLicenseConfirm.Mail
 		/// <param name="mail">メール送信情報</param>
 		/// <param name="msg"></param>
 		/// <param name="to">宛先</param>
-		private static void SendMail(MailSettings mail, MailMessage msg, string to)
+		/// <param name="testMail">テストメール</param>
+		private static void SendMail(MailSettings mail, MailMessage msg, string to, bool testMail)
 		{
 			// 差出人（From）
 			msg.From = new MailAddress(mail.From);           // eigyo_kanri@mic.jp
 
-#if true
-			// 宛先（To）を登録する
-			msg.To.Add(new MailAddress(mail.TestTo));      // suguro@mic.jp
-			if (0 < mail.TestCC.Length)
+			if (testMail)
 			{
-				msg.CC.Add(new MailAddress(mail.TestCC));      // suguro@mic.jp
+				// テストメールの送信
+				msg.To.Add(new MailAddress(mail.TestTo));      // suguro@mic.jp
+				if (0 < mail.TestCC.Length)
+				{
+					msg.CC.Add(new MailAddress(mail.TestCC));      // suguro@mic.jp
+				}
 			}
-#else
-			// 宛先（To）を登録する
-			msg.To.Add(new MailAddress(to));			// 拠点担当者
-			if (0 < mail.CC.Length)
+			else
 			{
-				msg.CC.Add(new MailAddress(mail.CC));			// eigyo_kanri@mic.jp
+				// 宛先（To）を登録する
+				msg.To.Add(new MailAddress(to));            // 拠点担当者
+				if (0 < mail.CC.Length)
+				{
+					// CCを登録する
+					msg.CC.Add(new MailAddress(mail.CC));           // eigyo_kanri@mic.jp
+				}
 			}
-#endif
-
 			// SMTPサーバの設定
 			using (SmtpClient smtp = new SmtpClient())
 			{

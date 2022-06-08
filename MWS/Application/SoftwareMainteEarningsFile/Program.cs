@@ -9,6 +9,7 @@
 // Ver1.01 売上日を前月末日から当月初日に変更(2020/11/30 勝呂)
 // Ver1.02 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 // Ver1.03 奇数月の時、摘要の利用期間の開始月が正しくない(2022/01/05 勝呂)
+// Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
 //
 using CommonLib.BaseFactory.SoftwareMainteEarnings;
 using CommonLib.Common;
@@ -33,7 +34,7 @@ namespace SoftwareMainteEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.03(2022/01/05)";
+		public const string VersionStr = "Ver1.04(2022/05/25)";
 
 		/// <summary>
 		/// 環境設定

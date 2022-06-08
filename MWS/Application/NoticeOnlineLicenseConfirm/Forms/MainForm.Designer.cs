@@ -30,6 +30,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 		private void InitializeComponent()
 		{
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.checkBoxTestMail = new System.Windows.Forms.CheckBox();
 			this.checkBoxNotice5 = new System.Windows.Forms.CheckBox();
 			this.checkBoxNotice4 = new System.Windows.Forms.CheckBox();
 			this.checkBoxNotice3 = new System.Windows.Forms.CheckBox();
@@ -65,6 +66,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Controls.Add(this.checkBoxTestMail);
 			this.groupBox2.Controls.Add(this.checkBoxNotice5);
 			this.groupBox2.Controls.Add(this.checkBoxNotice4);
 			this.groupBox2.Controls.Add(this.checkBoxNotice3);
@@ -79,6 +81,16 @@ namespace NoticeOnlineLicenseConfirm.Forms
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "担当者に連絡";
+			// 
+			// checkBoxTestMail
+			// 
+			this.checkBoxTestMail.AutoSize = true;
+			this.checkBoxTestMail.Location = new System.Drawing.Point(442, 109);
+			this.checkBoxTestMail.Name = "checkBoxTestMail";
+			this.checkBoxTestMail.Size = new System.Drawing.Size(204, 21);
+			this.checkBoxTestMail.TabIndex = 8;
+			this.checkBoxTestMail.Text = "テスト用の宛先にメールを送信する";
+			this.checkBoxTestMail.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxNotice5
 			// 
@@ -256,9 +268,9 @@ namespace NoticeOnlineLicenseConfirm.Forms
 			this.label2.Location = new System.Drawing.Point(23, 125);
 			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(155, 17);
+			this.label2.Size = new System.Drawing.Size(333, 17);
 			this.label2.TabIndex = 5;
-			this.label2.Text = "■NTT西日本 進捗管理表";
+			this.label2.Text = "■NTT西日本 進捗管理表  ※2022/04/20版以降サポート";
 			// 
 			// buttonCheck
 			// 
@@ -445,6 +457,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 		private System.Windows.Forms.CheckBox checkBoxNotice4;
 		private System.Windows.Forms.CheckBox checkBoxNotice3;
 		private System.Windows.Forms.CheckBox checkBoxNotice1;
+		private System.Windows.Forms.CheckBox checkBoxTestMail;
 	}
 }
 

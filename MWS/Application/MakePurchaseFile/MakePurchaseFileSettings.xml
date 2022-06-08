@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <MakePurchaseFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<出力先フォルダ>\\sqlsv\pcadata</出力先フォルダ>
-	<PcaVersion>7</PcaVersion>
+	<PcaVersion>9</PcaVersion>
 	<りすとん月額仕入データファイル名>りすとん月額仕入データ.csv</りすとん月額仕入データファイル名>
 	<Microsoft365仕入データファイル名>Microsoft365仕入データ.csv</Microsoft365仕入データファイル名>
 	<問心伝月額仕入データファイル名>問心伝月額仕入データ.csv</問心伝月額仕入データファイル名>
