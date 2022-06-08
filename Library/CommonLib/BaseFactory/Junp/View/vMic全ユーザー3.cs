@@ -8,7 +8,6 @@
 // 
 // Ver1.00(2019/06/28):新規作成 勝呂
 //
-using CommonLib.Common;
 using CommonLib.DB;
 using System;
 using System.Collections.Generic;
