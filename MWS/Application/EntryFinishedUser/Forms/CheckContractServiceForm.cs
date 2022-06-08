@@ -76,7 +76,7 @@ namespace EntryFinishedUser.Forms
 					{
 						ContractServiceUser data = new ContractServiceUser(CheckUserList[index]);
 						data.ServiceID = eset.SERVICE_ID.ToString();
-						data.ServiceName = CharlieDatabaseAccess.GetServiceName(eset.SERVICE_ID, Program.gSettings.Charlie.ConnectionString);
+						data.ServiceName = CharlieDatabaseAccess.GetServiceName(eset.SERVICE_ID, Program.gSettings.ConnectCharlie.ConnectionString);
 						data.StartDate = eset.START_DATE;
 						data.EndDate = eset.END_DATE;
 						ListViewItem lvItem = new ListViewItem(data.GetListViewData());
@@ -96,7 +96,7 @@ namespace EntryFinishedUser.Forms
 					{
 						ContractServiceUser data = new ContractServiceUser(CheckUserList[index]);
 						data.ServiceID = pc.fServiceId.ToString();
-						data.ServiceName = CharlieDatabaseAccess.GetServiceName(pc.fServiceId, Program.gSettings.Charlie.ConnectionString);
+						data.ServiceName = CharlieDatabaseAccess.GetServiceName(pc.fServiceId, Program.gSettings.ConnectCharlie.ConnectionString);
 						if (pc.fContractStartDate.HasValue)
 						{
 							data.StartDate = pc.fContractStartDate.Value.ToDateTime();
@@ -122,7 +122,7 @@ namespace EntryFinishedUser.Forms
 					{
 						ContractServiceUser data = new ContractServiceUser(CheckUserList[index]);
 						data.ServiceID = cui.SERVICE_ID.ToString();
-						data.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.gSettings.Charlie.ConnectionString);
+						data.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.gSettings.ConnectCharlie.ConnectionString);
 						data.StartDate = cui.USE_START_DATE;
 						data.EndDate = cui.USE_END_DATE;
 						ListViewItem lvItem = new ListViewItem(data.GetListViewData());
@@ -142,7 +142,7 @@ namespace EntryFinishedUser.Forms
 					{
 						ContractServiceUser data = new ContractServiceUser(CheckUserList[index]);
 						data.ServiceID = cui.SERVICE_ID.ToString();
-						data.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.gSettings.Charlie.ConnectionString);
+						data.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.gSettings.ConnectCharlie.ConnectionString);
 						data.StartDate = cui.USE_START_DATE;
 						data.EndDate = cui.USE_END_DATE;
 						ListViewItem lvItem = new ListViewItem(data.GetListViewData());
@@ -198,7 +198,7 @@ namespace EntryFinishedUser.Forms
 					{
 						ContractServiceUser data = new ContractServiceUser(CheckUserList[index]);
 						data.ServiceID = cui.SERVICE_ID.ToString();
-						data.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.gSettings.Charlie.ConnectionString);
+						data.ServiceName = CharlieDatabaseAccess.GetServiceName(cui.SERVICE_ID, Program.gSettings.ConnectCharlie.ConnectionString);
 						data.StartDate = cui.USE_START_DATE;
 						data.EndDate = cui.USE_END_DATE;
 						ListViewItem lvItem = new ListViewItem(data.GetListViewData());

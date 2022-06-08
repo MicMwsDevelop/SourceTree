@@ -35,7 +35,7 @@ namespace AlartFinishedUserSale
 		/// <summary>
 		/// 売上情報
 		/// </summary>
-		public List<PCA売上明細汎用データ> SaleList { get; set; }
+		public List<汎用データレイアウト売上明細データ> SaleList { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -45,7 +45,7 @@ namespace AlartFinishedUserSale
 			TokuisakiNo = string.Empty;
 			CustomerNo = 0;
 			CustomerName = string.Empty;
-			SaleList = new List<PCA売上明細汎用データ>();
+			SaleList = new List<汎用データレイアウト売上明細データ>();
 		}
 	}
 }

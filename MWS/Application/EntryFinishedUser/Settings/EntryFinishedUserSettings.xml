@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntryFinishedUserSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <HanahashiUserListFolder>\\storage\公開データ\総務部公開用\はなはなし\月次発送リスト</HanahashiUserListFolder>
+  <CurlineCloudListFolder>\\storage\公開データ\ヘルスケア事業部公開用\CURLINE申込データ\クラウド利用報告</CurlineCloudListFolder>
+  <ConnectJunp>
+    <InstanceName>SQLSV</InstanceName>
+    <!-- InstanceName>TESTSV</InstanceName -->
+    <DatabaseName>JunpDB</DatabaseName>
+    <UserID>web</UserID>
+    <Password>02035612</Password>
+  </ConnectJunp>
+  <ConnectCharlie>
+    <InstanceName>SQLSV</InstanceName>
+    <!-- InstanceName>TESTSV</InstanceName -->
+    <DatabaseName>CharlieDB</DatabaseName>
+    <UserID>web</UserID>
+    <Password>02035612</Password>
+  </ConnectCharlie>
+</EntryFinishedUserSettings>

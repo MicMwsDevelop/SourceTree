@@ -5,10 +5,19 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
+/////////////////////////////////////////////////////////
+// アプリ管理サイト：APPID605 終了ユーザー登録
+// 処理概要：当月初日に先月終了ユーザーに対し終了フラグを設定する
+// 入力ファイル：無
+// 出力ファイル：無
+// 印刷物：無
+// メール送信：無
+/////////////////////////////////////////////////////////
 // Ver1.00 新規作成(2019/06/28 勝呂)
 // Ver2.00 契約中サービスの確認機能の追加(2020/07/17 勝呂)
 // Ver2.01 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 // Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
+// Ver2.03 XMLファイルの変更(2022/06/08 勝呂)
 // 
 using ClosedXML.Excel;
 using CommonLib.BaseFactory;
@@ -21,7 +30,7 @@ using CommonLib.DB.SqlServer.Charlie;
 using CommonLib.DB.SqlServer.EntryFinishedUser;
 using CommonLib.DB.SqlServer.Junp;
 using EntryFinishedUser.BaseFactory;
-using MwsLib.Settings.SqlServer;
+using EntryFinishedUser.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -77,12 +86,12 @@ namespace EntryFinishedUser
 		/// <summary>
 		/// 環境設定
 		/// </summary>
-		public static SqlServerConnectSettings gSettings { get; set; }
+		public static EntryFinishedUserSettings gSettings { get; set; }
 
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver2.02 (2022/05/13)";
+		public const string VersionStr = "Ver2.03 (2022/06/08)";
 
 		/// <summary>
 		/// 製品名
@@ -100,16 +109,6 @@ namespace EntryFinishedUser
 		public static Date gSystemDate;
 
 		/// <summary>
-		/// はなはなし月次リスト格納フォルダ
-		/// </summary>
-		public static string gHanahashiUserListFolder = @"\\storage\公開データ\総務部公開用\はなはなし\月次発送リスト";
-
-		/// <summary>
-		/// Curlineクラウド利用料請求リスト格納フォルダ
-		/// </summary>
-		public static string gCurlineCloudListFolder = @"\\storage\公開データ\ヘルスケア事業部公開用\CURLINE申込データ\クラウド利用報告";
-
-		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
 		/// </summary>
 		[STAThread]
@@ -122,7 +121,7 @@ namespace EntryFinishedUser
 			gSystemDate = Date.Today;
 
 			// 環境設定の読込
-			gSettings = SqlServerConnectSettingsIF.GetSettings();
+			gSettings = EntryFinishedUserSettingsSettingsIF.GetSettings();
 
 			// コマンドライン引数を配列で取得する
 			BootType = ProgramBootType.Menu;
@@ -151,7 +150,7 @@ namespace EntryFinishedUser
 			try
 			{
 				// リプレース先リストの取得
-				gReplaceList = JunpDatabaseAccess.Select_tMikコードマスタ("fcm名称 Not Like '%不可%' AND fcmコード <> '001' AND fcmコード種別 = '30'", "fcmコード ASC", gSettings.Junp.ConnectionString);
+				gReplaceList = JunpDatabaseAccess.Select_tMikコードマスタ("fcm名称 Not Like '%不可%' AND fcmコード <> '001' AND fcmコード種別 = '30'", "fcmコード ASC", gSettings.ConnectJunp.ConnectionString);
 			}
 			catch (Exception ex)
 			{
@@ -236,7 +235,7 @@ namespace EntryFinishedUser
 		/// <param name="date"></param>
 		private static void PrevMonthFiniedUser(Date date)
 		{
-			IEnumerable<EntryFinishedUserData> list = EntryFinishedUserAccess.GetEntryFinishedUserDataList(gSettings.Junp.ConnectionString);
+			IEnumerable<EntryFinishedUserData> list = EntryFinishedUserAccess.GetEntryFinishedUserDataList(gSettings.ConnectJunp.ConnectionString);
 			if (0 < list.Count())
 			{
 				YearMonth thisMonth = date.ToYearMonth();
@@ -258,7 +257,7 @@ namespace EntryFinishedUser
 							// [JunpDB].[dbo].[tClient].[fCliEnd] = 1（終了）
 							// [JunpDB].[dbo].[tClient].[fCliUpdate] = 現在
 							// [JunpDB].[dbo].[tClient].[fCliUpdateMan] = プログラム名
-							JunpDatabaseAccess.UpdateSet_tClient(user.CustomerID, true, ProductName, gSettings.Junp.ConnectionString);
+							JunpDatabaseAccess.UpdateSet_tClient(user.CustomerID, true, ProductName, gSettings.ConnectJunp.ConnectionString);
 						}
 						catch (Exception ex)
 						{
@@ -289,7 +288,7 @@ namespace EntryFinishedUser
 														new SqlParameter("@2", replace),
 														new SqlParameter("@3", DateTime.Now),
 														new SqlParameter("@4", ProductName) };
-								DatabaseAccess.UpdateSetDatabase(sqlString, param, gSettings.Junp.ConnectionString);
+								DatabaseAccess.UpdateSetDatabase(sqlString, param, gSettings.ConnectJunp.ConnectionString);
 							}
 							else
 							{
@@ -297,7 +296,7 @@ namespace EntryFinishedUser
 								SqlParameter[] param = { new SqlParameter("@1", "0"),
 														new SqlParameter("@2", DateTime.Now),
 														new SqlParameter("@3", ProductName) };
-								DatabaseAccess.UpdateSetDatabase(sqlString, param, gSettings.Junp.ConnectionString);
+								DatabaseAccess.UpdateSetDatabase(sqlString, param, gSettings.ConnectJunp.ConnectionString);
 							}
 						}
 						catch (Exception ex)
@@ -306,14 +305,14 @@ namespace EntryFinishedUser
 						}
 						// MWS課金データ作成バッチで間違って設定されているユーザー区分を非paletteユーザーからpaletteユーザーに戻す
 						string whereStr = string.Format("CUSTOMER_ID = {0}", user.CustomerID);
-						List<T_PRODUCT_CONTROL> pdList = CharlieDatabaseAccess.Select_T_PRODUCT_CONTROL(whereStr, "", gSettings.Charlie.ConnectionString);
+						List<T_PRODUCT_CONTROL> pdList = CharlieDatabaseAccess.Select_T_PRODUCT_CONTROL(whereStr, "", gSettings.ConnectCharlie.ConnectionString);
 						if (null != pdList && 1 == pdList.Count)
 						{
 							try
 							{
 								// [CharlieDB].[dbo].[T_PRODUCT_CONTROL].[USER_CLASSIFICATION] = 0（paletteユーザー）
 								pdList[0].USER_CLASSIFICATION = MwsDefine.UserClassification.PaletteUser;
-								CharlieDatabaseAccess.UpdateSet_T_PRODUCT_CONTROL(pdList[0], gSettings.Charlie.ConnectionString);
+								CharlieDatabaseAccess.UpdateSet_T_PRODUCT_CONTROL(pdList[0], gSettings.ConnectCharlie.ConnectionString);
 							}
 							catch (Exception ex)
 							{
@@ -326,7 +325,7 @@ namespace EntryFinishedUser
 						{
 							tMemo memo = user.To_tMemo();
 							memo.fMemMemo = user.GetMemoFinishedString();
-							JunpDatabaseAccess.InsertInto_tMemo(memo, gSettings.Junp.ConnectionString);
+							JunpDatabaseAccess.InsertInto_tMemo(memo, gSettings.ConnectJunp.ConnectionString);
 						}
 						catch (Exception ex)
 						{
@@ -370,7 +369,7 @@ namespace EntryFinishedUser
 														new SqlParameter("@4", replace),
 														new SqlParameter("@5", DateTime.Now),
 														new SqlParameter("@6", ProductName) };
-								DatabaseAccess.UpdateSetDatabase(sqlString, param, gSettings.Junp.ConnectionString);
+								DatabaseAccess.UpdateSetDatabase(sqlString, param, gSettings.ConnectJunp.ConnectionString);
 							}
 							else
 							{
@@ -380,7 +379,7 @@ namespace EntryFinishedUser
 											new SqlParameter("@3", MwsDefine.SystemCodeEtc),
 											new SqlParameter("@4", DateTime.Now),
 											new SqlParameter("@5", ProductName) };
-								DatabaseAccess.UpdateSetDatabase(sqlString, param, gSettings.Junp.ConnectionString);
+								DatabaseAccess.UpdateSetDatabase(sqlString, param, gSettings.ConnectJunp.ConnectionString);
 							}
 						}
 						catch (Exception ex)
@@ -390,7 +389,7 @@ namespace EntryFinishedUser
 						}
 						// 利用情報に非palette標準サービスの追加及び更新
 						string whereStr = string.Format("CUSTOMER_ID = {0} AND SERVICE_ID = {1}", user.CustomerID, (int)ServiceCodeDefine.ServiceCode.StandardNonPalette);
-						List<T_CUSSTOMER_USE_INFOMATION> cuiList = CharlieDatabaseAccess.Select_T_CUSSTOMER_USE_INFOMATION(whereStr, "", gSettings.Charlie.ConnectionString);
+						List<T_CUSSTOMER_USE_INFOMATION> cuiList = CharlieDatabaseAccess.Select_T_CUSSTOMER_USE_INFOMATION(whereStr, "", gSettings.ConnectCharlie.ConnectionString);
 						if (null == cuiList)
 						{
 							try
@@ -407,7 +406,7 @@ namespace EntryFinishedUser
 									CREATE_PERSON = Program.ProductName,
 									RENEWAL_FLG = true
 								};
-								CharlieDatabaseAccess.InsertInto_T_CUSSTOMER_USE_INFOMATION(cui, gSettings.Charlie.ConnectionString);
+								CharlieDatabaseAccess.InsertInto_T_CUSSTOMER_USE_INFOMATION(cui, gSettings.ConnectCharlie.ConnectionString);
 							}
 							catch (Exception ex)
 							{
@@ -431,7 +430,7 @@ namespace EntryFinishedUser
 								cui.UPDATE_PERSON = Program.ProductName;
 								cui.PERIOD_END_DATE = null;
 								cui.RENEWAL_FLG = true;
-								CharlieDatabaseAccess.UpdateSet_T_CUSSTOMER_USE_INFOMATION(cui, gSettings.Charlie.ConnectionString);
+								CharlieDatabaseAccess.UpdateSet_T_CUSSTOMER_USE_INFOMATION(cui, gSettings.ConnectCharlie.ConnectionString);
 							}
 							catch (Exception ex)
 							{
@@ -635,7 +634,7 @@ namespace EntryFinishedUser
 			string userStr = string.Join(",", usetList);
 			//string whereStr = string.Format("CUSTOMER_ID IN ({0})", userStr);
 			string whereStr = string.Format("APPLY_STATUS = '0' AND CUSTOMER_ID IN ({0})", userStr);
-			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_LICENSE_PRODUCT_CONTRACT], whereStr, "CUSTOMER_ID", gSettings.Charlie.ConnectionString);
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_LICENSE_PRODUCT_CONTRACT], whereStr, "CUSTOMER_ID", gSettings.ConnectCharlie.ConnectionString);
 			List<T_LICENSE_PRODUCT_CONTRACT> ret = T_LICENSE_PRODUCT_CONTRACT.DataTableToList(table);
 			if (null != ret && 0 < ret.Count)
 			{
@@ -654,7 +653,7 @@ namespace EntryFinishedUser
 			List<int> checkList = (from user in userList orderby user.CustomerID select user.CustomerID).ToList();
 			string userStr = string.Join(",", checkList);
 			string whereStr = string.Format("fEndFlag = '0' AND fCustomerID IN ({0})", userStr);
-			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT], whereStr, "fCustomerID", gSettings.Charlie.ConnectionString);
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT], whereStr, "fCustomerID", gSettings.ConnectCharlie.ConnectionString);
 			List<T_USE_PCCSUPPORT> ret = T_USE_PCCSUPPORT.DataTableToList(table);
 			if (null != ret && 0 < ret.Count)
 			{
@@ -672,7 +671,7 @@ namespace EntryFinishedUser
 		{
 			string userStr = string.Join(",", usetList);
 			string whereStr = string.Format("PAUSE_END_STATUS = '0' AND CUSTOMER_ID IN ({0}) AND SERVICE_ID IN ({1})", userStr, string.Join(",", ContractServiceUser.NarcohmSeriveID()));
-			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, "CUSTOMER_ID, SERVICE_ID", gSettings.Charlie.ConnectionString);
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, "CUSTOMER_ID, SERVICE_ID", gSettings.ConnectCharlie.ConnectionString);
 			List<T_CUSSTOMER_USE_INFOMATION> ret = T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
 			if (null != ret && 0 < ret.Count)
 			{
@@ -690,7 +689,7 @@ namespace EntryFinishedUser
 		{
 			string userStr = string.Join(",", usetList);
 			string whereStr = string.Format("PAUSE_END_STATUS = '0' AND CUSTOMER_ID IN ({0}) AND SERVICE_ID IN ({1})", userStr, string.Join(",", ContractServiceUser.Microsoft365SeriveID()));
-			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, "CUSTOMER_ID, SERVICE_ID", gSettings.Charlie.ConnectionString);
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, "CUSTOMER_ID, SERVICE_ID", gSettings.ConnectCharlie.ConnectionString);
 			List<T_CUSSTOMER_USE_INFOMATION> ret = T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
 			if (null != ret && 0 < ret.Count)
 			{
@@ -711,7 +710,7 @@ namespace EntryFinishedUser
 			do
 			{
 				// 請求リスト_YYYYMM.csv 例:請求リスト_202006.csv
-				pathname = Path.Combine(gCurlineCloudListFolder, string.Format("請求リスト_{0}.csv", ym.ToIntYM()));
+				pathname = Path.Combine(gSettings.CurlineCloudListFolder, string.Format("請求リスト_{0}.csv", ym.ToIntYM()));
 				if (12 < i)
 				{
 					// 過去１年分検索
@@ -767,7 +766,7 @@ namespace EntryFinishedUser
 			do
 			{
 				// YYYYMM.xlsx 例:202006.xlsx
-				pathname = Path.Combine(gHanahashiUserListFolder, string.Format("{0}.xlsx", ym.ToIntYM()));
+				pathname = Path.Combine(gSettings.HanahashiUserListFolder, string.Format("{0}.xlsx", ym.ToIntYM()));
 				if (12 < i)
 				{
 					// 過去１年分検索
@@ -823,7 +822,7 @@ namespace EntryFinishedUser
 		{
 			string userStr = string.Join(",", usetList);
 			string whereStr = string.Format("PAUSE_END_STATUS = '0' AND CUSTOMER_ID IN ({0}) AND SERVICE_ID IN ({1})", userStr, string.Join(",", ContractServiceUser.KaigoSeriveID()));
-			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, "CUSTOMER_ID, SERVICE_ID", gSettings.Charlie.ConnectionString);
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, "CUSTOMER_ID, SERVICE_ID", gSettings.ConnectCharlie.ConnectionString);
 			List<T_CUSSTOMER_USE_INFOMATION> ret = T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
 			if (null != ret && 0 < ret.Count)
 			{
@@ -851,7 +850,7 @@ namespace EntryFinishedUser
 							+ " ORDER BY MN.CUSTOMER_ID";
 			string userStr = string.Join(",", usetList);
 			string sqlStr = string.Format(sql, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], (int)ServiceCodeDefine.ServiceCode.PaletteES, userStr, (int)ServiceCodeDefine.ServiceCode.SoftwareMainte1);
-			DataTable table = DatabaseAccess.SelectDatabase(sqlStr, gSettings.Charlie.ConnectionString);
+			DataTable table = DatabaseAccess.SelectDatabase(sqlStr, gSettings.ConnectCharlie.ConnectionString);
 			List<CheckSoftwareMainte> ret = CheckSoftwareMainte.DataTableToList(table);
 			if (null != ret && 0 < ret.Count)
 			{

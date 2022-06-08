@@ -1,33 +1,33 @@
 ﻿//
-// AlertCloudBackupPcSupportPlusSettingsIF.cs
+// SoftwareMainteEarningsFileSettingsIF.cs
 // 
 // 環境設定インターフェイス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2021/01/05 勝呂)
+// Ver2.03 XMLファイルの変更(2022/06/08 勝呂)
 //
 using System;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace PurchaseTransfer.Settings
+namespace EntryFinishedUser.Settings
 {
 	/// <summary>
 	/// 環境設定インターフェイス
 	/// </summary>
-	public static class PurchaseTransferSettingsIF
+	public static class EntryFinishedUserSettingsSettingsIF
 	{
 		/// <summary>
 		/// 環境設定ファイル名称
 		/// </summary>
-		public const string SETTINGS_FILENAME = "PurchaseTransferSettings.xml";
+		public const string SETTINGS_FILENAME = "EntryFinishedUserSettings.xml";
 
 		/// <summary>
 		/// 環境設定
 		/// </summary>
-		private static PurchaseTransferSettings Settings = null;
+		private static EntryFinishedUserSettings Settings = null;
 
 		/// <summary>
 		/// 環境設定ファイル名
@@ -62,8 +62,8 @@ namespace PurchaseTransfer.Settings
 					try
 					{
 						fileStream = new FileStream(SettingsFileName, FileMode.Open);
-						XmlSerializer serializer = new XmlSerializer(typeof(PurchaseTransferSettings));
-						Settings = serializer.Deserialize(fileStream) as PurchaseTransferSettings;
+						XmlSerializer serializer = new XmlSerializer(typeof(EntryFinishedUserSettings));
+						Settings = serializer.Deserialize(fileStream) as EntryFinishedUserSettings;
 					}
 					catch (Exception)
 					{
@@ -80,7 +80,7 @@ namespace PurchaseTransfer.Settings
 				else
 				{
 					// 存在しない場合は初期値を設定
-					Settings = new PurchaseTransferSettings();
+					Settings = new EntryFinishedUserSettings();
 				}
 			}
 			return result;
@@ -99,7 +99,7 @@ namespace PurchaseTransfer.Settings
 			{
 				fileStream = new FileStream(SettingsFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 				StreamWriter stream = new StreamWriter(fileStream, Encoding.UTF8);   // Unicodeで書き込む
-				XmlSerializer serializer = new XmlSerializer(typeof(PurchaseTransferSettings));
+				XmlSerializer serializer = new XmlSerializer(typeof(EntryFinishedUserSettings));
 				serializer.Serialize(stream, Settings);
 			}
 			catch (Exception)
@@ -122,7 +122,7 @@ namespace PurchaseTransfer.Settings
 		/// <param name="reload">環境設定を再読みするかどうか（デフォルト：false）</param>
 		/// <returns>環境設定</returns>
 		/// <exception cref="ApplicationException">環境設定の読み込みが出来なかった場合に発生</exception>
-		public static PurchaseTransferSettings GetSettings(bool reload = false)
+		public static EntryFinishedUserSettings GetSettings(bool reload = false)
 		{
 			SetSettingsFileName();
 
@@ -132,14 +132,14 @@ namespace PurchaseTransfer.Settings
 			{
 				throw new ApplicationException("環境設定の取得に失敗");
 			}
-			return Settings.Clone() as PurchaseTransferSettings;
+			return Settings.Clone() as EntryFinishedUserSettings;
 		}
 
 		/// <summary>
 		/// 環境設定の設定
 		/// </summary>
 		/// <param name="settings">環境設定</param>
-		public static void SetSettings(PurchaseTransferSettings settings)
+		public static void SetSettings(EntryFinishedUserSettings settings)
 		{
 			SetSettingsFileName();
 

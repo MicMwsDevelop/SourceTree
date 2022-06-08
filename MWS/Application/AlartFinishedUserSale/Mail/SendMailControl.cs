@@ -61,7 +61,7 @@ namespace AlartFinishedUserSale.Mail
 				{
 					foreach (FinishedUserSale result in list)
 					{
-						foreach (PCA売上明細汎用データ sale in result.SaleList)
+						foreach (汎用データレイアウト売上明細データ sale in result.SaleList)
 						{
 							msg.Body += string.Format(@"<tr>"
 									+ @"<td><font size=2>{0}</font></td>"

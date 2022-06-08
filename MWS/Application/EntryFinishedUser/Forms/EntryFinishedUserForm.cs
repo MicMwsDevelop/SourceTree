@@ -151,7 +151,7 @@ namespace EntryFinishedUser.Forms
 				// 更新
 				try
 				{
-					JunpDatabaseAccess.UpdateSet_tMic終了ユーザーリスト(FinishedUser.To_tMic終了ユーザーリスト(), Program.gSettings.Junp.ConnectionString);
+					JunpDatabaseAccess.UpdateSet_tMic終了ユーザーリスト(FinishedUser.To_tMic終了ユーザーリスト(), Program.gSettings.ConnectJunp.ConnectionString);
 				}
 				catch (Exception ex)
 				{
@@ -164,7 +164,7 @@ namespace EntryFinishedUser.Forms
 				// 新規追加
 				try
 				{
-					JunpDatabaseAccess.InsertInto_tMic終了ユーザーリスト(FinishedUser.To_tMic終了ユーザーリスト(), Program.gSettings.Junp.ConnectionString);
+					JunpDatabaseAccess.InsertInto_tMic終了ユーザーリスト(FinishedUser.To_tMic終了ユーザーリスト(), Program.gSettings.ConnectJunp.ConnectionString);
 				}
 				catch (Exception ex)
 				{
@@ -180,7 +180,7 @@ namespace EntryFinishedUser.Forms
 				{
 					tMemo memo = FinishedUser.To_tMemo();
 					memo.fMemMemo = FinishedUser.GetMemoPlanString();
-					JunpDatabaseAccess.InsertInto_tMemo(memo, Program.gSettings.Junp.ConnectionString);
+					JunpDatabaseAccess.InsertInto_tMemo(memo, Program.gSettings.ConnectJunp.ConnectionString);
 				}
 				catch (Exception ex)
 				{
@@ -233,7 +233,7 @@ namespace EntryFinishedUser.Forms
 			List<T_LICENSE_PRODUCT_CONTRACT> esetList = Program.ContractServiceESET(checkList);
 			if (null != esetList && 0 < esetList.Count)
 			{
-				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(esetList[0].SERVICE_ID, Program.gSettings.Charlie.ConnectionString), esetList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(esetList[0].SERVICE_ID, Program.gSettings.ConnectCharlie.ConnectionString), esetList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				exist = true;
 			}
 			// PC安心サポート
@@ -242,21 +242,21 @@ namespace EntryFinishedUser.Forms
 			List<T_USE_PCCSUPPORT> pcList = Program.ContractServicePcSupport(finishedList);
 			if (null != pcList && 0 < pcList.Count)
 			{
-				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(pcList[0].fServiceId, Program.gSettings.Charlie.ConnectionString), pcList[0].fServiceId), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(pcList[0].fServiceId, Program.gSettings.ConnectCharlie.ConnectionString), pcList[0].fServiceId), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				exist = true;
 			}
 			// ナルコーム製品
 			List<T_CUSSTOMER_USE_INFOMATION> cuiList = Program.ContractServiceNarcohm(checkList);
 			if (null != cuiList && 0 < cuiList.Count)
 			{
-				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(cuiList[0].SERVICE_ID, Program.gSettings.Charlie.ConnectionString), cuiList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(cuiList[0].SERVICE_ID, Program.gSettings.ConnectCharlie.ConnectionString), cuiList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				exist = true;
 			}
 			// Microsoft365製品
 			cuiList = Program.ContractService365(checkList);
 			if (null != cuiList && 0 < cuiList.Count)
 			{
-				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(cuiList[0].SERVICE_ID, Program.gSettings.Charlie.ConnectionString), cuiList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(cuiList[0].SERVICE_ID, Program.gSettings.ConnectCharlie.ConnectionString), cuiList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				exist = true;
 			}
 			// Curlineクラウド
@@ -285,7 +285,7 @@ namespace EntryFinishedUser.Forms
 			cuiList = Program.ContractServiceKaigo(checkList);
 			if (null != cuiList && 0 < cuiList.Count)
 			{
-				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(cuiList[0].SERVICE_ID, Program.gSettings.Charlie.ConnectionString), cuiList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(string.Format("{0}（{1}）のサービスが契約中です。", CharlieDatabaseAccess.GetServiceName(cuiList[0].SERVICE_ID, Program.gSettings.ConnectCharlie.ConnectionString), cuiList[0].SERVICE_ID), "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				exist = true;
 			}
 			// palette ESとソフトウェア保守料１年の契約期間

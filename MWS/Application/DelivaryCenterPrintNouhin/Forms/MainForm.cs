@@ -239,7 +239,7 @@ namespace DeliveryCenterPrintNouhin.Forms
 		// 印刷メソッド
 
 		/// <summary>
-		/// 見積書の印刷
+		/// 納品書の印刷
 		/// </summary>
 		private void PrintNouhin()
 		{

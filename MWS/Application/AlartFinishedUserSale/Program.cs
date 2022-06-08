@@ -1,10 +1,19 @@
-﻿//
+﻿/////////////////////////////////////////////////////////
+//
 // Program.cs
 // 
 // 終了ユーザー課金アラート プログラムクラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
+/////////////////////////////////////////////////////////
+// アプリ管理サイト：APPID622 終了ユーザー課金アラート
+// 処理概要：PCA売上データから先月終了ユーザーの課金を検出し、営業管理部にアラートメールを送信する
+// 入力ファイル：\\sqlsv\pcadata\PCA売上yyyyMMddhhmmss.csv
+// 出力ファイル：無
+// 印刷物：無
+// メール送信：終了ユーザー課金アラート
+/////////////////////////////////////////////////////////
 // Ver1.00(2021/08/18):新規作成(勝呂)
 //
 using AlartFinishedUserSale.Mail;
@@ -129,14 +138,14 @@ namespace AlartFinishedUserSale
 					return 1;
 				}
 				// (2) 今月１日に課金データ作成が出力した売上データファイルの読込
-				List<PCA売上明細汎用データ> saleList = new List<PCA売上明細汎用データ>();
+				List<汎用データレイアウト売上明細データ> saleList = new List<汎用データレイアウト売上明細データ>();
 				using (StreamReader sr = new StreamReader(pathname, System.Text.Encoding.GetEncoding("shift_jis")))
 				{
 					while (!sr.EndOfStream)
 					{
 						string line = sr.ReadLine();
 						string[] csv = line.Split(',');
-						PCA売上明細汎用データ data = new PCA売上明細汎用データ();
+						汎用データレイアウト売上明細データ data = new 汎用データレイアウト売上明細データ();
 						if (data.SetCsvRecord(csv))
 						{
 							saleList.Add(data);
@@ -152,7 +161,7 @@ namespace AlartFinishedUserSale
 				List<FinishedUserSale> resultList = new List<FinishedUserSale>();
 				foreach (tMic終了ユーザーリスト user in userList)
 				{
-					List<PCA売上明細汎用データ> work = saleList.FindAll(p => p.得意先コード == user.得意先No);
+					List<汎用データレイアウト売上明細データ> work = saleList.FindAll(p => p.得意先コード == user.得意先No);
 					if (0 < work.Count)
 					{
 						FinishedUserSale result = resultList.Find(p => p.TokuisakiNo == user.得意先No);
@@ -169,10 +178,10 @@ namespace AlartFinishedUserSale
 						}
 					}
 					// 請求先が違う医院の伝票の抽出
-					PCA売上明細汎用データ seikyusaki = saleList.Find(p => p.IsDifferentSeikyusaki(user.得意先No));
+					汎用データレイアウト売上明細データ seikyusaki = saleList.Find(p => p.IsDifferentSeikyusaki(user.得意先No));
 					if (null != seikyusaki)
 					{
-						List<PCA売上明細汎用データ> work2 = saleList.FindAll(p => p.伝票No == seikyusaki.伝票No);
+						List<汎用データレイアウト売上明細データ> work2 = saleList.FindAll(p => p.伝票No == seikyusaki.伝票No);
 						if (0 < work2.Count)
 						{
 							FinishedUserSale result = resultList.Find(p => p.TokuisakiNo == user.得意先No);

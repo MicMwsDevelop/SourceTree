@@ -61,7 +61,7 @@ namespace EntryFinishedUser.Forms
 			dataGridViewFinishedUser.Rows.Clear();
 			dataGridViewFinishedUser.Columns.Clear();
 
-			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.gSettings.Junp.ConnectionString);
+			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.gSettings.ConnectJunp.ConnectionString);
 			dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
 			dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
 			FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
@@ -128,7 +128,7 @@ namespace EntryFinishedUser.Forms
 				{
 					try
 					{
-						user = EntryFinishedUserAccess.GetCustomerInfo(tokuisakiNo, Program.gSettings.Junp.ConnectionString);
+						user = EntryFinishedUserAccess.GetCustomerInfo(tokuisakiNo, Program.gSettings.ConnectJunp.ConnectionString);
 						if (null == user)
 						{
 							MessageBox.Show("得意先Noに対する顧客は存在しません。", "顧客情報取得エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -156,7 +156,7 @@ namespace EntryFinishedUser.Forms
 						((DataTable)dataGridViewFinishedUserBindingSource.DataSource).Clear();
 
 						// 終了ユーザーリストの設定
-						DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.gSettings.Junp.ConnectionString);
+						DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.gSettings.ConnectJunp.ConnectionString);
 						dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
 						dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
 						FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
@@ -200,7 +200,7 @@ namespace EntryFinishedUser.Forms
 						((DataTable)dataGridViewFinishedUserBindingSource.DataSource).Clear();
 
 						// 終了ユーザーリストの設定
-						DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.gSettings.Junp.ConnectionString);
+						DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.gSettings.ConnectJunp.ConnectionString);
 						dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
 						dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
 						FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
@@ -243,13 +243,13 @@ namespace EntryFinishedUser.Forms
 					if (DialogResult.Yes == MessageBox.Show("本当に削除してもよろしいですか", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
 					{
 						EntryFinishedUserData user = FinishedUserList.Find(p => p.TokuisakiNo == tokuisakiNo);
-						JunpDatabaseAccess.Delete_tMic終了ユーザーリスト(user.To_tMic終了ユーザーリスト(), Program.gSettings.Junp.ConnectionString);
+						JunpDatabaseAccess.Delete_tMic終了ユーザーリスト(user.To_tMic終了ユーザーリスト(), Program.gSettings.ConnectJunp.ConnectionString);
 
 						// DataSourceのクリア
 						((DataTable)dataGridViewFinishedUserBindingSource.DataSource).Clear();
 
 						// 終了ユーザーリストの設定
-						DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.gSettings.Junp.ConnectionString);
+						DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.gSettings.ConnectJunp.ConnectionString);
 						dataGridViewFinishedUserBindingSource = new BindingSource(table, null);
 						dataGridViewFinishedUser.DataSource = dataGridViewFinishedUserBindingSource;
 						FinishedUserList = EntryFinishedUserController.ConvertEntryFinishedUserList(table);
@@ -294,7 +294,7 @@ namespace EntryFinishedUser.Forms
 		/// <param name="e"></param>
 		private void buttonExcel_Click(object sender, EventArgs e)
 		{
-			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.gSettings.Junp.ConnectionString);
+			DataTable table = EntryFinishedUserGetIO.GetEntryFinishedUserList(Program.gSettings.ConnectJunp.ConnectionString);
 			if (null != table && 0 < table.Rows.Count)
 			{
 				using (XLWorkbook workbook = new XLWorkbook())
