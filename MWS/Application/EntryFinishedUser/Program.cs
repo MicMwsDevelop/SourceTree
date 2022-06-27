@@ -18,6 +18,7 @@
 // Ver2.01 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 // Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
 // Ver2.03 XMLファイルの変更(2022/06/08 勝呂)
+// Ver2.04 paletteESとソフトウェア保守料１年の契約期間のチェックの障害修正(2022/06/17 勝呂)
 // 
 using ClosedXML.Excel;
 using CommonLib.BaseFactory;
@@ -91,7 +92,7 @@ namespace EntryFinishedUser
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver2.03 (2022/06/08)";
+		public const string VersionStr = "Ver2.04 (2022/06/17)";
 
 		/// <summary>
 		/// 製品名

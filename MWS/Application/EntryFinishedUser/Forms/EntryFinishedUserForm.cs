@@ -291,7 +291,7 @@ namespace EntryFinishedUser.Forms
 			// palette ESとソフトウェア保守料１年の契約期間
 			// Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
 			List<CheckSoftwareMainte> mntList = Program.ContractSoftwareMainte(checkList);
-			if (null != cuiList && 0 < cuiList.Count)
+			if (null != mntList && 0 < mntList.Count)
 			{
 				MessageBox.Show("paletteESの契約中に対し、ソフトウェア保守料１年の残期間が存在します。", "契約中サービス", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				exist = true;

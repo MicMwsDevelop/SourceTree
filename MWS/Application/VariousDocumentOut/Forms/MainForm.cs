@@ -140,6 +140,7 @@ namespace VariousDocumentOut.Forms
 			radio書類送付状.Enabled = enable;
 			radioFAX送付状.Enabled = enable;
 			radioMWSIDパスワード.Enabled = enable;
+			radioButtonOnlineConfirm.Enabled = enable;
 		}
 
 		/// <summary>

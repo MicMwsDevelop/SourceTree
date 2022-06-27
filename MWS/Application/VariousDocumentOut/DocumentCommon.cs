@@ -91,6 +91,17 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
+		/// 本社郵便番号
+		/// </summary>
+		public string 本社郵便番号
+		{
+			get
+			{
+				return Program.gSettings.HeadOffice.Zipcode;
+			}
+		}
+
+		/// <summary>
 		/// 住所1
 		/// </summary>
 		public string 住所1
@@ -102,6 +113,17 @@ namespace VariousDocumentOut
 					return Program.gSettings.HeadOffice.Address1;
 				}
 				return Satellite.Address1;
+			}
+		}
+
+		/// <summary>
+		/// 本社住所1
+		/// </summary>
+		public string 本社住所1
+		{
+			get
+			{
+				return Program.gSettings.HeadOffice.Address1;
 			}
 		}
 
@@ -121,6 +143,17 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
+		/// 本社住所2
+		/// </summary>
+		public string 本社住所2
+		{
+			get
+			{
+				return Program.gSettings.HeadOffice.Address2;
+			}
+		}
+
+		/// <summary>
 		/// 住所
 		/// </summary>
 		public string 住所
@@ -132,6 +165,17 @@ namespace VariousDocumentOut
 					return Program.gSettings.HeadOffice.住所;
 				}
 				return Satellite.住所;
+			}
+		}
+
+		/// <summary>
+		/// 本社住所
+		/// </summary>
+		public string 本社住所
+		{
+			get
+			{
+				return Program.gSettings.HeadOffice.住所;
 			}
 		}
 
@@ -151,6 +195,17 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
+		/// 本社電話番号
+		/// </summary>
+		public string 本社電話番号
+		{
+			get
+			{
+				return Program.gSettings.HeadOffice.Tel;
+			}
+		}
+
+		/// <summary>
 		/// FAX番号
 		/// </summary>
 		public string FAX番号
@@ -166,7 +221,18 @@ namespace VariousDocumentOut
 		}
 
 		/// <summary>
-		/// email
+		/// 本社FAX番号
+		/// </summary>
+		public string 本社FAX番号
+		{
+			get
+			{
+				return Program.gSettings.HeadOffice.Fax;
+			}
+		}
+
+		/// <summary>
+		/// メールアドレス
 		/// </summary>
 		public string メールアドレス
 		{
@@ -199,6 +265,17 @@ namespace VariousDocumentOut
 					return Program.gSettings.HeadOffice.CompanyName;
 				}
 				return Program.gSettings.HeadOffice.CompanyName + Satellite.SaleDepartment;
+			}
+		}
+
+		/// <summary>
+		/// 本社送付先
+		/// </summary>
+		public string 本社送付先
+		{
+			get
+			{
+				return Program.gSettings.HeadOffice.CompanyName;
 			}
 		}
 

@@ -15,6 +15,8 @@
 // Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
 // Ver1.13(2022/05/02):Microsoft365利用申込書新フォーム対応
 // Ver1.13(2022/05/09):アプラス預金口座振替依頼書・自動払込利用申込書新フォーム対応
+// Ver1.14(2022/06/16):8-Microsoft365利用申込書 拠点FAX番号対応
+// Ver1.14(2022/06/27):8-Microsoft365利用申込書 新様式対応
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Junp.Table;
@@ -1222,6 +1224,7 @@ namespace VariousDocumentOut
 		/// <param name="common">各種書類出力 共通情報</param>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// Ver1.13(2022/05/02):Microsoft365利用申込書新フォーム対応
+		/// Ver1.14(2022/06/27):8-Microsoft365利用申込書 新様式対応
 		public static void ExcelOutMicrosoft365(DocumentCommon common, string pathname)
 		{
 			try
@@ -1229,24 +1232,27 @@ namespace VariousDocumentOut
 				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
 				{
 					IXLWorksheet ws = wb.Worksheet("Microsoft365利用申請書");
-					ws.Cell(8, 11).SetValue(common.Customer.顧客No);
-					ws.Cell(9, 11).SetValue(common.Customer.顧客名);
-					ws.Cell(11, 11).SetValue(common.Customer.院長名);
-					ws.Cell(11, 28).SetValue(common.Customer.電話番号);
-					ws.Cell(12, 12).SetValue(common.Customer.郵便番号);
-					ws.Cell(13, 11).SetValue(common.Customer.住所);
-					ws.Cell(16, 11).SetValue(common.Customer.メールアドレス);
+					ws.Cell(7, 10).SetValue(common.Customer.顧客No);
+					ws.Cell(9, 10).SetValue(common.Customer.顧客名);
+					ws.Cell(11, 10).SetValue(common.Customer.院長名);
+					ws.Cell(11, 27).SetValue(common.Customer.電話番号);
+					ws.Cell(13, 11).SetValue(common.Customer.郵便番号);
+					ws.Cell(14, 10).SetValue(common.Customer.住所);
+					ws.Cell(16, 10).SetValue(common.Customer.メールアドレス);
 
 					// 本社情報
 					// Ver1.02(2021/09/01):Microsoft365利用申込書のFAX番号を本社から消耗品受注センターに変更
 					//ws.Cell(58, 19).SetValue(common.HeadOffice.Fax);
-					ws.Cell(47, 20).SetValue(Program.gSettings.HeadOffice.FaxExpendables);
 
-					ws.Cell(52, 21).SetValue(common.社名);
-					ws.Cell(53, 21).SetValue(Program.gSettings.HeadOffice.Zipcode);
-					ws.Cell(54, 21).SetValue(Program.gSettings.HeadOffice.住所);
-					ws.Cell(55, 21).SetValue(string.Format("e-mail {0}", Program.gSettings.HeadOffice.Email));
-					ws.Cell(56, 21).SetValue(Program.gSettings.HeadOffice.Url);
+					// Ver1.14(2022/06/16):8-Microsoft365利用申込書 拠点FAX番号対応
+					//ws.Cell(47, 20).SetValue(Program.gSettings.HeadOffice.FaxExpendables);
+					ws.Cell(50, 20).SetValue(common.FAX番号);
+
+					ws.Cell(54, 21).SetValue(common.社名);
+					ws.Cell(55, 21).SetValue(common.本社郵便番号);
+					ws.Cell(56, 21).SetValue(common.本社住所);
+					//ws.Cell(55, 21).SetValue(string.Format("e-mail {0}", common.メールアドレス));
+					ws.Cell(57, 21).SetValue(common.URL);
 
 					// Excelファイルの保存
 					wb.Save();
@@ -1593,11 +1599,11 @@ namespace VariousDocumentOut
 					ws1.Cell(13, 19).SetValue(common.電話番号);
 					ws1.Cell(13, 26).SetValue(common.FAX番号);
 					ws1.Cell(20, 12).SetValue(common.社名);
-					ws1.Cell(37, 6).SetValue(Program.gSettings.HeadOffice.Zipcode);
-					ws1.Cell(38, 5).SetValue(Program.gSettings.HeadOffice.住所);
+					ws1.Cell(37, 6).SetValue(common.本社郵便番号);
+					ws1.Cell(38, 5).SetValue(common.本社住所);
 					// 経理部
 					ws1.Cell(40, 5).SetValue(Program.gSettings.HeadOffice.TelKeiri);
-					ws1.Cell(40, 15).SetValue(Program.gSettings.HeadOffice.Fax);
+					ws1.Cell(40, 15).SetValue(common.本社FAX番号);
 
 					// 第一園芸販売店向け
 					IXLWorksheet ws2 = wb.Worksheet("第一園芸販売店向け");
@@ -1608,11 +1614,11 @@ namespace VariousDocumentOut
 					ws2.Cell(13, 19).SetValue(common.電話番号);
 					ws2.Cell(13, 26).SetValue(common.FAX番号);
 					ws2.Cell(20, 12).SetValue(common.社名);
-					ws2.Cell(37, 6).SetValue(Program.gSettings.HeadOffice.Zipcode);
-					ws2.Cell(38, 5).SetValue(Program.gSettings.HeadOffice.住所);
+					ws2.Cell(37, 6).SetValue(common.本社郵便番号);
+					ws2.Cell(38, 5).SetValue(common.本社住所);
 					// 経理部
 					ws2.Cell(40, 5).SetValue(Program.gSettings.HeadOffice.TelKeiri);
-					ws2.Cell(40, 15).SetValue(Program.gSettings.HeadOffice.Fax);
+					ws2.Cell(40, 15).SetValue(common.本社FAX番号);
 
 					// Excelファイルの保存
 					wb.Save();

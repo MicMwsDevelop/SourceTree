@@ -210,7 +210,7 @@ namespace EntryFinishedUser.Forms
 			// ソフトウェア保守料１年の契約期間チェック
 			// Ver2.02 paletteESとソフトウェア保守料１年の契約期間のチェックの追加(2022/05/13 勝呂)
 			List<CheckSoftwareMainte> mntList = Program.ContractSoftwareMainte(checkList);
-			if (null != cuiList)
+			if (null != mntList)
 			{
 				foreach (CheckSoftwareMainte mnt in mntList)
 				{
