@@ -633,7 +633,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							if (east.Notice.IsEnableSendMail)
 							{
-								SendMailControl.Notice1East(Settings.Mail, east, checkBoxTestMail.Checked);
+								MailKitControl.Notice1East(Settings.Mail, east, checkBoxTestMail.Checked);
 							}
 						}
 						// 通知１-NTT西日本
@@ -641,7 +641,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							if (west.Notice.IsEnableSendMail)
 							{
-								SendMailControl.Notice1West(Settings.Mail, west, checkBoxTestMail.Checked);
+								MailKitControl.Notice1West(Settings.Mail, west, checkBoxTestMail.Checked);
 							}
 						}
 						// 通知３-NTT東日本
@@ -649,7 +649,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							if (east.Notice.IsEnableSendMail)
 							{
-								SendMailControl.Notice3(Settings.Mail, east, checkBoxTestMail.Checked);
+								MailKitControl.Notice3(Settings.Mail, east, checkBoxTestMail.Checked);
 							}
 						}
 						// 通知４-NTT西日本
@@ -657,7 +657,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							if (west.Notice.IsEnableSendMail)
 							{
-								SendMailControl.Notice4(Settings.Mail, west, checkBoxTestMail.Checked);
+								MailKitControl.Notice4(Settings.Mail, west, checkBoxTestMail.Checked);
 							}
 						}
 						// 通知５-NTT東日本
@@ -665,7 +665,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							if (east.Notice.IsEnableSendMail)
 							{
-								SendMailControl.Notice5East(Settings.Mail, east, checkBoxTestMail.Checked);
+								MailKitControl.Notice5East(Settings.Mail, east, checkBoxTestMail.Checked);
 							}
 						}
 						// 通知５-NTT西日本
@@ -673,7 +673,7 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						{
 							if (west.Notice.IsEnableSendMail)
 							{
-								SendMailControl.Notice5West(Settings.Mail, west, checkBoxTestMail.Checked);
+								MailKitControl.Notice5West(Settings.Mail, west, checkBoxTestMail.Checked);
 							}
 						}
 						MessageBox.Show("メール送信が終了しました。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);

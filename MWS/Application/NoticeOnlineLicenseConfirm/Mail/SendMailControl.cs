@@ -9,6 +9,7 @@
 // Ver1.03 メール件名に顧客Noを追加(2022/04/05 勝呂)
 // Ver1.03 メール本文に保存先を追加(2022/04/05 勝呂)
 // Ver1.05 メール本文にファイル名記載例を追加(2022/05/12 勝呂)
+// Ver1.07 通知１、通知５のメール本文に工事確定時間を追加。東日本SGからの要望(2022/07/21 勝呂)
 //
 using CommonLib.Common;
 using MwsLib.Settings.Mail;
@@ -31,6 +32,7 @@ namespace NoticeOnlineLicenseConfirm.Mail
 		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT東日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
+		/// Ver1.07 通知１、通知５のメール本文に工事確定時間を追加。東日本SGからの要望(2022/07/21 勝呂)
 		public static void Notice1East(MailSettings mail, 進捗管理表_NTT東日本 east, bool testMail)
 		{
 			using (MailMessage msg = new MailMessage())
@@ -61,12 +63,14 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"医院名：{1}<br>"
 							+ @"受付通番：{2}<br>"
 							+ @"工事確定日：{3}<br>"
+							+ @"工事確定時間：{4}<br>"
 							+ @"保存先：\\wwsv\ons-pics\{0}<br></ p>"
 							+ @"</div>"
 							, east.病院ID
 							, east.医療機関名
 							, east.受付通番
-							, east.工事確定日付.Value.GetNormalString());
+							, east.工事確定日付.Value.GetNormalString()
+							, east.工事確定時間);
 				msg.Body += @"</div>"
 							+ @"<div>"
 							+ @"<p>以上、よろしくお願いいたします。<br><br>営業管理部</p>"
@@ -86,6 +90,7 @@ namespace NoticeOnlineLicenseConfirm.Mail
 		/// <param name="mail">メール送信情報</param>
 		/// <param name="west">NTT西日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
+		/// Ver1.07 通知１、通知５のメール本文に工事確定時間を追加。東日本SGからの要望(2022/07/21 勝呂)
 		public static void Notice1West(MailSettings mail, 進捗管理表_NTT西日本 west, bool testMail)
 		{
 			using (MailMessage msg = new MailMessage())
@@ -116,12 +121,14 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"医院名：{1}<br>"
 							+ @"受付通番：{2}<br>"
 							+ @"工事確定日：{3}<br>"
+							+ @"工事確定時間：{4}<br>"
 							+ @"保存先：\\wwsv\ons-pics\{0}<br></ p>"
 							+ @"</div>"
 							, west.病院ID
 							, west.医療機関名
 							, west.受付通番
-							, west.工事確定日付.Value.GetNormalString());
+							, west.工事確定日付.Value.GetNormalString()
+							, west.工事確定時間);
 				msg.Body += @"</div>"
 							+ @"<div>"
 							+ @"<p>以上、よろしくお願いいたします。<br><br>営業管理部</p>"
@@ -275,6 +282,7 @@ namespace NoticeOnlineLicenseConfirm.Mail
 		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT東日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
+		/// Ver1.07 通知１、通知５のメール本文に工事確定時間を追加。東日本SGからの要望(2022/07/21 勝呂)
 		public static void Notice5East(MailSettings mail, 進捗管理表_NTT東日本 east, bool testMail)
 		{
 			using (MailMessage msg = new MailMessage())
@@ -304,15 +312,17 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"顧客No：{0}<br>"
 							+ @"医院名：{1}<br>"
 							+ @"工事確定日：{2}<br>"
-							+ @"回答結果１：{3}<br>"
-							+ @"修正箇所１：{4}<br>"
-							+ @"回答結果２：{5}<br>"
-							+ @"修正箇所２：{6}<br>"
+							+ @"工事確定時間：{3}<br>"
+							+ @"回答結果１：{4}<br>"
+							+ @"修正箇所１：{5}<br>"
+							+ @"回答結果２：{6}<br>"
+							+ @"修正箇所２：{7}<br>"
 							+ @"保存先：\\wwsv\ons-pics\{0}<br></ p>"
 							+ @"</div>"
 							, east.病院ID
 							, east.医療機関名
 							, east.工事確定日付.Value.GetNormalString()
+							, east.工事確定時間
 							, east.回答結果1
 							, east.修正箇所1
 							, east.回答結果2
@@ -342,6 +352,7 @@ namespace NoticeOnlineLicenseConfirm.Mail
 		/// <param name="mail">メール送信情報</param>
 		/// <param name="west">NTT西日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
+		/// Ver1.07 通知１、通知５のメール本文に工事確定時間を追加。東日本SGからの要望(2022/07/21 勝呂)
 		public static void Notice5West(MailSettings mail, 進捗管理表_NTT西日本 west, bool testMail)
 		{
 			using (MailMessage msg = new MailMessage())
@@ -371,14 +382,16 @@ namespace NoticeOnlineLicenseConfirm.Mail
 							+ @"顧客No：{0}<br>"
 							+ @"医院名：{1}<br>"
 							+ @"工事確定日：{2}<br>"
-							+ @"ヒアリングシート修正依頼日：{3}<br>"
-							+ @"連絡票-連絡項目：{4}<br>"
-							+ @"連絡票-連絡内容：{5}<br>"
+							+ @"工事確定時間：{3}<br>"
+							+ @"ヒアリングシート修正依頼日：{4}<br>"
+							+ @"連絡票-連絡項目：{5}<br>"
+							+ @"連絡票-連絡内容：{6}<br>"
 							+ @"保存先：\\wwsv\ons-pics\{0}<br></ p>"
 							+ @"</div>"
 							, west.病院ID
 							, west.医療機関名
 							, west.工事確定日付.Value.GetNormalString()
+							, west.工事確定時間
 							, west.ヒアリングシート修正依頼日付.Value.GetNormalString()
 							, west.連絡項目
 							, west.連絡内容);

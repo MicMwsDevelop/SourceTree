@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2021/04/22 勝呂)
+// Ver1.00(2022/07/06 勝呂):新規作成
 //
 using System.Collections.Generic;
 using System.Data;

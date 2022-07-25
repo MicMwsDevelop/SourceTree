@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2022/03/08 勝呂)
+// Ver1.07 NTT東日本進捗管理表新フォーム(20220613版)に対応(2022/07/21 勝呂)
 // 
 using ClosedXML.Excel;
 using CommonLib.Common;
@@ -42,13 +43,13 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		public string フレッツ新規手配 { get; set; }
 
 		/// <summary>
-		/// NTTオン資調査 NTT都合
+		/// NTTオン資調査
 		/// </summary>
-		public string 事前調査確定日 { get; set; }
-		public string 事前調査確定時間 { get; set; }
-		public string 事前調査結果 { get; set; }
-		public string 事前調査結果詳細_調査NG時 { get; set; }
-		public string 事前調査確定日_過去日 { get; set; }
+		public string 現地調査確定日 { get; set; }
+		public string 現地調査確定時間 { get; set; }
+		public string 現地調査結果 { get; set; }
+		public string 現地調査結果詳細_調査NG時 { get; set; }
+		public string 現地調査確定日_過去日 { get; set; }
 		public string 備考_調査関連 { get; set; }
 
 		/// <summary>
@@ -65,38 +66,38 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		/// NTT補助金申請関連
 		/// </summary>
 		public string 作業報告書_PDF_送付月25日締め_NTT_ミック { get; set; }
-		public string 工事基本額単価 { get; set; }
-		public string 工事基本額数量 { get; set; }
-		public string 工事基本額小計 { get; set; }
-		public string 平日夜間等割増料金単価 { get; set; }
-		public string 平日夜間等割増料金数量 { get; set; }
-		public string 平日夜間等割増料金小計 { get; set; }
-		public string 再派遣料金単価 { get; set; }
-		public string 再派遣料金数量 { get; set; }
-		public string 再派遣料金小計 { get; set; }
-		public string 平日夜間等再派遣料金単価 { get; set; }
-		public string 平日夜間等再派遣料金数量 { get; set; }
-		public string 平日夜間等再派遣料金小計 { get; set; }
-		public string 規定後リスケ料金単価 { get; set; }
-		public string 規定後リスケ料金数量 { get; set; }
-		public string 規定後リスケ料金小計 { get; set; }
-		public string 平日夜間等規定後リスケ料金単価 { get; set; }
-		public string 平日夜間等規定後リスケ料金数量 { get; set; }
-		public string 平日夜間等規定後リスケ料金小計 { get; set; }
-		public string 作業キャンセル料単価 { get; set; }
-		public string 作業キャンセル料数量 { get; set; }
-		public string 作業キャンセル料小計 { get; set; }
-		public string 平日夜間等作業キャンセル料単価 { get; set; }
-		public string 平日夜間等作業キャンセル料数量 { get; set; }
-		public string 平日夜間等作業キャンセル料小計 { get; set; }
-		public string 作業延長料金_30分毎_単価 { get; set; }
-		public string 作業延長料金_30分毎_数量 { get; set; }
-		public string 作業延長料金_30分毎_小計 { get; set; }
-		public string 離島における交通費小計 { get; set; }
-		public string 機器料金小計 { get; set; }
-		public string 小計 { get; set; }
-		public string 消費税額 { get; set; }
-		public string 合計_税込 { get; set; }
+		public string 補助金_工事基本額単価 { get; set; }
+		public string 補助金_工事基本額数量 { get; set; }
+		public string 補助金_工事基本額小計 { get; set; }
+		public string 補助金_平日夜間等割増料金単価 { get; set; }
+		public string 補助金_平日夜間等割増料金数量 { get; set; }
+		public string 補助金_平日夜間等割増料金小計 { get; set; }
+		public string 補助金_再派遣料金単価 { get; set; }
+		public string 補助金_再派遣料金数量 { get; set; }
+		public string 補助金_再派遣料金小計 { get; set; }
+		public string 補助金_平日夜間等再派遣料金単価 { get; set; }
+		public string 補助金_平日夜間等再派遣料金数量 { get; set; }
+		public string 補助金_平日夜間等再派遣料金小計 { get; set; }
+		public string 補助金_規定後リスケ料金単価 { get; set; }
+		public string 補助金_規定後リスケ料金数量 { get; set; }
+		public string 補助金_規定後リスケ料金小計 { get; set; }
+		public string 補助金_平日夜間等規定後リスケ料金単価 { get; set; }
+		public string 補助金_平日夜間等規定後リスケ料金数量 { get; set; }
+		public string 補助金_平日夜間等規定後リスケ料金小計 { get; set; }
+		public string 補助金_作業キャンセル料単価 { get; set; }
+		public string 補助金_作業キャンセル料数量 { get; set; }
+		public string 補助金_作業キャンセル料小計 { get; set; }
+		public string 補助金_平日夜間等作業キャンセル料単価 { get; set; }
+		public string 補助金_平日夜間等作業キャンセル料数量 { get; set; }
+		public string 補助金_平日夜間等作業キャンセル料小計 { get; set; }
+		public string 補助金_作業延長料金_30分毎_単価 { get; set; }
+		public string 補助金_作業延長料金_30分毎_数量 { get; set; }
+		public string 補助金_作業延長料金_30分毎_小計 { get; set; }
+		public string 補助金_離島における交通費小計 { get; set; }
+		public string 補助金_機器料金小計 { get; set; }
+		public string 補助金_小計 { get; set; }
+		public string 補助金_消費税額 { get; set; }
+		public string 補助金_合計税込 { get; set; }
 		public string 補助金申請書類送付日_NTT_ミック { get; set; }
 
 		/// <summary>
@@ -113,6 +114,42 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		public string 修正箇所1 { get; set; }
 		public string 回答結果2 { get; set; }
 		public string 修正箇所2 { get; set; }
+
+		/// <summary>
+		/// NTT委託業務完成通知書申請関連
+		/// Ver1.07 NTT東日本進捗管理表新フォーム(20220613版)に対応(2022/07/21 勝呂)
+		/// </summary>
+		public string 委託業務完成通知書_現地調査基本額単価 { get; set; }
+		public string 委託業務完成通知書_現地調査基本額数量 { get; set; }
+		public string 委託業務完成通知書_現地調査基本額小計 { get; set; }
+		public string 委託業務完成通知書_平日夜間等割増料金単価 { get; set; }
+		public string 委託業務完成通知書_平日夜間等割増料金数量 { get; set; }
+		public string 委託業務完成通知書_平日夜間等割増料金小計 { get; set; }
+		public string 委託業務完成通知書_再派遣料金単価 { get; set; }
+		public string 委託業務完成通知書_再派遣料金数量 { get; set; }
+		public string 委託業務完成通知書_再派遣料金小計 { get; set; }
+		public string 委託業務完成通知書_平日夜間等再派遣料金単価 { get; set; }
+		public string 委託業務完成通知書_平日夜間等再派遣料金数量 { get; set; }
+		public string 委託業務完成通知書_平日夜間等再派遣料金小計 { get; set; }
+		public string 委託業務完成通知書_規定後リスケ料金単価 { get; set; }
+		public string 委託業務完成通知書_規定後リスケ料金数量 { get; set; }
+		public string 委託業務完成通知書_規定後リスケ料金小計 { get; set; }
+		public string 委託業務完成通知書_平日夜間等規定後リスケ料金単価 { get; set; }
+		public string 委託業務完成通知書_平日夜間等規定後リスケ料金数量 { get; set; }
+		public string 委託業務完成通知書_平日夜間等規定後リスケ料金小計 { get; set; }
+		public string 委託業務完成通知書_作業キャンセル料単価 { get; set; }
+		public string 委託業務完成通知書_作業キャンセル料数量 { get; set; }
+		public string 委託業務完成通知書_作業キャンセル料小計 { get; set; }
+		public string 委託業務完成通知書_平日夜間等作業キャンセル料単価 { get; set; }
+		public string 委託業務完成通知書_平日夜間等作業キャンセル料数量 { get; set; }
+		public string 委託業務完成通知書_平日夜間等作業キャンセル料小計 { get; set; }
+		public string 委託業務完成通知書_作業延長料金30分毎単価 { get; set; }
+		public string 委託業務完成通知書_作業延長料金30分毎数量 { get; set; }
+		public string 委託業務完成通知書_作業延長料金30分毎小計 { get; set; }
+		public string 委託業務完成通知書_離島における交通費小計 { get; set; }
+		public string 委託業務完成通知書_小計 { get; set; }
+		public string 委託業務完成通知書_消費税額 { get; set; }
+		public string 委託業務完成通知書_合計税込 { get; set; }
 
 		/// <summary>
 		/// 工事確定日付の取得
@@ -205,11 +242,11 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			入館調整ステータス = string.Empty;
 			進捗管理ステータス = string.Empty;
 			フレッツ新規手配 = string.Empty;
-			事前調査確定日 = string.Empty;
-			事前調査確定時間 = string.Empty;
-			事前調査結果 = string.Empty;
-			事前調査結果詳細_調査NG時 = string.Empty;
-			事前調査確定日_過去日 = string.Empty;
+			現地調査確定日 = string.Empty;
+			現地調査確定時間 = string.Empty;
+			現地調査結果 = string.Empty;
+			現地調査結果詳細_調査NG時 = string.Empty;
+			現地調査確定日_過去日 = string.Empty;
 			備考_調査関連 = string.Empty;
 			工事確定日 = string.Empty;
 			工事確定時間 = string.Empty;
@@ -218,38 +255,38 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			工事確定日_過去日 = string.Empty;
 			備考_工事関連 = string.Empty;
 			作業報告書_PDF_送付月25日締め_NTT_ミック = string.Empty;
-			工事基本額単価 = string.Empty;
-			工事基本額数量 = string.Empty;
-			工事基本額小計 = string.Empty;
-			平日夜間等割増料金単価 = string.Empty;
-			平日夜間等割増料金数量 = string.Empty;
-			平日夜間等割増料金小計 = string.Empty;
-			再派遣料金単価 = string.Empty;
-			再派遣料金数量 = string.Empty;
-			再派遣料金小計 = string.Empty;
-			平日夜間等再派遣料金単価 = string.Empty;
-			平日夜間等再派遣料金数量 = string.Empty;
-			平日夜間等再派遣料金小計 = string.Empty;
-			規定後リスケ料金単価 = string.Empty;
-			規定後リスケ料金数量 = string.Empty;
-			規定後リスケ料金小計 = string.Empty;
-			平日夜間等規定後リスケ料金単価 = string.Empty;
-			平日夜間等規定後リスケ料金数量 = string.Empty;
-			平日夜間等規定後リスケ料金小計 = string.Empty;
-			作業キャンセル料単価 = string.Empty;
-			作業キャンセル料数量 = string.Empty;
-			作業キャンセル料小計 = string.Empty;
-			平日夜間等作業キャンセル料単価 = string.Empty;
-			平日夜間等作業キャンセル料数量 = string.Empty;
-			平日夜間等作業キャンセル料小計 = string.Empty;
-			作業延長料金_30分毎_単価 = string.Empty;
-			作業延長料金_30分毎_数量 = string.Empty;
-			作業延長料金_30分毎_小計 = string.Empty;
-			離島における交通費小計 = string.Empty;
-			機器料金小計 = string.Empty;
-			小計 = string.Empty;
-			消費税額 = string.Empty;
-			合計_税込 = string.Empty;
+			補助金_工事基本額単価 = string.Empty;
+			補助金_工事基本額数量 = string.Empty;
+			補助金_工事基本額小計 = string.Empty;
+			補助金_平日夜間等割増料金単価 = string.Empty;
+			補助金_平日夜間等割増料金数量 = string.Empty;
+			補助金_平日夜間等割増料金小計 = string.Empty;
+			補助金_再派遣料金単価 = string.Empty;
+			補助金_再派遣料金数量 = string.Empty;
+			補助金_再派遣料金小計 = string.Empty;
+			補助金_平日夜間等再派遣料金単価 = string.Empty;
+			補助金_平日夜間等再派遣料金数量 = string.Empty;
+			補助金_平日夜間等再派遣料金小計 = string.Empty;
+			補助金_規定後リスケ料金単価 = string.Empty;
+			補助金_規定後リスケ料金数量 = string.Empty;
+			補助金_規定後リスケ料金小計 = string.Empty;
+			補助金_平日夜間等規定後リスケ料金単価 = string.Empty;
+			補助金_平日夜間等規定後リスケ料金数量 = string.Empty;
+			補助金_平日夜間等規定後リスケ料金小計 = string.Empty;
+			補助金_作業キャンセル料単価 = string.Empty;
+			補助金_作業キャンセル料数量 = string.Empty;
+			補助金_作業キャンセル料小計 = string.Empty;
+			補助金_平日夜間等作業キャンセル料単価 = string.Empty;
+			補助金_平日夜間等作業キャンセル料数量 = string.Empty;
+			補助金_平日夜間等作業キャンセル料小計 = string.Empty;
+			補助金_作業延長料金_30分毎_単価 = string.Empty;
+			補助金_作業延長料金_30分毎_数量 = string.Empty;
+			補助金_作業延長料金_30分毎_小計 = string.Empty;
+			補助金_離島における交通費小計 = string.Empty;
+			補助金_機器料金小計 = string.Empty;
+			補助金_小計 = string.Empty;
+			補助金_消費税額 = string.Empty;
+			補助金_合計税込 = string.Empty;
 			補助金申請書類送付日_NTT_ミック = string.Empty;
 			完了フラグ_拠点毎 = string.Empty;
 			NTT備考欄 = string.Empty;
@@ -258,6 +295,39 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			修正箇所1 = string.Empty;
 			回答結果2 = string.Empty;
 			修正箇所2 = string.Empty;
+
+			// Ver1.07 NTT東日本進捗管理表新フォーム(20220613版)に対応(2022/07/21 勝呂)
+			委託業務完成通知書_現地調査基本額単価 = string.Empty;
+			委託業務完成通知書_現地調査基本額数量 = string.Empty;
+			委託業務完成通知書_現地調査基本額小計 = string.Empty;
+			委託業務完成通知書_平日夜間等割増料金単価 = string.Empty;
+			委託業務完成通知書_平日夜間等割増料金数量 = string.Empty;
+			委託業務完成通知書_平日夜間等割増料金小計 = string.Empty;
+			委託業務完成通知書_再派遣料金単価 = string.Empty;
+			委託業務完成通知書_再派遣料金数量 = string.Empty;
+			委託業務完成通知書_再派遣料金小計 = string.Empty;
+			委託業務完成通知書_平日夜間等再派遣料金単価 = string.Empty;
+			委託業務完成通知書_平日夜間等再派遣料金数量 = string.Empty;
+			委託業務完成通知書_平日夜間等再派遣料金小計 = string.Empty;
+			委託業務完成通知書_規定後リスケ料金単価 = string.Empty;
+			委託業務完成通知書_規定後リスケ料金数量 = string.Empty;
+			委託業務完成通知書_規定後リスケ料金小計 = string.Empty;
+			委託業務完成通知書_平日夜間等規定後リスケ料金単価 = string.Empty;
+			委託業務完成通知書_平日夜間等規定後リスケ料金数量 = string.Empty;
+			委託業務完成通知書_平日夜間等規定後リスケ料金小計 = string.Empty;
+			委託業務完成通知書_作業キャンセル料単価 = string.Empty;
+			委託業務完成通知書_作業キャンセル料数量 = string.Empty;
+			委託業務完成通知書_作業キャンセル料小計 = string.Empty;
+			委託業務完成通知書_平日夜間等作業キャンセル料単価 = string.Empty;
+			委託業務完成通知書_平日夜間等作業キャンセル料数量 = string.Empty;
+			委託業務完成通知書_平日夜間等作業キャンセル料小計 = string.Empty;
+			委託業務完成通知書_作業延長料金30分毎単価 = string.Empty;
+			委託業務完成通知書_作業延長料金30分毎数量 = string.Empty;
+			委託業務完成通知書_作業延長料金30分毎小計 = string.Empty;
+			委託業務完成通知書_離島における交通費小計 = string.Empty;
+			委託業務完成通知書_小計 = string.Empty;
+			委託業務完成通知書_消費税額 = string.Empty;
+			委託業務完成通知書_合計税込 = string.Empty;
 		}
 
 		/// <summary>
@@ -280,11 +350,11 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			ret.Add(入館調整ステータス);
 			ret.Add(進捗管理ステータス);
 			ret.Add(フレッツ新規手配);
-			ret.Add(事前調査確定日);
-			ret.Add(事前調査確定時間);
-			ret.Add(事前調査結果);
-			ret.Add(事前調査結果詳細_調査NG時);
-			ret.Add(事前調査確定日_過去日);
+			ret.Add(現地調査確定日);
+			ret.Add(現地調査確定時間);
+			ret.Add(現地調査結果);
+			ret.Add(現地調査結果詳細_調査NG時);
+			ret.Add(現地調査確定日_過去日);
 			ret.Add(備考_調査関連);
 			ret.Add(工事確定日);
 			ret.Add(工事確定時間);
@@ -293,38 +363,38 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			ret.Add(工事確定日_過去日);
 			ret.Add(備考_工事関連);
 			ret.Add(作業報告書_PDF_送付月25日締め_NTT_ミック);
-			ret.Add(工事基本額単価);
-			ret.Add(工事基本額数量);
-			ret.Add(工事基本額小計);
-			ret.Add(平日夜間等割増料金単価);
-			ret.Add(平日夜間等割増料金数量);
-			ret.Add(平日夜間等割増料金小計);
-			ret.Add(再派遣料金単価);
-			ret.Add(再派遣料金数量);
-			ret.Add(再派遣料金小計);
-			ret.Add(平日夜間等再派遣料金単価);
-			ret.Add(平日夜間等再派遣料金数量);
-			ret.Add(平日夜間等再派遣料金小計);
-			ret.Add(規定後リスケ料金単価);
-			ret.Add(規定後リスケ料金数量);
-			ret.Add(規定後リスケ料金小計);
-			ret.Add(平日夜間等規定後リスケ料金単価);
-			ret.Add(平日夜間等規定後リスケ料金数量);
-			ret.Add(平日夜間等規定後リスケ料金小計);
-			ret.Add(作業キャンセル料単価);
-			ret.Add(作業キャンセル料数量);
-			ret.Add(作業キャンセル料小計);
-			ret.Add(平日夜間等作業キャンセル料単価);
-			ret.Add(平日夜間等作業キャンセル料数量);
-			ret.Add(平日夜間等作業キャンセル料小計);
-			ret.Add(作業延長料金_30分毎_単価);
-			ret.Add(作業延長料金_30分毎_数量);
-			ret.Add(作業延長料金_30分毎_小計);
-			ret.Add(離島における交通費小計);
-			ret.Add(機器料金小計);
-			ret.Add(小計);
-			ret.Add(消費税額);
-			ret.Add(合計_税込);
+			ret.Add(補助金_工事基本額単価);
+			ret.Add(補助金_工事基本額数量);
+			ret.Add(補助金_工事基本額小計);
+			ret.Add(補助金_平日夜間等割増料金単価);
+			ret.Add(補助金_平日夜間等割増料金数量);
+			ret.Add(補助金_平日夜間等割増料金小計);
+			ret.Add(補助金_再派遣料金単価);
+			ret.Add(補助金_再派遣料金数量);
+			ret.Add(補助金_再派遣料金小計);
+			ret.Add(補助金_平日夜間等再派遣料金単価);
+			ret.Add(補助金_平日夜間等再派遣料金数量);
+			ret.Add(補助金_平日夜間等再派遣料金小計);
+			ret.Add(補助金_規定後リスケ料金単価);
+			ret.Add(補助金_規定後リスケ料金数量);
+			ret.Add(補助金_規定後リスケ料金小計);
+			ret.Add(補助金_平日夜間等規定後リスケ料金単価);
+			ret.Add(補助金_平日夜間等規定後リスケ料金数量);
+			ret.Add(補助金_平日夜間等規定後リスケ料金小計);
+			ret.Add(補助金_作業キャンセル料単価);
+			ret.Add(補助金_作業キャンセル料数量);
+			ret.Add(補助金_作業キャンセル料小計);
+			ret.Add(補助金_平日夜間等作業キャンセル料単価);
+			ret.Add(補助金_平日夜間等作業キャンセル料数量);
+			ret.Add(補助金_平日夜間等作業キャンセル料小計);
+			ret.Add(補助金_作業延長料金_30分毎_単価);
+			ret.Add(補助金_作業延長料金_30分毎_数量);
+			ret.Add(補助金_作業延長料金_30分毎_小計);
+			ret.Add(補助金_離島における交通費小計);
+			ret.Add(補助金_機器料金小計);
+			ret.Add(補助金_小計);
+			ret.Add(補助金_消費税額);
+			ret.Add(補助金_合計税込);
 			ret.Add(補助金申請書類送付日_NTT_ミック);
 			ret.Add(完了フラグ_拠点毎);
 			ret.Add(NTT備考欄);
@@ -333,6 +403,39 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			ret.Add(修正箇所1);
 			ret.Add(回答結果2);
 			ret.Add(修正箇所2);
+
+			// Ver1.07 NTT東日本進捗管理表新フォーム(20220613版)に対応(2022/07/21 勝呂)
+			ret.Add(委託業務完成通知書_現地調査基本額単価);
+			ret.Add(委託業務完成通知書_現地調査基本額数量);
+			ret.Add(委託業務完成通知書_現地調査基本額小計);
+			ret.Add(委託業務完成通知書_平日夜間等割増料金単価);
+			ret.Add(委託業務完成通知書_平日夜間等割増料金数量);
+			ret.Add(委託業務完成通知書_平日夜間等割増料金小計);
+			ret.Add(委託業務完成通知書_再派遣料金単価);
+			ret.Add(委託業務完成通知書_再派遣料金数量);
+			ret.Add(委託業務完成通知書_再派遣料金小計);
+			ret.Add(委託業務完成通知書_平日夜間等再派遣料金単価);
+			ret.Add(委託業務完成通知書_平日夜間等再派遣料金数量);
+			ret.Add(委託業務完成通知書_平日夜間等再派遣料金小計);
+			ret.Add(委託業務完成通知書_規定後リスケ料金単価);
+			ret.Add(委託業務完成通知書_規定後リスケ料金数量);
+			ret.Add(委託業務完成通知書_規定後リスケ料金小計);
+			ret.Add(委託業務完成通知書_平日夜間等規定後リスケ料金単価);
+			ret.Add(委託業務完成通知書_平日夜間等規定後リスケ料金数量);
+			ret.Add(委託業務完成通知書_平日夜間等規定後リスケ料金小計);
+			ret.Add(委託業務完成通知書_作業キャンセル料単価);
+			ret.Add(委託業務完成通知書_作業キャンセル料数量);
+			ret.Add(委託業務完成通知書_作業キャンセル料小計);
+			ret.Add(委託業務完成通知書_平日夜間等作業キャンセル料単価);
+			ret.Add(委託業務完成通知書_平日夜間等作業キャンセル料数量);
+			ret.Add(委託業務完成通知書_平日夜間等作業キャンセル料小計);
+			ret.Add(委託業務完成通知書_作業延長料金30分毎単価);
+			ret.Add(委託業務完成通知書_作業延長料金30分毎数量);
+			ret.Add(委託業務完成通知書_作業延長料金30分毎小計);
+			ret.Add(委託業務完成通知書_離島における交通費小計);
+			ret.Add(委託業務完成通知書_小計);
+			ret.Add(委託業務完成通知書_消費税額);
+			ret.Add(委託業務完成通知書_合計税込);
 			return ret.ToArray();
 		}
 
@@ -378,11 +481,11 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			入館調整ステータス = ws.Cell(row, 10 + startCol).GetString();
 			進捗管理ステータス = ws.Cell(row, 11 + startCol).GetString();
 			フレッツ新規手配 = ws.Cell(row, 12 + startCol).GetString();
-			事前調査確定日 = Program.GetDateString(ws.Cell(row, 13 + startCol));
-			事前調査確定時間 = Program.GetTimeString(ws.Cell(row, 14 + startCol));
-			事前調査結果 = ws.Cell(row, 15 + startCol).GetString();
-			事前調査結果詳細_調査NG時 = ws.Cell(row, 16 + startCol).GetString();
-			事前調査確定日_過去日 = Program.GetDateString(ws.Cell(row, 17 + startCol));
+			現地調査確定日 = Program.GetDateString(ws.Cell(row, 13 + startCol));
+			現地調査確定時間 = Program.GetTimeString(ws.Cell(row, 14 + startCol));
+			現地調査結果 = ws.Cell(row, 15 + startCol).GetString();
+			現地調査結果詳細_調査NG時 = ws.Cell(row, 16 + startCol).GetString();
+			現地調査確定日_過去日 = Program.GetDateString(ws.Cell(row, 17 + startCol));
 			備考_調査関連 = ws.Cell(row, 18 + startCol).GetString();
 			工事確定日 = Program.GetDateString(ws.Cell(row, 19 + startCol));
 			工事確定時間 = Program.GetTimeString(ws.Cell(row, 20 + startCol));
@@ -391,38 +494,38 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			工事確定日_過去日 = Program.GetDateString(ws.Cell(row, 23 + startCol));
 			備考_工事関連 = ws.Cell(row, 24 + startCol).GetString();
 			作業報告書_PDF_送付月25日締め_NTT_ミック = ws.Cell(row, 25 + startCol).GetString();
-			工事基本額単価 = ws.Cell(row, 26 + startCol).GetString();
-			工事基本額数量 = ws.Cell(row, 27 + startCol).GetString();
-			工事基本額小計 = ws.Cell(row, 28 + startCol).GetString();
-			平日夜間等割増料金単価 = ws.Cell(row, 29 + startCol).GetString();
-			平日夜間等割増料金数量 = ws.Cell(row, 30 + startCol).GetString();
-			平日夜間等割増料金小計 = ws.Cell(row, 31 + startCol).GetString();
-			再派遣料金単価 = ws.Cell(row, 32 + startCol).GetString();
-			再派遣料金数量 = ws.Cell(row, 33 + startCol).GetString();
-			再派遣料金小計 = ws.Cell(row, 34 + startCol).GetString();
-			平日夜間等再派遣料金単価 = ws.Cell(row, 35 + startCol).GetString();
-			平日夜間等再派遣料金数量 = ws.Cell(row, 36 + startCol).GetString();
-			平日夜間等再派遣料金小計 = ws.Cell(row, 37 + startCol).GetString();
-			規定後リスケ料金単価 = ws.Cell(row, 38 + startCol).GetString();
-			規定後リスケ料金数量 = ws.Cell(row, 39 + startCol).GetString();
-			規定後リスケ料金小計 = ws.Cell(row, 40 + startCol).GetString();
-			平日夜間等規定後リスケ料金単価 = ws.Cell(row, 41 + startCol).GetString();
-			平日夜間等規定後リスケ料金数量 = ws.Cell(row, 42 + startCol).GetString();
-			平日夜間等規定後リスケ料金小計 = ws.Cell(row, 43 + startCol).GetString();
-			作業キャンセル料単価 = ws.Cell(row, 44 + startCol).GetString();
-			作業キャンセル料数量 = ws.Cell(row, 45 + startCol).GetString();
-			作業キャンセル料小計 = ws.Cell(row, 46 + startCol).GetString();
-			平日夜間等作業キャンセル料単価 = ws.Cell(row, 47 + startCol).GetString();
-			平日夜間等作業キャンセル料数量 = ws.Cell(row, 48 + startCol).GetString();
-			平日夜間等作業キャンセル料小計 = ws.Cell(row, 49 + startCol).GetString();
-			作業延長料金_30分毎_単価 = ws.Cell(row, 50 + startCol).GetString();
-			作業延長料金_30分毎_数量 = ws.Cell(row, 51 + startCol).GetString();
-			作業延長料金_30分毎_小計 = ws.Cell(row, 52 + startCol).GetString();
-			離島における交通費小計 = ws.Cell(row, 53 + startCol).GetString();
-			機器料金小計 = ws.Cell(row, 54 + startCol).GetString();
-			小計 = ws.Cell(row, 55 + startCol).GetString();
-			消費税額 = ws.Cell(row, 56 + startCol).GetString();
-			合計_税込 = ws.Cell(row, 57 + startCol).GetString();
+			補助金_工事基本額単価 = ws.Cell(row, 26 + startCol).GetString();
+			補助金_工事基本額数量 = ws.Cell(row, 27 + startCol).GetString();
+			補助金_工事基本額小計 = ws.Cell(row, 28 + startCol).GetString();
+			補助金_平日夜間等割増料金単価 = ws.Cell(row, 29 + startCol).GetString();
+			補助金_平日夜間等割増料金数量 = ws.Cell(row, 30 + startCol).GetString();
+			補助金_平日夜間等割増料金小計 = ws.Cell(row, 31 + startCol).GetString();
+			補助金_再派遣料金単価 = ws.Cell(row, 32 + startCol).GetString();
+			補助金_再派遣料金数量 = ws.Cell(row, 33 + startCol).GetString();
+			補助金_再派遣料金小計 = ws.Cell(row, 34 + startCol).GetString();
+			補助金_平日夜間等再派遣料金単価 = ws.Cell(row, 35 + startCol).GetString();
+			補助金_平日夜間等再派遣料金数量 = ws.Cell(row, 36 + startCol).GetString();
+			補助金_平日夜間等再派遣料金小計 = ws.Cell(row, 37 + startCol).GetString();
+			補助金_規定後リスケ料金単価 = ws.Cell(row, 38 + startCol).GetString();
+			補助金_規定後リスケ料金数量 = ws.Cell(row, 39 + startCol).GetString();
+			補助金_規定後リスケ料金小計 = ws.Cell(row, 40 + startCol).GetString();
+			補助金_平日夜間等規定後リスケ料金単価 = ws.Cell(row, 41 + startCol).GetString();
+			補助金_平日夜間等規定後リスケ料金数量 = ws.Cell(row, 42 + startCol).GetString();
+			補助金_平日夜間等規定後リスケ料金小計 = ws.Cell(row, 43 + startCol).GetString();
+			補助金_作業キャンセル料単価 = ws.Cell(row, 44 + startCol).GetString();
+			補助金_作業キャンセル料数量 = ws.Cell(row, 45 + startCol).GetString();
+			補助金_作業キャンセル料小計 = ws.Cell(row, 46 + startCol).GetString();
+			補助金_平日夜間等作業キャンセル料単価 = ws.Cell(row, 47 + startCol).GetString();
+			補助金_平日夜間等作業キャンセル料数量 = ws.Cell(row, 48 + startCol).GetString();
+			補助金_平日夜間等作業キャンセル料小計 = ws.Cell(row, 49 + startCol).GetString();
+			補助金_作業延長料金_30分毎_単価 = ws.Cell(row, 50 + startCol).GetString();
+			補助金_作業延長料金_30分毎_数量 = ws.Cell(row, 51 + startCol).GetString();
+			補助金_作業延長料金_30分毎_小計 = ws.Cell(row, 52 + startCol).GetString();
+			補助金_離島における交通費小計 = ws.Cell(row, 53 + startCol).GetString();
+			補助金_機器料金小計 = ws.Cell(row, 54 + startCol).GetString();
+			補助金_小計 = ws.Cell(row, 55 + startCol).GetString();
+			補助金_消費税額 = ws.Cell(row, 56 + startCol).GetString();
+			補助金_合計税込 = ws.Cell(row, 57 + startCol).GetString();
 			補助金申請書類送付日_NTT_ミック = Program.GetDateString(ws.Cell(row, 58 + startCol));
 			完了フラグ_拠点毎 = ws.Cell(row, 59 + startCol).GetString();
 			NTT備考欄 = ws.Cell(row, 60 + startCol).GetString();
@@ -431,6 +534,39 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			修正箇所1 = ws.Cell(row, 63 + startCol).GetString();
 			回答結果2 = ws.Cell(row, 64 + startCol).GetString();
 			修正箇所2 = ws.Cell(row, 65 + startCol).GetString();
+
+			// Ver1.07 NTT東日本進捗管理表新フォーム(20220613版)に対応(2022/07/21 勝呂)
+			委託業務完成通知書_現地調査基本額単価 = ws.Cell(row, 66 + startCol).GetString();
+			委託業務完成通知書_現地調査基本額数量 = ws.Cell(row, 67 + startCol).GetString();
+			委託業務完成通知書_現地調査基本額小計 = ws.Cell(row, 68 + startCol).GetString();
+			委託業務完成通知書_平日夜間等割増料金単価 = ws.Cell(row, 69 + startCol).GetString();
+			委託業務完成通知書_平日夜間等割増料金数量 = ws.Cell(row, 70 + startCol).GetString();
+			委託業務完成通知書_平日夜間等割増料金小計 = ws.Cell(row, 71 + startCol).GetString();
+			委託業務完成通知書_再派遣料金単価 = ws.Cell(row, 72 + startCol).GetString();
+			委託業務完成通知書_再派遣料金数量 = ws.Cell(row, 73 + startCol).GetString();
+			委託業務完成通知書_再派遣料金小計 = ws.Cell(row, 74 + startCol).GetString();
+			委託業務完成通知書_平日夜間等再派遣料金単価 = ws.Cell(row, 75 + startCol).GetString();
+			委託業務完成通知書_平日夜間等再派遣料金数量 = ws.Cell(row, 76 + startCol).GetString();
+			委託業務完成通知書_平日夜間等再派遣料金小計 = ws.Cell(row, 77 + startCol).GetString();
+			委託業務完成通知書_規定後リスケ料金単価 = ws.Cell(row, 78 + startCol).GetString();
+			委託業務完成通知書_規定後リスケ料金数量 = ws.Cell(row, 79 + startCol).GetString();
+			委託業務完成通知書_規定後リスケ料金小計 = ws.Cell(row, 80 + startCol).GetString();
+			委託業務完成通知書_平日夜間等規定後リスケ料金単価 = ws.Cell(row, 81 + startCol).GetString();
+			委託業務完成通知書_平日夜間等規定後リスケ料金数量 = ws.Cell(row, 82 + startCol).GetString();
+			委託業務完成通知書_平日夜間等規定後リスケ料金小計 = ws.Cell(row, 83 + startCol).GetString();
+			委託業務完成通知書_作業キャンセル料単価 = ws.Cell(row, 84 + startCol).GetString();
+			委託業務完成通知書_作業キャンセル料数量 = ws.Cell(row, 85 + startCol).GetString();
+			委託業務完成通知書_作業キャンセル料小計 = ws.Cell(row, 86 + startCol).GetString();
+			委託業務完成通知書_平日夜間等作業キャンセル料単価 = ws.Cell(row, 87 + startCol).GetString();
+			委託業務完成通知書_平日夜間等作業キャンセル料数量 = ws.Cell(row, 88 + startCol).GetString();
+			委託業務完成通知書_平日夜間等作業キャンセル料小計 = ws.Cell(row, 89 + startCol).GetString();
+			委託業務完成通知書_作業延長料金30分毎単価 = ws.Cell(row, 90 + startCol).GetString();
+			委託業務完成通知書_作業延長料金30分毎数量 = ws.Cell(row, 91 + startCol).GetString();
+			委託業務完成通知書_作業延長料金30分毎小計 = ws.Cell(row, 92 + startCol).GetString();
+			委託業務完成通知書_離島における交通費小計 = ws.Cell(row, 93 + startCol).GetString();
+			委託業務完成通知書_小計 = ws.Cell(row, 94 + startCol).GetString();
+			委託業務完成通知書_消費税額 = ws.Cell(row, 95 + startCol).GetString();
+			委託業務完成通知書_合計税込 = ws.Cell(row, 96 + startCol).GetString();
 		}
 	}
 }

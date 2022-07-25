@@ -16,7 +16,7 @@
 // Ver1.13(2022/05/02):Microsoft365利用申込書新フォーム対応
 // Ver1.13(2022/05/09):アプラス預金口座振替依頼書・自動払込利用申込書新フォーム対応
 // Ver1.14(2022/06/16):8-Microsoft365利用申込書 拠点FAX番号対応
-// Ver1.14(2022/06/27):8-Microsoft365利用申込書 新様式対応
+// Ver1.14(2022/06/30):8-Microsoft365利用申込書 新様式対応
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Junp.Table;
@@ -1224,7 +1224,7 @@ namespace VariousDocumentOut
 		/// <param name="common">各種書類出力 共通情報</param>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// Ver1.13(2022/05/02):Microsoft365利用申込書新フォーム対応
-		/// Ver1.14(2022/06/27):8-Microsoft365利用申込書 新様式対応
+		/// Ver1.14(2022/06/30):8-Microsoft365利用申込書 新様式対応
 		public static void ExcelOutMicrosoft365(DocumentCommon common, string pathname)
 		{
 			try
@@ -1248,11 +1248,11 @@ namespace VariousDocumentOut
 					//ws.Cell(47, 20).SetValue(Program.gSettings.HeadOffice.FaxExpendables);
 					ws.Cell(50, 20).SetValue(common.FAX番号);
 
-					ws.Cell(54, 21).SetValue(common.社名);
-					ws.Cell(55, 21).SetValue(common.本社郵便番号);
-					ws.Cell(56, 21).SetValue(common.本社住所);
+					ws.Cell(54, 19).SetValue(common.社名);
+					ws.Cell(55, 19).SetValue(common.本社郵便番号);
+					ws.Cell(56, 19).SetValue(common.本社住所);
 					//ws.Cell(55, 21).SetValue(string.Format("e-mail {0}", common.メールアドレス));
-					ws.Cell(57, 21).SetValue(common.URL);
+					ws.Cell(57, 19).SetValue(common.URL);
 
 					// Excelファイルの保存
 					wb.Save();

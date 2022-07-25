@@ -8,6 +8,7 @@
 // 
 // Ver1.00(2019/06/28):新規作成 勝呂
 //
+using CommonLib.Common;
 using CommonLib.DB;
 using System;
 using System.Collections.Generic;
@@ -218,6 +219,33 @@ namespace CommonLib.BaseFactory.Junp.View
 		public string 代行回収状態 { get; set; }
 
 		public string 代行回収備考 { get; set; }
+
+		/// <summary>
+		/// 顧客名の取得
+		/// </summary>
+		public string 顧客名
+		{
+			get
+			{
+				string name = 顧客名1;
+				if (0 < 顧客名2.Length)
+				{
+					name += " " + 顧客名2;
+				}
+				return name;
+			}
+		}
+
+		/// <summary>
+		/// 医療機関コード(数字のみ)
+		/// </summary>
+		public string NumericClinicCode
+		{
+			get
+			{
+				return StringUtil.DigitOnlyString(医療機関コード);
+			}
+		}
 
 		/// <summary>
 		/// デフォルトコンストラクタ
