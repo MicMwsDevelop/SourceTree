@@ -1,10 +1,6 @@
-﻿using System;
+﻿using CommonLib.BaseFactory;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommonLib.BaseFactory.Junp.View;
-using CommonLib.BaseFactory;
 
 namespace OnlineLicenseSubsidy.BaseFactory
 {
@@ -88,9 +84,12 @@ namespace OnlineLicenseSubsidy.BaseFactory
 			}
 			foreach (var ken in KenNumDef.KenString)
 			{
-				if (-1 != ken.Value[0].IndexOf(住所))
+				if (KenNumDef.KenNumber.None != ken.Key)
 				{
-					return ((int)(ken.Key)).ToString();
+					if (-1 != 住所.IndexOf(ken.Value[0]))
+					{
+						return ((int)(ken.Key)).ToString();
+					}
 				}
 			}
 			return string.Empty;

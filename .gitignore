@@ -552,3 +552,5 @@
 /MWS/Application/OnlineLicenseSubsidy/Doc
 /MWS/Application/OnlineLicenseSubsidy/obj
 /MWS/Application/MakePurchaseFile/Doc
+/Library/MwsWebLib/obj/Debug
+/Library/MwsWebLib/obj/Release

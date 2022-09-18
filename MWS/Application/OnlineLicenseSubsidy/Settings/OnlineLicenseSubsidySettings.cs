@@ -7,10 +7,8 @@
 // 
 // Ver1.00(2022/07/06 勝呂):新規作成
 //
-using MwsLib.Settings.HeadOffice;
 using MwsLib.Settings.SqlServer;
 using System;
-using System.Collections.Generic;
 
 namespace OnlineLicenseSubsidy.Settings
 {
@@ -20,28 +18,32 @@ namespace OnlineLicenseSubsidy.Settings
 	public class OnlineLicenseSubsidySettings : ICloneable, IEquatable<OnlineLicenseSubsidySettings>
 	{
 		/// <summary>
-		/// 出力先フォルダ
+		/// 補助金額資料_NTT東日本_入力フォルダ
 		/// </summary>
-		public HeadOfficeSettings HeadOffice { get; set; }
+		public string 補助金額資料_NTT東日本_入力フォルダ { get; set; }
 
+		/// </summary>
+		/// 補助金額資料_NTT西日本_入力フォルダ
+		/// </summary>
+		public string 補助金額資料_NTT西日本_入力フォルダ { get; set; }
+
+		/// <summary>
+		/// 助成金申請書類出力フォルダ
+		/// </summary>
+		public string 助成金申請書類出力フォルダ { get; set; }
 		/// <summary>
 		/// SQL Server接続情報
 		/// </summary>
 		public SqlServerConnect Junp { get; set; }
-
-		/// <summary>
-		/// オンライン資格確認関連商品
-		/// </summary>
-		public List<OnlineGoods> OnlineGoodsList { get; set; }
-
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public OnlineLicenseSubsidySettings()
         {
-			HeadOffice = new HeadOfficeSettings();
+			補助金額資料_NTT東日本_入力フォルダ = string.Empty;
+			補助金額資料_NTT西日本_入力フォルダ = string.Empty;
+			助成金申請書類出力フォルダ = string.Empty;
 			Junp = new SqlServerConnect();
-			OnlineGoodsList = new List<OnlineGoods>();
 		}
 
 		/// <summary>
@@ -63,9 +65,10 @@ namespace OnlineLicenseSubsidy.Settings
 		{
 			if (other != null)
 			{
-				if (HeadOffice.Equals(other.HeadOffice)
-					&& Junp.Equals(other.Junp)
-					&& OnlineGoodsList.Equals(other.OnlineGoodsList))
+				if (補助金額資料_NTT東日本_入力フォルダ == other.補助金額資料_NTT東日本_入力フォルダ
+					&& 補助金額資料_NTT東日本_入力フォルダ == other.補助金額資料_NTT東日本_入力フォルダ
+					&& 助成金申請書類出力フォルダ == other.助成金申請書類出力フォルダ
+					&& Junp.Equals(other.Junp))
 				{
 					return true;
 				}

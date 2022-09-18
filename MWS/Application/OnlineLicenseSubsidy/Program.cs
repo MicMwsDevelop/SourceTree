@@ -13,7 +13,7 @@
 // 印刷物：無
 // メール送信：無
 /////////////////////////////////////////////////////////
-// Ver1.00(2022/08/31 勝呂):新規作成
+// Ver1.00(2022/09/16 勝呂):新規作成
 /////////////////////////////////////////////////////////
 //
 using ClosedXML.Excel;
@@ -33,7 +33,7 @@ namespace OnlineLicenseSubsidy
 		/// <summary>
 		/// バージョン番号
 		/// </summary>
-		public const string VersionStr = "Ver1.00 (2022/08/30)";
+		public const string VersionStr = "Ver1.00 (2022/09/16)";
 
 		/// <summary>
 		/// 環境設定

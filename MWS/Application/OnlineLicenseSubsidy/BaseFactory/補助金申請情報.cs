@@ -1,9 +1,6 @@
-﻿using System;
+﻿using CommonLib.BaseFactory.Junp.View;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommonLib.BaseFactory.Junp.View;
 
 namespace OnlineLicenseSubsidy.BaseFactory
 {

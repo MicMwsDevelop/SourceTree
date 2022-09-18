@@ -34,12 +34,13 @@ namespace OnlineLicenseSubsidy.Forms
 			this.label1 = new System.Windows.Forms.Label();
 			this.comboBoxYearMonth = new System.Windows.Forms.ComboBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.label2 = new System.Windows.Forms.Label();
-			this.textBoxWorkbook = new System.Windows.Forms.TextBox();
-			this.buttonInputWorkbook = new System.Windows.Forms.Button();
-			this.radioButtonEast = new System.Windows.Forms.RadioButton();
 			this.radioButtonWest = new System.Windows.Forms.RadioButton();
+			this.radioButtonEast = new System.Windows.Forms.RadioButton();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.buttonInputWorkbook = new System.Windows.Forms.Button();
+			this.textBoxWorkbook = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.checkBoxNotPDF = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
@@ -99,8 +100,31 @@ namespace OnlineLicenseSubsidy.Forms
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "完了報告書/領収内訳書読込";
 			// 
+			// radioButtonWest
+			// 
+			this.radioButtonWest.AutoSize = true;
+			this.radioButtonWest.Location = new System.Drawing.Point(129, 35);
+			this.radioButtonWest.Name = "radioButtonWest";
+			this.radioButtonWest.Size = new System.Drawing.Size(91, 21);
+			this.radioButtonWest.TabIndex = 1;
+			this.radioButtonWest.Text = "NTT西日本";
+			this.radioButtonWest.UseVisualStyleBackColor = true;
+			this.radioButtonWest.CheckedChanged += new System.EventHandler(this.radioButtonWest_CheckedChanged);
+			// 
+			// radioButtonEast
+			// 
+			this.radioButtonEast.AutoSize = true;
+			this.radioButtonEast.Location = new System.Drawing.Point(32, 35);
+			this.radioButtonEast.Name = "radioButtonEast";
+			this.radioButtonEast.Size = new System.Drawing.Size(91, 21);
+			this.radioButtonEast.TabIndex = 0;
+			this.radioButtonEast.Text = "NTT東日本";
+			this.radioButtonEast.UseVisualStyleBackColor = true;
+			this.radioButtonEast.CheckedChanged += new System.EventHandler(this.radioButtonEast_CheckedChanged);
+			// 
 			// groupBox2
 			// 
+			this.groupBox2.Controls.Add(this.checkBoxNotPDF);
 			this.groupBox2.Controls.Add(this.buttonInputWorkbook);
 			this.groupBox2.Controls.Add(this.textBoxWorkbook);
 			this.groupBox2.Controls.Add(this.label2);
@@ -112,24 +136,6 @@ namespace OnlineLicenseSubsidy.Forms
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "補助金申請書類出力";
 			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(7, 24);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(74, 17);
-			this.label2.TabIndex = 0;
-			this.label2.Text = "■作業リスト";
-			// 
-			// textBoxWorkbook
-			// 
-			this.textBoxWorkbook.BackColor = System.Drawing.Color.White;
-			this.textBoxWorkbook.Location = new System.Drawing.Point(10, 45);
-			this.textBoxWorkbook.Name = "textBoxWorkbook";
-			this.textBoxWorkbook.ReadOnly = true;
-			this.textBoxWorkbook.Size = new System.Drawing.Size(579, 24);
-			this.textBoxWorkbook.TabIndex = 1;
-			// 
 			// buttonInputWorkbook
 			// 
 			this.buttonInputWorkbook.Location = new System.Drawing.Point(590, 45);
@@ -140,27 +146,34 @@ namespace OnlineLicenseSubsidy.Forms
 			this.buttonInputWorkbook.UseVisualStyleBackColor = true;
 			this.buttonInputWorkbook.Click += new System.EventHandler(this.buttonInputWorkbook_Click);
 			// 
-			// radioButtonEast
+			// textBoxWorkbook
 			// 
-			this.radioButtonEast.AutoSize = true;
-			this.radioButtonEast.Checked = true;
-			this.radioButtonEast.Location = new System.Drawing.Point(32, 35);
-			this.radioButtonEast.Name = "radioButtonEast";
-			this.radioButtonEast.Size = new System.Drawing.Size(91, 21);
-			this.radioButtonEast.TabIndex = 0;
-			this.radioButtonEast.TabStop = true;
-			this.radioButtonEast.Text = "NTT東日本";
-			this.radioButtonEast.UseVisualStyleBackColor = true;
+			this.textBoxWorkbook.BackColor = System.Drawing.Color.White;
+			this.textBoxWorkbook.Location = new System.Drawing.Point(10, 45);
+			this.textBoxWorkbook.Name = "textBoxWorkbook";
+			this.textBoxWorkbook.ReadOnly = true;
+			this.textBoxWorkbook.Size = new System.Drawing.Size(579, 24);
+			this.textBoxWorkbook.TabIndex = 1;
 			// 
-			// radioButtonWest
+			// label2
 			// 
-			this.radioButtonWest.AutoSize = true;
-			this.radioButtonWest.Location = new System.Drawing.Point(129, 35);
-			this.radioButtonWest.Name = "radioButtonWest";
-			this.radioButtonWest.Size = new System.Drawing.Size(91, 21);
-			this.radioButtonWest.TabIndex = 1;
-			this.radioButtonWest.Text = "NTT西日本";
-			this.radioButtonWest.UseVisualStyleBackColor = true;
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(7, 24);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(74, 17);
+			this.label2.TabIndex = 0;
+			this.label2.Text = "■作業リスト";
+			// 
+			// checkBoxNotPDF
+			// 
+			this.checkBoxNotPDF.AutoSize = true;
+			this.checkBoxNotPDF.Location = new System.Drawing.Point(300, 95);
+			this.checkBoxNotPDF.Name = "checkBoxNotPDF";
+			this.checkBoxNotPDF.Size = new System.Drawing.Size(156, 21);
+			this.checkBoxNotPDF.TabIndex = 4;
+			this.checkBoxNotPDF.Text = "PDFファイルを作成しない";
+			this.checkBoxNotPDF.UseVisualStyleBackColor = true;
+			this.checkBoxNotPDF.Visible = false;
 			// 
 			// MainForm
 			// 
@@ -197,6 +210,7 @@ namespace OnlineLicenseSubsidy.Forms
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.RadioButton radioButtonWest;
 		private System.Windows.Forms.RadioButton radioButtonEast;
+		private System.Windows.Forms.CheckBox checkBoxNotPDF;
 	}
 }
 
