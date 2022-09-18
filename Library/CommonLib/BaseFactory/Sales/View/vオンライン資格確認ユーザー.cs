@@ -5,7 +5,9 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2022/03/08 勝呂)
+// Ver1.00 新規作成(2022/03/08 勝呂)
+// Ver1.10 Webヒアリングシート現調対応(2022/08/03 勝呂)
+// Ver1.10 NTT西日本進捗管理表新フォーム(20220822版)MIC連絡担当者社員番号対応(2022/08/19 勝呂)
 // 
 using CommonLib.DB;
 using System;
@@ -79,6 +81,12 @@ namespace CommonLib.BaseFactory.Sales.View
 		public string その他_特記事項 { get; set; }
 		public string ヒアリングシート完成日 { get; set; }
 		public string 送信履歴 { get; set; }
+
+		// Ver1.10 Webヒアリングシート現調対応(2022/08/03 勝呂)
+		public string 現調送信履歴 { get; set; }
+
+		// Ver1.10 NTT西日本進捗管理表新フォーム(20220822版)MIC連絡担当者社員番号対応(2022/08/19 勝呂)
+		public string MIC連絡担当者社員番号 { get; set; }
 
 		/// <summary>
 		/// NTT東日本管轄かどうか？
@@ -179,6 +187,12 @@ namespace CommonLib.BaseFactory.Sales.View
 			その他_特記事項 = string.Empty;
 			ヒアリングシート完成日 = string.Empty;
 			送信履歴 = string.Empty;
+
+			// Ver1.10 Webヒアリングシート現調対応(2022/08/03 勝呂)
+			現調送信履歴 = string.Empty;
+
+			// Ver1.10 NTT西日本進捗管理表新フォーム(20220822版)MIC連絡担当者社員番号対応(2022/08/19 勝呂)
+			MIC連絡担当者社員番号 = string.Empty;
 		}
 
 		/// <summary>
@@ -257,6 +271,13 @@ namespace CommonLib.BaseFactory.Sales.View
 					data.その他_特記事項 = row["その他_特記事項"].ToString().Trim();
 					data.ヒアリングシート完成日 = row["ヒアリングシート完成日"].ToString().Trim();
 					data.送信履歴 = row["送信履歴"].ToString().Trim();
+
+					// Ver1.10 Webヒアリングシート現調対応(2022/08/03 勝呂)
+					data.現調送信履歴 = row["現調送信履歴"].ToString().Trim();
+
+					// Ver1.10 NTT西日本進捗管理表新フォーム(20220822版)MIC連絡担当者社員番号対応(2022/08/19 勝呂)
+					data.MIC連絡担当者社員番号 = row["MIC連絡担当者社員番号"].ToString().Trim();
+
 					result.Add(data);
 				}
 			}
@@ -333,6 +354,13 @@ namespace CommonLib.BaseFactory.Sales.View
 			ret.Add(その他_特記事項);
 			ret.Add(ヒアリングシート完成日);
 			ret.Add(送信履歴);
+
+			// Ver1.10 Webヒアリングシート現調対応(2022/08/03 勝呂)
+			ret.Add(現調送信履歴);
+
+			// Ver1.10 NTT西日本進捗管理表新フォーム(20220822版)MIC連絡担当者社員番号対応(2022/08/19 勝呂)
+			ret.Add(MIC連絡担当者社員番号);
+
 			return ret.ToArray();
 		}
 	}

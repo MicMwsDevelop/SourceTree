@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OnlineLicenseSubsidySettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<HeadOffice>
+		<CompanyName>株式会社ミック</CompanyName>
+		<Zipcode>277-0871</Zipcode>
+		<Address1>千葉県柏市若柴226番地44 中央141街区1</Address1>
+		<Address2>KOIL TERRACE 5F</Address2>
+		<Tel>04-7130-9003</Tel>
+		<Fax>04-7130-9002</Fax>
+		<Email>info@mic.jp</Email>
+		<Url>https://www.webservice.mic.jp</Url>
+		<TelSogoKikaku>04-7130-9004</TelSogoKikaku>
+		<TelKeiri>04-7130-9005</TelKeiri>
+		<TelServiceCenter>04-7130-9006</TelServiceCenter>
+		<TelEigyoKanri>04-7130-9007</TelEigyoKanri>
+		<TelHealthcare>04-7130-9008</TelHealthcare>
+		<FaxExpendables>050-3737-1395</FaxExpendables>
+		<FaxServiceCenter>050-3737-1539</FaxServiceCenter>
+		<FaxHealthcare>04-7130-9002</FaxHealthcare>
+	</HeadOffice>
+	<Junp>
+		<InstanceName>SQLSV</InstanceName>
+		<!-- InstanceName>TESTSV</InstanceName -->
+		<DatabaseName>JunpDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</Junp>
+	<OnlineGoodsList>
+		<OnlineGoods>
+			<商品コード>018025</商品コード>
+			<項目>資格確認端末関係</項目>
+			<内訳>資格確認端末 エレコム MINIBOXPC FSF362(デスクトップPC)</内訳>
+		</OnlineGoods>
+		<OnlineGoods>
+			<商品コード>018027</商品コード>
+			<項目>ネットワーク設定作業等</項目>
+			<内訳>資格確認端末及び顔認証カードリーダ設置設定作業費</内訳>
+		</OnlineGoods>
+		<OnlineGoods>
+			<商品コード>018037</商品コード>
+			<項目>院内のネットワーク関連機器</項目>
+			<内訳>ルーター ヤマハ RTX830</内訳>
+		</OnlineGoods>
+		<OnlineGoods>
+			<商品コード>018021</商品コード>
+			<項目>レセコン等既存システムの改修に係るパッケージソフトの購入及び導入</項目>
+			<内訳>オンライン資格確認用ソフト改修費</内訳>
+		</OnlineGoods>
+	</OnlineGoodsList>
+</OnlineLicenseSubsidySettings>

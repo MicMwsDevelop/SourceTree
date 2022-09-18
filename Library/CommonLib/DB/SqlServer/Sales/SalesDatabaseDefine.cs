@@ -35,6 +35,11 @@ namespace CommonLib.DB.SqlServer.Sales
 			/// 進捗管理表_作業情報
 			/// </summary>
 			進捗管理表_作業情報 = 2,
+
+			/// <summary>
+			/// オンライン資格確認進捗管理
+			/// </summary>
+			オンライン資格確認進捗管理 = 3,
 		}
 
 		/// <summary>
@@ -44,6 +49,7 @@ namespace CommonLib.DB.SqlServer.Sales
 		{
 			{ TableType.オン資格ヒアリングシート, string.Format("{0}.オン資格ヒアリングシート", DatabaseName) },
 			{ TableType.進捗管理表_作業情報, string.Format("{0}.進捗管理表_作業情報", DatabaseName) },
+			{ TableType.オンライン資格確認進捗管理, string.Format("{0}.オンライン資格確認進捗管理", DatabaseName) },
 		};
 
 		/// <summary>
@@ -52,6 +58,7 @@ namespace CommonLib.DB.SqlServer.Sales
 		public enum ViewType
 		{
 			vオンライン資格確認ユーザー = 1,
+			vオンライン資格確認進捗管理 = 2,
 		}
 
 		/// <summary>
@@ -60,6 +67,7 @@ namespace CommonLib.DB.SqlServer.Sales
 		public static readonly EnumDictionary<ViewType, string> ViewName = new EnumDictionary<ViewType, string>()
 		{
 			{ ViewType.vオンライン資格確認ユーザー, string.Format("{0}.vオンライン資格確認ユーザー", DatabaseName) },
+			{ ViewType.vオンライン資格確認進捗管理, string.Format("{0}.vオンライン資格確認進捗管理", DatabaseName) },
 		};
 	}
 }

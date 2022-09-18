@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OnlineLicenseIntroductionStatusSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Mail>
+		<From>営業管理部&lt;eigyo_kanri@mic.jp&gt;</From>
+		<To></To>
+		<CC>営業管理部&lt;eigyo_kanri@mic.jp&gt;</CC>
+		<TestTo>勝呂 幹雄&lt;suguro@mic.jp&gt;</TestTo>
+		<TestCC>勝呂 幹雄&lt;suguro@mic.jp&gt;</TestCC>
+		<Smtp>dove.mic.jp</Smtp>
+		<Port>25</Port>
+		<User></User>
+		<Pass></Pass>
+	</Mail>
+	<ConnectJunp>
+		<InstanceName>SQLSV</InstanceName>
+		<!-- InstanceName>TESTSV</InstanceName -->
+		<DatabaseName>JunpDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</ConnectJunp>
+	<ConnectSales>
+		<InstanceName>SQLSV</InstanceName>
+		<!-- InstanceName>TESTSV</InstanceName -->
+		<DatabaseName>SalesDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</ConnectSales>
+	<導入意志>わからない,導入する,終了</導入意志>
+	<工事種別>調査中,NTT（通常）,NTT（現調パック）,IP-sec（菱洋）,IP-sec（その他）,ミック独力,外注（その他）,連携のみ,オン資単独運用</工事種別>
+	<ステータス>NTT現調手配済,現調済,ヒアリングシート提出済,IP-sec案件手配済,その他外注手配済,納品完了,納品完了（コミュファ）,納品完了（アイネット）,納品完了（BBIQ）,アイネット手配済,導入済（NTT）,コミュファ手配済,納品完了（りゅうせき）</ステータス>
+	<導入意志あり_導入意思>導入する</導入意志あり_導入意思>
+	<未確認_反応無し_導入意思>わからない</未確認_反応無し_導入意思>
+	<NTT_外注_依頼数_工事種別>NTT（通常）,NTT（現調パック）</NTT_外注_依頼数_工事種別>
+	<IPSEC依頼提出数_工事種別>IP-sec（菱洋）,IP-sec（その他）</IPSEC依頼提出数_工事種別>
+	<ヒアリングシート提出数_ステータス>ヒアリングシート提出済</ヒアリングシート提出数_ステータス>
+	<NTT案件納品数_工事種別>NTT（通常）,NTT（現調パック）</NTT案件納品数_工事種別>
+	<NTT案件納品数_ステータス>納品完了</NTT案件納品数_ステータス>
+	<IPSEC納品数_工事種別>IP-sec（菱洋）,IP-sec（その他）</IPSEC納品数_工事種別>
+	<IPSEC納品数_ステータス>納品完了</IPSEC納品数_ステータス>
+	<MIC自力_その他納品数_工事種別>ミック独力,外注（その他）</MIC自力_その他納品数_工事種別>
+	<MIC自力_その他納品数_ステータス>納品完了,納品完了（コミュファ）,納品完了（アイネット）,納品完了（BBIQ）,納品完了（りゅうせき） </MIC自力_その他納品数_ステータス>
+</OnlineLicenseIntroductionStatusSettings>

@@ -6,17 +6,25 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2022/03/08 勝呂)
-// Ver1.04 NTT西日本進捗管理表新フォームに対応(2022/04/22 勝呂)
+// Ver1.04 NTT西日本進捗管理表新フォーム(20220420版)に対応(2022/04/22 勝呂)
+// Ver1.09 NTT西日本進捗管理表新フォーム(20220810版)に対応(2022/08/08 勝呂)
 // 
 using ClosedXML.Excel;
 using CommonLib.Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace NoticeOnlineLicenseConfirm.BaseFactory
 {
 	public class 進捗管理表_NTT西日本
 	{
+		/// <summary>
+		/// 読込対象シート名
+		/// </summary>
+		public const string TargetSheetName = "申込書兼進捗管理表 (BS案)";
+
 		/// <summary>
 		/// 通知情報
 		/// </summary>
@@ -161,6 +169,22 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		public string 補助金申請書類送付日_NTT_医療機関 { get; set; }
 
 		/// <summary>
+		/// 現調プラン
+		/// </summary>
+		/// Ver1.09 NTT西日本進捗管理表新フォーム(20220810版)に対応(2022/08/08 勝呂)
+		public string 現調プラン_現調申込日 { get; set; }
+		public string 現調プラン_訪問日 { get; set; }
+		public string 現調プラン_訪問時間 { get; set; }
+		public string 現調プラン_完了報告日 { get; set; }
+		public string 現調プラン_平日 { get; set; }
+		public string 現調プラン_平日夜間帯 { get; set; }
+		public string 現調プラン_平日深夜早朝帯 { get; set; }
+		public string 現調プラン_土日祝日中帯 { get; set; }
+		public string 現調プラン_土日祝夜間帯 { get; set; }
+		public string 現調プラン_土日祝深夜早朝帯 { get; set; }
+		public string 現調プラン_作業延長料金 { get; set; }
+
+		/// <summary>
 		/// 機器設定作業料金
 		/// </summary>
 		public string 機器設定作業料金_プランA_平日日中帯 { get; set; }
@@ -235,6 +259,46 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		public string 連絡内容 { get; set; }
 
 		/// <summary>
+		/// 現調プラン_訪問日付の取得
+		/// CH列：現調プラン_訪問日
+		/// </summary>
+		public Date? 現調プラン_訪問日付
+		{
+			get
+			{
+				if (0 < 現調プラン_訪問日.Length)
+				{
+					DateTime work;
+					if (DateTime.TryParse(現調プラン_訪問日, out work))
+					{
+						return new Date(work);
+					}
+				}
+				return null;
+			}
+		}
+
+		/// <summary>
+		/// 現調プラン_完了報告日付の取得
+		/// CJ列：現調プラン_完了報告日
+		/// </summary>
+		public Date? 現調プラン_完了報告日付
+		{
+			get
+			{
+				if (0 < 現調プラン_完了報告日.Length)
+				{
+					DateTime work;
+					if (DateTime.TryParse(現調プラン_完了報告日, out work))
+					{
+						return new Date(work);
+					}
+				}
+				return null;
+			}
+		}
+
+		/// <summary>
 		/// 工事確定日付の取得
 		/// I列：工事確定日
 		/// </summary>
@@ -251,6 +315,17 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 					}
 				}
 				return null;
+			}
+		}
+
+		/// <summary>
+		/// 工事結果がOKかどうか？
+		/// </summary>
+		public bool 工事結果_OK
+		{
+			get
+			{
+				return ("OK" == 工事結果) ? true : false;
 			}
 		}
 
@@ -388,6 +463,19 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			機器設定作業料金_プランB_平日日中帯 = string.Empty;
 			機器設定作業料金_プランB_夜間土休日 = string.Empty;
 			機器設定作業料金_機器代金のみ = string.Empty;
+
+			// Ver1.09 NTT西日本進捗管理表新フォーム(20220810版)に対応(2022/08/08 勝呂)
+			現調プラン_現調申込日 = string.Empty;
+			現調プラン_訪問日 = string.Empty;
+			現調プラン_訪問時間 = string.Empty;
+			現調プラン_完了報告日 = string.Empty;
+			現調プラン_平日 = string.Empty;
+			現調プラン_平日夜間帯 = string.Empty;
+			現調プラン_平日深夜早朝帯 = string.Empty;
+			現調プラン_土日祝日中帯 = string.Empty;
+			現調プラン_土日祝夜間帯 = string.Empty;
+			現調プラン_土日祝深夜早朝帯 = string.Empty;
+			現調プラン_作業延長料金 = string.Empty;
 
 			// Ver1.04 NTT西日本進捗管理表新フォームに対応(2022/04/22 勝呂)
 			プランA_新価格_平日日中帯 = string.Empty;
@@ -531,6 +619,19 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			ret.Add(機器設定作業料金_プランB_夜間土休日);
 			ret.Add(機器設定作業料金_機器代金のみ);
 
+			// Ver1.09 NTT西日本進捗管理表新フォーム(20220810版)に対応(2022/08/08 勝呂)
+			ret.Add(現調プラン_現調申込日);
+			ret.Add(現調プラン_訪問日);
+			ret.Add(現調プラン_訪問時間);
+			ret.Add(現調プラン_完了報告日);
+			ret.Add(現調プラン_平日);
+			ret.Add(現調プラン_平日夜間帯);
+			ret.Add(現調プラン_平日深夜早朝帯);
+			ret.Add(現調プラン_土日祝日中帯);
+			ret.Add(現調プラン_土日祝夜間帯);
+			ret.Add(現調プラン_土日祝深夜早朝帯);
+			ret.Add(現調プラン_作業延長料金);
+
 			// Ver1.04 NTT西日本進捗管理表新フォームに対応(2022/04/22 勝呂)
 			ret.Add(プランA_新価格_平日日中帯);
 			ret.Add(プランA_新価格_夜間土休日);
@@ -579,7 +680,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		}
 
 		/// <summary>
-		/// ワークシートの読込(進捗管理表)
+		/// ワークシートの設定(進捗管理表)
 		/// </summary>
 		/// <param name="ws">ワークシート</param>
 		/// <param name="row">行</param>
@@ -589,7 +690,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		}
 
 		/// <summary>
-		/// ワークシートの読込(オンライン資格確認通知結果)
+		/// ワークシートの設定(オンライン資格確認通知結果)
 		/// </summary>
 		/// <param name="ws">ワークシート</param>
 		/// <param name="row">行</param>
@@ -694,48 +795,175 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			機器設定作業料金_プランB_平日日中帯 = ws.Cell(row, 85 + startCol).GetString();
 			機器設定作業料金_プランB_夜間土休日 = ws.Cell(row, 86 + startCol).GetString();
 			機器設定作業料金_機器代金のみ = ws.Cell(row, 87 + startCol).GetString();
-			プランA_新価格_平日日中帯 = ws.Cell(row, 88 + startCol).GetString();
-			プランA_新価格_夜間土休日 = ws.Cell(row, 89 + startCol).GetString();
-			プランB_新価格_平日日中帯 = ws.Cell(row, 90 + startCol).GetString();
-			プランB_新価格_夜間土休日 = ws.Cell(row, 91 + startCol).GetString();
-			機器代金_新価格 = ws.Cell(row, 92 + startCol).GetString();
-			HUB_オプション = ws.Cell(row, 93 + startCol).GetString();
-			モバイルディスプレイ_オプション = ws.Cell(row, 94 + startCol).GetString();
-			機器設定作業料金_再派遣料金ver1_平日日中帯 = ws.Cell(row, 95 + startCol).GetString();
-			機器設定作業料金_再派遣料金ver1_夜間土休日 = ws.Cell(row, 96 + startCol).GetString();
-			機器設定作業料金_再派遣料金ver2_平日日中帯 = ws.Cell(row, 97 + startCol).GetString();
-			機器設定作業料金_再派遣料金ver2_夜間土休日 = ws.Cell(row, 98 + startCol).GetString();
-			機器設定作業料金_再派遣料金ver3_平日日中帯 = ws.Cell(row, 99 + startCol).GetString();
-			機器設定作業料金_再派遣料金ver3_夜間土休日 = ws.Cell(row, 100 + startCol).GetString();
-			機器設定作業料金_規定後リスケ料金_平日日中帯 = ws.Cell(row, 101 + startCol).GetString();
-			機器設定作業料金_規定後リスケ料金_夜間土休日 = ws.Cell(row, 102 + startCol).GetString();
-			機器設定作業料金_作業キャンセルA_平日日中帯 = ws.Cell(row, 103 + startCol).GetString();
-			機器設定作業料金_作業キャンセルA_夜間土休日 = ws.Cell(row, 104 + startCol).GetString();
-			機器設定作業料金_作業キャンセルA1_平日日中帯 = ws.Cell(row, 105 + startCol).GetString();
-			機器設定作業料金_作業キャンセルA1_夜間土休日 = ws.Cell(row, 106 + startCol).GetString();
-			現地調査_割増料金_夜間土休日 = ws.Cell(row, 107 + startCol).GetString();
-			現地調査_再派遣料金_平日日中帯 = ws.Cell(row, 108 + startCol).GetString();
-			現地調査_再派遣料金_夜間土休日 = ws.Cell(row, 109 + startCol).GetString();
-			現地調査_規定後リスケ料金_平日日中帯 = ws.Cell(row, 110 + startCol).GetString();
-			現地調査_規定後リスケ料金_夜間土休日 = ws.Cell(row, 111 + startCol).GetString();
-			現地調査_作業キャンセル_平日日中帯 = ws.Cell(row, 112 + startCol).GetString();
-			現地調査_作業キャンセル_夜間土休日 = ws.Cell(row, 113 + startCol).GetString();
-			LAN配線作業_割増料金_夜間土休日 = ws.Cell(row, 114 + startCol).GetString();
-			LAN配線作業_再派遣料金_平日日中帯 = ws.Cell(row, 115 + startCol).GetString();
-			LAN配線作業_再派遣料金_夜間土休日 = ws.Cell(row, 116 + startCol).GetString();
-			LAN配線作業_規定後リスケ料金_平日日中帯 = ws.Cell(row, 117 + startCol).GetString();
-			LAN配線作業_規定後リスケ料金_夜間土休日 = ws.Cell(row, 118 + startCol).GetString();
-			LAN配線作業_作業キャンセルB_平日日中帯 = ws.Cell(row, 119 + startCol).GetString();
-			LAN配線作業_作業キャンセルB_夜間土休日 = ws.Cell(row, 120 + startCol).GetString();
-			LAN配線作業_作業キャンセルB1_平日日中帯 = ws.Cell(row, 121 + startCol).GetString();
-			LAN配線作業_作業キャンセルB1_夜間土休日 = ws.Cell(row, 122 + startCol).GetString();
-			LAN配線_延長 = ws.Cell(row, 123 + startCol).GetString();
-			ワイプロ_延長 = ws.Cell(row, 124 + startCol).GetString();
-			その他実費費 = ws.Cell(row, 125 + startCol).GetString();
-			備考 = ws.Cell(row, 126 + startCol).GetString();
-			請求金額 = ws.Cell(row, 127 + startCol).GetString();
-			連絡項目 = ws.Cell(row, 128 + startCol).GetString();
-			連絡内容 = ws.Cell(row, 129 + startCol).GetString();
+
+			// Ver1.09 NTT西日本進捗管理表新フォーム(20220810版)に対応(2022/08/08 勝呂)
+			現調プラン_現調申込日 = ws.Cell(row, 88 + startCol).GetString();
+			現調プラン_訪問日 = ws.Cell(row, 89 + startCol).GetString();
+			現調プラン_訪問時間 = ws.Cell(row, 90 + startCol).GetString();
+			現調プラン_完了報告日 = ws.Cell(row, 91 + startCol).GetString();
+			現調プラン_平日 = ws.Cell(row, 92 + startCol).GetString();
+			現調プラン_平日夜間帯 = ws.Cell(row, 93 + startCol).GetString();
+			現調プラン_平日深夜早朝帯 = ws.Cell(row, 94 + startCol).GetString();
+			現調プラン_土日祝日中帯 = ws.Cell(row, 95 + startCol).GetString();
+			現調プラン_土日祝夜間帯 = ws.Cell(row, 96 + startCol).GetString();
+			現調プラン_土日祝深夜早朝帯 = ws.Cell(row, 97 + startCol).GetString();
+			現調プラン_作業延長料金 = ws.Cell(row, 98 + startCol).GetString();
+
+			// Ver1.04 NTT西日本進捗管理表新フォームに対応(2022/04/22 勝呂)
+			プランA_新価格_平日日中帯 = ws.Cell(row, 99 + startCol).GetString();
+			プランA_新価格_夜間土休日 = ws.Cell(row, 100 + startCol).GetString();
+			プランB_新価格_平日日中帯 = ws.Cell(row, 101 + startCol).GetString();
+			プランB_新価格_夜間土休日 = ws.Cell(row, 102 + startCol).GetString();
+			機器代金_新価格 = ws.Cell(row, 103 + startCol).GetString();
+			HUB_オプション = ws.Cell(row, 104 + startCol).GetString();
+			モバイルディスプレイ_オプション = ws.Cell(row, 105 + startCol).GetString();
+
+			機器設定作業料金_再派遣料金ver1_平日日中帯 = ws.Cell(row, 106 + startCol).GetString();
+			機器設定作業料金_再派遣料金ver1_夜間土休日 = ws.Cell(row, 107 + startCol).GetString();
+			機器設定作業料金_再派遣料金ver2_平日日中帯 = ws.Cell(row, 108 + startCol).GetString();
+			機器設定作業料金_再派遣料金ver2_夜間土休日 = ws.Cell(row, 109 + startCol).GetString();
+			機器設定作業料金_再派遣料金ver3_平日日中帯 = ws.Cell(row, 110 + startCol).GetString();
+			機器設定作業料金_再派遣料金ver3_夜間土休日 = ws.Cell(row, 111 + startCol).GetString();
+			機器設定作業料金_規定後リスケ料金_平日日中帯 = ws.Cell(row, 112 + startCol).GetString();
+			機器設定作業料金_規定後リスケ料金_夜間土休日 = ws.Cell(row, 113 + startCol).GetString();
+			機器設定作業料金_作業キャンセルA_平日日中帯 = ws.Cell(row, 114 + startCol).GetString();
+			機器設定作業料金_作業キャンセルA_夜間土休日 = ws.Cell(row, 115 + startCol).GetString();
+			機器設定作業料金_作業キャンセルA1_平日日中帯 = ws.Cell(row, 116 + startCol).GetString();
+			機器設定作業料金_作業キャンセルA1_夜間土休日 = ws.Cell(row, 117 + startCol).GetString();
+			現地調査_割増料金_夜間土休日 = ws.Cell(row, 118 + startCol).GetString();
+			現地調査_再派遣料金_平日日中帯 = ws.Cell(row, 119 + startCol).GetString();
+			現地調査_再派遣料金_夜間土休日 = ws.Cell(row, 120 + startCol).GetString();
+			現地調査_規定後リスケ料金_平日日中帯 = ws.Cell(row, 121 + startCol).GetString();
+			現地調査_規定後リスケ料金_夜間土休日 = ws.Cell(row, 122 + startCol).GetString();
+			現地調査_作業キャンセル_平日日中帯 = ws.Cell(row, 123 + startCol).GetString();
+			現地調査_作業キャンセル_夜間土休日 = ws.Cell(row, 124 + startCol).GetString();
+			LAN配線作業_割増料金_夜間土休日 = ws.Cell(row, 125 + startCol).GetString();
+			LAN配線作業_再派遣料金_平日日中帯 = ws.Cell(row, 126 + startCol).GetString();
+			LAN配線作業_再派遣料金_夜間土休日 = ws.Cell(row, 127 + startCol).GetString();
+			LAN配線作業_規定後リスケ料金_平日日中帯 = ws.Cell(row, 128 + startCol).GetString();
+			LAN配線作業_規定後リスケ料金_夜間土休日 = ws.Cell(row, 129 + startCol).GetString();
+			LAN配線作業_作業キャンセルB_平日日中帯 = ws.Cell(row, 130 + startCol).GetString();
+			LAN配線作業_作業キャンセルB_夜間土休日 = ws.Cell(row, 131 + startCol).GetString();
+			LAN配線作業_作業キャンセルB1_平日日中帯 = ws.Cell(row, 132 + startCol).GetString();
+			LAN配線作業_作業キャンセルB1_夜間土休日 = ws.Cell(row, 133 + startCol).GetString();
+			LAN配線_延長 = ws.Cell(row, 134 + startCol).GetString();
+			ワイプロ_延長 = ws.Cell(row, 135 + startCol).GetString();
+			その他実費費 = ws.Cell(row, 136 + startCol).GetString();
+			備考 = ws.Cell(row, 137 + startCol).GetString();
+			請求金額 = ws.Cell(row, 138 + startCol).GetString();
+			連絡項目 = ws.Cell(row, 139 + startCol).GetString();
+			連絡内容 = ws.Cell(row, 140 + startCol).GetString();
+		}
+
+		/// <summary>
+		/// 進捗管理表が現在のフォームかどうか？
+		/// </summary>
+		/// <param name="ws">WorkSheet</param>
+		/// <param name="msg">エラーメッセージ</param>
+		/// <returns>判定</returns>
+		public static bool CheckPresentFormat(IXLWorksheet ws, out string msg)
+		{
+			msg = string.Empty;
+
+			// Ver1.04 NTT西日本進捗管理表新フォームに対応(2022/04/22 勝呂)
+			//if ("請求金額" != ws.Cell(4, 129).GetString())
+			//{
+			//	msg = "2022/04/19以前のNTT西日本進捗管理表には対応していません。";
+			//	return false;
+			//}
+
+			// Ver1.09 NTT西日本進捗管理表新フォーム(20220810版)に対応(2022/08/08 勝呂)
+			if ("請求金額" != ws.Cell(4, 140).GetString())
+			{
+				msg = "2022/08/21以前のNTT西日本進捗管理表には対応していません。";
+				return false;
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// 病院IDの重複チェック
+		/// </summary>
+		/// <param name="list">進捗管理表</param>
+		/// <param name="msg">エラーメッセージ</param>
+		/// <returns>判定</returns>
+		public static bool CheckIllegalClinicID(List<進捗管理表_NTT西日本> list, out string msg)
+		{
+			msg = string.Empty;
+
+			List<進捗管理表_NTT西日本> illegalID = list.FindAll(p => p.病院ID < 10000000 || p.病院ID >= 100000000);
+			if (0 < illegalID.Count)
+			{
+				List<int> idList = new List<int>();
+				foreach (進捗管理表_NTT西日本 west in illegalID)
+				{
+					idList.Add(west.病院ID);
+				}
+				msg = string.Format("病院IDが重複しています。進捗管理表を確認してください。\n\n{0}", string.Join(", ", idList.ToArray()));
+				return false;
+			}
+			var duplicate = list.GroupBy(s => s.病院ID).Where(g => g.Count() > 1).Select(g => g.Key).ToList();
+			if (0 < duplicate.Count)
+			{
+				msg = string.Format("病院IDが重複しています。進捗管理表を確認してください。\n\n{0}", string.Join(", ", duplicate.ToArray()));
+				return false;
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// NTT西日本 進捗管理表の読込
+		/// </summary>
+		/// <param name="pathname">NTT西日本進捗管理表パス名</param>
+		/// <param name="msg">エラーメッセージ</param>
+		/// <returns>NTT西日本進捗管理表リスト</returns>
+		public static List<進捗管理表_NTT西日本> ReadProgressExcelFile(string pathname, out string msg)
+		{
+			msg = string.Empty;
+			if (File.Exists(pathname))
+			{
+				List<進捗管理表_NTT西日本> westList = new List<進捗管理表_NTT西日本>();
+				try
+				{
+					using (XLWorkbook wbWest = new XLWorkbook(pathname, XLEventTracking.Disabled))
+					{
+						IXLWorksheet ws = wbWest.Worksheet(進捗管理表_NTT西日本.TargetSheetName);
+						if (false == 進捗管理表_NTT西日本.CheckPresentFormat(ws, out msg))
+						{
+							msg += "\n過去プログラムで実行してください。";
+							return null;
+						}
+						for (int i = 8; ; i++)
+						{
+							if ("" == ws.Cell(i, 3).GetString())
+							{
+								break;
+							}
+							進捗管理表_NTT西日本 data = new 進捗管理表_NTT西日本();
+							data.SetWorksheetBy進捗管理表(ws, i);
+							westList.Add(data);
+						}
+					}
+					if (0 < westList.Count)
+					{
+						if (false == 進捗管理表_NTT西日本.CheckIllegalClinicID(westList, out msg))
+						{
+							return null;
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					msg = ex.Message;
+					return null;
+				}
+				return westList;
+			}
+			else
+			{
+				msg = string.Format("{0}が見つかりません。", pathname);
+			}
+			return null;
 		}
 	}
 }

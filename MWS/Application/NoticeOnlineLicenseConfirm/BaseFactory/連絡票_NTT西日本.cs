@@ -10,11 +10,18 @@
 using ClosedXML.Excel;
 using CommonLib.Common;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace NoticeOnlineLicenseConfirm.BaseFactory
 {
 	public class 連絡票_NTT西日本
 	{
+		/// <summary>
+		/// 読込対象シート名
+		/// </summary>
+		public const string TargetSheetName = "連絡票一覧";
+
 		public string 依頼者 { get; set;}
 		public string 依頼日 { get; set; }
 		public string NTT通番 { get; set; }
@@ -80,6 +87,49 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			回答日 = Program.GetDateString(ws.Cell(row, 8));
 			回答内容 = ws.Cell(row, 9).GetString();
 			ステータス = ws.Cell(row, 10).GetString();
+		}
+
+		/// <summary>
+		/// NTT西日本 連絡票の読込
+		/// </summary>
+		/// <param name="pathname">連絡票パス名</param>
+		/// <param name="msg">エラーメッセージ</param>
+		/// <returns>連絡票リスト</returns>
+		public static List<連絡票_NTT西日本> ReadContactExcelFile(string pathname, out string msg)
+		{
+			msg = string.Empty;
+			if (File.Exists(pathname))
+			{
+				List<連絡票_NTT西日本> contractList = new List<連絡票_NTT西日本>();
+				try
+				{
+					using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
+					{
+						IXLWorksheet ws = wb.Worksheet(連絡票_NTT西日本.TargetSheetName);
+						for (int i = 5; ; i++)
+						{
+							if ("" == ws.Cell(i, 3).GetString())
+							{
+								break;
+							}
+							連絡票_NTT西日本 data = new 連絡票_NTT西日本();
+							data.ReadWorksheet(ws, i);
+							contractList.Add(data);
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					msg = ex.Message;
+					return null;
+				}
+				// NTT西日本進捗管理表のヒアリングシート修正依頼日とNTT西日本連絡票の依頼日が違う場合があり、NTT通番がユニークでないため、正しくマッチングできない
+				// 連絡票を逆順にして最新の内容を検索するにする
+				// ※ただし、依頼日に対し複数の連絡内容がある場合があるが、仕様上対応できていない
+				contractList.Reverse();
+				return contractList;
+			}
+			return null;
 		}
 	}
 }

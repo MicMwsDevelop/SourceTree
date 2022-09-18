@@ -37,9 +37,9 @@ namespace CommonLib.DB.SqlServer
 
 					result = DatabaseController.SqlExecuteNonQuery(con, strSQL);
 				}
-				catch
+				catch (Exception ex)
 				{
-					throw new ApplicationException("CreateTable() Error!");
+					throw new ApplicationException(string.Format("CreateTable() Error!({0})", ex.Message));
 				}
 				finally
 				{
@@ -71,9 +71,9 @@ namespace CommonLib.DB.SqlServer
 
 					result = DatabaseController.SqlExecuteNonQuery(con, strSQL);
 				}
-				catch
+				catch (Exception ex)
 				{
-					throw new ApplicationException("DropTable() Error!");
+					throw new ApplicationException(string.Format("DropTable() Error!({0})", ex.Message));
 				}
 				finally
 				{
@@ -112,9 +112,9 @@ namespace CommonLib.DB.SqlServer
 						}
 					}
 				}
-				catch
+				catch (Exception ex)
 				{
-					throw new ApplicationException("SelectDatabase() Error!");
+					throw new ApplicationException(string.Format("SelectDatabase() Error!({0})", ex.Message));
 				}
 				finally
 				{
@@ -189,9 +189,9 @@ namespace CommonLib.DB.SqlServer
 						}
 					}
 				}
-				catch
+				catch (Exception ex)
 				{
-					throw new ApplicationException("InsertIntoDatabase() Error!");
+					throw new ApplicationException(string.Format("InsertIntoDatabase() Error!({0})", ex.Message));
 				}
 				finally
 				{
@@ -247,9 +247,9 @@ namespace CommonLib.DB.SqlServer
 						}
 					}
 				}
-				catch
+				catch (Exception ex)
 				{
-					throw new ApplicationException("InsertIntoListDatabase() Error!");
+					throw new ApplicationException(string.Format("InsertIntoListDatabase() Error!({0})", ex.Message));
 				}
 				finally
 				{
@@ -326,9 +326,9 @@ namespace CommonLib.DB.SqlServer
 						}
 					}
 				}
-				catch
+				catch (Exception ex)
 				{
-					throw new ApplicationException("UpdateSetDatabase() Error!");
+					throw new ApplicationException(string.Format("UpdateSetDatabase() Error!({0})", ex.Message));
 				}
 				finally
 				{
@@ -380,9 +380,9 @@ namespace CommonLib.DB.SqlServer
 						}
 					}
 				}
-				catch
+				catch (Exception ex)
 				{
-					throw new ApplicationException("DeleteDatabase() Error!");
+					throw new ApplicationException(string.Format("DeleteDatabase() Error!({0})", ex.Message));
 				}
 				finally
 				{

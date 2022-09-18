@@ -12,11 +12,18 @@ using ClosedXML.Excel;
 using CommonLib.Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace NoticeOnlineLicenseConfirm.BaseFactory
 {
 	public class 進捗管理表_NTT東日本
 	{
+		/// <summary>
+		/// 読込対象シート名
+		/// </summary>
+		public const string TargetSheetName = "申込書兼進捗管理表";
+
 		/// <summary>
 		/// 通知情報
 		/// </summary>
@@ -152,6 +159,50 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		public string 委託業務完成通知書_合計税込 { get; set; }
 
 		/// <summary>
+		/// 現地調査確定日付の取得
+		/// M列：現地調査確定日
+		/// </summary>
+		public Date? 現地調査確定日付
+		{
+			get
+			{
+				if (0 < 現地調査確定日.Length)
+				{
+					DateTime work;
+					if (DateTime.TryParse(現地調査確定日, out work))
+					{
+						return new Date(work);
+					}
+				}
+				return null;
+			}
+		}
+
+		/// <summary>
+		/// 現地調査結果がOKかどうか？
+		/// O列：現地調査結果
+		/// </summary>
+		public bool 現地調査結果_OK
+		{
+			get
+			{
+				return ("OK" == 現地調査結果) ? true : false;
+			}
+		}
+
+		/// <summary>
+		/// 現地調査結果がOKかどうか？
+		/// O列：現地調査結果
+		/// </summary>
+		public bool 現地調査結果_NG
+		{
+			get
+			{
+				return ("NG" == 現地調査結果) ? true : false;
+			}
+		}
+
+		/// <summary>
 		/// 工事確定日付の取得
 		/// S列：工事確定日
 		/// </summary>
@@ -168,6 +219,17 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 					}
 				}
 				return null;
+			}
+		}
+
+		/// <summary>
+		/// 工事結果がOKかどうか？
+		/// </summary>
+		public bool 工事結果_OK
+		{
+			get
+			{
+				return ("OK" == 工事結果) ? true : false;
 			}
 		}
 
@@ -440,7 +502,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		}
 
 		/// <summary>
-		/// ワークシートの読込定(進捗管理表)
+		/// ワークシートの設定(進捗管理表)
 		/// </summary>
 		/// <param name="ws">ワークシート</param>
 		/// <param name="row">行</param>
@@ -451,11 +513,11 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		}
 
 		/// <summary>
-		/// ワークシートの読込(オンライン資格確認通知結果)
+		/// ワークシートの設定(オンライン資格確認通知結果)
 		/// </summary>
 		/// <param name="ws">ワークシート</param>
 		/// <param name="row">行</param>
-		public void ReadWorksheetByオンライン資格確認通知結果(IXLWorksheet ws, int row)
+		public void SetWorksheetByオンライン資格確認通知結果(IXLWorksheet ws, int row)
 		{
 			Notice.ReadWorksheet(ws, row);
 			ReadWorksheet(ws, row, Notice.GetColumn); 
@@ -567,6 +629,86 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			委託業務完成通知書_小計 = ws.Cell(row, 94 + startCol).GetString();
 			委託業務完成通知書_消費税額 = ws.Cell(row, 95 + startCol).GetString();
 			委託業務完成通知書_合計税込 = ws.Cell(row, 96 + startCol).GetString();
+		}
+
+		/// <summary>
+		/// 病院IDの重複チェック
+		/// </summary>
+		/// <param name="list">進捗管理表</param>
+		/// <param name="msg">エラーメッセージ</param>
+		/// <returns>判定</returns>
+		public static bool CheckIllegalClinicID(List<進捗管理表_NTT東日本> list, out string msg)
+		{
+			msg = string.Empty;
+
+			List<進捗管理表_NTT東日本> irigaruID = list.FindAll(p => p.病院ID < 10000000 || p.病院ID >= 100000000);
+			if (0 < irigaruID.Count)
+			{
+				List<int> idList = new List<int>();
+				foreach (進捗管理表_NTT東日本 east in irigaruID)
+				{
+					idList.Add(east.病院ID);
+				}
+				msg = string.Format("病院IDが重複しています。進捗管理表を確認してください。\n\n{0}", string.Join(", ", idList.ToArray()));
+				return false;
+			}
+			var duplicate = list.GroupBy(s => s.病院ID).Where(g => g.Count() > 1).Select(g => g.Key).ToList();
+			if (0 < duplicate.Count)
+			{
+				msg = string.Format("病院IDが重複しています。進捗管理表を確認してください。\n\n{0}", string.Join(", ", duplicate.ToArray()));
+				return false;
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// NTT東日本 進捗管理表の読込
+		/// </summary>
+		/// <param name="pathname">NTT東日本進捗管理表パス名</param>
+		/// <param name="msg">エラーメッセージ</param>
+		/// <returns>NTT東日本進捗管理表リスト</returns>
+		public static List<進捗管理表_NTT東日本> ReadProgressExcelFile(string pathname, out string msg)
+		{
+			msg = string.Empty;
+			if (File.Exists(pathname))
+			{
+				List<進捗管理表_NTT東日本> eastList = new List<進捗管理表_NTT東日本>();
+				try
+				{
+					using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
+					{
+						IXLWorksheet ws = wb.Worksheet(進捗管理表_NTT東日本.TargetSheetName);
+						for (int i = 7; ; i++)
+						{
+							if ("" == ws.Cell(i, 1).GetString())
+							{
+								break;
+							}
+							進捗管理表_NTT東日本 data = new 進捗管理表_NTT東日本();
+							data.SetWorksheetBy進捗管理表(ws, i);
+							eastList.Add(data);
+						}
+					}
+					if (0 < eastList.Count)
+					{
+						if (false == 進捗管理表_NTT東日本.CheckIllegalClinicID(eastList, out msg))
+						{
+							return null;
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					msg = ex.Message;
+					return null;
+				}
+				return eastList;
+			}
+			else
+			{
+				msg = string.Format("{0}が見つかりません。", pathname);
+			}
+			return null;
 		}
 	}
 }

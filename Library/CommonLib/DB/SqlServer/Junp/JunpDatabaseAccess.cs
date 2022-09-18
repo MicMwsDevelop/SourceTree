@@ -463,5 +463,18 @@ namespace CommonLib.DB.SqlServer.Junp
 			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicソフトウェア保守料売上予測], whereStr, orderStr, connectStr);
 			return vMicソフトウェア保守料売上予測.DataTableToList(table);
 		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[vMicユーザーオン資用]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>vMicユーザーオン資用</returns>
+		public static List<vMicユーザーオン資用> Select_vMicユーザーオン資用(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicユーザーオン資用], whereStr, orderStr, connectStr);
+			return vMicユーザーオン資用.DataTableToList(table);
+		}
 	}
 }

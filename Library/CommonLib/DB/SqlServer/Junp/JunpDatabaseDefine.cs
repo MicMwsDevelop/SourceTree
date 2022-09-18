@@ -108,6 +108,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			vMicES保守売上予測 = 20,
 			vMicユーザー基本 = 21,
 			vMicソフトウェア保守料売上予測 = 22,
+			vMicユーザーオン資用 = 23,
 		}
 
 		/// <summary>
@@ -137,6 +138,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			{ ViewType.vMicES保守売上予測, string.Format("{0}.vMicES保守売上予測", DatabaseName) },
 			{ ViewType.vMicユーザー基本, string.Format("{0}.vMicユーザー基本", DatabaseName) },
 			{ ViewType.vMicソフトウェア保守料売上予測, string.Format("{0}.vMicソフトウェア保守料売上予測", DatabaseName) },
+			{ ViewType.vMicユーザーオン資用, string.Format("{0}.vMicユーザーオン資用", DatabaseName) },
 		};
 	}
 }
