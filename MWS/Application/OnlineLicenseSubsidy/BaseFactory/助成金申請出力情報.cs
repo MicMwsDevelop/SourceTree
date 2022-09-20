@@ -7,7 +7,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 	/// <summary>
 	/// 補助金申請出力情報
 	/// </summary>
-	public class 補助金申請出力情報
+	public class 助成金申請出力情報
 	{
 		public string 受付通番 { get; set; }
 		public string 得意先番号 { get; set; }
@@ -57,7 +57,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public 補助金申請出力情報()
+		public 助成金申請出力情報()
 		{
 			受付通番 = string.Empty;
 			得意先番号 = string.Empty;

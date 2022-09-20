@@ -33,7 +33,7 @@ namespace OnlineLicenseSubsidy
 		/// <summary>
 		/// バージョン番号
 		/// </summary>
-		public const string VersionStr = "Ver1.00 (2022/09/16)";
+		public const string VersionStr = "Ver1.00 (2022/09/20)";
 
 		/// <summary>
 		/// 環境設定

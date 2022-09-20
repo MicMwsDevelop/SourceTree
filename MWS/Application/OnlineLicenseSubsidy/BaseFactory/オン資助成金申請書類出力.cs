@@ -16,7 +16,7 @@ using System.IO;
 
 namespace OnlineLicenseSubsidy.BaseFactory
 {
-	public static class オン資補助金申請書類出力
+	public static class オン資助成金申請書類出力
 	{
 		/// <summary>
 		/// オン資補助金申請書類出力作業リスト.xlsx「顧客情報」シート名
@@ -34,35 +34,43 @@ namespace OnlineLicenseSubsidy.BaseFactory
 		private const string SheetNameReceipt = "領収書内訳書";
 
 		/// <summary>
-		/// 補助金申請書類「作業完了報告書」シート名
+		/// 補助金申請書類「事業完了報告書」シート名
 		/// </summary>
-		private const string SheetNameReport = "作業完了報告書";
+		private const string SheetNameReport = "事業完了報告書";
 
 		/// <summary>
-		/// オン資補助金申請書類出力作業リスト originファイル名
+		/// オン資助成金申請書類出力作業リスト originファイル名
 		/// </summary>
-		public const string OrgWorkListFilename = "オン資補助金申請書類出力作業リスト.xlsx.org";
+		public const string OrgWorkListFilename = "オン資助成金申請書類出力作業リスト.xlsx.org";
 
 		/// <summary>
-		/// オン資補助金申請書類出力作業リスト 出力ファイル名
+		/// オン資助成金申請書類 originファイル名
 		/// </summary>
-		public static string WorkListFilename
+		public const string OrgSubsidyFilename = "オン資助成金申請書類.xlsx.org";
+
+		/// <summary>
+		/// オン資助成金申請書類出力作業リスト 出力ファイル名
+		/// </summary>
+		/// <param name="east">NTT東日本</param>
+		/// <returns>出力ファイル名</returns>
+		public static string WorkListFilename(bool east)
 		{
-			get
+			if (east)
 			{
-				return string.Format("オン資補助金申請書類出力作業リスト_{0}.xlsx", Date.Today.GetNumeralString());
+				return string.Format("オン資助成金申請書類出力作業リスト_NTT東日本_{0}.xlsx", Date.Today.GetNumeralString());
 			}
+			return string.Format("オン資助成金申請書類出力作業リスト_NTT西日本_{0}.xlsx", Date.Today.GetNumeralString());
 		}
 
 		/// <summary>
-		/// 完了報告書の読込
+		/// 事業完了報告書の読込
 		/// </summary>
 		/// <param name="ww">vMicユーザーオン資用</param>
 		/// <param name="acceptNo">受付通番</param>
 		/// <param name="pathname">完了報告書パス名</param>
-		/// <param name="msg">エラーメッセージ</param>
-		/// <returns>補助金申請情報</returns>
-		public static 補助金申請情報 ReadExcel完了報告書(vMicユーザーオン資用 ww, string acceptNo, string pathname)
+		/// <param name="east">NTT東日本</param>
+		/// <returns>助成金申請情報</returns>
+		public static 助成金申請情報 ReadExcel事業完了報告書(vMicユーザーオン資用 ww, string acceptNo, string pathname, bool east)
 		{
 			if (File.Exists(pathname))
 			{
@@ -80,7 +88,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 								break;
 							}
 						}
-						補助金申請情報 data = new 補助金申請情報();
+						助成金申請情報 data = new 助成金申請情報();
 						data.顧客情報WW = ww;
 						data.受付通番 = acceptNo;
 						string yearStr = ws.Cell(2, 20).GetString().Trim();
@@ -103,7 +111,14 @@ namespace OnlineLicenseSubsidy.BaseFactory
 						data.医療機関コード += ws.Cell(8, 25).GetString().Trim();
 						data.顧客名 = ws.Cell(9, 19).GetString().Trim();
 						data.開設者 = ws.Cell(10, 19).GetString().Trim();
-						data.郵便番号 = ws.Cell(11, 19).GetString().Trim();
+						if (east)
+						{
+							data.郵便番号 = ws.Cell(11, 19).GetString().Trim();
+						}
+						else
+						{
+							data.郵便番号 = ws.Cell(11, 18).GetString().Trim();
+						}
 						data.住所 = ws.Cell(12, 15).GetString().Trim();
 						data.電話番号 = ws.Cell(13, 19).GetString().Trim();
 						return data;
@@ -111,22 +126,21 @@ namespace OnlineLicenseSubsidy.BaseFactory
 				}
 				catch (Exception ex)
 				{
-					throw new Exception(string.Format("ReadExcel完了報告書({0})", ex.Message));
+					throw new Exception(string.Format("ReadExcel事業完了報告書({0})", ex.Message));
 				}
 			}
 			else
 			{
-				throw new Exception(string.Format("ReadExcel完了報告書({0})", string.Format("{0}が見つかりません。", pathname)));
+				throw new Exception(string.Format("ReadExcel事業完了報告書({0})", string.Format("{0}が見つかりません。", pathname)));
 			}
 		}
 
 		/// <summary>
-		/// 領収内訳書の読込
+		/// 領収書内訳書の読込
 		/// </summary>
-		/// <param name="pathname">領収内訳書パス名</param>
-		/// <param name="msg">エラーメッセージ</param>
+		/// <param name="pathname">領収書内訳書パス名</param>
 		/// <returns>領収内訳情報リスト</returns>
-		public static List<領収内訳情報> ReadExcel領収内訳書(string pathname)
+		public static List<領収内訳情報> ReadExcel領収書内訳書(string pathname)
 		{
 			if (File.Exists(pathname))
 			{
@@ -177,7 +191,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 		/// </summary>
 		/// <param name="dataList">補助金申請情報リスト</param>
 		/// <param name="pathname">オン資補助金申請書類出力作業リストパス名</param>
-		public static void WriteExcel作業リスト(List<補助金申請情報> dataList, string pathname)
+		public static void WriteExcel作業リスト(List<助成金申請情報> dataList, string pathname)
 		{
 			try
 			{
@@ -188,7 +202,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 					IXLWorksheet ws2 = wb.Worksheet(SheetNameOutput);
 					for (int i = 0, j = 3; i < dataList.Count; i++, j++)
 					{
-						補助金申請情報 data = dataList[i];
+						助成金申請情報 data = dataList[i];
 
 						// 「顧客情報」
 						// 基本情報
@@ -265,9 +279,8 @@ namespace OnlineLicenseSubsidy.BaseFactory
 		/// 作業リストファイルの読込
 		/// </summary>
 		/// <param name="pathname"></param>
-		/// <param name="msg"></param>
-		/// <returns></returns>
-		public static List<補助金申請出力情報> ReadExcel作業リスト(string pathname)
+		/// <returns>助成金申請出力情報リスト</returns>
+		public static List<助成金申請出力情報> ReadExcel作業リスト(string pathname)
 		{
 			if (File.Exists(pathname))
 			{
@@ -275,7 +288,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 				{
 					using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
 					{
-						List<補助金申請出力情報> list = new List<補助金申請出力情報>();
+						List<助成金申請出力情報> list = new List<助成金申請出力情報>();
 						IXLWorksheet ws1 = wb.Worksheet(SheetNameCustomer);
 						IXLWorksheet ws2 = wb.Worksheet(SheetNameOutput);
 						for (int i = 3; ; i++)
@@ -284,7 +297,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 							{
 								break;
 							}
-							補助金申請出力情報 data = new 補助金申請出力情報();
+							助成金申請出力情報 data = new 助成金申請出力情報();
 							data.受付通番 = ws1.Cell(i, 1).GetString();
 							data.得意先番号 = ws1.Cell(i, 2).GetString();
 							data.顧客No = int.Parse(ws1.Cell(i, 3).GetString());
@@ -336,15 +349,12 @@ namespace OnlineLicenseSubsidy.BaseFactory
 		}
 
 		/// <summary>
-		/// 補助金申請書類の出力
+		/// 助成金申請書類の出力
 		/// </summary>
-		/// <param name="common">各種書類出力 共通情報</param>
-		/// <param name="inputPathname">入力Excelファイルパス名</param>
-		/// <param name="outputPathname">出力Excelファイルパス名(org)</param>
-		/// <param name="goodsList">オンライン資格確認対象商品売上明細</param>
-		/// Ver1.07(2021/12/24):経理部専用 オンライン資格確認等事業完了報告書の対応
-		/// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
-		public static void WriteExcel補助金申請書類(string orgPathname, string outputPathname, 補助金申請出力情報 data)
+		/// <param name="orgPathname">オン資補助金申請書類.xlsx.org</param>
+		/// <param name="outputPathname">オン資助成金申請書類エクセルファイル</param>
+		/// <param name="data">助成金申請出力情報</param>
+		public static void WriteExcel助成金申請書類(string orgPathname, string outputPathname, 助成金申請出力情報 data)
 		{
 			try
 			{
@@ -391,7 +401,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 						{
 							ws1.Cell(j, 38).SetValue(data.領収内訳情報List[i].補助対象金額);
 						}
-						if (0 < data.領収内訳情報List[i].補助対象外金額)
+						if (0 == data.領収内訳情報List[i].補助対象金額 || 0 < data.領収内訳情報List[i].補助対象外金額)
 						{
 							// ②補助対象外金額
 							ws1.Cell(j, 44).SetValue(data.領収内訳情報List[i].補助対象外金額);
@@ -406,7 +416,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 					// 総額（①＋②）
 					//ws1.Cell(12, 9).SetValue(total);
 
-					// 作業完了報告書
+					// 事業完了報告書
 					IXLWorksheet ws2 = wb.Worksheet(SheetNameReport);
 					if (data.工事完了日.HasValue)
 					{
@@ -438,7 +448,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 			}
 			catch (Exception ex)
 			{
-				throw new Exception(string.Format("WriteExcel補助金申請書類({0})", ex.Message));
+				throw new Exception(string.Format("WriteExcel助成金申請書類({0})", ex.Message));
 			}
 		}
 	}

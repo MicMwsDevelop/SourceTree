@@ -18,14 +18,14 @@ namespace OnlineLicenseSubsidy.Settings
 	public class OnlineLicenseSubsidySettings : ICloneable, IEquatable<OnlineLicenseSubsidySettings>
 	{
 		/// <summary>
-		/// 補助金額資料_NTT東日本_入力フォルダ
+		/// 助成金額資料入力フォルダ_NTT東日本
 		/// </summary>
-		public string 補助金額資料_NTT東日本_入力フォルダ { get; set; }
+		public string 助成金額資料入力フォルダ_NTT東日本 { get; set; }
 
 		/// </summary>
-		/// 補助金額資料_NTT西日本_入力フォルダ
+		/// 助成金額資料入力フォルダ_NTT西日本
 		/// </summary>
-		public string 補助金額資料_NTT西日本_入力フォルダ { get; set; }
+		public string 助成金額資料入力フォルダ_NTT西日本 { get; set; }
 
 		/// <summary>
 		/// 助成金申請書類出力フォルダ
@@ -40,8 +40,8 @@ namespace OnlineLicenseSubsidy.Settings
 		/// </summary>
 		public OnlineLicenseSubsidySettings()
         {
-			補助金額資料_NTT東日本_入力フォルダ = string.Empty;
-			補助金額資料_NTT西日本_入力フォルダ = string.Empty;
+			助成金額資料入力フォルダ_NTT東日本 = string.Empty;
+			助成金額資料入力フォルダ_NTT西日本 = string.Empty;
 			助成金申請書類出力フォルダ = string.Empty;
 			Junp = new SqlServerConnect();
 		}
@@ -65,8 +65,8 @@ namespace OnlineLicenseSubsidy.Settings
 		{
 			if (other != null)
 			{
-				if (補助金額資料_NTT東日本_入力フォルダ == other.補助金額資料_NTT東日本_入力フォルダ
-					&& 補助金額資料_NTT東日本_入力フォルダ == other.補助金額資料_NTT東日本_入力フォルダ
+				if (助成金額資料入力フォルダ_NTT東日本 == other.助成金額資料入力フォルダ_NTT東日本
+					&& 助成金額資料入力フォルダ_NTT西日本 == other.助成金額資料入力フォルダ_NTT西日本
 					&& 助成金申請書類出力フォルダ == other.助成金申請書類出力フォルダ
 					&& Junp.Equals(other.Junp))
 				{

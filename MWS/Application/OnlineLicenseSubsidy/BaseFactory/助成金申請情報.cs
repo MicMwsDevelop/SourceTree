@@ -29,7 +29,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 	/// <summary>
 	/// 補助金申請情報
 	/// </summary>
-	public class 補助金申請情報
+	public class 助成金申請情報
 	{
 		public vMicユーザーオン資用 顧客情報WW { get; set; }
 		public string 受付通番 { get; set; }
@@ -45,7 +45,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public 補助金申請情報()
+		public 助成金申請情報()
 		{
 			顧客情報WW = null;
 			受付通番 = string.Empty;

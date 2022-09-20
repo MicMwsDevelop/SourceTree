@@ -43,6 +43,23 @@ namespace OnlineLicenseSubsidy.Forms
 			// ウィンドウタイトルにバージョン情報を表示
 			this.Text = string.Format("{0} {1}", Program.ProgramName, Program.VersionStr);
 
+			if (false == Directory.Exists(Program.gSettings.助成金額資料入力フォルダ_NTT東日本))
+			{
+				MessageBox.Show(this, "助成金額資料入力フォルダ_NTT東日本が存在しません。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+			if (false == Directory.Exists(Program.gSettings.助成金額資料入力フォルダ_NTT西日本))
+			{
+				MessageBox.Show(this, "助成金額資料入力フォルダ_NTT西日本が存在しません。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+			if (false == Directory.Exists(Program.gSettings.助成金申請書類出力フォルダ))
+			{
+				MessageBox.Show(this, "助成金申請書類出力フォルダが存在しません。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+			textBoxOutputFolder.Text = Program.gSettings.助成金申請書類出力フォルダ;
+
 			radioButtonEast.Checked = true;
 #if DEBUG
 			checkBoxNotPDF.Visible = true;
@@ -59,7 +76,7 @@ namespace OnlineLicenseSubsidy.Forms
 		{
 			// 出力対象月コンボボックスの設定
 			List<Tuple<string, string>> list = new List<Tuple<string, string>>();
-			string[] folders = System.IO.Directory.GetDirectories(Program.gSettings.補助金額資料_NTT東日本_入力フォルダ, "*", SearchOption.TopDirectoryOnly);
+			string[] folders = System.IO.Directory.GetDirectories(Program.gSettings.助成金額資料入力フォルダ_NTT東日本, "*", SearchOption.TopDirectoryOnly);
 			for (int i = 0; i < folders.Length; i++)
 			{
 				list.Add(new Tuple<string, string>(Path.GetFileName(folders[i]), folders[i]));
@@ -67,8 +84,11 @@ namespace OnlineLicenseSubsidy.Forms
 			comboBoxYearMonth.DataSource = list;
 			comboBoxYearMonth.DisplayMember = "Item1";
 			comboBoxYearMonth.ValueMember = "Item2";
-			comboBoxYearMonth.SelectedIndex = 0;
-
+			if (0 < list.Count)
+			{
+				comboBoxYearMonth.SelectedIndex = 0;
+			}
+			textBoxInputFolder.Text = Program.gSettings.助成金額資料入力フォルダ_NTT東日本;
 		}
 
 		/// <summary>
@@ -80,7 +100,7 @@ namespace OnlineLicenseSubsidy.Forms
 		{
 			// 出力対象月コンボボックスの設定
 			List<Tuple<string, string>> list = new List<Tuple<string, string>>();
-			string[] folders = System.IO.Directory.GetDirectories(Program.gSettings.補助金額資料_NTT西日本_入力フォルダ, "*", SearchOption.TopDirectoryOnly);
+			string[] folders = System.IO.Directory.GetDirectories(Program.gSettings.助成金額資料入力フォルダ_NTT西日本, "*", SearchOption.TopDirectoryOnly);
 			for (int i = 0; i < folders.Length; i++)
 			{
 				list.Add(new Tuple<string, string>(Path.GetFileName(folders[i]), folders[i]));
@@ -88,7 +108,11 @@ namespace OnlineLicenseSubsidy.Forms
 			comboBoxYearMonth.DataSource = list;
 			comboBoxYearMonth.DisplayMember = "Item1";
 			comboBoxYearMonth.ValueMember = "Item2";
-			comboBoxYearMonth.SelectedIndex = 0;
+			if (0 < list.Count)
+			{
+				comboBoxYearMonth.SelectedIndex = 0;
+			}
+			textBoxInputFolder.Text = Program.gSettings.助成金額資料入力フォルダ_NTT西日本;
 		}
 
 		/// <summary>
@@ -105,22 +129,22 @@ namespace OnlineLicenseSubsidy.Forms
 			Cursor.Current = Cursors.WaitCursor;
 
 			// orgファイル→Excelファイルをコピー
-			string orgWorkPathname = Path.Combine(Directory.GetCurrentDirectory(), オン資補助金申請書類出力.OrgWorkListFilename);
-			string workPathname = Path.Combine(Directory.GetCurrentDirectory(), オン資補助金申請書類出力.WorkListFilename);
+			string orgWorkPathname = Path.Combine(Directory.GetCurrentDirectory(), オン資助成金申請書類出力.OrgWorkListFilename);
+			string workPathname = Path.Combine(Directory.GetCurrentDirectory(), オン資助成金申請書類出力.WorkListFilename(radioButtonEast.Checked));
 			File.Copy(orgWorkPathname, workPathname, true);
 
 			// \\wwsv\ons-pics\管理用_営業管理部\NTT東日本_提出用\05_補助金額資料\202207
 			Tuple<string, string> folder = (Tuple<string, string>)comboBoxYearMonth.SelectedItem;
-			string[] clinicFolders = System.IO.Directory.GetDirectories(folder.Item2, "*", SearchOption.TopDirectoryOnly);
+			string[] clinicFolders = Directory.GetDirectories(folder.Item2, "*", SearchOption.TopDirectoryOnly);
 
-			List<補助金申請情報> dataList = new List<補助金申請情報>();
+			List<助成金申請情報> dataList = new List<助成金申請情報>();
 			foreach (string folderName in clinicFolders)
 			{
 				// 最後のフォルダ名の取得
 				// ex. \\wwsv\ons-pics\管理用_営業管理部\NTT東日本_提出用\05_補助金額資料\202207\010251_東0591_浅沼歯科医院 → 010251_東0591_浅沼歯科医院
 				string targetfolderName = Path.GetFileName(folderName);
 
-				// フォルダ名から得意先Noの取得 
+				// フォルダ名から得意先Noの取得
 				string tokuisakiNo = string.Empty;
 				if ('_' == targetfolderName[6])
 				{
@@ -131,7 +155,22 @@ namespace OnlineLicenseSubsidy.Forms
 					continue;
 				}
 				// フォルダ名から受付通番の取得 ex.東0339
-				string acceptNo = targetfolderName.Substring(7, 5);
+				int acceptNoIndex = -1;
+				if (radioButtonEast.Checked)
+				{
+					// NTT東日本：010251_東0591_浅沼歯科医院
+					acceptNoIndex = targetfolderName.IndexOf("東");
+				}
+				else
+				{
+					// NTT西日本：020603_【西0515】いけだ歯科
+					acceptNoIndex = targetfolderName.IndexOf("西");
+				}
+				string acceptNo = string.Empty;
+				if (-1 != acceptNoIndex)
+				{
+					acceptNo = targetfolderName.Substring(acceptNoIndex, 5);
+				}
 				try
 				{
 					string whereStr = string.Format("得意先No = '{0}'", tokuisakiNo);
@@ -153,14 +192,14 @@ namespace OnlineLicenseSubsidy.Forms
 								reportPathname = files[1];
 								receiptPathname = files[0];
 							}
-							// 完了報告書
-							補助金申請情報 data = オン資補助金申請書類出力.ReadExcel完了報告書(userInfo, acceptNo, reportPathname);
+							// 事業完了報告書
+							助成金申請情報 data = オン資助成金申請書類出力.ReadExcel事業完了報告書(userInfo, acceptNo, reportPathname, radioButtonEast.Checked);
 							if (null == data)
 							{
 								continue;
 							}
-							// 領収証内訳書
-							data.領収内訳情報List = オン資補助金申請書類出力.ReadExcel領収内訳書(receiptPathname);
+							// 領収書内訳書
+							data.領収内訳情報List = オン資助成金申請書類出力.ReadExcel領収書内訳書(receiptPathname);
 							if (null != data.領収内訳情報List)
 							{
 								dataList.Add(data);
@@ -176,8 +215,8 @@ namespace OnlineLicenseSubsidy.Forms
 			}
 			if (0 < dataList.Count)
 			{
-				// オン資補助金申請書類出力作業リスト.xlsxの出力
-				オン資補助金申請書類出力.WriteExcel作業リスト(dataList, workPathname);
+				// オン資助成金申請書類出力作業リスト.xlsxの出力
+				オン資助成金申請書類出力.WriteExcel作業リスト(dataList, workPathname);
 
 				MessageBox.Show(this, string.Format("{0} を出力しました。", workPathname), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -215,7 +254,7 @@ namespace OnlineLicenseSubsidy.Forms
 			{
 				dlg.InitialDirectory = Directory.GetCurrentDirectory();
 				dlg.Filter = "EXCELファイル(*.xlsx)|*.xlsx|すべてのファイル(*.*)|*.*";
-				dlg.Title = "オン資補助金申請書類出力作業リストファイルを選択してください";
+				dlg.Title = "オン資助成金申請書類出力作業リストファイルを選択してください";
 				if (DialogResult.OK == dlg.ShowDialog())
 				{
 					textBoxWorkbook.Text = dlg.FileName;
@@ -239,11 +278,11 @@ namespace OnlineLicenseSubsidy.Forms
 
 			try
 			{
-				List<補助金申請出力情報> dataList = オン資補助金申請書類出力.ReadExcel作業リスト(textBoxWorkbook.Text);
+				List<助成金申請出力情報> dataList = オン資助成金申請書類出力.ReadExcel作業リスト(textBoxWorkbook.Text);
 				if (null != dataList)
 				{
-					string orgPathname = Path.Combine(Directory.GetCurrentDirectory(), "オン資補助金申請書類.xlsx.org");
-					foreach (補助金申請出力情報 data in dataList)
+					string orgPathname = Path.Combine(Directory.GetCurrentDirectory(), オン資助成金申請書類出力.OrgSubsidyFilename);
+					foreach (助成金申請出力情報 data in dataList)
 					{
 						string outputPath = string.Format(@"{0}\{1}", Program.gSettings.助成金申請書類出力フォルダ, data.顧客No.ToString());
 						if (false == Directory.Exists(outputPath))
@@ -259,7 +298,7 @@ namespace OnlineLicenseSubsidy.Forms
 						string pdfPathname = Path.Combine(outputPath, data.GetPdfFilename);
 
 						// Excelファイル出力
-						オン資補助金申請書類出力.WriteExcel補助金申請書類(orgPathname, excelPathname, data);
+						オン資助成金申請書類出力.WriteExcel助成金申請書類(orgPathname, excelPathname, data);
 						if (false == checkBoxNotPDF.Checked)
 						{
 							// PDFファイル出力
@@ -280,7 +319,7 @@ namespace OnlineLicenseSubsidy.Forms
 			// カーソルを元に戻す
 			Cursor.Current = preCursor;
 
-			MessageBox.Show(this, string.Format("補助金申請書類を出力しました。{0}", @"C:\ons-pics"), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show(this, string.Format("助成金申請書類を出力しました。{0}", @"C:\ons-pics"), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }
