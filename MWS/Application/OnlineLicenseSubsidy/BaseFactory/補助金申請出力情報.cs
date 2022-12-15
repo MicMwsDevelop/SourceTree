@@ -1,4 +1,11 @@
-﻿using CommonLib.BaseFactory;
+﻿//
+// 補助金申請出力情報.cs
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.00(2022/09/20 勝呂):新規作成
+//
+using CommonLib.BaseFactory;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +14,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 	/// <summary>
 	/// 補助金申請出力情報
 	/// </summary>
-	public class 助成金申請出力情報
+	public class 補助金申請出力情報
 	{
 		public string 受付通番 { get; set; }
 		public string 得意先番号 { get; set; }
@@ -23,12 +30,13 @@ namespace OnlineLicenseSubsidy.BaseFactory
 
 		/// <summary>
 		/// ファイル名称の取得
+		/// 得意先№_顧客名_領収書内訳書＋完了報告書
 		/// </summary>
 		public string GetFilename
 		{
 			get
 			{
-				return string.Format("{0}_{1}", 受付通番, 顧客名);
+				return string.Format("{0}_{1}_領収書内訳書＋完了報告書", 得意先番号, 顧客名);
 			}
 		}
 
@@ -57,7 +65,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public 助成金申請出力情報()
+		public 補助金申請出力情報()
 		{
 			受付通番 = string.Empty;
 			得意先番号 = string.Empty;
@@ -75,7 +83,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 		/// <summary>
 		/// 県番号文字列の取得
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>県番号文字列</returns>
 		public string GetKenNumberString()
 		{
 			if (0 == 住所.Length)
@@ -88,7 +96,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 				{
 					if (-1 != 住所.IndexOf(ken.Value[0]))
 					{
-						return ((int)(ken.Key)).ToString();
+						return string.Format("{0:D2}", ((int)(ken.Key)));
 					}
 				}
 			}

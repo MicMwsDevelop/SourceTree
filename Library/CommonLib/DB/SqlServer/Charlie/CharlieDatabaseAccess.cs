@@ -9,7 +9,6 @@
 // 
 using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Charlie.View;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;

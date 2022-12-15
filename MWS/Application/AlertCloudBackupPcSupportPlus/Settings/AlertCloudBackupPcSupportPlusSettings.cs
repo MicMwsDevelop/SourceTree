@@ -6,10 +6,12 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2021/02/05 勝呂)
+// Ver1.01 アラートに引っかかったユーザーがしばらくの間、毎日、アラートさせるので、チェックから除外するユーザーを登録できるように改修(2021/10/03 勝呂)
 //
 using MwsLib.Settings.Mail;
 using MwsLib.Settings.SqlServer;
 using System;
+using System.Collections.Generic;
 
 namespace AlertCloudBackupPcSupportPlus.Settings
 {
@@ -18,6 +20,12 @@ namespace AlertCloudBackupPcSupportPlus.Settings
 	/// </summary>
 	public class AlertCloudBackupPcSupportPlusSettings : ICloneable, IEquatable<AlertCloudBackupPcSupportPlusSettings>
 	{
+		/// <summary>
+		/// チェック除外ユーザー
+		/// </summary>
+		// Ver1.01 アラートに引っかかったユーザーがしばらくの間、毎日、アラートさせるので、チェックから除外するユーザーを登録できるように改修(2021/10/03 勝呂)
+		public string ExcludeUser { get; set; }
+
 		/// <summary>
 		/// メール設定
 		/// </summary>
@@ -56,7 +64,8 @@ namespace AlertCloudBackupPcSupportPlus.Settings
 		{
 			if (other != null)
 			{
-				if (Mail.Equals(other.Mail)
+				if (ExcludeUser== other.ExcludeUser
+					&& Mail.Equals(other.Mail)
 					&& Connect.Equals(other.Connect))
 				{
 					return true;
@@ -90,6 +99,22 @@ namespace AlertCloudBackupPcSupportPlus.Settings
 		public override int GetHashCode()
 		{
 			return ToString().GetHashCode();
+		}
+
+		/// <summary>
+		/// 除外ユーザーの取得
+		/// </summary>
+		/// <returns></returns>
+		public List<string> GetExcludeUserList()
+		{
+			if (0 < ExcludeUser.Length)
+			{
+				string[] users = ExcludeUser.Split(',');
+				List<string> ret = new List<string>();
+				ret.AddRange(users);
+				return ret;
+			}
+			return null;
 		}
 	}
 }

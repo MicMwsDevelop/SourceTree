@@ -14,10 +14,15 @@ namespace CommonLib.BaseFactory
 	/// </summary>
 	public static class KenNumDef
     {
-        /// <summary>
-        /// 県番号
-        /// </summary>
-        public enum KenNumber
+		/// <summary>
+		/// 県番号レングス長
+		/// </summary>
+		public const int Length = 2;
+
+		/// <summary>
+		/// 県番号
+		/// </summary>
+		public enum KenNumber
         {
             /// <summary>0 未定義</summary>
             None = 0,

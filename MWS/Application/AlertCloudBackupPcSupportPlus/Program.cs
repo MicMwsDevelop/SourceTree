@@ -15,6 +15,8 @@
 // メール送信：クラウドバックアップPC安心サポートPlus申込アラート
 /////////////////////////////////////////////////////////
 // Ver1.00 新規作成(2021/02/05 勝呂)
+// Ver1.01 アラートに引っかかったユーザーがしばらくの間、毎日、アラートさせるので、チェックから除外するユーザーを登録できるように改修(2021/10/03 勝呂)
+/////////////////////////////////////////////////////////
 //
 using AlertCloudBackupPcSupportPlus.Mail;
 using AlertCloudBackupPcSupportPlus.Settings;
@@ -93,6 +95,10 @@ namespace AlertCloudBackupPcSupportPlus
 			List<CloudBackupPcSupportPlus> checktList3 = new List<CloudBackupPcSupportPlus>();
 			try
 			{
+				// Ver1.01 アラートに引っかかったユーザーがしばらくの間、毎日、アラートさせるので、チェックから除外するユーザーを登録できるように改修(2021/10/03 勝呂)
+				// 除外ユーザーの取得
+				List<string> excludeUserList = gSettings.GetExcludeUserList();
+
 				// 1. 同時契約中チェック
 				// PC安心サポートPlus契約期間中にクラウドバックアップサービスも契約している
 				// (1) 当日の利用情報にクラウドバックアップとクラウドバックアップ(PC安心サポートPlus)が存在する
@@ -103,6 +109,11 @@ namespace AlertCloudBackupPcSupportPlus
 				{
 					foreach (CloudBackupPcSupportPlus data in list)
 					{
+						// Ver1.01 アラートに引っかかったユーザーがしばらくの間、毎日、アラートさせるので、チェックから除外するユーザーを登録できるように改修(2021/10/03 勝呂)
+						if (-1 != excludeUserList.FindIndex(p => p == data.CustomerNo.ToString()))
+						{
+							continue;
+						}
 						checktList1.Add(data);
 					}
 				}
@@ -136,6 +147,11 @@ namespace AlertCloudBackupPcSupportPlus
 							if (null != nameList && 0 < nameList.Count)
 							{
 								data.ClinicName = nameList[0].顧客名;
+							}
+							// Ver1.01 アラートに引っかかったユーザーがしばらくの間、毎日、アラートさせるので、チェックから除外するユーザーを登録できるように改修(2021/10/03 勝呂)
+							if (-1 != excludeUserList.FindIndex(p => p == data.CustomerNo.ToString()))
+							{
+								continue;
 							}
 							checktList2.Add(data);
 						}
@@ -174,6 +190,11 @@ namespace AlertCloudBackupPcSupportPlus
 								if (null != nameList && 0 < nameList.Count)
 								{
 									data.ClinicName = nameList[0].顧客名;
+								}
+								// Ver1.01 アラートに引っかかったユーザーがしばらくの間、毎日、アラートさせるので、チェックから除外するユーザーを登録できるように改修(2021/10/03 勝呂)
+								if (-1 != excludeUserList.FindIndex(p => p == data.CustomerNo.ToString()))
+								{
+									continue;
 								}
 								checktList3.Add(data);
 							}

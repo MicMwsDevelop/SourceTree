@@ -7,6 +7,7 @@
 // 
 // Ver1.11 NTT現調プランに対応(2022/08/29 勝呂)
 // Ver1.12 進捗管理表_作業情報に受付通番、工事結果、工事結果格納日時のフィールド追加に対応(2022/09/13 勝呂)
+// Ver1.14 [進捗管理表_作業情報]に現調情報が登録されている場合、工事通知１(東西)を検出してもエクセル出力されなかった(2022/12/07 勝呂)
 // 
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Sales.Table;
@@ -116,6 +117,21 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 						// (2)[進捗管理表_作業情報] が存在しない もしくは 工事未設定
 						else if (db.Is工事未設定)
 						{
+							// Ver1.14 [進捗管理表_作業情報]に現調情報が登録されている場合、工事通知１(東西)を検出してもエクセル出力されなかった(2022/12/07 勝呂)
+							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID, connectStr);
+							if (null != notice)
+							{
+								east.Notice = notice;
+							}
+							// シートに追加
+							string[] record = east.GetData();
+							for (int i = 0; i < record.Length; i++)
+							{
+								ws.Cell(row, i + 1).SetValue(record[i]);
+							}
+							row++;
+							ret++;
+
 							// レコード更新：工事確定日db=工事確定日、工事確定日格納日時db=当日→通知１
 							db.受付通番 = east.受付通番;
 							db.進捗管理表ファイル名 = prgressFilename;
@@ -215,6 +231,21 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 						// (2)[進捗管理表_作業情報] が存在しない もしくは 工事未設定
 						else if (db.Is工事未設定)
 						{
+							// Ver1.14 [進捗管理表_作業情報]に現調情報が登録されている場合、工事通知１(東西)を検出してもエクセル出力されなかった(2022/12/07 勝呂)
+							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID, connectStr);
+							if (null != notice)
+							{
+								west.Notice = notice;
+							}
+							// シートに追加
+							string[] record = west.GetData();
+							for (int i = 0; i < record.Length; i++)
+							{
+								ws.Cell(row, i + 1).SetValue(record[i]);
+							}
+							row++;
+							ret++;
+
 							// レコード更新：工事確定日db=工事確定日、工事確定日格納日時db=当日→通知１
 							db.受付通番 = west.受付通番;
 							db.進捗管理表ファイル名 = prgressFilename;

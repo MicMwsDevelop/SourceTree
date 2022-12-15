@@ -36,7 +36,7 @@ namespace CommonLib.DB.SqlServer
                 //  SqlParameter配列作成
                 SqlParameter[] param = DatabaseController.CreateSqlParameters(table.Columns, table.Rows[i]);
                 //  実行
-                result = DatabaseController.SqlExecuteCommand(con, tran, sqlString, param);
+                result = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlString, param);
                 if (result <= -1)
                 {
                     throw new ApplicationException("");
@@ -63,7 +63,7 @@ namespace CommonLib.DB.SqlServer
                 //  SqlParameter配列作成
                 SqlParameter[] param = DatabaseController.CreateSqlParameters(table.Columns, table.Rows[i]);
                 //  実行
-                result = DatabaseController.SqlExecuteCommand(con, tran, sqlString, param);
+                result = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlString, param);
                 if (result <= -1)
                 {
                     throw new ApplicationException("");
@@ -95,7 +95,7 @@ namespace CommonLib.DB.SqlServer
                 SqlParameter[] param = DatabaseController.CreateDeleteSqlParameters(table, i, whereColumns);
 
                 // 実行
-                result = DatabaseController.SqlExecuteCommand(con, tran, sqlString, param);
+                result = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlString, param);
                 if (result <= -1)
                 {
                     throw new ApplicationException("");
@@ -136,7 +136,7 @@ namespace CommonLib.DB.SqlServer
             }
 
             // 実行
-            result = DatabaseController.SqlExecuteCommand(con, tran, sqlString, paramList.ToArray());
+            result = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlString, paramList.ToArray());
             if (result <= -1)
             {
                 throw new ApplicationException("");
@@ -184,7 +184,7 @@ namespace CommonLib.DB.SqlServer
             // コマンド実行
             string sqlString = string.Format("DELETE FROM {0};", tableName);
             SqlParameter[] param = new List<SqlParameter>().ToArray();
-            result = DatabaseController.SqlExecuteCommand(con, tran, sqlString, param);
+            result = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlString, param);
             if (result <= -1)
             {
                 throw new ApplicationException("");

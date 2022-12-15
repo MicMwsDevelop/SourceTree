@@ -65,7 +65,7 @@ namespace CommonLib.DB.SqlServer.Estore
 							foreach (tMICestore_log log in list)
 							{
 								// 実行
-								rowCount = DatabaseController.SqlExecuteCommand(con, tran, tMICestore_log.InsertIntoSqlString, log.GetInsertIntoParameters());
+								rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, tMICestore_log.InsertIntoSqlString, log.GetInsertIntoParameters());
 								if (rowCount <= -1)
 								{
 									throw new ApplicationException("InsertInto_tMICestore_log() Error!");

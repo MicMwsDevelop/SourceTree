@@ -9,6 +9,7 @@
 // Ver1.06 通知５の判定を本日以降の工事確定日付のみ検索するように抽出条件を変更(2022/05/17 勝呂)
 // Ver1.11 NTT現調プランに対応(2022/08/29 勝呂)
 // Ver1.12 進捗管理表_作業情報に受付通番、工事結果、工事結果格納日時のフィールド追加に対応(2022/09/13 勝呂)
+// Ver1.14 現調及び工事の通知チェック後に設定する連絡用チェックボックスの制御が一部正しくなかった(2022/12/07 勝呂)
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Sales.View;
@@ -113,6 +114,10 @@ namespace NoticeOnlineLicenseConfirm.Forms
 
 			// バージョン情報の設定
 			labelVersion.Text = Program.ProgramVersion;
+
+#if DEBUG
+			this.Text = this.Text + " " + Settings.ConnectJunp.InstanceName;
+#endif
 
 			try
 			{
@@ -317,10 +322,13 @@ namespace NoticeOnlineLicenseConfirm.Forms
 				labelResearch2.Text = "通知２：0件";
 				labelResearch3.Text = "通知３：0件";
 				labelResearch4.Text = "通知４：0件";
-				int research1 = 0;
+				int research1East = 0;
+				int research1West = 0;
 				int research2 = 0;
-				int research3 = 0;
-				int research4 = 0;
+				int research3East = 0;
+				int research3West = 0;
+				int research4East = 0;
+				int research4West = 0;
 				checkBoxResearch1East.Checked = false;
 				checkBoxResearch1West.Checked = false;
 				checkBoxResearch3East.Checked = false;
@@ -337,10 +345,13 @@ namespace NoticeOnlineLicenseConfirm.Forms
 				labelConstruct2.Text = "通知２：0件";
 				labelConstruct3.Text = "通知３：0件";
 				labelConstruct4.Text = "通知４：0件";
-				int constrct1 = 0;
+				int constrct1East = 0;
+				int constrct1West = 0;
 				int constrct2 = 0;
-				int constrct3 = 0;
-				int constrct4 = 0;
+				int constrct3East = 0;
+				int constrct3West = 0;
+				int constrct4East = 0;
+				int constrct4West = 0;
 				checkBoxConstruct1East.Checked = false;
 				checkBoxConstruct1West.Checked = false;
 				checkBoxConstruct3East.Checked = false;
@@ -377,50 +388,50 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						/// オン資現調
 
 						// 現調通知１：現地調査確定日の連絡（NTT東日本）
-						research1 = NoticeResearch.Notice1East(ProgEastFname, WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
+						research1East = NoticeResearch.Notice1East(ProgEastFname, WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 現調通知１：現地調査確定日の連絡（NTT西日本）
-						research1 += NoticeResearch.Notice1West(ProgWestFname, WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
+						research1West = NoticeResearch.Notice1West(ProgWestFname, WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 工事通知２：提出漏れ通知
 						research2 = NoticeResearch.Notice2(WebHearingSheet, eastList, westList, wb);
 
 						// 現調通知３：現調結果の連絡（NTT東日本）
-						research3 = NoticeResearch.Notice3East(ProgEastFname, WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
+						research3East = NoticeResearch.Notice3East(ProgEastFname, WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 現調通知３：現調結果の連絡（NTT西日本）
-						research3 += NoticeResearch.Notice3West(ProgWestFname, WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
+						research3West = NoticeResearch.Notice3West(ProgWestFname, WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 現調通知４：新規案件出し忘れの連絡（NTT東日本）
-						research4 = NoticeResearch.Notice4East(WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
+						research4East = NoticeResearch.Notice4East(WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 現調通知４：新規案件出し忘れの連絡（NTT西日本）
-						research4 += NoticeResearch.Notice4West(WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
+						research4West = NoticeResearch.Notice4West(WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
 
 
 						///////////////////////////////////////////////
 						/// オン資工事
 
 						// 工事通知１：工事確定日の連絡（NTT東日本）
-						constrct1 = NoticeConstruct.Notice1East(ProgEastFname, WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
+						constrct1East = NoticeConstruct.Notice1East(ProgEastFname, WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 工事通知１：工事確定日の連絡（NTT西日本）
-						constrct1 += NoticeConstruct.Notice1West(ProgWestFname, WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
+						constrct1West = NoticeConstruct.Notice1West(ProgWestFname, WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 工事通知２：提出漏れ通知
 						constrct2 = NoticeConstruct.Notice2(WebHearingSheet, eastList, westList, wb);
 
 						// 工事通知３：ヒアリングシート不備の連絡（NTT東日本）
-						constrct3 = NoticeConstruct.Notice3East(WebHearingSheet, eastList, EastFileDate, wb, Settings.ConnectSales.ConnectionString);
+						constrct3East = NoticeConstruct.Notice3East(WebHearingSheet, eastList, EastFileDate, wb, Settings.ConnectSales.ConnectionString);
 
 						// 工事通知３：ヒアリングシート不備の連絡（NTT西日本）
-						constrct3 += NoticeConstruct.Notice3West(WebHearingSheet, westList, WestFileDate, contractList, wb, Settings.ConnectSales.ConnectionString);
+						constrct3West = NoticeConstruct.Notice3West(WebHearingSheet, westList, WestFileDate, contractList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 工事通知４：工事確定日14日前ヒアリングシート未完成の連絡（NTT東日本）
-						constrct4 = NoticeConstruct.Notice4East(WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
+						constrct4East = NoticeConstruct.Notice4East(WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 工事通知４：工事確定日14日前ヒアリングシート未完成の連絡（NTT西日本）
-						constrct4 += NoticeConstruct.Notice4West(WebHearingSheet, westList, contractList, wb, Settings.ConnectSales.ConnectionString);
+						constrct4West = NoticeConstruct.Notice4West(WebHearingSheet, westList, contractList, wb, Settings.ConnectSales.ConnectionString);
 
 						// NTT東日本 工事結果の設定
 						// Ver1.12 進捗管理表_作業情報に受付通番、工事結果、工事結果格納日時のフィールド追加に対応(2022/09/13 勝呂)
@@ -443,31 +454,31 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						/// オン資現調
 
 						// 現調通知１：現地調査確定日の連絡（NTT東日本）
-						research1 = NoticeResearch.Notice1East(ProgEastFname, WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
+						research1East = NoticeResearch.Notice1East(ProgEastFname, WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 工事通知２：提出漏れ通知
 						research2 = NoticeResearch.Notice2(WebHearingSheet, eastList, null, wb);
 
 						// 現調通知３：現調結果の連絡（NTT東日本）
-						research3 = NoticeResearch.Notice3East(ProgEastFname, WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
+						research3East = NoticeResearch.Notice3East(ProgEastFname, WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 現調通知４：新規案件出し忘れの連絡（NTT東日本）
-						research4 = NoticeResearch.Notice4East(WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
+						research4East = NoticeResearch.Notice4East(WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
 
 						///////////////////////////////////////////////
 						/// オン資工事
 
 						// 工事通知１：工事確定日の連絡（NTT東日本）
-						constrct1 = NoticeConstruct.Notice1East(ProgEastFname, WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
+						constrct1East = NoticeConstruct.Notice1East(ProgEastFname, WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 工事通知２：提出漏れ通知
 						constrct2 = NoticeConstruct.Notice2(WebHearingSheet, eastList, null, wb);
 
 						// 工事通知３：ヒアリングシート不備の連絡（NTT東日本）
-						constrct3 = NoticeConstruct.Notice3East(WebHearingSheet, eastList, EastFileDate, wb, Settings.ConnectSales.ConnectionString);
+						constrct3East = NoticeConstruct.Notice3East(WebHearingSheet, eastList, EastFileDate, wb, Settings.ConnectSales.ConnectionString);
 
 						// 工事通知４：工事確定日14日前ヒアリングシート未完成の連絡（NTT東日本）
-						constrct4 = NoticeConstruct.Notice4East(WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
+						constrct4East = NoticeConstruct.Notice4East(WebHearingSheet, eastList, wb, Settings.ConnectSales.ConnectionString);
 
 						// NTT東日本 工事結果の設定
 						// Ver1.12 進捗管理表_作業情報に受付通番、工事結果、工事結果格納日時のフィールド追加に対応(2022/09/13 勝呂)
@@ -493,31 +504,31 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						/// オン資現調
 
 						// 現調通知１：現地調査確定日の連絡（NTT西日本）
-						research1 += NoticeResearch.Notice1West(ProgWestFname, WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
+						research1West += NoticeResearch.Notice1West(ProgWestFname, WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 現調通知２：提出漏れ通知
 						research2 = NoticeResearch.Notice2(WebHearingSheet, null, westList, wb);
 
 						// 現調通知３：現調結果の連絡（NTT西日本）
-						research3 = NoticeResearch.Notice3West(ProgWestFname, WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
+						research3West = NoticeResearch.Notice3West(ProgWestFname, WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 現調通知４：新規案件出し忘れの連絡（NTT西日本）
-						research4 = NoticeResearch.Notice4West(WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
+						research4West = NoticeResearch.Notice4West(WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
 
 						///////////////////////////////////////////////
 						/// オン資工事
 
 						// 工事通知１：工事確定日の連絡（NTT西日本）
-						constrct1 = NoticeConstruct.Notice1West(ProgWestFname, WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
+						constrct1West = NoticeConstruct.Notice1West(ProgWestFname, WebHearingSheet, westList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 工事通知２：提出漏れ通知
 						constrct2 = NoticeConstruct.Notice2(WebHearingSheet, null, westList, wb);
 
 						// 工事通知３：ヒアリングシート不備の連絡（NTT西日本）
-						constrct3 = NoticeConstruct.Notice3West(WebHearingSheet, westList, WestFileDate, contractList, wb, Settings.ConnectSales.ConnectionString);
+						constrct3West = NoticeConstruct.Notice3West(WebHearingSheet, westList, WestFileDate, contractList, wb, Settings.ConnectSales.ConnectionString);
 
 						// 工事通知４：工事確定日14日前ヒアリングシート未完成の連絡（NTT西日本）
-						constrct4 = NoticeConstruct.Notice4West(WebHearingSheet, westList, contractList, wb, Settings.ConnectSales.ConnectionString);
+						constrct4West = NoticeConstruct.Notice4West(WebHearingSheet, westList, contractList, wb, Settings.ConnectSales.ConnectionString);
 
 						// NTT西日本 工事結果の設定
 						// Ver1.12 進捗管理表_作業情報に受付通番、工事結果、工事結果格納日時のフィールド追加に対応(2022/09/13 勝呂)
@@ -526,7 +537,8 @@ namespace NoticeOnlineLicenseConfirm.Forms
 					// カーソルを元に戻す
 					Cursor.Current = preCursor;
 
-					if (0 < research1 + research2 + research3 + research4 + constrct1 + constrct2 + constrct3 + constrct4)
+					// Ver1.14 現調及び工事の通知チェック後に設定する連絡用チェックボックスの制御が一部正しくなかった(2022/12/07 勝呂)
+					if (0 < research1East + research1West + research2 + research3East + research3West + research4East + research4West + constrct1East + constrct1West + constrct2 + constrct3East + constrct3West + constrct4East + constrct4West)
 					{
 						// Excelファイルの保存
 						wb.Save();
@@ -534,44 +546,67 @@ namespace NoticeOnlineLicenseConfirm.Forms
 						///////////////////////////////////////////////
 						/// オン資現調
 
-						labelResearch1.Text = string.Format("通知１：{0}件", research1);
+						labelResearch1.Text = string.Format("通知１：{0}件", research1East + research1West);
 						labelResearch2.Text = string.Format("通知２：{0}件", research2);
-						labelResearch3.Text = string.Format("通知３：{0}件", research3);
-						labelResearch4.Text = string.Format("通知４：{0}件", research4);
-						if (0 < research1)
+						labelResearch3.Text = string.Format("通知３：{0}件", research3East + research3West);
+						labelResearch4.Text = string.Format("通知４：{0}件", research4East + research4West);
+						if (0 < research1East)
 						{
 							checkBoxResearch1East.Checked = true;
 						}
-						if (0 < research3)
+						if (0 < research1West)
+						{
+							checkBoxResearch1West.Checked = true;
+						}
+						if (0 < research3East)
 						{
 							checkBoxResearch3East.Checked = true;
 						}
-						if (0 < research4)
+						if (0 < research3West)
 						{
 							checkBoxResearch3West.Checked = true;
 						}
-
+						if (0 < research4East)
+						{
+							checkBoxResearch4East.Checked = true;
+						}
+						if (0 < research4West)
+						{
+							checkBoxResearch4West.Checked = true;
+						}
 
 						///////////////////////////////////////////////
 						/// オン資工事
 
-						labelConstruct1.Text = string.Format("通知１：{0}件", constrct1);
+						labelConstruct1.Text = string.Format("通知１：{0}件", constrct1East + constrct1West);
 						labelConstruct2.Text = string.Format("通知２：{0}件", constrct2);
-						labelConstruct3.Text = string.Format("通知３：{0}件", constrct3);
-						labelConstruct4.Text = string.Format("通知４：{0}件", constrct4);
-						if (0 < constrct1)
+						labelConstruct3.Text = string.Format("通知３：{0}件", constrct3East + constrct3West);
+						labelConstruct4.Text = string.Format("通知４：{0}件", constrct4East + constrct4West);
+						if (0 < constrct1East)
 						{
 							checkBoxConstruct1East.Checked = true;
 						}
-						if (0 < constrct3)
+						if (0 < constrct1West)
+						{
+							checkBoxConstruct1West.Checked = true;
+						}
+						if (0 < constrct3East)
 						{
 							checkBoxConstruct3East.Checked = true;
 						}
-						if (0 < constrct4)
+						if (0 < constrct3West)
 						{
 							checkBoxConstruct3West.Checked = true;
 						}
-						MessageBox.Show(string.Format("【現調】\n通知１：{0}件\n通知２：{1}件\n通知３：{2}件\n通知４：{3}件\n\n【工事】\n通知１：{4}件\n通知２：{5}件\n通知３：{6}件\n通知４：{7}件\n\n{8}を確認してください。", research1, research2, research3, research4, constrct1, constrct2, constrct3, constrct4, ConfirmFname), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						if (0 < constrct4East)
+						{
+							checkBoxConstruct4East.Checked = true;
+						}
+						if (0 < constrct4West)
+						{
+							checkBoxConstruct4West.Checked = true;
+						}
+						MessageBox.Show(string.Format("【現調】\n通知１：{0}件\n通知２：{1}件\n通知３：{2}件\n通知４：{3}件\n\n【工事】\n通知１：{4}件\n通知２：{5}件\n通知３：{6}件\n通知４：{7}件\n\n{8}を確認してください。", research1East + research1West, research2, research3East + research3West, research4East + research4West, constrct1East + constrct1West, constrct2, constrct3East + constrct3West, constrct4East + constrct4West, ConfirmFname), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					}
 					else
 					{

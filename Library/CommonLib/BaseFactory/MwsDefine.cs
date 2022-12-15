@@ -27,6 +27,11 @@ namespace CommonLib.BaseFactory
 		/// </summary>
 		public const int TokuisakiNoLength = 6;
 
+		/// <summary>
+		/// 医療機関コード
+		/// </summary>
+		public const int ClinicCodeLength = 7;
+
 
 		//////////////////////////////////////////////////////////
 		/// システムコード

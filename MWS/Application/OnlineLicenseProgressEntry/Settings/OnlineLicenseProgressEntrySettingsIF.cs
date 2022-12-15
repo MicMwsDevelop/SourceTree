@@ -1,5 +1,5 @@
 ﻿//
-// OnlineLicenseIntroductionStatusSettingsIF.cs
+// OnlineLicenseProgressEntrySettingsIF.cs
 // 
 // 環境設定インターフェイス
 // 
@@ -12,22 +12,22 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace OnlineLicenseIntroductionStatus.Settings
+namespace OnlineLicenseProgressEntry.Settings
 {
 	/// <summary>
 	/// 環境設定インターフェイス
 	/// </summary>
-	public static class OnlineLicenseIntroductionStatusSettingsIF
+	public static class OnlineLicenseProgressEntrySettingsIF
 	{
 		/// <summary>
 		/// 環境設定ファイル名称
 		/// </summary>
-		public const string SETTINGS_FILENAME = "OnlineLicenseIntroductionStatusSettings.xml";
+		public const string SETTINGS_FILENAME = "OnlineLicenseProgressEntrySettings.xml";
 
 		/// <summary>
 		/// 環境設定
 		/// </summary>
-		private static OnlineLicenseIntroductionStatusSettings Settings = null;
+		private static OnlineLicenseProgressEntrySettings Settings = null;
 
 		/// <summary>
 		/// 環境設定ファイル名
@@ -62,8 +62,8 @@ namespace OnlineLicenseIntroductionStatus.Settings
 					try
 					{
 						fileStream = new FileStream(SettingsFileName, FileMode.Open);
-						XmlSerializer serializer = new XmlSerializer(typeof(OnlineLicenseIntroductionStatusSettings));
-						Settings = serializer.Deserialize(fileStream) as OnlineLicenseIntroductionStatusSettings;
+						XmlSerializer serializer = new XmlSerializer(typeof(OnlineLicenseProgressEntrySettings));
+						Settings = serializer.Deserialize(fileStream) as OnlineLicenseProgressEntrySettings;
 					}
 					catch (Exception)
 					{
@@ -80,7 +80,7 @@ namespace OnlineLicenseIntroductionStatus.Settings
 				else
 				{
 					// 存在しない場合は初期値を設定
-					Settings = new OnlineLicenseIntroductionStatusSettings();
+					Settings = new OnlineLicenseProgressEntrySettings();
 				}
 			}
 			return result;
@@ -99,7 +99,7 @@ namespace OnlineLicenseIntroductionStatus.Settings
 			{
 				fileStream = new FileStream(SettingsFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 				StreamWriter stream = new StreamWriter(fileStream, Encoding.UTF8);   // Unicodeで書き込む
-				XmlSerializer serializer = new XmlSerializer(typeof(OnlineLicenseIntroductionStatusSettings));
+				XmlSerializer serializer = new XmlSerializer(typeof(OnlineLicenseProgressEntrySettings));
 				serializer.Serialize(stream, Settings);
 			}
 			catch (Exception)
@@ -122,7 +122,7 @@ namespace OnlineLicenseIntroductionStatus.Settings
 		/// <param name="reload">環境設定を再読みするかどうか（デフォルト：false）</param>
 		/// <returns>環境設定</returns>
 		/// <exception cref="ApplicationException">環境設定の読み込みが出来なかった場合に発生</exception>
-		public static OnlineLicenseIntroductionStatusSettings GetSettings(bool reload = false)
+		public static OnlineLicenseProgressEntrySettings GetSettings(bool reload = false)
 		{
 			SetSettingsFileName();
 
@@ -132,14 +132,14 @@ namespace OnlineLicenseIntroductionStatus.Settings
 			{
 				throw new ApplicationException("環境設定の取得に失敗");
 			}
-			return Settings.Clone() as OnlineLicenseIntroductionStatusSettings;
+			return Settings.Clone() as OnlineLicenseProgressEntrySettings;
 		}
 
 		/// <summary>
 		/// 環境設定の設定
 		/// </summary>
 		/// <param name="settings">環境設定</param>
-		public static void SetSettings(OnlineLicenseIntroductionStatusSettings settings)
+		public static void SetSettings(OnlineLicenseProgressEntrySettings settings)
 		{
 			SetSettingsFileName();
 

@@ -1,22 +1,18 @@
 ﻿//
 // Program.cs
 // 
-// オン資助成金申請書類出力 プログラムクラス
+// オン資補助金申請書類出力 プログラムクラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
 /////////////////////////////////////////////////////////
-// アプリ管理サイト：APPID623 オン資助成金申請書類出力
-// 処理概要：経理部がオンライン資格確認業務で使用するツール
-// 入力ファイル：
-// 出力ファイル：
-// 印刷物：無
-// メール送信：無
-/////////////////////////////////////////////////////////
-// Ver1.00(2022/09/16 勝呂):新規作成
+// Ver1.00(2022/09/20 勝呂):新規作成
+// Ver1.01(2022/11/10 勝呂):経理部動作確認後、要望対応
+// Ver1.02(2022/11/14 勝呂):動作環境の違いにより事業完了報告書の印刷範囲の不具合の対処のため、経理部にてエクセルファイルのフォーマットを作成
+// Ver1.03(2022/11/16 勝呂):経理部にてエクセルファイルのフォーマットを作成(再調整)
+// Ver1.04(2022/12/13 勝呂):経理部要望対応 顧客情報（出力用）のチェックに顧客名の追加と開設者が未設定時の時には院長名を使用する
 /////////////////////////////////////////////////////////
 //
-using ClosedXML.Excel;
 using OnlineLicenseSubsidy.Settings;
 using System;
 using System.Windows.Forms;
@@ -28,12 +24,12 @@ namespace OnlineLicenseSubsidy
 		/// <summary>
 		/// プログラム名
 		/// </summary>
-		public const string ProgramName = "オン資助成金申請書類出力";
+		public const string ProgramName = "オン資補助金申請書類出力";
 
 		/// <summary>
 		/// バージョン番号
 		/// </summary>
-		public const string VersionStr = "Ver1.00 (2022/09/20)";
+		public const string VersionStr = "Ver1.04 (2022/12/13)";
 
 		/// <summary>
 		/// 環境設定
@@ -52,38 +48,6 @@ namespace OnlineLicenseSubsidy
 			gSettings = OnlineLicenseSubsidySettingsIF.GetSettings();
 
 			Application.Run(new Forms.MainForm());
-		}
-
-		/// <summary>
-		/// Double型の取得
-		/// </summary>
-		/// <param name="cell"></param>
-		/// <returns>日付文字列</returns>
-		public static double GetDoubleData(IXLCell cell)
-		{
-			if (XLDataType.Number == cell.DataType)
-			{
-				return cell.GetDouble();
-			}
-			if (XLDataType.Text == cell.DataType)
-			{
-				return 0;
-			}
-			return 0;
-		}
-
-		/// <summary>
-		/// 日付型の取得
-		/// </summary>
-		/// <param name="cell"></param>
-		/// <returns>日付文字列</returns>
-		public static DateTime? GetDateTimeData(IXLCell cell)
-		{
-			if (XLDataType.DateTime == cell.DataType)
-			{
-				return cell.GetDateTime();
-			}
-			return null;
 		}
 	}
 }

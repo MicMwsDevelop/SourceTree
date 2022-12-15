@@ -149,7 +149,7 @@
     <Compile Include="BaseFactory\PurchaseUnitPriceFile\在庫一覧表.cs" />
     <Compile Include="BaseFactory\PurchaseUnitPriceFile\在庫評価単価.cs" />
     <Compile Include="BaseFactory\PurchaseUnitPriceFile\当月仕入単価.cs" />
-    <Compile Include="BaseFactory\Sales\Table\オンライン資格確認進捗管理.cs" />
+    <Compile Include="BaseFactory\Sales\Table\オンライン資格確認進捗管理情報.cs" />
     <Compile Include="BaseFactory\Sales\Table\オン資格ヒアリングシート.cs" />
     <Compile Include="BaseFactory\Sales\Table\進捗管理表_作業情報.cs" />
     <Compile Include="BaseFactory\Sales\View\vオンライン資格確認ユーザー.cs" />

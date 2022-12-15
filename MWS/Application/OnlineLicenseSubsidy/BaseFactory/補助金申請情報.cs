@@ -1,4 +1,11 @@
-﻿using CommonLib.BaseFactory.Junp.View;
+﻿//
+// 補助金申請情報.cs
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.00(2022/09/20 勝呂):新規作成
+//
+using CommonLib.BaseFactory.Junp.View;
 using System;
 using System.Collections.Generic;
 
@@ -29,7 +36,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 	/// <summary>
 	/// 補助金申請情報
 	/// </summary>
-	public class 助成金申請情報
+	public class 補助金申請情報
 	{
 		public vMicユーザーオン資用 顧客情報WW { get; set; }
 		public string 受付通番 { get; set; }
@@ -45,7 +52,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public 助成金申請情報()
+		public 補助金申請情報()
 		{
 			顧客情報WW = null;
 			受付通番 = string.Empty;
@@ -57,6 +64,60 @@ namespace OnlineLicenseSubsidy.BaseFactory
 			医療機関コード = string.Empty;
 			工事完了日 = null;
 			領収内訳情報List = null;
+		}
+
+		/// <summary>
+		/// 補助対象金額小計
+		/// </summary>
+		/// <returns>金額</returns>
+		public double 補助対象金額小計()
+		{
+			if (null != 領収内訳情報List)
+			{
+				double price = 0;
+				foreach (領収内訳情報 data in 領収内訳情報List)
+				{
+					price += data.補助対象金額;
+				}
+				return price;
+			}
+			return 0;
+		}
+
+		/// <summary>
+		/// 補助対象外金額小計
+		/// </summary>
+		/// <returns>金額</returns>
+		public double 補助対象外金額小計()
+		{
+			if (null != 領収内訳情報List)
+			{
+				double price = 0;
+				foreach (領収内訳情報 data in 領収内訳情報List)
+				{
+					price += data.補助対象外金額;
+				}
+				return price;
+			}
+			return 0;
+		}
+
+		/// <summary>
+		/// 総額
+		/// </summary>
+		/// <returns>金額</returns>
+		public double 総額()
+		{
+			if (null != 領収内訳情報List)
+			{
+				double price = 0;
+				foreach (領収内訳情報 data in 領収内訳情報List)
+				{
+					price += data.補助対象金額 + data.補助対象外金額;
+				}
+				return price;
+			}
+			return 0;
 		}
 	}
 }

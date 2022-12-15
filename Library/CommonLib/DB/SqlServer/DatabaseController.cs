@@ -22,85 +22,20 @@ namespace CommonLib.DB.SqlServer
     {
 		/// <summary>
 		/// SQLコマンドの実行
+		/// クエリが単一の値を返すときに使用。結果は最初の行の最初の列
 		/// </summary>
 		/// <param name="con">SqlConnection</param>
 		/// <param name="sqlString">クエリ</param>
 		/// <returns>実行結果</returns>
-		public static int SqlExecuteNonQuery(SqlConnection con, string sqlString)
+		public static object SqlExecuteScalar(SqlConnection con, string sqlString)
 		{
-			int result = -1;
+			object result = null;
 			{
 				using (SqlCommand cmd = new SqlCommand(sqlString, con))
 				{
 					try
 					{
 						// 実行
-						result = cmd.ExecuteNonQuery();
-					}
-					catch
-					{
-						throw;
-					}
-				}
-			}
-			return result;
-		}
-
-		/// <summary>
-		/// SQLコマンドの実行
-		/// </summary>
-		/// <param name="con">SqlConnection</param>
-		/// <param name="tran">SqlTransaction</param>
-		/// <param name="table">DataTable</param>
-		/// <param name="sqlString">クエリ</param>
-		/// <returns>実行結果</returns>
-		public static int SqlExecuteCommand(SqlConnection con, SqlTransaction tran, string sqlString, SqlParameter[] param = null)
-        {
-            int result = -1;
-            {
-                using (SqlCommand cmd = new SqlCommand(sqlString, con, tran))
-                {
-                    cmd.Parameters.Clear();
-					if (null != param)
-					{
-						cmd.Parameters.AddRange(param);
-					}
-					try
-                    {
-                        //実行
-                        result = cmd.ExecuteNonQuery();
-                    }
-                    catch
-                    {
-                        throw;
-                    }
-                }
-            }
-            return result;
-        }
-
-		/// <summary>
-		/// SQLコマンドの実行
-		/// </summary>
-		/// <param name="con">SqlConnection</param>
-		/// <param name="tran">SqlTransaction</param>
-		/// <param name="table">DataTable</param>
-		/// <param name="sqlString">クエリ</param>
-		/// <returns>実行結果</returns>
-		public static object SqlExecuteScalar(SqlConnection con, SqlTransaction tran, string sqlString, SqlParameter[] param = null)
-		{
-			object result = null;
-			{
-				using (SqlCommand cmd = new SqlCommand(sqlString, con, tran))
-				{
-					cmd.Parameters.Clear();
-					if (null != param)
-					{
-						cmd.Parameters.AddRange(param);
-					}
-					try
-					{
-						//実行
 						result = cmd.ExecuteScalar();
 					}
 					catch
@@ -113,10 +48,151 @@ namespace CommonLib.DB.SqlServer
 		}
 
 		/// <summary>
+		/// SQLコマンドの実行
+		/// 結果セットの取得
+		/// </summary>
+		/// <param name="con">SQL接続情報</param>
+		/// <param name="sqlString">SQL文</param>
+		/// <returns>結果セット</returns>
+		public static DataTable SqlExcuteDataAdapter(SqlConnection con, string sqlString)
+		{
+			DataTable result = null;
+			try
+			{
+				using (SqlCommand cmd = new SqlCommand(sqlString, con))
+				{
+					using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+					{
+						result = new DataTable();
+						da.Fill(result);
+					}
+				}
+			}
+			catch
+			{
+				throw;
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// SQLコマンドの実行
+		/// 結果のないSQLステートメント（UPDATE、INSERTなど）に使用
+		/// </summary>
+		/// <param name="con">SQL接続情報</param>
+		/// <param name="sqlString">SQL文</param>
+		/// <param name="param">引数</param>
+		/// <returns>影響行数</returns>
+		public static int SqlExecuteNonQuery(SqlConnection con, string sqlString, SqlParameter[] param = null)
+		{
+			int result = -1;
+			using (SqlCommand cmd = new SqlCommand(sqlString, con))
+			{
+				cmd.Parameters.Clear();
+				if (null != param)
+				{
+					cmd.Parameters.AddRange(param);
+				}
+				try
+				{
+					// 実行
+					result = cmd.ExecuteNonQuery();
+				}
+				catch
+				{
+					throw;
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// SQLコマンドの実行
+		/// 結果のないSQLステートメント（UPDATE、INSERTなど）に使用
+		/// </summary>
+		/// <param name="con">SQL接続情報</param>
+		/// <param name="tran">トランザクション</param>
+		/// <param name="sqlString">SQL文</param>
+		/// <param name="param">引数</param>
+		/// <returns>影響行数</returns>
+		public static int SqlExecuteNonQueryTran(SqlConnection con, SqlTransaction tran, string sqlString, SqlParameter[] param = null)
+		{
+			int result = -1;
+			using (SqlCommand cmd = new SqlCommand(sqlString, con, tran))
+			{
+				cmd.Parameters.Clear();
+				if (null != param)
+				{
+					cmd.Parameters.AddRange(param);
+				}
+				try
+				{
+					// 実行
+					result = cmd.ExecuteNonQuery();
+				}
+				catch
+				{
+					throw;
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// ストアドプロシージャの実行
+		/// </summary>
+		/// <param name="con">SQL接続情報</param>
+		/// <param name="sqlString">SQL文</param>
+		/// <param name="param">引数</param>
+		/// <returns>実行結果</returns>
+		public static int SqlExecuteStoredProcedure(SqlConnection con, string sqlString, SqlParameter[] param = null)
+		{
+			int result = -1;
+
+			// 任意のストアドプロシージャを指定
+			using (SqlCommand cmd = new SqlCommand(sqlString, con))
+			{
+				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.Parameters.Clear();
+				if (null != param)
+				{
+					cmd.Parameters.AddRange(param);
+				}
+				try
+				{
+					// ストアドプロシージャ実行
+					using (SqlDataReader sdr = cmd.ExecuteReader())
+					{
+						//// 行を読み込む
+						//while (sdr.Read())
+						//{
+						//	// 列を読み込む
+						//	for (int i = 0; i < sdr.FieldCount; i++)
+						//	{
+						//		Console.Write(sdr[i] + " ");
+						//	}
+						//	Console.WriteLine();
+						//}
+
+						// SqlDataReaderをクローズ
+						sdr.Close();
+					}
+					result = 0;
+				}
+				catch
+				{
+					throw;
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
 		/// BulkCopyの実行
 		/// （100行以上のInsertの時のみ使用する）
 		/// </summary>
-		/// <param name="con">SqlConnection</param>
+		/// <param name="con">SQL接続情報</param>
+		/// <param name="tran">トランザクション</param>
 		/// <param name="table">DataTable</param>
 		/// <returns>実行結果</returns>
 		public static int SqlExecuteBulkCopy(SqlConnection con, SqlTransaction tran, DataTable table)

@@ -18,19 +18,40 @@ namespace OnlineLicenseSubsidy.Settings
 	public class OnlineLicenseSubsidySettings : ICloneable, IEquatable<OnlineLicenseSubsidySettings>
 	{
 		/// <summary>
-		/// 助成金額資料入力フォルダ_NTT東日本
+		/// 補助金額資料フォルダ_NTT東日本
 		/// </summary>
-		public string 助成金額資料入力フォルダ_NTT東日本 { get; set; }
+		public string 補助金額資料フォルダ_NTT東日本 { get; set; }
 
 		/// </summary>
-		/// 助成金額資料入力フォルダ_NTT西日本
+		/// 助成金額資料フォルダ_NTT西日本
 		/// </summary>
-		public string 助成金額資料入力フォルダ_NTT西日本 { get; set; }
+		public string 補助金額資料フォルダ_NTT西日本 { get; set; }
 
 		/// <summary>
-		/// 助成金申請書類出力フォルダ
+		/// 作業リストフォルダ
 		/// </summary>
-		public string 助成金申請書類出力フォルダ { get; set; }
+		public string 作業リストフォルダ { get; set; }
+
+		/// <summary>
+		/// 補助金申請書類フォルダ
+		/// </summary>
+		public string 補助金申請書類フォルダ { get; set; }
+
+		/// <summary>
+		/// 補助金申請書類エクセルフォルダ
+		/// </summary>
+		public string 補助金申請書類エクセルフォルダ { get; set; }
+
+		/// <summary>
+		/// 補助金申請書類PDFフォルダ
+		/// </summary>
+		public string 補助金申請書類PDFフォルダ { get; set; }
+
+		/// <summary>
+		/// Trial
+		/// </summary>
+		public bool Trial { get; set; }
+
 		/// <summary>
 		/// SQL Server接続情報
 		/// </summary>
@@ -40,9 +61,13 @@ namespace OnlineLicenseSubsidy.Settings
 		/// </summary>
 		public OnlineLicenseSubsidySettings()
         {
-			助成金額資料入力フォルダ_NTT東日本 = string.Empty;
-			助成金額資料入力フォルダ_NTT西日本 = string.Empty;
-			助成金申請書類出力フォルダ = string.Empty;
+			補助金額資料フォルダ_NTT東日本 = string.Empty;
+			補助金額資料フォルダ_NTT西日本 = string.Empty;
+			作業リストフォルダ = string.Empty;
+			補助金申請書類フォルダ = string.Empty;
+			補助金申請書類エクセルフォルダ = string.Empty;
+			補助金申請書類PDFフォルダ = string.Empty;
+			Trial = false;
 			Junp = new SqlServerConnect();
 		}
 
@@ -65,9 +90,13 @@ namespace OnlineLicenseSubsidy.Settings
 		{
 			if (other != null)
 			{
-				if (助成金額資料入力フォルダ_NTT東日本 == other.助成金額資料入力フォルダ_NTT東日本
-					&& 助成金額資料入力フォルダ_NTT西日本 == other.助成金額資料入力フォルダ_NTT西日本
-					&& 助成金申請書類出力フォルダ == other.助成金申請書類出力フォルダ
+				if (補助金額資料フォルダ_NTT東日本 == other.補助金額資料フォルダ_NTT東日本
+					&& 補助金額資料フォルダ_NTT西日本 == other.補助金額資料フォルダ_NTT西日本
+					&& 作業リストフォルダ == other.作業リストフォルダ
+					&& 補助金申請書類フォルダ == other.補助金申請書類フォルダ
+					&& 補助金申請書類エクセルフォルダ == other.補助金申請書類エクセルフォルダ
+					&& 補助金申請書類PDFフォルダ == other.補助金申請書類PDFフォルダ
+					&& Trial == other.Trial
 					&& Junp.Equals(other.Junp))
 				{
 					return true;

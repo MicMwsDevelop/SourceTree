@@ -20,11 +20,80 @@ namespace CommonLib.DB.SqlServer
 	public static class DatabaseAccess
     {
 		/// <summary>
+		/// SQLコマンドの実行
+		/// </summary>
+		/// <param name="strSQL">SQL文</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>実行結果</returns>
+		public static int ExecuteNonQuery(string strSQL, string connectStr)
+		{
+			int result = -1;
+			using (SqlConnection con = new SqlConnection(connectStr))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					result = DatabaseController.SqlExecuteNonQuery(con, strSQL);
+				}
+				catch (Exception ex)
+				{
+					throw new ApplicationException(string.Format("ExecuteNonQuery() Error!({0})", ex.Message));
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// ストアドプロシージャの実行
+		/// </summary>
+		/// <param name="strSQL">SQL文</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <param name="param">パラメータ</param>
+		/// <returns>実行結果</returns>
+		public static int ExecuteStoredProcedure(string strSQL, string connectStr, SqlParameter[] param = null)
+		{
+			int result = -1;
+			using (SqlConnection con = new SqlConnection(connectStr))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					result = DatabaseController.SqlExecuteStoredProcedure(con, strSQL, param);
+				}
+				catch (Exception ex)
+				{
+					throw new ApplicationException(string.Format("ExecuteStoredProcedure() Error!({0})", ex.Message));
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
 		/// テーブル新規作成
 		/// </summary>
 		/// <param name="strSQL">SQL文</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>結果</returns>
+		/// <returns>実行結果</returns>
 		public static int CreateTable(string strSQL, string connectStr)
 		{
 			int result = 0;
@@ -58,7 +127,7 @@ namespace CommonLib.DB.SqlServer
 		/// </summary>
 		/// <param name="strSQL">SQL文</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>結果</returns>
+		/// <returns>実行結果</returns>
 		public static int DropTable(string strSQL, string connectStr)
 		{
 			int result = 0;
@@ -88,11 +157,46 @@ namespace CommonLib.DB.SqlServer
 		}
 
 		/// <summary>
-		/// レコードの取得
+		/// 単一の値の取得(SqlExecuteScalar)
+		/// クエリが単一の値を返すときに使用。結果は最初の行の最初の列
 		/// </summary>
 		/// <param name="strSQL">SQL文</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>レコード数</returns>
+		/// <returns>オブジェクト</returns>
+		public static object ScalarDatabase(string strSQL, string connectStr)
+		{
+			object result = null;
+			using (SqlConnection con = new SqlConnection(connectStr))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					result = DatabaseController.SqlExecuteScalar(con, strSQL);
+				}
+				catch (Exception ex)
+				{
+					throw new ApplicationException(string.Format("ScalarDatabase() Error!({0})", ex.Message));
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// レコードの取得(SqlExcuteDataAdapter)
+		/// </summary>
+		/// <param name="strSQL">SQL文</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>結果セット</returns>
 		public static DataTable SelectDatabase(string strSQL, string connectStr)
 		{
 			DataTable result = null;
@@ -103,14 +207,7 @@ namespace CommonLib.DB.SqlServer
 					// 接続
 					con.Open();
 
-					using (SqlCommand cmd = new SqlCommand(strSQL, con))
-					{
-						using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-						{
-							result = new DataTable();
-							da.Fill(result);
-						}
-					}
+					result = DatabaseController.SqlExcuteDataAdapter(con, strSQL);
 				}
 				catch (Exception ex)
 				{
@@ -135,7 +232,7 @@ namespace CommonLib.DB.SqlServer
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>レコード数</returns>
+		/// <returns>結果セット</returns>
 		public static DataTable SelectDatabase(string tableName, string whereStr, string orderStr, string connectStr)
 		{
 			string strSQL = string.Format(@"SELECT * FROM {0}", tableName);
@@ -173,7 +270,7 @@ namespace CommonLib.DB.SqlServer
 						try
 						{
 							// 実行
-							rowCount = DatabaseController.SqlExecuteCommand(con, tran, sqlStr, param);
+							rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlStr, param);
 							if (rowCount <= -1)
 							{
 								throw new ApplicationException("InsertIntoDatabase() Error!");
@@ -230,7 +327,7 @@ namespace CommonLib.DB.SqlServer
 							// 実行
 							foreach (SqlParameter[] param in paramList)
 							{
-								rowCount = DatabaseController.SqlExecuteCommand(con, tran, sqlStr, param);
+								rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlStr, param);
 								if (rowCount <= -1)
 								{
 									throw new ApplicationException("InsertIntoListDatabase() Error!");
@@ -310,7 +407,7 @@ namespace CommonLib.DB.SqlServer
 						try
 						{
 							// 実行
-							rowCount = DatabaseController.SqlExecuteCommand(con, tran, sqlStr, param);
+							rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlStr, param);
 							if (rowCount <= -1)
 							{
 								throw new ApplicationException("UpdateSetDatabase() Error!");
@@ -364,7 +461,7 @@ namespace CommonLib.DB.SqlServer
 						try
 						{
 							// 実行
-							rowCount = DatabaseController.SqlExecuteCommand(con, tran, sqlStr);
+							rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlStr);
 							if (rowCount <= -1)
 							{
 								throw new ApplicationException("DeleteDatabase() Error!");

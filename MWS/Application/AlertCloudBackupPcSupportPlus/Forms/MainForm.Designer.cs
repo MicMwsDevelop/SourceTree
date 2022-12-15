@@ -64,7 +64,7 @@ namespace AlertCloudBackupPcSupportPlus.Forms
 			this.MinimizeBox = false;
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "クラウドバックアップPC安心サポートPlus申込アラート";
+			this.Text = "クラウドバックアップPC安心サポートPlus申込アラート (Ver1.01)";
 			this.ResumeLayout(false);
 
 		}
