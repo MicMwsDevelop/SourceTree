@@ -367,9 +367,9 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 
 		/// <summary>
 		/// 現調通知３：現調結果の連絡（NTT東日本）
-		///   現地調査結果(O列)にOK or NG が記載されたら、担当者に通知
+		///   現地調査結果(O列)にO現地調査結果完了報告日が記載されたら、担当者に通知
 		/// 抽出条件
-		/// (1)現地調査確定日(M列)と現地調査確定時間(L列)が設定済み かつ 現地調査結果(O列)にOK or NGが設定済み
+		/// (1)現地調査確定日(M列)と現地調査確定時間(L列)が設定済み かつ 現地調査結果(O列)に完了報告日が設定済み
 		/// (2)[進捗管理表_作業情報] が存在しない もしくは 現調未設定
 		/// (3)現地調査確定日(M列)と[進捗管理表_作業情報].現地調査確定日が同日 かつ 現地調査結果(O列)と[進捗管理表_作業情報].現地調査結果が違う
 		/// (4)[進捗管理表_作業情報].現地調査結果格納日時が当日より過去の日
@@ -392,8 +392,9 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 				int row = 6;
 				foreach (進捗管理表_NTT東日本 east in eastList)
 				{
-					// (1)現地調査確定日(M列)と現地調査確定時間(L列)が設定済み かつ 現地調査結果(O列)にOK or NGが設定済み
-					if (east.現地調査確定日付.HasValue && 0 < east.現地調査確定時間.Length && (east.現地調査結果_OK || east.現地調査結果_NG))
+					// (1)現地調査確定日(M列)と現地調査確定時間(L列)が設定済み かつ 現地調査結果(O列)に完了報告日が設定済み
+					//if (east.現地調査確定日付.HasValue && 0 < east.現地調査確定時間.Length && (east.現地調査結果_OK || east.現地調査結果_NG))
+					if (east.現地調査確定日付.HasValue && 0 < east.現地調査確定時間.Length && 0 < east.現地調査結果.Length)
 					{
 						進捗管理表_作業情報 db = progressList.Find(p => p.顧客No == east.病院ID);
 
@@ -458,30 +459,27 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 							// (3)現地調査確定日(M列)と[進捗管理表_作業情報].現地調査確定日が同日 かつ 現地調査結果(O列)と[進捗管理表_作業情報].現地調査結果が違う
 							if (east.現地調査確定日付 == db.現地調査確定日.Value.ToDate() && east.現地調査結果 != db.現地調査結果)
 							{
-								if (0 == db.現地調査結果.Length)
+								// MIC連絡担当者の通知情報を取得
+								NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID, connectStr);
+								if (null != notice)
 								{
-									// MIC連絡担当者の通知情報を取得
-									NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID, connectStr);
-									if (null != notice)
-									{
-										east.Notice = notice;
-									}
-									// シートに追加
-									string[] record = east.GetData();
-									for (int i = 0; i < record.Length; i++)
-									{
-										ws.Cell(row, i + 1).SetValue(record[i]);
-									}
-									row++;
-									ret++;
-
-									// レコード更新：現地調査結果db=現地調査結果、現地調査結果格納日時db=当日→通知３
-									db.受付通番 = east.受付通番;
-									db.進捗管理表ファイル名 = prgressFilename;
-									db.現地調査結果 = east.現地調査結果;
-									db.現地調査結果格納日時 = DateTime.Now;
-									進捗管理表_作業情報.WriteProgressDatabase(db, true, connectStr);
+									east.Notice = notice;
 								}
+								// シートに追加
+								string[] record = east.GetData();
+								for (int i = 0; i < record.Length; i++)
+								{
+									ws.Cell(row, i + 1).SetValue(record[i]);
+								}
+								row++;
+								ret++;
+
+								// レコード更新：現地調査結果db=現地調査結果、現地調査結果格納日時db=当日→通知３
+								db.受付通番 = east.受付通番;
+								db.進捗管理表ファイル名 = prgressFilename;
+								db.現地調査結果 = east.現地調査結果;
+								db.現地調査結果格納日時 = DateTime.Now;
+								進捗管理表_作業情報.WriteProgressDatabase(db, true, connectStr);
 							}
 							// (4)[進捗管理表_作業情報].現地調査結果格納日時が現地調査確定日(M列)より過去の日
 							else if (db.現地調査確定日.Value.ToDate() < east.現地調査確定日付)
@@ -574,7 +572,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 							data.進捗管理表ファイル名 = prgressFilename;
 							data.現地調査確定日 = west.現調プラン_訪問日付.Value.ToDateTime();
 							data.現地調査確定日格納日時 = DateTime.Now;
-							data.現地調査結果 = "OK";
+							data.現地調査結果 = west.現調プラン_完了報告日;
 							data.現地調査結果格納日時 = DateTime.Now;
 							進捗管理表_作業情報.WriteProgressDatabase(data, false, connectStr);
 						}
@@ -601,7 +599,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 							db.進捗管理表ファイル名 = prgressFilename;
 							db.現地調査確定日 = west.現調プラン_訪問日付.Value.ToDateTime();
 							db.現地調査確定日格納日時 = DateTime.Now;
-							db.現地調査結果 = "OK";
+							db.現地調査結果 = west.現調プラン_完了報告日;
 							db.現地調査結果格納日時 = DateTime.Now;
 							進捗管理表_作業情報.WriteProgressDatabase(db, true, connectStr);
 						}
@@ -610,30 +608,27 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 							// (3)訪問日(CH列)と[進捗管理表_作業情報].現地調査確定日が同日 かつ [進捗管理表_作業情報].現地調査結果が未設定
 							if (west.現調プラン_訪問日付 == db.現地調査確定日.Value.ToDate() && 0 == db.現地調査結果.Length)
 							{
-								if (0 == db.現地調査結果.Length)
+								// MIC連絡担当者の通知情報を取得
+								NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID, connectStr);
+								if (null != notice)
 								{
-									// MIC連絡担当者の通知情報を取得
-									NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID, connectStr);
-									if (null != notice)
-									{
-										west.Notice = notice;
-									}
-									// シートに追加
-									string[] record = west.GetData();
-									for (int i = 0; i < record.Length; i++)
-									{
-										ws.Cell(row, i + 1).SetValue(record[i]);
-									}
-									row++;
-									ret++;
-
-									// レコード更新：現地調査結果db=現地調査結果、現地調査結果格納日時db=当日→通知３
-									db.受付通番 = west.受付通番;
-									db.進捗管理表ファイル名 = prgressFilename;
-									db.現地調査結果 = "OK";
-									db.現地調査結果格納日時 = DateTime.Now;
-									進捗管理表_作業情報.WriteProgressDatabase(db, true, connectStr);
+									west.Notice = notice;
 								}
+								// シートに追加
+								string[] record = west.GetData();
+								for (int i = 0; i < record.Length; i++)
+								{
+									ws.Cell(row, i + 1).SetValue(record[i]);
+								}
+								row++;
+								ret++;
+
+								// レコード更新：現地調査結果db=現地調査結果、現地調査結果格納日時db=当日→通知３
+								db.受付通番 = west.受付通番;
+								db.進捗管理表ファイル名 = prgressFilename;
+								db.現地調査結果 = west.現調プラン_完了報告日;
+								db.現地調査結果格納日時 = DateTime.Now;
+								進捗管理表_作業情報.WriteProgressDatabase(db, true, connectStr);
 							}
 						}
 					}
@@ -668,7 +663,8 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 				foreach (進捗管理表_NTT東日本 east in eastList)
 				{
 					// (1)現地調査結果(O列)にOKが格納
-					if (east.現地調査結果_OK)
+					//if (east.現地調査結果_OK)
+					if ("NG" != east.現地調査結果 && 0 < east.現地調査結果.Length)
 					{
 						進捗管理表_作業情報 db = progressList.Find(p => p.顧客No == east.病院ID);
 						if (null != db)

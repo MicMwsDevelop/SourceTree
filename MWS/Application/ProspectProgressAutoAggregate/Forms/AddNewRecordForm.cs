@@ -52,7 +52,7 @@ namespace ProspectProgressAutoAggregate.Forms
 				for (int i = 0; i < 12; i++)
 				{
 					sale.実績日 = startDate.ToIntYMD();
-					foreach (string bumon in Program.gBumonCodes)
+					foreach (string bumon in Program.gBumonCodes202002)
 					{
 						sale.営業部コード = bumon;
 						CharlieDatabaseAccess.InsertInto_売上実績(sale, Program.gSettings.Charlie.ConnectionString);

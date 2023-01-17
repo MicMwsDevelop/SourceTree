@@ -5,7 +5,8 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2019/06/28 勝呂)
+// Ver1.00 新規作成(2019/06/28 勝呂)
+// Ver1.01 新規作成(2022/12/28 勝呂)
 // 
 using CommonLib.Common;
 
@@ -109,6 +110,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			vMicユーザー基本 = 21,
 			vMicソフトウェア保守料売上予測 = 22,
 			vMicユーザーオン資用 = 23,
+			vMicオンライン資格確認ソフト改修費 = 24,
 		}
 
 		/// <summary>
@@ -139,6 +141,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			{ ViewType.vMicユーザー基本, string.Format("{0}.vMicユーザー基本", DatabaseName) },
 			{ ViewType.vMicソフトウェア保守料売上予測, string.Format("{0}.vMicソフトウェア保守料売上予測", DatabaseName) },
 			{ ViewType.vMicユーザーオン資用, string.Format("{0}.vMicユーザーオン資用", DatabaseName) },
+			{ ViewType.vMicオンライン資格確認ソフト改修費, string.Format("{0}.vMicオンライン資格確認ソフト改修費", DatabaseName) },
 		};
 	}
 }

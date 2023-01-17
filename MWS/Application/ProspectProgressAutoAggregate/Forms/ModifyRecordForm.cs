@@ -29,6 +29,8 @@ namespace ProspectProgressAutoAggregate.Forms
 		public ModifyRecordForm()
 		{
 			InitializeComponent();
+
+			Period = 0;
 		}
 
 		/// <summary>

@@ -25,6 +25,12 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		public const string TargetSheetName = "申込書兼進捗管理表";
 
 		/// <summary>
+		/// NTT備考欄（BH列）自動フロー定型句
+		/// 「mm:dd　自動フローに乗せました。」
+		/// </summary>
+		public const string AutoFlowMessage = "自動フローに乗せました。";
+
+		/// <summary>
 		/// 通知情報
 		/// </summary>
 		public NoticeInfo Notice { get; set; }
@@ -178,29 +184,29 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			}
 		}
 
-		/// <summary>
-		/// 現地調査結果がOKかどうか？
-		/// O列：現地調査結果
-		/// </summary>
-		public bool 現地調査結果_OK
-		{
-			get
-			{
-				return ("OK" == 現地調査結果) ? true : false;
-			}
-		}
+		///// <summary>
+		///// 現地調査結果がOKかどうか？
+		///// O列：現地調査結果
+		///// </summary>
+		//public bool 現地調査結果_OK
+		//{
+		//	get
+		//	{
+		//		return ("OK" == 現地調査結果) ? true : false;
+		//	}
+		//}
 
-		/// <summary>
-		/// 現地調査結果がOKかどうか？
-		/// O列：現地調査結果
-		/// </summary>
-		public bool 現地調査結果_NG
-		{
-			get
-			{
-				return ("NG" == 現地調査結果) ? true : false;
-			}
-		}
+		///// <summary>
+		///// 現地調査結果がOKかどうか？
+		///// O列：現地調査結果
+		///// </summary>
+		//public bool 現地調査結果_NG
+		//{
+		//	get
+		//	{
+		//		return ("NG" == 現地調査結果) ? true : false;
+		//	}
+		//}
 
 		/// <summary>
 		/// 工事確定日付の取得
@@ -274,6 +280,17 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			get
 			{
 				return ("NG" == 回答結果2) ? true : false;
+			}
+		}
+
+		/// <summary>
+		/// NTT備考欄（BH列）自動フロー定型句が存在するかどうか？
+		/// </summary>
+		public bool IsExistAutoFlowMessage
+		{
+			get
+			{
+				return (-1 != NTT備考欄.IndexOf(AutoFlowMessage)) ? true : false;
 			}
 		}
 
@@ -545,7 +562,10 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			フレッツ新規手配 = ws.Cell(row, 12 + startCol).GetString();
 			現地調査確定日 = Program.GetDateString(ws.Cell(row, 13 + startCol));
 			現地調査確定時間 = Program.GetTimeString(ws.Cell(row, 14 + startCol));
-			現地調査結果 = ws.Cell(row, 15 + startCol).GetString();
+
+			//現地調査結果 = ws.Cell(row, 15 + startCol).GetString();
+			現地調査結果 = Program.GetDateString(ws.Cell(row, 15 + startCol));
+
 			現地調査結果詳細_調査NG時 = ws.Cell(row, 16 + startCol).GetString();
 			現地調査確定日_過去日 = Program.GetDateString(ws.Cell(row, 17 + startCol));
 			備考_調査関連 = ws.Cell(row, 18 + startCol).GetString();

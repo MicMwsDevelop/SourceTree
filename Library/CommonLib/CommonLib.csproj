@@ -76,6 +76,7 @@
     <Compile Include="BaseFactory\Junp\Table\tMikアプリケーション情報.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMikユーザ.cs" />
     <Compile Include="BaseFactory\Junp\Table\tUser.cs" />
+    <Compile Include="BaseFactory\Junp\View\vMicオンライン資格確認ソフト改修費.cs" />
     <Compile Include="BaseFactory\Junp\View\vMicソフトウェア保守料売上予測.cs" />
     <Compile Include="BaseFactory\Junp\View\vMicユーザーオン資用.cs" />
     <Compile Include="BaseFactory\Junp\View\vMic全ユーザー3.cs" />

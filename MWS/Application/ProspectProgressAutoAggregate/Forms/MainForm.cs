@@ -43,7 +43,7 @@ namespace ProspectProgressAutoAggregate.Forms
 			comboBoxPeriod.DataSource = list;
 			comboBoxPeriod.DisplayMember = "Item2";
 			comboBoxPeriod.ValueMember = "Item1";
-			comboBoxPeriod.SelectedIndex = 0;
+			comboBoxPeriod.SelectedIndex = 1;
 
 			// 来期追加、実績設定
 			buttonAddNew.Enabled = true;

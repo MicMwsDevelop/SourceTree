@@ -8,6 +8,7 @@
 // Ver1.00(2022/09/16 勝呂):新規作成
 // Ver1.01(2022/11/10 勝呂):経理部動作確認後、要望対応
 // Ver1.04(2022/12/13 勝呂):経理部要望対応 顧客情報（出力用）のチェックに顧客名の追加と開設者が未設定時の時には院長名を使用する
+// Ver1.05(2022/12/28 勝呂):経理部要望対応 注文確認書追加対応
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory;
@@ -22,24 +23,36 @@ namespace OnlineLicenseSubsidy.BaseFactory
 	public static class オン資補助金申請書類出力
 	{
 		/// <summary>
-		/// オン資補助金申請書類出力作業リスト.xlsx「顧客情報」シート名
+		/// オン資補助金申請書類作業リスト.xlsx「顧客情報」シート名
 		/// </summary>
-		private const string SheetNameCustomer = "顧客情報";
+		private const string WorkListSheetNameCustomer = "顧客情報";
 
 		/// <summary>
-		/// オン資補助金申請書類出力作業リスト.xlsx「領収書内訳書」シート名
+		/// オン資補助金申請書類作業リスト.xlsx「領収書内訳書」シート名
 		/// </summary>
-		private const string SheetNameOutput = "領収書内訳書";
+		private const string WorkListSheetNameReceipt = "領収書内訳書";
 
 		/// <summary>
-		/// 補助金申請書類「領収書内訳書」シート名
+		/// オン資補助金申請書類作業リスト.xlsx「注文確認書」シート名
 		/// </summary>
-		private const string SheetNameReceipt = "領収書内訳書";
+		// Ver1.05(2022/12/28 勝呂):経理部要望対応 注文確認書追加対応
+		private const string WorkListSheetNameOrder = "注文確認書";
 
 		/// <summary>
-		/// 補助金申請書類「事業完了報告書」シート名
+		/// オン資補助金申請書類「領収書内訳書」シート名
 		/// </summary>
-		private const string SheetNameReport = "事業完了報告書";
+		private const string SubsidySheetNameReceipt = "領収書内訳書";
+
+		/// <summary>
+		/// オン資補助金申請書類「事業完了報告書」シート名
+		/// </summary>
+		private const string SubsidySheetNameReport = "事業完了報告書";
+
+		/// <summary>
+		/// オン資補助金申請書類「注文確認書」シート名
+		/// </summary>
+		// Ver1.05(2022/12/28 勝呂):経理部要望対応 注文確認書追加対応
+		private const string SubsidySheetNameOrder = "注文確認書";
 
 		/// <summary>
 		/// 補助金申請書類出力フォルダ名
@@ -235,17 +248,18 @@ namespace OnlineLicenseSubsidy.BaseFactory
 		/// オン資補助金申請書類作業リスト.xlsxの出力
 		/// </summary>
 		/// <param name="dataList">補助金申請情報リスト</param>
-		/// <param name="pathname">オン資補助金申請書類作業リストパス名</param>
+		/// <param name="pathname">オン資補助金申請書類作業リスト.xlsx</param>
 		public static void WriteExcel作業リスト(List<補助金申請情報> dataList, string pathname)
 		{
 			try
 			{
 				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
 				{
-					IXLWorksheet ws1 = wb.Worksheet(SheetNameCustomer);
-					IXLWorksheet ws2 = wb.Worksheet(SheetNameOutput);
+					IXLWorksheet ws1 = wb.Worksheet(WorkListSheetNameCustomer);
+					IXLWorksheet ws2 = wb.Worksheet(WorkListSheetNameReceipt);
+					IXLWorksheet ws3 = wb.Worksheet(WorkListSheetNameOrder);
 					XLColor color = XLColor.Pink;
-					for (int i = 0, j = 3; i < dataList.Count; i++, j++)
+					for (int i = 0, j = 3, x = 3; i < dataList.Count; i++, j++)
 					{
 						補助金申請情報 data = dataList[i];
 
@@ -345,6 +359,27 @@ namespace OnlineLicenseSubsidy.BaseFactory
 
 						// 総額
 						ws2.Cell(j, 64).SetValue(data.総額());
+
+						////////////////////////////////////////
+						// 「注文確認書」
+						////////////////////////////////////////
+
+						// Ver1.05(2022/12/28 勝呂):経理部要望対応 注文確認書追加対応
+						if (data.IsExist注文確認書)
+						{
+							// 基本情報
+							ws3.Cell(x, 1).SetValue(data.顧客情報WW.得意先No);
+
+							// 発送日
+							ws3.Cell(x, 2).SetValue(data.発送日);
+
+							// 受注日
+							ws3.Cell(x, 3).SetValue(data.受注日);
+
+							// 金額（税込）
+							ws3.Cell(x, 4).SetValue(data.金額);
+							x++;
+						}
 					}
 					// Excelファイルの保存
 					wb.Save();
@@ -359,7 +394,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 		/// <summary>
 		/// 作業リストファイルの読込
 		/// </summary>
-		/// <param name="pathname"></param>
+		/// <param name="pathname">オン資補助金申請書類作業リスト.xlsx</param>
 		/// <returns>助成金申請出力情報リスト</returns>
 		public static List<補助金申請出力情報> ReadExcel作業リスト(string pathname)
 		{
@@ -370,16 +405,21 @@ namespace OnlineLicenseSubsidy.BaseFactory
 					using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
 					{
 						List<補助金申請出力情報> list = new List<補助金申請出力情報>();
-						IXLWorksheet ws1 = wb.Worksheet(SheetNameCustomer);
-						IXLWorksheet ws2 = wb.Worksheet(SheetNameOutput);
+
+						////////////////////////////////////////
+						//「顧客情報」
+						////////////////////////////////////////
+
+						IXLWorksheet ws1 = wb.Worksheet(WorkListSheetNameCustomer);
 						for (int i = 3; ; i++)
 						{
-							if ("" == ws1.Cell(i, 1).GetString())
+							string acceptNo = ws1.Cell(i, 1).GetString();
+							if (0 == acceptNo.Length)
 							{
 								break;
 							}
 							補助金申請出力情報 data = new 補助金申請出力情報();
-							data.受付通番 = ws1.Cell(i, 1).GetString();
+							data.受付通番 = acceptNo;
 							data.得意先番号 = ws1.Cell(i, 2).GetString();
 							data.顧客No = int.Parse(ws1.Cell(i, 3).GetString());
 
@@ -393,29 +433,59 @@ namespace OnlineLicenseSubsidy.BaseFactory
 							data.工事完了日 = GetDateTimeData(ws1.Cell(i, 22));
 
 							list.Add(data);
-							for (int j = 3; ; j++)
+						}
+
+						////////////////////////////////////////
+						// 「領収書内訳書」
+						////////////////////////////////////////
+
+						IXLWorksheet ws2 = wb.Worksheet(WorkListSheetNameReceipt);
+						for (int i = 3; ; i++)
+						{
+							string tokuisakiNo = ws2.Cell(i, 1).GetString();
+							if (0 == tokuisakiNo.Length)
 							{
-								if ("" == ws2.Cell(j, 1).GetString())
+								break;
+							}
+							補助金申請出力情報 data = list.Find(p => p.得意先番号 == tokuisakiNo);
+							if (null != data)
+							{
+								for (int j = 2; j < 62; j += 4)
 								{
-									break;
-								}
-								if (data.得意先番号 == ws2.Cell(j, 1).GetString())
-								{
-									for (int k = 2; k < 62; k += 4)
+									if ("" == ws2.Cell(i, j).GetString())
 									{
-										if ("" == ws2.Cell(j, k).GetString())
-										{
-											break;
-										}
-										領収内訳情報 meisai = new 領収内訳情報();
-										meisai.項目 = ws2.Cell(j, k).GetString();
-										meisai.内訳 = ws2.Cell(j, k + 1).GetString();
-										meisai.補助対象金額 = GetDoubleData(ws2.Cell(j, k + 2));
-										meisai.補助対象外金額 = GetDoubleData(ws2.Cell(j, k + 3));
-										data.領収内訳情報List.Add(meisai);
+										break;
 									}
-									break;
+									領収内訳情報 meisai = new 領収内訳情報();
+									meisai.項目 = ws2.Cell(i, j).GetString();
+									meisai.内訳 = ws2.Cell(i, j + 1).GetString();
+									meisai.補助対象金額 = GetDoubleData(ws2.Cell(i, j + 2));
+									meisai.補助対象外金額 = GetDoubleData(ws2.Cell(i, j + 3));
+									data.領収内訳情報List.Add(meisai);
 								}
+							}
+						}
+
+						////////////////////////////////////////
+						// 「注文確認書」
+						////////////////////////////////////////
+
+						// Ver1.05(2022/12/28 勝呂):経理部要望対応 注文確認書追加対応
+						IXLWorksheet ws3 = wb.Worksheet(WorkListSheetNameOrder);
+
+						for (int i = 3; ; i++)
+						{
+							string tokuisakiNo = ws3.Cell(i, 1).GetString();
+							if (0 == tokuisakiNo.Length)
+							{
+								break;
+							}
+							補助金申請出力情報 data = list.Find(p => p.得意先番号 == tokuisakiNo);
+							if (null != data)
+							{
+								data.発送日 = GetDateTimeData(ws3.Cell(i, 2));
+								data.受注日 = GetDateTimeData(ws3.Cell(i, 3));
+								data.金額 = GetDoubleData(ws3.Cell(i, 4));
 							}
 						}
 						return list;
@@ -445,8 +515,11 @@ namespace OnlineLicenseSubsidy.BaseFactory
 				File.Copy(orgPathname, outputPathname, true);
 				using (XLWorkbook wb = new XLWorkbook(outputPathname, XLEventTracking.Disabled))
 				{
-					// 領収書内訳書
-					IXLWorksheet ws1 = wb.Worksheet(SheetNameReceipt);
+					////////////////////////////////////////
+					// 「領収書内訳書」
+					////////////////////////////////////////
+
+					IXLWorksheet ws1 = wb.Worksheet(SubsidySheetNameReceipt);
 					if (data.工事完了日.HasValue)
 					{
 						ws1.Cell(3, 42).SetValue(string.Format("{0,4}", data.工事完了日.Value.Year));
@@ -505,8 +578,11 @@ namespace OnlineLicenseSubsidy.BaseFactory
 					// 総額（①＋②）
 					//ws1.Cell(12, 9).SetValue(total);
 
-					// 事業完了報告書
-					IXLWorksheet ws2 = wb.Worksheet(SheetNameReport);
+					////////////////////////////////////////
+					// 「事業完了報告書」
+					////////////////////////////////////////
+
+					IXLWorksheet ws2 = wb.Worksheet(SubsidySheetNameReport);
 					if (data.工事完了日.HasValue)
 					{
 						ws2.Cell(2, 20).SetValue(string.Format("{0,4}", data.工事完了日.Value.Year));
@@ -534,6 +610,21 @@ namespace OnlineLicenseSubsidy.BaseFactory
 					ws2.Cell(13, 19).SetValue(data.電話番号);
 					ws2.Cell(10, 19).SetValue(data.開設者);
 
+					////////////////////////////////////////
+					// 「注文確認書」
+					////////////////////////////////////////
+
+					// Ver1.05(2022/12/28 勝呂):経理部要望対応 注文確認書追加対応
+					if (data.IsExist注文確認書)
+					{
+						IXLWorksheet ws3 = wb.Worksheet(SubsidySheetNameOrder);
+						ws3.Cell(1, 5).SetValue(data.発送日);
+						ws3.Cell(6, 1).SetValue(data.顧客名);
+						ws3.Cell(14, 2).SetValue(data.受注日);
+						//ws3.Cell(15, 2).SetValue(data.金額);
+						ws3.Cell(18, 4).SetValue(data.金額);
+						ws3.Cell(18, 5).SetValue(data.金額);
+					}
 					// Excelファイルの保存
 					wb.Save();
 				}

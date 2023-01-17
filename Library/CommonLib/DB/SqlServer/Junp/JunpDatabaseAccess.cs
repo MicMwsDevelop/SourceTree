@@ -5,7 +5,8 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2019/06/28 勝呂)
+// Ver1.00 新規作成(2019/06/28 勝呂)
+// Ver1.01 新規作成(2022/12/28 勝呂)
 // 
 using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.BaseFactory.Junp.View;
@@ -475,6 +476,20 @@ namespace CommonLib.DB.SqlServer.Junp
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicユーザーオン資用], whereStr, orderStr, connectStr);
 			return vMicユーザーオン資用.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[vMicオンライン資格確認ソフト改修費]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>vMicオンライン資格確認ソフト改修費</returns>
+		/// Ver1.01 新規作成(2022/12/28 勝呂)
+		public static List<vMicオンライン資格確認ソフト改修費> Select_vMicオンライン資格確認ソフト改修費(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicオンライン資格確認ソフト改修費], whereStr, orderStr, connectStr);
+			return vMicオンライン資格確認ソフト改修費.DataTableToList(table);
 		}
 	}
 }

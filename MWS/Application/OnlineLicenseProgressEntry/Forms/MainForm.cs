@@ -169,7 +169,7 @@ namespace OnlineLicenseProgressEntry.Forms
 							{
 								if (0 < clinic.TelNumber.Length)
 								{
-									tMik基本情報 basic = basicList.Find(p => StringUtil.DigitOnlyString(p.fkj電話番号) == StringUtil.DigitOnlyString(clinic.TelNumber));
+									tMik基本情報 basic = basicList.Find(p => p.fkj電話番号 == clinic.TelNumber);
 									if (null != basic)
 									{
 										オンライン資格確認進捗管理情報 online = onlineList.Find(p => p.顧客No == basic.fkjCliMicID);

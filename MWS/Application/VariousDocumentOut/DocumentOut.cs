@@ -17,6 +17,7 @@
 // Ver1.13(2022/05/09):アプラス預金口座振替依頼書・自動払込利用申込書新フォーム対応
 // Ver1.14(2022/06/16):8-Microsoft365利用申込書 拠点FAX番号対応
 // Ver1.14(2022/06/30):8-Microsoft365利用申込書 新様式対応
+// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Junp.Table;
@@ -2293,18 +2294,24 @@ namespace VariousDocumentOut
 		/// <param name="common">各種書類出力 共通情報</param>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="orgPathname">Excelファイルパス名(org)</param>
-		/// <param name="goodsList">オンライン資格確認対象商品売上明細</param>
+		/// <param name="goodsList">領収書内訳書明細リスト</param>
+		/// <param name="softList">注文確認書情報</param>
 		/// Ver1.07(2021/12/24):経理部専用 オンライン資格確認等事業完了報告書の対応
 		/// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
-		public static void ExcelOutOnlineConfirm(DocumentCommon common, string pathname, string orgPathname, List<オンライン資格確認対象商品売上明細> goodsList)
+		/// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
+		public static void ExcelOutOnlineConfirm(DocumentCommon common, string pathname, string orgPathname, List<オンライン資格確認対象商品売上明細> goodsList, List<vMicオンライン資格確認ソフト改修費> softList)
 		{
 			try
 			{
 				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
 				{
 					string clinicCode = common.Customer.NumericClinicCode;
+/*
+					// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
+					////////////////////////////////////////
+					//「領収証」
+					////////////////////////////////////////
 
-					// 領収証
 					IXLWorksheet ws1 = wb.Worksheet("領収証");
 					ws1.Cell(5, 2).SetValue(common.Customer.顧客名);
 					ws1.Cell(13, 3).SetValue(string.Format("{0,4} 年 {1,2} 月 {2,2} 日", Date.Today.Year, Date.Today.Month, Date.Today.Day));
@@ -2312,8 +2319,12 @@ namespace VariousDocumentOut
 					ws1.Cell(18, 7).SetValue(common.住所1);
 					ws1.Cell(19, 7).SetValue(common.住所2);
 					ws1.Cell(20, 7).SetValue(string.Format("TEL {0}", common.電話番号));
+*/
 
-					// 領収書内訳書
+					////////////////////////////////////////
+					//「領収書内訳書」
+					////////////////////////////////////////
+
 					IXLWorksheet ws2 = wb.Worksheet("領収書内訳書");
 					ws2.Cell(3, 42).SetValue(string.Format("{0,4}", Date.Today.Year));
 					ws2.Cell(3, 45).SetValue(string.Format("{0,2}", Date.Today.Month));
@@ -2334,46 +2345,52 @@ namespace VariousDocumentOut
 					//ws2.Cell(10, 40).SetValue(common.住所1);
 					//ws2.Cell(12, 40).SetValue(common.電話番号);
 
-					int total = 0;
-					for (int i = 0; i < goodsList.Count; i++)
+					if (null != goodsList && 0 < goodsList.Count)
 					{
-						オンライン資格確認対象商品売上明細 goods = goodsList[i];
-						OnlineGoods online = Program.gSettings.OnlineGoodsList.Find(p => p.商品コード == goods.商品コード);
-						if (null != online)
+						//int total = 0;
+						for (int i = 0; i < goodsList.Count; i++)
 						{
-							// 項目
-							ws2.Cell(16 + i, 4).SetValue(online.項目);
+							オンライン資格確認対象商品売上明細 goods = goodsList[i];
+							OnlineGoods online = Program.gSettings.OnlineGoodsList.Find(p => p.商品コード == goods.商品コード);
+							if (null != online)
+							{
+								// 項目
+								ws2.Cell(16 + i, 4).SetValue(online.項目);
 
-							// 内訳
-							ws2.Cell(16 + i, 16).SetValue(online.内訳);
+								// 内訳
+								ws2.Cell(16 + i, 16).SetValue(online.内訳);
+							}
+							else
+							{
+								// 項目
+								ws2.Cell(16 + i, 4).SetValue(goods.商品コード);
+
+								// 内訳
+								ws2.Cell(16 + i, 16).SetValue(goods.商品名);
+							}
+							// ①補助対象金額
+							ws2.Cell(16 + i, 38).SetValue(goods.補助対象金額);
+							//total += goods.補助対象金額;
+
+							// ②補助対象外金額
+							;
+
 						}
-						else
-						{
-							// 項目
-							ws2.Cell(16 + i, 4).SetValue(goods.商品コード);
+						// ①小計
+						//ws2.Cell(31, 42).SetValue(total);
 
-							// 内訳
-							ws2.Cell(16 + i, 16).SetValue(goods.商品名);
-						}
-						// ①補助対象金額
-						ws2.Cell(16 + i, 38).SetValue(goods.補助対象金額);
-						total += goods.補助対象金額;
+						// ②小計
+						//;
 
-						// ②補助対象外金額
-						;
-
+						// 総額（①＋②）
+						//ws2.Cell(12, 9).SetValue(total);
 					}
-					// ①小計
-					//ws2.Cell(31, 42).SetValue(total);
 
-					// ②小計
-					//;
+					////////////////////////////////////////
+					//「事業完了報告書」
+					////////////////////////////////////////
 
-					// 総額（①＋②）
-					//ws2.Cell(12, 9).SetValue(total);
-
-					// 作業完了報告書
-					IXLWorksheet ws3 = wb.Worksheet("作業完了報告書");
+					IXLWorksheet ws3 = wb.Worksheet("事業完了報告書");
 					ws3.Cell(2, 20).SetValue(string.Format("{0,4}", Date.Today.Year));
 					ws3.Cell(2, 23).SetValue(string.Format("{0,2}", Date.Today.Month));
 					ws3.Cell(2, 25).SetValue(string.Format("{0,2}", Date.Today.Day));
@@ -2401,6 +2418,22 @@ namespace VariousDocumentOut
 					{
 						ws3.Cell(10, 19).SetValue(common.Customer3.開設者名);
 					}
+
+					// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
+					////////////////////////////////////////
+					//「注文確認書」
+					////////////////////////////////////////
+
+					if (null != softList && 0 < softList.Count)
+					{
+						IXLWorksheet ws4 = wb.Worksheet("注文確認書");
+						ws4.Cell(1, 5).SetValue(DateTime.Today);
+						ws4.Cell(6, 1).SetValue(softList[0].顧客名);
+						ws4.Cell(14, 2).SetValue(softList[0].受注日);
+						//ws4.Cell(15, 2).SetValue(softList[0].金額);
+						ws4.Cell(18, 4).SetValue(softList[0].受注金額税込);
+						ws4.Cell(18, 5).SetValue(softList[0].受注金額税込);
+					}
 					// Excelファイルの保存
 					wb.Save();
 				}
@@ -2409,7 +2442,12 @@ namespace VariousDocumentOut
 			{
 				throw new Exception(e.Message);
 			}
+/*
+			// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
+			////////////////////////////////////////
 			// 書類送付状
+			////////////////////////////////////////
+
 			Excel.Application xlApp = null;
 			Excel.Workbooks xlBooks = null;
 			Excel.Workbook xlBook = null;
@@ -2433,7 +2471,7 @@ namespace VariousDocumentOut
 				xlSheetDelete.Delete();
 
 				// 作業完了報告書の後ろに19-オンライン資格確認等事業完了報告書.xlsx.orgの書類送付状をコピー
-				xlSheetCopy = xlSheets["作業完了報告書"] as Excel.Worksheet;
+				xlSheetCopy = xlSheets["事業完了報告書"] as Excel.Worksheet;
 				xlBookOrg = xlBooks.Open(orgPathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheetOrg = xlBookOrg.Worksheets["書類送付状"] as Excel.Worksheet;
 				xlSheetOrg.Copy(Type.Missing, xlSheetCopy);   // 「作業完了報告書」の後ろに「書類送付状」をコピー
@@ -2500,6 +2538,7 @@ namespace VariousDocumentOut
 				// ガベージコレクションを直ちに強制実行する
 				GC.Collect();
 			}
+*/
 		}
 	}
 }

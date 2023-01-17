@@ -10,6 +10,7 @@
 // Ver1.07(2021/12/24):経理部専用 オンライン資格確認等事業完了報告書の対応
 // Ver1.09(2022/02/10):二次キッティング依頼書 2022/02組織変更対応
 // Ver1.11(2022/02/21):二次キッティング依頼書 使用廃止によりメニューから削除
+// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
 //
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Junp.View;
@@ -619,13 +620,14 @@ namespace VariousDocumentOut.Forms
 						{
 							try
 							{
-								// 顧客詳細情報の読込
-								string whereStr = string.Format("顧客No = {0}", textBoxCustomerNo.ToInt());
+								// 顧客Noに対するオンライン資格確認対象商品売上明細情報の取得
 								List<オンライン資格確認対象商品売上明細> goodsList = VariousDocumentOutAccess.Select_オンライン資格確認対象商品売上明細(Common.Customer.得意先No, Program.gSettings.Connect.Junp.ConnectionString);
-								if (null != goodsList)
-								{
-									DocumentOut.ExcelOutOnlineConfirm(Common, xlsPathname, orgPpathname, goodsList);
-								}
+
+								// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
+								// [JunpDB].[dbo].[vMicオンライン資格確認ソフト改修費]の取得
+								string whereStr = string.Format("顧客No = {0}", Common.Customer.顧客No);
+								List<vMicオンライン資格確認ソフト改修費> softList = JunpDatabaseAccess.Select_vMicオンライン資格確認ソフト改修費(whereStr, "受注番号 DESC", Program.gSettings.Connect.Junp.ConnectionString);
+								DocumentOut.ExcelOutOnlineConfirm(Common, xlsPathname, orgPpathname, goodsList, softList);
 							}
 							catch (Exception ex)
 							{

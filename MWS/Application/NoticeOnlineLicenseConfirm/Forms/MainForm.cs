@@ -272,6 +272,11 @@ namespace NoticeOnlineLicenseConfirm.Forms
 			}
 			if (eastOK)
 			{
+				if (false == EastFileDate.HasValue)
+				{
+					MessageBox.Show("NTT東日本の進捗管理表のファイル名の日付が正しくありません。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
 				if (EastFileDate.HasValue && EastFileDate.Value.ToDateTime() != dateTimePickerEast.Value)
 				{
 					if (DialogResult.No == MessageBox.Show("NTT東日本 進捗管理表の更新日とファイル作成日に相違がありますが、よろしいですか？", Program.ProgramName, MessageBoxButtons.YesNo, MessageBoxIcon.Question))
@@ -282,6 +287,11 @@ namespace NoticeOnlineLicenseConfirm.Forms
 			}
 			if (westOK)
 			{
+				if (false == WestFileDate.HasValue)
+				{
+					MessageBox.Show("NTT西日本の進捗管理表のファイル名の日付が正しくありません。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
 				if (WestFileDate.HasValue && WestFileDate.Value.ToDateTime() != dateTimePickerWest.Value)
 				{
 					if (DialogResult.No == MessageBox.Show("NTT西日本 進捗管理表の更新日とファイル作成日に相違がありますが、よろしいですか？", Program.ProgramName, MessageBoxButtons.YesNo, MessageBoxIcon.Question))

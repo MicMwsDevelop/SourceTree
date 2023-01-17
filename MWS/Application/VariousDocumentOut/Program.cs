@@ -33,6 +33,7 @@
 // Ver1.13(2022/06/14):1-ユーザーID＆初期パスワード通知書新フォーム対応
 // Ver1.14(2022/06/16):8-Microsoft365利用申込書 拠点FAX番号対応
 // Ver1.14(2022/06/30):8-Microsoft365利用申込書 新様式対応
+// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
 //
 using System;
 using System.Windows.Forms;
@@ -50,7 +51,7 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// バージョン番号
 		/// </summary>
-		public const string VersionStr = "Ver1.14 (2022/06/27)";
+		public const string VersionStr = "Ver1.15 (2023/01/17)";
 
 		/// <summary>
 		/// 環境設定

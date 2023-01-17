@@ -22,6 +22,7 @@
 // Ver1.06 予測連絡用の内容を元の見込進捗に合わせる(2021/11/16 勝呂)
 // Ver1.07 2022/02組織変更に伴うフォーム変更(2022/02/09 勝呂)
 // Ver1.08 2022/02組織変更に伴うフォーム見直し(2022/04/12 勝呂)
+// Ver1.09 48期に対応(2023/01/12 勝呂)
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Charlie.Table;
@@ -50,7 +51,7 @@ namespace ProspectProgressAutoAggregate
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public static readonly string VersionStr = "Ver1.08 (2022/04/13)";
+		public static readonly string VersionStr = "Ver1.09 (2023/01/12)";
 
 		/// <summary>
 		/// MIC創立年
@@ -558,32 +559,54 @@ namespace ProspectProgressAutoAggregate
 		{
 			IXLWorksheet ws	= wb.Worksheet("予測連絡用");
 
-			// 2022/02の前月は旧組織でフォームが合わないために前月実績値は設定しない
-			if (202202 != today.ToYearMonth().ToIntYM())
+			if (period < 48)
 			{
-				// 前月実績値の設定
-				予測連絡用_前月実績値設定(ws, period, today);
+				// 47期以前
+				// 2022/02の前月は旧組織でフォームが合わないために前月実績値は設定しない
+				if (202202 != today.ToYearMonth().ToIntYM())
+				{
+					// 前月実績値の設定
+					予測連絡用_前月実績値設定_47(ws, period, today);
+				}
+				// 当月予算予測進捗値の設定
+				予測連絡用_当月予算予測進捗値設定_47(ws, today);
+
+				// 翌月予算予測進捗値の設定
+				予測連絡用_翌月予算進捗値設定_47(ws, today);
+
+				// 更新日
+				ws.Cell(2, 28).SetValue(string.Format("更新日：{0}", DateTime.Now.ToString()));
+
+				// バージョン情報
+				ws.Cell(37, 28).SetValue(VersionStr);
 			}
-			// 当月予算予測進捗値の設定
-			予測連絡用_当月予算予測進捗値設定(ws/*, period*/, today);
+			else
+			{
+				// 48期以降
+				// 前月実績値の設定
+				予測連絡用_前月実績値設定_48(ws, period, today);
 
-			// 翌月予算予測進捗値の設定
-			予測連絡用_翌月予算進捗値設定(ws/*, period*/, today);
+				// 当月予算予測進捗値の設定
+				予測連絡用_当月予算予測進捗値設定_48(ws, today);
 
-			// 更新日
-			ws.Cell(2, 28).SetValue(string.Format("更新日：{0}", DateTime.Now.ToString()));
+				// 翌月予算予測進捗値の設定
+				予測連絡用_翌月予算進捗値設定_48(ws, today);
 
-			// バージョン情報
-			ws.Cell(37, 28).SetValue(VersionStr);
+				// 更新日
+				ws.Cell(2, 24).SetValue(string.Format("更新日：{0}", DateTime.Now.ToString()));
+
+				// バージョン情報
+				ws.Cell(36, 24).SetValue(VersionStr);
+			}
 		}
 
 		/// <summary>
-		/// 「予測連絡用」前月実績値の設定
+		/// 「予測連絡用」前月実績値の設定（47期以前）
 		/// </summary>
 		/// <param name="ws">worksheet</param>
 		/// <param name="period">決算期</param>
 		/// <param name="today">当日</param>
-		private static void 予測連絡用_前月実績値設定(IXLWorksheet ws, int period, Date today)
+		private static void 予測連絡用_前月実績値設定_47(IXLWorksheet ws, int period, Date today)
 		{
 			// 先月初日
 			YearMonth lastYM = today.FirstDayOfLasMonth().ToYearMonth();
@@ -739,286 +762,528 @@ namespace ProspectProgressAutoAggregate
 		}
 
 		/// <summary>
-		/// 「予測連絡用」当月予算予測進捗値設定
+		/// 「予測連絡用」前月実績値の設定（48期以降）
+		/// </summary>
+		/// <param name="ws">worksheet</param>
+		/// <param name="period">決算期</param>
+		/// <param name="today">当日</param>
+		private static void 予測連絡用_前月実績値設定_48(IXLWorksheet ws, int period, Date today)
+		{
+			// 先月初日
+			YearMonth lastYM = today.FirstDayOfLasMonth().ToYearMonth();
+			ws.Cell(6, 2).SetValue(string.Format("{0:D4}年{1:D2}月\r\n(実績)", lastYM.Year, lastYM.Month));
+			int lastFirstDay = today.FirstDayOfLasMonth().ToIntYMD();
+
+			if (7 == lastYM.Month)
+			{
+				// 前期
+				Span term = GetTerm(period - 1);
+				List<売上実績> list = CharlieDatabaseAccess.Select_売上実績(string.Format("実績日 >= {0} AND 実績日 <= {1}", term.Start.ToIntYMD(), term.End.ToIntYMD()), "実績日, 営業部コード", gSettings.Charlie.ConnectionString);
+
+				// 前期７月の実績値の設定
+				// 営業部
+				for (int i = 0, j = 0; i < 2; i++, j += 3)
+				{
+					売上実績 result = list.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == lastFirstDay);
+					if (null != result)
+					{
+						ws.Cell(6, 5 + j).SetValue(result.予算ES);
+						ws.Cell(6, 6 + j).SetValue(result.予算課金);
+						ws.Cell(6, 7 + j).SetValue(result.予算売上);
+						ws.Cell(7, 5 + j).SetValue(result.実績ES);
+						ws.Cell(7, 6 + j).SetValue(result.実績課金);
+						ws.Cell(7, 7 + j).SetValue(result.実績売上);
+						ws.Cell(10, 5 + j).SetValue(result.予算営業損益);
+						ws.Cell(11, 5 + j).SetValue(result.実績営業損益);
+					}
+				}
+				// サポートセンター
+				for (int i = 2, j = 0; i < gBumonCodes202002.Length; i++, j += 2)
+				{
+					売上実績 result = list.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == lastFirstDay);
+					if (null != result)
+					{
+						ws.Cell(6, 11 + j).SetValue(result.予算まとめ);
+						ws.Cell(6, 12 + j).SetValue(result.予算売上);
+						ws.Cell(7, 11 + j).SetValue(result.実績まとめ);
+						ws.Cell(7, 12 + j).SetValue(result.実績売上);
+						ws.Cell(10, 11 + j).SetValue(result.予算営業損益);
+						ws.Cell(11, 11 + j).SetValue(result.実績営業損益);
+					}
+				}
+				// 前期累計実績値の設定
+				// 営業部
+				for (int i = 0, j = 0; i < 2; i++, j += 3)
+				{
+					List<売上実績> result = list.FindAll(p => p.営業部コード == gBumonCodes202002[i]);
+					if (null != result)
+					{
+						ws.Cell(14, 5 + j).SetValue(result.Sum(p => p.予算ES));
+						ws.Cell(14, 6 + j).SetValue(result.Sum(p => p.予算課金));
+						ws.Cell(14, 7 + j).SetValue(result.Sum(p => p.予算売上));
+						ws.Cell(15, 5 + j).SetValue(result.Sum(p => p.実績ES));
+						ws.Cell(15, 6 + j).SetValue(result.Sum(p => p.実績課金));
+						ws.Cell(15, 7 + j).SetValue(result.Sum(p => p.実績売上));
+						ws.Cell(18, 5 + j).SetValue(result.Sum(p => p.予算営業損益));
+						ws.Cell(19, 5 + j).SetValue(result.Sum(p => p.実績営業損益));
+					}
+				}
+				// サポートセンター
+				for (int i = 2, j = 0; i < gBumonCodes202002.Length; i++, j += 2)
+				{
+					List<売上実績> result = list.FindAll(p => p.営業部コード == gBumonCodes202002[i]);
+					if (null != result)
+					{
+						ws.Cell(14, 11 + j).SetValue(result.Sum(p => p.予算まとめ));
+						ws.Cell(14, 12 + j).SetValue(result.Sum(p => p.予算売上));
+						ws.Cell(15, 11 + j).SetValue(result.Sum(p => p.実績まとめ));
+						ws.Cell(15, 12 + j).SetValue(result.Sum(p => p.実績売上));
+						ws.Cell(18, 11 + j).SetValue(result.Sum(p => p.予算営業損益));
+						ws.Cell(19, 11 + j).SetValue(result.Sum(p => p.実績営業損益));
+					}
+				}
+				ws.Cell(14, 2).SetValue(string.Format("{0}期累計\r\n(実績)", period - 1));
+			}
+			else
+			{
+				// 前月の実績値の設定
+				// 営業部
+				for (int i = 0, j = 0; i < 2; i++, j += 3)
+				{
+					売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == lastFirstDay);
+					if (null != result)
+					{
+						ws.Cell(6, 5 + j).SetValue(result.予算ES);
+						ws.Cell(6, 6 + j).SetValue(result.予算課金);
+						ws.Cell(6, 7 + j).SetValue(result.予算売上);
+						ws.Cell(7, 5 + j).SetValue(result.実績ES);
+						ws.Cell(7, 6 + j).SetValue(result.実績課金);
+						ws.Cell(7, 7 + j).SetValue(result.実績売上);
+						ws.Cell(10, 5 + j).SetValue(result.予算営業損益);
+						ws.Cell(11, 5 + j).SetValue(result.実績営業損益);
+					}
+				}
+				// サポートセンター
+				for (int i = 2, j = 0; i < gBumonCodes202002.Length; i++, j += 2)
+				{
+					売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == lastFirstDay);
+					if (null != result)
+					{
+						ws.Cell(6, 11 + j).SetValue(result.予算まとめ);
+						ws.Cell(6, 12 + j).SetValue(result.予算売上);
+						ws.Cell(7, 11 + j).SetValue(result.実績まとめ);
+						ws.Cell(7, 12 + j).SetValue(result.実績売上);
+						ws.Cell(10, 11 + j).SetValue(result.予算営業損益);
+						ws.Cell(11, 11 + j).SetValue(result.実績営業損益);
+					}
+				}
+
+				// 今期累計実績値の設定
+				Span term = GetTerm(period);
+				term = new Span(term.Start, today.LastDayOfLasMonth());
+
+				// 営業部
+				for (int i = 0, j = 0; i < 2; i++, j += 3)
+				{
+					List<売上実績> result = 売上実績_List.FindAll(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 >= term.Start.ToIntYMD() && p.実績日 <= term.End.ToIntYMD());
+					if (null != result)
+					{
+						ws.Cell(14, 5 + j).SetValue(result.Sum(p => p.予算ES));
+						ws.Cell(14, 6 + j).SetValue(result.Sum(p => p.予算課金));
+						ws.Cell(14, 7 + j).SetValue(result.Sum(p => p.予算売上));
+						ws.Cell(15, 5 + j).SetValue(result.Sum(p => p.実績ES));
+						ws.Cell(15, 6 + j).SetValue(result.Sum(p => p.実績課金));
+						ws.Cell(15, 7 + j).SetValue(result.Sum(p => p.実績売上));
+						ws.Cell(18, 5 + j).SetValue(result.Sum(p => p.予算営業損益));
+						ws.Cell(19, 5 + j).SetValue(result.Sum(p => p.実績営業損益));
+					}
+				}
+				// サポートセンター
+				for (int i = 2, j = 0; i < gBumonCodes202002.Length; i++, j += 2)
+				{
+					List<売上実績> result = 売上実績_List.FindAll(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 >= term.Start.ToIntYMD() && p.実績日 <= term.End.ToIntYMD());
+					if (null != result)
+					{
+						ws.Cell(14, 11 + j).SetValue(result.Sum(p => p.予算まとめ));
+						ws.Cell(14, 12 + j).SetValue(result.Sum(p => p.予算売上));
+						ws.Cell(15, 11 + j).SetValue(result.Sum(p => p.実績まとめ));
+						ws.Cell(15, 12 + j).SetValue(result.Sum(p => p.実績売上));
+						ws.Cell(18, 11 + j).SetValue(result.Sum(p => p.予算営業損益));
+						ws.Cell(19, 11 + j).SetValue(result.Sum(p => p.実績営業損益));
+					}
+				}
+				ws.Cell(14, 2).SetValue(string.Format("{0}下期累計\r\n(実績)", period));
+			}
+		}
+
+		/// <summary>
+		/// 「予測連絡用」当月予算予測進捗値設定（47期以前）
 		/// </summary>
 		/// <param name="ws">worksheet</param>
 		/// <param name="period">期</param>
 		/// <param name="today">当日</param>
-		private static void 予測連絡用_当月予算予測進捗値設定(IXLWorksheet ws/*, int period*/, Date today)
+		private static void 予測連絡用_当月予算予測進捗値設定_47(IXLWorksheet ws/*, int period*/, Date today)
 		{
 			// 当月初日
 			int thisFirstDay = today.FirstDayOfTheMonth().ToIntYMD();
 			YearMonth thisYM = today.ToYearMonth();
 			ws.Cell(23, 2).SetValue(string.Format("{0:D4}年{1:D2}月\r\n(進捗)", thisYM.Year, thisYM.Month));
 
-			//if (IsAfter202202(today))
-			//{
-			//	// 2022/02以降
-
-				// 営業部
-				for (int i = 0, j = 0; i < 2; i++, j += 3)
+			// 営業部
+			for (int i = 0, j = 0; i < 2; i++, j += 3)
+			{
+				// 予算・予測
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == thisFirstDay);
+				if (null != result)
 				{
-					// 予算・予測
-					売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == thisFirstDay);
-					if (null != result)
-					{
-						ws.Cell(23, 5 + j).SetValue(result.予算ES);
-						ws.Cell(23, 6 + j).SetValue(result.予算課金);
-						ws.Cell(23, 7 + j).SetValue(result.予算売上);
-						ws.Cell(28, 5 + j).SetValue(result.予算営業損益);
-						ws.Cell(24, 5 + j).SetValue(result.予測ES);
-						ws.Cell(24, 6 + j).SetValue(result.予測課金);
-						ws.Cell(24, 7 + j).SetValue(result.予測売上);
-						ws.Cell(29, 5 + j).SetValue(result.予測営業損益);
-					}
-					// 進捗
-					List<売上進捗ES> es = 売上進捗ES_List.FindAll(p => p.BshCode2 == gBumonCodes202002[i] && p.売上月 == thisYM.ToString());
-					if (null != es)
-					{
-						ws.Cell(25, 5 + j).SetValue(es.Count());
-					}
-					List<売上進捗ES> 課金 = 売上進捗課金_List.FindAll(p => p.BshCode2 == gBumonCodes202002[i] && p.売上月 == thisYM.ToString());
-					if (null != 課金)
-					{
-						ws.Cell(25, 6 + j).SetValue(課金.Count());
-					}
-					int price = 0;
-					List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.集計月 == thisYM);
-					if (null != sale)
-					{
-						price = sale.Sum(p => p.金額);
-					}
-					// ソフト保守の売上を加算
-					// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
-					List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.計上月 == thisYM.ToString());
-					if (null != soft)
-					{
-						price += soft.Sum(p => p.売上金額);
-					}
-					ws.Cell(25, 7 + j).SetValue(To金額千円単位(price)); // 金額千円単位
+					ws.Cell(23, 5 + j).SetValue(result.予算ES);
+					ws.Cell(23, 6 + j).SetValue(result.予算課金);
+					ws.Cell(23, 7 + j).SetValue(result.予算売上);
+					ws.Cell(28, 5 + j).SetValue(result.予算営業損益);
+					ws.Cell(24, 5 + j).SetValue(result.予測ES);
+					ws.Cell(24, 6 + j).SetValue(result.予測課金);
+					ws.Cell(24, 7 + j).SetValue(result.予測売上);
+					ws.Cell(29, 5 + j).SetValue(result.予測営業損益);
 				}
-				// サポートセンター
-				for (int i = 2, j = 0; i < gBumonCodes202002.Length; i++, j += 2)
+				// 進捗
+				List<売上進捗ES> es = 売上進捗ES_List.FindAll(p => p.BshCode2 == gBumonCodes202002[i] && p.売上月 == thisYM.ToString());
+				if (null != es)
 				{
-					// 予算・予測
-					売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == thisFirstDay);
-					if (null != result)
-					{
-						ws.Cell(23, 14 + j).SetValue(result.予算まとめ);
-						ws.Cell(23, 15 + j).SetValue(result.予算売上);
-						ws.Cell(28, 14 + j).SetValue(result.予算営業損益);
-						ws.Cell(24, 14 + j).SetValue(result.予測まとめ);
-						ws.Cell(24, 15 + j).SetValue(result.予測売上);
-						ws.Cell(29, 14 + j).SetValue(result.予測営業損益);
-					}
-					// 進捗
-					List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes202002[i] && p.売上月 == thisYM.ToString());
-					if (null != matome)
-					{
-						ws.Cell(25, 14 + j).SetValue(matome.Count);
-					}
-					int price = 0;
-					List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.集計月 == thisYM);
-					if (null != sale)
-					{
-						price = sale.Sum(p => p.金額);
-					}
-					// ソフト保守の売上を加算
-					// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
-					List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.計上月 == thisYM.ToString());
-					if (null != soft)
-					{
-						price += soft.Sum(p => p.売上金額);
-					}
-					ws.Cell(25, 15 + j).SetValue(To金額千円単位(price)); // 金額千円単位
+					ws.Cell(25, 5 + j).SetValue(es.Count());
 				}
-			//}
-			//else
-			//{
-				//// 2022/01以前
-				//for (int i = 0, j = 0; i < gBumonCodes.Length; i++, j += 3)
-				//{
-				//	// 予算・予測
-				//	売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes[i] && p.実績日 == thisFirstDay);
-				//	if (null != result)
-				//	{
-				//		ws.Cell(22, 5 + j).SetValue(result.予算ES);
-				//		ws.Cell(22, 6 + j).SetValue(result.予算まとめ);
-				//		ws.Cell(22, 7 + j).SetValue(result.予算売上);
-				//		ws.Cell(23, 5 + j).SetValue(result.予測ES);
-				//		ws.Cell(23, 6 + j).SetValue(result.予測まとめ);
-				//		ws.Cell(23, 7 + j).SetValue(result.予測売上);
-				//		ws.Cell(27, 5 + j).SetValue(result.予算営業損益);
-				//		ws.Cell(28, 5 + j).SetValue(result.予測営業損益);
-				//	}
-				//	// 進捗
-				//	int price = 0;
-				//	List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.集計月 == thisYM);
-				//	if (null != sale)
-				//	{
-				//		price = sale.Sum(p => p.金額);
-				//	}
-				//	// ソフト保守の売上を加算
-				//	// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
-				//	List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.計上月 == thisYM.ToString());
-				//	if (null != soft)
-				//	{
-				//		price += soft.Sum(p => p.売上金額);
-				//	}
-				//	ws.Cell(24, 7 + j).SetValue(To金額千円単位(price)); // 金額千円単位
-
-				//	List<売上進捗ES> es = 売上進捗ES_List.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == thisYM.ToString());
-				//	if (null != es)
-				//	{
-				//		ws.Cell(24, 5 + j).SetValue(es.Count());
-				//	}
-				//	List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes[i] && p.売上月 == thisYM.ToString());
-				//	if (null != matome)
-				//	{
-				//		ws.Cell(24, 6 + j).SetValue(matome.Count);
-				//	}
-				//}
-			//}
+				List<売上進捗ES> 課金 = 売上進捗課金_List.FindAll(p => p.BshCode2 == gBumonCodes202002[i] && p.売上月 == thisYM.ToString());
+				if (null != 課金)
+				{
+					ws.Cell(25, 6 + j).SetValue(課金.Count());
+				}
+				int price = 0;
+				List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.集計月 == thisYM);
+				if (null != sale)
+				{
+					price = sale.Sum(p => p.金額);
+				}
+				// ソフト保守の売上を加算
+				// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
+				List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.計上月 == thisYM.ToString());
+				if (null != soft)
+				{
+					price += soft.Sum(p => p.売上金額);
+				}
+				ws.Cell(25, 7 + j).SetValue(To金額千円単位(price)); // 金額千円単位
+			}
+			// サポートセンター
+			for (int i = 2, j = 0; i < gBumonCodes202002.Length; i++, j += 2)
+			{
+				// 予算・予測
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == thisFirstDay);
+				if (null != result)
+				{
+					ws.Cell(23, 14 + j).SetValue(result.予算まとめ);
+					ws.Cell(23, 15 + j).SetValue(result.予算売上);
+					ws.Cell(28, 14 + j).SetValue(result.予算営業損益);
+					ws.Cell(24, 14 + j).SetValue(result.予測まとめ);
+					ws.Cell(24, 15 + j).SetValue(result.予測売上);
+					ws.Cell(29, 14 + j).SetValue(result.予測営業損益);
+				}
+				// 進捗
+				List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes202002[i] && p.売上月 == thisYM.ToString());
+				if (null != matome)
+				{
+					ws.Cell(25, 14 + j).SetValue(matome.Count);
+				}
+				int price = 0;
+				List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.集計月 == thisYM);
+				if (null != sale)
+				{
+					price = sale.Sum(p => p.金額);
+				}
+				// ソフト保守の売上を加算
+				// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
+				List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.計上月 == thisYM.ToString());
+				if (null != soft)
+				{
+					price += soft.Sum(p => p.売上金額);
+				}
+				ws.Cell(25, 15 + j).SetValue(To金額千円単位(price)); // 金額千円単位
+			}
 		}
 
 		/// <summary>
-		/// 「予測連絡用」翌月予算進捗値設定
+		/// 「予測連絡用」当月予算予測進捗値設定（48期以降）
+		/// </summary>
+		/// <param name="ws">worksheet</param>
+		/// <param name="period">期</param>
+		/// <param name="today">当日</param>
+		private static void 予測連絡用_当月予算予測進捗値設定_48(IXLWorksheet ws/*, int period*/, Date today)
+		{
+			// 当月初日
+			int thisFirstDay = today.FirstDayOfTheMonth().ToIntYMD();
+			YearMonth thisYM = today.ToYearMonth();
+			ws.Cell(22, 2).SetValue(string.Format("{0:D4}年{1:D2}月\r\n(進捗)", thisYM.Year, thisYM.Month));
+
+			// 営業部
+			for (int i = 0, j = 0; i < 2; i++, j += 3)
+			{
+				// 予算・予測
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == thisFirstDay);
+				if (null != result)
+				{
+					ws.Cell(22, 5 + j).SetValue(result.予算ES);
+					ws.Cell(22, 6 + j).SetValue(result.予算課金);
+					ws.Cell(22, 7 + j).SetValue(result.予算売上);
+					ws.Cell(27, 5 + j).SetValue(result.予算営業損益);
+					ws.Cell(23, 5 + j).SetValue(result.予測ES);
+					ws.Cell(23, 6 + j).SetValue(result.予測課金);
+					ws.Cell(23, 7 + j).SetValue(result.予測売上);
+					ws.Cell(28, 5 + j).SetValue(result.予測営業損益);
+				}
+				// 進捗
+				List<売上進捗ES> es = 売上進捗ES_List.FindAll(p => p.BshCode2 == gBumonCodes202002[i] && p.売上月 == thisYM.ToString());
+				if (null != es)
+				{
+					ws.Cell(24, 5 + j).SetValue(es.Count());
+				}
+				List<売上進捗ES> 課金 = 売上進捗課金_List.FindAll(p => p.BshCode2 == gBumonCodes202002[i] && p.売上月 == thisYM.ToString());
+				if (null != 課金)
+				{
+					ws.Cell(24, 6 + j).SetValue(課金.Count());
+				}
+				int price = 0;
+				List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.集計月 == thisYM);
+				if (null != sale)
+				{
+					price = sale.Sum(p => p.金額);
+				}
+				// ソフト保守の売上を加算
+				// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
+				List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.計上月 == thisYM.ToString());
+				if (null != soft)
+				{
+					price += soft.Sum(p => p.売上金額);
+				}
+				ws.Cell(24, 7 + j).SetValue(To金額千円単位(price)); // 金額千円単位
+			}
+			// サポートセンター
+			for (int i = 2, j = 0; i < gBumonCodes202002.Length; i++, j += 2)
+			{
+				// 予算・予測
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == thisFirstDay);
+				if (null != result)
+				{
+					ws.Cell(22, 11 + j).SetValue(result.予算まとめ);
+					ws.Cell(22, 12 + j).SetValue(result.予算売上);
+					ws.Cell(27, 11 + j).SetValue(result.予算営業損益);
+					ws.Cell(23, 11 + j).SetValue(result.予測まとめ);
+					ws.Cell(23, 12 + j).SetValue(result.予測売上);
+					ws.Cell(28, 11 + j).SetValue(result.予測営業損益);
+				}
+				// 進捗
+				List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes202002[i] && p.売上月 == thisYM.ToString());
+				if (null != matome)
+				{
+					ws.Cell(24, 11 + j).SetValue(matome.Count);
+				}
+				int price = 0;
+				List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.集計月 == thisYM);
+				if (null != sale)
+				{
+					price = sale.Sum(p => p.金額);
+				}
+				// ソフト保守の売上を加算
+				// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
+				List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.計上月 == thisYM.ToString());
+				if (null != soft)
+				{
+					price += soft.Sum(p => p.売上金額);
+				}
+				ws.Cell(24, 12 + j).SetValue(To金額千円単位(price)); // 金額千円単位
+			}
+		}
+
+		/// <summary>
+		/// 「予測連絡用」翌月予算進捗値設定（47期以前）
 		/// </summary>
 		/// <param name="ws">worksheet</param>
 		/// <param name="period">決算期</param>
 		/// <param name="today">当日</param>
-		private static void 予測連絡用_翌月予算進捗値設定(IXLWorksheet ws/*, int period*/, Date today)
+		private static void 予測連絡用_翌月予算進捗値設定_47(IXLWorksheet ws/*, int period*/, Date today)
 		{
 			// 来月初日
 			int nextFirstDay = today.FirstDayOfNextMonth().ToIntYMD();
 			YearMonth nextYM = today.FirstDayOfNextMonth().ToYearMonth();
 			ws.Cell(32, 2).SetValue(string.Format("{0:D4}年{1:D2}月\r\n(進捗)", nextYM.Year, nextYM.Month));
-			//if (IsAfter202202(today))
-			//{
-				// 2022/02以降
-				// 営業部
-				for (int i = 0, j = 0; i < 2; i++, j += 3)
+
+			// 営業部
+			for (int i = 0, j = 0; i < 2; i++, j += 3)
+			{
+				// 予算・予測
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == nextFirstDay);
+				if (null != result)
 				{
-					// 予算・予測
-					売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == nextFirstDay);
-					if (null != result)
-					{
-						ws.Cell(32, 5 + j).SetValue(result.予算ES);
-						ws.Cell(32, 6 + j).SetValue(result.予算課金);
-						ws.Cell(32, 7 + j).SetValue(result.予算売上);
-						ws.Cell(36, 5 + j).SetValue(result.予算営業損益);
-					}
-					// 進捗
-					List<売上進捗ES> es = 売上進捗ES_List.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == nextYM.ToString());
-					if (null != es)
-					{
-						ws.Cell(33, 5 + j).SetValue(es.Count());
-					}
-					List<売上進捗ES> 課金 = 売上進捗課金_List.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == nextYM.ToString());
-					if (null != 課金)
-					{
-						ws.Cell(33, 6 + j).SetValue(es.Count());
-					}
-					int price = 0;
-					List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.集計月 == nextYM);
-					if (null != sale)
-					{
-						price = sale.Sum(p => p.金額);
-					}
-					// ソフト保守の売上を加算
-					// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
-					List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.計上月 == nextYM.ToString());
-					if (null != soft)
-					{
-						price += soft.Sum(p => p.売上金額);
-					}
-					// 翌月分のpalette売上分には、まとめ分が含まれていないので、「売上進捗-まとめ」の金額を加算する
-					List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes202002[i] && p.売上月 == nextYM.ToString());
-					if (null != matome)
-					{
-						price += matome.Sum(p => p.金額);
-						//ws.Cell(32, 6 + j).SetValue(matome.Count);
-					}
-					ws.Cell(33, 7 + j).SetValue(To金額千円単位(price));
+					ws.Cell(32, 5 + j).SetValue(result.予算ES);
+					ws.Cell(32, 6 + j).SetValue(result.予算課金);
+					ws.Cell(32, 7 + j).SetValue(result.予算売上);
+					ws.Cell(36, 5 + j).SetValue(result.予算営業損益);
 				}
-				// サポートセンター
-				for (int i = 2, j = 0; i < gBumonCodes202002.Length; i++, j += 2)
+				// 進捗
+				List<売上進捗ES> es = 売上進捗ES_List.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == nextYM.ToString());
+				if (null != es)
 				{
-					// 予算・予測
-					売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == nextFirstDay);
-					if (null != result)
-					{
-						ws.Cell(32, 14 + j).SetValue(result.予算まとめ);
-						ws.Cell(32, 15 + j).SetValue(result.予算売上);
-						ws.Cell(36, 14 + j).SetValue(result.予算営業損益);
-					}
-					// 進捗
-					int price = 0;
-					List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.集計月 == nextYM);
-					if (null != sale)
-					{
-						price = sale.Sum(p => p.金額);
-					}
-					// ソフト保守の売上を加算
-					// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
-					List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.計上月 == nextYM.ToString());
-					if (null != soft)
-					{
-						price += soft.Sum(p => p.売上金額);
-					}
-					// 翌月分のpalette売上分には、まとめ分が含まれていないので、「売上進捗-まとめ」の金額を加算する
-					List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes202002[i] && p.売上月 == nextYM.ToString());
-					if (null != matome)
-					{
-						price += matome.Sum(p => p.金額);
-						ws.Cell(33, 14 + j).SetValue(matome.Count);
-					}
-					ws.Cell(33, 15 + j).SetValue(To金額千円単位(price));
+					ws.Cell(33, 5 + j).SetValue(es.Count());
 				}
-			////}
-			//else
-			//{
-			//	// 2022/01以前
-			//	for (int i = 0, j = 0; i < gBumonCodes.Length; i++, j += 3)
-			//	{
-			//		// 予算・予測
-			//		売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes[i] && p.実績日 == nextFirstDay);
-			//		if (null != result)
-			//		{
-			//			ws.Cell(31, 5 + j).SetValue(result.予算ES);
-			//			ws.Cell(31, 6 + j).SetValue(result.予算まとめ);
-			//			ws.Cell(31, 7 + j).SetValue(result.予算売上);
-			//			ws.Cell(35, 5 + j).SetValue(result.予算営業損益);
-			//		}
-			//		// 進捗
-			//		int price = 0;
-			//		List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.集計月 == nextYM);
-			//		if (null != sale)
-			//		{
-			//			price = sale.Sum(p => p.金額);
-			//		}
-			//		// ソフト保守の売上を加算
-			//		// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
-			//		List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds[i] && p.計上月 == nextYM.ToString());
-			//		if (null != soft)
-			//		{
-			//			price += soft.Sum(p => p.売上金額);
-			//		}
-			//		// 翌月分のpalette売上分には、まとめ分が含まれていないので、「売上進捗-まとめ」の金額を加算する
-			//		List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes[i] && p.売上月 == nextYM.ToString());
-			//		if (null != matome)
-			//		{
-			//			price += matome.Sum(p => p.金額);
-			//			ws.Cell(32, 6 + j).SetValue(matome.Count);
-			//		}
-			//		ws.Cell(32, 7 + j).SetValue(To金額千円単位(price));
-			//		List<売上進捗ES> es = 売上進捗ES_List.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == nextYM.ToString());
-			//		if (null != es)
-			//		{
-			//			ws.Cell(32, 5 + j).SetValue(es.Count());
-			//		}
-			//	}
-			//}
+				List<売上進捗ES> 課金 = 売上進捗課金_List.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == nextYM.ToString());
+				if (null != 課金)
+				{
+					ws.Cell(33, 6 + j).SetValue(es.Count());
+				}
+				int price = 0;
+				List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.集計月 == nextYM);
+				if (null != sale)
+				{
+					price = sale.Sum(p => p.金額);
+				}
+				// ソフト保守の売上を加算
+				// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
+				List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.計上月 == nextYM.ToString());
+				if (null != soft)
+				{
+					price += soft.Sum(p => p.売上金額);
+				}
+				// 翌月分のpalette売上分には、まとめ分が含まれていないので、「売上進捗-まとめ」の金額を加算する
+				List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes202002[i] && p.売上月 == nextYM.ToString());
+				if (null != matome)
+				{
+					price += matome.Sum(p => p.金額);
+					//ws.Cell(32, 6 + j).SetValue(matome.Count);
+				}
+				ws.Cell(33, 7 + j).SetValue(To金額千円単位(price));
+			}
+			// サポートセンター
+			for (int i = 2, j = 0; i < gBumonCodes202002.Length; i++, j += 2)
+			{
+				// 予算・予測
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == nextFirstDay);
+				if (null != result)
+				{
+					ws.Cell(32, 14 + j).SetValue(result.予算まとめ);
+					ws.Cell(32, 15 + j).SetValue(result.予算売上);
+					ws.Cell(36, 14 + j).SetValue(result.予算営業損益);
+				}
+				// 進捗
+				int price = 0;
+				List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.集計月 == nextYM);
+				if (null != sale)
+				{
+					price = sale.Sum(p => p.金額);
+				}
+				// ソフト保守の売上を加算
+				// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
+				List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.計上月 == nextYM.ToString());
+				if (null != soft)
+				{
+					price += soft.Sum(p => p.売上金額);
+				}
+				// 翌月分のpalette売上分には、まとめ分が含まれていないので、「売上進捗-まとめ」の金額を加算する
+				List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes202002[i] && p.売上月 == nextYM.ToString());
+				if (null != matome)
+				{
+					price += matome.Sum(p => p.金額);
+					ws.Cell(33, 14 + j).SetValue(matome.Count);
+				}
+				ws.Cell(33, 15 + j).SetValue(To金額千円単位(price));
+			}
+		}
+
+		/// <summary>
+		/// 「予測連絡用」翌月予算進捗値設定（48期以降）
+		/// </summary>
+		/// <param name="ws">worksheet</param>
+		/// <param name="period">決算期</param>
+		/// <param name="today">当日</param>
+		private static void 予測連絡用_翌月予算進捗値設定_48(IXLWorksheet ws/*, int period*/, Date today)
+		{
+			// 来月初日
+			int nextFirstDay = today.FirstDayOfNextMonth().ToIntYMD();
+			YearMonth nextYM = today.FirstDayOfNextMonth().ToYearMonth();
+			ws.Cell(31, 2).SetValue(string.Format("{0:D4}年{1:D2}月\r\n(進捗)", nextYM.Year, nextYM.Month));
+
+			// 営業部
+			for (int i = 0, j = 0; i < 2; i++, j += 3)
+			{
+				// 予算・予測
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == nextFirstDay);
+				if (null != result)
+				{
+					ws.Cell(31, 5 + j).SetValue(result.予算ES);
+					ws.Cell(31, 6 + j).SetValue(result.予算課金);
+					ws.Cell(31, 7 + j).SetValue(result.予算売上);
+					ws.Cell(35, 5 + j).SetValue(result.予算営業損益);
+				}
+				// 進捗
+				List<売上進捗ES> es = 売上進捗ES_List.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == nextYM.ToString());
+				if (null != es)
+				{
+					ws.Cell(32, 5 + j).SetValue(es.Count());
+				}
+				List<売上進捗ES> 課金 = 売上進捗課金_List.FindAll(p => p.BshCode2 == gBumonCodes[i] && p.売上月 == nextYM.ToString());
+				if (null != 課金)
+				{
+					ws.Cell(32, 6 + j).SetValue(es.Count());
+				}
+				int price = 0;
+				List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.集計月 == nextYM);
+				if (null != sale)
+				{
+					price = sale.Sum(p => p.金額);
+				}
+				// ソフト保守の売上を加算
+				List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.計上月 == nextYM.ToString());
+				if (null != soft)
+				{
+					price += soft.Sum(p => p.売上金額);
+				}
+				// 翌月分のpalette売上分には、まとめ分が含まれていないので、「売上進捗-まとめ」の金額を加算する
+				List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes202002[i] && p.売上月 == nextYM.ToString());
+				if (null != matome)
+				{
+					price += matome.Sum(p => p.金額);
+				}
+				ws.Cell(32, 7 + j).SetValue(To金額千円単位(price));
+			}
+			// サポートセンター
+			for (int i = 2, j = 0; i < gBumonCodes202002.Length; i++, j += 2)
+			{
+				// 予算・予測
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == nextFirstDay);
+				if (null != result)
+				{
+					ws.Cell(31, 11 + j).SetValue(result.予算まとめ);
+					ws.Cell(31, 12 + j).SetValue(result.予算売上);
+					ws.Cell(35, 11 + j).SetValue(result.予算営業損益);
+				}
+				// 進捗
+				int price = 0;
+				List<売上進捗> sale = 売上進捗_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.集計月 == nextYM);
+				if (null != sale)
+				{
+					price = sale.Sum(p => p.金額);
+				}
+				// ソフト保守の売上を加算
+				// Ver1.03 予測連絡用の進捗値と見込進捗詳細の順売上高との数値が合わない(2021/09/27 勝呂)
+				List<vMicソフトウェア保守料売上予測> soft = ソフトウェア保守料売上予測_List.FindAll(p => p.部門コード == gPcaBumonCoeds202202[i] && p.計上月 == nextYM.ToString());
+				if (null != soft)
+				{
+					price += soft.Sum(p => p.売上金額);
+				}
+				// 翌月分のpalette売上分には、まとめ分が含まれていないので、「売上進捗-まとめ」の金額を加算する
+				List<売上進捗まとめ> matome = 売上進捗まとめ_List.FindAll(p => p.営業部コード == gBumonCodes202002[i] && p.売上月 == nextYM.ToString());
+				if (null != matome)
+				{
+					price += matome.Sum(p => p.金額);
+					ws.Cell(32, 11 + j).SetValue(matome.Count);
+				}
+				ws.Cell(32, 12 + j).SetValue(To金額千円単位(price));
+			}
 		}
 
 		/// <summary>
@@ -1075,35 +1340,36 @@ namespace ProspectProgressAutoAggregate
 			else
 			{
 				// 48期以降
+				// Ver1.09 48期に対応(2023/01/12 勝呂)
 				IXLWorksheet ws = wb.Worksheet("売上実績");
 
 				Date date = term.Start;
-				売上実績_予算予測実績値設定_202202(ws, date.ToIntYMD(), 7);  // 上期8月実績
+				売上実績_予算予測実績値設定_202208(ws, date.ToIntYMD(), 6);  // 上期8月実績
 				date = date.PlusMonths(1);
-				売上実績_予算予測実績値設定_202202(ws, date.ToIntYMD(), 17);  // 上期9月実績
+				売上実績_予算予測実績値設定_202208(ws, date.ToIntYMD(), 16);  // 上期9月実績
 				date = date.PlusMonths(1);
-				売上実績_予算予測実績値設定_202202(ws, date.ToIntYMD(), 27);  // 上期10月実績
+				売上実績_予算予測実績値設定_202208(ws, date.ToIntYMD(), 26);  // 上期10月実績
 				date = date.PlusMonths(1);
-				売上実績_予算予測実績値設定_202202(ws, date.ToIntYMD(), 45);  // 上期11月実績
+				売上実績_予算予測実績値設定_202208(ws, date.ToIntYMD(), 44);  // 上期11月実績
 				date = date.PlusMonths(1);
-				売上実績_予算予測実績値設定_202202(ws, date.ToIntYMD(), 55);  // 上期12月実績
+				売上実績_予算予測実績値設定_202208(ws, date.ToIntYMD(), 54);  // 上期12月実績
 				date = date.PlusMonths(1);
-				売上実績_予算予測実績値設定_202202(ws, date.ToIntYMD(), 65);  // 上期1月実績
+				売上実績_予算予測実績値設定_202208(ws, date.ToIntYMD(), 64);  // 上期1月実績
 				date = date.PlusMonths(1);
-				売上実績_予算予測実績値設定_202202(ws, date.ToIntYMD(), 91);  // 下期2月実績
+				売上実績_予算予測実績値設定_202208(ws, date.ToIntYMD(), 90);  // 下期2月実績
 				date = date.PlusMonths(1);
-				売上実績_予算予測実績値設定_202202(ws, date.ToIntYMD(), 101);  // 下期3月実績
+				売上実績_予算予測実績値設定_202208(ws, date.ToIntYMD(), 100);  // 下期3月実績
 				date = date.PlusMonths(1);
-				売上実績_予算予測実績値設定_202202(ws, date.ToIntYMD(), 111);  // 下期4月実績
+				売上実績_予算予測実績値設定_202208(ws, date.ToIntYMD(), 110);  // 下期4月実績
 				date = date.PlusMonths(1);
-				売上実績_予算予測実績値設定_202202(ws, date.ToIntYMD(), 129);  // 下期5月実績
+				売上実績_予算予測実績値設定_202208(ws, date.ToIntYMD(), 128);  // 下期5月実績
 				date = date.PlusMonths(1);
-				売上実績_予算予測実績値設定_202202(ws, date.ToIntYMD(), 139);  // 下期6月実績
+				売上実績_予算予測実績値設定_202208(ws, date.ToIntYMD(), 128);  // 下期6月実績
 				date = date.PlusMonths(1);
-				売上実績_予算予測実績値設定_202202(ws, date.ToIntYMD(), 149);  // 下期7月実績
+				売上実績_予算予測実績値設定_202208(ws, date.ToIntYMD(), 148);  // 下期7月実績
 
 				// 更新日
-				ws.Cell(2, 28).SetValue(string.Format("更新日：{0}", DateTime.Now.ToString()));
+				ws.Cell(2, 24).SetValue(string.Format("更新日：{0}", DateTime.Now.ToString()));
 			}
 		}
 
@@ -1137,13 +1403,14 @@ namespace ProspectProgressAutoAggregate
 		}
 
 		/// <summary>
-		/// 「売上実績」予算予測実績値設定（2022/02組織変更後）
+		/// 「売上実績」予算予測実績値設定（47期 2022/02以降）
 		/// </summary>
 		/// <param name="ws"></param>
 		/// <param name="date"></param>
 		/// <param name="row"></param>
 		private static void 売上実績_予算予測実績値設定_202202(IXLWorksheet ws, int date, int row)
 		{
+			// 営業部
 			for (int i = 0, j = 0; i < 2; i++, j += 3)
 			{
 				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == date);
@@ -1163,6 +1430,7 @@ namespace ProspectProgressAutoAggregate
 					ws.Cell(row + 7, 5 + j).SetValue(result.実績営業損益);
 				}
 			}
+			// サポートセンター
 			for (int i = 2, j = 0; i < gBumonCodes202002.Length; i++, j += 2)
 			{
 				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == date);
@@ -1177,6 +1445,54 @@ namespace ProspectProgressAutoAggregate
 					ws.Cell(row + 5, 14 + j).SetValue(result.予算営業損益);
 					ws.Cell(row + 6, 14 + j).SetValue(result.予測営業損益);
 					ws.Cell(row + 7, 14 + j).SetValue(result.実績営業損益);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 「売上実績」予算予測実績値設定（48期以降）
+		/// </summary>
+		/// <param name="ws"></param>
+		/// <param name="date"></param>
+		/// <param name="row"></param>
+		/// Ver1.09 48期に対応(2023/01/12 勝呂)
+		private static void 売上実績_予算予測実績値設定_202208(IXLWorksheet ws, int date, int row)
+		{
+			// 営業部
+			for (int i = 0, j = 0; i < 2; i++, j += 3)
+			{
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == date);
+				if (null != result)
+				{
+					ws.Cell(row, 5 + j).SetValue(result.予算ES);
+					ws.Cell(row, 6 + j).SetValue(result.予算課金);
+					ws.Cell(row, 7 + j).SetValue(result.予算売上);
+					ws.Cell(row + 1, 5 + j).SetValue(result.予測ES);
+					ws.Cell(row + 1, 6 + j).SetValue(result.予測課金);
+					ws.Cell(row + 1, 7 + j).SetValue(result.予測売上);
+					ws.Cell(row + 2, 5 + j).SetValue(result.実績ES);
+					ws.Cell(row + 2, 6 + j).SetValue(result.実績課金);
+					ws.Cell(row + 2, 7 + j).SetValue(result.実績売上);
+					ws.Cell(row + 5, 5 + j).SetValue(result.予算営業損益);
+					ws.Cell(row + 6, 5 + j).SetValue(result.予測営業損益);
+					ws.Cell(row + 7, 5 + j).SetValue(result.実績営業損益);
+				}
+			}
+			// サポートセンター
+			for (int i = 2, j = 0; i < gBumonCodes202002.Length; i++, j += 2)
+			{
+				売上実績 result = 売上実績_List.Find(p => p.営業部コード == gBumonCodes202002[i] && p.実績日 == date);
+				if (null != result)
+				{
+					ws.Cell(row, 11 + j).SetValue(result.予算まとめ);
+					ws.Cell(row, 12 + j).SetValue(result.予算売上);
+					ws.Cell(row + 1, 11 + j).SetValue(result.予測まとめ);
+					ws.Cell(row + 1, 12 + j).SetValue(result.予測売上);
+					ws.Cell(row + 2, 11 + j).SetValue(result.実績まとめ);
+					ws.Cell(row + 2, 12 + j).SetValue(result.実績売上);
+					ws.Cell(row + 5, 11 + j).SetValue(result.予算営業損益);
+					ws.Cell(row + 6, 11 + j).SetValue(result.予測営業損益);
+					ws.Cell(row + 7, 11 + j).SetValue(result.実績営業損益);
 				}
 			}
 		}
