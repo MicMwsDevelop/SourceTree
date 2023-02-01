@@ -9,6 +9,7 @@
 // Ver1.01(2022/11/10 勝呂):経理部動作確認後、要望対応
 // Ver1.04(2022/12/13 勝呂):経理部要望対応 顧客情報（出力用）のチェックに顧客名の追加と開設者が未設定時の時には院長名を使用する
 // Ver1.05(2022/12/28 勝呂):経理部要望対応 注文確認書追加対応
+// Ver1.06(2023/02/01 勝呂):経理部要望対応 NTT以外の案件も作業リストから補助金申請書類を出力できるようにする
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory;
@@ -413,16 +414,22 @@ namespace OnlineLicenseSubsidy.BaseFactory
 						IXLWorksheet ws1 = wb.Worksheet(WorkListSheetNameCustomer);
 						for (int i = 3; ; i++)
 						{
-							string acceptNo = ws1.Cell(i, 1).GetString();
-							if (0 == acceptNo.Length)
+							// Ver1.06(2023/02/01 勝呂):経理部要望対応 NTT以外の案件も作業リストから補助金申請書類を出力できるようにする
+							string tokuisakiNo = ws1.Cell(i, 2).GetString();
+							if (0 == tokuisakiNo.Length)
 							{
 								break;
 							}
 							補助金申請出力情報 data = new 補助金申請出力情報();
-							data.受付通番 = acceptNo;
-							data.得意先番号 = ws1.Cell(i, 2).GetString();
-							data.顧客No = int.Parse(ws1.Cell(i, 3).GetString());
+							data.得意先番号 = tokuisakiNo;
 
+							// Ver1.06(2023/02/01 勝呂):経理部要望対応 NTT以外の案件も作業リストから補助金申請書類を出力できるようにする
+							int customerNo;
+							if (int.TryParse(ws1.Cell(i, 3).GetString(), out customerNo))
+							{
+								data.顧客No = customerNo;
+								data.受付通番 = ws1.Cell(i, 1).GetString();
+							}
 							// Ver1.04(2022/12/13 勝呂):経理部要望対応 顧客情報（出力用）のチェックに顧客名の追加と開設者が未設定時の時には院長名を使用する
 							data.顧客名 = ws1.Cell(i, 16).GetString();
 							data.医療機関コード = ws1.Cell(i, 17).GetString();

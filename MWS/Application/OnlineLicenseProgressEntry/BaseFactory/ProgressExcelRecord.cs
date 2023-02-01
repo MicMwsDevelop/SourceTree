@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2022/09/28 勝呂)
+// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Sales.Table;
@@ -70,6 +71,12 @@ namespace OnlineLicenseProgressEntry.BaseFactory
 		public string ステータス { get; set; }
 
 		/// <summary>
+		/// 猶予理由
+		/// </summary>
+		/// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
+		public string 猶予理由 { get; set; }
+
+		/// <summary>
 		/// 現調完了月
 		/// </summary>
 		public DateTime? 現調完了月 { get; set; }
@@ -102,6 +109,7 @@ namespace OnlineLicenseProgressEntry.BaseFactory
 			顧客名 = string.Empty;
 			工事種別 = string.Empty;
 			ステータス = string.Empty;
+			猶予理由 = string.Empty;
 			現調完了月 = null;
 			導入月 = null;
 			部署 = string.Empty;
@@ -124,25 +132,13 @@ namespace OnlineLicenseProgressEntry.BaseFactory
 			顧客名 = ws.Cell(row, 6).GetString().Trim();
 			工事種別 = ws.Cell(row, 7).GetString().Trim();
 			ステータス = ws.Cell(row, 8).GetString().Trim();
-			if ("済" == ws.Cell(row, 9).GetString())
-			{
-				現調完了月 = new DateTime(9999, 12, 31);
-			}
-			else
-			{
-				string dateStr = Program.GetDateString(ws.Cell(row, 9));
-				if (0 < dateStr.Length)
-				{
-					DateTime work;
-					if (DateTime.TryParse(dateStr, out work))
-					{
-						現調完了月 = work;
-					}
-				}
-			}
+
+			// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
+			猶予理由 = ws.Cell(row, 9).GetString().Trim();
+
 			if ("済" == ws.Cell(row, 10).GetString())
 			{
-				導入月 = new DateTime(9999, 12, 31);
+				現調完了月 = new DateTime(9999, 12, 31);
 			}
 			else
 			{
@@ -152,12 +148,28 @@ namespace OnlineLicenseProgressEntry.BaseFactory
 					DateTime work;
 					if (DateTime.TryParse(dateStr, out work))
 					{
+						現調完了月 = work;
+					}
+				}
+			}
+			if ("済" == ws.Cell(row, 11).GetString())
+			{
+				導入月 = new DateTime(9999, 12, 31);
+			}
+			else
+			{
+				string dateStr = Program.GetDateString(ws.Cell(row, 11));
+				if (0 < dateStr.Length)
+				{
+					DateTime work;
+					if (DateTime.TryParse(dateStr, out work))
+					{
 						導入月 = work;
 					}
 				}
 			}
-			部署 = ws.Cell(row, 11).GetString().Trim();
-			価格帯 = ws.Cell(row, 12).GetString().Trim();
+			部署 = ws.Cell(row, 12).GetString().Trim();
+			価格帯 = ws.Cell(row, 13).GetString().Trim();
 		}
 
 		/// <summary>
@@ -215,6 +227,10 @@ namespace OnlineLicenseProgressEntry.BaseFactory
 				online.都道府県 = progress.都道府県;
 				online.部署 = progress.部署;
 				online.価格帯 = progress.価格帯;
+
+				// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
+				online.猶予理由 = progress.猶予理由;
+
 				ret.Add(online);
 			}
 			return ret;

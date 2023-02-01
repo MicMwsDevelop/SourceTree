@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2022/03/08 勝呂)
 // Ver1.07 NTT東日本進捗管理表新フォーム(20220613版)に対応(2022/07/21 勝呂)
+// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
 // 
 using ClosedXML.Excel;
 using CommonLib.Common;
@@ -25,10 +26,10 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		public const string TargetSheetName = "申込書兼進捗管理表";
 
 		/// <summary>
-		/// NTT備考欄（BH列）自動フロー定型句
-		/// 「mm:dd　自動フローに乗せました。」
+		/// 自動フロー案件判別文字列
 		/// </summary>
-		public const string AutoFlowMessage = "自動フローに乗せました。";
+		/// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
+		public const string AutoFlowString = "_自動フロー";
 
 		/// <summary>
 		/// 通知情報
@@ -164,6 +165,9 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		public string 委託業務完成通知書_消費税額 { get; set; }
 		public string 委託業務完成通知書_合計税込 { get; set; }
 
+		// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
+		public string 自動フロー可否 { get; set; }
+
 		/// <summary>
 		/// 現地調査確定日付の取得
 		/// M列：現地調査確定日
@@ -184,29 +188,29 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			}
 		}
 
-		///// <summary>
-		///// 現地調査結果がOKかどうか？
-		///// O列：現地調査結果
-		///// </summary>
-		//public bool 現地調査結果_OK
-		//{
-		//	get
-		//	{
-		//		return ("OK" == 現地調査結果) ? true : false;
-		//	}
-		//}
+		/// <summary>
+		/// 現地調査結果がOKかどうか？
+		/// O列：現地調査結果
+		/// </summary>
+		public bool 現地調査結果_OK
+		{
+			get
+			{
+				return ("OK" == 現地調査結果) ? true : false;
+			}
+		}
 
-		///// <summary>
-		///// 現地調査結果がOKかどうか？
-		///// O列：現地調査結果
-		///// </summary>
-		//public bool 現地調査結果_NG
-		//{
-		//	get
-		//	{
-		//		return ("NG" == 現地調査結果) ? true : false;
-		//	}
-		//}
+		/// <summary>
+		/// 現地調査結果がOKかどうか？
+		/// O列：現地調査結果
+		/// </summary>
+		public bool 現地調査結果_NG
+		{
+			get
+			{
+				return ("NG" == 現地調査結果) ? true : false;
+			}
+		}
 
 		/// <summary>
 		/// 工事確定日付の取得
@@ -284,13 +288,14 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		}
 
 		/// <summary>
-		/// NTT備考欄（BH列）自動フロー定型句が存在するかどうか？
+		/// 自動フローかどうか？
 		/// </summary>
-		public bool IsExistAutoFlowMessage
+		/// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
+		public bool IsAutoFlowString
 		{
 			get
 			{
-				return (-1 != NTT備考欄.IndexOf(AutoFlowMessage)) ? true : false;
+				return ("●" == 自動フロー可否) ? true : false;
 			}
 		}
 
@@ -407,6 +412,9 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			委託業務完成通知書_小計 = string.Empty;
 			委託業務完成通知書_消費税額 = string.Empty;
 			委託業務完成通知書_合計税込 = string.Empty;
+
+			// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
+			自動フロー可否 = string.Empty;
 		}
 
 		/// <summary>
@@ -562,10 +570,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			フレッツ新規手配 = ws.Cell(row, 12 + startCol).GetString();
 			現地調査確定日 = Program.GetDateString(ws.Cell(row, 13 + startCol));
 			現地調査確定時間 = Program.GetTimeString(ws.Cell(row, 14 + startCol));
-
-			//現地調査結果 = ws.Cell(row, 15 + startCol).GetString();
-			現地調査結果 = Program.GetDateString(ws.Cell(row, 15 + startCol));
-
+			現地調査結果 = ws.Cell(row, 15 + startCol).GetString();
 			現地調査結果詳細_調査NG時 = ws.Cell(row, 16 + startCol).GetString();
 			現地調査確定日_過去日 = Program.GetDateString(ws.Cell(row, 17 + startCol));
 			備考_調査関連 = ws.Cell(row, 18 + startCol).GetString();
@@ -649,6 +654,9 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			委託業務完成通知書_小計 = ws.Cell(row, 94 + startCol).GetString();
 			委託業務完成通知書_消費税額 = ws.Cell(row, 95 + startCol).GetString();
 			委託業務完成通知書_合計税込 = ws.Cell(row, 96 + startCol).GetString();
+
+			// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
+			自動フロー可否 = ws.Cell(row, 97 + startCol).GetString();
 		}
 
 		/// <summary>
@@ -729,6 +737,60 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 				msg = string.Format("{0}が見つかりません。", pathname);
 			}
 			return null;
+		}
+
+		/// <summary>
+		/// 通知プログラムフォルダからファイル作成日のフォルダを検出し、受付通番が同じヒアリングシートファイル名を取得する
+		/// </summary>
+		/// <param name="notifyPath">通知プログラムフォルダ</param>
+		/// <param name="notifyDate">ファイル作成日</param>
+		/// <param name="acceptNo">受付通番</param>
+		/// <returns>ヒアリングシートファイル名</returns>
+		public static string GetNotifyFileName(string notifyPath, Date notifyDate, string acceptNo)
+		{
+			// \\wwsv\ons-pics\管理用_営業管理部\NTT東日本_提出用\07_現場調査依頼\調査結果\通知プログラム用のサブフォルダをすべて取得する
+			string[] subFolders = System.IO.Directory.GetDirectories(notifyPath, "*", SearchOption.TopDirectoryOnly);
+			string dateNumStr = notifyDate.ToIntYMD().ToString();
+			foreach (string folderName in subFolders)
+			{
+				// フォルダ名のみ抽出
+				string orgFolderName = Path.GetFileName(folderName);
+				if (dateNumStr == orgFolderName)
+				{
+					// ファイル作成日と同じ日付のフォルダを検出
+					string[] files = System.IO.Directory.GetFiles(Path.Combine(notifyPath, dateNumStr), "*.xlsx", SearchOption.AllDirectories);
+					foreach (string fname in files)
+					{
+						// パスを削除
+						string orgFname = Path.GetFileName(fname);
+						if (acceptNo == orgFname.Substring(0, 5))
+						{
+							// 東2728_ヒアリングシート_おおたかの森レブン歯科_r27_20221020_現調あり.xlsx
+							return orgFname;
+						}
+					}
+				}
+			}
+			return string.Empty;
+		}
+
+		/// <summary>
+		/// ヒアリングシートファイル名の末尾に "自動フロー" かどうか？
+		/// </summary>
+		/// <param name="fname">ヒアリングシートファイル名</param>
+		/// <returns>判定</returns>
+		/// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
+		public static bool IsAutoFlow(string fname)
+		{
+			string aaa = fname.Substring(fname.Length - AutoFlowString.Length, AutoFlowString.Length);
+
+			// 拡張子を除くファイル名を取得
+			string orgFname = Path.GetFileNameWithoutExtension(fname);
+			if (AutoFlowString == orgFname.Substring(orgFname.Length - AutoFlowString.Length, AutoFlowString.Length))
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

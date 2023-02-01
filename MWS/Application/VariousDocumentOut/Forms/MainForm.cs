@@ -66,6 +66,7 @@ namespace VariousDocumentOut.Forms
 		{
 			if (e.Shift && e.Control && e.Alt)
 			{
+				// オンライン資格確認等事業完了報告書を有効
 				radioButtonOnlineConfirm.Visible = true;
 			}
 		}
@@ -77,9 +78,11 @@ namespace VariousDocumentOut.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			// ウィンドウタイトルにバージョン情報を表示
-			this.Text = string.Format("{0} {1}", Program.ProgramName, Program.VersionStr);
-
+			if (false == Program.gPowerAutomateMode)
+			{
+				// ウィンドウタイトルにバージョン情報を表示
+				this.Text = string.Format("{0} {1}", Program.ProgramName, Program.VersionStr);
+			}
 			try
 			{
 #if DEBUG
@@ -113,6 +116,12 @@ namespace VariousDocumentOut.Forms
 				// 支店情報の取得
 				// Ver1.11(2022/02/21):二次キッティング依頼書 使用廃止によりメニューから削除
 				//BranchList = JunpDatabaseAccess.Select_tMih支店情報("", "", Program.gSettings.Connect.Junp.ConnectionString);
+
+				if (Program.gPowerAutomateMode)
+				{
+					// オンライン資格確認等事業完了報告書を有効
+					radioButtonOnlineConfirm.Visible = true;
+				}
 			}
 			catch (Exception ex)
 			{
@@ -640,12 +649,20 @@ namespace VariousDocumentOut.Forms
 				// カーソルを元に戻す
 				Cursor.Current = preCursor;
 
-				// Excelの起動
-				using (Process process = new Process())
+				if (false == Program.gPowerAutomateMode)
 				{
-					process.StartInfo.FileName = xlsPathname;
-					process.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
-					process.Start();
+					// Excelの起動
+					using (Process process = new Process())
+					{
+						process.StartInfo.FileName = xlsPathname;
+						process.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
+						process.Start();
+					}
+				}
+				else
+				{
+					// Power Automateモードの時にはExcelは起動しない
+					;
 				}
 			}
 			catch (Exception ex)

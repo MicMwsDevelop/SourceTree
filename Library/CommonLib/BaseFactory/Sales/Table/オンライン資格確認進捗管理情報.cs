@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2022/08/29 勝呂)
 // Ver1.01 マイナンバーカードの健康保険証利用対応の医療機関リスト（都道府県別）の運用開始日に対応(2022/12/12 勝呂)
+// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
 //
 using CommonLib.DB;
 using CommonLib.DB.SqlServer.Sales;
@@ -29,6 +30,10 @@ namespace CommonLib.BaseFactory.Sales.Table
 		public string 導入意思 { get; set; }
 		public string 工事種別 { get; set; }
 		public string ステータス { get; set; }
+
+		// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
+		public string 猶予理由 { get; set; }
+
 		public DateTime? 現調完了月 { get; set; }
 		public DateTime? 導入月 { get; set; }
 		public string 都道府県 { get; set; }
@@ -60,6 +65,9 @@ namespace CommonLib.BaseFactory.Sales.Table
 
 			// Ver1.01 マイナンバーカードの健康保険証利用対応の医療機関リスト（都道府県別）の運用開始日に対応(2022/12/12 勝呂)
 			オン資運用開始日 = null;
+
+			// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
+			猶予理由 = string.Empty;
 		}
 
 		/// <summary>
@@ -83,6 +91,10 @@ namespace CommonLib.BaseFactory.Sales.Table
 
 			// Ver1.01 マイナンバーカードの健康保険証利用対応の医療機関リスト（都道府県別）の運用開始日に対応(2022/12/12 勝呂)
 			if (オン資運用開始日 != dst.オン資運用開始日) return false;
+
+			// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
+			if (猶予理由 != dst.猶予理由) return false;
+
 			return true;
 		}
 
@@ -116,7 +128,9 @@ namespace CommonLib.BaseFactory.Sales.Table
 			get
 			{
 				// Ver1.01 マイナンバーカードの健康保険証利用対応の医療機関リスト（都道府県別）の運用開始日に対応(2022/12/12 勝呂)
-				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14)", SalesDatabaseDefine.TableName[SalesDatabaseDefine.TableType.オンライン資格確認進捗管理情報]);
+				// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
+				//return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14)", SalesDatabaseDefine.TableName[SalesDatabaseDefine.TableType.オンライン資格確認進捗管理情報]);
+				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15)", SalesDatabaseDefine.TableName[SalesDatabaseDefine.TableType.オンライン資格確認進捗管理情報]);
 			}
 		}
 
@@ -128,7 +142,10 @@ namespace CommonLib.BaseFactory.Sales.Table
 			get
 			{
 				// Ver1.01 マイナンバーカードの健康保険証利用対応の医療機関リスト（都道府県別）の運用開始日に対応(2022/12/12 勝呂)
-				return string.Format(@"UPDATE {0} SET 拠点名 = @1, 顧客名 = @2, 都道府県 = @3, オン資担当 = @4, 導入意思 = @5, 工事種別 = @6, ステータス = @7, 現調完了月 = @8, 導入月 = @9, 部署 = @10, 価格帯 = @11, 更新日付 = @12, オン資運用開始日 = @13, WHERE 顧客No = {1}"
+				// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
+				//return string.Format(@"UPDATE {0} SET 拠点名 = @1, 顧客名 = @2, 都道府県 = @3, オン資担当 = @4, 導入意思 = @5, 工事種別 = @6, ステータス = @7, 現調完了月 = @8, 導入月 = @9, 部署 = @10, 価格帯 = @11, 更新日付 = @12, オン資運用開始日 = @13, WHERE 顧客No = {1}"
+				//						, SalesDatabaseDefine.TableName[SalesDatabaseDefine.TableType.オンライン資格確認進捗管理情報], 顧客No);
+				return string.Format(@"UPDATE {0} SET 拠点名 = @1, 顧客名 = @2, 都道府県 = @3, オン資担当 = @4, 導入意思 = @5, 工事種別 = @6, ステータス = @7, 現調完了月 = @8, 導入月 = @9, 部署 = @10, 価格帯 = @11, 更新日付 = @12, オン資運用開始日 = @13, 猶予理由 = @14, WHERE 顧客No = {1}"
 										, SalesDatabaseDefine.TableName[SalesDatabaseDefine.TableType.オンライン資格確認進捗管理情報], 顧客No);
 			}
 		}
@@ -163,6 +180,9 @@ namespace CommonLib.BaseFactory.Sales.Table
 					// Ver1.01 マイナンバーカードの健康保険証利用対応の医療機関リスト（都道府県別）の運用開始日に対応(2022/12/12 勝呂)
 					data.オン資運用開始日 = DataBaseValue.ConvObjectToDateTimeNull(row["オン資運用開始日"]);
 
+					// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
+					data.猶予理由 = row["猶予理由"].ToString().Trim();
+
 					result.Add(data);
 				}
 			}
@@ -191,7 +211,10 @@ namespace CommonLib.BaseFactory.Sales.Table
 				new SqlParameter("@13", DateTime.Now),
 
 				// Ver1.01 マイナンバーカードの健康保険証利用対応の医療機関リスト（都道府県別）の運用開始日に対応(2022/12/12 勝呂)
-				new SqlParameter("@14", オン資運用開始日.HasValue ? オン資運用開始日.Value.ToString() : System.Data.SqlTypes.SqlString.Null)
+				new SqlParameter("@14", オン資運用開始日.HasValue ? オン資運用開始日.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+
+				// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
+				new SqlParameter("@15", 猶予理由)
 			};
 			return param;
 		}
@@ -217,7 +240,10 @@ namespace CommonLib.BaseFactory.Sales.Table
 				new SqlParameter("@12", DateTime.Now),
 
 				// Ver1.01 マイナンバーカードの健康保険証利用対応の医療機関リスト（都道府県別）の運用開始日に対応(2022/12/12 勝呂)
-				new SqlParameter("@13", オン資運用開始日.HasValue ? オン資運用開始日.Value.ToString() : System.Data.SqlTypes.SqlString.Null)
+				new SqlParameter("@13", オン資運用開始日.HasValue ? オン資運用開始日.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+
+				// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
+				new SqlParameter("@14", 猶予理由)
 			};
 			return param;
 		}

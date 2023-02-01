@@ -9,6 +9,7 @@
 // Ver1.07 メール文字化け対応のため、メール送信方式とSmtpClientからMailKitに変更(2022/07/22 勝呂)
 // Ver1.09 メール件名冒頭部を【オンライン資格確認通知】から【NTT東日本工事】【NTT西日本工事】に変更(2022/08/08 勝呂)
 // Ver1.10 Webヒアリングシート現調対応(2022/08/19 勝呂)
+// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
 //
 using CommonLib.Common;
 using MwsLib.Settings.Mail;
@@ -23,13 +24,12 @@ namespace NoticeOnlineLicenseConfirm.Mail
 	public static class MailKitControl
 	{
 		/// <summary>
-		/// 現調通知１：現地調査確定日の連絡(NTT東日本)
+		/// 現調通知１：【NTT東日本現調】現地調査確定日の連絡
 		/// </summary>
-		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT東日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
 		/// Ver1.10 Webヒアリングシート現調対応(2022/08/19 勝呂)
-		public static void Research1East(MailSettings mail, 進捗管理表_NTT東日本 east, bool testMail)
+		public static void Research1East(進捗管理表_NTT東日本 east, bool testMail)
 		{
 			// 件名
 			string subject = string.Format("【NTT東日本現調】現地調査確定日の連絡(顧客No:{0})", east.病院ID);
@@ -59,17 +59,16 @@ namespace NoticeOnlineLicenseConfirm.Mail
 						, east.現地調査確定時間);
 
 			// メール送信
-			MailKitControl.SendMail(subject, body, mail, east.Notice.MailAddress, testMail);
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, east.Notice.MailAddress, testMail);
 		}
 
 		/// <summary>
-		/// 現調通知１：現地調査確定日の連絡(NTT西日本)
+		/// 現調通知１：【NTT西日本現調】現地調査確定日の連絡
 		/// </summary>
-		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT西日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
 		/// Ver1.10 Webヒアリングシート現調対応(2022/08/19 勝呂)
-		public static void Research1West(MailSettings mail, 進捗管理表_NTT西日本 west, bool testMail)
+		public static void Research1West(進捗管理表_NTT西日本 west, bool testMail)
 		{
 			// 件名
 			string subject = string.Format("【NTT西日本現調】現地調査確定日の連絡(顧客No:{0})", west.病院ID);
@@ -99,17 +98,16 @@ namespace NoticeOnlineLicenseConfirm.Mail
 						, west.現調プラン_訪問時間);
 
 			// メール送信
-			MailKitControl.SendMail(subject, body, mail, west.Notice.MailAddress, testMail);
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, west.Notice.MailAddress, testMail);
 		}
 
 		/// <summary>
-		/// 現調通知３：現調結果の連絡(NTT東日本)
+		/// 現調通知３：【NTT東日本現調】現調結果の連絡
 		/// </summary>
-		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT東日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
 		/// Ver1.10 Webヒアリングシート現調対応(2022/08/19 勝呂)
-		public static void Research3East(MailSettings mail, 進捗管理表_NTT東日本 east, bool testMail)
+		public static void Research3East(進捗管理表_NTT東日本 east, bool testMail)
 		{
 			// 件名
 			string subject = string.Format("【NTT東日本現調】現調結果の連絡(顧客No:{0})", east.病院ID);
@@ -159,17 +157,62 @@ namespace NoticeOnlineLicenseConfirm.Mail
 						, east.現地調査確定時間);
 
 			// メール送信
-			MailKitControl.SendMail(subject, body, mail, east.Notice.MailAddress, testMail);
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, east.Notice.MailAddress, testMail);
 		}
 
 		/// <summary>
-		/// 現調通知３：現調結果の連絡(NTT西日本)
+		/// 現調通知３：【NTT東日本現調】【工事分提出不要】現調結果の連絡 ※自動フロー
 		/// </summary>
-		/// <param name="mail">メール送信情報</param>
+		/// <param name="east">NTT東日本進捗管理表</param>
+		/// <param name="testMail">テストメール</param>
+		/// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
+		public static void Research3EastAutoFlow(進捗管理表_NTT東日本 east, bool testMail)
+		{
+			// 件名
+			string subject = string.Format("【NTT東日本現調】【工事分提出不要】現調結果の連絡(顧客No:{0}) ", east.病院ID);
+
+			// 本文
+			string body = string.Format(@"ご担当者様<br>"
+						+ @"<br>"
+						+ @"NTT東日本より現調結果が来ました。<br>"
+						+ @"<br>"
+						+ @"下記保存先の最新のヒアリングシートの<br>"
+						+ @"一番右「現地調査結果」をご確認ください。<br>"
+						+ @"(特に「現地調査結果」の「その他/ご要望等」についてご確認をお願いします。)<br>"
+						+ @"<br>"
+						+ @"こちらの案件は特に問題がないため、自動フローに乗りました。<br>"
+						+ @"NTT側が日程調整を行うため、工事のヒアリングシート提出は不要です。<br>"
+						+ @"<br>"
+						+ @"現調結果をご確認の上、<br>"
+						+ @"ヒアリングシートの修正が必要な場合は、早めにご返信をお願いいたします。<br>"
+						+ @"<br>"
+						+ @"顧客No：{0}<br>"
+						+ @"医院名：{1}<br>"
+						+ @"受付通番：{2}<br>"
+						+ @"現調確定日：{3}<br>"
+						+ @"現調確定時間：{4}<br>"
+						+ @"保存先：\\wwsv\ons-pics\{0}<br>"
+						+ @"<br>"
+						+ @"以上、よろしくお願いいたします。<br>"
+						+ @"<br>"
+						+ @"営業管理部<br>"
+						, east.病院ID
+						, east.医療機関名
+						, east.受付通番
+						, east.現地調査確定日付.Value.GetNormalString()
+						, east.現地調査確定時間);
+
+			// メール送信
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, east.Notice.MailAddress, testMail);
+		}
+
+		/// <summary>
+		/// 現調通知３：【NTT西日本現調】現調結果の連絡
+		/// </summary>
 		/// <param name="east">NTT西日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
 		/// Ver1.10 Webヒアリングシート現調対応(2022/08/19 勝呂)
-		public static void Research3West(MailSettings mail, 進捗管理表_NTT西日本 west, bool testMail)
+		public static void Research3West(進捗管理表_NTT西日本 west, bool testMail)
 		{
 			// 件名
 			string subject = string.Format("【NTT西日本現調】現調結果の連絡(顧客No:{0})", west.病院ID);
@@ -218,17 +261,16 @@ namespace NoticeOnlineLicenseConfirm.Mail
 						, west.現調プラン_訪問時間);
 
 			// メール送信
-			MailKitControl.SendMail(subject, body, mail, west.Notice.MailAddress, testMail);
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, west.Notice.MailAddress, testMail);
 		}
 
 		/// <summary>
-		/// 現調通知４：新規案件出し忘れの連絡（NTT東日本）
+		/// 現調通知４：【NTT東日本現調】新規案件出し忘れの連絡
 		/// </summary>
-		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT東日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
 		/// Ver1.10 Webヒアリングシート現調対応(2022/08/19 勝呂)
-		public static void Research4East(MailSettings mail, 進捗管理表_NTT東日本 east, bool testMail)
+		public static void Research4East(進捗管理表_NTT東日本 east, bool testMail)
 		{
 			// 件名
 			string subject = string.Format("【NTT東日本現調】新規案件出し忘れの連絡(顧客No:{0})", east.病院ID);
@@ -278,17 +320,16 @@ namespace NoticeOnlineLicenseConfirm.Mail
 						, east.現地調査確定時間);
 
 			// メール送信
-			MailKitControl.SendMail(subject, body, mail, east.Notice.MailAddress, testMail);
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, east.Notice.MailAddress, testMail);
 		}
 
 		/// <summary>
-		/// 現調通知４：新規案件出し忘れの連絡（NTT西日本）
+		/// 現調通知４：【NTT西日本現調】新規案件出し忘れの連絡
 		/// </summary>
-		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT西日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
 		/// Ver1.10 Webヒアリングシート現調対応(2022/08/19 勝呂)
-		public static void Research4West(MailSettings mail, 進捗管理表_NTT西日本 west, bool testMail)
+		public static void Research4West(進捗管理表_NTT西日本 west, bool testMail)
 		{
 			// 件名
 			string subject = string.Format("【NTT西日本現調】新規案件出し忘れの連絡(顧客No:{0})", west.病院ID);
@@ -337,16 +378,15 @@ namespace NoticeOnlineLicenseConfirm.Mail
 						, west.現調プラン_訪問時間);
 
 			// メール送信
-			MailKitControl.SendMail(subject, body, mail, west.Notice.MailAddress, testMail);
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, west.Notice.MailAddress, testMail);
 		}
 
 		/// <summary>
-		/// 工事通知１：工事確定日の連絡(NTT東日本)
+		/// 工事通知１：【NTT東日本工事】工事確定日の連絡
 		/// </summary>
-		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT東日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
-		public static void Construct1East(MailSettings mail, 進捗管理表_NTT東日本 east, bool testMail)
+		public static void Construct1East(進捗管理表_NTT東日本 east, bool testMail)
 		{
 			// 件名
 			// Ver1.03 メール件名に顧客Noを追加(2022/04/05 勝呂)
@@ -379,16 +419,15 @@ namespace NoticeOnlineLicenseConfirm.Mail
 						, east.工事確定時間);
 
 			// メール送信
-			MailKitControl.SendMail(subject, body, mail, east.Notice.MailAddress, testMail);
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, east.Notice.MailAddress, testMail);
 		}
 
 		/// <summary>
-		/// 工事通知１：工事確定日の連絡(NTT西日本)
+		/// 工事通知１：【NTT西日本工事】工事確定日の連絡
 		/// </summary>
-		/// <param name="mail">メール送信情報</param>
 		/// <param name="west">NTT西日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
-		public static void Construct1West(MailSettings mail, 進捗管理表_NTT西日本 west, bool testMail)
+		public static void Construct1West(進捗管理表_NTT西日本 west, bool testMail)
 		{
 			// 件名
 			// Ver1.03 メール件名に顧客Noを追加(2022/04/05 勝呂)
@@ -421,16 +460,15 @@ namespace NoticeOnlineLicenseConfirm.Mail
 						, west.工事確定時間);
 
 			// メール送信
-			MailKitControl.SendMail(subject, body, mail, west.Notice.MailAddress, testMail);
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, west.Notice.MailAddress, testMail);
 		}
 
 		/// <summary>
-		/// 工事通知３：ヒアリングシート不備の連絡（NTT東日本）
+		/// 工事通知３：【NTT東日本工事】ヒアリングシート不備の連絡
 		/// </summary>
-		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT東日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
-		public static void Construct3East(MailSettings mail, 進捗管理表_NTT東日本 east, bool testMail)
+		public static void Construct3East(進捗管理表_NTT東日本 east, bool testMail)
 		{
 			// 件名
 			// Ver1.09 メール件名冒頭部を【オンライン資格確認通知】から【NTT東日本工事】【NTT西日本工事】に変更(2022/08/08 勝呂)
@@ -472,16 +510,15 @@ namespace NoticeOnlineLicenseConfirm.Mail
 						, east.修正箇所2);
 
 			// メール送信
-			MailKitControl.SendMail(subject, body, mail, east.Notice.MailAddress, testMail);
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, east.Notice.MailAddress, testMail);
 		}
 
 		/// <summary>
-		/// 工事通知３：ヒアリングシート不備の連絡（NTT西日本）
+		/// 工事通知３：【NTT西日本工事】ヒアリングシート不備の連絡
 		/// </summary>
-		/// <param name="mail">メール送信情報</param>
 		/// <param name="west">NTT西日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
-		public static void Construct3West(MailSettings mail, 進捗管理表_NTT西日本 west, bool testMail)
+		public static void Construct3West(進捗管理表_NTT西日本 west, bool testMail)
 		{
 			// 件名
 			// Ver1.09 メール件名冒頭部を【オンライン資格確認通知】から【NTT東日本工事】【NTT西日本工事】に変更(2022/08/08 勝呂)
@@ -519,16 +556,15 @@ namespace NoticeOnlineLicenseConfirm.Mail
 						, west.連絡内容);
 
 			// メール送信
-			MailKitControl.SendMail(subject, body, mail, west.Notice.MailAddress, testMail);
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, west.Notice.MailAddress, testMail);
 		}
 
 		/// <summary>
-		/// 工事通知４：工事確定日14日前ヒアリングシート未完成の連絡（NTT東日本）
+		/// 工事通知４：【NTT東日本工事】工事確定日14日前ヒアリングシート未完成の連絡
 		/// </summary>
-		/// <param name="mail">メール送信情報</param>
 		/// <param name="east">NTT東日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
-		public static void Construct4East(MailSettings mail, 進捗管理表_NTT東日本 east, bool testMail)
+		public static void Construct4East(進捗管理表_NTT東日本 east, bool testMail)
 		{
 			// 件名
 			// Ver1.09 メール件名冒頭部を【オンライン資格確認通知】から【NTT東日本工事】【NTT西日本工事】に変更(2022/08/08 勝呂)
@@ -571,16 +607,15 @@ namespace NoticeOnlineLicenseConfirm.Mail
 						, east.修正箇所2);
 
 			// メール送信
-			MailKitControl.SendMail(subject, body, mail, east.Notice.MailAddress, testMail);
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, east.Notice.MailAddress, testMail);
 		}
 
 		/// <summary>
-		/// 工事通知４：工事確定日14日前ヒアリングシート未完成の連絡（NTT西日本）
+		/// 工事通知４：【NTT西日本工事】工事確定日14日前ヒアリングシート未完成の連絡
 		/// </summary>
-		/// <param name="mail">メール送信情報</param>
 		/// <param name="west">NTT西日本進捗管理表</param>
 		/// <param name="testMail">テストメール</param>
-		public static void Construct4West(MailSettings mail, 進捗管理表_NTT西日本 west, bool testMail)
+		public static void Construct4West(進捗管理表_NTT西日本 west, bool testMail)
 		{
 			// 件名
 			// Ver1.09 メール件名冒頭部を【オンライン資格確認通知】から【NTT東日本工事】【NTT西日本工事】に変更(2022/08/08 勝呂)
@@ -621,7 +656,7 @@ namespace NoticeOnlineLicenseConfirm.Mail
 						, west.連絡内容);
 
 			// メール送信
-			MailKitControl.SendMail(subject, body, mail, west.Notice.MailAddress, testMail);
+			MailKitControl.SendMail(subject, body, Program.gSettings.Mail, west.Notice.MailAddress, testMail);
 		}
 
 		/// <summary>

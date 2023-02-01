@@ -5,7 +5,8 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2022/03/04 勝呂)
+// Ver1.00 新規作成(2022/03/04 勝呂)
+// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/02/01 勝呂)
 // 
 using CommonLib.Common;
 

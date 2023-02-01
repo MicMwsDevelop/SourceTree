@@ -7,6 +7,8 @@
 // 
 // Ver1.11 NTT現調プランに対応(2022/08/29 勝呂)
 // Ver1.14 [進捗管理表_作業情報]に現調情報が登録されている場合、工事通知１(東西)を検出してもエクセル出力されなかった(2022/12/07 勝呂)
+// Ver1.15 NTT東日本 現調通知３ 抽出条件の変更(2023/01/27 勝呂)
+// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
 // 
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Sales.Table;
@@ -71,15 +73,14 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		/// <param name="webHS">Webヒアリングシート</param>
 		/// <param name="eastList">NTT東日本 進捗管理表</param>
 		/// <param name="wb">オンライン資格確認通知結果.xlsx</param>
-		/// <param name="connectStr">SQL接続文字列</param>
 		/// <returns>通知数</returns>
-		public static int Notice1East(string prgressFilename, List<vオンライン資格確認ユーザー> webHS, List<進捗管理表_NTT東日本> eastList, XLWorkbook wb, string connectStr)
+		public static int Notice1East(string prgressFilename, List<vオンライン資格確認ユーザー> webHS, List<進捗管理表_NTT東日本> eastList, XLWorkbook wb)
 		{
 			int ret = 0;
 			if (null != eastList)
 			{
 				// 進捗管理表_作業情報の読込
-				List<進捗管理表_作業情報> progressList = SalesDatabaseAccess.Select_進捗管理表_作業情報("", "[顧客No]", connectStr);
+				List<進捗管理表_作業情報> progressList = SalesDatabaseAccess.Select_進捗管理表_作業情報("", "[顧客No]", Program.gSettings.ConnectSales.ConnectionString);
 
 				IXLWorksheet ws = wb.Worksheet(NoticeResearch.SheetNameResearch1East);
 				int row = 6;
@@ -97,7 +98,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 							if (null == db)
 							{
 								// MIC連絡担当者の通知情報を取得
-								NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID, connectStr);
+								NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID);
 								if (null != notice)
 								{
 									east.Notice = notice;
@@ -118,13 +119,13 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 								data.進捗管理表ファイル名 = prgressFilename;
 								data.現地調査確定日 = east.現地調査確定日付.Value.ToDateTime();
 								data.現地調査確定日格納日時 = DateTime.Now;
-								進捗管理表_作業情報.WriteProgressDatabase(data, false, connectStr);
+								進捗管理表_作業情報.WriteProgressDatabase(data, false, Program.gSettings.ConnectSales.ConnectionString);
 							}
 							// (3)[進捗管理表_作業情報]が存在しない もしくは 現調未設定
 							else if (db.Is現調未設定)
 							{
 								// Ver1.14 [進捗管理表_作業情報]に現調情報が登録されている場合、工事通知１(東西)を検出してもエクセル出力されなかった(2022/12/07 勝呂)
-								NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID, connectStr);
+								NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID);
 								if (null != notice)
 								{
 									east.Notice = notice;
@@ -143,13 +144,13 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 								db.進捗管理表ファイル名 = prgressFilename;
 								db.現地調査確定日 = east.現地調査確定日付.Value.ToDateTime();
 								db.現地調査確定日格納日時 = DateTime.Now;
-								進捗管理表_作業情報.WriteProgressDatabase(db, true, connectStr);
+								進捗管理表_作業情報.WriteProgressDatabase(db, true, Program.gSettings.ConnectSales.ConnectionString);
 							}
 							// (4) [進捗管理表_作業情報].現地調査確定日と現地調査確定日(M列)が違う
 							else if (db.現地調査確定日.HasValue && east.現地調査確定日付 != db.現地調査確定日.Value.ToDate())
 							{
 								// MIC連絡担当者の通知情報を取得
-								NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID, connectStr);
+								NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID);
 								if (null != notice)
 								{
 									east.Notice = notice;
@@ -170,7 +171,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 								db.現地調査確定日格納日時 = DateTime.Now;
 								db.現地調査結果 = string.Empty;
 								db.現地調査結果格納日時 = null;
-								進捗管理表_作業情報.WriteProgressDatabase(db, true, connectStr);
+								進捗管理表_作業情報.WriteProgressDatabase(db, true, Program.gSettings.ConnectSales.ConnectionString);
 							}
 						}
 					}
@@ -191,15 +192,14 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		/// <param name="webHS">Webヒアリングシート</param>
 		/// <param name="westList">NTT西日本 進捗管理表</param>
 		/// <param name="wb">オンライン資格確認通知結果.xlsx</param>
-		/// <param name="connectStr">SQL接続文字列</param>
 		/// <returns>通知数</returns>
-		public static int Notice1West(string prgressFilename, List<vオンライン資格確認ユーザー> webHS, List<進捗管理表_NTT西日本> westList, XLWorkbook wb, string connectStr)
+		public static int Notice1West(string prgressFilename, List<vオンライン資格確認ユーザー> webHS, List<進捗管理表_NTT西日本> westList, XLWorkbook wb)
 		{
 			int ret = 0;
 			if (null != westList)
 			{
 				// 進捗管理表_作業情報の読込
-				List<進捗管理表_作業情報> progressList = SalesDatabaseAccess.Select_進捗管理表_作業情報("", "[顧客No]", connectStr);
+				List<進捗管理表_作業情報> progressList = SalesDatabaseAccess.Select_進捗管理表_作業情報("", "[顧客No]", Program.gSettings.ConnectSales.ConnectionString);
 
 				IXLWorksheet ws = wb.Worksheet(NoticeResearch.SheetNameResearch1West);
 				int row = 7;
@@ -214,7 +214,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 						if (null == db)
 						{
 							// MIC連絡担当者の通知情報を取得
-							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID, connectStr);
+							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID);
 							if (null != notice)
 							{
 								west.Notice = notice;
@@ -235,13 +235,13 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 							data.進捗管理表ファイル名 = prgressFilename;
 							data.現地調査確定日 = west.現調プラン_訪問日付.Value.ToDateTime();
 							data.現地調査確定日格納日時 = DateTime.Now;
-							進捗管理表_作業情報.WriteProgressDatabase(data, false, connectStr);
+							進捗管理表_作業情報.WriteProgressDatabase(data, false, Program.gSettings.ConnectSales.ConnectionString);
 						}
 						// (2)[進捗管理表_作業情報]が存在しない もしくは 現調未設定
 						else if (db.Is現調未設定)
 						{
 							// Ver1.14 [進捗管理表_作業情報]に現調情報が登録されている場合、工事通知１(東西)を検出してもエクセル出力されなかった(2022/12/07 勝呂)
-							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID, connectStr);
+							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID);
 							if (null != notice)
 							{
 								west.Notice = notice;
@@ -260,13 +260,13 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 							db.進捗管理表ファイル名 = prgressFilename;
 							db.現地調査確定日 = west.現調プラン_訪問日付.Value.ToDateTime();
 							db.現地調査確定日格納日時 = DateTime.Now;
-							進捗管理表_作業情報.WriteProgressDatabase(db, true, connectStr);
+							進捗管理表_作業情報.WriteProgressDatabase(db, true, Program.gSettings.ConnectSales.ConnectionString);
 						}
 						// (3) 訪問日(CH列)と[進捗管理表_作業情報].現地調査確定日が違う
 						else if (db.現地調査確定日.HasValue && west.現調プラン_訪問日付.Value != db.現地調査確定日.Value.ToDate())
 						{
 							// MIC連絡担当者の通知情報を取得
-							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID, connectStr);
+							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID);
 							if (null != notice)
 							{
 								west.Notice = notice;
@@ -287,7 +287,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 							db.現地調査確定日格納日時 = DateTime.Now;
 							db.現地調査結果 = string.Empty;
 							db.現地調査結果格納日時 = null;
-							進捗管理表_作業情報.WriteProgressDatabase(db, true, connectStr);
+							進捗管理表_作業情報.WriteProgressDatabase(db, true, Program.gSettings.ConnectSales.ConnectionString);
 						}
 					}
 				}
@@ -373,28 +373,145 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		/// (2)[進捗管理表_作業情報] が存在しない もしくは 現調未設定
 		/// (3)現地調査確定日(M列)と[進捗管理表_作業情報].現地調査確定日が同日 かつ 現地調査結果(O列)と[進捗管理表_作業情報].現地調査結果が違う
 		/// (4)[進捗管理表_作業情報].現地調査結果格納日時が当日より過去の日
+		/// 
+		/// NTT東日本 通知プログラムフォルダに進捗管理表の作成日付と同じフォルダが存在し、受付通番が同じヒアリングシートファイルが存在する場合に、担当者に通知
+		/// (1) NTT東日本 通知プログラムフォルダに進捗管理表の作成日付と同じフォルダが存在し、受付通番が同じヒアリングシートファイルが存在すること
+		/// (2) [進捗管理表_作業情報] が存在しない もしくは 現調未設定
+		/// (3) [進捗管理表_作業情報] が存在し、現調設定済み
 		/// </summary>
 		/// <param name="prgressFilename">NTT東日本 進捗管理表ファイル名</param>
 		/// <param name="webHS">Webヒアリングシート</param>
 		/// <param name="eastList">NTT東日本 進捗管理表</param>
 		/// <param name="wb">オンライン資格確認通知結果.xlsx</param>
-		/// <param name="connectStr">SQL接続文字列</param>
+		/// <param name="fileDate">NTT東日本 進捗管理表作成日</param>
 		/// <returns>通知数</returns>
-		public static int Notice3East(string prgressFilename, List<vオンライン資格確認ユーザー> webHS, List<進捗管理表_NTT東日本> eastList, XLWorkbook wb, string connectStr)
+		public static int Notice3East(string prgressFilename, List<vオンライン資格確認ユーザー> webHS, List<進捗管理表_NTT東日本> eastList, XLWorkbook wb, Date fileDate)
 		{
 			int ret = 0;
 			if (null != eastList)
 			{
 				// 進捗管理表_作業情報の読込
-				List<進捗管理表_作業情報> progressList = SalesDatabaseAccess.Select_進捗管理表_作業情報("", "[顧客No]", connectStr);
+				List<進捗管理表_作業情報> progressList = SalesDatabaseAccess.Select_進捗管理表_作業情報("", "[顧客No]", Program.gSettings.ConnectSales.ConnectionString);
 
 				IXLWorksheet ws = wb.Worksheet(NoticeResearch.SheetNameResearch3East);
 				int row = 6;
 				foreach (進捗管理表_NTT東日本 east in eastList)
 				{
+					// Ver1.15 NTT東日本 現調通知３ 抽出条件の変更(2023/01/27 勝呂)
+					// (1) NTT東日本 通知プログラムフォルダに進捗管理表の作成日付と同じフォルダが存在し、受付通番が同じヒアリングシートファイルが存在すること
+					string hearingSheetFname = 進捗管理表_NTT東日本.GetNotifyFileName(Program.gSettings.NotifyFolderEast, fileDate, east.受付通番);
+					if (0 < hearingSheetFname.Length)
+					{
+						進捗管理表_作業情報 db = progressList.Find(p => p.顧客No == east.病院ID);
+						if (null == db)
+						{
+							// (2)[進捗管理表_作業情報] が存在しない もしくは 現調未設定
+							// MIC連絡担当者の通知情報を取得
+							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID);
+							if (null != notice)
+							{
+								east.Notice = notice;
+							}
+							// シートに追加
+							string[] record = east.GetData();
+							for (int i = 0; i < record.Length; i++)
+							{
+								ws.Cell(row, i + 1).SetValue(record[i]);
+							}
+							// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
+							if (進捗管理表_NTT東日本.IsAutoFlow(hearingSheetFname))
+							{
+								// 自動フロー
+								ws.Cell(row, record.Length + 1).SetValue("●");
+							}
+							row++;
+							ret++;
+
+							// レコード追加：現地調査確定日db=現地調査確定日、現地調査確定日格納日時db=当日、現地調査結果db=現地調査結果、現地調査結果格納日時db=当日→通知３
+							進捗管理表_作業情報 data = new 進捗管理表_作業情報();
+							data.顧客No = east.病院ID;
+							data.受付通番 = east.受付通番;
+							data.進捗管理表ファイル名 = prgressFilename;
+							data.現地調査確定日 = east.現地調査確定日付.Value.ToDateTime();
+							data.現地調査確定日格納日時 = DateTime.Now;
+							data.現地調査結果 = east.現地調査結果;
+							data.現地調査結果格納日時 = fileDate.ToDateTime();
+							進捗管理表_作業情報.WriteProgressDatabase(data, false, Program.gSettings.ConnectSales.ConnectionString);
+						}
+						else if (db.Is現調未設定)
+						{
+							// (2) [進捗管理表_作業情報] が存在しない もしくは 現調未設定
+							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID);
+							if (null != notice)
+							{
+								east.Notice = notice;
+							}
+							// シートに追加
+							string[] record = east.GetData();
+							for (int i = 0; i < record.Length; i++)
+							{
+								ws.Cell(row, i + 1).SetValue(record[i]);
+							}
+							// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
+							if (進捗管理表_NTT東日本.IsAutoFlow(hearingSheetFname))
+							{
+								// 自動フロー
+								ws.Cell(row, record.Length + 1).SetValue("●");
+							}
+							row++;
+							ret++;
+
+							db.受付通番 = east.受付通番;
+							db.進捗管理表ファイル名 = prgressFilename;
+							db.現地調査確定日 = east.現地調査確定日付.Value.ToDateTime();
+							db.現地調査確定日格納日時 = DateTime.Now;
+							db.現地調査結果 = east.現地調査結果;
+							db.現地調査結果格納日時 = fileDate.ToDateTime();
+							進捗管理表_作業情報.WriteProgressDatabase(db, true, Program.gSettings.ConnectSales.ConnectionString);
+						}
+						else
+						{
+							// (3) [進捗管理表_作業情報] が存在し、現調設定済み
+							// MIC連絡担当者の通知情報を取得
+							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID);
+							if (null != notice)
+							{
+								east.Notice = notice;
+							}
+							// シートに追加
+							string[] record = east.GetData();
+							for (int i = 0; i < record.Length; i++)
+							{
+								ws.Cell(row, i + 1).SetValue(record[i]);
+							}
+							// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
+							if (進捗管理表_NTT東日本.IsAutoFlow(hearingSheetFname))
+							{
+								// 自動フロー
+								ws.Cell(row, record.Length + 1).SetValue("●");
+							}
+							row++;
+							ret++;
+
+							// レコード更新：現地調査確定日db=現地調査確定日、現地調査確定日格納日時db=当日、現地調査結果db=現地調査結果、現地調査結果格納日時db=当日→通知３
+							db.受付通番 = east.受付通番;
+							db.進捗管理表ファイル名 = prgressFilename;
+							if (db.現地調査確定日 is null)
+							{
+								db.現地調査確定日 = east.現地調査確定日付.Value.ToDateTime();
+								db.現地調査確定日格納日時 = DateTime.Now;
+							}
+							db.現地調査結果 = east.現地調査結果;
+							db.現地調査結果格納日時 = fileDate.ToDateTime();
+							進捗管理表_作業情報.WriteProgressDatabase(db, true, Program.gSettings.ConnectSales.ConnectionString);
+						}
+					}
+				}
+/*
+				foreach (進捗管理表_NTT東日本 east in eastList)
+				{
 					// (1)現地調査確定日(M列)と現地調査確定時間(L列)が設定済み かつ 現地調査結果(O列)に完了報告日が設定済み
-					//if (east.現地調査確定日付.HasValue && 0 < east.現地調査確定時間.Length && (east.現地調査結果_OK || east.現地調査結果_NG))
-					if (east.現地調査確定日付.HasValue && 0 < east.現地調査確定時間.Length && 0 < east.現地調査結果.Length)
+					if (east.現地調査確定日付.HasValue && 0 < east.現地調査確定時間.Length && (east.現地調査結果_OK || east.現地調査結果_NG))
 					{
 						進捗管理表_作業情報 db = progressList.Find(p => p.顧客No == east.病院ID);
 
@@ -511,6 +628,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 						}
 					}
 				}
+*/
 			}
 			return ret;
 		}
@@ -528,15 +646,14 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		/// <param name="webHS">Webヒアリングシート</param>
 		/// <param name="eastList">NTT西日本 進捗管理表</param>
 		/// <param name="wb">オンライン資格確認通知結果.xlsx</param>
-		/// <param name="connectStr">SQL接続文字列</param>
 		/// <returns>通知数</returns>
-		public static int Notice3West(string prgressFilename, List<vオンライン資格確認ユーザー> webHS, List<進捗管理表_NTT西日本> westList, XLWorkbook wb, string connectStr)
+		public static int Notice3West(string prgressFilename, List<vオンライン資格確認ユーザー> webHS, List<進捗管理表_NTT西日本> westList, XLWorkbook wb)
 		{
 			int ret = 0;
 			if (null != westList)
 			{
 				// 進捗管理表_作業情報の読込
-				List<進捗管理表_作業情報> progressList = SalesDatabaseAccess.Select_進捗管理表_作業情報("", "[顧客No]", connectStr);
+				List<進捗管理表_作業情報> progressList = SalesDatabaseAccess.Select_進捗管理表_作業情報("", "[顧客No]", Program.gSettings.ConnectSales.ConnectionString);
 
 				IXLWorksheet ws = wb.Worksheet(NoticeResearch.SheetNameResearch3West);
 				int row = 7;
@@ -551,7 +668,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 						if (null == db)
 						{
 							// MIC連絡担当者の通知情報を取得
-							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID, connectStr);
+							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID);
 							if (null != notice)
 							{
 								west.Notice = notice;
@@ -574,13 +691,13 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 							data.現地調査確定日格納日時 = DateTime.Now;
 							data.現地調査結果 = west.現調プラン_完了報告日;
 							data.現地調査結果格納日時 = DateTime.Now;
-							進捗管理表_作業情報.WriteProgressDatabase(data, false, connectStr);
+							進捗管理表_作業情報.WriteProgressDatabase(data, false, Program.gSettings.ConnectSales.ConnectionString);
 						}
 						// (2)[進捗管理表_作業情報]が存在しない もしくは 現調未設定
 						else if (db.Is現調未設定)
 						{
 							// Ver1.14 [進捗管理表_作業情報]に現調情報が登録されている場合、工事通知１(東西)を検出してもエクセル出力されなかった(2022/12/07 勝呂)
-							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID, connectStr);
+							NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID);
 							if (null != notice)
 							{
 								west.Notice = notice;
@@ -601,7 +718,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 							db.現地調査確定日格納日時 = DateTime.Now;
 							db.現地調査結果 = west.現調プラン_完了報告日;
 							db.現地調査結果格納日時 = DateTime.Now;
-							進捗管理表_作業情報.WriteProgressDatabase(db, true, connectStr);
+							進捗管理表_作業情報.WriteProgressDatabase(db, true, Program.gSettings.ConnectSales.ConnectionString);
 						}
 						else if (db.現地調査確定日.HasValue)
 						{
@@ -609,7 +726,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 							if (west.現調プラン_訪問日付 == db.現地調査確定日.Value.ToDate() && 0 == db.現地調査結果.Length)
 							{
 								// MIC連絡担当者の通知情報を取得
-								NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID, connectStr);
+								NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID);
 								if (null != notice)
 								{
 									west.Notice = notice;
@@ -628,7 +745,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 								db.進捗管理表ファイル名 = prgressFilename;
 								db.現地調査結果 = west.現調プラン_完了報告日;
 								db.現地調査結果格納日時 = DateTime.Now;
-								進捗管理表_作業情報.WriteProgressDatabase(db, true, connectStr);
+								進捗管理表_作業情報.WriteProgressDatabase(db, true, Program.gSettings.ConnectSales.ConnectionString);
 							}
 						}
 					}
@@ -647,15 +764,14 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		/// <param name="webHS">Webヒアリングシート</param>
 		/// <param name="eastList">NTT東日本 進捗管理表</param>
 		/// <param name="wb">オンライン資格確認通知結果.xlsx</param>
-		/// <param name="connectStr">SQL接続文字列</param>
 		/// <returns>通知数</returns>
-		public static int Notice4East(List<vオンライン資格確認ユーザー> webHS, List<進捗管理表_NTT東日本> eastList, XLWorkbook wb, string connectStr)
+		public static int Notice4East(List<vオンライン資格確認ユーザー> webHS, List<進捗管理表_NTT東日本> eastList, XLWorkbook wb)
 		{
 			int ret = 0;
 			if (null != eastList)
 			{
 				// 進捗管理表_作業情報の読込
-				List<進捗管理表_作業情報> progressList = SalesDatabaseAccess.Select_進捗管理表_作業情報("", "[顧客No]", connectStr);
+				List<進捗管理表_作業情報> progressList = SalesDatabaseAccess.Select_進捗管理表_作業情報("", "[顧客No]", Program.gSettings.ConnectSales.ConnectionString);
 				List<vオンライン資格確認ユーザー> hearingSheet = webHS.FindAll(p => p.現調送信履歴 != "");
 
 				IXLWorksheet ws = wb.Worksheet(NoticeResearch.SheetNameResearch4East);
@@ -678,7 +794,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 									if (null == hearingSheet.Find(p => p.顧客No == db.顧客No))
 									{
 										// MIC連絡担当者の通知情報を取得
-										NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID, connectStr);
+										NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, east.病院ID);
 										if (null != notice)
 										{
 											east.Notice = notice;
@@ -711,15 +827,14 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		/// <param name="webHS">Webヒアリングシート</param>
 		/// <param name="westList">NTT西日本 進捗管理表</param>
 		/// <param name="wb">オンライン資格確認通知結果.xlsx</param>
-		/// <param name="connectStr">SQL接続文字列</param>
 		/// <returns>通知数</returns>
-		public static int Notice4West(List<vオンライン資格確認ユーザー> webHS, List<進捗管理表_NTT西日本> westList, XLWorkbook wb, string connectStr)
+		public static int Notice4West(List<vオンライン資格確認ユーザー> webHS, List<進捗管理表_NTT西日本> westList, XLWorkbook wb)
 		{
 			int ret = 0;
 			if (null != westList)
 			{
 				// 進捗管理表_作業情報の読込
-				List<進捗管理表_作業情報> progressList = SalesDatabaseAccess.Select_進捗管理表_作業情報("", "[顧客No]", connectStr);
+				List<進捗管理表_作業情報> progressList = SalesDatabaseAccess.Select_進捗管理表_作業情報("", "[顧客No]", Program.gSettings.ConnectSales.ConnectionString);
 				List<vオンライン資格確認ユーザー> hearingSheet = webHS.FindAll(p => p.現調送信履歴 != "");
 
 				IXLWorksheet ws = wb.Worksheet(NoticeResearch.SheetNameResearch4West);
@@ -741,7 +856,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 									if (null == hearingSheet.Find(p => p.顧客No == db.顧客No))
 									{
 										// MIC連絡担当者の通知情報を取得
-										NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID, connectStr);
+										NoticeInfo notice = NoticeInfo.GetNoticeInfo(webHS, west.病院ID);
 										if (null != notice)
 										{
 											west.Notice = notice;

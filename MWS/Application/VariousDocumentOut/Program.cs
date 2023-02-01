@@ -34,6 +34,9 @@
 // Ver1.14(2022/06/16):8-Microsoft365利用申込書 拠点FAX番号対応
 // Ver1.14(2022/06/30):8-Microsoft365利用申込書 新様式対応
 // Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
+// Ver1.15(2023/01/17):2022/10 社保組織変更 支部→審査委員会事務局
+// Ver1.16(2023/01/20):4-光ディスク請求届出「光ディスク請求届出-社保用」、「光ディスク請求確認試験依頼書-社保用」
+//                     5-オンライン請求届出「電子証明書発行等依頼書」、「オンライン請求届出-社保用」
 //
 using System;
 using System.Windows.Forms;
@@ -51,12 +54,17 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// バージョン番号
 		/// </summary>
-		public const string VersionStr = "Ver1.15 (2023/01/17)";
+		public const string VersionStr = "Ver1.16 (2023/01/20)";
 
 		/// <summary>
 		/// 環境設定
 		/// </summary>
 		public static VariousDocumentOutSettings gSettings { get; set; }
+
+		/// <summary>
+		/// Power Automateモード
+		/// </summary>
+		public static bool gPowerAutomateMode { get; set; }
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -68,6 +76,13 @@ namespace VariousDocumentOut
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			gSettings = VariousDocumentOutSettingsIF.GetSettings();
+
+			gPowerAutomateMode = false;
+			string[] cmds = Environment.GetCommandLineArgs();
+			if (2 <= cmds.Length)
+			{
+				gPowerAutomateMode = true;
+			}
 
 			Application.Run(new Forms.MainForm());
 		}

@@ -34,6 +34,12 @@ namespace NoticeOnlineLicenseConfirm.Settings
 		public SqlServerConnect ConnectSales { get; set; }
 
 		/// <summary>
+		/// NTT東日本 通知プログラムフォルダ
+		/// \\wwsv\ons-pics\管理用_営業管理部\NTT東日本_提出用\07_現場調査依頼\調査結果\通知プログラム用
+		/// </summary>
+		public string NotifyFolderEast { get; set; }
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public NoticeOnlineLicenseConfirmSettings()
@@ -41,6 +47,7 @@ namespace NoticeOnlineLicenseConfirm.Settings
 			Mail = new MailSettings();
 			ConnectJunp = new SqlServerConnect();
 			ConnectSales = new SqlServerConnect();
+			NotifyFolderEast = string.Empty;
 		}
 
 		/// <summary>
@@ -64,7 +71,8 @@ namespace NoticeOnlineLicenseConfirm.Settings
 			{
 				if (Mail.Equals(other.Mail)
 					&& ConnectJunp.Equals(other.ConnectJunp)
-					&& ConnectSales.Equals(other.ConnectSales))
+					&& ConnectSales.Equals(other.ConnectSales)
+					&& NotifyFolderEast == other.NotifyFolderEast)
 				{
 					return true;
 				}

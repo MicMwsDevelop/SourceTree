@@ -7,6 +7,9 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2019/06/28):新規作成 勝呂
+// Ver1.01(2023/01/20):2022/10 社保組織変更 支部→審査委員会事務局
+//                     4-光ディスク請求届出「光ディスク請求届出-社保用」、「光ディスク請求確認試験依頼書-社保用」
+//                     5-オンライン請求届出「電子証明書発行等依頼書」、「オンライン請求届出-社保用」
 //
 using CommonLib.Common;
 using CommonLib.DB;
@@ -267,6 +270,10 @@ namespace CommonLib.BaseFactory.Junp.View
 
 		/// <summary>
 		/// 支部名の取得
+		/// Ver1.01(2023/01/20):2022/10 社保組織変更 支部→審査委員会事務局
+		///   4-光ディスク請求届出「光ディスク請求届出-社保用」、「光ディスク請求確認試験依頼書-社保用」
+		///   5-オンライン請求届出「電子証明書発行等依頼書」、「オンライン請求届出-社保用」
+		/// https://www.ssk.or.jp/shibu/index.html
 		/// </summary>
 		public string 支部名
         {
@@ -277,9 +284,10 @@ namespace CommonLib.BaseFactory.Junp.View
                 {
                     ken = ken.Replace("県", "").Replace("都", "").Replace("府", "");
                 }
-                return string.Format("{0}支部", ken);
-            }
-        }
+                //return string.Format("{0}支部", ken);
+				return string.Format("{0}審査委員会事務局", ken);
+			}
+		}
 
         /// <summary>
         /// 医療機関コード(数字のみ)

@@ -39,6 +39,8 @@
 // Ver1.13 NTT西日本 進捗管理表の現調プランの情報が正しく読み込めていなかった為、NTT西日本の現調通知が機能していなかった(2022/09/29 勝呂)
 // Ver1.14 現調及び工事の通知チェック後に設定する連絡用チェックボックスの制御が一部正しくなかった(2022/12/07 勝呂)
 // Ver1.14 [進捗管理表_作業情報]に現調情報が登録されている場合、工事通知１(東西)を検出してもエクセル出力されなかった(2022/12/07 勝呂)
+// Ver1.15 NTT東日本 現調通知３ 抽出条件の変更(2023/01/27 勝呂)
+// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
 /////////////////////////////////////////////////////////////////////////////////
 // NTT東日本 申告管理表 変更履歴
 // 2022/06/13版：事前調査→現地調査、委託業務完成通知書申請関連欄の追加 Ver1.07で対応
@@ -49,6 +51,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 //
 using ClosedXML.Excel;
+using NoticeOnlineLicenseConfirm.Settings;
 using System;
 using System.Windows.Forms;
 
@@ -64,7 +67,12 @@ namespace NoticeOnlineLicenseConfirm
 		/// <summary>
 		/// プログラムバージョン
 		/// </summary>
-		public const string ProgramVersion = "Ver1.14 2022/12/08";
+		public const string ProgramVersion = "Ver1.15 2023/01/31";
+
+		/// <summary>
+		/// 環境設定
+		/// </summary>
+		public static NoticeOnlineLicenseConfirmSettings gSettings { get; set; }
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -74,6 +82,10 @@ namespace NoticeOnlineLicenseConfirm
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			// 環境設定の読込
+			gSettings = NoticeOnlineLicenseConfirmSettingsIF.GetSettings();
+
 			Application.Run(new Forms.MainForm());
 		}
 

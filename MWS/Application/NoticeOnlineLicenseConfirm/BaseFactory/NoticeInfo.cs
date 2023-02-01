@@ -113,9 +113,8 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 		/// </summary>
 		/// <param name="webHS">Webヒアリングシート</param>
 		/// <param name="病院ID">病院ID</param>
-		/// <param name="connectStr">SQL接続文字列</param>
 		/// <returns>通知情報</returns>
-		public static NoticeInfo GetNoticeInfo(List<vオンライン資格確認ユーザー> webHS, int 病院ID, string connectStr)
+		public static NoticeInfo GetNoticeInfo(List<vオンライン資格確認ユーザー> webHS, int 病院ID)
 		{
 			vオンライン資格確認ユーザー hs = webHS.Find(p => p.顧客No == 病院ID);
 			if (null != hs)
@@ -123,7 +122,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 				NoticeInfo notice = new NoticeInfo();
 				if (0 < hs.MIC連絡担当者社員番号.Length)
 				{
-					List<tUser> userList = JunpDatabaseAccess.Select_tUser(string.Format("fUsrID = '{0}'", hs.MIC連絡担当者社員番号), "", connectStr);
+					List<tUser> userList = JunpDatabaseAccess.Select_tUser(string.Format("fUsrID = '{0}'", hs.MIC連絡担当者社員番号), "", Program.gSettings.ConnectJunp.ConnectionString);
 					if (null != userList && 0 < userList.Count)
 					{
 						notice.メール送信指示 = "●";
@@ -136,7 +135,7 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 				if (0 < hs.MIC連絡担当者.Length)
 				{
 					string name = hs.MIC連絡担当者.Replace(" ", "").Replace("　", "");
-					List<tUser> userList = JunpDatabaseAccess.Select_tUser(string.Format("[fUsrBusho1] = '40' AND REPLACE([fUsrName], ' ', '') LIKE '{0}%'", name), "", connectStr);
+					List<tUser> userList = JunpDatabaseAccess.Select_tUser(string.Format("[fUsrBusho1] = '40' AND REPLACE([fUsrName], ' ', '') LIKE '{0}%'", name), "", Program.gSettings.ConnectJunp.ConnectionString);
 					if (null != userList && 0 < userList.Count)
 					{
 						notice.メール送信指示 = "●";

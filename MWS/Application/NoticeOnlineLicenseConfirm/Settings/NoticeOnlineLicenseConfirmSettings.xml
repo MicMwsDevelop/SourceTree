@@ -25,4 +25,6 @@
 		<UserID>web</UserID>
 		<Password>02035612</Password>
 	</ConnectSales>
+	<NotifyFolderEast>\\wwsv\ons-pics\管理用_営業管理部\NTT東日本_提出用\07_現場調査依頼\調査結果\通知プログラム用</NotifyFolderEast>
+	<!-- NotifyFolderEast>C:\ons-pics\管理用_営業管理部\NTT東日本_提出用\07_現場調査依頼\調査結果\通知プログラム用</NotifyFolderEast -->
 </NoticeOnlineLicenseConfirmSettings>
