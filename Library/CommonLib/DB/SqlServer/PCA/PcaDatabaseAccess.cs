@@ -1,7 +1,7 @@
 ﻿//
 // PcaDatabaseAccess.cs
 //
-// P10V01C001KON0001 データアクセスクラス
+// P20V01C001KON0001 データアクセスクラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -15,7 +15,7 @@ namespace MwsLib.DB.SqlServer.PCA
 	public static class PcaDatabaseAccess
 	{
 		/// <summary>
-		/// [P10V01C001KON0001] レコードの更新
+		/// [P20V01C001KON0001] レコードの更新
 		/// </summary>
 		/// <param name="sqlStr">SQL文</param>
 		/// <param name="param">パラメータ</param>

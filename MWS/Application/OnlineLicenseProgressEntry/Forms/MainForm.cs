@@ -215,6 +215,10 @@ namespace OnlineLicenseProgressEntry.Forms
 						this.Close();
 					}
 				}
+				else
+				{
+					MessageBox.Show("データがありません。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
 			}
 			catch (Exception ex)
 			{

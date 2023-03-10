@@ -67,7 +67,7 @@ namespace NoticeOnlineLicenseConfirm
 		/// <summary>
 		/// プログラムバージョン
 		/// </summary>
-		public const string ProgramVersion = "Ver1.15 2023/01/31";
+		public const string ProgramVersion = "Ver1.15 2023/01/27";
 
 		/// <summary>
 		/// 環境設定

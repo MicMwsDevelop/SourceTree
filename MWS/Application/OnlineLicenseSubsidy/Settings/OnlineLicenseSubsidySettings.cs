@@ -48,11 +48,6 @@ namespace OnlineLicenseSubsidy.Settings
 		public string 補助金申請書類PDFフォルダ { get; set; }
 
 		/// <summary>
-		/// Trial
-		/// </summary>
-		public bool Trial { get; set; }
-
-		/// <summary>
 		/// SQL Server接続情報
 		/// </summary>
 		public SqlServerConnect Junp { get; set; }
@@ -67,7 +62,6 @@ namespace OnlineLicenseSubsidy.Settings
 			補助金申請書類フォルダ = string.Empty;
 			補助金申請書類エクセルフォルダ = string.Empty;
 			補助金申請書類PDFフォルダ = string.Empty;
-			Trial = false;
 			Junp = new SqlServerConnect();
 		}
 
@@ -96,7 +90,6 @@ namespace OnlineLicenseSubsidy.Settings
 					&& 補助金申請書類フォルダ == other.補助金申請書類フォルダ
 					&& 補助金申請書類エクセルフォルダ == other.補助金申請書類エクセルフォルダ
 					&& 補助金申請書類PDFフォルダ == other.補助金申請書類PDFフォルダ
-					&& Trial == other.Trial
 					&& Junp.Equals(other.Junp))
 				{
 					return true;

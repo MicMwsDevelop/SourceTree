@@ -5,7 +5,8 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2022/03/17 勝呂)
+// Ver1.00(2022/03/17 勝呂):新規作成
+// Ver1.02(2023/02/17 勝呂):メモの文言の変更「口座振替分の領収証・領収書内訳書・オンライン資格確認事業完了報告書発行」 →「口座振替分の領収証・領収書内訳書・オンライン資格確認事業完了報告書・注文確認書発行」
 // 
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Junp.Table;
@@ -76,12 +77,17 @@ namespace EntryMemo.BaseFactory
 		/// <summary>
 		/// メモ文字列の取得
 		/// 【オン資格補助金申請書類】
-		/// 2022/01/27 \429,000 口座振替分の領収証・領収書内訳書・オンライン資格確認事業完了報告書発行→2/25 発送
+		/// 2022/01/27 \429,000 口座振替分の領収証・領収書内訳書・オンライン資格確認事業完了報告書・注文確認書発行→2/25 発送
 		/// </summary>
 		/// <returns>メモ文字列</returns>
 		private string GetMemoString()
 		{
-			return string.Format("【オン資格補助金申請書類】\r\n{0} \\{1} 口座振替分の領収証・領収書内訳書・オンライン資格確認事業完了報告書発行→{2} 発送"
+			// Ver1.02(2023/02/17 勝呂):メモの文言の変更「口座振替分の領収証・領収書内訳書・オンライン資格確認事業完了報告書発行」 →「口座振替分の領収証・領収書内訳書・オンライン資格確認事業完了報告書・注文確認書発行」
+			//return string.Format("【オン資格補助金申請書類】\r\n{0} \\{1} 口座振替分の領収証・領収書内訳書・オンライン資格確認事業完了報告書発行→{2} 発送"
+			//						, 入金日.Value.GetNormalString()
+			//						, StringUtil.CommaEdit(Convert.ToInt32(入金額))
+			//						, string.Format("{0}/{1}", 発送.Value.Month, 発送.Value.Day));
+			return string.Format("【オン資格補助金申請書類】\r\n{0} \\{1} 口座振替分の領収証・領収書内訳書・オンライン資格確認事業完了報告書・注文確認書発行→{2} 発送"
 									, 入金日.Value.GetNormalString()
 									, StringUtil.CommaEdit(Convert.ToInt32(入金額))
 									, string.Format("{0}/{1}", 発送.Value.Month, 発送.Value.Day));

@@ -56,6 +56,7 @@
     <Compile Include="BaseFactory\AlertCloudBackupPcSupportPlus\CloudBackupPcSupportPlus.cs" />
     <Compile Include="BaseFactory\AlmexMainte\AlemxPurchase.cs" />
     <Compile Include="BaseFactory\AlmexMainte\AlmexMainteEarningsOut.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\M_SERVICE.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_CUSSTOMER_USE_INFOMATION.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_DEMO_USER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_LICENSE_PRODUCT_CONTRACT.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_DETAIL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_HEADER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\M_CODE.cs" />
     <Compile Include="BaseFactory\Charlie\Table\売上実績.cs" />
     <Compile Include="BaseFactory\Charlie\View\view_MWS顧客情報.cs" />
     <Compile Include="BaseFactory\Charlie\View\V_COUPLER_APPLY.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="BaseFactory\MakePurchaseFile\ナルコーム仕入商品情報.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\ナルコーム仕入集計.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\仕入商品情報.cs" />
+    <Compile Include="BaseFactory\MakePurchaseFile\売上明細.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\仕入集計.cs" />
     <Compile Include="BaseFactory\MwsSimulation\Estimate.cs" />
     <Compile Include="BaseFactory\MwsSimulation\GroupPlan.cs" />
@@ -127,6 +130,8 @@
     <Compile Include="BaseFactory\Pca\PCA受注明細汎用データ.cs" />
     <Compile Include="BaseFactory\Pca\汎用データレイアウト売上明細データ.cs" />
     <Compile Include="BaseFactory\Pca\汎用データレイアウト仕入明細データ.cs" />
+    <Compile Include="BaseFactory\PrescriptionManager\UsePrescription.cs" />
+    <Compile Include="BaseFactory\PrescriptionManager\PrescriptionEarnings.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上予測ES保守.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上進捗ES.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上進捗まとめ.cs" />
@@ -251,6 +256,8 @@
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationGetIO.cs" />
     <Compile Include="DB\SqlServer\PCA\PcaDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\PCA\PcaDatabaseDefine.cs" />
+    <Compile Include="DB\SqlServer\PrescriptionManager\PrescriptionManagerAccess.cs" />
+    <Compile Include="DB\SqlServer\PrescriptionManager\PrescriptionManagerGetIO.cs" />
     <Compile Include="DB\SqlServer\ProspectProgressAutoAggregate\ProspectProgressAutoAggregateAccess.cs" />
     <Compile Include="DB\SqlServer\ProspectProgressAutoAggregate\ProspectProgressAutoAggregateGetIO.cs" />
     <Compile Include="DB\SqlServer\PurchaseTransfer\PurchaseTransferAccess.cs" />

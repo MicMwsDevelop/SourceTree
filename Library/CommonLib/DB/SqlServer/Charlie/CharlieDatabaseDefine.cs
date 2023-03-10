@@ -5,7 +5,8 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2019/06/28 勝呂)
+// Ver1.00 新規作成(2019/06/28 勝呂)
+// Ver1.01 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/10 勝呂)
 // 
 using CommonLib.Common;
 
@@ -80,6 +81,11 @@ namespace CommonLib.DB.SqlServer.Charlie
 			/// 売上実績
 			/// </summary>
 			売上実績 = 11,
+
+			/// <summary>
+			/// 電子処方箋契約ヘッダ情報
+			/// </summary>
+			T_USE_PRESCRIPTION_HEADER = 12,
 		}
 
 		/// <summary>
@@ -98,6 +104,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ TableType.T_USE_CONTRACT_HEADER, string.Format("{0}.T_USE_CONTRACT_HEADER", DatabaseName) },
 			{ TableType.T_USE_CONTRACT_DETAIL, string.Format("{0}.T_USE_CONTRACT_DETAIL", DatabaseName) },
 			{ TableType.売上実績, string.Format("{0}.売上実績", DatabaseName) },
+			{ TableType.T_USE_PRESCRIPTION_HEADER, string.Format("{0}.T_USE_PRESCRIPTION_HEADER", DatabaseName) },
 		};
 
 		/// <summary>
@@ -110,6 +117,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 			V_PCA_GOODS = 3,
 			支店情報参照ビュー = 4,
 			view_MWS顧客情報 = 5,
+			顧客マスタ参照ビュー = 6,
 		}
 
 		/// <summary>
@@ -122,6 +130,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ ViewType.V_PCA_GOODS, string.Format("{0}.V_PCA_GOODS", DatabaseName) },
 			{ ViewType.支店情報参照ビュー, string.Format("{0}.支店情報参照ビュー", DatabaseName) },
 			{ ViewType.view_MWS顧客情報, string.Format("{0}.view_MWS顧客情報", DatabaseName) },
+			{ ViewType.顧客マスタ参照ビュー, string.Format("{0}.顧客マスタ参照ビュー", DatabaseName) },
 		};
 
 

@@ -7,14 +7,18 @@
 // 
 // Ver1.00 新規作成(2022/01/07 勝呂)
 // Ver1.01 新規作成(2022/04/04 勝呂):ナルコーム仕入データ作成時に数量０を除外する
+// Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/10 勝呂)
 //
 using CommonLib.BaseFactory.Junp.View;
 using CommonLib.BaseFactory.MakePurchaseFile;
 using CommonLib.Common;
 using CommonLib.DB.SqlServer.Junp;
+using CommonLib.DB.SqlServer.Charlie;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
+using CommonLib.BaseFactory;
 
 namespace CommonLib.DB.SqlServer.MakePurchaseFile
 {
@@ -183,6 +187,75 @@ namespace CommonLib.DB.SqlServer.MakePurchaseFile
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]);
 			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
 			return 仕入集計.DataTableToList(dt);
+		}
+
+		/// <summary>
+		/// 8 Microsoft365売上明細
+		/// </summary>
+		/// <param name="ym">集計月</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>結果</returns>
+		/// Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/02 勝呂)
+		public static List<売上明細> Select_Microsoft365売上明細(YearMonth ym, string connectStr)
+		{
+			string sqlStr = string.Format("SELECT"
+												+ " [sykd_denno] as 伝票No"
+												+ ", Microsoft365商品.[仕入先] as 仕入先"
+												+ ",[sykd_tcd] as 得意先番号"
+												+ ",M.[顧客名１] + M.[顧客名２] as 得意先名"
+												+ ",[sykd_uribi] as 売上日"
+												+ ",[sykd_jbmn]"
+												+ ",[sykd_jtan]"
+												+ ",[sykd_tekmei] as 摘要"
+												+ ",[sykd_scd] as 商品コード"
+												+ ",[sykd_mkbn]"
+												+ ",[sykd_mei] as 商品名"
+												+ ",[sykd_suryo] as 数量"
+												+ ",[sykd_tani] as 単位"
+												+ ",[sykd_tanka] as 単価"
+												+ ",[sykd_kingaku] as 金額"
+												+ ",[sykd_rate] as 消費税率"
+												+ " FROM {0} as D"
+												+ " LEFT JOIN {1} as M on D.[sykd_tcd] = M.[得意先No]"
+												+ " INNER JOIN (SELECT * FROM [charlieDB].[dbo].[TMP_Microsoft365商品]) AS Microsoft365商品 ON D.sykd_scd = Microsoft365商品.商品コード"
+												+ " WHERE sykd_uribi / 100 = {2}"
+												+ " ORDER BY sykd_jbmn, 伝票No"
+												, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
+												, CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.顧客マスタ参照ビュー]
+												, ym.ToIntYM());
+			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+			return 売上明細.DataTableToList(dt);
+		}
+
+		/// <summary>
+		/// 8 Microsoft365売上明細記事データ
+		/// </summary>
+		/// <param name="denNo">伝票No</param>
+		/// <param name="ymd">売上日</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>結果</returns>
+		/// Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/02 勝呂)
+		public static 売上明細記事データ Select_Microsoft365売上明細記事データ(int denNo, int ymd, string connectStr)
+		{
+			string sqlStr = string.Format("SELECT TOP 1"
+												+ " [sykd_denno] as 伝票No"
+												+ ",[sykd_tcd] as 請求先"
+												+ ",[sykd_uribi] as 売上日"
+												+ ",[sykd_scd] as 商品コード"
+												+ ",[sykd_mei] as 商品名"
+												+ ", SUBSTRING([sykd_mei], 8, 6) as 得意先番号"
+												+ ", M.[顧客名１] +M.[顧客名２] as 得意先名"
+												+ " FROM {0} as D"
+												+ " LEFT JOIN {1} as M on M.[得意先No] = substring(D.[sykd_mei], 8, 6)"
+												+ " WHERE [sykd_denno] = {2} AND [sykd_uribi] = {3} and [sykd_scd] = '{4}' AND [sykd_mei] LIKE '得意先No.%'"
+												+ " ORDER BY [sykd_denno]"
+												, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
+												, CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.顧客マスタ参照ビュー]
+												, denNo
+												, ymd
+												, PcaGoodsIDDefine.ArticleCode);
+			DataTable dt = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+			return 売上明細記事データ.DataTableToData(dt);
 		}
 
 		/// <summary>

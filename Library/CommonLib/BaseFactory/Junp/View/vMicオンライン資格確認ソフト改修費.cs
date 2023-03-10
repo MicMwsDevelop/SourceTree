@@ -36,6 +36,7 @@ namespace CommonLib.BaseFactory.Junp.View
 
 		/// <summary>
 		/// 受注金額（税込）の取得
+		/// 消費税率10%固定
 		/// </summary>
 		public double 受注金額税込
 		{

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PrescriptionManagerSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ExportFolder>C:\_電子処方箋</ExportFolder>
+	<!--ExportFolder>\\SQLSV\PCADATA</ExportFolder-->
+	<ExportFilename>電子処方箋売上</ExportFilename>
+	<PcaVersion>7</PcaVersion>
+	<SlipInitialNumber>610001</SlipInitialNumber>
+	<IntroductionPackOutside>800705</IntroductionPackOutside>
+	<OutsideHospitalService>800701</OutsideHospitalService>
+	<IntroductionPackInseide>800706</IntroductionPackInseide>
+	<InsideHospitalService>800702</InsideHospitalService>
+	<Mail>
+		<From>eigyo_kanri@mic.jp</From>
+		<To>keiri@mic.jp</To>
+		<CC>eigyo_kanri@mic.jp</CC>
+		<TestTo>suguro@mic.jp</TestTo>
+		<TestCC>suguro@mic.jp</TestCC>
+		<Smtp>dove.mic.jp</Smtp>
+		<Port>25</Port>
+		<User></User>
+		<Pass></Pass>
+	</Mail>
+	<ConnectCharlie>
+		<!-- InstanceName>SQLSV</InstanceName -->
+		<InstanceName>TESTSV</InstanceName>
+		<DatabaseName>CharlieDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</ConnectCharlie>
+</PrescriptionManagerSettings>

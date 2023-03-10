@@ -53,6 +53,13 @@ namespace MakePurchaseFile.Forms
 			this.label11 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.textBoxPcaVersion = new System.Windows.Forms.TextBox();
+			this.buttonOutputListon = new System.Windows.Forms.Button();
+			this.buttonOutputMicrosoft365 = new System.Windows.Forms.Button();
+			this.buttonOutputMonshinden = new System.Windows.Forms.Button();
+			this.buttonOutputCurline = new System.Windows.Forms.Button();
+			this.buttonOutputNarcohm = new System.Windows.Forms.Button();
+			this.buttonPutputCloudBackup = new System.Windows.Forms.Button();
+			this.buttonOutputAlmex = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -80,7 +87,7 @@ namespace MakePurchaseFile.Forms
 			this.buttonStart.Location = new System.Drawing.Point(500, 68);
 			this.buttonStart.Name = "buttonStart";
 			this.buttonStart.Size = new System.Drawing.Size(232, 107);
-			this.buttonStart.TabIndex = 20;
+			this.buttonStart.TabIndex = 27;
 			this.buttonStart.Text = "START";
 			this.buttonStart.UseVisualStyleBackColor = true;
 			this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
@@ -90,7 +97,7 @@ namespace MakePurchaseFile.Forms
 			this.buttonExit.Location = new System.Drawing.Point(610, 434);
 			this.buttonExit.Name = "buttonExit";
 			this.buttonExit.Size = new System.Drawing.Size(122, 49);
-			this.buttonExit.TabIndex = 23;
+			this.buttonExit.TabIndex = 30;
 			this.buttonExit.Text = "終了";
 			this.buttonExit.UseVisualStyleBackColor = true;
 			this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
@@ -147,7 +154,7 @@ namespace MakePurchaseFile.Forms
 			this.textBoxMicrosoft365Filename.Name = "textBoxMicrosoft365Filename";
 			this.textBoxMicrosoft365Filename.ReadOnly = true;
 			this.textBoxMicrosoft365Filename.Size = new System.Drawing.Size(447, 27);
-			this.textBoxMicrosoft365Filename.TabIndex = 8;
+			this.textBoxMicrosoft365Filename.TabIndex = 9;
 			// 
 			// label5
 			// 
@@ -155,7 +162,7 @@ namespace MakePurchaseFile.Forms
 			this.label5.Location = new System.Drawing.Point(21, 152);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(223, 19);
-			this.label5.TabIndex = 7;
+			this.label5.TabIndex = 8;
 			this.label5.Text = "Microsoft365仕入データファイル名";
 			// 
 			// textBoxMonshindenFilename
@@ -165,7 +172,7 @@ namespace MakePurchaseFile.Forms
 			this.textBoxMonshindenFilename.Name = "textBoxMonshindenFilename";
 			this.textBoxMonshindenFilename.ReadOnly = true;
 			this.textBoxMonshindenFilename.Size = new System.Drawing.Size(447, 27);
-			this.textBoxMonshindenFilename.TabIndex = 10;
+			this.textBoxMonshindenFilename.TabIndex = 12;
 			// 
 			// label6
 			// 
@@ -173,7 +180,7 @@ namespace MakePurchaseFile.Forms
 			this.label6.Location = new System.Drawing.Point(21, 204);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(205, 19);
-			this.label6.TabIndex = 9;
+			this.label6.TabIndex = 11;
 			this.label6.Text = "問心伝月額仕入データファイル名";
 			// 
 			// textBoxCurlineFilename
@@ -183,7 +190,7 @@ namespace MakePurchaseFile.Forms
 			this.textBoxCurlineFilename.Name = "textBoxCurlineFilename";
 			this.textBoxCurlineFilename.ReadOnly = true;
 			this.textBoxCurlineFilename.Size = new System.Drawing.Size(447, 27);
-			this.textBoxCurlineFilename.TabIndex = 12;
+			this.textBoxCurlineFilename.TabIndex = 15;
 			// 
 			// label7
 			// 
@@ -191,7 +198,7 @@ namespace MakePurchaseFile.Forms
 			this.label7.Location = new System.Drawing.Point(21, 256);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(242, 19);
-			this.label7.TabIndex = 11;
+			this.label7.TabIndex = 14;
 			this.label7.Text = "Curline本体アプリ仕入データファイル名";
 			// 
 			// textBoxNarcohmFilename
@@ -201,7 +208,7 @@ namespace MakePurchaseFile.Forms
 			this.textBoxNarcohmFilename.Name = "textBoxNarcohmFilename";
 			this.textBoxNarcohmFilename.ReadOnly = true;
 			this.textBoxNarcohmFilename.Size = new System.Drawing.Size(447, 27);
-			this.textBoxNarcohmFilename.TabIndex = 14;
+			this.textBoxNarcohmFilename.TabIndex = 18;
 			// 
 			// label8
 			// 
@@ -209,7 +216,7 @@ namespace MakePurchaseFile.Forms
 			this.label8.Location = new System.Drawing.Point(21, 308);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(188, 19);
-			this.label8.TabIndex = 13;
+			this.label8.TabIndex = 17;
 			this.label8.Text = "ナルコーム仕入データファイル名";
 			// 
 			// label9
@@ -220,7 +227,7 @@ namespace MakePurchaseFile.Forms
 			this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(351, 19);
-			this.label9.TabIndex = 19;
+			this.label9.TabIndex = 26;
 			this.label9.Text = "※出力物に関する変更はXMLファイルを変更してください。";
 			// 
 			// textBoxCloudBackupFilename
@@ -230,7 +237,7 @@ namespace MakePurchaseFile.Forms
 			this.textBoxCloudBackupFilename.Name = "textBoxCloudBackupFilename";
 			this.textBoxCloudBackupFilename.ReadOnly = true;
 			this.textBoxCloudBackupFilename.Size = new System.Drawing.Size(447, 27);
-			this.textBoxCloudBackupFilename.TabIndex = 16;
+			this.textBoxCloudBackupFilename.TabIndex = 21;
 			// 
 			// label10
 			// 
@@ -238,7 +245,7 @@ namespace MakePurchaseFile.Forms
 			this.label10.Location = new System.Drawing.Point(21, 360);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(235, 19);
-			this.label10.TabIndex = 15;
+			this.label10.TabIndex = 20;
 			this.label10.Text = "クラウドバックアップ仕入データファイル名";
 			// 
 			// textBoxAlmexFilename
@@ -248,7 +255,7 @@ namespace MakePurchaseFile.Forms
 			this.textBoxAlmexFilename.Name = "textBoxAlmexFilename";
 			this.textBoxAlmexFilename.ReadOnly = true;
 			this.textBoxAlmexFilename.Size = new System.Drawing.Size(447, 27);
-			this.textBoxAlmexFilename.TabIndex = 18;
+			this.textBoxAlmexFilename.TabIndex = 24;
 			// 
 			// label11
 			// 
@@ -256,7 +263,7 @@ namespace MakePurchaseFile.Forms
 			this.label11.Location = new System.Drawing.Point(21, 412);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(223, 19);
-			this.label11.TabIndex = 17;
+			this.label11.TabIndex = 23;
 			this.label11.Text = "アルメックス保守仕入データファイル名";
 			// 
 			// label2
@@ -265,7 +272,7 @@ namespace MakePurchaseFile.Forms
 			this.label2.Location = new System.Drawing.Point(565, 182);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(124, 19);
-			this.label2.TabIndex = 21;
+			this.label2.TabIndex = 28;
 			this.label2.Text = "PCAバージョン番号";
 			// 
 			// textBoxPcaVersion
@@ -275,14 +282,105 @@ namespace MakePurchaseFile.Forms
 			this.textBoxPcaVersion.Name = "textBoxPcaVersion";
 			this.textBoxPcaVersion.ReadOnly = true;
 			this.textBoxPcaVersion.Size = new System.Drawing.Size(37, 27);
-			this.textBoxPcaVersion.TabIndex = 22;
+			this.textBoxPcaVersion.TabIndex = 29;
 			this.textBoxPcaVersion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// buttonOutputListon
+			// 
+			this.buttonOutputListon.Font = new System.Drawing.Font("Meiryo UI", 5.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonOutputListon.Location = new System.Drawing.Point(468, 122);
+			this.buttonOutputListon.Name = "buttonOutputListon";
+			this.buttonOutputListon.Size = new System.Drawing.Size(28, 27);
+			this.buttonOutputListon.TabIndex = 7;
+			this.buttonOutputListon.Text = "出力";
+			this.buttonOutputListon.UseVisualStyleBackColor = true;
+			this.buttonOutputListon.Visible = false;
+			this.buttonOutputListon.Click += new System.EventHandler(this.buttonOutputListon_Click);
+			// 
+			// buttonOutputMicrosoft365
+			// 
+			this.buttonOutputMicrosoft365.Font = new System.Drawing.Font("Meiryo UI", 5.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonOutputMicrosoft365.Location = new System.Drawing.Point(468, 174);
+			this.buttonOutputMicrosoft365.Name = "buttonOutputMicrosoft365";
+			this.buttonOutputMicrosoft365.Size = new System.Drawing.Size(28, 27);
+			this.buttonOutputMicrosoft365.TabIndex = 10;
+			this.buttonOutputMicrosoft365.Text = "出力";
+			this.buttonOutputMicrosoft365.UseVisualStyleBackColor = true;
+			this.buttonOutputMicrosoft365.Visible = false;
+			this.buttonOutputMicrosoft365.Click += new System.EventHandler(this.buttonOutputMicrosoft365_Click);
+			// 
+			// buttonOutputMonshinden
+			// 
+			this.buttonOutputMonshinden.Font = new System.Drawing.Font("Meiryo UI", 5.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonOutputMonshinden.Location = new System.Drawing.Point(468, 226);
+			this.buttonOutputMonshinden.Name = "buttonOutputMonshinden";
+			this.buttonOutputMonshinden.Size = new System.Drawing.Size(28, 27);
+			this.buttonOutputMonshinden.TabIndex = 13;
+			this.buttonOutputMonshinden.Text = "出力";
+			this.buttonOutputMonshinden.UseVisualStyleBackColor = true;
+			this.buttonOutputMonshinden.Visible = false;
+			this.buttonOutputMonshinden.Click += new System.EventHandler(this.buttonOutputMonshinden_Click);
+			// 
+			// buttonOutputCurline
+			// 
+			this.buttonOutputCurline.Font = new System.Drawing.Font("Meiryo UI", 5.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonOutputCurline.Location = new System.Drawing.Point(468, 278);
+			this.buttonOutputCurline.Name = "buttonOutputCurline";
+			this.buttonOutputCurline.Size = new System.Drawing.Size(28, 27);
+			this.buttonOutputCurline.TabIndex = 16;
+			this.buttonOutputCurline.Text = "出力";
+			this.buttonOutputCurline.UseVisualStyleBackColor = true;
+			this.buttonOutputCurline.Visible = false;
+			this.buttonOutputCurline.Click += new System.EventHandler(this.buttonOutputCurline_Click);
+			// 
+			// buttonOutputNarcohm
+			// 
+			this.buttonOutputNarcohm.Font = new System.Drawing.Font("Meiryo UI", 5.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonOutputNarcohm.Location = new System.Drawing.Point(468, 330);
+			this.buttonOutputNarcohm.Name = "buttonOutputNarcohm";
+			this.buttonOutputNarcohm.Size = new System.Drawing.Size(28, 27);
+			this.buttonOutputNarcohm.TabIndex = 19;
+			this.buttonOutputNarcohm.Text = "出力";
+			this.buttonOutputNarcohm.UseVisualStyleBackColor = true;
+			this.buttonOutputNarcohm.Visible = false;
+			this.buttonOutputNarcohm.Click += new System.EventHandler(this.buttonOutputNarcohm_Click);
+			// 
+			// buttonPutputCloudBackup
+			// 
+			this.buttonPutputCloudBackup.Font = new System.Drawing.Font("Meiryo UI", 5.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonPutputCloudBackup.Location = new System.Drawing.Point(468, 382);
+			this.buttonPutputCloudBackup.Name = "buttonPutputCloudBackup";
+			this.buttonPutputCloudBackup.Size = new System.Drawing.Size(28, 27);
+			this.buttonPutputCloudBackup.TabIndex = 22;
+			this.buttonPutputCloudBackup.Text = "出力";
+			this.buttonPutputCloudBackup.UseVisualStyleBackColor = true;
+			this.buttonPutputCloudBackup.Visible = false;
+			this.buttonPutputCloudBackup.Click += new System.EventHandler(this.buttonPutputCloudBackup_Click);
+			// 
+			// buttonOutputAlmex
+			// 
+			this.buttonOutputAlmex.Font = new System.Drawing.Font("Meiryo UI", 5.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonOutputAlmex.Location = new System.Drawing.Point(468, 434);
+			this.buttonOutputAlmex.Name = "buttonOutputAlmex";
+			this.buttonOutputAlmex.Size = new System.Drawing.Size(28, 27);
+			this.buttonOutputAlmex.TabIndex = 25;
+			this.buttonOutputAlmex.Text = "出力";
+			this.buttonOutputAlmex.UseVisualStyleBackColor = true;
+			this.buttonOutputAlmex.Visible = false;
+			this.buttonOutputAlmex.Click += new System.EventHandler(this.buttonOutputAlmex_Click);
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(751, 506);
+			this.Controls.Add(this.buttonOutputAlmex);
+			this.Controls.Add(this.buttonPutputCloudBackup);
+			this.Controls.Add(this.buttonOutputNarcohm);
+			this.Controls.Add(this.buttonOutputCurline);
+			this.Controls.Add(this.buttonOutputMonshinden);
+			this.Controls.Add(this.buttonOutputMicrosoft365);
+			this.Controls.Add(this.buttonOutputListon);
 			this.Controls.Add(this.textBoxPcaVersion);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.textBoxAlmexFilename);
@@ -348,6 +446,13 @@ namespace MakePurchaseFile.Forms
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox textBoxPcaVersion;
+		private System.Windows.Forms.Button buttonOutputListon;
+		private System.Windows.Forms.Button buttonOutputMicrosoft365;
+		private System.Windows.Forms.Button buttonOutputMonshinden;
+		private System.Windows.Forms.Button buttonOutputCurline;
+		private System.Windows.Forms.Button buttonOutputNarcohm;
+		private System.Windows.Forms.Button buttonPutputCloudBackup;
+		private System.Windows.Forms.Button buttonOutputAlmex;
 	}
 }
 

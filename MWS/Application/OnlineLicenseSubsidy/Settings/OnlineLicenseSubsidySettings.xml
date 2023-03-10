@@ -6,7 +6,6 @@
 	<補助金申請書類フォルダ>\\wwsv\ons-pics\作業用_経理部</補助金申請書類フォルダ>
 	<補助金申請書類エクセルフォルダ>助成金申請書類エクセル</補助金申請書類エクセルフォルダ>
 	<補助金申請書類PDFフォルダ>助成金申請書類PDF</補助金申請書類PDFフォルダ>
-	<Trial>true</Trial>
 	<Junp>
 		<InstanceName>SQLSV</InstanceName>
 		<!-- InstanceName>TESTSV</InstanceName -->

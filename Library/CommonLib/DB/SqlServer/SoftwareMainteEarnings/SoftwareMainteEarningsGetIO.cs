@@ -72,7 +72,8 @@ namespace CommonLib.DB.SqlServer.SoftwareMainteEarnings
 		/// <returns>レコード数</returns>
 		public static DataTable GetCustomerUseInfoSoftwareMainte12(Date today, string connectStr)
 		{
-			string strSQL = string.Format(@"SELECT SOFT.[CUSTOMER_ID]"
+			string strSQL = string.Format(@"SELECT"
+										+ " SOFT.[CUSTOMER_ID]"
 										+ ",SOFT.[SERVICE_ID]"
 										+ ",[USE_START_DATE]"
 										+ ",SOFT.[USE_END_DATE]"
@@ -83,7 +84,9 @@ namespace CommonLib.DB.SqlServer.SoftwareMainteEarnings
 										+ " FROM {0} AS SOFT"
 										+ " LEFT JOIN"
 										+ " ("
-										+ "SELECT [CUSTOMER_ID], [USE_END_DATE]"
+										+ " SELECT"
+										+ " [CUSTOMER_ID]"
+										+ ", [USE_END_DATE]"
 										+ " FROM {0}"
 										+ " WHERE [SERVICE_ID] = {1} AND convert(int, convert(nvarchar, [USE_END_DATE], 112)) > {2}"   // 当月末日
 										+ ") AS ES ON SOFT.CUSTOMER_ID = ES.CUSTOMER_ID"

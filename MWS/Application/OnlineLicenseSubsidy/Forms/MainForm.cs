@@ -7,10 +7,13 @@
 // 
 // Ver1.00(2022/09/20 勝呂):新規作成
 // Ver1.05(2022/12/28 勝呂):経理部要望対応 注文確認書追加対応
+// Ver1.07(2023/02/17 勝呂):経理部要望対応 受注日を伝票でなく、[SalesDB].[dbo].[オンライン資格確認進捗管理情報]の契約日から取得
 //
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Junp.View;
+using CommonLib.BaseFactory.Sales.Table;
 using CommonLib.DB.SqlServer.Junp;
+using CommonLib.DB.SqlServer.Sales;
 using OnlineLicenseSubsidy.BaseFactory;
 using System;
 using System.Collections.Generic;
@@ -222,6 +225,16 @@ namespace OnlineLicenseSubsidy.Forms
 								data.受注日 = softList[0].受注日;
 								data.金額 = softList[0].受注金額税込;
 							}
+							// Ver1.07(2023/02/17 勝呂):経理部要望対応 受注日を伝票でなく、[SalesDB].[dbo].[オンライン資格確認進捗管理情報]の契約日から取得
+							// 受注日を[SalesDB].[dbo].[オンライン資格確認進捗管理情報]の受注日から取得
+							List<オンライン資格確認進捗管理情報>  progressList = SalesDatabaseAccess.Select_オンライン資格確認進捗管理情報(whereStr, "", Program.gSettings.Junp.ConnectionString);
+							if (null != progressList && 0 < progressList.Count)
+							{
+								if (progressList[0].契約日.HasValue)
+								{
+									data.受注日 = progressList[0].契約日;
+								}
+							}
 							if (null != data.領収内訳情報List)
 							{
 								dataList.Add(data);
@@ -316,64 +329,33 @@ namespace OnlineLicenseSubsidy.Forms
 				if (null != dataList)
 				{
 					string orgPathname = Path.Combine(Directory.GetCurrentDirectory(), オン資補助金申請書類出力.OrgSubsidyFilename);
-					if (Program.gSettings.Trial)
-					{
-						// 第１弾
-						// \\wwsv\ons-pics\作業用_経理部\助成金申請書類エクセル
-						string outputPathExcel = Path.Combine(Program.gSettings.補助金申請書類フォルダ, Program.gSettings.補助金申請書類エクセルフォルダ);
-						if (false == Directory.Exists(outputPathExcel))
-						{
-							Directory.CreateDirectory(outputPathExcel);
-						}
-						// \\wwsv\ons-pics\作業用_経理部\助成金申請書類PDF
-						string outputPathPdf = Path.Combine(Program.gSettings.補助金申請書類フォルダ, Program.gSettings.補助金申請書類PDFフォルダ);
-						if (false == Directory.Exists(outputPathPdf))
-						{
-							Directory.CreateDirectory(outputPathPdf);
-						}
-						foreach (補助金申請出力情報 data in dataList)
-						{
-							string excelPathname = Path.Combine(outputPathExcel, data.GetExcelFilename);	// Excelファイル名
-							string pdfPathname = Path.Combine(outputPathPdf, data.GetPdfFilename);			// PDFファイル名
 
-							// Excelファイル出力
-							オン資補助金申請書類出力.WriteExcel補助金申請書類(orgPathname, excelPathname, data);
-							if (false == checkBoxNotPDF.Checked)
-							{
-								// PDFファイル出力
-								using (ExcelManager manage = new ExcelManager())
-								{
-									manage.Open(excelPathname);
-									manage.SaveAsPDF(pdfPathname);
-								}
-							}
-						}
+					// \\wwsv\ons-pics\作業用_経理部\助成金申請書類エクセル
+					string outputPathExcel = Path.Combine(Program.gSettings.補助金申請書類フォルダ, Program.gSettings.補助金申請書類エクセルフォルダ);
+					if (false == Directory.Exists(outputPathExcel))
+					{
+						Directory.CreateDirectory(outputPathExcel);
 					}
-					else
+					// \\wwsv\ons-pics\作業用_経理部\助成金申請書類PDF
+					string outputPathPdf = Path.Combine(Program.gSettings.補助金申請書類フォルダ, Program.gSettings.補助金申請書類PDFフォルダ);
+					if (false == Directory.Exists(outputPathPdf))
 					{
-						// 第２弾
-						foreach (補助金申請出力情報 data in dataList)
-						{
-							// \\wwsv\ons-pics\顧客No\助成金申請書類
-							string outputPath = Path.Combine(Program.gSettings.補助金申請書類フォルダ, data.顧客No.ToString());
-							outputPath = Path.Combine(outputPath, オン資補助金申請書類出力.SubsidyFolderName);
-							if (false == Directory.Exists(outputPath))
-							{
-								Directory.CreateDirectory(outputPath);
-							}
-							string excelPathname = Path.Combine(outputPath, data.GetExcelFilename);	// Excelファイル名
-							string pdfPathname = Path.Combine(outputPath, data.GetPdfFilename);		// PDFファイル名
+						Directory.CreateDirectory(outputPathPdf);
+					}
+					foreach (補助金申請出力情報 data in dataList)
+					{
+						string excelPathname = Path.Combine(outputPathExcel, data.GetExcelFilename);	// Excelファイル名
+						string pdfPathname = Path.Combine(outputPathPdf, data.GetPdfFilename);			// PDFファイル名
 
-							// Excelファイル出力
-							オン資補助金申請書類出力.WriteExcel補助金申請書類(orgPathname, excelPathname, data);
-							if (false == checkBoxNotPDF.Checked)
+						// Excelファイル出力
+						オン資補助金申請書類出力.WriteExcel補助金申請書類(orgPathname, excelPathname, data);
+						if (false == checkBoxNotPDF.Checked)
+						{
+							// PDFファイル出力
+							using (ExcelManager manage = new ExcelManager())
 							{
-								// PDFファイル出力
-								using (ExcelManager manage = new ExcelManager())
-								{
-									manage.Open(excelPathname);
-									manage.SaveAsPDF(pdfPathname);
-								}
+								manage.Open(excelPathname);
+								manage.SaveAsPDF(pdfPathname);
 							}
 						}
 					}

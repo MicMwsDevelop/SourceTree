@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2022/09/28 勝呂)
 // Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
+// Ver1.03 契約日の追加(2023/02/21 勝呂)
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Sales.Table;
@@ -97,6 +98,12 @@ namespace OnlineLicenseProgressEntry.BaseFactory
 		public string 価格帯 { get; set; }
 
 		/// <summary>
+		/// 契約日
+		/// </summary>
+		/// Ver1.03 契約日の追加(2023/02/21 勝呂)
+		public DateTime? 契約日 { get; set; }
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public ProgressExcelRecord()
@@ -114,6 +121,9 @@ namespace OnlineLicenseProgressEntry.BaseFactory
 			導入月 = null;
 			部署 = string.Empty;
 			価格帯 = string.Empty;
+
+			// Ver1.03 契約日の追加(2023/02/21 勝呂)
+			契約日 = null;
 		}
 
 		/// <summary>
@@ -170,6 +180,17 @@ namespace OnlineLicenseProgressEntry.BaseFactory
 			}
 			部署 = ws.Cell(row, 12).GetString().Trim();
 			価格帯 = ws.Cell(row, 13).GetString().Trim();
+
+			// Ver1.03 契約日の追加(2023/02/21 勝呂)
+			string juchuStr = Program.GetDateString(ws.Cell(row, 14));
+			if (0 < juchuStr.Length)
+			{
+				DateTime work;
+				if (DateTime.TryParse(juchuStr, out work))
+				{
+					契約日 = work;
+				}
+			}
 		}
 
 		/// <summary>
@@ -230,6 +251,9 @@ namespace OnlineLicenseProgressEntry.BaseFactory
 
 				// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
 				online.猶予理由 = progress.猶予理由;
+
+				// Ver1.03 契約日の追加(2023/02/21 勝呂)
+				online.契約日 = progress.契約日;
 
 				ret.Add(online);
 			}

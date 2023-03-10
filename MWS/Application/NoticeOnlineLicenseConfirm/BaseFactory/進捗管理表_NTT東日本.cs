@@ -656,7 +656,8 @@ namespace NoticeOnlineLicenseConfirm.BaseFactory
 			委託業務完成通知書_合計税込 = ws.Cell(row, 96 + startCol).GetString();
 
 			// Ver1.15 NTT東日本 現調通知３ 自動フローに対応(2023/01/27 勝呂)
-			自動フロー可否 = ws.Cell(row, 97 + startCol).GetString();
+			//自動フロー可否 = ws.Cell(row, 97 + startCol).GetString();
+			自動フロー可否 = ws.Cell(row, 101 + startCol).GetString();
 		}
 
 		/// <summary>

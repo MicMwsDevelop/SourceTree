@@ -8,6 +8,7 @@
 // Ver1.00 新規作成(2022/09/28 勝呂)
 // Ver1.01 マイナンバーカードの健康保険証利用対応の医療機関リスト（都道府県別）の運用開始日に対応(2022/12/12 勝呂)
 // Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/02/01 勝呂)
+// Ver1.03 契約日の追加(2023/02/21 勝呂)
 //
 using ClosedXML.Excel;
 using System;
@@ -25,7 +26,7 @@ namespace OnlineLicenseProgressEntry
 		/// <summary>
 		/// プログラムバージョン
 		/// </summary>
-		public const string ProgramVersion = "Ver1.02 2023/02/01";
+		public const string ProgramVersion = "Ver1.03 2023/02/21";
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。

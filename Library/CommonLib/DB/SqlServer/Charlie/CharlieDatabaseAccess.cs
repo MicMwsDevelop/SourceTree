@@ -46,6 +46,19 @@ namespace CommonLib.DB.SqlServer.Charlie
 		// SELECT
 
 		/// <summary>
+		/// [charlieDB].[dbo].[M_SERVICE]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>サービス情報リスト</returns>
+		public static List<M_SERVICE> Select_M_SERVICE(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_SERVICE], whereStr, orderStr, connectStr);
+			return M_SERVICE.DataTableToList(table);
+		}
+
+		/// <summary>
 		/// [charlieDB].[dbo].[T_PRODUCT_CONTROL]の取得
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
@@ -147,6 +160,19 @@ namespace CommonLib.DB.SqlServer.Charlie
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.売上実績], whereStr, orderStr, connectStr);
 			return 売上実績.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[M_CODE]の取得（MWSコードマスタ管理）
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns売上実績リスト</returns>
+		public static List<M_CODE> Select_M_CODE(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_CODE], whereStr, orderStr, connectStr);
+			return M_CODE.DataTableToList(table);
 		}
 
 
