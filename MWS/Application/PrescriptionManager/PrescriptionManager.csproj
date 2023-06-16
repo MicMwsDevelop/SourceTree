@@ -7,7 +7,7 @@
     <ProjectGuid>{19ED534A-F302-4338-9A11-DA1470559775}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>PrescriptionManager</RootNamespace>
-    <AssemblyName>PrescriptionManager</AssemblyName>
+    <AssemblyName>電子処方箋契約情報管理</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

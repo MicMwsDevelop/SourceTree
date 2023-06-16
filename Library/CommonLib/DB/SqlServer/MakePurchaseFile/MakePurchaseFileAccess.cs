@@ -8,6 +8,7 @@
 // Ver1.00 新規作成(2022/01/07 勝呂)
 // Ver1.01 新規作成(2022/04/04 勝呂):ナルコーム仕入データ作成時に数量０を除外する
 // Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/10 勝呂)
+// Ver1.04(2023/03/30 勝呂):Microsoft365仕入データの単価が仕入価格でなく、標準価格となっている障害
 //
 using CommonLib.BaseFactory.Junp.View;
 using CommonLib.BaseFactory.MakePurchaseFile;
@@ -198,6 +199,33 @@ namespace CommonLib.DB.SqlServer.MakePurchaseFile
 		/// Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/02 勝呂)
 		public static List<売上明細> Select_Microsoft365売上明細(YearMonth ym, string connectStr)
 		{
+			//string sqlStr = string.Format("SELECT"
+			//									+ " [sykd_denno] as 伝票No"
+			//									+ ", Microsoft365商品.[仕入先] as 仕入先"
+			//									+ ",[sykd_tcd] as 得意先番号"
+			//									+ ",M.[顧客名１] + M.[顧客名２] as 得意先名"
+			//									+ ",[sykd_uribi] as 売上日"
+			//									+ ",[sykd_jbmn]"
+			//									+ ",[sykd_jtan]"
+			//									+ ",[sykd_tekmei] as 摘要"
+			//									+ ",[sykd_scd] as 商品コード"
+			//									+ ",[sykd_mkbn]"
+			//									+ ",[sykd_mei] as 商品名"
+			//									+ ",[sykd_suryo] as 数量"
+			//									+ ",[sykd_tani] as 単位"
+			//									+ ",[sykd_tanka] as 単価"
+			//									+ ",[sykd_kingaku] as 金額"
+			//									+ ",[sykd_rate] as 消費税率"
+			//									+ " FROM {0} as D"
+			//									+ " LEFT JOIN {1} as M on D.[sykd_tcd] = M.[得意先No]"
+			//									+ " INNER JOIN (SELECT * FROM [charlieDB].[dbo].[TMP_Microsoft365商品]) AS Microsoft365商品 ON D.sykd_scd = Microsoft365商品.商品コード"
+			//									+ " WHERE sykd_uribi / 100 = {2}"
+			//									+ " ORDER BY sykd_jbmn, 伝票No"
+			//									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
+			//									, CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.顧客マスタ参照ビュー]
+			//									, ym.ToIntYM());
+
+			// Ver1.04(2023/03/30 勝呂):Microsoft365仕入データの単価が仕入価格でなく、標準価格となっている障害
 			string sqlStr = string.Format("SELECT"
 												+ " [sykd_denno] as 伝票No"
 												+ ", Microsoft365商品.[仕入先] as 仕入先"
@@ -212,8 +240,11 @@ namespace CommonLib.DB.SqlServer.MakePurchaseFile
 												+ ",[sykd_mei] as 商品名"
 												+ ",[sykd_suryo] as 数量"
 												+ ",[sykd_tani] as 単位"
-												+ ",[sykd_tanka] as 単価"
-												+ ",[sykd_kingaku] as 金額"
+
+												//+ ",[sykd_tanka] as 単価"
+												//+ ",[sykd_kingaku] as 金額"
+												+ ",Microsoft365商品.仕入価格"
+
 												+ ",[sykd_rate] as 消費税率"
 												+ " FROM {0} as D"
 												+ " LEFT JOIN {1} as M on D.[sykd_tcd] = M.[得意先No]"

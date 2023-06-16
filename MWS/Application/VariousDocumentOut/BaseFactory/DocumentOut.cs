@@ -18,8 +18,14 @@
 // Ver1.14(2022/06/16):8-Microsoft365利用申込書 拠点FAX番号対応
 // Ver1.14(2022/06/30):8-Microsoft365利用申込書 新様式対応
 // Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
+// Ver1.18(2023/04/06 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 送付先リストから受注日を取得
+// Ver1.18(2023/04/06 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 医療機関コードが7文字でない時にアプリケーションエラーが発生
+// Ver1.19(2023/04/13 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 「領収書内訳書」の顧客名の後ろに様を付加しない
+// Ver1.19(2023/04/13 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 「領収書内訳書」と「事業完了報告書」の医療機関コードが出力されない
+// Ver1.20(2023/06/09 勝呂):2-FAX送付状、3-種類送付状が販売店の時に出力できない
 //
 using ClosedXML.Excel;
+using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.BaseFactory.Junp.View;
 using CommonLib.BaseFactory.VariousDocumentOut;
@@ -32,7 +38,7 @@ using System.Runtime.InteropServices;
 using VariousDocumentOut.Settings;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace VariousDocumentOut
+namespace VariousDocumentOut.BaseFactory
 {
 	/// <summary>
 	/// 各種書類出力
@@ -231,19 +237,19 @@ namespace VariousDocumentOut
 						switch (shape.Name)
 						{
 							case "郵便番号":
-								textFrame.Characters.Text = "〒" + common.Customer.郵便番号;
+								textFrame.Characters.Text = "〒" + common.顧客情報.郵便番号;
 								break;
 							case "住所１":
-								textFrame.Characters.Text = common.Customer.住所1;
+								textFrame.Characters.Text = common.顧客情報.住所1;
 								break;
 							case "住所２":
-								textFrame.Characters.Text = common.Customer.住所2;
+								textFrame.Characters.Text = common.顧客情報.住所2;
 								break;
 							case "顧客名1":
-								textFrame.Characters.Text = common.Customer.顧客名1;
+								textFrame.Characters.Text = common.顧客情報.顧客名1;
 								break;
 							case "顧客名2":
-								textFrame.Characters.Text = common.Customer.顧客名2;
+								textFrame.Characters.Text = common.顧客情報.顧客名2;
 								break;
 							case "御中":
 								textFrame.Characters.Text = "御中";
@@ -252,13 +258,13 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = Date.Today.GetJapaneseString(true, '0', true, true);
 								break;
 							case "ユーザーID":
-								textFrame.Characters.Text = common.Customer.MWS_ID;
+								textFrame.Characters.Text = common.顧客情報.MWS_ID;
 								break;
 							case "初期パスワード":
-								textFrame.Characters.Text = common.Customer.MWS_パスワード;
+								textFrame.Characters.Text = common.顧客情報.MWS_パスワード;
 								break;
 							case "初期パスワード読み":
-								textFrame.Characters.Text = common.Customer.MWS_パスワード読み;
+								textFrame.Characters.Text = common.顧客情報.MWS_パスワード読み;
 								break;
 						}
 					}
@@ -329,10 +335,10 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = DocumentCommon.DateTodayString();
 								break;
 							case "送付先":
-								textFrame.Characters.Text = string.Format("{0}　御中", common.Customer.顧客名);
+								textFrame.Characters.Text = string.Format("{0}　御中", common.顧客情報.顧客名);
 								break;
 							case "FAX":
-								textFrame.Characters.Text = string.Format("FAX {0}", common.Customer.FAX番号);
+								textFrame.Characters.Text = string.Format("FAX {0}", common.顧客情報.FAX番号);
 								break;
 							case "送付元":
 								if (common.IsHeadOffice)
@@ -415,10 +421,10 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = DocumentCommon.DateTodayString();
 								break;
 							case "送付先":
-								textFrame.Characters.Text = string.Format("〒{0}\r\n{1}\r\n{2}\r\n{3}　御中", common.Customer.郵便番号, common.Customer.住所1, common.Customer.住所2, common.Customer.顧客名);
+								textFrame.Characters.Text = string.Format("〒{0}\r\n{1}\r\n{2}\r\n{3}　御中", common.顧客情報.郵便番号, common.顧客情報.住所1, common.顧客情報.住所2, common.顧客情報.顧客名);
 								break;
 							case "FAX":
-								textFrame.Characters.Text = string.Format("FAX {0}", common.Customer.FAX番号);
+								textFrame.Characters.Text = string.Format("FAX {0}", common.顧客情報.FAX番号);
 								break;
 							case "送付元":
 								if (common.IsHeadOffice)
@@ -497,8 +503,8 @@ namespace VariousDocumentOut
 				xlSheet1 = xlSheets["光ディスク請求届出"] as Excel.Worksheet;
 				xlShapes1 = xlSheet1.Shapes;
 
-				string clinicCode = common.Customer.NumericClinicCode;
-				string zipCode = common.Customer.NumericZipcode;
+				string clinicCode = common.顧客情報.NumericClinicCode;
+				string zipCode = common.顧客情報.NumericZipcode;
 
 				// 光ディスク請求届出-社保用
 				foreach (Excel.Shape shape in xlShapes1)
@@ -512,16 +518,16 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = "社会保険診療報酬支払基金";
 								break;
 							case "宛先２":
-								textFrame.Characters.Text = common.Customer.支部名;
+								textFrame.Characters.Text = common.顧客情報.支部名;
 								break;
 							case "院長名":
-								textFrame.Characters.Text = common.Customer.院長名;
+								textFrame.Characters.Text = common.顧客情報.院長名;
 								break;
 							case "住所１":
-								textFrame.Characters.Text = common.Customer.住所1;
+								textFrame.Characters.Text = common.顧客情報.住所1;
 								break;
 							case "住所２":
-								textFrame.Characters.Text = common.Customer.住所2;
+								textFrame.Characters.Text = common.顧客情報.住所2;
 								break;
 							case "医療機関コード１":
 								textFrame.Characters.Text = clinicCode.Substring(0, 1);
@@ -545,16 +551,16 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = clinicCode.Substring(6, 1);
 								break;
 							case "顧客名":
-								textFrame.Characters.Text = common.Customer.顧客名;
+								textFrame.Characters.Text = common.顧客情報.顧客名;
 								break;
 							case "住所":
-								textFrame.Characters.Text = common.Customer.住所;
+								textFrame.Characters.Text = common.顧客情報.住所;
 								break;
 							case "システム名称":
-								textFrame.Characters.Text = common.Customer.システム略称;
+								textFrame.Characters.Text = common.顧客情報.システム略称;
 								break;
 							case "電話番号":
-								textFrame.Characters.Text = common.Customer.電話番号;
+								textFrame.Characters.Text = common.顧客情報.電話番号;
 								break;
 							case "郵便番号１":
 								textFrame.Characters.Text = zipCode.Substring(0, 1);
@@ -597,7 +603,7 @@ namespace VariousDocumentOut
 						switch (shape.Name)
 						{
 							case "宛先１":
-								textFrame.Characters.Text = common.Customer.都道府県名 + "国民健康保険団体連合会";
+								textFrame.Characters.Text = common.顧客情報.都道府県名 + "国民健康保険団体連合会";
 								break;
 							case "宛先２":
 								textFrame.Characters.Text = string.Empty;
@@ -619,16 +625,16 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = "社会保険診療報酬支払基金";
 								break;
 							case "宛先２":
-								textFrame.Characters.Text = common.Customer.支部名;
+								textFrame.Characters.Text = common.顧客情報.支部名;
 								break;
 							case "院長名":
-								textFrame.Characters.Text = common.Customer.院長名;
+								textFrame.Characters.Text = common.顧客情報.院長名;
 								break;
 							case "住所１":
-								textFrame.Characters.Text = common.Customer.住所1;
+								textFrame.Characters.Text = common.顧客情報.住所1;
 								break;
 							case "住所２":
-								textFrame.Characters.Text = common.Customer.住所2;
+								textFrame.Characters.Text = common.顧客情報.住所2;
 								break;
 							case "医療機関コード１":
 								textFrame.Characters.Text = clinicCode.Substring(0, 1);
@@ -652,16 +658,16 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = clinicCode.Substring(6, 1);
 								break;
 							case "顧客名":
-								textFrame.Characters.Text = common.Customer.顧客名;
+								textFrame.Characters.Text = common.顧客情報.顧客名;
 								break;
 							case "住所":
-								textFrame.Characters.Text = common.Customer.住所;
+								textFrame.Characters.Text = common.顧客情報.住所;
 								break;
 							case "システム名称":
-								textFrame.Characters.Text = common.Customer.システム略称;
+								textFrame.Characters.Text = common.顧客情報.システム略称;
 								break;
 							case "電話番号":
-								textFrame.Characters.Text = common.Customer.電話番号;
+								textFrame.Characters.Text = common.顧客情報.電話番号;
 								break;
 							case "郵便番号１":
 								textFrame.Characters.Text = zipCode.Substring(0, 1);
@@ -707,7 +713,7 @@ namespace VariousDocumentOut
 						switch (shape.Name)
 						{
 							case "宛先１":
-								textFrame.Characters.Text = common.Customer.都道府県名 + "国民健康保険団体連合会";
+								textFrame.Characters.Text = common.顧客情報.都道府県名 + "国民健康保険団体連合会";
 								break;
 							case "宛先２":
 								textFrame.Characters.Text = string.Empty;
@@ -779,14 +785,14 @@ namespace VariousDocumentOut
 					IXLWorksheet ws1 = wb.Worksheet("電子証明書発行等依頼書");
 
 					// 基金支部名
-					ws1.Cell(6, 2).SetValue(common.Customer.支部名);
+					ws1.Cell(6, 2).SetValue(common.顧客情報.支部名);
 
 					// 都道府県
-					ws1.Cell(11, 38).SetValue(common.Customer.県番号.Substring(0, 1));
-					ws1.Cell(11, 42).SetValue(common.Customer.県番号.Substring(1, 1));
+					ws1.Cell(11, 38).SetValue(common.顧客情報.県番号.Substring(0, 1));
+					ws1.Cell(11, 42).SetValue(common.顧客情報.県番号.Substring(1, 1));
 
 					// 機関コード
-					string clinicCode2 = common.Customer.NumericClinicCode;
+					string clinicCode2 = common.顧客情報.NumericClinicCode;
 					if (7 == clinicCode2.Length)
 					{
 						ws1.Cell(11, 50).SetValue(clinicCode2.Substring(0, 1));
@@ -797,11 +803,11 @@ namespace VariousDocumentOut
 						ws1.Cell(11, 70).SetValue(clinicCode2.Substring(5, 1));
 						ws1.Cell(11, 74).SetValue(clinicCode2.Substring(6, 1));
 					}
-					ws1.Cell(13, 19).SetValue(common.Customer.フリガナ);
-					ws1.Cell(14, 19).SetValue(common.Customer.顧客名);
+					ws1.Cell(13, 19).SetValue(common.顧客情報.フリガナ);
+					ws1.Cell(14, 19).SetValue(common.顧客情報.顧客名);
 
 					// 郵便番号
-					string zipcode = common.Customer.NumericZipcode;
+					string zipcode = common.顧客情報.NumericZipcode;
 					if (7 == zipcode.Length)
 					{
 						ws1.Cell(16, 14).SetValue(zipcode.Substring(0, 1));
@@ -812,17 +818,17 @@ namespace VariousDocumentOut
 						ws1.Cell(16, 26).SetValue(zipcode.Substring(5, 1));
 						ws1.Cell(16, 28).SetValue(zipcode.Substring(6, 1));
 					}
-					ws1.Cell(17, 15).SetValue(common.Customer.住所);
-					ws1.Cell(18, 13).SetValue(common.Customer.電話番号);
-					ws1.Cell(18, 51).SetValue(common.Customer.メールアドレス);
+					ws1.Cell(17, 15).SetValue(common.顧客情報.住所);
+					ws1.Cell(18, 13).SetValue(common.顧客情報.電話番号);
+					ws1.Cell(18, 51).SetValue(common.顧客情報.メールアドレス);
 
 					// 電子証明書発行等依頼内訳
 					// Ver1.03(2021/09/28):5 オンライン請求届出 電子証明書発行等依頼内訳に対応
 					IXLWorksheet ws2 = wb.Worksheet("電子証明書発行等依頼内訳");
 
 					// 都道府県
-					ws2.Cell(9, 73).SetValue(common.Customer.県番号.Substring(0, 1));
-					ws2.Cell(9, 80).SetValue(common.Customer.県番号.Substring(1, 1));
+					ws2.Cell(9, 73).SetValue(common.顧客情報.県番号.Substring(0, 1));
+					ws2.Cell(9, 80).SetValue(common.顧客情報.県番号.Substring(1, 1));
 
 					// 機関コード
 					if (7 == clinicCode2.Length)
@@ -836,7 +842,7 @@ namespace VariousDocumentOut
 						ws2.Cell(9, 138).SetValue(clinicCode2.Substring(6, 1));
 					}
 					// 機関名称
-					ws2.Cell(12, 24).SetValue(common.Customer.顧客名);
+					ws2.Cell(12, 24).SetValue(common.顧客情報.顧客名);
 
 					// Excelファイルの保存
 					wb.Save();
@@ -888,8 +894,8 @@ namespace VariousDocumentOut
 				xlSheet1 = xlSheets["オンライン請求届出"] as Excel.Worksheet;
 				xlShapes1 = xlSheet1.Shapes;
 
-				string clinicCode = common.Customer.NumericClinicCode;
-				string zipCode = common.Customer.NumericZipcode;
+				string clinicCode = common.顧客情報.NumericClinicCode;
+				string zipCode = common.顧客情報.NumericZipcode;
 
 				// オンライン請求届出-社保用
 				foreach (Excel.Shape shape in xlShapes1)
@@ -903,16 +909,16 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = "社会保険診療報酬支払基金";
 								break;
 							case "宛先２":
-								textFrame.Characters.Text = common.Customer.支部名;
+								textFrame.Characters.Text = common.顧客情報.支部名;
 								break;
 							case "院長名":
-								textFrame.Characters.Text = common.Customer.院長名;
+								textFrame.Characters.Text = common.顧客情報.院長名;
 								break;
 							case "住所１":
-								textFrame.Characters.Text = common.Customer.住所1;
+								textFrame.Characters.Text = common.顧客情報.住所1;
 								break;
 							case "住所２":
-								textFrame.Characters.Text = common.Customer.住所2;
+								textFrame.Characters.Text = common.顧客情報.住所2;
 								break;
 							case "医療機関コード１":
 								textFrame.Characters.Text = clinicCode.Substring(0, 1);
@@ -936,16 +942,16 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = clinicCode.Substring(6, 1);
 								break;
 							case "顧客名":
-								textFrame.Characters.Text = common.Customer.顧客名;
+								textFrame.Characters.Text = common.顧客情報.顧客名;
 								break;
 							case "住所":
-								textFrame.Characters.Text = common.Customer.住所;
+								textFrame.Characters.Text = common.顧客情報.住所;
 								break;
 							case "システム名称":
-								textFrame.Characters.Text = common.Customer.システム略称;
+								textFrame.Characters.Text = common.顧客情報.システム略称;
 								break;
 							case "電話番号":
-								textFrame.Characters.Text = common.Customer.電話番号;
+								textFrame.Characters.Text = common.顧客情報.電話番号;
 								break;
 							case "郵便番号１":
 								textFrame.Characters.Text = zipCode.Substring(0, 1);
@@ -988,7 +994,7 @@ namespace VariousDocumentOut
 						switch (shape.Name)
 						{
 							case "宛先１":
-								textFrame.Characters.Text = common.Customer.都道府県名 + "国民健康保険団体連合会";
+								textFrame.Characters.Text = common.顧客情報.都道府県名 + "国民健康保険団体連合会";
 								break;
 							case "宛先２":
 								textFrame.Characters.Text = string.Empty;
@@ -1097,21 +1103,21 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = string.Format("FAX {0}", common.FAX番号);
 								break;
 							case "顧客No":
-								textFrame.Characters.Text = common.Customer.顧客No;
+								textFrame.Characters.Text = common.顧客情報.顧客No;
 								break;
 							case "得意先No":
-								textFrame.Characters.Text = common.Customer.得意先No;
+								textFrame.Characters.Text = common.顧客情報.得意先No;
 								break;
 						}
 					}
 				}
 				xlCells[1, 19] = string.Format("作成日　　{0}", Date.Today.GetJapaneseString(true, '0', true, true));
-				xlCells[36, 6] = common.Customer.フリガナ;
-				xlCells[37, 6] = common.Customer.顧客名;
-				xlCells[39, 6] = common.Customer.住所フリガナ;
-				xlCells[40, 6] = "〒" + common.Customer.郵便番号 + "\r\n" + common.Customer.住所;
-				xlCells[40, 22] = common.Customer.電話番号;
-				xlCells[41, 22] = common.Customer.FAX番号;
+				xlCells[36, 6] = common.顧客情報.フリガナ;
+				xlCells[37, 6] = common.顧客情報.顧客名;
+				xlCells[39, 6] = common.顧客情報.住所フリガナ;
+				xlCells[40, 6] = "〒" + common.顧客情報.郵便番号 + "\r\n" + common.顧客情報.住所;
+				xlCells[40, 22] = common.顧客情報.電話番号;
+				xlCells[41, 22] = common.顧客情報.FAX番号;
 			}
 			catch (Exception e)
 			{
@@ -1185,29 +1191,41 @@ namespace VariousDocumentOut
 					ws.Cell(35, 7).SetValue("");
 					ws.Cell(37, 7).SetValue("");
 
-					ws.Cell(8, 7).SetValue(common.Customer.顧客No);
-					ws.Cell(8, 21).SetValue(common.Customer.得意先No);
-					ws.Cell(10, 7).SetValue(common.Customer.フリガナ);
-					ws.Cell(12, 7).SetValue(common.Customer.顧客名);
-					ws.Cell(14, 7).SetValue("〒" + common.Customer.郵便番号);
-					ws.Cell(16, 7).SetValue(common.Customer.住所フリガナ);
-					ws.Cell(18, 7).SetValue(common.Customer.住所);
-					ws.Cell(20, 7).SetValue(common.Customer.電話番号);
-					ws.Cell(22, 7).SetValue(common.Customer.医保医療コード);
-					ws.Cell(24, 7).SetValue(common.Customer.院長名フリガナ);
-					ws.Cell(26, 7).SetValue(common.Customer.院長名);
-					ws.Cell(20, 19).SetValue(common.Customer.FAX番号);
-					ws.Cell(22, 19).SetValue(common.Customer.休診日);
-					ws.Cell(24, 19).SetValue(common.Customer.診療時間);
-					ws.Cell(26, 19).SetValue(common.Customer.メールアドレス);
-					ws.Cell(29, 7).SetValue(common.Customer.システム名称);
-					ws.Cell(31, 7).SetValue(common.Customer.備考);
-					ws.Cell(33, 7).SetValue(common.Customer.単体);
-					ws.Cell(33, 15).SetValue(common.Customer.サーバー);
-					ws.Cell(33, 23).SetValue(common.Customer.クライアント);
-					ws.Cell(35, 7).SetValue(common.Customer.販売店ID + " " + common.Customer.販売店名称);
-					ws.Cell(37, 7).SetValue(common.Customer.納品月);
-					ws.Cell(39, 7).SetValue(common.運用サポート情報);
+					ws.Cell(8, 7).SetValue(common.顧客情報.顧客No);
+					ws.Cell(8, 21).SetValue(common.顧客情報.得意先No);
+					ws.Cell(10, 7).SetValue(common.顧客情報.フリガナ);
+					ws.Cell(12, 7).SetValue(common.顧客情報.顧客名);
+					ws.Cell(14, 7).SetValue("〒" + common.顧客情報.郵便番号);
+					ws.Cell(16, 7).SetValue(common.顧客情報.住所フリガナ);
+					ws.Cell(18, 7).SetValue(common.顧客情報.住所);
+					ws.Cell(20, 7).SetValue(common.顧客情報.電話番号);
+					ws.Cell(22, 7).SetValue(common.顧客情報.医保医療コード);
+					ws.Cell(24, 7).SetValue(common.顧客情報.院長名フリガナ);
+					ws.Cell(26, 7).SetValue(common.顧客情報.院長名);
+					ws.Cell(20, 19).SetValue(common.顧客情報.FAX番号);
+					ws.Cell(22, 19).SetValue(common.顧客情報.休診日);
+					ws.Cell(24, 19).SetValue(common.顧客情報.診療時間);
+					ws.Cell(26, 19).SetValue(common.顧客情報.メールアドレス);
+					ws.Cell(29, 7).SetValue(common.顧客情報.システム名称);
+					ws.Cell(31, 7).SetValue(common.顧客情報.備考);
+					if (0 < common.顧客情報.単体)
+					{
+						ws.Cell(33, 7).SetValue(common.顧客情報.単体);
+					}
+					if (0 < common.顧客情報.サーバー)
+					{
+						ws.Cell(33, 15).SetValue(common.顧客情報.サーバー);
+					}
+					if (0 < common.顧客情報.クライアント)
+					{
+						ws.Cell(33, 23).SetValue(common.顧客情報.クライアント);
+					}
+					if (0 < common.顧客情報.販売店ID)
+					{
+						ws.Cell(35, 7).SetValue(common.顧客情報.販売店ID + " " + common.顧客情報.販売店名称);
+					}
+					ws.Cell(37, 7).SetValue(common.顧客情報.納品月);
+					ws.Cell(39, 7).SetValue(common.顧客情報.運用サポート情報);
 
 					// Excelファイルの保存
 					wb.Save();
@@ -1233,13 +1251,13 @@ namespace VariousDocumentOut
 				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
 				{
 					IXLWorksheet ws = wb.Worksheet("Microsoft365利用申請書");
-					ws.Cell(7, 10).SetValue(common.Customer.顧客No);
-					ws.Cell(9, 10).SetValue(common.Customer.顧客名);
-					ws.Cell(11, 10).SetValue(common.Customer.院長名);
-					ws.Cell(11, 27).SetValue(common.Customer.電話番号);
-					ws.Cell(13, 11).SetValue(common.Customer.郵便番号);
-					ws.Cell(14, 10).SetValue(common.Customer.住所);
-					ws.Cell(16, 10).SetValue(common.Customer.メールアドレス);
+					ws.Cell(7, 10).SetValue(common.顧客情報.顧客No);
+					ws.Cell(9, 10).SetValue(common.顧客情報.顧客名);
+					ws.Cell(11, 10).SetValue(common.顧客情報.院長名);
+					ws.Cell(11, 27).SetValue(common.顧客情報.電話番号);
+					ws.Cell(13, 11).SetValue(common.顧客情報.郵便番号);
+					ws.Cell(14, 10).SetValue(common.顧客情報.住所);
+					ws.Cell(16, 10).SetValue(common.顧客情報.メールアドレス);
 
 					// 本社情報
 					// Ver1.02(2021/09/01):Microsoft365利用申込書のFAX番号を本社から消耗品受注センターに変更
@@ -1311,23 +1329,23 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = string.Format("FAX {0}", common.FAX番号);
 								break;
 							case "顧客No":
-								textFrame.Characters.Text = common.Customer.顧客No;
+								textFrame.Characters.Text = common.顧客情報.顧客No;
 								break;
 							case "得意先No":
-								textFrame.Characters.Text = common.Customer.得意先No;
+								textFrame.Characters.Text = common.顧客情報.得意先No;
 								break;
 						}
 					}
 				}
 				xlCells[1, 19] = string.Format("作成日　　{0}", Date.Today.GetJapaneseString(true, '0', true, true));
-				xlCells[12, 23] = common.Customer.得意先No;
-				xlCells[15, 5] = common.Customer.フリガナ;
-				xlCells[16, 5] = common.Customer.顧客名;
-				xlCells[17, 5] = common.Customer.院長名フリガナ;
-				xlCells[18, 5] = common.Customer.院長名;
-				xlCells[20, 5] = "〒" + common.Customer.郵便番号 + "\r\n" + common.Customer.住所1 + "\r\n" + common.Customer.住所2;
-				xlCells[20, 21] = common.Customer.電話番号;
-				xlCells[22, 21] = common.Customer.FAX番号;
+				xlCells[12, 23] = common.顧客情報.得意先No;
+				xlCells[15, 5] = common.顧客情報.フリガナ;
+				xlCells[16, 5] = common.顧客情報.顧客名;
+				xlCells[17, 5] = common.顧客情報.院長名フリガナ;
+				xlCells[18, 5] = common.顧客情報.院長名;
+				xlCells[20, 5] = "〒" + common.顧客情報.郵便番号 + "\r\n" + common.顧客情報.住所1 + "\r\n" + common.顧客情報.住所2;
+				xlCells[20, 21] = common.顧客情報.電話番号;
+				xlCells[22, 21] = common.顧客情報.FAX番号;
 			}
 			catch (Exception e)
 			{
@@ -1412,26 +1430,26 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = string.Format("FAX {0}", common.FAX番号);
 								break;
 							case "顧客No":
-								textFrame.Characters.Text = common.Customer.顧客No;
+								textFrame.Characters.Text = common.顧客情報.顧客No;
 								break;
 							case "得意先No":
-								textFrame.Characters.Text = common.Customer.得意先No;
+								textFrame.Characters.Text = common.顧客情報.得意先No;
 								break;
 						}
 					}
 				}
 				xlCells[1, 19] = string.Format("作成日　　{0}", DocumentCommon.DateTodayString());
-				xlCells[13, 23] = common.Customer.得意先No;
-				xlCells[16, 5] = common.Customer.フリガナ;
-				xlCells[17, 5] = common.Customer.顧客名;
-				xlCells[18, 5] = common.Customer.院長名フリガナ;
-				xlCells[19, 5] = common.Customer.院長名;
-				xlCells[21, 5] = "〒" + common.Customer.郵便番号 + "\r\n" + common.Customer.住所1 + "\r\n" + common.Customer.住所2;
-				xlCells[21, 21] = common.Customer.電話番号;
-				xlCells[23, 21] = common.Customer.FAX番号;
-				xlCells[25, 5] = common.Customer.医保医療コード;
-				xlCells[27, 5] = common.Customer.システム名称;
-				xlCells[27, 17] = common.Customer.クライアント;
+				xlCells[13, 23] = common.顧客情報.得意先No;
+				xlCells[16, 5] = common.顧客情報.フリガナ;
+				xlCells[17, 5] = common.顧客情報.顧客名;
+				xlCells[18, 5] = common.顧客情報.院長名フリガナ;
+				xlCells[19, 5] = common.顧客情報.院長名;
+				xlCells[21, 5] = "〒" + common.顧客情報.郵便番号 + "\r\n" + common.顧客情報.住所1 + "\r\n" + common.顧客情報.住所2;
+				xlCells[21, 21] = common.顧客情報.電話番号;
+				xlCells[23, 21] = common.顧客情報.FAX番号;
+				xlCells[25, 5] = common.顧客情報.医保医療コード;
+				xlCells[27, 5] = common.顧客情報.システム名称;
+				xlCells[27, 17] = common.顧客情報.クライアント;
 			}
 			catch (Exception e)
 			{
@@ -1516,26 +1534,26 @@ namespace VariousDocumentOut
 								textFrame.Characters.Text = string.Format("FAX {0}", common.FAX番号);
 								break;
 							case "顧客No":
-								textFrame.Characters.Text = common.Customer.顧客No;
+								textFrame.Characters.Text = common.顧客情報.顧客No;
 								break;
 							case "得意先No":
-								textFrame.Characters.Text = common.Customer.得意先No;
+								textFrame.Characters.Text = common.顧客情報.得意先No;
 								break;
 						}
 					}
 				}
 				xlCells[1, 19] = string.Format("作成日　　{0}", DocumentCommon.DateTodayString());
-				xlCells[12, 23] = common.Customer.得意先No;
-				xlCells[15, 5] = common.Customer.フリガナ;
-				xlCells[16, 5] = common.Customer.顧客名;
-				xlCells[17, 5] = common.Customer.院長名フリガナ;
-				xlCells[18, 5] = common.Customer.院長名;
-				xlCells[20, 5] = "〒" + common.Customer.郵便番号 + "\r\n" + common.Customer.住所1 + "\r\n" + common.Customer.住所2;
-				xlCells[20, 21] = common.Customer.電話番号;
-				xlCells[22, 21] = common.Customer.FAX番号;
-				xlCells[24, 5] = common.Customer.医保医療コード;
-				xlCells[26, 5] = common.Customer.システム名称;
-				xlCells[26, 17] = common.Customer.クライアント;
+				xlCells[12, 23] = common.顧客情報.得意先No;
+				xlCells[15, 5] = common.顧客情報.フリガナ;
+				xlCells[16, 5] = common.顧客情報.顧客名;
+				xlCells[17, 5] = common.顧客情報.院長名フリガナ;
+				xlCells[18, 5] = common.顧客情報.院長名;
+				xlCells[20, 5] = "〒" + common.顧客情報.郵便番号 + "\r\n" + common.顧客情報.住所1 + "\r\n" + common.顧客情報.住所2;
+				xlCells[20, 21] = common.顧客情報.電話番号;
+				xlCells[22, 21] = common.顧客情報.FAX番号;
+				xlCells[24, 5] = common.顧客情報.医保医療コード;
+				xlCells[26, 5] = common.顧客情報.システム名称;
+				xlCells[26, 17] = common.顧客情報.クライアント;
 			}
 			catch (Exception e)
 			{
@@ -1587,11 +1605,11 @@ namespace VariousDocumentOut
 				{
 					// 第一園芸医院向け
 					IXLWorksheet ws1 = wb.Worksheet("第一園芸医院向け");
-					ws1.Cell(6, 4).SetValue(common.Customer.郵便番号);
-					ws1.Cell(7, 3).SetValue(common.Customer.住所1);
-					ws1.Cell(8, 3).SetValue(common.Customer.住所2);
-					ws1.Cell(9, 5).SetValue(common.Customer.顧客名);
-					ws1.Cell(13, 5).SetValue(common.Customer.電話番号);
+					ws1.Cell(6, 4).SetValue(common.顧客情報.郵便番号);
+					ws1.Cell(7, 3).SetValue(common.顧客情報.住所1);
+					ws1.Cell(8, 3).SetValue(common.顧客情報.住所2);
+					ws1.Cell(9, 5).SetValue(common.顧客情報.顧客名);
+					ws1.Cell(13, 5).SetValue(common.顧客情報.電話番号);
 
 					ws1.Cell(6, 18).SetValue(common.郵便番号);
 					ws1.Cell(7, 17).SetValue(common.住所1);
@@ -1647,13 +1665,13 @@ namespace VariousDocumentOut
 					ws.Cell(1, 27).SetValue(string.Format("{0:D4}", Date.Today.Year));
 					ws.Cell(1, 30).SetValue(string.Format("{0:D2}", Date.Today.Month));
 					ws.Cell(1, 32).SetValue(string.Format("{0:D2}", Date.Today.Day));
-					ws.Cell(7, 27).SetValue(common.Customer.顧客No);
+					ws.Cell(7, 27).SetValue(common.顧客情報.顧客No);
 					ws.Cell(7, 10).SetValue(common.営業部名);
-					ws.Cell(9, 10).SetValue(common.Customer.顧客名);
-					ws.Cell(11, 10).SetValue(string.Format("〒{0}", common.Customer.郵便番号));
-					ws.Cell(12, 10).SetValue(common.Customer.住所);
-					ws.Cell(15, 10).SetValue(common.Customer.院長名);
-					ws.Cell(15, 27).SetValue(common.Customer.電話番号);
+					ws.Cell(9, 10).SetValue(common.顧客情報.顧客名);
+					ws.Cell(11, 10).SetValue(string.Format("〒{0}", common.顧客情報.郵便番号));
+					ws.Cell(12, 10).SetValue(common.顧客情報.住所);
+					ws.Cell(15, 10).SetValue(common.顧客情報.院長名);
+					ws.Cell(15, 27).SetValue(common.顧客情報.電話番号);
 
 					// Excelファイルの保存
 					wb.Save();
@@ -1937,28 +1955,28 @@ namespace VariousDocumentOut
 				{
 					// PC安心サポート加入申込書
 					IXLWorksheet ws1 = wb.Worksheet("PC安心サポート加入申込書");
-					ws1.Cell(11, 11).SetValue(common.Customer.得意先No);
-					ws1.Cell(12, 11).SetValue(common.Customer.顧客No);
-					ws1.Cell(13, 11).SetValue(common.Customer.顧客名);
-					ws1.Cell(15, 11).SetValue(common.Customer.電話番号);
-					ws1.Cell(16, 12).SetValue(common.Customer.郵便番号);
-					ws1.Cell(17, 11).SetValue(common.Customer.住所1 + "\r\n" + common.Customer.住所2);
-					ws1.Cell(20, 11).SetValue(common.Customer.メールアドレス);
-					ws1.Cell(21, 11).SetValue(common.Customer.支店名);
-					ws1.Cell(21, 25).SetValue(common.Customer.営業担当者名);
+					ws1.Cell(11, 11).SetValue(common.顧客情報.得意先No);
+					ws1.Cell(12, 11).SetValue(common.顧客情報.顧客No);
+					ws1.Cell(13, 11).SetValue(common.顧客情報.顧客名);
+					ws1.Cell(15, 11).SetValue(common.顧客情報.電話番号);
+					ws1.Cell(16, 12).SetValue(common.顧客情報.郵便番号);
+					ws1.Cell(17, 11).SetValue(common.顧客情報.住所1 + "\r\n" + common.顧客情報.住所2);
+					ws1.Cell(20, 11).SetValue(common.顧客情報.メールアドレス);
+					ws1.Cell(21, 11).SetValue(common.顧客情報.支店名);
+					ws1.Cell(21, 25).SetValue(common.顧客情報.営業担当者名);
 					ws1.Cell(48, 12).SetValue(common.社名);
 
 					// PC安心サポートPlus加入申込書
 					IXLWorksheet ws2 = wb.Worksheet("PC安心サポートPlus加入申込書");
-					ws2.Cell(11, 11).SetValue(common.Customer.得意先No);
-					ws2.Cell(12, 11).SetValue(common.Customer.顧客No);
-					ws2.Cell(13, 11).SetValue(common.Customer.顧客名);
-					ws2.Cell(15, 11).SetValue(common.Customer.電話番号);
-					ws2.Cell(16, 12).SetValue(common.Customer.郵便番号);
-					ws2.Cell(17, 11).SetValue(common.Customer.住所1 + "\r\n" + common.Customer.住所2);
-					ws2.Cell(20, 11).SetValue(common.Customer.メールアドレス);
-					ws2.Cell(21, 11).SetValue(common.Customer.支店名);
-					ws2.Cell(21, 25).SetValue(common.Customer.営業担当者名);
+					ws2.Cell(11, 11).SetValue(common.顧客情報.得意先No);
+					ws2.Cell(12, 11).SetValue(common.顧客情報.顧客No);
+					ws2.Cell(13, 11).SetValue(common.顧客情報.顧客名);
+					ws2.Cell(15, 11).SetValue(common.顧客情報.電話番号);
+					ws2.Cell(16, 12).SetValue(common.顧客情報.郵便番号);
+					ws2.Cell(17, 11).SetValue(common.顧客情報.住所1 + "\r\n" + common.顧客情報.住所2);
+					ws2.Cell(20, 11).SetValue(common.顧客情報.メールアドレス);
+					ws2.Cell(21, 11).SetValue(common.顧客情報.支店名);
+					ws2.Cell(21, 25).SetValue(common.顧客情報.営業担当者名);
 					ws2.Cell(48, 12).SetValue(common.社名);
 
 					// Excelファイルの保存
@@ -2015,33 +2033,33 @@ namespace VariousDocumentOut
 						switch (shape.Name)
 						{
 							case "顧客No":
-								textFrame.Characters.Text = common.Customer.顧客No;
+								textFrame.Characters.Text = common.顧客情報.顧客No;
 								break;
 							case "得意先No":
-								textFrame.Characters.Text = common.Customer.得意先No;
+								textFrame.Characters.Text = common.顧客情報.得意先No;
 								break;
 							case "契約者名フリガナ":
-								textFrame.Characters.Text = common.Customer.フリガナ;
+								textFrame.Characters.Text = common.顧客情報.フリガナ;
 								break;
 							case "契約者名":
-								textFrame.Characters.Text = common.Customer.顧客名;
+								textFrame.Characters.Text = common.顧客情報.顧客名;
 								break;
 							case "契約者郵便番号":
-								textFrame.Characters.Text = common.Customer.郵便番号;
+								textFrame.Characters.Text = common.顧客情報.郵便番号;
 								break;
 							case "契約者住所":
-								textFrame.Characters.Text = common.Customer.住所;
+								textFrame.Characters.Text = common.顧客情報.住所;
 								break;
 							case "契約者電話番号":
-								textFrame.Characters.Text = common.Customer.電話番号;
+								textFrame.Characters.Text = common.顧客情報.電話番号;
 								break;
 							case "APLUSコード":
-								textFrame.Characters.Text = common.Customer.代行回収APLUSコード.Substring(8);
+								textFrame.Characters.Text = common.顧客情報.代行回収APLUSコード.Substring(8);
 								break;
 						}
 					}
 				}
-				if ("予約" == common.Customer.代行回収状態)
+				if ("予約" == common.顧客情報.代行回収状態)
 				{
 					chkBoxNew.Value = 1;
 				}
@@ -2091,10 +2109,10 @@ namespace VariousDocumentOut
 				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
 				{
 					IXLWorksheet ws = wb.Worksheet("作業報告書");
-					ws.Cell(10, 3).SetValue(common.Customer.得意先No);
-					ws.Cell(12, 3).SetValue(common.Customer.顧客名);
-					ws.Cell(18, 3).SetValue(string.Format("〒{0}\r\n{1}\r\n{2}", common.Customer.郵便番号, common.Customer.住所1, common.Customer.住所2));
-					ws.Cell(34, 3).SetValue(string.Format("TEL {0}", common.Customer.電話番号));
+					ws.Cell(10, 3).SetValue(common.顧客情報.得意先No);
+					ws.Cell(12, 3).SetValue(common.顧客情報.顧客名);
+					ws.Cell(18, 3).SetValue(string.Format("〒{0}\r\n{1}\r\n{2}", common.顧客情報.郵便番号, common.顧客情報.住所1, common.顧客情報.住所2));
+					ws.Cell(34, 3).SetValue(string.Format("TEL {0}", common.顧客情報.電話番号));
 
 					// Excelファイルの保存
 					wb.Save();
@@ -2120,11 +2138,11 @@ namespace VariousDocumentOut
 				{
 					IXLWorksheet ws = wb.Worksheet("消耗品FAXオーダーシート");
 					ws.Cell(1, 36).SetValue(Program.gSettings.HeadOffice.FaxExpendables);
-					ws.Cell(9, 9).SetValue(common.Customer.得意先No);
-					ws.Cell(10, 9).SetValue(common.Customer.顧客名);
-					ws.Cell(11, 9).SetValue(common.Customer.FAX番号);
+					ws.Cell(9, 9).SetValue(common.顧客情報.得意先No);
+					ws.Cell(10, 9).SetValue(common.顧客情報.顧客名);
+					ws.Cell(11, 9).SetValue(common.顧客情報.FAX番号);
 
-					List<tMikユーザ> userList = JunpDatabaseAccess.Select_tMikユーザ(string.Format("fusCliMicID = {0}", common.Customer.顧客No), "", Program.gSettings.Connect.Junp.ConnectionString);
+					List<tMikユーザ> userList = JunpDatabaseAccess.Select_tMikユーザ(string.Format("fusCliMicID = {0}", common.顧客情報.顧客No), "", Program.gSettings.Connect.Junp.ConnectionString);
 					if (null != userList && 0 < userList.Count)
 					{
 						// 当日の消費税率
@@ -2294,18 +2312,20 @@ namespace VariousDocumentOut
 		/// <param name="common">各種書類出力 共通情報</param>
 		/// <param name="pathname">Excelファイルパス名</param>
 		/// <param name="orgPathname">Excelファイルパス名(org)</param>
-		/// <param name="goodsList">領収書内訳書明細リスト</param>
-		/// <param name="softList">注文確認書情報</param>
+		/// <param name="detailList">領収書内訳書明細リスト</param>
+		/// <param name="soft">vMicオンライン資格確認ソフト改修費</param>
+		/// <param name="destination">送付先リスト</param>
 		/// Ver1.07(2021/12/24):経理部専用 オンライン資格確認等事業完了報告書の対応
 		/// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
 		/// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
-		public static void ExcelOutOnlineConfirm(DocumentCommon common, string pathname, string orgPathname, List<オンライン資格確認対象商品売上明細> goodsList, List<vMicオンライン資格確認ソフト改修費> softList)
+		/// Ver1.18(2023/04/06 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 送付先リストから受注日を取得
+		public static void ExcelOutOnlineConfirm(DocumentCommon common, string pathname, string orgPathname, List<オンライン資格確認対象商品売上明細> detailList, vMicオンライン資格確認ソフト改修費 soft, 送付先リスト destination)
 		{
 			try
 			{
 				using (XLWorkbook wb = new XLWorkbook(pathname, XLEventTracking.Disabled))
 				{
-					string clinicCode = common.Customer.NumericClinicCode;
+					string clinicCode = common.顧客情報.NumericClinicCode;
 /*
 					// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
 					////////////////////////////////////////
@@ -2329,29 +2349,40 @@ namespace VariousDocumentOut
 					ws2.Cell(3, 42).SetValue(string.Format("{0,4}", Date.Today.Year));
 					ws2.Cell(3, 45).SetValue(string.Format("{0,2}", Date.Today.Month));
 					ws2.Cell(3, 47).SetValue(string.Format("{0,2}", Date.Today.Day));
-					ws2.Cell(6, 9).SetValue(common.Customer.県番号.Substring(0, 1));
-					ws2.Cell(6, 10).SetValue(common.Customer.県番号.Substring(1, 1));
-					ws2.Cell(8, 9).SetValue(clinicCode.Substring(0, 1));
-					ws2.Cell(8, 10).SetValue(clinicCode.Substring(1, 1));
-					ws2.Cell(8, 11).SetValue(clinicCode.Substring(2, 1));
-					ws2.Cell(8, 12).SetValue(clinicCode.Substring(3, 1));
-					ws2.Cell(8, 13).SetValue(clinicCode.Substring(4, 1));
-					ws2.Cell(8, 14).SetValue(clinicCode.Substring(5, 1));
-					ws2.Cell(8, 16).SetValue(clinicCode.Substring(6, 1));
-					ws2.Cell(10, 9).SetValue(string.Format("{0}  様", common.Customer.顧客名));
+					if (2 == common.顧客情報.県番号.Length)
+					{
+						ws2.Cell(6, 9).SetValue(common.顧客情報.県番号.Substring(0, 1));
+						ws2.Cell(6, 10).SetValue(common.顧客情報.県番号.Substring(1, 1));
+					}
+					// Ver1.18(2023/04/06 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 医療機関コードが7文字でない時にアプリケーションエラーが発生
+					// Ver1.19(2023/04/13 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 「領収書内訳書」と「事業完了報告書」の医療機関コードが出力されない
+					//if (MwsDefine.TokuisakiNoLength == clinicCode.Length)
+					if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+					{
+							ws2.Cell(8, 9).SetValue(clinicCode.Substring(0, 1));
+						ws2.Cell(8, 10).SetValue(clinicCode.Substring(1, 1));
+						ws2.Cell(8, 11).SetValue(clinicCode.Substring(2, 1));
+						ws2.Cell(8, 12).SetValue(clinicCode.Substring(3, 1));
+						ws2.Cell(8, 13).SetValue(clinicCode.Substring(4, 1));
+						ws2.Cell(8, 14).SetValue(clinicCode.Substring(5, 1));
+						ws2.Cell(8, 16).SetValue(clinicCode.Substring(6, 1));
+					}
+					// Ver1.19(2023/04/12 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 「領収書内訳書」の顧客名の後ろに様を付加しない
+					//ws2.Cell(10, 9).SetValue(string.Format("{0}  様", common.Customer.顧客名));
+					ws2.Cell(10, 9).SetValue(common.顧客情報.顧客名);
 
 					// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
 					//ws2.Cell(8, 40).SetValue(common.社名);
 					//ws2.Cell(10, 40).SetValue(common.住所1);
 					//ws2.Cell(12, 40).SetValue(common.電話番号);
 
-					if (null != goodsList && 0 < goodsList.Count)
+					if (null != detailList && 0 < detailList.Count)
 					{
 						//int total = 0;
-						for (int i = 0; i < goodsList.Count; i++)
+						for (int i = 0; i < detailList.Count; i++)
 						{
-							オンライン資格確認対象商品売上明細 goods = goodsList[i];
-							OnlineGoods online = Program.gSettings.OnlineGoodsList.Find(p => p.商品コード == goods.商品コード);
+							オンライン資格確認対象商品売上明細 detail = detailList[i];
+							OnlineGoods online = Program.gSettings.OnlineGoodsList.Find(p => p.商品コード == detail.商品コード);
 							if (null != online)
 							{
 								// 項目
@@ -2363,18 +2394,17 @@ namespace VariousDocumentOut
 							else
 							{
 								// 項目
-								ws2.Cell(16 + i, 4).SetValue(goods.商品コード);
+								ws2.Cell(16 + i, 4).SetValue(detail.商品コード);
 
 								// 内訳
-								ws2.Cell(16 + i, 16).SetValue(goods.商品名);
+								ws2.Cell(16 + i, 16).SetValue(detail.商品名);
 							}
 							// ①補助対象金額
-							ws2.Cell(16 + i, 38).SetValue(goods.補助対象金額);
-							//total += goods.補助対象金額;
+							ws2.Cell(16 + i, 38).SetValue(detail.補助対象金額);
+							//total += online.補助対象金額;
 
 							// ②補助対象外金額
-							;
-
+							//;
 						}
 						// ①小計
 						//ws2.Cell(31, 42).SetValue(total);
@@ -2394,29 +2424,38 @@ namespace VariousDocumentOut
 					ws3.Cell(2, 20).SetValue(string.Format("{0,4}", Date.Today.Year));
 					ws3.Cell(2, 23).SetValue(string.Format("{0,2}", Date.Today.Month));
 					ws3.Cell(2, 25).SetValue(string.Format("{0,2}", Date.Today.Day));
-					ws3.Cell(7, 19).SetValue(common.Customer.県番号.Substring(0, 1));
-					ws3.Cell(7, 20).SetValue(common.Customer.県番号.Substring(1, 1));
-					ws3.Cell(8, 19).SetValue(clinicCode.Substring(0, 1));
-					ws3.Cell(8, 20).SetValue(clinicCode.Substring(1, 1));
-					ws3.Cell(8, 21).SetValue(clinicCode.Substring(2, 1));
-					ws3.Cell(8, 22).SetValue(clinicCode.Substring(3, 1));
-					ws3.Cell(8, 23).SetValue(clinicCode.Substring(4, 1));
-					ws3.Cell(8, 24).SetValue(clinicCode.Substring(5, 1));
-					ws3.Cell(8, 25).SetValue(clinicCode.Substring(6, 1));
-					ws3.Cell(9, 19).SetValue(common.Customer.顧客名);
-					ws3.Cell(11, 18).SetValue(common.Customer.郵便番号);
-					ws3.Cell(12, 15).SetValue(common.Customer.住所1);
-					ws3.Cell(13, 19).SetValue(common.Customer.電話番号);
+					if (2 == common.顧客情報.県番号.Length)
+					{
+						ws3.Cell(7, 19).SetValue(common.顧客情報.県番号.Substring(0, 1));
+						ws3.Cell(7, 20).SetValue(common.顧客情報.県番号.Substring(1, 1));
+					}
+					// Ver1.18(2023/04/06 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 医療機関コードが7文字でない時にアプリケーションエラーが発生
+					// Ver1.19(2023/04/13 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 「領収書内訳書」と「事業完了報告書」の医療機関コードが出力されない
+					//if (MwsDefine.TokuisakiNoLength == clinicCode.Length)
+					if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+					{
+						ws3.Cell(8, 19).SetValue(clinicCode.Substring(0, 1));
+						ws3.Cell(8, 20).SetValue(clinicCode.Substring(1, 1));
+						ws3.Cell(8, 21).SetValue(clinicCode.Substring(2, 1));
+						ws3.Cell(8, 22).SetValue(clinicCode.Substring(3, 1));
+						ws3.Cell(8, 23).SetValue(clinicCode.Substring(4, 1));
+						ws3.Cell(8, 24).SetValue(clinicCode.Substring(5, 1));
+						ws3.Cell(8, 25).SetValue(clinicCode.Substring(6, 1));
+					}
+					ws3.Cell(9, 19).SetValue(common.顧客情報.顧客名);
+					ws3.Cell(11, 18).SetValue(common.顧客情報.郵便番号);
+					ws3.Cell(12, 15).SetValue(common.顧客情報.住所1);
+					ws3.Cell(13, 19).SetValue(common.顧客情報.電話番号);
 
 					// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
-					if (0 == common.Customer3.開設者名.Length)
+					if (0 == common.顧客情報.開設者名.Length)
 					{
 						// 開設者がいない時は院長を印字
-						ws3.Cell(10, 19).SetValue(common.Customer3.院長名);
+						ws3.Cell(10, 19).SetValue(common.顧客情報.院長名);
 					}
 					else
 					{
-						ws3.Cell(10, 19).SetValue(common.Customer3.開設者名);
+						ws3.Cell(10, 19).SetValue(common.顧客情報.開設者名);
 					}
 
 					// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
@@ -2424,16 +2463,29 @@ namespace VariousDocumentOut
 					//「注文確認書」
 					////////////////////////////////////////
 
-					if (null != softList && 0 < softList.Count)
+					IXLWorksheet ws4 = wb.Worksheet("注文確認書");
+					ws4.Cell(1, 5).SetValue(DateTime.Today);
+					ws4.Cell(6, 1).SetValue(common.顧客情報.顧客名);
+
+					int price = 0;
+					if (null != soft)
 					{
-						IXLWorksheet ws4 = wb.Worksheet("注文確認書");
-						ws4.Cell(1, 5).SetValue(DateTime.Today);
-						ws4.Cell(6, 1).SetValue(softList[0].顧客名);
-						ws4.Cell(14, 2).SetValue(softList[0].受注日);
-						//ws4.Cell(15, 2).SetValue(softList[0].金額);
-						ws4.Cell(18, 4).SetValue(softList[0].受注金額税込);
-						ws4.Cell(18, 5).SetValue(softList[0].受注金額税込);
+						ws4.Cell(6, 1).SetValue(soft.顧客名);
+						ws4.Cell(14, 2).SetValue(soft.受注日);
+						price = (int)soft.受注金額税込;
 					}
+					// Ver1.18(2023/04/04 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 送付先リストから受注日を取得
+					if (null != destination)
+					{
+						ws4.Cell(14, 2).SetValue(destination.受注日);
+						if (0 == price)
+						{
+							price = destination.金額;
+						}
+					}
+					ws4.Cell(18, 4).SetValue(price);
+					ws4.Cell(18, 5).SetValue(price);
+
 					// Excelファイルの保存
 					wb.Save();
 				}
@@ -2442,103 +2494,6 @@ namespace VariousDocumentOut
 			{
 				throw new Exception(e.Message);
 			}
-/*
-			// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
-			////////////////////////////////////////
-			// 書類送付状
-			////////////////////////////////////////
-
-			Excel.Application xlApp = null;
-			Excel.Workbooks xlBooks = null;
-			Excel.Workbook xlBook = null;
-			Excel.Sheets xlSheets = null;
-			Excel.Worksheet xlSheet = null;
-			Excel.Shapes xlShapes = null;
-			Excel.Workbook xlBookOrg = null;
-			Excel.Worksheet xlSheetOrg = null;
-			Excel.Worksheet xlSheetCopy = null;
-			Excel.Worksheet xlSheetDelete = null;
-			try
-			{
-				xlApp = new Excel.Application();
-				xlApp.DisplayAlerts = false;
-				xlBooks = xlApp.Workbooks;
-				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-				xlSheets = xlBook.Worksheets;
-
-				// 書類送付状の削除
-				xlSheetDelete = xlSheets["書類送付状"] as Excel.Worksheet;
-				xlSheetDelete.Delete();
-
-				// 作業完了報告書の後ろに19-オンライン資格確認等事業完了報告書.xlsx.orgの書類送付状をコピー
-				xlSheetCopy = xlSheets["事業完了報告書"] as Excel.Worksheet;
-				xlBookOrg = xlBooks.Open(orgPathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-				xlSheetOrg = xlBookOrg.Worksheets["書類送付状"] as Excel.Worksheet;
-				xlSheetOrg.Copy(Type.Missing, xlSheetCopy);   // 「作業完了報告書」の後ろに「書類送付状」をコピー
-
-				// 書類送付状の設定
-				xlSheet = xlSheets["書類送付状"] as Excel.Worksheet;
-				xlShapes = xlSheet.Shapes;
-				foreach (Excel.Shape shape in xlShapes)
-				{
-					if (MsoShapeType.msoTextBox == shape.Type)
-					{
-						dynamic textFrame = shape.TextFrame;
-						switch (shape.Name)
-						{
-							case "日付":
-								// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
-								//textFrame.Characters.Text = Date.Today.GetJapaneseString(true, '0', true, true);
-								textFrame.Characters.Text = Date.Today.GetJapaneseString(true, ' ', true, true);
-								break;
-							case "送付先":
-								textFrame.Characters.Text = string.Format("〒{0}\r\n{1}\r\n{2}\r\n{3}　御中", common.Customer.郵便番号, common.Customer.住所1, common.Customer.住所2, common.Customer.顧客名);
-								break;
-							case "FAX":
-								textFrame.Characters.Text = string.Format("FAX {0}", common.Customer.FAX番号);
-								break;
-							case "送付元":
-								// Ver1.12(2022/02/22):経理部専用 オンライン資格確認等事業完了報告書 修正依頼対応
-								//textFrame.Characters.Text = string.Format("〒{0}\r\n{1}\r\n{2}\r\n{3}\r\n{4}", common.郵便番号, common.住所1, common.住所2, common.社名, common.電話番号);
-								textFrame.Characters.Text = string.Format("〒{0}\r\n{1}\r\n{2}\r\n{3}\r\n04-7130-9005", common.郵便番号, common.住所1, common.住所2, common.社名);
-								break;
-						}
-					}
-				}
-				xlApp.DisplayAlerts = true;
-			}
-			catch (Exception e)
-			{
-				throw new Exception(e.Message);
-			}
-			finally
-			{
-				if (null != xlSheet)
-				{
-					Marshal.ReleaseComObject(xlSheet);
-				}
-				if (null != xlSheets)
-				{
-					Marshal.ReleaseComObject(xlSheets);
-				}
-				if (null != xlBook)
-				{
-					xlBook.Save();
-					Marshal.ReleaseComObject(xlBook);
-				}
-				if (null != xlBooks)
-				{
-					Marshal.ReleaseComObject(xlBooks);
-				}
-				if (null != xlApp)
-				{
-					xlApp.Quit();
-					Marshal.ReleaseComObject(xlApp);
-				}
-				// ガベージコレクションを直ちに強制実行する
-				GC.Collect();
-			}
-*/
 		}
 	}
 }

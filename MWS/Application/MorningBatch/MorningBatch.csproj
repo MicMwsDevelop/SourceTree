@@ -46,6 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseFactory\CusDataUpdate.cs" />
+    <Compile Include="BaseFactory\Environment.cs" />
+    <Compile Include="BaseFactory\M_CODE_Chk.cs" />
+    <Compile Include="BaseFactory\T_APPLICATION_DATA_chk.cs" />
+    <Compile Include="BaseFactory\CusUseService.cs" />
+    <Compile Include="BaseFactory\V_CHECK.cs" />
+    <Compile Include="BaseFactory\V_CHECK_Service.cs" />
+    <Compile Include="BaseFactory\V_CUSTOMER_Chk.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +75,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Doc\ColdFusion\cusdataupdate.cfc" />
+    <None Include="Doc\ColdFusion\cususeservice.cfc" />
+    <None Include="Doc\DB仕様書\CharlieDB-テーブル定義書.xls" />
+    <None Include="Doc\DB仕様書\CharlieDB-ビュー定義書.xls" />
+    <None Include="Doc\DB仕様書\estoreDB-テーブル定義書.xls" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -89,6 +102,30 @@
       <Project>{dbcbf3f6-889c-4dd9-91ea-a2527aacede6}</Project>
       <Name>MwsLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Doc\代替方式\利用情報\代替方式SQL\" />
+    <Folder Include="Doc\代替方式\顧客情報\代替方式SQL\" />
+    <Folder Include="Doc\代替方式\顧客情報\差分バッチSQL\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Doc\SQL\CusDataUpdate\1-Sel_T_FILE_CREATEDATE_顧客情報.sql" />
+    <Content Include="Doc\SQL\CusDataUpdate\2-Sel_T_FILE_CREATEDATE_利用情報.sql" />
+    <Content Include="Doc\SQL\CusDataUpdate\3-基本機能パック.sql" />
+    <Content Include="Doc\SQL\CusDataUpdate\4-Sel_顧客情報更新分.sql" />
+    <Content Include="Doc\SQL\CusDataUpdate\5-InsertInto_T_FILE_CREATEDATE_顧客情報.sql" />
+    <Content Include="Doc\SQL\CusDataUpdate\6-Sel_利用情報更新分.sql" />
+    <Content Include="Doc\SQL\CusDataUpdate\7-InsertInto_T_FILE_CREATEDATE_利用情報.sql" />
+    <Content Include="Doc\SQL\CusUseService\1-Sel_V_CHECK.sql" />
+    <Content Include="Doc\SQL\CusUseService\2-Sel_MwsID_Chk.sql" />
+    <Content Include="Doc\SQL\CusUseService\3-Sel_M_CODE_Chk.sql" />
+    <Content Include="Doc\SQL\CusUseService\4-Sel_V_CUSTOMER.sql" />
+    <Content Include="Doc\SQL\CusUseService\5-Sel_V_STORE_INFORMATION.sql" />
+    <Content Include="Doc\SQL\CusUseService\6-Sel_T_CUSTOMER_FOUNDATIONS.sql" />
+    <Content Include="Doc\SQL\CusUseService\7-Sel_T_CUSSTOMER_USE_INFOMATION.sql" />
+    <Content Include="Doc\SQL\CusUseService\8-Sel_T_APPLICATION_DATA_chk.sql" />
+    <Content Include="Doc\処理内容\CusDataUpdate.txt" />
+    <Content Include="Doc\処理内容\CusUseService.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

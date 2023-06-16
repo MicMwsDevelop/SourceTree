@@ -6,8 +6,10 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2021/04/22 勝呂)
+// Ver1.18(2023/04/03 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 送付先リストから受注日を取得
 //
 using CommonLib.BaseFactory.VariousDocumentOut;
+using CommonLib.DB.SqlServer.Charlie;
 using CommonLib.DB.SqlServer.Junp;
 using System.Collections.Generic;
 using System.Data;
@@ -76,22 +78,63 @@ namespace CommonLib.DB.SqlServer.VariousDocumentOut
 		/// <param name="tokuisakiNo">得意先No</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>結果</returns>
-		public static List<CustomerInfo> Select_CustomerInfoByTokuisakiNo(string tokuisakiNo, string connectStr)
+		public static CustomerInfo Select_CustomerInfoByTokuisakiNo(string tokuisakiNo, string connectStr)
 		{
-			string sqlStr = string.Format("SELECT 基本.fkj顧客区分 AS 顧客区分, CL.fCliID AS 顧客No, 基本.fkj得意先情報 AS 得意先No, 基本.fkj郵便番号 AS 郵便番号"
-											+ ", 基本.fkjファックス番号 AS FAX番号, 基本.fkj電話番号 AS 電話番号, CL.fCliName AS 顧客名1, 基本.fkj顧客名2 AS 顧客名2"
-											+ ", 基本.fkj住所1 AS 住所1, 基本.fkj住所2 AS 住所2, ユーザ.fus院長名 AS 院長名, ユーザ.fus運用サポート情報 as 運用サポート情報"
-											+ " FROM ({0} as CL"
-											+ " INNER JOIN {1} as 基本 ON CL.fCliID = 基本.fkjCliMicID)"
-											+ " LEFT JOIN {2} as ユーザ ON 基本.fkjCliMicID = ユーザ.fusCliMicID"
-											+ " WHERE 基本.fkj得意先情報 = '{3}'"
+			string sqlStr = string.Format("SELECT TOP 1 B.fkj顧客区分 AS 顧客区分, CL.fCliID AS 顧客No, B.fkj得意先情報 AS 得意先No, B.fkj郵便番号 AS 郵便番号"
+											+ ", B.fkjファックス番号 AS FAX番号, B.fkj電話番号 AS 電話番号, CL.fCliName AS 顧客名1, B.fkj顧客名2 AS 顧客名2"
+											+ ", B.fkj住所1 AS 住所1, B.fkj住所2 AS 住所2, U.fus院長名 AS 院長名, U.fus運用サポート情報 as 運用サポート情報"
+											+ ", U.fus医保医療コード as 医保医療コード"
+											+ ", CL.fCliYomi as フリガナ"
+											+ ", B.fkj住所フリガナ as 住所フリガナ"
+											+ ", U.fus院長名フリガナ as 院長名フリガナ"
+											+ ", U.fus休診日 as 休診日"
+											+ ", U.fus診療時間 as 診療時間"
+											+ ", U.fusﾒｰﾙｱﾄﾞﾚｽ as メールアドレス"
+											+ ", U.fus備考2 as 備考"
+											+ ", U.fus単体 as 単体"
+											+ ", U.fusサーバー as サーバー"
+											+ ", U.fusクライアント as クライアント"
+											+ ", U.fus納品月 as 納品月"
+											+ ", P.fBshName3 as 支店名"
+											+ ", P.fUsrName as 担当者名"
+											+ ", S.営業担当者名 as 営業担当者名"
+											+ ", AG.fdaAPLUSコード as 代行回収APLUSコード"
+											+ ", AG.fda状態 as 代行回収状態"
+											+ ", U.fus開設者 as 開設者名"
+											+ ", PC.PRODUCT_ID as MWS_ID"
+											+ ", PC.PASSWORD as MWS_パスワード"
+											+ ", PC.PASSWORD_READING as MWS_パスワード読み"
+											+ ", KN.県番号 as 県番号"
+											+ ", KN.都道府県名 as 都道府県名"
+											+ ", RE.顧客No as 販売店ID"
+											+ ", RE.顧客名1 + RE.顧客名2 as 販売店名称"
+											+ ", TK.fcm名称 as システム名称"
+											+ ", TK2.fcm名称 as システム略称"
+											+ " FROM {0} as CL"
+											+ " INNER JOIN {1} as B ON CL.fCliID = B.fkjCliMicID"
+											+ " LEFT JOIN {2} as U ON B.fkjCliMicID = U.fusCliMicID"
+											+ " LEFT JOIN {3} as P ON CL.fCliFirstcMan = P.fUsrID"
+											+ " LEFT JOIN {4} as S ON CL.fCliID=S.顧客No"
+											+ " LEFT JOIN {5} as AG ON CL.fCliID = AG.fdaCliMicID"
+											+ " LEFT JOIN {6} as PC ON CL.fCliID = PC.CUSTOMER_ID"
+											+ " LEFT JOIN {7} as KN ON LEFT(B.fkj住所１, 3) = left(KN.都道府県名, 3)"
+											+ " LEFT JOIN {8} as RE ON RE.顧客No = U.fus販売店No"
+											+ " LEFT JOIN {9} as TK ON TK.fcmコード種別 = '01' and U.fusシステム名 = TK.fcmコード"
+											+ " LEFT JOIN {9} as TK2 ON U.fusシステム名 = TK2.fcmコード AND TK2.fcmコード種別 = '91'"
+											+ " WHERE B.fkj得意先情報 = '{10}'"
 											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient]
 											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報]
 											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ]
+											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMih担当者]
+											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic営業担当]
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik代行回収]
+											, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_PRODUCT_CONTROL]
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik県番号]
+											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全販売店]
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ]
 											, tokuisakiNo);
-
 			DataTable table = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
-			return CustomerInfo.DataTableToList(table);
+			return CustomerInfo.DataTableToData(table);
 		}
 
 		/// <summary>
@@ -100,22 +143,63 @@ namespace CommonLib.DB.SqlServer.VariousDocumentOut
 		/// <param name="tokuisakiNo">得意先No</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>結果</returns>
-		public static List<CustomerInfo> Select_CustomerInfoByCustomerNo(int CustomerNo, string connectStr)
+		public static CustomerInfo Select_CustomerInfoByCustomerNo(int CustomerNo, string connectStr)
 		{
-			string sqlStr = string.Format("SELECT 基本.fkj顧客区分 AS 顧客区分, CL.fCliID AS 顧客No, 基本.fkj得意先情報 AS 得意先No, 基本.fkj郵便番号 AS 郵便番号"
-											+ ", 基本.fkjファックス番号 AS FAX番号, 基本.fkj電話番号 AS 電話番号, CL.fCliName AS 顧客名1, 基本.fkj顧客名2 AS 顧客名2"
-											+ ", 基本.fkj住所1 AS 住所1, 基本.fkj住所2 AS 住所2, ユーザ.fus院長名 AS 院長名, ユーザ.fus運用サポート情報 as 運用サポート情報"
-											+ " FROM ({0} as CL"
-											+ " INNER JOIN {1} as 基本 ON CL.fCliID = 基本.fkjCliMicID)"
-											+ " LEFT JOIN {2} as ユーザ ON 基本.fkjCliMicID = ユーザ.fusCliMicID"
-											+ " WHERE CL.fCliID = {3}"
+			string sqlStr = string.Format("SELECT TOP 1 B.fkj顧客区分 AS 顧客区分, CL.fCliID AS 顧客No, B.fkj得意先情報 AS 得意先No, B.fkj郵便番号 AS 郵便番号"
+											+ ", B.fkjファックス番号 AS FAX番号, B.fkj電話番号 AS 電話番号, CL.fCliName AS 顧客名1, B.fkj顧客名2 AS 顧客名2"
+											+ ", B.fkj住所1 AS 住所1, B.fkj住所2 AS 住所2, U.fus院長名 AS 院長名, U.fus運用サポート情報 as 運用サポート情報"
+											+ ", U.fus医保医療コード as 医保医療コード"
+											+ ", CL.fCliYomi as フリガナ"
+											+ ", B.fkj住所フリガナ as 住所フリガナ"
+											+ ", U.fus院長名フリガナ as 院長名フリガナ"
+											+ ", U.fus休診日 as 休診日"
+											+ ", U.fus診療時間 as 診療時間"
+											+ ", U.fusﾒｰﾙｱﾄﾞﾚｽ as メールアドレス"
+											+ ", U.fus備考2 as 備考"
+											+ ", U.fus単体 as 単体"
+											+ ", U.fusサーバー as サーバー"
+											+ ", U.fusクライアント as クライアント"
+											+ ", U.fus納品月 as 納品月"
+											+ ", P.fBshName3 as 支店名"
+											+ ", P.fUsrName as 担当者名"
+											+ ", S.営業担当者名 as 営業担当者名"
+											+ ", AG.fdaAPLUSコード as 代行回収APLUSコード"
+											+ ", AG.fda状態 as 代行回収状態"
+											+ ", U.fus開設者 as 開設者名"
+											+ ", PC.PRODUCT_ID as MWS_ID"
+											+ ", PC.PASSWORD as MWS_パスワード"
+											+ ", PC.PASSWORD_READING as MWS_パスワード読み"
+											+ ", KN.県番号 as 県番号"
+											+ ", KN.都道府県名 as 都道府県名"
+											+ ", RE.顧客No as 販売店ID"
+											+ ", RE.顧客名1 + RE.顧客名2 as 販売店名称"
+											+ ", TK.fcm名称 as システム名称"
+											+ ", TK2.fcm名称 as システム略称"
+											+ " FROM {0} as CL"
+											+ " INNER JOIN {1} as B ON CL.fCliID = B.fkjCliMicID"
+											+ " LEFT JOIN {2} as U ON B.fkjCliMicID = U.fusCliMicID"
+											+ " LEFT JOIN {3} as P ON CL.fCliFirstcMan = P.fUsrID"
+											+ " LEFT JOIN {4} as S ON CL.fCliID=S.顧客No"
+											+ " LEFT JOIN {5} as AG ON CL.fCliID = AG.fdaCliMicID"
+											+ " LEFT JOIN {6} as PC ON CL.fCliID = PC.CUSTOMER_ID"
+											+ " LEFT JOIN {7} as KN ON LEFT(B.fkj住所１, 3) = left(KN.都道府県名, 3)"
+											+ " LEFT JOIN {8} as RE ON RE.顧客No = U.fus販売店No"
+											+ " LEFT JOIN {9} as TK ON TK.fcmコード種別 = '01' and U.fusシステム名 = TK.fcmコード"
+											+ " LEFT JOIN {9} as TK2 ON U.fusシステム名 = TK2.fcmコード AND TK2.fcmコード種別 = '91'"
+											+ " WHERE CL.fCliID = {10}"
 											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient]
 											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報]
 											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ]
+											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMih担当者]
+											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic営業担当]
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik代行回収]
+											, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_PRODUCT_CONTROL]
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik県番号]
+											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全販売店]
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ]
 											, CustomerNo);
-
 			DataTable table = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
-			return CustomerInfo.DataTableToList(table);
+			return CustomerInfo.DataTableToData(table);
 		}
 
 		/// <summary>
@@ -126,6 +210,7 @@ namespace CommonLib.DB.SqlServer.VariousDocumentOut
 		/// <returns>結果</returns>
 		public static List<オンライン資格確認対象商品売上明細> Select_オンライン資格確認対象商品売上明細(string tokuisakiNo, string connectStr)
 		{
+			// Ver1.18(2023/04/03 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 送付先リストから受注日を取得
 			string sqlStr = string.Format("SELECT"
 										+ " 明細.sykd_tcd as 得意先コード"
 										+ ",明細.sykd_uribi as 売上日"
@@ -144,15 +229,15 @@ namespace CommonLib.DB.SqlServer.VariousDocumentOut
 										+ " FROM {0} as 明細"
 										+ " INNER JOIN"
 										+ " ("
-										+ " SELECT"
+										+ "SELECT TOP 1"
 										+ " sykd_denno"
 										+ ",sykd_uribi"
-										+ ",sykd_scd"
+										+ ",sykd_tcd"
 										+ " FROM {0}"
-										+ " WHERE sykd_scd = '018021'"
-										+ ") as ソフト改修費 on ソフト改修費.sykd_uribi = 明細.sykd_uribi AND ソフト改修費.sykd_denno = 明細.sykd_denno"
-										+ " WHERE 明細.sykd_tcd = '{1}'"
-										+ " ORDER BY 明細.sykd_uribi, 明細.sykd_tcd, 明細.[sykd_eda]"
+										+ " WHERE sykd_scd = '018021' AND sykd_tcd = {1}"
+										+ " ORDER BY sykd_denno"
+										+ ") as ソフト改修費 on ソフト改修費.sykd_denno = 明細.sykd_denno AND ソフト改修費.sykd_uribi = 明細.sykd_uribi AND ソフト改修費.sykd_tcd = 明細.sykd_tcd"
+										+ " ORDER BY 明細.sykd_eda"
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
 										, tokuisakiNo);
 			DataTable table = DatabaseAccess.SelectDatabase(sqlStr, connectStr);

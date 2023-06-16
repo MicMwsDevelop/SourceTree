@@ -1,4 +1,4 @@
-﻿namespace CheckOrderSlip
+﻿namespace CheckOrderSlip.Forms
 {
 	partial class OrderSlipForm
 	{

@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2023/02/2 勝呂)
 // Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/10 勝呂)
+// Ver1.04(2023/03/30 勝呂):Microsoft365仕入データの単価が仕入価格でなく、標準価格となっている障害
 //
 using CommonLib.Common;
 using CommonLib.DB;
@@ -33,8 +34,12 @@ namespace CommonLib.BaseFactory.MakePurchaseFile
 		public string 商品名 { get; set; }
 		public int 数量 { get; set; }
 		public string 単位 { get; set; }
-		public int 単価 { get; set; }
-		public int 金額 { get; set; }
+
+		// Ver1.04(2023/03/30 勝呂):Microsoft365仕入データの単価が仕入価格でなく、標準価格となっている障害
+		//public int 単価 { get; set; }
+		//public int 金額 { get; set; }
+		public int 仕入価格 { get; set; }
+
 		public int 消費税率 { get; set; }
 
 		/// <summary>
@@ -55,8 +60,12 @@ namespace CommonLib.BaseFactory.MakePurchaseFile
 			商品名 = string.Empty;
 			数量 = 0;
 			単位 = string.Empty;
-			単価 = 0;
-			金額 = 0;
+
+			// Ver1.04(2023/03/30 勝呂):Microsoft365仕入データの単価が仕入価格でなく、標準価格となっている障害
+			//単価 = 0;
+			//金額 = 0;
+			仕入価格 = 0;
+
 			消費税率 = 0;
 		}
 
@@ -87,8 +96,12 @@ namespace CommonLib.BaseFactory.MakePurchaseFile
 						商品名 = row["商品名"].ToString().Trim(),
 						数量 = DataBaseValue.ConvObjectToInt(row["数量"]),
 						単位 = row["単位"].ToString().Trim(),
-						単価 = DataBaseValue.ConvObjectToInt(row["単価"]),
-						金額 = DataBaseValue.ConvObjectToInt(row["金額"]),
+
+						// Ver1.04(2023/03/30 勝呂):Microsoft365仕入データの単価が仕入価格でなく、標準価格となっている障害
+						//単価 = DataBaseValue.ConvObjectToInt(row["単価"]),
+						//金額 = DataBaseValue.ConvObjectToInt(row["金額"]),
+						仕入価格 = DataBaseValue.ConvObjectToInt(row["仕入価格"]),
+
 						消費税率 = DataBaseValue.ConvObjectToInt(row["消費税率"])
 					};
 					result.Add(data);

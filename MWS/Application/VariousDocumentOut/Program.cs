@@ -36,9 +36,15 @@
 // Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
 // Ver1.15(2023/01/17):2022/10 社保組織変更 支部→審査委員会事務局
 // Ver1.16(2023/01/20):4-光ディスク請求届出「光ディスク請求届出-社保用」、「光ディスク請求確認試験依頼書-社保用」
-//                     5-オンライン請求届出「電子証明書発行等依頼書」、「オンライン請求届出-社保用」]
-// Ver1.17(2023/03/09 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の金額欄に\マークを付加
-// Ver1.??(2023/04/01 勝呂):18-消耗品FAXオーダーシート 配送センター送料改定に対応(\980→\1200)
+//                                     5-オンライン請求届出「電子証明書発行等依頼書」、「オンライン請求届出-社保用」]
+// Ver1.17(2023/04/01 勝呂):18-消耗品FAXオーダーシート 配送センター送料改定に対応(\980→\1200)
+// Ver1.18(2023/04/06 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の金額欄に\マークを付加
+// Ver1.18(2023/04/06 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 送付先リストから受注日を取得
+// Ver1.18(2023/04/06 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 医療機関コードが7文字でない時にアプリケーションエラーが発生
+// Ver1.19(2023/04/13 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 「領収書内訳書」の顧客名の後ろに様を付加しない
+// Ver1.19(2023/04/13 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 「領収書内訳書」と「事業完了報告書」の医療機関コードが出力されない
+// Ver1.20(2023/06/09 勝呂):2-FAX送付状、3-種類送付状が販売店の時に出力できない
+/////////////////////////////////////////////////////////
 //
 using System;
 using System.Windows.Forms;
@@ -56,17 +62,12 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// バージョン番号
 		/// </summary>
-		public const string VersionStr = "Ver1.17 (2023/03/09)";
+		public const string VersionStr = "Ver1.20 (2023/06/12)";
 
 		/// <summary>
 		/// 環境設定
 		/// </summary>
 		public static VariousDocumentOutSettings gSettings { get; set; }
-
-		/// <summary>
-		/// Power Automateモード
-		/// </summary>
-		public static bool gPowerAutomateMode { get; set; }
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -78,13 +79,6 @@ namespace VariousDocumentOut
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			gSettings = VariousDocumentOutSettingsIF.GetSettings();
-
-			gPowerAutomateMode = false;
-			string[] cmds = Environment.GetCommandLineArgs();
-			if (2 <= cmds.Length)
-			{
-				gPowerAutomateMode = true;
-			}
 
 			Application.Run(new Forms.MainForm());
 		}

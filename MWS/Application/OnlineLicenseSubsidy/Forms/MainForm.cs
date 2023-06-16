@@ -8,12 +8,11 @@
 // Ver1.00(2022/09/20 勝呂):新規作成
 // Ver1.05(2022/12/28 勝呂):経理部要望対応 注文確認書追加対応
 // Ver1.07(2023/02/17 勝呂):経理部要望対応 受注日を伝票でなく、[SalesDB].[dbo].[オンライン資格確認進捗管理情報]の契約日から取得
+// Ver1.08(2023/04/07 勝呂):経理部要望対応  受注日は送付先リストから取得する
 //
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Junp.View;
-using CommonLib.BaseFactory.Sales.Table;
 using CommonLib.DB.SqlServer.Junp;
-using CommonLib.DB.SqlServer.Sales;
 using OnlineLicenseSubsidy.BaseFactory;
 using System;
 using System.Collections.Generic;
@@ -114,6 +113,25 @@ namespace OnlineLicenseSubsidy.Forms
 		}
 
 		/// <summary>
+		/// 送付先リストのファイルの選択
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonInputDestinationFile_Click(object sender, EventArgs e)
+		{
+			using (OpenFileDialog dlg = new OpenFileDialog())
+			{
+				dlg.InitialDirectory = Directory.GetCurrentDirectory();
+				dlg.Filter = "EXCELファイル(*.xlsx)|*.xlsx|すべてのファイル(*.*)|*.*";
+				dlg.Title = "送付先リストを選択してください";
+				if (DialogResult.OK == dlg.ShowDialog())
+				{
+					textBoxDestinationPathname.Text = dlg.FileName;
+				}
+			}
+		}
+
+		/// <summary>
 		/// 作業リスト出力
 		/// </summary>
 		/// <param name="sender"></param>
@@ -135,6 +153,18 @@ namespace OnlineLicenseSubsidy.Forms
 			string workPathname = Path.Combine(Directory.GetCurrentDirectory(), オン資補助金申請書類出力.WorkListFilename(radioButtonEast.Checked));
 			File.Copy(orgWorkPathname, workPathname, true);
 
+			// Ver1.08(2023/04/07 勝呂):経理部要望対応  受注日は送付先リストから取得する
+			List<送付先リスト> destinationList = null;
+			if (0 < textBoxDestinationPathname.Text.Length)
+			{
+				if (false == File.Exists(textBoxDestinationPathname.Text))
+				{
+					MessageBox.Show(string.Format("{0}ファイルが見つかりません。", textBoxDestinationPathname.Text), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+				// 送付先リストから注文確認書出力情報を取得する
+				destinationList = 送付先リスト.ReadDistinationExcelFile(textBoxDestinationPathname.Text);
+			}
 			// \\wwsv\ons-pics\管理用_営業管理部\NTT東日本_提出用\05_補助金額資料\202207
 			Tuple<string, string> folder = (Tuple<string, string>)comboBoxYearMonth.SelectedItem;
 			string[] clinicFolders = Directory.GetDirectories(folder.Item2, "*", SearchOption.TopDirectoryOnly);
@@ -216,23 +246,30 @@ namespace OnlineLicenseSubsidy.Forms
 							data.領収内訳情報List = オン資補助金申請書類出力.ReadExcel領収書内訳書(receiptPathname);
 
 							// 注文確認書
+							data.発送日 = DateTime.Today;
+
 							// Ver1.05(2022/12/28 勝呂):経理部要望対応 注文確認書追加対応
 							whereStr = string.Format("顧客No = {0}", userInfo.顧客No);
-							List<vMicオンライン資格確認ソフト改修費> softList = JunpDatabaseAccess.Select_vMicオンライン資格確認ソフト改修費(whereStr, "受注番号 DESC", Program.gSettings.Junp.ConnectionString);
+							List<vMicオンライン資格確認ソフト改修費> softList = JunpDatabaseAccess.Select_vMicオンライン資格確認ソフト改修費(whereStr, "受注番号 ASC", Program.gSettings.Junp.ConnectionString);
 							if (null != softList && 0 < softList.Count)
 							{
-								data.発送日 = DateTime.Today;
 								data.受注日 = softList[0].受注日;
 								data.金額 = softList[0].受注金額税込;
 							}
-							// Ver1.07(2023/02/17 勝呂):経理部要望対応 受注日を伝票でなく、[SalesDB].[dbo].[オンライン資格確認進捗管理情報]の契約日から取得
-							// 受注日を[SalesDB].[dbo].[オンライン資格確認進捗管理情報]の受注日から取得
-							List<オンライン資格確認進捗管理情報>  progressList = SalesDatabaseAccess.Select_オンライン資格確認進捗管理情報(whereStr, "", Program.gSettings.Junp.ConnectionString);
-							if (null != progressList && 0 < progressList.Count)
+							// Ver1.08(2023/04/07 勝呂):経理部要望対応  受注日は送付先リストから取得する
+							// 要件定義
+							// (1) 受注日は送付先リストから取得する。送付先リストに該当する医院がない場合には、WWの受注伝票から受注日を取得する
+							// (2) 金額はWWの受注伝票から金額を取得する。受注伝票が存在しない場合には、送付先リストから取得する
+							if (null != destinationList)
 							{
-								if (progressList[0].契約日.HasValue)
+								送付先リスト destination = destinationList.Find(p => p.得意先No == data.顧客情報WW.得意先No);
+								if (null != destination) 
 								{
-									data.受注日 = progressList[0].契約日;
+									data.受注日 = destination.受注日;
+									if (0 == data.金額)
+									{
+										data.金額 = destination.金額;
+									}
 								}
 							}
 							if (null != data.領収内訳情報List)

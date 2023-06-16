@@ -38,12 +38,12 @@ namespace CommonLib.BaseFactory.Charlie.View
             住所 = string.Empty;
         }
 
-        /// <summary>
-        /// [charlieDB].[dbo].[view_MWS顧客情報]の詰め替え
-        /// </summary>
-        /// <param name="table">データテーブル</param>
-        /// <returns>V_COUPLER_APPLY</returns>
-        public static List<view_MWS顧客情報> DataTableToList(DataTable table)
+		/// <summary>
+		/// [charlieDB].[dbo].[view_MWS顧客情報]の詰め替え
+		/// </summary>
+		/// <param name="table">データテーブル</param>
+		/// <returns>view_MWS顧客情報</returns>
+		public static List<view_MWS顧客情報> DataTableToList(DataTable table)
         {
             if (null != table && 0 < table.Rows.Count)
             {

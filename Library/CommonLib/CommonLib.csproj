@@ -57,7 +57,9 @@
     <Compile Include="BaseFactory\AlmexMainte\AlemxPurchase.cs" />
     <Compile Include="BaseFactory\AlmexMainte\AlmexMainteEarningsOut.cs" />
     <Compile Include="BaseFactory\Charlie\Table\M_SERVICE.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_APPLICATION_DATA.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_CUSSTOMER_USE_INFOMATION.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_CUSTOMER_FOUNDATIONS.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_DEMO_USER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_LICENSE_PRODUCT_CONTRACT.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
@@ -68,6 +70,11 @@
     <Compile Include="BaseFactory\Charlie\Table\売上実績.cs" />
     <Compile Include="BaseFactory\Charlie\View\view_MWS顧客情報.cs" />
     <Compile Include="BaseFactory\Charlie\View\V_COUPLER_APPLY.cs" />
+    <Compile Include="BaseFactory\Charlie\View\V_CUSTOMER.cs" />
+    <Compile Include="BaseFactory\Charlie\View\WW伝票参照ビュー.cs" />
+    <Compile Include="BaseFactory\Charlie\View\社員マスタ参照ビュー.cs" />
+    <Compile Include="BaseFactory\Charlie\View\販売店区分参照ビュー.cs" />
+    <Compile Include="BaseFactory\Charlie\View\販売店情報参照ビュー.cs" />
     <Compile Include="BaseFactory\CheckOrderSlip\OrderSlipData.cs" />
     <Compile Include="BaseFactory\CloudBackup\GroupMicPCA売上明細.cs" />
     <Compile Include="BaseFactory\EntryFinishedUser\EntryFinishedUserData.cs" />
@@ -192,11 +199,14 @@
     <Compile Include="BuiData\ToothPositionHelper.cs" />
     <Compile Include="Common\CalcTax.cs" />
     <Compile Include="BuiData\RezeptComputeBui.cs" />
+    <Compile Include="Common\DateTimeUtil.cs" />
     <Compile Include="DB\SQLite\MwsSimulation\SQLiteMwsSimulationAccess.cs" />
     <Compile Include="DB\SQLite\MwsSimulation\SQLiteMwsSimulationController.cs" />
     <Compile Include="DB\SQLite\MwsSimulation\SQLiteMwsSimulationDef.cs" />
     <Compile Include="DB\SQLite\MwsSimulation\SQLiteMwsSimulationGetIO.cs" />
     <Compile Include="DB\SQLite\MwsSimulation\SQLiteMwsSimulationSetIO.cs" />
+    <Compile Include="DB\SqlServer\AdjustServiceApply\AdjustServiceApplyAccess.cs" />
+    <Compile Include="DB\SqlServer\AdjustServiceApply\AdjustServiceApplyGetIO.cs" />
     <Compile Include="DB\SqlServer\AlertCloudBackupPcSupportPlus\AlertCloudBackupPcSupportPlusAccess.cs" />
     <Compile Include="DB\SqlServer\AlertCloudBackupPcSupportPlus\AlertCloudBackupPcSupportPlusGetIO.cs" />
     <Compile Include="DB\SqlServer\AlmexMainte\AlmexMainteAccess.cs" />
@@ -282,7 +292,9 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="BaseFactory\AdjustServiceApply\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

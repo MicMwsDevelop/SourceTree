@@ -1,7 +1,6 @@
 ﻿//
 // 支店情報参照ビュー.cs
 //
-// 支店情報参照ビュークラス
 // [charlieDB].[dbo].[支店情報参照ビュー]
 // 
 // Copyright (C) MIC All Rights Reserved.

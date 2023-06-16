@@ -37,6 +37,7 @@ namespace CommonLib.BaseFactory.Junp.View
 		/// <summary>
 		/// 受注金額（税込）の取得
 		/// 消費税率10%固定
+		/// 税計算は四捨五入
 		/// </summary>
 		public double 受注金額税込
 		{
@@ -44,7 +45,8 @@ namespace CommonLib.BaseFactory.Junp.View
 			{
 				if (0 < 受注金額)
 				{
-					return 受注金額 * 1.1;
+					//return 受注金額 * 1.1;
+					return Math.Round(受注金額 * 1.1, MidpointRounding.AwayFromZero);
 				}
 				return 0;
 			}

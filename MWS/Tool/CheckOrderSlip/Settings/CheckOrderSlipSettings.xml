@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CheckOrderSlipSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Junp>
+		<InstanceName>SQLSV</InstanceName>
+		<!-- InstanceName>TESTSV</InstanceName -->
+		<DatabaseName>JunpDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</Junp>
+	<Charlie>
+		<InstanceName>SQLSV</InstanceName>
+		<!-- InstanceName>TESTSV</InstanceName -->
+		<DatabaseName>CharlieDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</Charlie>
+</CheckOrderSlipSettings>

@@ -11,7 +11,7 @@ using CommonLib.BaseFactory.Junp.CheckOrderSlip;
 using System;
 using System.Windows.Forms;
 
-namespace CheckOrderSlip
+namespace CheckOrderSlip.Forms
 {
 	public partial class OrderSlipForm : Form
 	{

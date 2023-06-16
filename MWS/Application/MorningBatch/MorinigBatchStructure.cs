@@ -7,11 +7,12 @@
 // 
 // Ver1.000 新規作成(2022/10/21 勝呂)
 // 
+using CommonLib.Common;
 using CommonLib.DB;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using CommonLib.Common;
+using System.Diagnostics;
 
 namespace CommonLib.BaseFactory.Charlie.Table
 {
@@ -144,9 +145,9 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		/// 詰め替え
 		/// </summary>
 		/// <param name="table">データテーブル</param>
-		/// <param name="out1aSwitch">顧客データ処理判定（1:全件 2:差分）</param>
+		/// <param name="customerLastDate">顧客情報最終出力日時</param>
 		/// <returns>製品管理情報</returns>
-		public static List<stU005_out1a> DataTableToList(DataTable table, string out1aSwitch)
+		public static List<stU005_out1a> DataTableToList(DataTable table, DateTime? customerLastDate)
 		{
 			if (null != table && 0 < table.Rows.Count)
 			{
@@ -174,8 +175,9 @@ namespace CommonLib.BaseFactory.Charlie.Table
 						// 2018/5/24 Ver2.19.0対応 Charlieのログイン終了日は基本NULLになる（無期限扱い）COUPLERでは、ログイン終了日に2999/12/31でセットする
 						data.TRIAL_END_DATE = new DateTime(2999, 12, 31);
 					}
-					if ("2" == out1aSwitch)
+					if (customerLastDate.HasValue)
 					{
+						// 差分
 						data.DELETE_FLG = ("0" == row["DELETE_FLG"].ToString()) ? false : true;
 					}
 					data.CLIENT_LICENSES = DataBaseValue.ConvObjectToInt(row["CLIENT_LICENSES"]);
@@ -294,13 +296,44 @@ namespace CommonLib.BaseFactory.Charlie.Table
 	/// </summary>
 	public class stU005_out1b
 	{
+		/// <summary>
+		/// 顧客ID
+		/// </summary>
 		public int CUSTOMER_ID { get; set; }
+
+		/// <summary>
+		/// MWSID
+		/// </summary>
 		public string PRODUCT_ID { get; set; }
+
+		/// <summary>
+		/// サービスID
+		/// </summary>
 		public int SERVICE_ID { get; set; }
+
+		/// <summary>
+		/// 課金対象外フラグ
+		/// </summary>
 		public int PAUSE_END_STATUS { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
 		public int SET_SALE { get; set; }
+
+		/// <summary>
+		/// 利用開始日
+		/// </summary>
 		public DateTime? USE_START_DATE { get; set; }
+
+		/// <summary>
+		/// 利用終了日
+		/// </summary>
 		public DateTime? USE_END_DATE { get; set; }
+
+		/// <summary>
+		/// 削除フラグ
+		/// </summary>
 		public bool DELETE_FLG { get; set; }
 
 		/// <summary>
@@ -322,10 +355,10 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		/// 詰め替え
 		/// </summary>
 		/// <param name="table">データテーブル</param>
-		/// <param name="out1bSwitch">利用機能データ処理判定（1:全件 2:差分）</param>
+		/// <param name="serviceUseLastDate">サービス利用情報最終出力日時</param>
 		/// <param name="iServiceNoOut">有効期間外サービス数</param>
 		/// <returns>サービス利用情報</returns>
-		public static List<stU005_out1b> DataTableToList(DataTable table, string out1bSwitch, out int iServiceNoOut)
+		public static List<stU005_out1b> DataTableToList(DataTable table, DateTime? serviceUseLastDate, out int iServiceNoOut)
 		{
 			iServiceNoOut = 0;
 			if (null != table && 0 < table.Rows.Count)
@@ -341,7 +374,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 					// Ver2.19.0 利用終了日のチェックは行わない
 					if (false == useStartDate.HasValue)
 					{
-						Console.WriteLine(string.Format("顧客ID：{0} CouplerID：{1} サービスID：{2} 利用開始日が指定されていないため出力は行いませんでした。", customerID, productID, serviceID));
+						Trace.WriteLine(string.Format("顧客ID：{0} CouplerID：{1} サービスID：{2} 利用開始日が指定されていないため出力は行いませんでした。", customerID, productID, serviceID));
 						iServiceNoOut++;
 					}
 					else
@@ -363,8 +396,9 @@ namespace CommonLib.BaseFactory.Charlie.Table
 						{
 							data.USE_END_DATE = useEndDate;
 						}
-						if ("2" == out1bSwitch)
+						if (serviceUseLastDate.HasValue)
 						{
+							// 差分
 							data.DELETE_FLG = ("0" == row["DELETE_FLG"].ToString()) ? false : true;
 						}
 						result.Add(data);
@@ -381,9 +415,24 @@ namespace CommonLib.BaseFactory.Charlie.Table
 	/// </summary>
 	public class CouplerApply
 	{
+		/// <summary>
+		/// 申込番号
+		/// </summary>
 		public int apply_id { get; set; }
+
+		/// <summary>
+		/// MWSID
+		/// </summary>
 		public string cp_id { get; set; }
+
+		/// <summary>
+		/// サービスID
+		/// </summary>
 		public int service_id { get; set; }
+
+		/// <summary>
+		/// 申込種別(0:申込、1:解約、2:取消)
+		/// </summary>
 		public int apply_type { get; set; }
 
 		/// <summary>
@@ -424,18 +473,47 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		}
 	}
 
-	
+
 	/// <summary>
-	/// サービス情報
+	/// カプラーサービス情報
 	/// </summary>
 	public class CouplerService
 	{
+		/// <summary>
+		/// MWSID
+		/// </summary>
 		public string cp_id { get; set; }
+
+		/// <summary>
+		/// サービスID
+		/// </summary>
 		public int service_id { get; set; }
+
+		/// <summary>
+		/// 契約種別（0:契約、1:解約）
+		/// </summary>
 		public int contrac_type { get; set; }
+
+		/// <summary>
+		/// 支払い方法（0:月額以外、1:月額）
+		/// ※未使用
+		/// </summary>
 		public int payment_type { get; set; }
+
+		/// <summary>
+		/// 利用開始日
+		/// </summary>
 		public DateTime? start_date { get; set; }
+
+		/// <summary>
+		/// 利用終了日
+		/// </summary>
 		public DateTime? end_date { get; set; }
+
+		/// <summary>
+		/// 削除フラグ
+		/// </summary>
+		public bool imp_type { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -448,9 +526,13 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			payment_type = 0;
 			start_date = null;
 			end_date = null;
+			imp_type = false;
 		}
 	}
 
+	/// <summary>
+	/// カプラー顧客情報
+	/// </summary>
 	public class CouplerProductuser
 	{
 		/// <summary>
@@ -460,10 +542,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 
 		/// <summary>
 		/// ユーザー種別
-		/// 0:UNICORNユーザ
-		/// 1:既存製品ユーザ
-		/// 2:社員用ユーザー
-		/// 3:デモ用ユーザー
+		/// 0:paletteユーザ、1:既存製品ユーザ、2:社員用ユーザー、3:デモ用ユーザー
 		/// </summary>
 		public int user_type { get; set; }
 
@@ -518,12 +597,12 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		public string default_paswd { get; set; }
 
 		/// <summary>
-		/// 
+		/// パスワード
 		/// </summary>
 		public string paswd_update { get; set; }
 
 		/// <summary>
-		/// 
+		/// ライセンス数
 		/// </summary>
 		public int license_count { get; set; }
 

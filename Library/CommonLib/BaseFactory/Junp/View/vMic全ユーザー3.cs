@@ -230,9 +230,25 @@ namespace CommonLib.BaseFactory.Junp.View
 				string name = 顧客名1;
 				if (0 < 顧客名2.Length)
 				{
-					name += " " + 顧客名2;
+					name += 顧客名2;
 				}
 				return name;
+			}
+		}
+
+		/// <summary>
+		/// 住所の取得
+		/// </summary>
+		public string 住所
+		{
+			get
+			{
+				string add = 住所1;
+				if (0 < 住所2.Length)
+				{
+					add += " " + 住所2;
+				}
+				return add;
 			}
 		}
 
@@ -243,7 +259,11 @@ namespace CommonLib.BaseFactory.Junp.View
 		{
 			get
 			{
-				return StringUtil.DigitOnlyString(医療機関コード);
+				if (0 < 医療機関コード.Length)
+				{
+					return StringUtil.DigitOnlyString(医療機関コード);
+				}
+				return string.Empty;
 			}
 		}
 

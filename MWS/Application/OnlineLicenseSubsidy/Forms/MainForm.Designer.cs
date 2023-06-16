@@ -34,6 +34,10 @@ namespace OnlineLicenseSubsidy.Forms
 			this.label1 = new System.Windows.Forms.Label();
 			this.comboBoxYearMonth = new System.Windows.Forms.ComboBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.buttonInputDestinationFile = new System.Windows.Forms.Button();
+			this.label4 = new System.Windows.Forms.Label();
+			this.textBoxDestinationPathname = new System.Windows.Forms.TextBox();
+			this.buttonSelectFile = new System.Windows.Forms.Button();
 			this.textBoxInputFolder = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.radioButtonWest = new System.Windows.Forms.RadioButton();
@@ -50,7 +54,7 @@ namespace OnlineLicenseSubsidy.Forms
 			// buttonExport
 			// 
 			this.buttonExport.Enabled = false;
-			this.buttonExport.Location = new System.Drawing.Point(440, 76);
+			this.buttonExport.Location = new System.Drawing.Point(469, 76);
 			this.buttonExport.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonExport.Name = "buttonExport";
 			this.buttonExport.Size = new System.Drawing.Size(160, 56);
@@ -61,11 +65,11 @@ namespace OnlineLicenseSubsidy.Forms
 			// 
 			// buttonWorkbook
 			// 
-			this.buttonWorkbook.Location = new System.Drawing.Point(440, 128);
+			this.buttonWorkbook.Location = new System.Drawing.Point(469, 204);
 			this.buttonWorkbook.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonWorkbook.Name = "buttonWorkbook";
 			this.buttonWorkbook.Size = new System.Drawing.Size(160, 56);
-			this.buttonWorkbook.TabIndex = 6;
+			this.buttonWorkbook.TabIndex = 9;
 			this.buttonWorkbook.Text = "作業リスト出力";
 			this.buttonWorkbook.UseVisualStyleBackColor = true;
 			this.buttonWorkbook.Click += new System.EventHandler(this.buttonWorkbook_Click);
@@ -73,7 +77,7 @@ namespace OnlineLicenseSubsidy.Forms
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(20, 131);
+			this.label1.Location = new System.Drawing.Point(18, 117);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(86, 17);
 			this.label1.TabIndex = 4;
@@ -83,13 +87,17 @@ namespace OnlineLicenseSubsidy.Forms
 			// 
 			this.comboBoxYearMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxYearMonth.FormattingEnabled = true;
-			this.comboBoxYearMonth.Location = new System.Drawing.Point(112, 128);
+			this.comboBoxYearMonth.Location = new System.Drawing.Point(112, 117);
 			this.comboBoxYearMonth.Name = "comboBoxYearMonth";
 			this.comboBoxYearMonth.Size = new System.Drawing.Size(277, 25);
 			this.comboBoxYearMonth.TabIndex = 5;
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.buttonInputDestinationFile);
+			this.groupBox1.Controls.Add(this.label4);
+			this.groupBox1.Controls.Add(this.textBoxDestinationPathname);
+			this.groupBox1.Controls.Add(this.buttonSelectFile);
 			this.groupBox1.Controls.Add(this.textBoxInputFolder);
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.radioButtonWest);
@@ -99,10 +107,51 @@ namespace OnlineLicenseSubsidy.Forms
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Location = new System.Drawing.Point(13, 13);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(648, 202);
+			this.groupBox1.Size = new System.Drawing.Size(648, 277);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "事業完了報告書/領収書内訳書読込";
+			// 
+			// buttonInputDestinationFile
+			// 
+			this.buttonInputDestinationFile.Location = new System.Drawing.Point(601, 172);
+			this.buttonInputDestinationFile.Margin = new System.Windows.Forms.Padding(4);
+			this.buttonInputDestinationFile.Name = "buttonInputDestinationFile";
+			this.buttonInputDestinationFile.Size = new System.Drawing.Size(28, 24);
+			this.buttonInputDestinationFile.TabIndex = 8;
+			this.buttonInputDestinationFile.Text = "▼";
+			this.buttonInputDestinationFile.UseVisualStyleBackColor = true;
+			this.buttonInputDestinationFile.Click += new System.EventHandler(this.buttonInputDestinationFile_Click);
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(18, 151);
+			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(87, 17);
+			this.label4.TabIndex = 6;
+			this.label4.Text = "■送付先リスト";
+			// 
+			// textBoxDestinationPathname
+			// 
+			this.textBoxDestinationPathname.BackColor = System.Drawing.Color.White;
+			this.textBoxDestinationPathname.Location = new System.Drawing.Point(21, 172);
+			this.textBoxDestinationPathname.Margin = new System.Windows.Forms.Padding(4);
+			this.textBoxDestinationPathname.Name = "textBoxDestinationPathname";
+			this.textBoxDestinationPathname.ReadOnly = true;
+			this.textBoxDestinationPathname.Size = new System.Drawing.Size(577, 24);
+			this.textBoxDestinationPathname.TabIndex = 7;
+			// 
+			// buttonSelectFile
+			// 
+			this.buttonSelectFile.Location = new System.Drawing.Point(689, 186);
+			this.buttonSelectFile.Margin = new System.Windows.Forms.Padding(4);
+			this.buttonSelectFile.Name = "buttonSelectFile";
+			this.buttonSelectFile.Size = new System.Drawing.Size(10, 21);
+			this.buttonSelectFile.TabIndex = 9;
+			this.buttonSelectFile.Text = "▼";
+			this.buttonSelectFile.UseVisualStyleBackColor = true;
 			// 
 			// textBoxInputFolder
 			// 
@@ -151,7 +200,7 @@ namespace OnlineLicenseSubsidy.Forms
 			this.groupBox2.Controls.Add(this.textBoxWorkList);
 			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Controls.Add(this.buttonExport);
-			this.groupBox2.Location = new System.Drawing.Point(13, 230);
+			this.groupBox2.Location = new System.Drawing.Point(13, 300);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(648, 148);
 			this.groupBox2.TabIndex = 1;
@@ -161,7 +210,7 @@ namespace OnlineLicenseSubsidy.Forms
 			// checkBoxNotPDF
 			// 
 			this.checkBoxNotPDF.AutoSize = true;
-			this.checkBoxNotPDF.Location = new System.Drawing.Point(277, 95);
+			this.checkBoxNotPDF.Location = new System.Drawing.Point(306, 95);
 			this.checkBoxNotPDF.Name = "checkBoxNotPDF";
 			this.checkBoxNotPDF.Size = new System.Drawing.Size(156, 21);
 			this.checkBoxNotPDF.TabIndex = 3;
@@ -173,7 +222,7 @@ namespace OnlineLicenseSubsidy.Forms
 			// 
 			this.buttonInputWorkList.Location = new System.Drawing.Point(601, 45);
 			this.buttonInputWorkList.Name = "buttonInputWorkList";
-			this.buttonInputWorkList.Size = new System.Drawing.Size(33, 24);
+			this.buttonInputWorkList.Size = new System.Drawing.Size(28, 24);
 			this.buttonInputWorkList.TabIndex = 2;
 			this.buttonInputWorkList.Text = "▼";
 			this.buttonInputWorkList.UseVisualStyleBackColor = true;
@@ -185,7 +234,7 @@ namespace OnlineLicenseSubsidy.Forms
 			this.textBoxWorkList.Location = new System.Drawing.Point(21, 45);
 			this.textBoxWorkList.Name = "textBoxWorkList";
 			this.textBoxWorkList.ReadOnly = true;
-			this.textBoxWorkList.Size = new System.Drawing.Size(579, 24);
+			this.textBoxWorkList.Size = new System.Drawing.Size(577, 24);
 			this.textBoxWorkList.TabIndex = 1;
 			// 
 			// label2
@@ -201,7 +250,7 @@ namespace OnlineLicenseSubsidy.Forms
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(678, 391);
+			this.ClientSize = new System.Drawing.Size(687, 463);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Font = new System.Drawing.Font("Meiryo UI", 9.75F);
@@ -235,6 +284,10 @@ namespace OnlineLicenseSubsidy.Forms
 		private System.Windows.Forms.CheckBox checkBoxNotPDF;
 		private System.Windows.Forms.TextBox textBoxInputFolder;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Button buttonInputDestinationFile;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.TextBox textBoxDestinationPathname;
+		private System.Windows.Forms.Button buttonSelectFile;
 	}
 }
 

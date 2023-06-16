@@ -86,6 +86,16 @@ namespace CommonLib.DB.SqlServer.Charlie
 			/// 電子処方箋契約ヘッダ情報
 			/// </summary>
 			T_USE_PRESCRIPTION_HEADER = 12,
+
+			/// <summary>
+			/// 顧客管理基本
+			/// </summary>
+			T_CUSTOMER_FOUNDATIONS = 13,
+
+			/// <summary>
+			/// 申込データ
+			/// </summary>
+			T_APPLICATION_DATA = 14,
 		}
 
 		/// <summary>
@@ -105,6 +115,8 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ TableType.T_USE_CONTRACT_DETAIL, string.Format("{0}.T_USE_CONTRACT_DETAIL", DatabaseName) },
 			{ TableType.売上実績, string.Format("{0}.売上実績", DatabaseName) },
 			{ TableType.T_USE_PRESCRIPTION_HEADER, string.Format("{0}.T_USE_PRESCRIPTION_HEADER", DatabaseName) },
+			{ TableType.T_CUSTOMER_FOUNDATIONS, string.Format("{0}.T_CUSTOMER_FOUNDATIONS", DatabaseName) },
+			{ TableType.T_APPLICATION_DATA, string.Format("{0}.T_APPLICATION_DATA", DatabaseName) },
 		};
 
 		/// <summary>
@@ -118,6 +130,11 @@ namespace CommonLib.DB.SqlServer.Charlie
 			支店情報参照ビュー = 4,
 			view_MWS顧客情報 = 5,
 			顧客マスタ参照ビュー = 6,
+			WW伝票参照ビュー = 7,
+			V_CUSTOMER = 8,
+			社員マスタ参照ビュー = 9,
+			販売店区分参照ビュー = 10,
+			販売店情報参照ビュー = 11,
 		}
 
 		/// <summary>
@@ -131,6 +148,11 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ ViewType.支店情報参照ビュー, string.Format("{0}.支店情報参照ビュー", DatabaseName) },
 			{ ViewType.view_MWS顧客情報, string.Format("{0}.view_MWS顧客情報", DatabaseName) },
 			{ ViewType.顧客マスタ参照ビュー, string.Format("{0}.顧客マスタ参照ビュー", DatabaseName) },
+			{ ViewType.WW伝票参照ビュー, string.Format("{0}.WW伝票参照ビュー", DatabaseName) },
+			{ ViewType.V_CUSTOMER, string.Format("{0}.V_CUSTOMER", DatabaseName) },
+			{ ViewType.社員マスタ参照ビュー, string.Format("{0}.社員マスタ参照ビュー", DatabaseName) },
+			{ ViewType.販売店区分参照ビュー, string.Format("{0}.販売店区分参照ビュー", DatabaseName) },
+			{ ViewType.販売店情報参照ビュー, string.Format("{0}.販売店情報参照ビュー", DatabaseName) },
 		};
 
 

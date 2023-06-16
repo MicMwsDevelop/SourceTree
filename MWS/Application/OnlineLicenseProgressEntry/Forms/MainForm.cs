@@ -7,7 +7,11 @@
 // 
 // Ver1.00 新規作成(2022/09/28 勝呂)
 // Ver1.01 マイナンバーカードの健康保険証利用対応の医療機関リスト（都道府県別）の運用開始日に対応(2022/12/12 勝呂)
+// Ver1.04(2023/04/24 勝呂):運用開始日の設定時、WWの顧客情報取得時の条件に削除フラグが考慮されていなかったのを修正
 //
+
+#define DATA_WRITE      // データベースに登録する                    
+
 using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.BaseFactory.Sales.Table;
 using CommonLib.Common;
@@ -23,6 +27,7 @@ using System.Windows.Forms;
 
 namespace OnlineLicenseProgressEntry.Forms
 {
+
 	public partial class MainForm : Form
 	{
 		/// <summary>
@@ -162,7 +167,9 @@ namespace OnlineLicenseProgressEntry.Forms
 					if (0 < clinicList.Count)
 					{
 						// 医療機関情報の電話番号からWWの顧客情報を抽出し、医療機関情報に顧客Noを設定
-						List<tMik基本情報> basicList = JunpDatabaseAccess.Select_tMik基本情報("Len([fkj電話番号]) > 1", "[fkjCliMicID] ASC", Settings.ConnectJunp.ConnectionString);
+						// Ver1.04(2023/04/24 勝呂):運用開始日の設定時、WWの顧客情報取得時の条件に削除フラグが考慮されていなかったのを修正
+						//List<tMik基本情報> basicList = JunpDatabaseAccess.Select_tMik基本情報("Len([fkj電話番号]) > 1", "[fkjCliMicID] ASC", Settings.ConnectJunp.ConnectionString);
+						List<tMik基本情報> basicList = JunpDatabaseAccess.Select_tMik基本情報("[fkj削除フラグ] = '0' AND Len([fkj電話番号]) > 1", "[fkjCliMicID] ASC", Settings.ConnectJunp.ConnectionString);
 						if (null != basicList && 0 < basicList.Count)
 						{
 							foreach (MyNumberCardClinic clinic in clinicList)
@@ -181,24 +188,12 @@ namespace OnlineLicenseProgressEntry.Forms
 								}
 							}
 						}
+#if DATA_WRITE
 						// [SalesDB].[dbo].[オンライン資格確認進捗管理情報]に登録
-#if true
 						// 全削除、全追加方式
+						// ※更新方式では膨大な時間がかかるため
 						SalesDatabaseAccess.Delete_オンライン資格確認進捗管理情報("", Settings.ConnectSales.ConnectionString);
 						SalesDatabaseAccess.InsertIntoList_オンライン資格確認進捗管理情報(onlineList, Settings.ConnectSales.ConnectionString);
-#else
-						// 更新及び追加方式（非常に時間がかかる）
-						foreach (オンライン資格確認進捗管理情報 online in onlineList)
-						{
-							if (SalesDatabaseAccess.IsExistオンライン資格確認進捗管理情報(Settings.ConnectSales.ConnectionString, online.顧客No))
-							{
-								SalesDatabaseAccess.UpdateSet_オンライン資格確認進捗管理情報(online, Settings.ConnectSales.ConnectionString);
-							}
-							else
-							{
-								SalesDatabaseAccess.InsertInto_オンライン資格確認進捗管理情報(online, Settings.ConnectSales.ConnectionString);
-							}
-						}
 #endif
 						// カーソルを元に戻す
 						Cursor.Current = preCursor;

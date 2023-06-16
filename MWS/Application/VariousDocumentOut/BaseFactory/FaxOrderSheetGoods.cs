@@ -9,7 +9,7 @@
 //
 using CommonLib.Common;
 
-namespace VariousDocumentOut
+namespace VariousDocumentOut.BaseFactory
 {
 	/// <summary>
 	/// 消耗品FAXオーダーシート商品情報

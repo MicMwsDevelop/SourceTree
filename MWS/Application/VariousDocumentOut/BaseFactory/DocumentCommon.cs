@@ -6,12 +6,12 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2021/04/22 勝呂)
+// Ver1.20(2023/06/09 勝呂):2-FAX送付状、3-種類送付状が販売店の時に出力できない
 //
-using CommonLib.BaseFactory.Junp.View;
 using CommonLib.BaseFactory.VariousDocumentOut;
 using CommonLib.Common;
 
-namespace VariousDocumentOut
+namespace VariousDocumentOut.BaseFactory
 {
 	/// <summary>
 	/// 各種書類出力 共通情報
@@ -26,17 +26,7 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// 顧客情報
 		/// </summary>
-		public vMic全ユーザー2 Customer { get; set; }
-
-		/// <summary>
-		/// 顧客情報
-		/// </summary>
-		public vMic全ユーザー3 Customer3 { get; set; }
-
-		/// <summary>
-		/// 運用サポート情報
-		/// </summary>
-		public string 運用サポート情報 { get; set; }
+		public CustomerInfo 顧客情報 { get; set; }
 
 		/// <summary>
 		/// 本社所属かどうか？
@@ -285,9 +275,7 @@ namespace VariousDocumentOut
 		public DocumentCommon()
 		{
 			Satellite = null;
-			Customer = null;
-			Customer3 = null;
-			運用サポート情報 = string.Empty;
+			顧客情報 = null;
 		}
 
 		/// <summary>
@@ -295,9 +283,7 @@ namespace VariousDocumentOut
 		/// </summary>
 		public void ClearCustomer()
 		{
-			Customer = null;
-			Customer3 = null;
-			運用サポート情報 = string.Empty;
+			顧客情報 = null;
 		}
 
 		/// <summary>

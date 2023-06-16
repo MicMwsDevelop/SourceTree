@@ -969,7 +969,7 @@ namespace MorningBatch
 		}
 
 		/// <summary>
-		/// 申込情報取得（システム反映されていないデータのみ)
+		/// 申込情報取得（システム未反映のみ)
 		/// </summary>
 		/// <returns>申込情報</returns>
 		private List<CouplerApply> GetApplyNoSystem()

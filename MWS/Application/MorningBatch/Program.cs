@@ -9,6 +9,12 @@ namespace MorningBatch
 	static class Program
 	{
 		/// <summary>
+		/// 接続文字列
+		/// </summary>
+		//public static string gConnectStr = "Server=SQLSV;Database=charlieDB;User ID=web;Password=02035612;Min Pool Size=1";
+		public static string gConnectStr = "Server=TESTSV;Database=charlieDB;User ID=web;Password=02035612;Min Pool Size=1";
+
+		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
 		/// </summary>
 		[STAThread]

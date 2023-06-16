@@ -1,7 +1,6 @@
 ﻿//
 // V_COUPLER_APPLY.cs
 //
-// カプラー申込情報ビュークラス
 // [CharlieDB].[dbo].[V_COUPLER_APPLY]
 // 
 // Copyright (C) MIC All Rights Reserved.

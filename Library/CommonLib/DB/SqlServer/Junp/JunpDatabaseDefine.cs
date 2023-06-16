@@ -50,6 +50,8 @@ namespace CommonLib.DB.SqlServer.Junp
 			tMic文書インデクス = 21,
 			tMikOS明細印字 = 22,
 			tUser = 23,
+			tMik代行回収 = 24,
+			tMik県番号 = 25,
 		}
 
 		/// <summary>
@@ -80,6 +82,8 @@ namespace CommonLib.DB.SqlServer.Junp
 			{ TableType.tMic文書インデクス, string.Format("{0}.tMic文書インデクス", DatabaseName) },
 			{ TableType.tMikOS明細印字, string.Format("{0}.tMikOS明細印字", DatabaseName) },
 			{ TableType.tUser, string.Format("{0}.tUser", DatabaseName) },
+			{ TableType.tMik代行回収, string.Format("{0}.tMik代行回収", DatabaseName) },
+			{ TableType.tMik県番号, string.Format("{0}.tMik県番号", DatabaseName) },
 		};
 
 		/// <summary>
@@ -111,6 +115,9 @@ namespace CommonLib.DB.SqlServer.Junp
 			vMicソフトウェア保守料売上予測 = 22,
 			vMicユーザーオン資用 = 23,
 			vMicオンライン資格確認ソフト改修費 = 24,
+			vMih担当者 = 25,
+			vMic営業担当 = 26,
+			vMic全販売店 = 27,
 		}
 
 		/// <summary>
@@ -142,6 +149,9 @@ namespace CommonLib.DB.SqlServer.Junp
 			{ ViewType.vMicソフトウェア保守料売上予測, string.Format("{0}.vMicソフトウェア保守料売上予測", DatabaseName) },
 			{ ViewType.vMicユーザーオン資用, string.Format("{0}.vMicユーザーオン資用", DatabaseName) },
 			{ ViewType.vMicオンライン資格確認ソフト改修費, string.Format("{0}.vMicオンライン資格確認ソフト改修費", DatabaseName) },
+			{ ViewType.vMih担当者, string.Format("{0}.vMih担当者", DatabaseName) },
+			{ ViewType.vMic営業担当, string.Format("{0}.vMic営業担当", DatabaseName) },
+			{ ViewType.vMic全販売店, string.Format("{0}.vMic全販売店", DatabaseName) },
 		};
 	}
 }

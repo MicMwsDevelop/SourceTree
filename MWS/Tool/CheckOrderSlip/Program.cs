@@ -11,7 +11,7 @@
 // Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
 // Ver1.12 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 // 
-using MwsLib.Settings.SqlServer;
+using CheckOrderSlip.Settings;
 using System;
 using System.Windows.Forms;
 
@@ -27,7 +27,7 @@ namespace CheckOrderSlip
 		/// <summary>
 		/// 環境設定
 		/// </summary>
-		public static SqlServerConnectSettings gSettings { get; set; }
+		public static CheckOrderSlipSettings gSettings { get; set; }
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -39,9 +39,9 @@ namespace CheckOrderSlip
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			// 環境設定の読込
-			gSettings = SqlServerConnectSettingsIF.GetSettings();
+			gSettings = CheckOrderSlipSettingsIF.GetSettings();
 
-			Application.Run(new MainForm());
+			Application.Run(new Forms.MainForm());
 		}
 	}
 }

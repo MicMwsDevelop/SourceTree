@@ -1,5 +1,5 @@
 ﻿//
-// MainForm.cs
+// SelectSatelliteForm.cs
 // 
 // 拠点選択画面 フォームクラス
 // 

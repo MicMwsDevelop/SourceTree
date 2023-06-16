@@ -23,7 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CheckOrderSlip
+namespace CheckOrderSlip.Forms
 {
 	public partial class MainForm : Form
 	{
@@ -56,7 +56,7 @@ namespace CheckOrderSlip
 			/// PC安心サポートPlus切替
 			/// </summary>
 			/// Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
-			ChangePcSupportPlus,
+			ChangePcSupportPlus = 4,
 		}
 
 		/// <summary>
@@ -96,6 +96,7 @@ namespace CheckOrderSlip
 
 			// Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
 			comboBoxMode.Items.Add("PC安心サポートPlus切替");
+
 			comboBoxMode.SelectedIndex = 0;
 
 			// 検索日に当月初日を設定

@@ -399,7 +399,11 @@ namespace MakePurchaseFile.Forms
 				pca.倉庫コード = "0";
 				pca.数量 = meisai.数量;
 				pca.単位 = string.Empty;
-				pca.単価 = meisai.単価;
+
+				// Ver1.04(2023/03/30 勝呂):Microsoft365仕入データの単価が仕入価格でなく、標準価格となっている障害
+				//pca.単価 = meisai.単価;
+				pca.単価 = meisai.仕入価格;
+
 				pca.金額 = pca.数量 * pca.単価;
 				pca.税区分 = 2;
 				pca.備考 = "0";

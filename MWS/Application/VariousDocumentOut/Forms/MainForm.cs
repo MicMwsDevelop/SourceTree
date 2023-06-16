@@ -11,6 +11,8 @@
 // Ver1.09(2022/02/10):二次キッティング依頼書 2022/02組織変更対応
 // Ver1.11(2022/02/21):二次キッティング依頼書 使用廃止によりメニューから削除
 // Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
+// Ver1.18(2023/04/06 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 送付先リストから受注日を取得
+// Ver1.20(2023/06/09 勝呂):2-FAX送付状、3-種類送付状が販売店の時に出力できない
 //
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Junp.View;
@@ -23,6 +25,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using VariousDocumentOut.BaseFactory;
 
 namespace VariousDocumentOut.Forms
 {
@@ -78,15 +81,14 @@ namespace VariousDocumentOut.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			if (false == Program.gPowerAutomateMode)
-			{
-				// ウィンドウタイトルにバージョン情報を表示
-				this.Text = string.Format("{0} {1}", Program.ProgramName, Program.VersionStr);
-			}
+			// ウィンドウタイトルにバージョン情報を表示
+			this.Text = string.Format("{0} {1}", Program.ProgramName, Program.VersionStr);
 			try
 			{
 #if DEBUG
-				textBoxTokuisakiNo.Text = "210798";
+				textBoxTokuisakiNo.Text = "010196";
+
+				// オンライン資格確認等事業完了報告書を有効
 				radioButtonOnlineConfirm.Visible = true;
 #endif
 				DocType = DocumentOut.DocumentType.MwsIDPassword;
@@ -116,12 +118,6 @@ namespace VariousDocumentOut.Forms
 				// 支店情報の取得
 				// Ver1.11(2022/02/21):二次キッティング依頼書 使用廃止によりメニューから削除
 				//BranchList = JunpDatabaseAccess.Select_tMih支店情報("", "", Program.gSettings.Connect.Junp.ConnectionString);
-
-				if (Program.gPowerAutomateMode)
-				{
-					// オンライン資格確認等事業完了報告書を有効
-					radioButtonOnlineConfirm.Visible = true;
-				}
 			}
 			catch (Exception ex)
 			{
@@ -136,7 +132,6 @@ namespace VariousDocumentOut.Forms
 		{
 			radioアプラス預金口座振替依頼書.Enabled = enable;
 			radioPC安心サポート加入申込書.Enabled = enable;
-			//radio二次キッティング依頼書.Enabled = enable;
 			radio納品補助作業依頼書.Enabled = enable;
 			radio第一園芸注文書.Enabled = enable;
 			radio変更届.Enabled = enable;
@@ -147,10 +142,14 @@ namespace VariousDocumentOut.Forms
 			radio取引条件確認書.Enabled = enable;
 			radioオンライン請求届出.Enabled = enable;
 			radio光ディスク請求届出.Enabled = enable;
-			radio書類送付状.Enabled = enable;
-			radioFAX送付状.Enabled = enable;
 			radioMWSIDパスワード.Enabled = enable;
+			radioButton作業報告書.Enabled = enable;
+			radioButtonFaxOrderSheet.Enabled = enable;
 			radioButtonOnlineConfirm.Enabled = enable;
+
+			// Ver1.20(2023/06/09 勝呂):2-FAX送付状、3-種類送付状が販売店の時に出力できない
+			//radio書類送付状.Enabled = enable;
+			//radioFAX送付状.Enabled = enable;
 		}
 
 		/// <summary>
@@ -160,40 +159,27 @@ namespace VariousDocumentOut.Forms
 		/// <param name="e"></param>
 		private void buttonSearch_Click(object sender, EventArgs e)
 		{
-			if (MwsDefine.TokuisakiNoLength == textBoxTokuisakiNo.Text.Length)
+			try
 			{
-				// 得意先番号で検索
-				List<CustomerInfo> result = VariousDocumentOutAccess.Select_CustomerInfoByTokuisakiNo(textBoxTokuisakiNo.Text, Program.gSettings.Connect.Junp.ConnectionString);
-				if (null != result && 0 < result.Count)
+				CustomerInfo cust = null;
+				if (MwsDefine.TokuisakiNoLength == textBoxTokuisakiNo.Text.Length)
 				{
-					CustomerInfo cust = result.First();
+					// 得意先番号で検索
+					cust = VariousDocumentOutAccess.Select_CustomerInfoByTokuisakiNo(textBoxTokuisakiNo.Text, Program.gSettings.Connect.Junp.ConnectionString);
+				}
+				else if (MwsDefine.CustomerNoLength == textBoxCustomerNo.Text.Length)
+				{
+					// 顧客Noで検索
+					cust = VariousDocumentOutAccess.Select_CustomerInfoByCustomerNo(textBoxCustomerNo.ToInt(), Program.gSettings.Connect.Junp.ConnectionString);
+				}
+				if (null != cust)
+				{
+					Common.顧客情報 = cust;
 					textBoxCustomerName.Text = cust.顧客名;
-					Common.運用サポート情報 = cust.運用サポート情報;
-
 					if (cust.Enable)
 					{
 						// 出力可能
 						ReportOutEnable(true);
-						try
-						{
-							// 顧客詳細情報の読込
-							string whereStr = string.Format("得意先No = '{0}'", textBoxTokuisakiNo.Text);
-							List<vMic全ユーザー2> work2 = JunpDatabaseAccess.Select_vMic全ユーザー2(whereStr, "", Program.gSettings.Connect.Junp.ConnectionString);
-							if (null != work2)
-							{
-								Common.Customer = work2.First();
-							}
-							List<vMic全ユーザー3> work3 = JunpDatabaseAccess.Select_vMic全ユーザー3(whereStr, "", Program.gSettings.Connect.Junp.ConnectionString);
-							if (null != work3)
-							{
-								Common.Customer3 = work3.First();
-							}
-						}
-						catch (Exception ex)
-						{
-							MessageBox.Show(this, string.Format("サーバー通信エラー：{0}", ex.Message), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-							return;
-						}
 					}
 					else
 					{
@@ -208,53 +194,10 @@ namespace VariousDocumentOut.Forms
 				textBoxCustomerName.Text = string.Empty;
 				Common.ClearCustomer();
 			}
-			if (MwsDefine.CustomerNoLength == textBoxCustomerNo.Text.Length)
+			catch (Exception ex)
 			{
-				// 顧客Noで検索
-				List<CustomerInfo> result = VariousDocumentOutAccess.Select_CustomerInfoByCustomerNo(textBoxCustomerNo.ToInt(), Program.gSettings.Connect.Junp.ConnectionString);
-				if (null != result && 0 < result.Count)
-				{
-					CustomerInfo cust = result.First();
-					textBoxCustomerName.Text = cust.顧客名;
-					Common.運用サポート情報 = cust.運用サポート情報;
-
-					if (cust.Enable)
-					{
-						// 出力可能
-						ReportOutEnable(true);
-						try
-						{
-							// 顧客詳細情報の読込
-							string whereStr = string.Format("顧客No = {0}", textBoxCustomerNo.ToInt());
-							List<vMic全ユーザー2> work2 = JunpDatabaseAccess.Select_vMic全ユーザー2(whereStr, "", Program.gSettings.Connect.Junp.ConnectionString);
-							if (null != work2)
-							{
-								Common.Customer = work2.First();
-							}
-							List<vMic全ユーザー3> work3 = JunpDatabaseAccess.Select_vMic全ユーザー3(whereStr, "", Program.gSettings.Connect.Junp.ConnectionString);
-							if (null != work3)
-							{
-								Common.Customer3 = work3.First();
-							}
-						}
-						catch (Exception ex)
-						{
-							MessageBox.Show(this, string.Format("サーバー通信エラー：{0}", ex.Message), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-							return;
-						}
-					}
-					else
-					{
-						// 出力不可
-						ReportOutEnable(false);
-					}
-					return;
-				}
-				MessageBox.Show(this, "該当顧客が見つかりません", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				textBoxCustomerNo.Text = string.Empty;
-				textBoxTokuisakiNo.Text = string.Empty;
-				textBoxCustomerName.Text = string.Empty;
-				Common.ClearCustomer();
+				MessageBox.Show(this, string.Format("サーバー通信エラー：{0}", ex.Message), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
 			}
 		}
 
@@ -472,7 +415,7 @@ namespace VariousDocumentOut.Forms
 		/// <param name="e"></param>
 		private void buttonOutputExcel_Click(object sender, EventArgs e)
 		{
-			if (null == Common.Customer)
+			if (null == Common.顧客情報)
 			{
 				MessageBox.Show(this, "得意先番号を指定してください。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
@@ -489,84 +432,138 @@ namespace VariousDocumentOut.Forms
 				string orgPpathname = Path.Combine(Directory.GetCurrentDirectory(), DocumentOut.OrgFileName[DocType]);
 				string xlsPathname = Path.Combine(Directory.GetCurrentDirectory(), DocumentOut.ExcelFileName[DocType]);
 				File.Copy(orgPpathname, xlsPathname, true);
+
+				// Ver1.20(2023/06/09 勝呂):2-FAX送付状、3-種類送付状が販売店の時に出力できない
 				switch (DocType)
 				{
 					/// <summary>
 					/// MWS IDパスワード
 					/// </summary>
 					case DocumentOut.DocumentType.MwsIDPassword:
+						if (false == radioMWSIDパスワード.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutMwsIDPassword(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// FAX送付状
 					/// </summary>
 					case DocumentOut.DocumentType.FaxLetter:
+						if (false == radioFAX送付状.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutFaxLetter(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 書類送付状
 					/// </summary>
 					case DocumentOut.DocumentType.DocumentLetter:
+						if (false == radio書類送付状.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutDocumentLetter(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 光ディスク請求届出
 					/// </summary>
 					case DocumentOut.DocumentType.LightDisk:
+						if (false == radio光ディスク請求届出.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutLightDisk(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// オンライン請求届出
 					/// </summary>
 					case DocumentOut.DocumentType.OnlineApply:
+						if (false == radioオンライン請求届出.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutOnline(Common, xlsPathname, orgPpathname);
 						break;
 					/// <summary>
 					/// 取引条件確認書
 					/// </summary>
 					case DocumentOut.DocumentType.Transaction:
+						if (false == radio取引条件確認書.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutTransaction(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 登録データ確認カード
 					/// </summary>
 					case DocumentOut.DocumentType.ConfirmCard:
+						if (false == radio登録データ確認カード.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutConfirmCard(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// Microsoft365利用申請書
 					/// </summary>
 					case DocumentOut.DocumentType.Microsoft365:
+						if (false == radioMicrosoft365利用申請書.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutMicrosoft365(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 請求先変更届
 					/// </summary>
 					case DocumentOut.DocumentType.SeikyuChange:
+						if (false == radio請求先変更届.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutSeikyuChange(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 終了届
 					/// </summary>
 					case DocumentOut.DocumentType.UserFinished:
+						if (false == radio終了届.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutUserFinished(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 変更届
 					/// </summary>
 					case DocumentOut.DocumentType.UserChange:
+						if (false == radio変更届.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutUserChange(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 第一園芸注文書
 					/// </summary>
 					case DocumentOut.DocumentType.FirstEngei:
+						if (false == radio第一園芸注文書.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutFirstEngei(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 納品補助作業依頼書
 					/// </summary>
 					case DocumentOut.DocumentType.Delivery:
+						if (false == radio納品補助作業依頼書.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutDelivery(Common, xlsPathname);
 						break;
 					///// <summary>
@@ -600,18 +597,30 @@ namespace VariousDocumentOut.Forms
 					/// PC安心サポート加入申込書
 					/// </summary>
 					case DocumentOut.DocumentType.PcSupport:
+						if (false == radioPC安心サポート加入申込書.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutPcSupport(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// アプラス預金口座振替依頼書・自動払込利用申込書
 					/// </summary>
 					case DocumentOut.DocumentType.Aplus:
+						if (false == radioアプラス預金口座振替依頼書.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutAplus(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 作業報告書
 					/// </summary>
 					case DocumentOut.DocumentType.WorkReport:
+						if (false == radioButton作業報告書.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutWorkReport(Common, xlsPathname);
 						break;
 					/// <summary>
@@ -619,6 +628,10 @@ namespace VariousDocumentOut.Forms
 					/// </summary>
 					/// Ver1.03(2021/09/02):消耗品FAXオーダーシートの新規追加
 					case DocumentOut.DocumentType.FaxOrderSheet:
+						if (false == radioButtonFaxOrderSheet.Enabled)
+						{
+							return;
+						}
 						DocumentOut.ExcelOutFaxOrderSheet(Common, xlsPathname);
 						break;
 					/// <summary>
@@ -627,16 +640,49 @@ namespace VariousDocumentOut.Forms
 					/// Ver1.07(2021/12/24):経理部専用 オンライン資格確認等事業完了報告書の対応
 					case DocumentOut.DocumentType.OnlineConfirmKeiri:
 						{
+							if (false == radioButtonOnlineConfirm.Enabled)
+							{
+								return;
+							}
+							// Ver1.18(2023/04/06 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 送付先リストから受注日を取得
+							string destinationPathname = string.Empty;
+							using (SelectDestinationFileForm dlg = new SelectDestinationFileForm())
+							{
+								if (DialogResult.OK == dlg.ShowDialog())
+								{
+									destinationPathname = dlg.DestinationPathname;
+								}
+							}
+							送付先リスト destination = null;
+							if (0 < destinationPathname.Length)
+							{
+								if (false == File.Exists(destinationPathname))
+								{
+									MessageBox.Show(string.Format("{0}ファイルが見つかりません。", destinationPathname), Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+									return;
+								}
+								// 送付先リストの読込
+								List<送付先リスト>  destinationList = 送付先リスト.ReadExcel送付先リスト(destinationPathname);
+								if (null != destinationList && 0 < destinationList.Count)
+								{
+									destination = destinationList.Find(p => p.得意先No == Common.顧客情報.得意先No);
+								}
+							}
 							try
 							{
 								// 顧客Noに対するオンライン資格確認対象商品売上明細情報の取得
-								List<オンライン資格確認対象商品売上明細> goodsList = VariousDocumentOutAccess.Select_オンライン資格確認対象商品売上明細(Common.Customer.得意先No, Program.gSettings.Connect.Junp.ConnectionString);
+								List<オンライン資格確認対象商品売上明細> detailList = VariousDocumentOutAccess.Select_オンライン資格確認対象商品売上明細(Common.顧客情報.得意先No, Program.gSettings.Connect.Junp.ConnectionString);
 
 								// Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
 								// [JunpDB].[dbo].[vMicオンライン資格確認ソフト改修費]の取得
-								string whereStr = string.Format("顧客No = {0}", Common.Customer.顧客No);
-								List<vMicオンライン資格確認ソフト改修費> softList = JunpDatabaseAccess.Select_vMicオンライン資格確認ソフト改修費(whereStr, "受注番号 DESC", Program.gSettings.Connect.Junp.ConnectionString);
-								DocumentOut.ExcelOutOnlineConfirm(Common, xlsPathname, orgPpathname, goodsList, softList);
+								string whereStr = string.Format("顧客No = {0}", Common.顧客情報.顧客No);
+								vMicオンライン資格確認ソフト改修費 soft = null;
+								List<vMicオンライン資格確認ソフト改修費> softList = JunpDatabaseAccess.Select_vMicオンライン資格確認ソフト改修費(whereStr, "受注番号 ASC", Program.gSettings.Connect.Junp.ConnectionString);
+								if (null != softList && 0 < softList.Count)
+								{
+									soft = softList[0];
+								}
+								DocumentOut.ExcelOutOnlineConfirm(Common, xlsPathname, orgPpathname, detailList, soft, destination);
 							}
 							catch (Exception ex)
 							{
@@ -649,20 +695,12 @@ namespace VariousDocumentOut.Forms
 				// カーソルを元に戻す
 				Cursor.Current = preCursor;
 
-				if (false == Program.gPowerAutomateMode)
+				// Excelの起動
+				using (Process process = new Process())
 				{
-					// Excelの起動
-					using (Process process = new Process())
-					{
-						process.StartInfo.FileName = xlsPathname;
-						process.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
-						process.Start();
-					}
-				}
-				else
-				{
-					// Power Automateモードの時にはExcelは起動しない
-					;
+					process.StartInfo.FileName = xlsPathname;
+					process.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
+					process.Start();
 				}
 			}
 			catch (Exception ex)

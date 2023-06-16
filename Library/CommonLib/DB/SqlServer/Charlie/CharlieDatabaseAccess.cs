@@ -46,7 +46,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 		// SELECT
 
 		/// <summary>
-		/// [charlieDB].[dbo].[M_SERVICE]の取得
+		/// [charlieDB].[dbo].[M_SERVICE]の取得（サービスマスタ情報）
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
@@ -59,7 +59,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_PRODUCT_CONTROL]の取得
+		/// [charlieDB].[dbo].[T_PRODUCT_CONTROL]の取得（製品管理情報）
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
@@ -72,7 +72,20 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_CUSSTOMER_USE_INFOMATION]の取得
+		/// [charlieDB].[dbo].[T_CUSTOMER_FOUNDATIONS]の取得（顧客管理基本情報）
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>顧客管理基本情報リスト</returns>
+		public static List<T_CUSTOMER_FOUNDATIONS> Select_T_CUSTOMER_FOUNDATIONS(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSTOMER_FOUNDATIONS], whereStr, orderStr, connectStr);
+			return T_CUSTOMER_FOUNDATIONS.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_CUSSTOMER_USE_INFOMATION]の取得（顧客利用情報）
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
@@ -85,12 +98,12 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_DEMO_USER]の取得
+		/// [charlieDB].[dbo].[T_DEMO_USER]の取得（デモ用ID管理情報）
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>デモ用ID管理テーブルリスト</returns>
+		/// <returns>デモ用ID管理情報リスト</returns>
 		public static List<T_DEMO_USER> Select_T_DEMO_USER(string whereStr, string orderStr, string connectStr)
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_DEMO_USER], whereStr, orderStr, connectStr);
@@ -98,7 +111,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_LICENSE_PRODUCT_CONTRACT]の取得
+		/// [charlieDB].[dbo].[T_LICENSE_PRODUCT_CONTRACT]の取得（ESETライセンス管理情報）
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
@@ -111,7 +124,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の取得
+		/// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の取得（PC安心サポート契約情報）
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
@@ -124,12 +137,12 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_USE_CONTRACT_HEADER]の取得
+		/// [charlieDB].[dbo].[T_USE_CONTRACT_HEADER]の取得（契約ヘッダ管理情報）
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>PC安心サポート契約情報リスト</returns>
+		/// <returns>契約ヘッダ管理情報リスト</returns>
 		public static List<T_USE_CONTRACT_HEADER> Select_T_USE_CONTRACT_HEADER(string whereStr, string orderStr, string connectStr)
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_HEADER], whereStr, orderStr, connectStr);
@@ -137,12 +150,12 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_USE_CONTRACT_DETAIL]の取得
+		/// [charlieDB].[dbo].[T_USE_CONTRACT_DETAIL]の取得（契約詳細管理情報）
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>PC安心サポート契約情報リスト</returns>
+		/// <returns>契約詳細管理情報リスト</returns>
 		public static List<T_USE_CONTRACT_DETAIL> Select_T_USE_CONTRACT_DETAIL(string whereStr, string orderStr, string connectStr)
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_DETAIL], whereStr, orderStr, connectStr);
@@ -168,11 +181,63 @@ namespace CommonLib.DB.SqlServer.Charlie
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns売上実績リスト</returns>
+		/// <returns>MWSコードマスタ管理リスト</returns>
 		public static List<M_CODE> Select_M_CODE(string whereStr, string orderStr, string connectStr)
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_CODE], whereStr, orderStr, connectStr);
 			return M_CODE.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[M_CODE]の取得（MWSコードマスタ管理）
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>MWSコードマスタ管理リスト</returns>
+		public static List<M_CODE_EX> Select_M_CODE_EX(string whereStr, string orderStr, string connectStr)
+		{
+			string sqlStr = string.Format("SELECT[GOODS_ID]"
+														+ ", MC.[SERVICE_TYPE_ID]"
+														+ ", ST.[SERVICE_TYPE_NAME]"
+														+ ", MC.[SERVICE_ID]"
+														+ ", MS.[SERVICE_NAME]"
+														+ ", MC.[SET_SALE]"
+														+ ", MC.[REMARKS]"
+														+ ", MC.[DELETE_FLG]"
+														+ ", MC.[CREATE_DATE]"
+														+ ", MC.[CREATE_PERSON]"
+														+ ", MC.[UPDATE_DATE]"
+														+ ", MC.[UPDATE_PERSON]"
+														+ " FROM {0} as MC"
+														+ " LEFT JOIN {1} as ST on ST.[SERVICE_TYPE_ID] = MC.[SERVICE_TYPE_ID]"
+														+ " LEFT JOIN {2} as MS on MS.[SERVICE_ID] = MC.[SERVICE_ID]"
+														, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_CODE]
+														, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_SERVICE_TYPE]
+														, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_SERVICE]);
+			if (0 < whereStr.Length)
+			{
+				sqlStr += " WHERE " + whereStr;
+			}
+			if (0 < orderStr.Length)
+			{
+				sqlStr += " ORDER BY " + orderStr;
+			}
+			DataTable table = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+			return M_CODE_EX.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_APPLICATION_DATA]の取得（申込データ）
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>申込データリスト</returns>
+		public static List<T_APPLICATION_DATA> Select_T_APPLICATION_DATA(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_APPLICATION_DATA], whereStr, orderStr, connectStr);
+			return T_APPLICATION_DATA.DataTableToList(table);
 		}
 
 
@@ -180,7 +245,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 		// UPDATE SET
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_PRODUCT_CONTROL]の更新
+		/// [charlieDB].[dbo].[T_PRODUCT_CONTROL]の更新（製品管理情報）
 		/// </summary>
 		/// <param name="data">製品管理情報</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
@@ -191,7 +256,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_CUSSTOMER_USE_INFOMATION]の更新
+		/// [charlieDB].[dbo].[T_CUSSTOMER_USE_INFOMATION]の更新（顧客利用情報）
 		/// </summary>
 		/// <param name="data">顧客利用情報</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
@@ -217,7 +282,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 		// INSERT INTO
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_PRODUCT_CONTROL]の新規追加
+		/// [charlieDB].[dbo].[T_PRODUCT_CONTROL]の新規追加（製品管理情報）
 		/// </summary>
 		/// <param name="data">製品管理情報</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
@@ -228,7 +293,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_CUSSTOMER_USE_INFOMATION]の新規追加
+		/// [charlieDB].[dbo].[T_CUSSTOMER_USE_INFOMATION]の新規追加（顧客利用情報）
 		/// </summary>
 		/// <param name="data">顧客利用情報</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
@@ -239,7 +304,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の新規追加
+		/// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の新規追加（PC安心サポート契約情報）
 		/// </summary>
 		/// <param name="data">PC安心サポート契約情報</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
@@ -250,7 +315,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の複数新規追加
+		/// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の複数新規追加（PC安心サポート契約情報）
 		/// </summary>
 		/// <param name="list">PC安心サポート契約情報リスト</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
@@ -275,6 +340,18 @@ namespace CommonLib.DB.SqlServer.Charlie
 		{
 			return DatabaseAccess.InsertIntoDatabase(売上実績.InsertIntoSqlString, data.GetInsertIntoParameters(), connectStr);
 		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_CUSTOMER_FOUNDATIONS]の新規追加（顧客管理基本情報）
+		/// </summary>
+		/// <param name="data">顧客管理基本情報</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		public static int InsertInto_T_CUSTOMER_FOUNDATIONS(T_CUSTOMER_FOUNDATIONS data, string connectStr)
+		{
+			return DatabaseAccess.InsertIntoDatabase(T_CUSTOMER_FOUNDATIONS.InsertIntoSqlString, data.GetInsertIntoParameters(), connectStr);
+		}
+
 
 
 		//////////////////////////////
@@ -312,6 +389,45 @@ namespace CommonLib.DB.SqlServer.Charlie
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.view_MWS顧客情報], whereStr, orderStr, connectStr);
 			return view_MWS顧客情報.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[V_CUSTOMER]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>V_CUSTOMERリスト</returns>
+		public static List<V_CUSTOMER> Select_V_CUSTOMER(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.V_CUSTOMER], whereStr, orderStr, connectStr);
+			return V_CUSTOMER.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[社員マスタ参照ビュー]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>社員マスタ参照ビュー</returns>
+		public static List<社員マスタ参照ビュー> Select_社員マスタ参照ビュー(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.社員マスタ参照ビュー], whereStr, orderStr, connectStr);
+			return 社員マスタ参照ビュー.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[販売店情報参照ビュー]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>販売店情報参照ビュー</returns>
+		public static List<販売店情報参照ビュー> Select_販売店情報参照ビュー(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.販売店情報参照ビュー], whereStr, orderStr, connectStr);
+			return 販売店情報参照ビュー.DataTableToList(table);
 		}
 	}
 }
