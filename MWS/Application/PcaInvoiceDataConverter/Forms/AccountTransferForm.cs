@@ -19,9 +19,11 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
+using CommonLib.Common;
 
 namespace PcaInvoiceDataConverter.Forms
 {
@@ -341,7 +343,7 @@ namespace PcaInvoiceDataConverter.Forms
 					return;
 				}
 				// 現在時刻の取得
-				DateTime start = DateTime.Now;
+				DateTime start = System.DateTime.Now;
 
 				// 「ヘッダ行作業」シートの削除
 				Program.DeleteWorksheet(Program.PcaWorkbook, Program.SheetNameHeaderLine);
@@ -543,6 +545,44 @@ namespace PcaInvoiceDataConverter.Forms
 
 				// ワークブックの保存
 				Program.PcaWorkbook.Save();
+
+				// WEB請求書ファイル出力フォルダの取得
+				string webFolder = Program.SheetBasic.Cell(20, 3).GetString();
+				webFolder = Path.Combine(Directory.GetCurrentDirectory(), webFolder);
+				if (false == Directory.Exists(webFolder))
+				{
+					Directory.CreateDirectory(webFolder);
+				}
+				webFolder = Path.Combine(webFolder, System.DateTime.Today.ToString("yyyyMMdd"));
+				if (false == Directory.Exists(webFolder))
+				{
+					Directory.CreateDirectory(webFolder);
+				}
+				// WEB請求書ヘッダファイル（invoice_header.tsv）の出力
+				string invoiceHeaderFilename = Program.SheetBasic.Cell(21, 3).GetString();
+				InvoiceHeaderLine.FileOut(Path.Combine(webFolder, invoiceHeaderFilename), headerLineList);
+
+				// WEB請求書明細売上行ファイル（invoice_detail_bill.tsv）の出力
+				string invoiceDetailBillFilename = Program.SheetBasic.Cell(22, 3).GetString();
+				InvoiceDetailLine.FileOutBill(Path.Combine(webFolder, invoiceDetailBillFilename), headerLineList);
+
+				// WEB請求書明細消費税行ファイル（invoice_detail_tax.tsv）の出力
+				string invoiceDetailTaxFilename = Program.SheetBasic.Cell(23, 3).GetString();
+				InvoiceDetailLine.FileOutTax(Path.Combine(webFolder, invoiceDetailTaxFilename), headerLineList);
+
+				// WEB請求書明細記事行ファイル（invoice_detail_comment.tsv）の出力
+				string invoiceDetailCommentFilename = Program.SheetBasic.Cell(24, 3).GetString();
+				InvoiceDetailLine.FileOutComment(Path.Combine(webFolder, invoiceDetailCommentFilename), headerLineList);
+
+				// AGREX口振通知書ファイルの出力
+				foreach (InvoiceHeaderLine header in headerLineList)
+				{
+					string juchuCode = string.Format("{0}{1:D7}{2}", header.請求日付.Value.ToString("yyyyMMdd"), header.得意先No, StringUtil.Right(header.請求書No.ToString(), 5));
+
+
+				}
+
+
 
 
 

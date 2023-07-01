@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -153,6 +154,198 @@ namespace PcaInvoiceDataConverter.BaseFactory
 			row["金額"] = 金額;
 			row["行タイプ"] = 行タイプ;
 			return row;
+		}
+
+		/// <summary>
+		/// 明細行の取得
+		/// </summary>
+		/// <returns></returns>
+		public string GetBillData()
+		{
+			return string.Format("\"{0}\"\t\"{1}\"\t\"{2}\"\t\"{3}\"\t\"{4}\"\t\"{5}\"\t\"{6}\""
+													, 請求書No, 売上日付.Value.ToString("yyyy/MM/dd"), 伝票No, 枝番, 商品名, 数量, 金額.CommaEdit());
+		}
+
+		/// <summary>
+		/// invoice_detail_bill.tsvの取得（明細行）
+		/// </summary>
+		/// <param name="list"></param>
+		/// <returns></returns>
+		public static List<string> GetBillDataList(List<InvoiceDetailLine> list)
+		{
+			List<string> result = new List<string>();
+			foreach (InvoiceDetailLine detail in list)
+			{
+				if (TypeBill == detail.行タイプ || TypeShipping == detail.行タイプ)
+				{
+					result.Add(detail.GetBillData());
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// 消費税行の取得
+		/// </summary>
+		/// <returns></returns>
+		public string GetTaxData()
+		{
+			return string.Format("\"{0}\"\t\"{1}\"\t\"{2}\"\t\"{3}\"\t\"{4}\"\t\"{5}\""
+												, 請求書No, 売上日付.Value.ToString("yyyy/MM/dd"), 伝票No, 枝番, 商品名, 金額.CommaEdit());
+		}
+
+		/// <summary>
+		/// invoice_detail_tax.tsvの取得（消費税行）
+		/// </summary>
+		/// <param name="list"></param>
+		/// <returns></returns>
+		public static List<string> GetTaxDataList(List<InvoiceDetailLine> list)
+		{
+			List<string> result = new List<string>();
+			foreach (InvoiceDetailLine detail in list)
+			{
+				if (TypeTax == detail.行タイプ)
+				{
+					result.Add(detail.GetTaxData());
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// 記事行の取得
+		/// </summary>
+		/// <returns></returns>
+		public string GetCommentData()
+		{
+			return string.Format("\"{0}\"\t\"{1}\"\t\"{2}\"\t\"{3}\"\t\"{4}\""
+												, 請求書No, 売上日付.Value.ToString("yyyy/MM/dd"), 伝票No, 枝番, 商品名);
+		}
+
+		/// <summary>
+		/// invoice_detail_comment.tsvの取得（記事行）
+		/// </summary>
+		/// <param name="list"></param>
+		/// <returns></returns>
+		public static List<string> GetCommentDataList(List<InvoiceDetailLine> list)
+		{
+			List<string> result = new List<string>();
+			foreach (InvoiceDetailLine detail in list)
+			{
+				if (TypeComment == detail.行タイプ)
+				{
+					result.Add(detail.GetCommentData());
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// WEB請求書明細売上行ファイル（invoice_detail_bill.tsv）の出力
+		/// </summary>
+		/// <param name="pathname">WEB請求書明細売上行ファイル名</param>
+		/// <param name="headerLineList">ヘッダ行リスト</param>
+		public static void FileOutBill(string pathname, List<InvoiceHeaderLine> headerLineList)
+		{
+			FileStream fs = null;
+			try
+			{
+				fs = new FileStream(pathname, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+				using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("shift_jis")))
+				{
+					foreach (InvoiceHeaderLine header in headerLineList)
+					{
+						List<string> billList = InvoiceDetailLine.GetBillDataList(header.DetailLineList);
+						foreach (string line in billList)
+						{
+							sw.WriteLine(line);
+						}
+					}
+				}
+			}
+			catch
+			{
+				throw;
+			}
+			finally
+			{
+				if (null != fs)
+				{
+					fs.Close();
+				}
+			}
+		}
+
+		/// <summary>
+		/// WEB請求書明細消費税行ファイル（invoice_detail_tax.tsv）の出力
+		/// </summary>
+		/// <param name="pathname">WEB請求書明細消費税行ファイル名</param>
+		/// <param name="headerLineList">ヘッダ行リスト</param>
+		public static void FileOutTax(string pathname, List<InvoiceHeaderLine> headerLineList)
+		{
+			FileStream fs = null;
+			try
+			{
+				fs = new FileStream(pathname, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+				using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("shift_jis")))
+				{
+					foreach (InvoiceHeaderLine header in headerLineList)
+					{
+						List<string> billList = InvoiceDetailLine.GetTaxDataList(header.DetailLineList);
+						foreach (string line in billList)
+						{
+							sw.WriteLine(line);
+						}
+					}
+				}
+			}
+			catch
+			{
+				throw;
+			}
+			finally
+			{
+				if (null != fs)
+				{
+					fs.Close();
+				}
+			}
+		}
+
+		/// <summary>
+		/// WEB請求書明細記事行ファイル（invoice_detail_comment.tsv）の出力
+		/// </summary>
+		/// <param name="pathname">WEB請求書明細記事行ファイル名</param>
+		/// <param name="headerLineList">ヘッダ行リスト</param>
+		public static void FileOutComment(string pathname, List<InvoiceHeaderLine> headerLineList)
+		{
+			FileStream fs = null;
+			try
+			{
+				fs = new FileStream(pathname, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+				using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("shift_jis")))
+				{
+					foreach (InvoiceHeaderLine header in headerLineList)
+					{
+						List<string> billList = InvoiceDetailLine.GetCommentDataList(header.DetailLineList);
+						foreach (string line in billList)
+						{
+							sw.WriteLine(line);
+						}
+					}
+				}
+			}
+			catch
+			{
+				throw;
+			}
+			finally
+			{
+				if (null != fs)
+				{
+					fs.Close();
+				}
+			}
 		}
 	}
 }

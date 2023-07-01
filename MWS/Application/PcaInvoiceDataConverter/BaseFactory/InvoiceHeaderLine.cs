@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using CommonLib.Common;
+using System.IO;
 
 namespace PcaInvoiceDataConverter.BaseFactory
 {
@@ -157,6 +158,68 @@ namespace PcaInvoiceDataConverter.BaseFactory
 				table.Rows.Add(detail.GetDataRow(table));
 			}
 			return table;
+		}
+
+		/// <summary>
+		/// invoice_header.tsvのヘッダ行の出力
+		/// </summary>
+		/// <returns></returns>
+		public static string GetHeaderLineTitle()
+		{
+			return "\"0\"\t\"0\"\t\"0\"\t\"\"\t\"\"\t\"0\"\t\"0\"\t\"0\"\t\"0\"\t\"0\"";
+		}
+
+		/// <summary>
+		/// invoice_header.tsvのデータ行の出力
+		/// </summary>
+		/// <returns></returns>
+		public string GetHeaderLineData()
+		{
+			return string.Format("\"1\"\t\"{0}\"\t\"{1}\"\t\"{2}\"\t\"{3}\"\t\"{4}\"\t\"{5}\"\t\"{6}\"\t\"{7}\"\t\"{8}\""
+										, 請求書No, 顧客ID, 得意先No, 請求日付.Value.ToString("yyyy/MM/dd"), 合計請求額税込.CommaEdit(), 消費税額.CommaEdit(), 明細行数, 消費税行数, 記事行数);
+		}
+
+		/// <summary>
+		/// invoice_header.tsvのフッター行の出力
+		/// </summary>
+		/// <returns></returns>
+		public static string GetHeaderLineFooter()
+		{
+			return "\"9\"\t\"0\"\t\"0\"\t\"\"\t\"\"\t\"0\"\t\"0\"\t\"0\"\t\"0\"\t\"0\"";
+		}
+
+		/// <summary>
+		/// WEB請求書ヘッダファイル（invoice_header.tsv）の出力
+		/// </summary>
+		/// <param name="pathname">WEB請求書ヘッダファイル名</param>
+		/// <param name="headerLineList">ヘッダ行リスト</param>
+		public static void FileOut(string pathname, List<InvoiceHeaderLine> headerLineList)
+		{
+			FileStream fs = null;
+			try
+			{
+				fs = new FileStream(pathname, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+				using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("shift_jis")))
+				{
+					sw.WriteLine(InvoiceHeaderLine.GetHeaderLineTitle());
+					foreach (InvoiceHeaderLine header in headerLineList)
+					{
+						sw.WriteLine(header.GetHeaderLineData());
+					}
+					sw.WriteLine(InvoiceHeaderLine.GetHeaderLineFooter());
+				}
+			}
+			catch
+			{
+				throw;
+			}
+			finally
+			{
+				if (null != fs)
+				{
+					fs.Close();
+				}
+			}
 		}
 	}
 }
