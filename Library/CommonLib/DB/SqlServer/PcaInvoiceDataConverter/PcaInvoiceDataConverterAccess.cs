@@ -1,29 +1,46 @@
 ﻿//
-// AdjustServiceApplyAccess.cs
+// PcaInvoiceDataConverterAccess.cs
 //
-// サービス申込情報更新処理 データベースアクセスクラス
+// PCA請求データコンバータ データベースアクセスクラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2023/06/07 勝呂):新規作成
+// Ver1.00(2023/06/27 勝呂):新規作成
 // 
-using CommonLib.BaseFactory.AlmexMainte;
-using CommonLib.BaseFactory.Charlie.Table;
-using CommonLib.BaseFactory.Charlie.View;
-using CommonLib.BaseFactory.Junp.View;
-using CommonLib.Common;
-using CommonLib.DB.SqlServer.AlmexMainte;
-using CommonLib.DB.SqlServer.Charlie;
-using CommonLib.DB.SqlServer.Junp;
-using System;
+using CommonLib.BaseFactory.PcaInvoiceDataConverter;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 
-namespace CommonLib.DB.SqlServer.AdjustServiceApply
+namespace CommonLib.DB.SqlServer.PcaInvoiceDataConverter
 {
-	public static class AdjustServiceApplyAccess
+	public static class PcaInvoiceDataConverterAccess
 	{
+
+		//////////////////////////////////////////////////////////////////
+		/// JunpDB
+		//////////////////////////////////////////////////////////////////
+
+		//////////////////////////////
+		// SELECT
+
+		/// <summary>
+		/// 顧客情報の抽出
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>顧客情報リスト</returns>
+		public static List<CustomerInfo> GetCustomerInfo(string connectStr)
+		{
+			DataTable table = PcaInvoiceDataConverterGetIO.GetCustomerInfo(connectStr);
+			return CustomerInfo.DataTableToList(table);
+		}
+/*
+
+
+
+
+
+
+
 		//////////////////////////////////////////////////////////////////
 		/// CharlieDB
 		//////////////////////////////////////////////////////////////////
@@ -214,5 +231,6 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 												};
 			return DatabaseAccess.InsertIntoDatabase(T_FILE_CREATEDATE.InsertIntoSqlString, param, connectStr);
 		}
+*/
 	}
 }

@@ -52,6 +52,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			tUser = 23,
 			tMik代行回収 = 24,
 			tMik県番号 = 25,
+			tMikPca得意先 = 26,
 		}
 
 		/// <summary>
@@ -84,6 +85,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			{ TableType.tUser, string.Format("{0}.tUser", DatabaseName) },
 			{ TableType.tMik代行回収, string.Format("{0}.tMik代行回収", DatabaseName) },
 			{ TableType.tMik県番号, string.Format("{0}.tMik県番号", DatabaseName) },
+			{ TableType.tMikPca得意先, string.Format("{0}.tMikPca得意先", DatabaseName) },
 		};
 
 		/// <summary>

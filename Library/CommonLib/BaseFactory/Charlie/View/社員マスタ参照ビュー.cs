@@ -18,7 +18,7 @@ namespace CommonLib.BaseFactory.Charlie.View
 		public string 社員番号 { get; set; }
 		public string ログインID { get; set; }
 		public string 社員名 { get; set; }
-		public bool 権限フラグ { get; set; }
+		public string 権限フラグ { get; set; }
 		public string 部署コード1 { get; set; }
 		public string 部署名1 { get; set; }
 		public string 部署コード2 { get; set; }
@@ -37,7 +37,7 @@ namespace CommonLib.BaseFactory.Charlie.View
 			社員番号 = string.Empty;
 			ログインID = string.Empty;
 			社員名 = string.Empty;
-			権限フラグ = false;
+			権限フラグ = string.Empty;
 			部署コード1 = string.Empty;
 			部署名1 = string.Empty;
 			部署コード2 = string.Empty;
@@ -66,7 +66,7 @@ namespace CommonLib.BaseFactory.Charlie.View
 						社員番号 = row["社員番号"].ToString().Trim(),
 						ログインID = row["ログインID"].ToString().Trim(),
 						社員名 = row["社員名"].ToString().Trim(),
-						権限フラグ = DataBaseValue.ConvObjectToBool(row["権限フラグ"]),
+						権限フラグ = row["権限フラグ"].ToString().Trim(),
 						部署コード1 = row["部署コード1"].ToString().Trim(),
 						部署名1 = row["部署名1"].ToString().Trim(),
 						部署コード2 = row["部署コード2"].ToString().Trim(),

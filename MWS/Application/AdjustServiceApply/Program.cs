@@ -10,13 +10,21 @@
 using AdjustServiceApply.Settings;
 using System;
 using System.Windows.Forms;
+using AdjustServiceApply.Log;
+using System.IO;
 
 namespace AdjustServiceApply
 {
 	internal static class Program
 	{
+		/// <summary>
+		/// プログラム名
+		/// </summary>
 		public const string ProcName = "サービス申込情報更新処理";
 
+		/// <summary>
+		/// バージョン情報
+		/// </summary>
 		public const string VersionStr = "1.00";
 
 		/// <summary>

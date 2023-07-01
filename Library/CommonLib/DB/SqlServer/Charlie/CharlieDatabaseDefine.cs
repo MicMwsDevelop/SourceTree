@@ -96,6 +96,16 @@ namespace CommonLib.DB.SqlServer.Charlie
 			/// 申込データ
 			/// </summary>
 			T_APPLICATION_DATA = 14,
+
+			/// <summary>
+			/// 同期日時管理テーブル
+			/// </summary>
+			T_FILE_CREATEDATE = 15,
+
+			/// <summary>
+			/// サービス申込情報
+			/// </summary>
+			T_MWS_APPLY = 16,
 		}
 
 		/// <summary>
@@ -117,6 +127,8 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ TableType.T_USE_PRESCRIPTION_HEADER, string.Format("{0}.T_USE_PRESCRIPTION_HEADER", DatabaseName) },
 			{ TableType.T_CUSTOMER_FOUNDATIONS, string.Format("{0}.T_CUSTOMER_FOUNDATIONS", DatabaseName) },
 			{ TableType.T_APPLICATION_DATA, string.Format("{0}.T_APPLICATION_DATA", DatabaseName) },
+			{ TableType.T_FILE_CREATEDATE, string.Format("{0}.T_FILE_CREATEDATE", DatabaseName) },
+			{ TableType.T_MWS_APPLY, string.Format("{0}._test_T_MWS_APPLY", DatabaseName) },
 		};
 
 		/// <summary>

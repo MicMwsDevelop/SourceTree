@@ -61,7 +61,9 @@
     <Compile Include="BaseFactory\Charlie\Table\T_CUSSTOMER_USE_INFOMATION.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_CUSTOMER_FOUNDATIONS.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_DEMO_USER.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_FILE_CREATEDATE.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_LICENSE_PRODUCT_CONTRACT.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_MWS_APPLY.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_DETAIL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_HEADER.cs" />
@@ -103,6 +105,9 @@
     <Compile Include="BaseFactory\MwsSimulation\GroupPlan.cs" />
     <Compile Include="BaseFactory\MwsSimulation\ServiceInfo.cs" />
     <Compile Include="BaseFactory\MwsSimulation\SetPlan.cs" />
+    <Compile Include="BaseFactory\PcaInvoiceDataConverter\CustomerInfo.cs" />
+    <Compile Include="BaseFactory\PcaInvoiceDataConverter\InvoiceDetailData.cs" />
+    <Compile Include="BaseFactory\PcaInvoiceDataConverter\InvoiceHeaderData.cs" />
     <Compile Include="BaseFactory\Pca\MakePurchaseData.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_PRODUCTUSER.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_SERVICE.cs" />
@@ -264,6 +269,8 @@
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationAccess.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationController.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationGetIO.cs" />
+    <Compile Include="DB\SqlServer\PcaInvoiceDataConverter\PcaInvoiceDataConverterAccess.cs" />
+    <Compile Include="DB\SqlServer\PcaInvoiceDataConverter\PcaInvoiceDataConverterGetIO.cs" />
     <Compile Include="DB\SqlServer\PCA\PcaDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\PCA\PcaDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\PrescriptionManager\PrescriptionManagerAccess.cs" />
@@ -292,9 +299,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BaseFactory\AdjustServiceApply\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

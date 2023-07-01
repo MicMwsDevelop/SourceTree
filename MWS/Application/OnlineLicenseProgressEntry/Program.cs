@@ -10,6 +10,7 @@
 // Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/02/01 勝呂)
 // Ver1.03 契約日の追加(2023/02/21 勝呂)
 // Ver1.04(2023/04/24 勝呂):運用開始日の設定時、WWの顧客情報取得時の条件に削除フラグが考慮されていなかったのを修正
+// Ver1.05(2023/06/27 勝呂):導入月に「8月以降」を追加。「8月以降」は9999-08-01で表す
 //
 using ClosedXML.Excel;
 using System;
@@ -27,7 +28,7 @@ namespace OnlineLicenseProgressEntry
 		/// <summary>
 		/// プログラムバージョン
 		/// </summary>
-		public const string ProgramVersion = "Ver1.04 2023/04/24";
+		public const string ProgramVersion = "Ver1.05 2023/06/27";
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。

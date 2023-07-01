@@ -10,6 +10,7 @@
 // Ver1.04(2022/12/13 勝呂):経理部要望対応 顧客情報（出力用）のチェックに顧客名の追加と開設者が未設定時の時には院長名を使用する
 // Ver1.05(2022/12/28 勝呂):経理部要望対応 注文確認書追加対応
 // Ver1.06(2023/02/07 勝呂):経理部要望対応 NTT以外の案件も作業リストから補助金申請書類を出力できるようにする
+// Ver1.11(2023/06/16 勝呂):事業完了報告書、領収内訳書、送付先リストの読込時のエラーメッセージにファイル名を表示
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory;
@@ -185,7 +186,7 @@ namespace OnlineLicenseSubsidy.BaseFactory
 				}
 				catch (Exception ex)
 				{
-					throw new Exception(string.Format("ReadExcel事業完了報告書({0})", ex.Message));
+					throw new Exception(string.Format("ReadExcel事業完了報告書({0})\r\n{1}", ex.Message, pathname));
 				}
 			}
 			else
@@ -236,7 +237,8 @@ namespace OnlineLicenseSubsidy.BaseFactory
 				}
 				catch (Exception ex)
 				{
-					throw new Exception(string.Format("ReadExcel領収内訳書({0})", ex.Message));
+					// Ver1.11(2023/06/16 勝呂):事業完了報告書、領収内訳書、送付先リストの読込時のエラーメッセージにファイル名を表示
+					throw new Exception(string.Format("ReadExcel領収内訳書({0})\r\n{1}", ex.Message, pathname));
 				}
 			}
 			else
@@ -500,7 +502,8 @@ namespace OnlineLicenseSubsidy.BaseFactory
 				}
 				catch (Exception ex)
 				{
-					throw new Exception(string.Format("ReadExcel作業リスト({0})", ex.Message));
+					// Ver1.11(2023/06/16 勝呂):事業完了報告書、領収内訳書、送付先リストの読込時のエラーメッセージにファイル名を表示
+					throw new Exception(string.Format("ReadExcel作業リスト({0})\r\n{1}", ex.Message, pathname));
 				}
 			}
 			else

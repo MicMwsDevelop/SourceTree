@@ -142,7 +142,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 						CREATE_PERSON = row["CREATE_PERSON"].ToString().Trim(),
 						UPDATE_DATE = DataBaseValue.ConvObjectToDateTimeNull(row["UPDATE_DATE"]),
 						UPDATE_PERSON = row["UPDATE_PERSON"].ToString().Trim(),
-						SERVICE_TYPE_NAME = row["SET_SALE"].ToString().Trim(),
+						SERVICE_TYPE_NAME = row["SERVICE_TYPE_NAME"].ToString().Trim(),
 						SERVICE_NAME = row["SERVICE_NAME"].ToString().Trim(),
 					};
 					result.Add(data);

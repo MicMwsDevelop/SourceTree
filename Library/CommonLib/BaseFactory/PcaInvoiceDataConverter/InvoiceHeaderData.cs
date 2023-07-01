@@ -1,0 +1,127 @@
+﻿//
+// InvoiceHeaderData.cs
+// 
+// 請求一覧表クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.00(2023/06/27 勝呂):新規作成
+//
+using CommonLib.Common;
+using System;
+
+namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
+{
+	/// <summary>
+	/// 請求一覧表
+	/// PCA商魂・商管 販売管理→請求→請求一覧表
+	/// </summary>
+	public class InvoiceHeaderData
+	{
+		public int 請求締日 { get; set; }
+		public DateTime? 請求期間開始 { get; set; }
+		public DateTime? 請求期間終了 { get; set; }
+		public int データ区分 { get; set; }
+		public string 得意先コード { get; set; }
+		public string 得意先名1 { get; set; }
+		public string 得意先名2 { get; set; }
+		public int 前回請求額 { get; set; }
+		public int 入金額 { get; set; }
+		public int 繰越金額 { get; set; }
+		public int 税込売上高 { get; set; }
+		public int 請求残高 { get; set; }
+		public DateTime? 回収予定日 { get; set; }
+		
+		/// <summary>
+		/// オリジナルデータ
+		/// </summary>
+		public string OrgData { get; set; }
+
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
+		public InvoiceHeaderData()
+		{
+			請求締日 = 0;
+			請求期間開始 = null;
+			請求期間終了 = null;
+			データ区分 = 0;
+			得意先コード = string.Empty;
+			得意先名1 = string.Empty;
+			得意先名2 = string.Empty;
+			前回請求額 = 0;
+			入金額 = 0;
+			繰越金額 = 0;
+			税込売上高 = 0;
+			請求残高 = 0;
+			回収予定日 = null;
+			OrgData = string.Empty;
+		}
+
+		/// <summary>
+		/// データの格納
+		/// </summary>
+		/// <param name="values"></param>
+		public void SetData(string line, string[] values)
+		{
+			請求締日 = values[0].ToInt();
+			if (0 < values[1].Length)
+			{
+				請求期間開始 = DateConversion.YMDToDate(values[1].ToInt()).ToDateTime();
+			}
+			if (0 < values[2].Length)
+			{
+				請求期間終了 = DateConversion.YMDToDate(values[2].ToInt()).ToDateTime();
+			}
+			データ区分 = values[3].ToInt();
+			得意先コード = values[4];
+			得意先名1 = values[5];
+			得意先名2 = values[6];
+			前回請求額 = values[7].ToInt();
+			入金額 = values[8].ToInt();
+			繰越金額 = values[9].ToInt();
+			税込売上高 = values[10].ToInt();
+			請求残高 = values[11].ToInt();
+			if (0 < values[12].Length)
+			{
+				回収予定日 = DateConversion.YMDToDate(values[12].ToInt()).ToDateTime();
+			}
+			OrgData = line;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public string[] GetCopyRecord()
+		{
+			string[] result = 
+			{
+				得意先コード,
+				得意先名1,
+				得意先名2,
+				前回請求額.ToString(),
+				入金額.ToString(),
+				繰越金額.ToString(),
+				税込売上高.ToString(),
+				請求残高.ToString(),
+				(回収予定日.HasValue) ? 回収予定日.Value.ToString("yyyyMMdd") : ""
+			};
+			return result;
+		}
+
+		/// <summary>
+		/// 前回請求締日付の取得
+		/// </summary>
+		/// <returns></returns>
+		public DateTime? 前回請求締日付()
+		{
+			if (請求期間開始.HasValue)
+			{
+				// 請求期間開始の前日
+				return 請求期間開始.Value.AddDays(-1);
+			}
+			return DateTime.Today;
+		}
+	}
+}

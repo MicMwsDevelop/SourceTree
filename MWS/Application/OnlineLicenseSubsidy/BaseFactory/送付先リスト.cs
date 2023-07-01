@@ -7,7 +7,8 @@
 // 
 // Ver1.08(2023/04/07 勝呂):経理部要望対応  受注日は送付先リストから取得する
 // Ver1.09(2023/04/13 勝呂):送付先リストのシート名の修正
-// Ver1.17(2023/04/17 勝呂):送付先リストの受注日のフィールドを日付型でなく、日付シリアル型で読み込んでいた為、注文確認書に出力できていない医院があった
+// Ver1.10(2023/04/17 勝呂):送付先リストの受注日のフィールドを日付型でなく、日付シリアル型で読み込んでいた為、注文確認書に出力できていない医院があった
+// Ver1.11(2023/06/16 勝呂):事業完了報告書、領収内訳書、送付先リストの読込時のエラーメッセージにファイル名を表示
 //
 using ClosedXML.Excel;
 using System;
@@ -79,8 +80,8 @@ namespace OnlineLicenseSubsidy.BaseFactory
 		/// <summary>
 		/// 送付先リストファイルの読込
 		/// </summary>
-		/// <param name="pathname">進捗管理ファイルパス名</param>
-		/// <returns>NTT東日本進捗管理表リスト</returns>
+		/// <param name="pathname">送付先リストファイルパス名</param>
+		/// <returns>送付先リスト</returns>
 		public static List<送付先リスト> ReadDistinationExcelFile(string pathname)
 		{
 			List<送付先リスト> list = new List<送付先リスト>();
@@ -101,9 +102,10 @@ namespace OnlineLicenseSubsidy.BaseFactory
 					}
 				}
 			}
-			catch
+			catch (Exception ex)
 			{
-				throw;
+				// Ver1.11(2023/06/16 勝呂):事業完了報告書、領収内訳書、送付先リストの読込時のエラーメッセージにファイル名を表示
+				throw new Exception(string.Format("送付先リスト({0})\r\n{1}", ex.Message, pathname));
 			}
 			return list;
 		}

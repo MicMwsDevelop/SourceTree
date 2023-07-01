@@ -210,11 +210,11 @@ namespace CommonLib.DB.SqlServer.Charlie
 														+ ", MC.[UPDATE_DATE]"
 														+ ", MC.[UPDATE_PERSON]"
 														+ " FROM {0} as MC"
-														+ " LEFT JOIN {1} as ST on ST.[SERVICE_TYPE_ID] = MC.[SERVICE_TYPE_ID]"
-														+ " LEFT JOIN {2} as MS on MS.[SERVICE_ID] = MC.[SERVICE_ID]"
+														+ " LEFT JOIN {1} as MS on MS.[SERVICE_ID] = MC.[SERVICE_ID]"
+														+ " LEFT JOIN {2} as ST on ST.[SERVICE_TYPE_ID] = MC.[SERVICE_TYPE_ID]"
 														, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_CODE]
-														, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_SERVICE_TYPE]
-														, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_SERVICE]);
+														, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_SERVICE]
+														, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_SERVICE_TYPE]);
 			if (0 < whereStr.Length)
 			{
 				sqlStr += " WHERE " + whereStr;

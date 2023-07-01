@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -109,6 +110,87 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 												+ " ORDER BY A.[GOODS_ID]"
 												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_CODE]
 												, CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.V_PCA_GOODS]	);
+			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
+		}
+
+		/// <summary>
+		/// 顧客利用情報から利用申込サービスの取得
+		/// </summary>
+		/// <param name="compDateTime">前回取得日時</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetCustomerUseInformationUseService(DateTime compDateTime, string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT * FROM {0}"
+												+ " WHERE [SERVICE_TYPE_ID] <> 1"	// 基本サービス以外
+												+ " AND [PAUSE_END_STATUS] = 0"		// 課金対象外フラグがOFF
+												+ " AND [USE_START_DATE] is not null"	// 利用開始日がNULLでない
+												+ " AND [PERIOD_END_DATE] is null"		// 利用終了日がNULL
+												+ " AND [USE_START_DATE] <= EOMONTH(getdate(), 1) AND [USE_END_DATE] >= EOMONTH(getdate(), 1)	"	// 翌月末日のサービスが利用可能
+												+ " AND [UPDATE_DATE] > '{1}'"
+												+ " ORDER BY [CUSTOMER_ID], [SERVICE_ID]"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]
+												, compDateTime.ToString("yyyy-MM-dd HH:mm:ss"));
+			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
+		}
+
+		/// <summary>
+		/// 顧客利用情報から解約申込サービスの取得
+		/// </summary>
+		/// <param name="compDateTime">前回取得日時</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetCustomerUseInformationCancelService(DateTime compDateTime, string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT * FROM {0}"
+												+ " WHERE [SERVICE_TYPE_ID] <> 1"	// 基本サービス以外
+												+ " AND [PAUSE_END_STATUS] = 1"		// 課金対象外フラグがON
+												+ " AND [USE_END_DATE] is not null"		// 課金終了日がNULLでない
+												+ " AND [PERIOD_END_DATE] = EOMONTH(getdate())"	// 利用終了日が今月末日
+												+ " AND [UPDATE_DATE] > '{1}'"
+												+ " ORDER BY [CUSTOMER_ID], [SERVICE_ID]"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]
+												, compDateTime.ToString("yyyy-MM-dd HH:mm:ss"));
+			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
+		}
+
+		/// <summary>
+		/// 最終同期日時の取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetLastSynchroTime(string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT TOP 1 * FROM {0} WHERE [FILE_TYPE] = '2' ORDER BY [FILE_CREATEDATE] DESC"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_FILE_CREATEDATE]);
+			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
+		}
+
+		/// <summary>
+		/// サービス申込情報から利用申込サービスの取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetMwsApplyUserService(string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT * FROM {0}"
+												+ " WHERE [system_flg] = '0' AND [apply_type] = '0' AND [customer_id] < 30000000"
+												+ " ORDER BY [customer_id], [service_id]"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_MWS_APPLY]);
+			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
+		}
+
+		/// <summary>
+		/// サービス申込情報から解約申込サービスの取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetMwsApplyCancelService(string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT * FROM {0}"
+												+ " WHERE [system_flg] = '0' AND [apply_type] = '1' AND [customer_id] < 30000000"
+												+ " ORDER BY [customer_id], [service_id]"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_MWS_APPLY]);
 			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
 		}
 	}

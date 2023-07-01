@@ -61,6 +61,9 @@ namespace CommonLib.DB.SqlServer
 			{
 				using (SqlCommand cmd = new SqlCommand(sqlString, con))
 				{
+					// タイムアウト300秒
+					cmd.CommandTimeout = 300;
+
 					using (SqlDataAdapter da = new SqlDataAdapter(cmd))
 					{
 						result = new DataTable();

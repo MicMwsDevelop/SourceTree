@@ -8,6 +8,7 @@
 // Ver1.00 新規作成(2022/09/28 勝呂)
 // Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
 // Ver1.03 契約日の追加(2023/02/21 勝呂)
+// Ver1.05(2023/06/27 勝呂):導入月に「8月以降」を追加。「8月以降」は9999-08-01で表す
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Sales.Table;
@@ -146,6 +147,7 @@ namespace OnlineLicenseProgressEntry.BaseFactory
 			// Ver1.02 猶予理由の追加、ステータス設定値の追加(2023/01/30 勝呂)
 			猶予理由 = ws.Cell(row, 9).GetString().Trim();
 
+			// 現調完了月
 			if ("済" == ws.Cell(row, 10).GetString())
 			{
 				現調完了月 = new DateTime(9999, 12, 31);
@@ -162,9 +164,15 @@ namespace OnlineLicenseProgressEntry.BaseFactory
 					}
 				}
 			}
+			// 導入月
 			if ("済" == ws.Cell(row, 11).GetString())
 			{
 				導入月 = new DateTime(9999, 12, 31);
+			}
+			// Ver1.05(2023/06/27 勝呂):導入月に「8月以降」を追加。「8月以降」は9999-08-01で表す
+			else if ("8月以降" == ws.Cell(row, 11).GetString())
+			{
+				導入月 = new DateTime(9999, 8, 1);
 			}
 			else
 			{
