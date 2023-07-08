@@ -76,6 +76,7 @@ namespace PcaInvoiceDataConverter.Forms
 			textBoxWEB請求書明細売上行ファイル.Text = Program.gBasicSheetData.WEB請求書明細売上行ファイル;
 			textBoxWEB請求書明細消費税行ファイル.Text = Program.gBasicSheetData.WEB請求書明細消費税行ファイル;
 			textBoxWEB請求書明細記事行ファイル.Text = Program.gBasicSheetData.WEB請求書明細記事行ファイル;
+			labelAGREX口振通知書ファイル出力フォルダ.Text = Program.gBasicSheetData.AGREX口振通知書ファイル出力フォルダ;
 			textBoxAGREX口振通知書ファイル.Text = Program.gBasicSheetData.AGREX口振通知書ファイル;
 			labelWEB請求書件数.Text = string.Format("{0} 件 ", Program.gBasicSheetData.WEB請求書件数.CommaEdit());
 			labelAGREX口振通知書件数.Text = string.Format("{0} 件 ", Program.gBasicSheetData.AGREX口振通知書件数.CommaEdit());
@@ -583,8 +584,8 @@ namespace PcaInvoiceDataConverter.Forms
 			label口座振替請求件数.Text = "0 件 ";
 			label口座振替請求金額.Text = "0 円 ";
 
-			int 口座振替請求件数 = 0;
-			int 口座振替請求金額 = 0;
+			//int 口座振替請求件数 = 0;
+			//int 口座振替請求金額 = 0;
 			foreach (InvoiceHeaderData headerData in InvoiceHeaderDataList)
 			{
 				if (10 == headerData.データ区分)
@@ -601,8 +602,10 @@ namespace PcaInvoiceDataConverter.Forms
 								ws送信データ.Cell(Program.gBasicSheetData.口座振替請求件数 + 2, 1).Value = record;
 								sendDataList.Add(record);   // 送信データリストに追加
 
-								口座振替請求件数++;
-								口座振替請求金額 += headerData.請求残高;
+								//口座振替請求件数++;
+								//口座振替請求金額 += headerData.請求残高;
+								label口座振替請求件数.Text = string.Format(" {0} 件 ", Program.gBasicSheetData.口座振替請求件数.CommaEdit());
+								label口座振替請求金額.Text = string.Format(" {0} 円 ", Program.gBasicSheetData.口座振替請求金額.CommaEdit());
 							}
 							else
 							{
@@ -615,6 +618,8 @@ namespace PcaInvoiceDataConverter.Forms
 								}
 								Program.gBasicSheetData.口座振替不可件数++;
 								Program.gBasicSheetData.口座振替不可請求額 += headerData.請求残高;
+								label口座振替不可件数.Text = string.Format(" {0} 件 ", Program.gBasicSheetData.口座振替不可件数.CommaEdit());
+								label口座振替不可請求額.Text = string.Format(" {0} 円 ", Program.gBasicSheetData.口座振替不可請求額.CommaEdit());
 							}
 						}
 					}
@@ -629,6 +634,8 @@ namespace PcaInvoiceDataConverter.Forms
 						}
 						Program.gBasicSheetData.口座振替不要件数++;
 						Program.gBasicSheetData.口座振替不要請求額 += headerData.請求残高;
+						label口座振替不要件数.Text = string.Format(" {0} 件 ", Program.gBasicSheetData.口座振替不要件数.CommaEdit());
+						label口座振替不要請求額.Text = string.Format(" {0} 円 ", Program.gBasicSheetData.口座振替不要請求額.CommaEdit());
 					}
 				}
 			}
@@ -648,16 +655,16 @@ namespace PcaInvoiceDataConverter.Forms
 			//ws口振不可.ColumnsUsed().AdjustToContents();
 
 			// 口座振替不可件数、口座振替不可請求額
-			label口座振替不可件数.Text = string.Format(" {0} 件 ", Program.gBasicSheetData.口座振替不可件数.CommaEdit());
-			label口座振替不可請求額.Text = string.Format(" {0} 円 ", Program.gBasicSheetData.口座振替不可請求額.CommaEdit());
+			//label口座振替不可件数.Text = string.Format(" {0} 件 ", Program.gBasicSheetData.口座振替不可件数.CommaEdit());
+			//label口座振替不可請求額.Text = string.Format(" {0} 円 ", Program.gBasicSheetData.口座振替不可請求額.CommaEdit());
 
 			// 口座振替不要件数、口座振替不要請求額
-			label口座振替不要件数.Text = string.Format(" {0} 件 ", Program.gBasicSheetData.口座振替不要件数.CommaEdit());
-			label口座振替不要請求額.Text = string.Format(" {0} 円 ", Program.gBasicSheetData.口座振替不要請求額.CommaEdit());
+			//label口座振替不要件数.Text = string.Format(" {0} 件 ", Program.gBasicSheetData.口座振替不要件数.CommaEdit());
+			//label口座振替不要請求額.Text = string.Format(" {0} 円 ", Program.gBasicSheetData.口座振替不要請求額.CommaEdit());
 
 			// 口座振替請求件数、口座振替請求金額
-			label口座振替請求件数.Text = string.Format(" {0} 件 ", Program.gBasicSheetData.口座振替請求件数.CommaEdit());
-			label口座振替請求金額.Text = string.Format(" {0} 円 ", Program.gBasicSheetData.口座振替請求金額.CommaEdit());
+			//label口座振替請求件数.Text = string.Format(" {0} 件 ", Program.gBasicSheetData.口座振替請求件数.CommaEdit());
+			//label口座振替請求金額.Text = string.Format(" {0} 円 ", Program.gBasicSheetData.口座振替請求金額.CommaEdit());
 		}
 
 		/// <summary>
@@ -799,9 +806,13 @@ namespace PcaInvoiceDataConverter.Forms
 				{
 					Program.gBasicSheetData.請求金額あり件数++;
 					Program.gBasicSheetData.WEB請求書請求金額 += headerData.請求残高;
+					label請求金額あり件数.Text = string.Format(" {0} 件", Program.gBasicSheetData.請求金額あり件数.CommaEdit());
+					labelWEB請求書請求金額.Text = string.Format(" {0} 円", Program.gBasicSheetData.WEB請求書請求金額.CommaEdit());
+
 					if (headerData.Customer.IsAGREX口振通知書())
 					{
 						Program.gBasicSheetData.AGREX口振通知書件数++;
+						labelAGREX口振通知書件数.Text = string.Format(" {0} 件", Program.gBasicSheetData.AGREX口振通知書件数.CommaEdit());
 					}
 					// ヘッダ行作成
 					AccountTransferHeaderLine headerLine = new AccountTransferHeaderLine();
@@ -936,6 +947,7 @@ namespace PcaInvoiceDataConverter.Forms
 					headerLine.記事行数 = headerLine.GetInvoiceDetailCommentCount();
 
 					Program.gBasicSheetData.WEB請求書番号基数++;
+					textBoxWEB請求書番号基数.Text = Program.gBasicSheetData.WEB請求書番号基数.ToString();
 				}
 				else
 				{
@@ -947,6 +959,7 @@ namespace PcaInvoiceDataConverter.Forms
 						column++;
 					}
 					Program.gBasicSheetData.口振請求なし件数++;
+					label口振請求なし件数.Text = string.Format(" {0} 件", Program.gBasicSheetData.口振請求なし件数.CommaEdit());
 				}
 			}
 			// 「ヘッダ行作業」の出力
@@ -977,12 +990,12 @@ namespace PcaInvoiceDataConverter.Forms
 			//wsHeader.ColumnsUsed().AdjustToContents();
 			//wsDetail.ColumnsUsed().AdjustToContents();
 
-			textBoxWEB請求書番号基数.Text = Program.gBasicSheetData.WEB請求書番号基数.ToString();
-			labelWEB請求書件数.Text = string.Format(" {0} 件", InvoiceHeaderDataList.Count.CommaEdit());
-			labelAGREX口振通知書件数.Text = string.Format(" {0} 件", Program.gBasicSheetData.AGREX口振通知書件数.CommaEdit());
-			label口振請求なし件数.Text = string.Format(" {0} 件", Program.gBasicSheetData.口振請求なし件数.CommaEdit());
-			label請求金額あり件数.Text = string.Format(" {0} 件", Program.gBasicSheetData.請求金額あり件数.CommaEdit());
-			labelWEB請求書請求金額.Text = string.Format(" {0} 円", Program.gBasicSheetData.WEB請求書請求金額.CommaEdit());
+			//textBoxWEB請求書番号基数.Text = Program.gBasicSheetData.WEB請求書番号基数.ToString();
+			//labelWEB請求書件数.Text = string.Format(" {0} 件", InvoiceHeaderDataList.Count.CommaEdit());
+			//labelAGREX口振通知書件数.Text = string.Format(" {0} 件", Program.gBasicSheetData.AGREX口振通知書件数.CommaEdit());
+			//label口振請求なし件数.Text = string.Format(" {0} 件", Program.gBasicSheetData.口振請求なし件数.CommaEdit());
+			//label請求金額あり件数.Text = string.Format(" {0} 件", Program.gBasicSheetData.請求金額あり件数.CommaEdit());
+			//labelWEB請求書請求金額.Text = string.Format(" {0} 円", Program.gBasicSheetData.WEB請求書請求金額.CommaEdit());
 
 			return headerLineList;
 		}

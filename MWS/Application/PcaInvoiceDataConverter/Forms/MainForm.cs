@@ -74,7 +74,7 @@ namespace PcaInvoiceDataConverter.Forms
 				// 「基本データ」 WEB請求書発行関連基本データ 初期値設定
 
 				// WEB請求書番号基数
-				Program.gBasicSheetData.WEB請求書番号基数 = (int)Program.WS基本データ.Cell(19, 3).GetDouble() + 1;
+				Program.gBasicSheetData.WEB請求書番号基数 = (int)Program.WS基本データ.Cell(16, 3).GetDouble() + 1;
 
 				// 口座振替請求日=今月27日
 				Program.gBasicSheetData.口座振替請求日 = transferDate;

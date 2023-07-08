@@ -151,6 +151,7 @@ namespace PcaInvoiceDataConverter
 
 			// 環境設定の読込
 			gSettings = PcaInvoiceDataConverterSettingsIF.GetSettings();
+			gBasicSheetData = new BasicSheetData();
 
 			Application.Run(new Forms.MainForm());
 		}
