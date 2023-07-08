@@ -46,8 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseFactory\BankTransferHeaderLine.cs" />
+    <Compile Include="BaseFactory\AgrexDefine.cs" />
+    <Compile Include="BaseFactory\BasicSheetData.cs" />
     <Compile Include="BaseFactory\InvoiceDetailLine.cs" />
-    <Compile Include="BaseFactory\InvoiceHeaderLine.cs" />
+    <Compile Include="BaseFactory\AccountTransferHeaderLine.cs" />
+    <Compile Include="Forms\BankTransferForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BankTransferForm.Designer.cs">
+      <DependentUpon>BankTransferForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AccountTransferForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +73,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\PcaInvoiceDataConverterSettings.cs" />
     <Compile Include="Settings\PcaInvoiceDataConverterSettingsIF.cs" />
+    <EmbeddedResource Include="Forms\BankTransferForm.resx">
+      <DependentUpon>BankTransferForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AccountTransferForm.resx">
       <DependentUpon>AccountTransferForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -79,9 +91,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="PCA請求データコンバータ.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="PCA請求データコンバータ.xlsx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

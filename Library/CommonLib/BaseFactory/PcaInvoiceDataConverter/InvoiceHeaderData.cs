@@ -9,6 +9,7 @@
 //
 using CommonLib.Common;
 using System;
+using System.Collections.Generic;
 
 namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 {
@@ -31,7 +32,17 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 		public int 税込売上高 { get; set; }
 		public int 請求残高 { get; set; }
 		public DateTime? 回収予定日 { get; set; }
-		
+
+		/// <summary>
+		/// 顧客情報
+		/// </summary>
+		public CustomerInfo Customer { get; set; }
+
+		/// <summary>
+		/// 請求明細データリスト
+		/// </summary>
+		public List<InvoiceDetailData> InvoiceDetailDataList { get; set; }
+
 		/// <summary>
 		/// オリジナルデータ
 		/// </summary>
@@ -56,6 +67,8 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 			請求残高 = 0;
 			回収予定日 = null;
 			OrgData = string.Empty;
+			Customer = null;
+			InvoiceDetailDataList = null;
 		}
 
 		/// <summary>
@@ -90,12 +103,36 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 		}
 
 		/// <summary>
-		/// 
+		/// 前回請求締日付の取得
 		/// </summary>
 		/// <returns></returns>
-		public string[] GetCopyRecord()
+		public DateTime? 前回請求締日付()
 		{
-			string[] result = 
+			if (請求期間開始.HasValue)
+			{
+				// 請求期間開始の前日
+				return 請求期間開始.Value.AddDays(-1);
+			}
+			return DateTime.Today;
+		}
+
+		/// <summary>
+		/// 「口振請求なし」タイトル行の取得
+		/// </summary>
+		/// <returns></returns>
+		public static string[] GetInvoiceNothingTitle()
+		{
+			string[] title = { "得意先コード", "得意先名１", "得意先名２", "前回請求額", "入金額", "繰越金額", "税込売上高", "請求残高", "回収予定日" };
+			return title;
+		}
+
+		/// <summary>
+		/// 「口振請求なし」、 「銀行振込０円請求」のデータ行の取得
+		/// </summary>
+		/// <returns></returns>
+		public string[] GetInvoiceNothingRecord()
+		{
+			string[] result =
 			{
 				得意先コード,
 				得意先名1,
@@ -111,17 +148,12 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 		}
 
 		/// <summary>
-		/// 前回請求締日付の取得
+		/// 
 		/// </summary>
 		/// <returns></returns>
-		public DateTime? 前回請求締日付()
+		public bool Is銀行振込請求書送付()
 		{
-			if (請求期間開始.HasValue)
-			{
-				// 請求期間開始の前日
-				return 請求期間開始.Value.AddDays(-1);
-			}
-			return DateTime.Today;
+			return (0 < 請求残高) ? true : false;
 		}
 	}
 }

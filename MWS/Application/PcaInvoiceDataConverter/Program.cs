@@ -8,11 +8,17 @@
 // Ver1.00(2023/06/27 勝呂):新規作成
 //
 using ClosedXML.Excel;
+using CommonLib.DB.SqlServer.PcaInvoiceDataConverter;
 using PcaInvoiceDataConverter.Settings;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
+using CommonLib.BaseFactory.PcaInvoiceDataConverter;
+using System.Data;
+using PcaInvoiceDataConverter.BaseFactory;
 
 namespace PcaInvoiceDataConverter
 {
@@ -31,7 +37,17 @@ namespace PcaInvoiceDataConverter
 		/// <summary>
 		/// 環境設定
 		/// </summary>
-		public static PcaInvoiceDataConverterSettings gSettings { get; set; }
+		public static PcaInvoiceDataConverterSettings gSettings = null;
+
+		/// <summary>
+		/// 顧客情報リスト
+		/// </summary>
+		public static List<CustomerInfo> Customers = null;
+
+		/// <summary>
+		/// 「基本データ」設定値
+		/// </summary>
+		public static BasicSheetData gBasicSheetData = null;
 
 		/// <summary>
 		/// PCA請求データコンバータ.xlsx
@@ -56,7 +72,7 @@ namespace PcaInvoiceDataConverter
 		/// <summary>
 		/// シート名「請求一覧」
 		/// </summary>
-		public const string SheetNameInvoiceList = "請求一覧";
+		public const string SheetNameInvoiceHeader = "請求一覧";
 
 		/// <summary>
 		/// シート名「請求明細」
@@ -111,40 +127,7 @@ namespace PcaInvoiceDataConverter
 		/// <summary>
 		/// 「基本データ」シート
 		/// </summary>
-		public static IXLWorksheet SheetBasic = null;
-
-		/// <summary>
-		/// APLUS送信ファイル名の取得（本日日付）
-		/// </summary>
-		public static string GetAplusSendDataFilename
-		{
-			get
-			{
-				return string.Format("Sosin{0:D2}{1:D2}{2:D2}.txt", DateTime.Today.Year - 2000, DateTime.Today.Month, DateTime.Today.Day);
-			}
-		}
-
-		/// <summary>
-		/// AGREX口振通知書ファイル名の取得（本日日付）
-		/// </summary>
-		public static string GetAccountTransferFilename
-		{
-			get
-			{
-				return string.Format("132001{0:D2}{1:D2}{2:D2}F.csv", DateTime.Today.Year - 2000, DateTime.Today.Month, DateTime.Today.Day);
-			}
-		}
-
-		/// <summary>
-		/// AGREX請求書ファイル名の取得（本日日付）
-		/// </summary>
-		public static string GetBankTransferFilename
-		{
-			get
-			{
-				return string.Format("296001{0:D2}{1:D2}{2:D2}.csv", DateTime.Today.Year - 2000, DateTime.Today.Month, DateTime.Today.Day);
-			}
-		}
+		public static IXLWorksheet WS基本データ = null;
 
 		/// <summary>
 		/// PCA請求データコンバータ.xlsxパス名の取得
@@ -173,42 +156,182 @@ namespace PcaInvoiceDataConverter
 		}
 
 		/// <summary>
+		/// 顧客情報読込み
+		/// </summary>
+		public static void ReadCustomerInfo()
+		{
+			try
+			{
+				DataTable table = PcaInvoiceDataConverterGetIO.GetCustomerInfo(gSettings.ConnectJunp.ConnectionString);
+				if (0 < table.Rows.Count)
+				{
+					if (IsExistWorksheet(SheetNameCustomer))
+					{
+						// シート「顧客情報」の削除
+						PcaWorkbook.Worksheets.Delete(SheetNameCustomer);
+					}
+					// シート「顧客情報」を追加して、顧客情報の書き込み
+					IXLWorksheet wsCust = PcaWorkbook.Worksheets.Add(table, SheetNameCustomer);
+
+					// 表全体の列、カラムの幅を自動調整
+					//wsCust.ColumnsUsed().AdjustToContents();
+
+					// ワークブックの保存
+					PcaWorkbook.Save();
+
+					// 顧客情報の取得
+					Customers = CustomerInfo.DataTableToList(table);
+
+					// WW顧客データ.csvの出力
+					string csvPathname = Path.Combine(Directory.GetCurrentDirectory(), CustomerDataFile);
+					using (StreamWriter sw = new StreamWriter(csvPathname, false, Encoding.GetEncoding("Shift_JIS")))
+					{
+						// タイトル行出力
+						sw.WriteLine(CustomerInfo.GetTitle());
+
+						// データ出力
+						List<CustomerInfo> list = CustomerInfo.DataTableToList(table);
+						foreach (CustomerInfo data in list)
+						{
+							sw.WriteLine(data.GetData());
+						}
+					}
+				}
+			}
+			catch
+			{
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// 請求一覧データファイル読込み
+		/// </summary>
+		/// <param name="pathname">請求一覧データファイルパス名</param>
+		/// <param name="InvoiceHeaderDataList">請求一覧データリスト</param>
+		public static void ReadInvoiceHeaderDataFile(string pathname, List<InvoiceHeaderData> InvoiceHeaderDataList)
+		{
+			try
+			{
+				InvoiceHeaderDataList.Clear();
+
+				// PCA請求一覧読込みファイル
+				using (StreamReader sr = new StreamReader(pathname, Encoding.GetEncoding("shift_jis")))
+				{
+					// 「請求一覧」シートの作成
+					IXLWorksheet wsList = AddWorksheet(SheetNameInvoiceHeader);
+					int row = 1;
+					while (!sr.EndOfStream)
+					{
+						string line = sr.ReadLine();
+						string[] values = line.Split(',');
+						for (int i = 0, j = 1; i < values.Length; i++, j++)
+						{
+							wsList.Cell(row, j).Value = values[i];
+						}
+						row++;
+						if ("10" == values[3])
+						{
+							// 合計行以外
+							InvoiceHeaderData invoiceHeader = new InvoiceHeaderData();
+							invoiceHeader.SetData(line, values);
+							InvoiceHeaderDataList.Add(invoiceHeader);
+
+							// 請求一覧表に顧客情報を紐づけ
+							invoiceHeader.Customer = Customers.Find(p => p.得意先No == invoiceHeader.得意先コード);
+						}
+						// 表全体の列、カラムの幅を自動調整
+						//wsList.ColumnsUsed().AdjustToContents();
+					}
+				}
+			}
+			catch
+			{
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// 請求明細データファイル読込み
+		/// </summary>
+		/// <param name="pathname">請求一覧データファイルパス名</param>
+		/// <param name="InvoiceHeaderDataList">請求一覧データリスト</param>
+		public static void ReadInvoiceDetailDataFile(string pathname, List<InvoiceHeaderData> InvoiceHeaderDataList)
+		{
+			try
+			{
+				// csvファイルを開く
+				using (StreamReader sr = new StreamReader(pathname, Encoding.GetEncoding("shift_jis")))
+				{
+					List<InvoiceDetailData> invoiceDetailDataList = new List<InvoiceDetailData>();
+
+					// 「請求明細」シートに出力
+					IXLWorksheet wsDetail = AddWorksheet(SheetNameInvoiceDetail);
+					int row = 1;
+					while (!sr.EndOfStream)
+					{
+						string line = sr.ReadLine();
+						string[] values = line.Split(',');
+						for (int i = 0, j = 1; i < values.Length; i++, j++)
+						{
+							wsDetail.Cell(row, j).Value = values[i];
+						}
+						row++;
+
+						InvoiceDetailData detailData = new InvoiceDetailData();
+						detailData.SetData(values);
+						invoiceDetailDataList.Add(detailData);
+					}
+					// 請求一覧表クラスに請求明細データリストをを紐づけ
+					foreach (InvoiceHeaderData headerData in InvoiceHeaderDataList)
+					{
+						headerData.InvoiceDetailDataList = invoiceDetailDataList.FindAll(p => p.得意先コード == headerData.得意先コード);
+					}
+					// 表全体の列、カラムの幅を自動調整
+					//wsDetail.ColumnsUsed().AdjustToContents();
+				}
+			}
+			catch
+			{
+				throw;
+			}
+		}
+
+
+		/// <summary>
 		/// WorkSheetが存在するかどうか？
 		/// </summary>
-		/// <param name="wb">WorkBook</param>
 		/// <param name="sheetName">シート名</param>
 		/// <returns>判定</returns>
-		public static bool IsExistWorksheet(XLWorkbook wb, string sheetName)
+		public static bool IsExistWorksheet(string sheetName)
 		{
-			var wss = wb.Worksheets.Where(x => x.Name == sheetName);
+			var wss = PcaWorkbook.Worksheets.Where(x => x.Name == sheetName);
 			return (0 < wss.Count()) ? true: false;
 		}
 
 		/// <summary>
 		/// WorkSheetの追加
 		/// </summary>
-		/// <param name="wb">WorkBook</param>
 		/// <param name="sheetName">シート名</param>
 		/// <returns>WorkSheet</returns>
-		public static IXLWorksheet AddWorksheet(XLWorkbook wb, string sheetName)
+		public static IXLWorksheet AddWorksheet(string sheetName)
 		{
-			if (IsExistWorksheet(wb, sheetName))
+			if (IsExistWorksheet(sheetName))
 			{
-				wb.Worksheets.Delete(sheetName);
+				PcaWorkbook.Worksheets.Delete(sheetName);
 			}
-			return wb.Worksheets.Add(sheetName);
+			return PcaWorkbook.Worksheets.Add(sheetName);
 		}
 
 		/// <summary>
 		/// WorkSheetの削除
 		/// </summary>
-		/// <param name="wb">WorkBook</param>
 		/// <param name="sheetName">シート名</param>
-		public static void DeleteWorksheet(XLWorkbook wb, string sheetName)
+		public static void DeleteWorksheet(string sheetName)
 		{
-			if (IsExistWorksheet(wb, sheetName))
+			if (IsExistWorksheet(sheetName))
 			{
-				wb.Worksheets.Delete(sheetName);
+				PcaWorkbook.Worksheets.Delete(sheetName);
 			}
 		}
 

@@ -9,23 +9,15 @@
 //
 using ClosedXML.Excel;
 using CommonLib.Common;
+using PcaInvoiceDataConverter.BaseFactory;
+using PcaInvoiceDataConverter.Settings;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PcaInvoiceDataConverter.Forms
 {
 	public partial class MainForm : Form
 	{
-
-
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
@@ -46,17 +38,13 @@ namespace PcaInvoiceDataConverter.Forms
 			try
 			{
 				Program.PcaWorkbook = new XLWorkbook(Program.ExcelPathname);
-				Program.SheetBasic = Program.PcaWorkbook.Worksheet(Program.SheetNameBasicData);
+				Program.PcaWorkbook.Style.Font.FontName = "メイリオ";
+				Program.PcaWorkbook.Style.Font.FontSize = 9;
+				Program.WS基本データ = Program.PcaWorkbook.Worksheet(Program.SheetNameBasicData);
 
-				// 初期設定
+				// 今月27日（日曜日は翌日に移動）
+				DateTime transferDate = Program.gBasicSheetData.振替日();
 
-				// 今月27日
-				DateTime transferDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 27);
-				if (DayOfWeek.Sunday == transferDate.DayOfWeek)
-				{
-					// 日曜日は翌日に移動（意味あるのか？）
-					transferDate.AddDays(1);
-				}
 				// 今月末日
 				DateTime thisLastday = DateTime.Today.EndOfMonth();
 
@@ -67,39 +55,80 @@ namespace PcaInvoiceDataConverter.Forms
 				// 今月10日
 				DateTime this10 = new DateTime(Date.Today.Year, Date.Today.Month, 10);
 
+				/////////////////////////////////////////////////////////////////////
+				// 「基本データ」 口座振替関連基本データ 初期値設定
+
 				// 口座振替日=今月27日
-				Program.SheetBasic.Cell(5, 3).Value = transferDate;
+				Program.gBasicSheetData.口座振替日 = transferDate;
+				//Program.WS基本データ.Cell(5, 3).Value = transferDate;
 
-				// 口座振替請求日=今月27日
-				Program.SheetBasic.Cell(17, 3).Value = transferDate;
-
-				// 口座振替請求期間開始日=先月11日、口座振替請求期間終了日=今月10日
-				Program.SheetBasic.Cell(18, 3).Value = prev11;
-				Program.SheetBasic.Cell(18, 5).Value = this10;
-
-				// 銀行振込請求書請求日=本日
-				Program.SheetBasic.Cell(34, 3).Value = DateTime.Today;
-
-				// 銀行振込請求期間開始日=先月11日、銀行振込請求期間終了日=今月10日
-				Program.SheetBasic.Cell(35, 3).Value = prev11;
-				Program.SheetBasic.Cell(35, 5).Value = this10;
-
-				// 銀行振込入金期限日=今月末日
-				Program.SheetBasic.Cell(36, 3).Value = thisLastday;
+				Program.gBasicSheetData.PCA請求一覧10読込みファイル = Program.WS基本データ.Cell(6, 3).GetString().Trim();
+				Program.gBasicSheetData.APLUS送信ファイル出力フォルダ = Program.WS基本データ.Cell(7, 3).GetString().Trim();
 
 				// APLUS送信ファイル=本日
-				Program.SheetBasic.Cell(8, 3).Value = Program.GetAplusSendDataFilename;
+				Program.gBasicSheetData.APLUS送信ファイル = AgrexDefine.GetAplusSendDataFilename;
+				//Program.WS基本データ.Cell(8, 3).Value = AgrexDefine.GetAplusSendDataFilename;
+
+
+				/////////////////////////////////////////////////////////////////////
+				// 「基本データ」 WEB請求書発行関連基本データ 初期値設定
+
+				// WEB請求書番号基数
+				Program.gBasicSheetData.WEB請求書番号基数 = (int)Program.WS基本データ.Cell(19, 3).GetDouble() + 1;
+
+				// 口座振替請求日=今月27日
+				Program.gBasicSheetData.口座振替請求日 = transferDate;
+				//Program.WS基本データ.Cell(17, 3).Value = Program.gBasicSheetData.口座振替請求日;
+
+				// 口座振替請求期間開始日=先月11日、口座振替請求期間終了日=今月10日
+				Program.gBasicSheetData.口座振替請求期間開始日 = prev11;
+				Program.gBasicSheetData.口座振替請求期間終了日 = this10;
+				//Program.WS基本データ.Cell(18, 3).Value = Program.gBasicSheetData.口座振替請求期間開始日;
+				//Program.WS基本データ.Cell(18, 5).Value = Program.gBasicSheetData.口座振替請求期間終了日;
+
+				Program.gBasicSheetData.PCA請求明細10読込みファイル = Program.WS基本データ.Cell(19, 3).GetString().Trim();
+				Program.gBasicSheetData.WEB請求書ファイル出力フォルダ = Program.WS基本データ.Cell(20, 3).GetString().Trim();
+				Program.gBasicSheetData.WEB請求書ヘッダファイル = Program.WS基本データ.Cell(21, 3).GetString().Trim();
+				Program.gBasicSheetData.WEB請求書明細売上行ファイル = Program.WS基本データ.Cell(22, 3).GetString().Trim();
+				Program.gBasicSheetData.WEB請求書明細消費税行ファイル = Program.WS基本データ.Cell(23, 3).GetString().Trim();
+				Program.gBasicSheetData.WEB請求書明細記事行ファイル = Program.WS基本データ.Cell(24, 3).GetString().Trim();
+				Program.gBasicSheetData.AGREX口振通知書ファイル出力フォルダ = Program.WS基本データ.Cell(25, 3).GetString().Trim();
 
 				// AGREX口振通知書ファイル=本日
-				Program.SheetBasic.Cell(26, 3).Value = Program.GetAccountTransferFilename;
+				Program.gBasicSheetData.AGREX口振通知書ファイル = AgrexDefine.GetAccountTransferFilename;
+				//Program.WS基本データ.Cell(26, 3).Value = Program.gBasicSheetData.AGREX口振通知書ファイル;
+
+
+				/////////////////////////////////////////////////////////////////////
+				// 「基本データ」 銀行振込請求書発行関連基本データ 初期値設定
+
+				// 請求書番号基数
+				Program.gBasicSheetData.請求書番号基数 = (int)Program.WS基本データ.Cell(33, 3).GetDouble() + 1;
+
+				// 銀行振込請求書請求日=本日
+				Program.gBasicSheetData.銀行振込請求書請求日 = DateTime.Today;
+				//Program.WS基本データ.Cell(34, 3).Value = Program.gBasicSheetData.銀行振込請求書請求日;
+
+				// 銀行振込請求期間開始日=先月11日、銀行振込請求期間終了日=今月10日
+				Program.gBasicSheetData.銀行振込請求期間開始日 = prev11;
+				Program.gBasicSheetData.銀行振込請求期間終了日 = this10;
+				//Program.WS基本データ.Cell(35, 3).Value = Program.gBasicSheetData.銀行振込請求期間開始日;
+				//Program.WS基本データ.Cell(35, 5).Value = Program.gBasicSheetData.銀行振込請求期間終了日;
+
+				// 銀行振込入金期限日=今月末日
+				Program.gBasicSheetData.銀行振込入金期限日 = thisLastday;
+				//Program.WS基本データ.Cell(36, 3).Value = Program.gBasicSheetData.銀行振込入金期限日;
+
+				Program.gBasicSheetData.PCA請求一覧11読込みファイル = Program.WS基本データ.Cell(37, 3).GetString().Trim();
+				Program.gBasicSheetData.PCA請求明細11読込みファイル = Program.WS基本データ.Cell(38, 3).GetString().Trim();
+				Program.gBasicSheetData.AGREX請求書ファイル出力フォルダ = Program.WS基本データ.Cell(39, 3).GetString().Trim();
 
 				// AGREX請求書ファイル=本日
-				Program.SheetBasic.Cell(40, 3).Value = Program.GetBankTransferFilename;
+				Program.gBasicSheetData.AGREX請求書ファイル = AgrexDefine.GetBankTransferFilename;
+				//Program.WS基本データ.Cell(40, 3).Value = Program.gBasicSheetData.AGREX請求書ファイル;
 
 				// ワークブックの保存
-				Program.PcaWorkbook.Save();
-
-				
+				//Program.PcaWorkbook.Save();
 			}
 			catch (Exception ex)
 			{
@@ -114,8 +143,10 @@ namespace PcaInvoiceDataConverter.Forms
 		/// <param name="e"></param>
 		private void buttonAccountTransfer_Click(object sender, EventArgs e)
 		{
-			AccountTransferForm form = new AccountTransferForm();
-			form.ShowDialog();
+			using (AccountTransferForm form = new AccountTransferForm())
+			{
+				form.ShowDialog();
+			}
 		}
 
 		/// <summary>
@@ -125,7 +156,10 @@ namespace PcaInvoiceDataConverter.Forms
 		/// <param name="e"></param>
 		private void buttonBankTransfer_Click(object sender, EventArgs e)
 		{
-
+			using (BankTransferForm form = new BankTransferForm())
+			{
+				form.ShowDialog();
+			}
 		}
 
 		/// <summary>
@@ -145,6 +179,7 @@ namespace PcaInvoiceDataConverter.Forms
 		/// <param name="e"></param>
 		private void buttonExit_Click(object sender, EventArgs e)
 		{
+			this.Close();
 		}
 	}
 }

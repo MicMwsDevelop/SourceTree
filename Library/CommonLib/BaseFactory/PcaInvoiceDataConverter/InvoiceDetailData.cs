@@ -53,11 +53,6 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 		public int 売上金額 { get; set; }
 
 		/// <summary>
-		/// オリジナルデータ
-		/// </summary>
-		public string OrgData { get; set; }
-
-		/// <summary>
 		/// 送料かどうか？
 		/// </summary>
 		public bool IsShipping
@@ -100,6 +95,35 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 		}
 
 		/// <summary>
+		/// 請求先郵便番号数字のみの取得
+		/// </summary>
+		public string 請求先郵便番号数字のみ
+		{
+			get
+			{
+				return 請求先郵便番号.Replace("-", "");
+			}
+		}
+
+		/// <summary>
+		/// 請求先住所
+		/// </summary>
+		public string 請求先住所
+		{
+			get
+			{
+				// 住所文字列を１７＋１７＋１６文字形式に変換？
+				string address = 請求先住所1;
+				if (0 < 請求先住所2.Length)
+				{
+					address += "　" + 請求先住所2;
+				}
+				// 半角→全角
+				return StringUtil.ConvertWideForUnicode(address);
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public InvoiceDetailData()
@@ -135,14 +159,13 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 			単位 = string.Empty;
 			単価 = 0;
 			売上金額 = 0;
-			OrgData = string.Empty;
 		}
 
 		/// <summary>
 		/// データの格納
 		/// </summary>
 		/// <param name="values"></param>
-		public void SetData(string line, string[] values)
+		public void SetData(string[] values)
 		{
 			請求実績請求先コード = values[0];
 			請求先名1 = values[1];
@@ -175,16 +198,6 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 			単位 = values[28];
 			単価 = values[29].ToInt();
 			売上金額 = values[30].ToInt();
-			OrgData = line;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public List<string> GetInsertData()
-		{
-			return OrgData.Split(',').ToList();
 		}
 
 		/// <summary>

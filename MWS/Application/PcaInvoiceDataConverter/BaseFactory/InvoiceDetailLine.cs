@@ -1,17 +1,21 @@
-﻿using CommonLib.Common;
+﻿//
+// InvoiceDetailLine.cs
+// 
+// 口座振替/銀行振込 明細行作業クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+// Ver1.00(2023/06/27 勝呂):新規作成
+//
+using CommonLib.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace PcaInvoiceDataConverter.BaseFactory
 {
 	/// <summary>
-	/// 明細行作業
+	/// 口座振替/銀行振込 明細行作業
 	/// </summary>
 	public class InvoiceDetailLine
 	{
@@ -38,7 +42,7 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		/// <summary>
 		/// 区切り線
 		/// </summary>
-		public const string SplitLine = "------------------------------------";
+		public const string SplitLine = "------------------------------------ ";
 
 		/// <summary>
 		/// 商品名：（消費税等）
@@ -238,114 +242,6 @@ namespace PcaInvoiceDataConverter.BaseFactory
 				}
 			}
 			return result;
-		}
-
-		/// <summary>
-		/// WEB請求書明細売上行ファイル（invoice_detail_bill.tsv）の出力
-		/// </summary>
-		/// <param name="pathname">WEB請求書明細売上行ファイル名</param>
-		/// <param name="headerLineList">ヘッダ行リスト</param>
-		public static void FileOutBill(string pathname, List<InvoiceHeaderLine> headerLineList)
-		{
-			FileStream fs = null;
-			try
-			{
-				fs = new FileStream(pathname, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
-				using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("shift_jis")))
-				{
-					foreach (InvoiceHeaderLine header in headerLineList)
-					{
-						List<string> billList = InvoiceDetailLine.GetBillDataList(header.DetailLineList);
-						foreach (string line in billList)
-						{
-							sw.WriteLine(line);
-						}
-					}
-				}
-			}
-			catch
-			{
-				throw;
-			}
-			finally
-			{
-				if (null != fs)
-				{
-					fs.Close();
-				}
-			}
-		}
-
-		/// <summary>
-		/// WEB請求書明細消費税行ファイル（invoice_detail_tax.tsv）の出力
-		/// </summary>
-		/// <param name="pathname">WEB請求書明細消費税行ファイル名</param>
-		/// <param name="headerLineList">ヘッダ行リスト</param>
-		public static void FileOutTax(string pathname, List<InvoiceHeaderLine> headerLineList)
-		{
-			FileStream fs = null;
-			try
-			{
-				fs = new FileStream(pathname, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
-				using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("shift_jis")))
-				{
-					foreach (InvoiceHeaderLine header in headerLineList)
-					{
-						List<string> billList = InvoiceDetailLine.GetTaxDataList(header.DetailLineList);
-						foreach (string line in billList)
-						{
-							sw.WriteLine(line);
-						}
-					}
-				}
-			}
-			catch
-			{
-				throw;
-			}
-			finally
-			{
-				if (null != fs)
-				{
-					fs.Close();
-				}
-			}
-		}
-
-		/// <summary>
-		/// WEB請求書明細記事行ファイル（invoice_detail_comment.tsv）の出力
-		/// </summary>
-		/// <param name="pathname">WEB請求書明細記事行ファイル名</param>
-		/// <param name="headerLineList">ヘッダ行リスト</param>
-		public static void FileOutComment(string pathname, List<InvoiceHeaderLine> headerLineList)
-		{
-			FileStream fs = null;
-			try
-			{
-				fs = new FileStream(pathname, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
-				using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("shift_jis")))
-				{
-					foreach (InvoiceHeaderLine header in headerLineList)
-					{
-						List<string> billList = InvoiceDetailLine.GetCommentDataList(header.DetailLineList);
-						foreach (string line in billList)
-						{
-							sw.WriteLine(line);
-						}
-					}
-				}
-			}
-			catch
-			{
-				throw;
-			}
-			finally
-			{
-				if (null != fs)
-				{
-					fs.Close();
-				}
-			}
 		}
 	}
 }

@@ -92,7 +92,7 @@
 			this.labelVersion.Name = "labelVersion";
 			this.labelVersion.Size = new System.Drawing.Size(164, 15);
 			this.labelVersion.TabIndex = 5;
-			this.labelVersion.Text = "label2";
+			this.labelVersion.Text = "Ver X.XX（yyyy/MM/dd）";
 			this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// MainForm
