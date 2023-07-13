@@ -25,6 +25,7 @@
 // Ver1.02 汎用データレイアウト 仕入明細データ Version 9(DX-Rev3.00)に対応(2022/05/25 勝呂)
 // Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/10 勝呂)
 // Ver1.04(2023/03/30 勝呂):Microsoft365仕入データの単価が仕入価格でなく、標準価格となっている障害
+// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
 //
 using System;
 using System.Windows.Forms;
@@ -36,7 +37,7 @@ namespace MakePurchaseFile
 		/// <summary>
 		/// プログラムバージョン
 		/// </summary>
-		public const string gVersionStr = "Ver1.04(2023/03/30)";
+		public const string gVersionStr = "Ver1.05(2023/07/10)";
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。

@@ -185,7 +185,8 @@ namespace MakePurchaseFile.Forms
 			// 
 			// textBoxCurlineFilename
 			// 
-			this.textBoxCurlineFilename.BackColor = System.Drawing.Color.White;
+			this.textBoxCurlineFilename.BackColor = System.Drawing.SystemColors.Control;
+			this.textBoxCurlineFilename.Enabled = false;
 			this.textBoxCurlineFilename.Location = new System.Drawing.Point(21, 278);
 			this.textBoxCurlineFilename.Name = "textBoxCurlineFilename";
 			this.textBoxCurlineFilename.ReadOnly = true;
@@ -195,6 +196,8 @@ namespace MakePurchaseFile.Forms
 			// label7
 			// 
 			this.label7.AutoSize = true;
+			this.label7.Enabled = false;
+			this.label7.ForeColor = System.Drawing.Color.Gray;
 			this.label7.Location = new System.Drawing.Point(21, 256);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(242, 19);
@@ -323,6 +326,7 @@ namespace MakePurchaseFile.Forms
 			// 
 			// buttonOutputCurline
 			// 
+			this.buttonOutputCurline.Enabled = false;
 			this.buttonOutputCurline.Font = new System.Drawing.Font("Meiryo UI", 5.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonOutputCurline.Location = new System.Drawing.Point(468, 278);
 			this.buttonOutputCurline.Name = "buttonOutputCurline";
