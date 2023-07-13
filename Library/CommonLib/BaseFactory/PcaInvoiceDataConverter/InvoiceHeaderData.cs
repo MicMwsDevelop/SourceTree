@@ -10,6 +10,7 @@
 using CommonLib.Common;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 {
@@ -154,6 +155,48 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 		public bool Is銀行振込請求書送付()
 		{
 			return (0 < 請求残高) ? true : false;
+		}
+
+		/// <summary>
+		/// 請求一覧のDataTableの作成
+		/// </summary>
+		/// <param name="list">請求一覧リスト</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetHeaderDataDataTable(List<InvoiceHeaderData> list)
+		{
+			DataTable table = new DataTable();
+			table.Columns.Add("請求締日", typeof(int));
+			table.Columns.Add("請求期間開始", typeof(string));
+			table.Columns.Add("請求期間終了", typeof(string));
+			table.Columns.Add("データ区分", typeof(int));
+			table.Columns.Add("得意先コード", typeof(string));
+			table.Columns.Add("得意先名1", typeof(string));
+			table.Columns.Add("得意先名2", typeof(string));
+			table.Columns.Add("前回請求額", typeof(int));
+			table.Columns.Add("入金額", typeof(int));
+			table.Columns.Add("繰越金額", typeof(int));
+			table.Columns.Add("税込売上高", typeof(int));
+			table.Columns.Add("請求残高", typeof(int));
+			table.Columns.Add("回収予定日", typeof(string));
+			foreach (InvoiceHeaderData header in list)
+			{
+				DataRow row = table.NewRow();
+				row["請求締日"] = header.請求締日;
+				row["請求期間開始"] = (header.請求期間開始.HasValue) ? header.請求期間開始.Value.ToString("yyyyMMdd") : "";
+				row["請求期間終了"] = (header.請求期間終了.HasValue) ? header.請求期間終了.Value.ToString("yyyyMMdd") : "";
+				row["データ区分"] = header.データ区分;
+				row["得意先コード"] = header.得意先コード;
+				row["得意先名1"] = header.得意先名1;
+				row["得意先名2"] = header.得意先名2;
+				row["前回請求額"] = header.前回請求額;
+				row["入金額"] = header.入金額;
+				row["繰越金額"] = header.繰越金額;
+				row["税込売上高"] = header.税込売上高;
+				row["請求残高"] = header.請求残高;
+				row["回収予定日"] = (header.回収予定日.HasValue) ? header.回収予定日.Value.ToString("yyyyMMdd") : "";
+				table.Rows.Add(row);
+			}
+			return table;
 		}
 	}
 }

@@ -103,6 +103,7 @@
 			// 
 			// buttonReadCustomerInfo
 			// 
+			this.buttonReadCustomerInfo.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonReadCustomerInfo.Location = new System.Drawing.Point(12, 66);
 			this.buttonReadCustomerInfo.Name = "buttonReadCustomerInfo";
 			this.buttonReadCustomerInfo.Size = new System.Drawing.Size(368, 57);
@@ -123,6 +124,7 @@
 			// 
 			// buttonReadInvoiceHeaderData
 			// 
+			this.buttonReadInvoiceHeaderData.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonReadInvoiceHeaderData.Location = new System.Drawing.Point(12, 129);
 			this.buttonReadInvoiceHeaderData.Name = "buttonReadInvoiceHeaderData";
 			this.buttonReadInvoiceHeaderData.Size = new System.Drawing.Size(368, 57);
@@ -133,6 +135,7 @@
 			// 
 			// buttonReadInvoiceDetailData
 			// 
+			this.buttonReadInvoiceDetailData.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonReadInvoiceDetailData.Location = new System.Drawing.Point(12, 192);
 			this.buttonReadInvoiceDetailData.Name = "buttonReadInvoiceDetailData";
 			this.buttonReadInvoiceDetailData.Size = new System.Drawing.Size(368, 57);
@@ -143,6 +146,7 @@
 			// 
 			// buttonMakeAccountTransfer
 			// 
+			this.buttonMakeAccountTransfer.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonMakeAccountTransfer.Location = new System.Drawing.Point(12, 255);
 			this.buttonMakeAccountTransfer.Name = "buttonMakeAccountTransfer";
 			this.buttonMakeAccountTransfer.Size = new System.Drawing.Size(368, 57);
@@ -153,6 +157,7 @@
 			// 
 			// buttonMakeInvoice
 			// 
+			this.buttonMakeInvoice.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonMakeInvoice.Location = new System.Drawing.Point(12, 318);
 			this.buttonMakeInvoice.Name = "buttonMakeInvoice";
 			this.buttonMakeInvoice.Size = new System.Drawing.Size(368, 57);
@@ -164,6 +169,7 @@
 			// buttonExit
 			// 
 			this.buttonExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.buttonExit.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonExit.Location = new System.Drawing.Point(12, 381);
 			this.buttonExit.Name = "buttonExit";
 			this.buttonExit.Size = new System.Drawing.Size(368, 57);
@@ -186,6 +192,7 @@
 			// 
 			this.label3.BackColor = System.Drawing.Color.LightGray;
 			this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label3.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label3.Location = new System.Drawing.Point(396, 35);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(210, 23);
@@ -197,6 +204,7 @@
 			// 
 			this.label4.BackColor = System.Drawing.Color.LightGray;
 			this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label4.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label4.Location = new System.Drawing.Point(396, 57);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(210, 23);
@@ -208,6 +216,7 @@
 			// 
 			this.label5.BackColor = System.Drawing.Color.LightGray;
 			this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label5.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label5.Location = new System.Drawing.Point(396, 79);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(210, 23);
@@ -219,6 +228,7 @@
 			// 
 			this.label6.BackColor = System.Drawing.Color.LightGray;
 			this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label6.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label6.Location = new System.Drawing.Point(396, 101);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(210, 23);
@@ -230,6 +240,7 @@
 			// 
 			this.label7.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label7.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label7.Location = new System.Drawing.Point(396, 123);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(210, 23);
@@ -241,6 +252,7 @@
 			// 
 			this.label8.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label8.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label8.Location = new System.Drawing.Point(788, 123);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(130, 23);
@@ -252,6 +264,7 @@
 			// 
 			this.label9.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label9.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label9.Location = new System.Drawing.Point(396, 145);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(210, 23);
@@ -263,6 +276,7 @@
 			// 
 			this.label10.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label10.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label10.Location = new System.Drawing.Point(788, 145);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(130, 23);
@@ -274,6 +288,7 @@
 			// 
 			this.label11.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label11.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label11.Location = new System.Drawing.Point(788, 167);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(130, 23);
@@ -285,6 +300,7 @@
 			// 
 			this.label12.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label12.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label12.Location = new System.Drawing.Point(396, 167);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(210, 23);
@@ -296,6 +312,7 @@
 			// 
 			this.label13.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label13.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label13.Location = new System.Drawing.Point(788, 189);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(130, 23);
@@ -307,6 +324,7 @@
 			// 
 			this.label14.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label14.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label14.Location = new System.Drawing.Point(396, 189);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(210, 23);
@@ -329,6 +347,7 @@
 			// 
 			this.label16.BackColor = System.Drawing.Color.LightGray;
 			this.label16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label16.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label16.Location = new System.Drawing.Point(396, 244);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(210, 23);
@@ -340,6 +359,7 @@
 			// 
 			this.label17.BackColor = System.Drawing.Color.LightGray;
 			this.label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label17.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label17.Location = new System.Drawing.Point(396, 266);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(210, 23);
@@ -351,6 +371,7 @@
 			// 
 			this.label18.BackColor = System.Drawing.Color.LightGray;
 			this.label18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label18.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label18.Location = new System.Drawing.Point(396, 288);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(210, 23);
@@ -362,6 +383,7 @@
 			// 
 			this.label45.BackColor = System.Drawing.Color.LightGray;
 			this.label45.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label45.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label45.Location = new System.Drawing.Point(396, 310);
 			this.label45.Name = "label45";
 			this.label45.Size = new System.Drawing.Size(210, 23);
@@ -373,6 +395,7 @@
 			// 
 			this.label52.BackColor = System.Drawing.Color.LightGray;
 			this.label52.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label52.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label52.Location = new System.Drawing.Point(396, 332);
 			this.label52.Name = "label52";
 			this.label52.Size = new System.Drawing.Size(210, 23);
@@ -384,6 +407,7 @@
 			// 
 			this.label21.BackColor = System.Drawing.Color.LightGray;
 			this.label21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label21.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label21.Location = new System.Drawing.Point(396, 354);
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(210, 23);
@@ -395,6 +419,7 @@
 			// 
 			this.label22.BackColor = System.Drawing.Color.LightGray;
 			this.label22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label22.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label22.Location = new System.Drawing.Point(396, 376);
 			this.label22.Name = "label22";
 			this.label22.Size = new System.Drawing.Size(210, 23);
@@ -406,6 +431,7 @@
 			// 
 			this.label23.BackColor = System.Drawing.Color.LightGray;
 			this.label23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label23.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label23.Location = new System.Drawing.Point(396, 398);
 			this.label23.Name = "label23";
 			this.label23.Size = new System.Drawing.Size(210, 23);
@@ -417,6 +443,7 @@
 			// 
 			this.label24.BackColor = System.Drawing.Color.LightGray;
 			this.label24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label24.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label24.Location = new System.Drawing.Point(396, 420);
 			this.label24.Name = "label24";
 			this.label24.Size = new System.Drawing.Size(210, 23);
@@ -428,6 +455,7 @@
 			// 
 			this.label25.BackColor = System.Drawing.Color.LightGray;
 			this.label25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label25.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label25.Location = new System.Drawing.Point(396, 442);
 			this.label25.Name = "label25";
 			this.label25.Size = new System.Drawing.Size(210, 23);
@@ -439,6 +467,7 @@
 			// 
 			this.label26.BackColor = System.Drawing.Color.LightGray;
 			this.label26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label26.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label26.Location = new System.Drawing.Point(396, 464);
 			this.label26.Name = "label26";
 			this.label26.Size = new System.Drawing.Size(210, 23);
@@ -450,6 +479,7 @@
 			// 
 			this.label27.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label27.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label27.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label27.Location = new System.Drawing.Point(396, 486);
 			this.label27.Name = "label27";
 			this.label27.Size = new System.Drawing.Size(210, 23);
@@ -461,6 +491,7 @@
 			// 
 			this.label28.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label28.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label28.Location = new System.Drawing.Point(396, 508);
 			this.label28.Name = "label28";
 			this.label28.Size = new System.Drawing.Size(210, 23);
@@ -472,6 +503,7 @@
 			// 
 			this.label29.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label29.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label29.Location = new System.Drawing.Point(788, 486);
 			this.label29.Name = "label29";
 			this.label29.Size = new System.Drawing.Size(130, 23);
@@ -483,6 +515,7 @@
 			// 
 			this.label30.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label30.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label30.Location = new System.Drawing.Point(788, 530);
 			this.label30.Name = "label30";
 			this.label30.Size = new System.Drawing.Size(130, 23);
@@ -494,6 +527,7 @@
 			// 
 			this.label31.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label31.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label31.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label31.Location = new System.Drawing.Point(396, 530);
 			this.label31.Name = "label31";
 			this.label31.Size = new System.Drawing.Size(210, 23);
@@ -504,9 +538,10 @@
 			// label32
 			// 
 			this.label32.AutoSize = true;
+			this.label32.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label32.Location = new System.Drawing.Point(388, 556);
 			this.label32.Name = "label32";
-			this.label32.Size = new System.Drawing.Size(236, 15);
+			this.label32.Size = new System.Drawing.Size(217, 14);
 			this.label32.TabIndex = 69;
 			this.label32.Text = "（※０円売上明細のWEB請求書作成件数）";
 			// 
@@ -514,6 +549,7 @@
 			// 
 			this.label口座振替請求一覧件数.BackColor = System.Drawing.Color.White;
 			this.label口座振替請求一覧件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label口座振替請求一覧件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label口座振替請求一覧件数.Location = new System.Drawing.Point(606, 123);
 			this.label口座振替請求一覧件数.Name = "label口座振替請求一覧件数";
 			this.label口座振替請求一覧件数.Size = new System.Drawing.Size(180, 23);
@@ -525,6 +561,7 @@
 			// 
 			this.label口座振替不可件数.BackColor = System.Drawing.Color.White;
 			this.label口座振替不可件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label口座振替不可件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label口座振替不可件数.Location = new System.Drawing.Point(606, 145);
 			this.label口座振替不可件数.Name = "label口座振替不可件数";
 			this.label口座振替不可件数.Size = new System.Drawing.Size(180, 23);
@@ -536,6 +573,7 @@
 			// 
 			this.label口座振替不要件数.BackColor = System.Drawing.Color.White;
 			this.label口座振替不要件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label口座振替不要件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label口座振替不要件数.Location = new System.Drawing.Point(606, 167);
 			this.label口座振替不要件数.Name = "label口座振替不要件数";
 			this.label口座振替不要件数.Size = new System.Drawing.Size(180, 23);
@@ -547,6 +585,7 @@
 			// 
 			this.label口座振替請求件数.BackColor = System.Drawing.Color.White;
 			this.label口座振替請求件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label口座振替請求件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label口座振替請求件数.Location = new System.Drawing.Point(606, 189);
 			this.label口座振替請求件数.Name = "label口座振替請求件数";
 			this.label口座振替請求件数.Size = new System.Drawing.Size(180, 23);
@@ -558,6 +597,7 @@
 			// 
 			this.label口座振替請求一覧請求金額.BackColor = System.Drawing.Color.White;
 			this.label口座振替請求一覧請求金額.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label口座振替請求一覧請求金額.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label口座振替請求一覧請求金額.Location = new System.Drawing.Point(917, 123);
 			this.label口座振替請求一覧請求金額.Name = "label口座振替請求一覧請求金額";
 			this.label口座振替請求一覧請求金額.Size = new System.Drawing.Size(160, 23);
@@ -569,6 +609,7 @@
 			// 
 			this.label口座振替不可請求額.BackColor = System.Drawing.Color.White;
 			this.label口座振替不可請求額.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label口座振替不可請求額.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label口座振替不可請求額.Location = new System.Drawing.Point(917, 145);
 			this.label口座振替不可請求額.Name = "label口座振替不可請求額";
 			this.label口座振替不可請求額.Size = new System.Drawing.Size(160, 23);
@@ -580,6 +621,7 @@
 			// 
 			this.label口座振替不要請求額.BackColor = System.Drawing.Color.White;
 			this.label口座振替不要請求額.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label口座振替不要請求額.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label口座振替不要請求額.Location = new System.Drawing.Point(917, 167);
 			this.label口座振替不要請求額.Name = "label口座振替不要請求額";
 			this.label口座振替不要請求額.Size = new System.Drawing.Size(160, 23);
@@ -591,6 +633,7 @@
 			// 
 			this.label口座振替請求金額.BackColor = System.Drawing.Color.White;
 			this.label口座振替請求金額.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label口座振替請求金額.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label口座振替請求金額.Location = new System.Drawing.Point(917, 189);
 			this.label口座振替請求金額.Name = "label口座振替請求金額";
 			this.label口座振替請求金額.Size = new System.Drawing.Size(160, 23);
@@ -602,6 +645,7 @@
 			// 
 			this.labelAPLUS送信ファイル出力フォルダ.BackColor = System.Drawing.Color.White;
 			this.labelAPLUS送信ファイル出力フォルダ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.labelAPLUS送信ファイル出力フォルダ.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.labelAPLUS送信ファイル出力フォルダ.Location = new System.Drawing.Point(606, 79);
 			this.labelAPLUS送信ファイル出力フォルダ.Name = "labelAPLUS送信ファイル出力フォルダ";
 			this.labelAPLUS送信ファイル出力フォルダ.Size = new System.Drawing.Size(471, 23);
@@ -612,6 +656,7 @@
 			// 
 			this.labelWEB請求書ファイル出力フォルダ.BackColor = System.Drawing.Color.White;
 			this.labelWEB請求書ファイル出力フォルダ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.labelWEB請求書ファイル出力フォルダ.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.labelWEB請求書ファイル出力フォルダ.Location = new System.Drawing.Point(606, 332);
 			this.labelWEB請求書ファイル出力フォルダ.Name = "labelWEB請求書ファイル出力フォルダ";
 			this.labelWEB請求書ファイル出力フォルダ.Size = new System.Drawing.Size(471, 23);
@@ -622,6 +667,7 @@
 			// 
 			this.labelAGREX口振通知書ファイル出力フォルダ.BackColor = System.Drawing.Color.White;
 			this.labelAGREX口振通知書ファイル出力フォルダ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.labelAGREX口振通知書ファイル出力フォルダ.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.labelAGREX口振通知書ファイル出力フォルダ.Location = new System.Drawing.Point(606, 442);
 			this.labelAGREX口振通知書ファイル出力フォルダ.Name = "labelAGREX口振通知書ファイル出力フォルダ";
 			this.labelAGREX口振通知書ファイル出力フォルダ.Size = new System.Drawing.Size(471, 23);
@@ -632,6 +678,7 @@
 			// 
 			this.label請求金額あり件数.BackColor = System.Drawing.Color.White;
 			this.label請求金額あり件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label請求金額あり件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label請求金額あり件数.Location = new System.Drawing.Point(606, 530);
 			this.label請求金額あり件数.Name = "label請求金額あり件数";
 			this.label請求金額あり件数.Size = new System.Drawing.Size(180, 23);
@@ -643,6 +690,7 @@
 			// 
 			this.label口振請求なし件数.BackColor = System.Drawing.Color.White;
 			this.label口振請求なし件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label口振請求なし件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label口振請求なし件数.Location = new System.Drawing.Point(606, 508);
 			this.label口振請求なし件数.Name = "label口振請求なし件数";
 			this.label口振請求なし件数.Size = new System.Drawing.Size(180, 23);
@@ -654,6 +702,7 @@
 			// 
 			this.labelWEB請求書件数.BackColor = System.Drawing.Color.White;
 			this.labelWEB請求書件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.labelWEB請求書件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.labelWEB請求書件数.Location = new System.Drawing.Point(606, 486);
 			this.labelWEB請求書件数.Name = "labelWEB請求書件数";
 			this.labelWEB請求書件数.Size = new System.Drawing.Size(180, 23);
@@ -665,6 +714,7 @@
 			// 
 			this.labelAGREX口振通知書件数.BackColor = System.Drawing.Color.White;
 			this.labelAGREX口振通知書件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.labelAGREX口振通知書件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.labelAGREX口振通知書件数.Location = new System.Drawing.Point(917, 486);
 			this.labelAGREX口振通知書件数.Name = "labelAGREX口振通知書件数";
 			this.labelAGREX口振通知書件数.Size = new System.Drawing.Size(160, 23);
@@ -676,6 +726,7 @@
 			// 
 			this.labelWEB請求書請求金額.BackColor = System.Drawing.Color.White;
 			this.labelWEB請求書請求金額.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.labelWEB請求書請求金額.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.labelWEB請求書請求金額.Location = new System.Drawing.Point(917, 530);
 			this.labelWEB請求書請求金額.Name = "labelWEB請求書請求金額";
 			this.labelWEB請求書請求金額.Size = new System.Drawing.Size(160, 23);
@@ -685,6 +736,7 @@
 			// 
 			// dateTimePicker口座振替日
 			// 
+			this.dateTimePicker口座振替日.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.dateTimePicker口座振替日.Location = new System.Drawing.Point(606, 35);
 			this.dateTimePicker口座振替日.Name = "dateTimePicker口座振替日";
 			this.dateTimePicker口座振替日.Size = new System.Drawing.Size(131, 23);
@@ -692,6 +744,7 @@
 			// 
 			// dateTimePicker口座振替請求日
 			// 
+			this.dateTimePicker口座振替請求日.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.dateTimePicker口座振替請求日.Location = new System.Drawing.Point(606, 266);
 			this.dateTimePicker口座振替請求日.Name = "dateTimePicker口座振替請求日";
 			this.dateTimePicker口座振替請求日.Size = new System.Drawing.Size(131, 23);
@@ -699,6 +752,7 @@
 			// 
 			// dateTimePicker口座振替請求期間開始日
 			// 
+			this.dateTimePicker口座振替請求期間開始日.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.dateTimePicker口座振替請求期間開始日.Location = new System.Drawing.Point(606, 288);
 			this.dateTimePicker口座振替請求期間開始日.Name = "dateTimePicker口座振替請求期間開始日";
 			this.dateTimePicker口座振替請求期間開始日.Size = new System.Drawing.Size(131, 23);
@@ -706,6 +760,7 @@
 			// 
 			// dateTimePicker口座振替請求期間終了日
 			// 
+			this.dateTimePicker口座振替請求期間終了日.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.dateTimePicker口座振替請求期間終了日.Location = new System.Drawing.Point(765, 288);
 			this.dateTimePicker口座振替請求期間終了日.Name = "dateTimePicker口座振替請求期間終了日";
 			this.dateTimePicker口座振替請求期間終了日.Size = new System.Drawing.Size(131, 23);
@@ -752,6 +807,7 @@
 			// 
 			// textBoxPCA請求一覧10読込みファイル
 			// 
+			this.textBoxPCA請求一覧10読込みファイル.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxPCA請求一覧10読込みファイル.Location = new System.Drawing.Point(606, 57);
 			this.textBoxPCA請求一覧10読込みファイル.Name = "textBoxPCA請求一覧10読込みファイル";
 			this.textBoxPCA請求一覧10読込みファイル.Size = new System.Drawing.Size(180, 23);
@@ -759,6 +815,7 @@
 			// 
 			// textBoxAPLUS送信ファイル
 			// 
+			this.textBoxAPLUS送信ファイル.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxAPLUS送信ファイル.Location = new System.Drawing.Point(606, 101);
 			this.textBoxAPLUS送信ファイル.Name = "textBoxAPLUS送信ファイル";
 			this.textBoxAPLUS送信ファイル.Size = new System.Drawing.Size(180, 23);
@@ -766,6 +823,7 @@
 			// 
 			// textBoxWEB請求書番号基数
 			// 
+			this.textBoxWEB請求書番号基数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxWEB請求書番号基数.Location = new System.Drawing.Point(606, 244);
 			this.textBoxWEB請求書番号基数.Name = "textBoxWEB請求書番号基数";
 			this.textBoxWEB請求書番号基数.Size = new System.Drawing.Size(180, 23);
@@ -773,6 +831,7 @@
 			// 
 			// textBoxPCA請求明細10読込みファイル
 			// 
+			this.textBoxPCA請求明細10読込みファイル.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxPCA請求明細10読込みファイル.Location = new System.Drawing.Point(606, 310);
 			this.textBoxPCA請求明細10読込みファイル.Name = "textBoxPCA請求明細10読込みファイル";
 			this.textBoxPCA請求明細10読込みファイル.Size = new System.Drawing.Size(180, 23);
@@ -780,6 +839,7 @@
 			// 
 			// textBoxWEB請求書ヘッダファイル
 			// 
+			this.textBoxWEB請求書ヘッダファイル.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxWEB請求書ヘッダファイル.Location = new System.Drawing.Point(606, 354);
 			this.textBoxWEB請求書ヘッダファイル.Name = "textBoxWEB請求書ヘッダファイル";
 			this.textBoxWEB請求書ヘッダファイル.Size = new System.Drawing.Size(180, 23);
@@ -787,6 +847,7 @@
 			// 
 			// textBoxWEB請求書明細売上行ファイル
 			// 
+			this.textBoxWEB請求書明細売上行ファイル.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxWEB請求書明細売上行ファイル.Location = new System.Drawing.Point(606, 376);
 			this.textBoxWEB請求書明細売上行ファイル.Name = "textBoxWEB請求書明細売上行ファイル";
 			this.textBoxWEB請求書明細売上行ファイル.Size = new System.Drawing.Size(180, 23);
@@ -794,6 +855,7 @@
 			// 
 			// textBoxWEB請求書明細消費税行ファイル
 			// 
+			this.textBoxWEB請求書明細消費税行ファイル.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxWEB請求書明細消費税行ファイル.Location = new System.Drawing.Point(606, 398);
 			this.textBoxWEB請求書明細消費税行ファイル.Name = "textBoxWEB請求書明細消費税行ファイル";
 			this.textBoxWEB請求書明細消費税行ファイル.Size = new System.Drawing.Size(180, 23);
@@ -801,6 +863,7 @@
 			// 
 			// textBoxWEB請求書明細記事行ファイル
 			// 
+			this.textBoxWEB請求書明細記事行ファイル.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxWEB請求書明細記事行ファイル.Location = new System.Drawing.Point(606, 420);
 			this.textBoxWEB請求書明細記事行ファイル.Name = "textBoxWEB請求書明細記事行ファイル";
 			this.textBoxWEB請求書明細記事行ファイル.Size = new System.Drawing.Size(180, 23);
@@ -808,6 +871,7 @@
 			// 
 			// textBoxAGREX口振通知書ファイル
 			// 
+			this.textBoxAGREX口振通知書ファイル.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxAGREX口振通知書ファイル.Location = new System.Drawing.Point(606, 464);
 			this.textBoxAGREX口振通知書ファイル.Name = "textBoxAGREX口振通知書ファイル";
 			this.textBoxAGREX口振通知書ファイル.Size = new System.Drawing.Size(180, 23);

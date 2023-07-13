@@ -42,7 +42,7 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		/// <summary>
 		/// 区切り線
 		/// </summary>
-		public const string SplitLine = "------------------------------------ ";
+		public const string SplitLine = "------------------------------------";
 
 		/// <summary>
 		/// 商品名：（消費税等）
@@ -145,9 +145,8 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		/// </summary>
 		/// <param name="table">DataTable</param>
 		/// <returns></returns>
-		public DataRow GetDataRow(DataTable table)
+		public DataRow GetDataRow(DataRow row)
 		{
-			DataRow row = table.NewRow();
 			row["請求書No"] = 請求書No;
 			row["枝番"] = 枝番;
 			row["売上日付"] = 売上日付.Value.ToDate().ToIntYMD(); ;
@@ -242,6 +241,25 @@ namespace PcaInvoiceDataConverter.BaseFactory
 				}
 			}
 			return result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public static DataTable SetColumns()
+		{
+			DataTable table = new DataTable();
+			table.Columns.Add("請求書No", typeof(int));
+			table.Columns.Add("枝番", typeof(int));
+			table.Columns.Add("売上日付", typeof(int));
+			table.Columns.Add("伝票No", typeof(int));
+			table.Columns.Add("商品名", typeof(string));
+			table.Columns.Add("数量", typeof(int));
+			table.Columns.Add("単価", typeof(int));
+			table.Columns.Add("金額", typeof(int));
+			table.Columns.Add("行タイプ", typeof(int));
+			return table;
 		}
 	}
 }

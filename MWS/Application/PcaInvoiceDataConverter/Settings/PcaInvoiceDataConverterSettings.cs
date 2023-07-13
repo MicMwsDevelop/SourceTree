@@ -17,6 +17,40 @@ namespace PcaInvoiceDataConverter.Settings
 	/// </summary>
 	public class PcaInvoiceDataConverterSettings : ICloneable, IEquatable<PcaInvoiceDataConverterSettings>
 	{
+		///////////////////////////////////////////////////////
+		// 口座振替関連基本データ
+
+		public string PCA請求一覧10読込みファイル { get; set; }
+		public string APLUS送信ファイル出力フォルダ { get; set; }
+
+		///////////////////////////////////////////////////////
+		// WEB請求書発行関連基本データ
+
+		public int WEB請求書番号基数 { get; set; }
+		public string PCA請求明細10読込みファイル { get; set; }	
+		public string WEB請求書ファイル出力フォルダ { get; set; }	
+		public string WEB請求書ヘッダファイル { get; set; }
+		public string WEB請求書明細売上行ファイル { get; set; }
+		public string WEB請求書明細消費税行ファイル { get; set; }
+		public string WEB請求書明細記事行ファイル { get; set; }
+		public string AGREX口振通知書ファイル出力フォルダ { get; set; }
+
+		///////////////////////////////////////////////////////
+		// 銀行振込請求書発行関連基本データ
+
+		public int 請求書番号基数 { get; set; }
+		public string PCA請求一覧11読込みファイル { get; set; }
+		public string PCA請求明細11読込みファイル { get; set; }
+		public string AGREX請求書ファイル出力フォルダ { get; set; }
+
+		///////////////////////////////////////////////////////
+		// その他
+
+		public string 結果データシートファイル出力フォルダ { get; set; }
+
+		///////////////////////////////////////////////////////
+		// データベースアクセス情報
+
 		/// <summary>
 		/// SQL Server接続情報 CharliDB
 		/// </summary>
@@ -32,6 +66,21 @@ namespace PcaInvoiceDataConverter.Settings
 		/// </summary>
 		public PcaInvoiceDataConverterSettings()
         {
+			PCA請求一覧10読込みファイル = string.Empty;
+			APLUS送信ファイル出力フォルダ = string.Empty;
+			WEB請求書番号基数 = 0;
+			PCA請求明細10読込みファイル = string.Empty;
+			WEB請求書ファイル出力フォルダ = string.Empty;
+			WEB請求書ヘッダファイル = string.Empty;
+			WEB請求書明細売上行ファイル = string.Empty;
+			WEB請求書明細消費税行ファイル = string.Empty;
+			WEB請求書明細記事行ファイル = string.Empty;
+			AGREX口振通知書ファイル出力フォルダ = string.Empty;
+			請求書番号基数 = 0;
+			PCA請求一覧11読込みファイル = string.Empty;
+			PCA請求明細11読込みファイル = string.Empty;
+			AGREX請求書ファイル出力フォルダ = string.Empty;
+			結果データシートファイル出力フォルダ = string.Empty;
 			ConnectCharlie = new SqlServerConnect();
 			ConnectJunp = new SqlServerConnect();
 		}
@@ -55,10 +104,24 @@ namespace PcaInvoiceDataConverter.Settings
 		{
 			if (other != null)
 			{
-				if (ConnectCharlie.Equals(other.ConnectCharlie) && ConnectJunp.Equals(other.ConnectJunp))
-				{
-					return true;
-				}
+				if (PCA請求一覧10読込みファイル != other.PCA請求一覧10読込みファイル) return false;
+				if (APLUS送信ファイル出力フォルダ != other.APLUS送信ファイル出力フォルダ) return false;
+				if (WEB請求書番号基数 != other.WEB請求書番号基数) return false;
+				if (PCA請求明細10読込みファイル != other.PCA請求明細10読込みファイル) return false;
+				if (WEB請求書ファイル出力フォルダ != other.WEB請求書ファイル出力フォルダ) return false;
+				if (WEB請求書ヘッダファイル != other.WEB請求書ヘッダファイル) return false;
+				if (WEB請求書明細売上行ファイル != other.WEB請求書明細売上行ファイル) return false;
+				if (WEB請求書明細消費税行ファイル != other.WEB請求書明細消費税行ファイル) return false;
+				if (WEB請求書明細記事行ファイル != other.WEB請求書明細記事行ファイル) return false;
+				if (AGREX口振通知書ファイル出力フォルダ != other.AGREX口振通知書ファイル出力フォルダ) return false;
+				if (請求書番号基数 != other.請求書番号基数) return false;
+				if (PCA請求一覧11読込みファイル != other.PCA請求一覧11読込みファイル) return false;
+				if (PCA請求明細11読込みファイル != other.PCA請求明細11読込みファイル) return false;
+				if (AGREX請求書ファイル出力フォルダ != other.AGREX請求書ファイル出力フォルダ) return false;
+				if (結果データシートファイル出力フォルダ != other.結果データシートファイル出力フォルダ) return false;
+				if (false == ConnectCharlie.Equals(other.ConnectCharlie)) return false;
+				if (false == ConnectJunp.Equals(other.ConnectJunp)) return false;
+				return true;
 			}
 			return false;
 		}

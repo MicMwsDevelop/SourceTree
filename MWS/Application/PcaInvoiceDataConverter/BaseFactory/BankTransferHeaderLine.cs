@@ -30,8 +30,6 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		public int 消費税行数 { get; set; }
 		public int 記事行数 { get; set; }
 		public bool 紙請求書 { get; set; }
-		public int 請求明細行開始番号 { get; set; }
-		public int 明細作業行開始番号 { get; set; }
 
 		/// <summary>
 		/// 銀行振込明細行作業リスト
@@ -53,8 +51,6 @@ namespace PcaInvoiceDataConverter.BaseFactory
 			消費税行数 = 0;
 			記事行数 = 0;
 			紙請求書 = false;
-			請求明細行開始番号 = 0;
-			明細作業行開始番号 = 0;
 			DetailLineList = new List<InvoiceDetailLine>();
 		}
 
@@ -76,8 +72,6 @@ namespace PcaInvoiceDataConverter.BaseFactory
 				"消費税行数",
 				"記事行数",
 				"紙請求書",
-				"請求明細行開始番号",
-				"明細作業行開始番号"
 			};
 			return string.Join(",", result.ToArray());
 		}
@@ -130,8 +124,6 @@ namespace PcaInvoiceDataConverter.BaseFactory
 			table.Columns.Add("消費税行数", typeof(int));
 			table.Columns.Add("記事行数", typeof(int));
 			table.Columns.Add("紙請求書", typeof(string));
-			table.Columns.Add("請求明細行開始番号", typeof(int));
-			table.Columns.Add("明細作業行開始番号", typeof(int));
 
 			foreach (BankTransferHeaderLine header in list)
 			{
@@ -146,8 +138,6 @@ namespace PcaInvoiceDataConverter.BaseFactory
 				row["消費税行数"] = header.消費税行数;
 				row["記事行数"] = header.記事行数;
 				row["紙請求書"] = (header.紙請求書) ? "TRUE" : "FALSE";
-				row["請求明細行開始番号"] = header.請求明細行開始番号;
-				row["明細作業行開始番号"] = header.明細作業行開始番号;
 				table.Rows.Add(row);
 			}
 			return table;
@@ -163,7 +153,7 @@ namespace PcaInvoiceDataConverter.BaseFactory
 			table.Columns.AddRange(InvoiceDetailLine.GetDataColumn());
 			foreach (InvoiceDetailLine detail in DetailLineList)
 			{
-				table.Rows.Add(detail.GetDataRow(table));
+				table.Rows.Add(detail.GetDataRow(table.NewRow()));
 			}
 			return table;
 		}

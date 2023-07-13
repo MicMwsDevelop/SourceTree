@@ -76,6 +76,7 @@
 			// 
 			// buttonReadCustomerInfo
 			// 
+			this.buttonReadCustomerInfo.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonReadCustomerInfo.Location = new System.Drawing.Point(12, 63);
 			this.buttonReadCustomerInfo.Name = "buttonReadCustomerInfo";
 			this.buttonReadCustomerInfo.Size = new System.Drawing.Size(368, 57);
@@ -96,6 +97,7 @@
 			// 
 			// buttonReadInvoiceHeaderData
 			// 
+			this.buttonReadInvoiceHeaderData.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonReadInvoiceHeaderData.Location = new System.Drawing.Point(12, 126);
 			this.buttonReadInvoiceHeaderData.Name = "buttonReadInvoiceHeaderData";
 			this.buttonReadInvoiceHeaderData.Size = new System.Drawing.Size(368, 57);
@@ -106,6 +108,7 @@
 			// 
 			// buttonReadInvoiceDetailData
 			// 
+			this.buttonReadInvoiceDetailData.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonReadInvoiceDetailData.Location = new System.Drawing.Point(12, 189);
 			this.buttonReadInvoiceDetailData.Name = "buttonReadInvoiceDetailData";
 			this.buttonReadInvoiceDetailData.Size = new System.Drawing.Size(368, 57);
@@ -116,6 +119,7 @@
 			// 
 			// buttonMakeInvoice
 			// 
+			this.buttonMakeInvoice.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonMakeInvoice.Location = new System.Drawing.Point(12, 252);
 			this.buttonMakeInvoice.Name = "buttonMakeInvoice";
 			this.buttonMakeInvoice.Size = new System.Drawing.Size(368, 57);
@@ -127,6 +131,7 @@
 			// buttonExit
 			// 
 			this.buttonExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.buttonExit.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonExit.Location = new System.Drawing.Point(12, 315);
 			this.buttonExit.Name = "buttonExit";
 			this.buttonExit.Size = new System.Drawing.Size(368, 57);
@@ -147,6 +152,7 @@
 			// 
 			// textBox請求書番号基数
 			// 
+			this.textBox請求書番号基数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBox請求書番号基数.Location = new System.Drawing.Point(608, 71);
 			this.textBox請求書番号基数.Name = "textBox請求書番号基数";
 			this.textBox請求書番号基数.Size = new System.Drawing.Size(180, 23);
@@ -156,6 +162,7 @@
 			// 
 			this.label16.BackColor = System.Drawing.Color.LightGray;
 			this.label16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label16.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label16.Location = new System.Drawing.Point(398, 71);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(210, 23);
@@ -165,6 +172,7 @@
 			// 
 			// dateTimePicker銀行振込請求書請求日
 			// 
+			this.dateTimePicker銀行振込請求書請求日.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.dateTimePicker銀行振込請求書請求日.Location = new System.Drawing.Point(608, 94);
 			this.dateTimePicker銀行振込請求書請求日.Name = "dateTimePicker銀行振込請求書請求日";
 			this.dateTimePicker銀行振込請求書請求日.Size = new System.Drawing.Size(131, 23);
@@ -174,6 +182,7 @@
 			// 
 			this.label17.BackColor = System.Drawing.Color.LightGray;
 			this.label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label17.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label17.Location = new System.Drawing.Point(398, 94);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(210, 23);
@@ -192,6 +201,7 @@
 			// 
 			// dateTimePicker銀行振込請求期間終了日
 			// 
+			this.dateTimePicker銀行振込請求期間終了日.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.dateTimePicker銀行振込請求期間終了日.Location = new System.Drawing.Point(767, 117);
 			this.dateTimePicker銀行振込請求期間終了日.Name = "dateTimePicker銀行振込請求期間終了日";
 			this.dateTimePicker銀行振込請求期間終了日.Size = new System.Drawing.Size(131, 23);
@@ -199,6 +209,7 @@
 			// 
 			// dateTimePicker銀行振込請求期間開始日
 			// 
+			this.dateTimePicker銀行振込請求期間開始日.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.dateTimePicker銀行振込請求期間開始日.Location = new System.Drawing.Point(608, 117);
 			this.dateTimePicker銀行振込請求期間開始日.Name = "dateTimePicker銀行振込請求期間開始日";
 			this.dateTimePicker銀行振込請求期間開始日.Size = new System.Drawing.Size(131, 23);
@@ -208,6 +219,7 @@
 			// 
 			this.label18.BackColor = System.Drawing.Color.LightGray;
 			this.label18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label18.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label18.Location = new System.Drawing.Point(398, 117);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(210, 23);
@@ -217,6 +229,7 @@
 			// 
 			// dateTimePicker銀行振込入金期限日
 			// 
+			this.dateTimePicker銀行振込入金期限日.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.dateTimePicker銀行振込入金期限日.Location = new System.Drawing.Point(608, 140);
 			this.dateTimePicker銀行振込入金期限日.Name = "dateTimePicker銀行振込入金期限日";
 			this.dateTimePicker銀行振込入金期限日.Size = new System.Drawing.Size(131, 23);
@@ -226,6 +239,7 @@
 			// 
 			this.label3.BackColor = System.Drawing.Color.LightGray;
 			this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label3.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label3.Location = new System.Drawing.Point(398, 140);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(210, 23);
@@ -235,6 +249,7 @@
 			// 
 			// textBoxPCA請求一覧11読込みファイル
 			// 
+			this.textBoxPCA請求一覧11読込みファイル.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxPCA請求一覧11読込みファイル.Location = new System.Drawing.Point(608, 163);
 			this.textBoxPCA請求一覧11読込みファイル.Name = "textBoxPCA請求一覧11読込みファイル";
 			this.textBoxPCA請求一覧11読込みファイル.Size = new System.Drawing.Size(180, 23);
@@ -244,6 +259,7 @@
 			// 
 			this.label4.BackColor = System.Drawing.Color.LightGray;
 			this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label4.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label4.Location = new System.Drawing.Point(398, 163);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(210, 23);
@@ -253,6 +269,7 @@
 			// 
 			// textBoxPCA請求明細11読込みファイル
 			// 
+			this.textBoxPCA請求明細11読込みファイル.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxPCA請求明細11読込みファイル.Location = new System.Drawing.Point(608, 186);
 			this.textBoxPCA請求明細11読込みファイル.Name = "textBoxPCA請求明細11読込みファイル";
 			this.textBoxPCA請求明細11読込みファイル.Size = new System.Drawing.Size(180, 23);
@@ -262,6 +279,7 @@
 			// 
 			this.label45.BackColor = System.Drawing.Color.LightGray;
 			this.label45.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label45.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label45.Location = new System.Drawing.Point(398, 186);
 			this.label45.Name = "label45";
 			this.label45.Size = new System.Drawing.Size(210, 23);
@@ -283,6 +301,7 @@
 			// 
 			this.labelAGREX請求書ファイル出力フォルダ.BackColor = System.Drawing.Color.White;
 			this.labelAGREX請求書ファイル出力フォルダ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.labelAGREX請求書ファイル出力フォルダ.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.labelAGREX請求書ファイル出力フォルダ.Location = new System.Drawing.Point(608, 209);
 			this.labelAGREX請求書ファイル出力フォルダ.Name = "labelAGREX請求書ファイル出力フォルダ";
 			this.labelAGREX請求書ファイル出力フォルダ.Size = new System.Drawing.Size(471, 23);
@@ -293,6 +312,7 @@
 			// 
 			this.label52.BackColor = System.Drawing.Color.LightGray;
 			this.label52.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label52.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label52.Location = new System.Drawing.Point(398, 209);
 			this.label52.Name = "label52";
 			this.label52.Size = new System.Drawing.Size(210, 23);
@@ -302,6 +322,7 @@
 			// 
 			// textBoxAGREX請求書ファイル
 			// 
+			this.textBoxAGREX請求書ファイル.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.textBoxAGREX請求書ファイル.Location = new System.Drawing.Point(608, 232);
 			this.textBoxAGREX請求書ファイル.Name = "textBoxAGREX請求書ファイル";
 			this.textBoxAGREX請求書ファイル.Size = new System.Drawing.Size(180, 23);
@@ -311,6 +332,7 @@
 			// 
 			this.label26.BackColor = System.Drawing.Color.LightGray;
 			this.label26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label26.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label26.Location = new System.Drawing.Point(398, 232);
 			this.label26.Name = "label26";
 			this.label26.Size = new System.Drawing.Size(210, 23);
@@ -322,6 +344,7 @@
 			// 
 			this.label銀行振込請求一覧請求金額.BackColor = System.Drawing.Color.White;
 			this.label銀行振込請求一覧請求金額.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label銀行振込請求一覧請求金額.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label銀行振込請求一覧請求金額.Location = new System.Drawing.Point(919, 255);
 			this.label銀行振込請求一覧請求金額.Name = "label銀行振込請求一覧請求金額";
 			this.label銀行振込請求一覧請求金額.Size = new System.Drawing.Size(160, 23);
@@ -333,6 +356,7 @@
 			// 
 			this.label銀行振込請求一覧件数.BackColor = System.Drawing.Color.White;
 			this.label銀行振込請求一覧件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label銀行振込請求一覧件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label銀行振込請求一覧件数.Location = new System.Drawing.Point(608, 255);
 			this.label銀行振込請求一覧件数.Name = "label銀行振込請求一覧件数";
 			this.label銀行振込請求一覧件数.Size = new System.Drawing.Size(180, 23);
@@ -344,6 +368,7 @@
 			// 
 			this.label8.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label8.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label8.Location = new System.Drawing.Point(790, 255);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(130, 23);
@@ -355,6 +380,7 @@
 			// 
 			this.label7.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label7.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label7.Location = new System.Drawing.Point(398, 255);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(210, 23);
@@ -366,6 +392,7 @@
 			// 
 			this.label銀行振込請求金額.BackColor = System.Drawing.Color.White;
 			this.label銀行振込請求金額.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label銀行振込請求金額.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label銀行振込請求金額.Location = new System.Drawing.Point(919, 278);
 			this.label銀行振込請求金額.Name = "label銀行振込請求金額";
 			this.label銀行振込請求金額.Size = new System.Drawing.Size(160, 23);
@@ -377,6 +404,7 @@
 			// 
 			this.label銀行振込請求書件数.BackColor = System.Drawing.Color.White;
 			this.label銀行振込請求書件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label銀行振込請求書件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label銀行振込請求書件数.Location = new System.Drawing.Point(608, 278);
 			this.label銀行振込請求書件数.Name = "label銀行振込請求書件数";
 			this.label銀行振込請求書件数.Size = new System.Drawing.Size(180, 23);
@@ -388,6 +416,7 @@
 			// 
 			this.label10.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label10.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label10.Location = new System.Drawing.Point(790, 278);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(130, 23);
@@ -399,6 +428,7 @@
 			// 
 			this.label9.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label9.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label9.Location = new System.Drawing.Point(398, 278);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(210, 23);
@@ -410,6 +440,7 @@
 			// 
 			this.label銀行振込マイナス請求金額.BackColor = System.Drawing.Color.White;
 			this.label銀行振込マイナス請求金額.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label銀行振込マイナス請求金額.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label銀行振込マイナス請求金額.Location = new System.Drawing.Point(919, 301);
 			this.label銀行振込マイナス請求金額.Name = "label銀行振込マイナス請求金額";
 			this.label銀行振込マイナス請求金額.Size = new System.Drawing.Size(160, 23);
@@ -421,6 +452,7 @@
 			// 
 			this.label銀行振込マイナス請求件数.BackColor = System.Drawing.Color.White;
 			this.label銀行振込マイナス請求件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label銀行振込マイナス請求件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label銀行振込マイナス請求件数.Location = new System.Drawing.Point(608, 301);
 			this.label銀行振込マイナス請求件数.Name = "label銀行振込マイナス請求件数";
 			this.label銀行振込マイナス請求件数.Size = new System.Drawing.Size(180, 23);
@@ -432,6 +464,7 @@
 			// 
 			this.label11.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label11.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label11.Location = new System.Drawing.Point(790, 301);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(130, 23);
@@ -443,6 +476,7 @@
 			// 
 			this.label12.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label12.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label12.Location = new System.Drawing.Point(398, 301);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(210, 23);
@@ -454,6 +488,7 @@
 			// 
 			this.label銀行振込0円請求件数.BackColor = System.Drawing.Color.White;
 			this.label銀行振込0円請求件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label銀行振込0円請求件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label銀行振込0円請求件数.Location = new System.Drawing.Point(608, 324);
 			this.label銀行振込0円請求件数.Name = "label銀行振込0円請求件数";
 			this.label銀行振込0円請求件数.Size = new System.Drawing.Size(180, 23);
@@ -465,6 +500,7 @@
 			// 
 			this.label6.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label6.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label6.Location = new System.Drawing.Point(398, 324);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(210, 23);
@@ -476,6 +512,7 @@
 			// 
 			this.label銀行振込請求書発行金額.BackColor = System.Drawing.Color.White;
 			this.label銀行振込請求書発行金額.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label銀行振込請求書発行金額.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label銀行振込請求書発行金額.Location = new System.Drawing.Point(919, 347);
 			this.label銀行振込請求書発行金額.Name = "label銀行振込請求書発行金額";
 			this.label銀行振込請求書発行金額.Size = new System.Drawing.Size(160, 23);
@@ -487,6 +524,7 @@
 			// 
 			this.label銀行振込請求書発行件数.BackColor = System.Drawing.Color.White;
 			this.label銀行振込請求書発行件数.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label銀行振込請求書発行件数.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label銀行振込請求書発行件数.Location = new System.Drawing.Point(608, 347);
 			this.label銀行振込請求書発行件数.Name = "label銀行振込請求書発行件数";
 			this.label銀行振込請求書発行件数.Size = new System.Drawing.Size(180, 23);
@@ -498,6 +536,7 @@
 			// 
 			this.label30.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label30.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label30.Location = new System.Drawing.Point(790, 347);
 			this.label30.Name = "label30";
 			this.label30.Size = new System.Drawing.Size(130, 23);
@@ -509,6 +548,7 @@
 			// 
 			this.label31.BackColor = System.Drawing.Color.LightSkyBlue;
 			this.label31.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label31.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label31.Location = new System.Drawing.Point(398, 347);
 			this.label31.Name = "label31";
 			this.label31.Size = new System.Drawing.Size(210, 23);

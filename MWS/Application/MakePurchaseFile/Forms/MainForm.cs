@@ -8,6 +8,7 @@
 // Ver1.00 新規作成(2022/01/07 勝呂)
 // Ver1.02 汎用データレイアウト 仕入明細データ Version 9(Rev3.00)に対応(2022/05/25 勝呂)
 // Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/10 勝呂)
+// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
 //
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Junp.Table;
@@ -85,7 +86,10 @@ namespace MakePurchaseFile.Forms
 			textBoxListonFilename.Text = Settings.りすとん月額仕入データファイル名;
 			textBoxMicrosoft365Filename.Text = Settings.Microsoft365仕入データファイル名;
 			textBoxMonshindenFilename.Text = Settings.問心伝月額仕入データファイル名;
-			textBoxCurlineFilename.Text = Settings.Curline本体アプリ仕入データファイル名;
+
+			// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
+			//textBoxCurlineFilename.Text = Settings.Curline本体アプリ仕入データファイル名;
+
 			textBoxNarcohmFilename.Text = Settings.ナルコーム仕入データファイル名;
 			textBoxCloudBackupFilename.Text = Settings.クラウドバックアップ仕入データファイル名;
 			textBoxAlmexFilename.Text = Settings.アルメックス保守仕入データファイル名;
@@ -97,7 +101,10 @@ namespace MakePurchaseFile.Forms
 			buttonOutputListon.Visible = true;
 			buttonOutputMicrosoft365.Visible = true;
 			buttonOutputMonshinden.Visible = true;
-			buttonOutputCurline.Visible = true;
+
+			// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
+			//buttonOutputCurline.Visible = true;
+
 			buttonOutputNarcohm.Visible = true;
 			buttonPutputCloudBackup.Visible = true;
 			buttonOutputAlmex.Visible = true;
@@ -153,7 +160,8 @@ namespace MakePurchaseFile.Forms
 				/////////////////////////////////////
 				// 11. Curline本体アプリ仕入データ作成
 
-				Curline本体アプリ仕入データファイル出力(collectMonth);
+				// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
+				//Curline本体アプリ仕入データファイル出力(collectMonth);
 
 				/////////////////////////////////////
 				// 12. ナルコーム仕入データ作成
@@ -219,7 +227,8 @@ namespace MakePurchaseFile.Forms
 			try
 			{
 				// TMP_Curline本体アプリ商品
-				DatabaseAccess.DropTable(仕入商品情報.DropTableString_Curline本体アプリ商品, Settings.Connect.Charlie.ConnectionString);
+				// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
+				//DatabaseAccess.DropTable(仕入商品情報.DropTableString_Curline本体アプリ商品, Settings.Connect.Charlie.ConnectionString);
 
 				// TMP_Microsoft365商品
 				DatabaseAccess.DropTable(仕入商品情報.DropTableString_Microsoft365商品, Settings.Connect.Charlie.ConnectionString);
@@ -249,7 +258,8 @@ namespace MakePurchaseFile.Forms
 			try
 			{
 				// TMP_Curline本体アプリ商品
-				DatabaseAccess.CreateTable(仕入商品情報.CreateTableString_Curline本体アプリ商品, Settings.Connect.Charlie.ConnectionString);
+				// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
+				//DatabaseAccess.CreateTable(仕入商品情報.CreateTableString_Curline本体アプリ商品, Settings.Connect.Charlie.ConnectionString);
 
 				// TMP_Microsoft365商品
 				DatabaseAccess.CreateTable(仕入商品情報.CreateTableString_Microsoft365商品, Settings.Connect.Charlie.ConnectionString);
@@ -280,7 +290,8 @@ namespace MakePurchaseFile.Forms
 			try
 			{
 				// TMP_Curline本体アプリ商品
-				MakePurchaseFileAccess.InsertIntoList_Curline本体アプリ商品(Settings.Curline本体アプリ商品, Settings.Connect.Charlie.ConnectionString);
+				// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
+				//MakePurchaseFileAccess.InsertIntoList_Curline本体アプリ商品(Settings.Curline本体アプリ商品, Settings.Connect.Charlie.ConnectionString);
 
 				// TMP_Microsoft365商品
 				MakePurchaseFileAccess.InsertIntoList_Microsoft365商品(Settings.Microsoft365商品, Settings.Connect.Charlie.ConnectionString);
@@ -610,6 +621,8 @@ namespace MakePurchaseFile.Forms
 		/// 11.Curline本体アプリ仕入データ作成
 		/// </summary>
 		/// <param name="collectMonth">対象年月</param>
+		// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
+/*
 		public void Curline本体アプリ仕入データファイル出力(YearMonth collectMonth)
 		{
 			List<仕入集計> Curline本体アプリ仕入集計 = MakePurchaseFileAccess.Select_Curline本体アプリ仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
@@ -665,6 +678,7 @@ namespace MakePurchaseFile.Forms
 				}
 			}
 		}
+*/
 
 		/// <summary>
 		/// 12.ナルコーム仕入データ作成
@@ -1011,8 +1025,10 @@ namespace MakePurchaseFile.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
+		// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
 		private void buttonOutputCurline_Click(object sender, EventArgs e)
 		{
+/*
 			// 対象年月
 			YearMonth collectMonth = new YearMonth(dateTimePickerTarget.Value.Year, dateTimePickerTarget.Value.Month);
 
@@ -1035,6 +1051,7 @@ namespace MakePurchaseFile.Forms
 			{
 				MessageBox.Show(ex.Message, "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+*/
 		}
 
 		/// <summary>

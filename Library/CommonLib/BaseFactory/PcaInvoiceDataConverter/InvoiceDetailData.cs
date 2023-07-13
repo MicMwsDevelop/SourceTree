@@ -10,6 +10,7 @@
 using CommonLib.Common;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
@@ -213,6 +214,89 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 				return work.Replace("’", "");
 			}
 			return string.Empty;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public static DataTable SetColumns()
+		{
+			DataTable table = new DataTable();
+			table.Columns.Add("請求実績請求先コード", typeof(string));
+			table.Columns.Add("請求先名1", typeof(string));
+			table.Columns.Add("請求先名2", typeof(string));
+			table.Columns.Add("請求先郵便番号", typeof(string));
+			table.Columns.Add("請求先住所1", typeof(string));
+			table.Columns.Add("請求先住所2", typeof(string));
+			table.Columns.Add("請求先会社TEL", typeof(string));
+			table.Columns.Add("請求期間開始日", typeof(string));
+			table.Columns.Add("請求期間終了日", typeof(string));
+			table.Columns.Add("前回請求額", typeof(int));
+			table.Columns.Add("期間入金額", typeof(int));
+			table.Columns.Add("期間調整額", typeof(int));
+			table.Columns.Add("繰越金額", typeof(int));
+			table.Columns.Add("期間売上額", typeof(int));
+			table.Columns.Add("期間外税額", typeof(int));
+			table.Columns.Add("期間内税額", typeof(int));
+			table.Columns.Add("伝票No", typeof(int));
+			table.Columns.Add("売上日", typeof(string));
+			table.Columns.Add("請求日", typeof(string));
+			table.Columns.Add("得意先コード", typeof(string));
+			table.Columns.Add("摘要名", typeof(string));
+			table.Columns.Add("売上金額合計", typeof(int));
+			table.Columns.Add("外税合計", typeof(int));
+			table.Columns.Add("内税合計", typeof(int));
+			table.Columns.Add("商品コード", typeof(string));
+			table.Columns.Add("マスター区分", typeof(int));
+			table.Columns.Add("商品名", typeof(string));
+			table.Columns.Add("数量", typeof(int));
+			table.Columns.Add("単位", typeof(string));
+			table.Columns.Add("単価", typeof(int));
+			table.Columns.Add("売上金額", typeof(int));
+			return table;
+
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="table">DataTable</param>
+		/// <returns></returns>
+		public DataRow GetDataRow(DataRow row)
+		{
+			row["請求実績請求先コード"] = 請求実績請求先コード;
+			row["請求先名1"] = 請求先名1;
+			row["請求先名2"] = 請求先名2;
+			row["請求先郵便番号"] = 請求先郵便番号;
+			row["請求先住所1"] = 請求先住所1;
+			row["請求先住所2"] = 請求先住所2;
+			row["請求先会社TEL"] = 請求先会社TEL;
+			row["請求期間開始日"] = (請求期間開始日.HasValue) ? 請求期間開始日.Value.ToString("yyyyMMdd") : ""; ;
+			row["請求期間終了日"] = (請求期間終了日.HasValue) ? 請求期間終了日.Value.ToString("yyyyMMdd") : ""; ;
+			row["前回請求額"] = 前回請求額;
+			row["期間入金額"] = 期間入金額;
+			row["期間調整額"] = 期間調整額;
+			row["繰越金額"] = 繰越金額;
+			row["期間売上額"] = 期間売上額;
+			row["期間外税額"] = 期間外税額;
+			row["期間内税額"] = 期間内税額;
+			row["伝票No"] = 伝票No;
+			row["売上日"] = (売上日.HasValue) ? 売上日.Value.ToString("yyyyMMdd") : ""; ;
+			row["請求日"] = (請求日.HasValue) ? 請求日.Value.ToString("yyyyMMdd") : ""; ;
+			row["得意先コード"] = 得意先コード;
+			row["摘要名"] = 摘要名;
+			row["売上金額合計"] = 売上金額合計;
+			row["外税合計"] = 外税合計;
+			row["内税合計"] = 内税合計;
+			row["商品コード"] = 商品コード;
+			row["マスター区分"] = マスター区分;
+			row["商品名"] = 商品名;
+			row["数量"] = 数量;
+			row["単位"] = 単位;
+			row["単価"] = 単価;
+			row["売上金額"] = 売上金額;
+			return row;
 		}
 	}
 }

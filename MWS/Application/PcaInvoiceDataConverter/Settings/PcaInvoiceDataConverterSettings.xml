@@ -1,5 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PcaInvoiceDataConverterSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<PCA請求一覧10読込みファイル>請求一覧10.txt</PCA請求一覧10読込みファイル>
+	<APLUS送信ファイル出力フォルダ>D:\SourceTree\MWS\Application\PcaInvoiceDataConverter\bin\Debug\口座振替送信</APLUS送信ファイル出力フォルダ>
+	<WEB請求書番号基数>23309977</WEB請求書番号基数>
+	<PCA請求明細10読込みファイル>請求明細10.txt</PCA請求明細10読込みファイル>
+	<WEB請求書ファイル出力フォルダ>D:\SourceTree\MWS\Application\PcaInvoiceDataConverter\bin\Debug\WEB請求書</WEB請求書ファイル出力フォルダ>
+	<WEB請求書ヘッダファイル>invoice_header.tsv</WEB請求書ヘッダファイル>
+	<WEB請求書明細売上行ファイル>invoice_detail_bill.tsv</WEB請求書明細売上行ファイル>
+	<WEB請求書明細消費税行ファイル>invoice_detail_tax.tsv</WEB請求書明細消費税行ファイル>
+	<WEB請求書明細記事行ファイル>invoice_detail_comment.tsv</WEB請求書明細記事行ファイル>
+	<AGREX口振通知書ファイル出力フォルダ>D:\SourceTree\MWS\Application\PcaInvoiceDataConverter\bin\Debug\AGREX送信</AGREX口振通知書ファイル出力フォルダ>
+	<請求書番号基数>135674</請求書番号基数>
+	<PCA請求一覧11読込みファイル>請求一覧11.txt</PCA請求一覧11読込みファイル>
+	<PCA請求明細11読込みファイル>請求明細11.txt</PCA請求明細11読込みファイル>
+	<AGREX請求書ファイル出力フォルダ>D:\SourceTree\MWS\Application\PcaInvoiceDataConverter\bin\Debug\AGREX送信</AGREX請求書ファイル出力フォルダ>
+	<結果データシートファイル出力フォルダ>D:\SourceTree\MWS\Application\PcaInvoiceDataConverter\bin\Debug</結果データシートファイル出力フォルダ>
 	<ConnectCharlie>
 		<InstanceName>SQLSV</InstanceName>
 		<!-- InstanceName>TESTSV</InstanceName -->

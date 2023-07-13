@@ -37,10 +37,10 @@ namespace PcaInvoiceDataConverter.Forms
 
 			try
 			{
-				Program.PcaWorkbook = new XLWorkbook(Program.ExcelPathname);
-				Program.PcaWorkbook.Style.Font.FontName = "メイリオ";
-				Program.PcaWorkbook.Style.Font.FontSize = 9;
-				Program.WS基本データ = Program.PcaWorkbook.Worksheet(Program.SheetNameBasicData);
+				//Program.WorkbookPca = new XLWorkbook(Program.ExcelPathname);
+				//Program.WorkbookPca.Style.Font.FontName = "メイリオ";
+				//Program.WorkbookPca.Style.Font.FontSize = 9;
+				//Program.WorkSheetBasic = Program.WorkbookPca.Worksheet(Program.SheetNameBasicData);
 
 				// 今月27日（日曜日は翌日に移動）
 				DateTime transferDate = Program.gBasicSheetData.振替日();
@@ -62,8 +62,8 @@ namespace PcaInvoiceDataConverter.Forms
 				Program.gBasicSheetData.口座振替日 = transferDate;
 				//Program.WS基本データ.Cell(5, 3).Value = transferDate;
 
-				Program.gBasicSheetData.PCA請求一覧10読込みファイル = Program.WS基本データ.Cell(6, 3).GetString().Trim();
-				Program.gBasicSheetData.APLUS送信ファイル出力フォルダ = Program.WS基本データ.Cell(7, 3).GetString().Trim();
+				//Program.gBasicSheetData.PCA請求一覧10読込みファイル = Program.WorkSheetBasic.Cell(6, 3).GetString().Trim();
+				//Program.gBasicSheetData.APLUS送信ファイル出力フォルダ = Program.WorkSheetBasic.Cell(7, 3).GetString().Trim();
 
 				// APLUS送信ファイル=本日
 				Program.gBasicSheetData.APLUS送信ファイル = AgrexDefine.GetAplusSendDataFilename;
@@ -74,7 +74,7 @@ namespace PcaInvoiceDataConverter.Forms
 				// 「基本データ」 WEB請求書発行関連基本データ 初期値設定
 
 				// WEB請求書番号基数
-				Program.gBasicSheetData.WEB請求書番号基数 = (int)Program.WS基本データ.Cell(16, 3).GetDouble() + 1;
+				//Program.gBasicSheetData.WEB請求書番号基数 = (int)Program.WorkSheetBasic.Cell(16, 3).GetDouble() + 1;
 
 				// 口座振替請求日=今月27日
 				Program.gBasicSheetData.口座振替請求日 = transferDate;
@@ -86,13 +86,13 @@ namespace PcaInvoiceDataConverter.Forms
 				//Program.WS基本データ.Cell(18, 3).Value = Program.gBasicSheetData.口座振替請求期間開始日;
 				//Program.WS基本データ.Cell(18, 5).Value = Program.gBasicSheetData.口座振替請求期間終了日;
 
-				Program.gBasicSheetData.PCA請求明細10読込みファイル = Program.WS基本データ.Cell(19, 3).GetString().Trim();
-				Program.gBasicSheetData.WEB請求書ファイル出力フォルダ = Program.WS基本データ.Cell(20, 3).GetString().Trim();
-				Program.gBasicSheetData.WEB請求書ヘッダファイル = Program.WS基本データ.Cell(21, 3).GetString().Trim();
-				Program.gBasicSheetData.WEB請求書明細売上行ファイル = Program.WS基本データ.Cell(22, 3).GetString().Trim();
-				Program.gBasicSheetData.WEB請求書明細消費税行ファイル = Program.WS基本データ.Cell(23, 3).GetString().Trim();
-				Program.gBasicSheetData.WEB請求書明細記事行ファイル = Program.WS基本データ.Cell(24, 3).GetString().Trim();
-				Program.gBasicSheetData.AGREX口振通知書ファイル出力フォルダ = Program.WS基本データ.Cell(25, 3).GetString().Trim();
+				//Program.gBasicSheetData.PCA請求明細10読込みファイル = Program.WorkSheetBasic.Cell(19, 3).GetString().Trim();
+				//Program.gBasicSheetData.WEB請求書ファイル出力フォルダ = Program.WorkSheetBasic.Cell(20, 3).GetString().Trim();
+				//Program.gBasicSheetData.WEB請求書ヘッダファイル = Program.WorkSheetBasic.Cell(21, 3).GetString().Trim();
+				//Program.gBasicSheetData.WEB請求書明細売上行ファイル = Program.WorkSheetBasic.Cell(22, 3).GetString().Trim();
+				//Program.gBasicSheetData.WEB請求書明細消費税行ファイル = Program.WorkSheetBasic.Cell(23, 3).GetString().Trim();
+				//Program.gBasicSheetData.WEB請求書明細記事行ファイル = Program.WorkSheetBasic.Cell(24, 3).GetString().Trim();
+				//Program.gBasicSheetData.AGREX口振通知書ファイル出力フォルダ = Program.WorkSheetBasic.Cell(25, 3).GetString().Trim();
 
 				// AGREX口振通知書ファイル=本日
 				Program.gBasicSheetData.AGREX口振通知書ファイル = AgrexDefine.GetAccountTransferFilename;
@@ -103,7 +103,7 @@ namespace PcaInvoiceDataConverter.Forms
 				// 「基本データ」 銀行振込請求書発行関連基本データ 初期値設定
 
 				// 請求書番号基数
-				Program.gBasicSheetData.請求書番号基数 = (int)Program.WS基本データ.Cell(33, 3).GetDouble() + 1;
+				//Program.gBasicSheetData.請求書番号基数 = (int)Program.WorkSheetBasic.Cell(33, 3).GetDouble() + 1;
 
 				// 銀行振込請求書請求日=本日
 				Program.gBasicSheetData.銀行振込請求書請求日 = DateTime.Today;
@@ -119,9 +119,9 @@ namespace PcaInvoiceDataConverter.Forms
 				Program.gBasicSheetData.銀行振込入金期限日 = thisLastday;
 				//Program.WS基本データ.Cell(36, 3).Value = Program.gBasicSheetData.銀行振込入金期限日;
 
-				Program.gBasicSheetData.PCA請求一覧11読込みファイル = Program.WS基本データ.Cell(37, 3).GetString().Trim();
-				Program.gBasicSheetData.PCA請求明細11読込みファイル = Program.WS基本データ.Cell(38, 3).GetString().Trim();
-				Program.gBasicSheetData.AGREX請求書ファイル出力フォルダ = Program.WS基本データ.Cell(39, 3).GetString().Trim();
+				//Program.gBasicSheetData.PCA請求一覧11読込みファイル = Program.WorkSheetBasic.Cell(37, 3).GetString().Trim();
+				//Program.gBasicSheetData.PCA請求明細11読込みファイル = Program.WorkSheetBasic.Cell(38, 3).GetString().Trim();
+				//Program.gBasicSheetData.AGREX請求書ファイル出力フォルダ = Program.WorkSheetBasic.Cell(39, 3).GetString().Trim();
 
 				// AGREX請求書ファイル=本日
 				Program.gBasicSheetData.AGREX請求書ファイル = AgrexDefine.GetBankTransferFilename;
@@ -180,6 +180,30 @@ namespace PcaInvoiceDataConverter.Forms
 		private void buttonExit_Click(object sender, EventArgs e)
 		{
 			this.Close();
+		}
+
+		/// <summary>
+		/// Form Closed
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			Program.gSettings.PCA請求一覧10読込みファイル = Program.gBasicSheetData.PCA請求一覧10読込みファイル;
+			Program.gSettings.APLUS送信ファイル出力フォルダ = Program.gBasicSheetData.APLUS送信ファイル出力フォルダ;
+			Program.gSettings.WEB請求書番号基数 = Program.gBasicSheetData.WEB請求書番号基数;
+			Program.gSettings.PCA請求明細10読込みファイル = Program.gBasicSheetData.PCA請求明細10読込みファイル;
+			Program.gSettings.WEB請求書ファイル出力フォルダ = Program.gBasicSheetData.WEB請求書ファイル出力フォルダ;
+			Program.gSettings.WEB請求書ヘッダファイル = Program.gBasicSheetData.WEB請求書ヘッダファイル;
+			Program.gSettings.WEB請求書明細売上行ファイル = Program.gBasicSheetData.WEB請求書明細売上行ファイル;
+			Program.gSettings.WEB請求書明細消費税行ファイル = Program.gBasicSheetData.WEB請求書明細消費税行ファイル;
+			Program.gSettings.WEB請求書明細記事行ファイル = Program.gBasicSheetData.WEB請求書明細記事行ファイル;
+			Program.gSettings.AGREX口振通知書ファイル出力フォルダ = Program.gBasicSheetData.AGREX口振通知書ファイル出力フォルダ;
+			Program.gSettings.請求書番号基数 = Program.gBasicSheetData.請求書番号基数;
+			Program.gSettings.PCA請求一覧11読込みファイル = Program.gBasicSheetData.PCA請求一覧11読込みファイル;
+			Program.gSettings.PCA請求明細11読込みファイル = Program.gBasicSheetData.PCA請求明細11読込みファイル;
+			Program.gSettings.AGREX請求書ファイル出力フォルダ = Program.gBasicSheetData.AGREX請求書ファイル出力フォルダ;
+			PcaInvoiceDataConverterSettingsIF.SetSettings(Program.gSettings);
 		}
 	}
 }

@@ -108,7 +108,7 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		}
 
 		/// <summary>
-		/// ヘッダ行のDataTableの作成
+		/// ヘッダ行作業のDataTableの作成
 		/// </summary>
 		/// <param name="list">ヘッダ行リスト</param>
 		/// <returns>DataTable</returns>
@@ -154,7 +154,7 @@ namespace PcaInvoiceDataConverter.BaseFactory
 			table.Columns.AddRange(InvoiceDetailLine.GetDataColumn());
 			foreach (InvoiceDetailLine detail in DetailLineList)
 			{
-				table.Rows.Add(detail.GetDataRow(table));
+				table.Rows.Add(detail.GetDataRow(table.NewRow()));
 			}
 			return table;
 		}
