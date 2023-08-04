@@ -40,14 +40,14 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		public DateTime? apply_date { get; set; }
 
 		/// <summary>
-		/// 申込種別
+		/// 申込種別（0:利用申込、1:解約申込）
 		/// </summary>
 		public string apply_type { get; set; }
 
 		/// <summary>
-		/// システム反映フラグ
+		/// システム反映フラグ（0:未反映、1:反映済、2:取消）
 		/// </summary>
-		public bool system_flg { get; set; }
+		public string system_flg { get; set; }
 
 		/// <summary>
 		/// 作成日時
@@ -84,7 +84,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			service_id = 0;
 			apply_date = null;
 			apply_type = string.Empty;
-			system_flg = false;
+			system_flg = string.Empty;
 			create_date = null;
 			create_user = string.Empty;
 			update_date = null;
@@ -111,7 +111,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 						service_id = DataBaseValue.ConvObjectToInt(row["service_id"]),
 						apply_date = DataBaseValue.ConvObjectToDateTimeNull(row["apply_date"]),
 						apply_type = row["apply_type"].ToString().Trim(),
-						system_flg = DataBaseValue.ConvObjectToBool(row["system_flg"]),
+						system_flg = row["system_flg"].ToString().Trim(),
 						create_date = DataBaseValue.ConvObjectToDateTimeNull(row["create_date"]),
 						create_user = row["create_user"].ToString().Trim(),
 						update_date = DataBaseValue.ConvObjectToDateTimeNull(row["update_date"]),
@@ -124,6 +124,5 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			}
 			return null;
 		}
-
 	}
 }

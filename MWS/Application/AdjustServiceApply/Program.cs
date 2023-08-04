@@ -10,8 +10,6 @@
 using AdjustServiceApply.Settings;
 using System;
 using System.Windows.Forms;
-using AdjustServiceApply.Log;
-using System.IO;
 
 namespace AdjustServiceApply
 {

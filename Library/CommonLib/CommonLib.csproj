@@ -73,6 +73,7 @@
     <Compile Include="BaseFactory\Charlie\View\view_MWS顧客情報.cs" />
     <Compile Include="BaseFactory\Charlie\View\V_COUPLER_APPLY.cs" />
     <Compile Include="BaseFactory\Charlie\View\V_CUSTOMER.cs" />
+    <Compile Include="BaseFactory\Charlie\View\V_SERVICE.cs" />
     <Compile Include="BaseFactory\Charlie\View\WW伝票参照ビュー.cs" />
     <Compile Include="BaseFactory\Charlie\View\社員マスタ参照ビュー.cs" />
     <Compile Include="BaseFactory\Charlie\View\販売店区分参照ビュー.cs" />

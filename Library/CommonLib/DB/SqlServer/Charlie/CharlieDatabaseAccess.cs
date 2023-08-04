@@ -240,6 +240,20 @@ namespace CommonLib.DB.SqlServer.Charlie
 			return T_APPLICATION_DATA.DataTableToList(table);
 		}
 
+		/// <summary>
+		/// [charlieDB].[dbo].[T_MWS_APPLY]の取得（申込情報）
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>申込情報リスト</returns>
+		public static List<T_MWS_APPLY> Select_T_MWS_APPLY(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_MWS_APPLY], whereStr, orderStr, connectStr);
+			return T_MWS_APPLY.DataTableToList(table);
+		}
+
+
 
 		//////////////////////////////
 		// UPDATE SET
@@ -428,6 +442,19 @@ namespace CommonLib.DB.SqlServer.Charlie
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.販売店情報参照ビュー], whereStr, orderStr, connectStr);
 			return 販売店情報参照ビュー.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[V_SERVICE]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>販売店情報参照ビュー</returns>
+		public static List<V_SERVICE> Select_V_SERVICE(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.V_SERVICE], whereStr, orderStr, connectStr);
+			return V_SERVICE.DataTableToList(table);
 		}
 	}
 }

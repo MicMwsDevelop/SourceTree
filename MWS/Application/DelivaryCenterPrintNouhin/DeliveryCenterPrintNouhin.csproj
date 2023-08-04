@@ -85,7 +85,8 @@
     </Compile>
     <None Include="app.config" />
     <None Include="Doc\Nouhin.csv" />
-    <None Include="Doc\Web受注納品書.vsdx" />
+    <None Include="Doc\納品書パラメタファイル定義\納品書パラメタファイル定義.xlsx" />
+    <None Include="Doc\納品書パラメタファイル定義\納品書座標定義情報.vsdx" />
     <None Include="Doc\納品書パラメタファイル定義.xlsx" />
     <None Include="NOUHIN_01.PRM">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -128,6 +129,15 @@
     <None Include="Image\mic_logo_Red.png" />
     <None Include="Image\OffsetX.png" />
     <None Include="Image\OffsetY.png" />
+    <Content Include="Doc\納品書パラメタファイル定義\画像ファイル\mic_logo_Black.png" />
+    <Content Include="Doc\納品書パラメタファイル定義\画像ファイル\mic_logo_Red.png" />
+    <Content Include="Doc\納品書パラメタファイル定義\画像ファイル\R70_Black.png" />
+    <Content Include="Doc\納品書パラメタファイル定義\画像ファイル\R70_Red.png" />
+    <Content Include="Doc\納品書パラメタファイル定義\画像ファイル\位置調整-上-org.png" />
+    <Content Include="Doc\納品書パラメタファイル定義\画像ファイル\位置調整-上.png" />
+    <Content Include="Doc\納品書パラメタファイル定義\画像ファイル\位置調整-左-org.png" />
+    <Content Include="Doc\納品書パラメタファイル定義\画像ファイル\位置調整-左.png" />
+    <Content Include="Doc\納品書パラメタファイル定義\画像ファイル\環境設定.png" />
     <Content Include="Settings\DeliveryCenterPrintNouhinSettings.xml" />
   </ItemGroup>
   <ItemGroup />

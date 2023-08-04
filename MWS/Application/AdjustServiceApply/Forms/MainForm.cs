@@ -16,7 +16,6 @@ using CommonLib.DB.SqlServer.Charlie;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
 
 namespace AdjustServiceApply.Forms
@@ -192,9 +191,10 @@ namespace AdjustServiceApply.Forms
 											List<T_CUSTOMER_FOUNDATIONS> cfList = CharlieDatabaseAccess.Select_T_CUSTOMER_FOUNDATIONS(whereStr, "", Program.gSettings.ConnectCharlie.ConnectionString);
 											if (null == cfList)
 											{
+#if WRITE_DATABSE
 												// ★顧客管理基本情報に顧客IDが存在しないため登録する
-												//this.InsertIntoT_CUSTOMER_FOUNDATIONS(slip, saleType);
-
+												this.InsertIntoT_CUSTOMER_FOUNDATIONS(slip, saleType);
+#endif
 												customerIDList.Add(slip.ユーザー顧客ID);
 
 												// 	ログ「伝票No：XXXX、商品コード：XXXXのデータを顧客管理基本に登録しました。（顧客ID：XXXX 顧客名：XXXX 営業担当者ID：XXXX 販売店（使用料請求先コード / 販売拠点コード）：XXXX XXXX  XXXX」
@@ -223,9 +223,10 @@ namespace AdjustServiceApply.Forms
 														startDate = null;
 														endDate = null;
 													}
+#if WRITE_DATABSE
 													// ★顧客管理利用情報に顧客・サービスを登録する
-													//InsertIntoT_CUSSTOMER_USE_INFOMATION(slip, codeList[0], startDate, endDate);
-
+													InsertIntoT_CUSSTOMER_USE_INFOMATION(slip, codeList[0], startDate, endDate);
+#endif
 													if (startDate.HasValue)
 													{
 														// ログ「伝票No：XXXX、商品コード：XXXXのデータを顧客管理利用情報に登録しました。（顧客ID：XXXX 顧客名：XXXX サービス種別ID：XXXX サービス種別名：XXXX サービスID：XXXX サービス名：XXXX）」
@@ -368,8 +369,10 @@ namespace AdjustServiceApply.Forms
 									apply.system_flg = true;
 									LogOut.Out(string.Format("利用申込情報システム反映フラグ設定（顧客ID：{0} サービスID：{1} 申込日時：{2}）", apply.customer_id, apply.service_id, apply.apply_date.Value.ToShortDateString()));
 								}
+#if WRITE_DATABSE
 								// サービス申込情報の更新
-								//AdjustServiceApplyAccess.UpdateSet_T_MWS_APPLY(useList, Program.ProcName, Program.gSettings.ConnectCharlie.ConnectionString);
+								AdjustServiceApplyAccess.UpdateSet_T_MWS_APPLY(useList, Program.ProcName, Program.gSettings.ConnectCharlie.ConnectionString);
+#endif
 							}
 						}
 					}
@@ -392,14 +395,18 @@ namespace AdjustServiceApply.Forms
 									apply.system_flg = true;
 									LogOut.Out(string.Format("解約申込情報システム反映フラグ設定（顧客ID：{0} サービスID：{1} 申込日時：{2}）", apply.customer_id, apply.service_id, apply.apply_date.Value.ToShortDateString()));
 								}
+#if WRITE_DATABSE
 								// サービス申込情報の更新
-								//AdjustServiceApplyAccess.UpdateSet_T_MWS_APPLY(useList, Program.ProcName, Program.gSettings.ConnectCharlie.ConnectionString);
+								AdjustServiceApplyAccess.UpdateSet_T_MWS_APPLY(cancelList, Program.ProcName, Program.gSettings.ConnectCharlie.ConnectionString);
+#endif
 							}
 						}
 					}
 				}
+#if WRITE_DATABSE
 				// 前回同期日時を追加
 				AdjustServiceApplyAccess.SetLastSynchroTime(Program.ProcName, Program.gSettings.ConnectCharlie.ConnectionString);
+#endif
 			}
 			catch
 			{

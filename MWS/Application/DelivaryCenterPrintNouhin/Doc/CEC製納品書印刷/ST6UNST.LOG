@@ -1,0 +1,79 @@
+ %% このﾌｧｲﾙを変更したり、削除したりしないでください。 %% 
+ %% このﾌｧｲﾙには、ｱﾌﾟﾘｹｰｼｮﾝのｾｯﾄｱｯﾌﾟに関する情報が入っています。 %% 
+ %% このﾌｧｲﾙの情報は、ｱﾌﾟﾘｹｰｼｮﾝ削除ﾕｰﾃｨﾘﾃｨで関連ｺﾝﾎﾟｰﾈﾝﾄを自動的に削除するときに使用されます。 %% 
+
+
+NOTE: ﾌﾞｰﾄｽﾄﾗｯﾌﾟ ｾｸｼｮﾝの先頭
+
+CONFIG: Title: "納品書印刷"
+
+ACTION: RegKey: "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion", "SharedDLLs"
+
+ACTION: SystemFile: "C:\Windows\System32\VB6STKIT.DLL"
+(ﾌｧｲﾙが存在しないか、古いﾊﾞｰｼﾞｮﾝのﾌｧｲﾙです。新しいﾌｧｲﾙがｺﾋﾟｰされました。)
+
+ACTION: SystemFile: "C:\WINDOWS\SYSTEM32\COMCAT.DLL"
+(既に最新のﾌｧｲﾙがﾃﾞｨｽｸに存在します。)
+
+ACTION: SystemFile: "C:\Windows\System32\VB6JP.DLL"
+(ﾌｧｲﾙが存在しないか、古いﾊﾞｰｼﾞｮﾝのﾌｧｲﾙです。新しいﾌｧｲﾙがｺﾋﾟｰされました。)
+
+ACTION: SystemFile: "C:\WINDOWS\SYSTEM32\STDOLE2.TLB"
+(既に最新のﾌｧｲﾙがﾃﾞｨｽｸに存在します。)
+
+ACTION: SystemFile: "C:\WINDOWS\SYSTEM32\ASYCFILT.DLL"
+(既に最新のﾌｧｲﾙがﾃﾞｨｽｸに存在します。)
+
+ACTION: SystemFile: "C:\WINDOWS\SYSTEM32\OLEPRO32.DLL"
+(既に最新のﾌｧｲﾙがﾃﾞｨｽｸに存在します。)
+
+ACTION: SystemFile: "C:\WINDOWS\SYSTEM32\OLEAUT32.DLL"
+(既に最新のﾌｧｲﾙがﾃﾞｨｽｸに存在します。)
+
+ACTION: SystemFile: "C:\WINDOWS\SYSTEM32\Msvbvm60.dll"
+(既に最新のﾌｧｲﾙがﾃﾞｨｽｸに存在します。)
+
+ACTION: DllSelfRegister: "C:\WINDOWS\SYSTEM32\COMCAT.DLL"
+
+ACTION: TLBRegister: "C:\WINDOWS\SYSTEM32\STDOLE2.TLB"
+
+ACTION: DllSelfRegister: "C:\WINDOWS\SYSTEM32\OLEPRO32.DLL"
+
+ACTION: DllSelfRegister: "C:\WINDOWS\SYSTEM32\OLEAUT32.DLL"
+
+ACTION: DllSelfRegister: "C:\WINDOWS\SYSTEM32\Msvbvm60.dll"
+
+NOTE: ﾌﾞｰﾄｽﾄﾗｯﾌﾟ ｾｸｼｮﾝの末尾
+
+NOTE: ｾｯﾄｱｯﾌﾟ ﾌﾟﾛｸﾞﾗﾑ 'Setup1.exe' を起動しています....
+
+ACTION: CreateDir: "C:\Program Files (x86)\納品書印刷"
+
+ACTION: CreateDir: "C:\Users\TS\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\納品書印刷"
+
+ACTION: PrivateFile: "C:\Program Files (x86)\納品書印刷\F_納品書レイアウト.xls"
+(ﾌｧｲﾙが存在しないか、古いﾊﾞｰｼﾞｮﾝのﾌｧｲﾙです。新しいﾌｧｲﾙがｺﾋﾟｰされました。)
+
+ACTION: PrivateFile: "C:\Program Files (x86)\納品書印刷\PrintNouhin.ini"
+(ﾌｧｲﾙが存在しないか、古いﾊﾞｰｼﾞｮﾝのﾌｧｲﾙです。新しいﾌｧｲﾙがｺﾋﾟｰされました。)
+
+ACTION: SharedFile: "C:\Windows\System32\MSCMCJP.DLL"
+(ﾌｧｲﾙが存在しないか、古いﾊﾞｰｼﾞｮﾝのﾌｧｲﾙです。新しいﾌｧｲﾙがｺﾋﾟｰされました。)
+
+ACTION: SharedFile: "C:\Windows\System32\Mscomctl.ocx"
+(既に最新のﾌｧｲﾙがﾃﾞｨｽｸに存在します。)
+
+ACTION: SharedFile: "C:\Windows\System32\EXCEL9.OLB"
+(ﾌｧｲﾙが存在しないか、古いﾊﾞｰｼﾞｮﾝのﾌｧｲﾙです。新しいﾌｧｲﾙがｺﾋﾟｰされました。)
+
+ACTION: PrivateFile: "C:\Program Files (x86)\納品書印刷\PrintNouhin.exe"
+(ﾌｧｲﾙが存在しないか、古いﾊﾞｰｼﾞｮﾝのﾌｧｲﾙです。新しいﾌｧｲﾙがｺﾋﾟｰされました。)
+
+ACTION: DllSelfRegister: "C:\Windows\System32\Mscomctl.ocx"
+
+ACTION: ShellLink: "納品書印刷", "納品書印刷"
+
+ACTION: RegKey: "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion", "App Paths\PrintNouhin.exe"
+
+ACTION: RegValue: "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\PrintNouhin.exe", ""
+

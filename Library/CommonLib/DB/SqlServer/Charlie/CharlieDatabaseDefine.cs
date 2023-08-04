@@ -106,6 +106,21 @@ namespace CommonLib.DB.SqlServer.Charlie
 			/// サービス申込情報
 			/// </summary>
 			T_MWS_APPLY = 16,
+
+			/// <summary>
+			/// デモ用サービス利用情報
+			/// </summary>
+			T_DEMO_SERVICE = 17,
+
+			/// <summary>
+			/// CouplerDB 顧客情報追加連絡テーブル
+			/// </summary>
+			_test_PRODUCTUSER_INSERT = 18,
+
+			/// <summary>
+			/// CouplerDB 顧客情報変更連絡テーブル
+			/// </summary>
+			_test_PRODUCTUSER_UPDATE = 19,
 		}
 
 		/// <summary>
@@ -129,6 +144,9 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ TableType.T_APPLICATION_DATA, string.Format("{0}.T_APPLICATION_DATA", DatabaseName) },
 			{ TableType.T_FILE_CREATEDATE, string.Format("{0}.T_FILE_CREATEDATE", DatabaseName) },
 			{ TableType.T_MWS_APPLY, string.Format("{0}._test_T_MWS_APPLY", DatabaseName) },
+			{ TableType.T_DEMO_SERVICE, string.Format("{0}._test_T_DEMO_SERVICE", DatabaseName) },
+			{ TableType._test_PRODUCTUSER_INSERT, string.Format("{0}._test_PRODUCTUSER_INSERT", DatabaseName) },
+			{ TableType._test_PRODUCTUSER_UPDATE, string.Format("{0}._test_PRODUCTUSER_UPDATE", DatabaseName) },
 		};
 
 		/// <summary>
@@ -147,6 +165,8 @@ namespace CommonLib.DB.SqlServer.Charlie
 			社員マスタ参照ビュー = 9,
 			販売店区分参照ビュー = 10,
 			販売店情報参照ビュー = 11,
+			V_MWS_APPLY = 12,
+			V_SERVICE = 13,
 		}
 
 		/// <summary>
@@ -165,6 +185,8 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ ViewType.社員マスタ参照ビュー, string.Format("{0}.社員マスタ参照ビュー", DatabaseName) },
 			{ ViewType.販売店区分参照ビュー, string.Format("{0}.販売店区分参照ビュー", DatabaseName) },
 			{ ViewType.販売店情報参照ビュー, string.Format("{0}.販売店情報参照ビュー", DatabaseName) },
+			{ ViewType.V_MWS_APPLY, string.Format("{0}._test_V_MWS_APPLY", DatabaseName) },
+			{ ViewType.V_SERVICE, string.Format("{0}._test_V_SERVICE", DatabaseName) },
 		};
 
 
