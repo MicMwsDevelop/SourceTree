@@ -12,7 +12,7 @@ using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.Common;
 using System;
 
-namespace EntryMemo.BaseFactory
+namespace WonderWebEntryMemo.BaseFactory
 {
 	// 2022年3月10日締 請求書発行先.xlsx
 	// 1:担当支店
@@ -25,6 +25,11 @@ namespace EntryMemo.BaseFactory
 	// 8:備考			●
 	public class MemoBank
 	{
+		/// <summary>
+		/// tMemo.fMemUpdateMan 格納文字列
+		/// </summary>
+		private const string MemoUpdateManString = "経理部";
+
 		/// <summary>
 		/// 顧客No
 		/// </summary>
@@ -90,10 +95,10 @@ namespace EntryMemo.BaseFactory
 			tMemo memo = new tMemo();
 			memo.fMemKey = 顧客No;
 			memo.fMemTable = Program.MemoTableString;
-			memo.fMemType = Program.MemoTypeString();
+			memo.fMemType = Program.MemoTypeString(MemoUpdateManString);
 			memo.fMemMemo = this.GetMemoString(date);
 			memo.fMemUpdate = DateTime.Now;
-			memo.fMemUpdateMan = Program.MemoUpdateManString;
+			memo.fMemUpdateMan = MemoUpdateManString;
 			return memo;
 		}
 	}

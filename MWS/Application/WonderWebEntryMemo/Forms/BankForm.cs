@@ -12,14 +12,14 @@ using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.Common;
 using CommonLib.DB.SqlServer;
 using CommonLib.DB.SqlServer.Junp;
-using EntryMemo.BaseFactory;
+using WonderWebEntryMemo.BaseFactory;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Windows.Forms;
 
-namespace EntryMemo.Forms
+namespace WonderWebEntryMemo.Forms
 {
 	public partial class BankForm : Form
 	{

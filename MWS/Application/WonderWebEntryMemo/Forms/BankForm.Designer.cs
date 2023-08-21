@@ -1,5 +1,5 @@
 ﻿
-namespace EntryMemo.Forms
+namespace WonderWebEntryMemo.Forms
 {
 	partial class BankForm
 	{

@@ -13,7 +13,7 @@ using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.Common;
 using System;
 
-namespace EntryMemo.BaseFactory
+namespace WonderWebEntryMemo.BaseFactory
 {
 	// 2022年2月25日オン資格書類発送先.xlsx
 	// 1:得意先コード	●
@@ -24,6 +24,11 @@ namespace EntryMemo.BaseFactory
 	// 6:発送			●
 	public class MemoOnline
 	{
+		/// <summary>
+		/// tMemo.fMemUpdateMan 格納文字列
+		/// </summary>
+		private const string MemoUpdateManString = "経理部";
+
 		/// <summary>
 		/// 顧客No
 		/// </summary>
@@ -102,10 +107,10 @@ namespace EntryMemo.BaseFactory
 			tMemo memo = new tMemo();
 			memo.fMemKey = 顧客No;
 			memo.fMemTable = Program.MemoTableString;
-			memo.fMemType = Program.MemoTypeString();
+			memo.fMemType = Program.MemoTypeString(MemoUpdateManString);
 			memo.fMemMemo = this.GetMemoString();
 			memo.fMemUpdate = DateTime.Now;
-			memo.fMemUpdateMan = Program.MemoUpdateManString;
+			memo.fMemUpdateMan = MemoUpdateManString;
 			return memo;
 		}
 	}

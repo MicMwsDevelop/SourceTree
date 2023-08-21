@@ -1,5 +1,5 @@
 ﻿//
-// EntryMemoSettings.cs
+// WonderWebEntryMemoSettings.cs
 // 
 // 環境設定定義クラス
 // 
@@ -10,12 +10,12 @@
 using MwsLib.Settings.SqlServer;
 using System;
 
-namespace EntryMemo.Settings
+namespace WonderWebEntryMemo.Settings
 {
 	/// <summary>
 	/// 環境設定
 	/// </summary>
-	public class EntryMemoSettings : ICloneable, IEquatable<EntryMemoSettings>
+	public class WonderWebEntryMemoSettings : ICloneable, IEquatable<WonderWebEntryMemoSettings>
 	{
 		/// <summary>
 		/// <summary>
@@ -26,7 +26,7 @@ namespace EntryMemo.Settings
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public EntryMemoSettings()
+		public WonderWebEntryMemoSettings()
         {
 			ConnectJunp = new SqlServerConnect();
 		}
@@ -46,7 +46,7 @@ namespace EntryMemo.Settings
 		/// </summary>
 		/// <param name="other">比較するオブジェクト</param>
 		/// <returns>判定</returns>
-		public bool Equals(EntryMemoSettings other)
+		public bool Equals(WonderWebEntryMemoSettings other)
 		{
 			if (other != null)
 			{
@@ -66,9 +66,9 @@ namespace EntryMemo.Settings
 		/// <returns>判定</returns>
 		public override bool Equals(object obj)
 		{
-			if (obj is EntryMemoSettings)
+			if (obj is WonderWebEntryMemoSettings)
 			{
-				return this.Equals((EntryMemoSettings)obj);
+				return this.Equals((WonderWebEntryMemoSettings)obj);
 			}
 			else
 			{

@@ -1,5 +1,5 @@
 ﻿
-namespace EntryMemo.Forms
+namespace WonderWebEntryMemo.Forms
 {
 	partial class MainForm
 	{
@@ -32,6 +32,7 @@ namespace EntryMemo.Forms
 			this.labelVersion = new System.Windows.Forms.Label();
 			this.buttonBank = new System.Windows.Forms.Button();
 			this.buttonOnline = new System.Windows.Forms.Button();
+			this.buttonWelfare = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// labelVersion
@@ -41,7 +42,7 @@ namespace EntryMemo.Forms
 			this.labelVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.labelVersion.Name = "labelVersion";
 			this.labelVersion.Size = new System.Drawing.Size(138, 17);
-			this.labelVersion.TabIndex = 2;
+			this.labelVersion.TabIndex = 3;
 			this.labelVersion.Text = "Ver1.00 2022/03/10";
 			this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -57,7 +58,7 @@ namespace EntryMemo.Forms
 			// 
 			// buttonOnline
 			// 
-			this.buttonOnline.Location = new System.Drawing.Point(23, 63);
+			this.buttonOnline.Location = new System.Drawing.Point(24, 63);
 			this.buttonOnline.Name = "buttonOnline";
 			this.buttonOnline.Size = new System.Drawing.Size(299, 37);
 			this.buttonOnline.TabIndex = 1;
@@ -65,11 +66,22 @@ namespace EntryMemo.Forms
 			this.buttonOnline.UseVisualStyleBackColor = true;
 			this.buttonOnline.Click += new System.EventHandler(this.buttonOnline_Click);
 			// 
+			// buttonWelfare
+			// 
+			this.buttonWelfare.Location = new System.Drawing.Point(24, 106);
+			this.buttonWelfare.Name = "buttonWelfare";
+			this.buttonWelfare.Size = new System.Drawing.Size(299, 37);
+			this.buttonWelfare.TabIndex = 2;
+			this.buttonWelfare.Text = "厚生局データメモ追加";
+			this.buttonWelfare.UseVisualStyleBackColor = true;
+			this.buttonWelfare.Click += new System.EventHandler(this.buttonWelfare_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(356, 193);
+			this.Controls.Add(this.buttonWelfare);
 			this.Controls.Add(this.buttonOnline);
 			this.Controls.Add(this.buttonBank);
 			this.Controls.Add(this.labelVersion);
@@ -92,6 +104,7 @@ namespace EntryMemo.Forms
 		private System.Windows.Forms.Label labelVersion;
 		private System.Windows.Forms.Button buttonBank;
 		private System.Windows.Forms.Button buttonOnline;
+		private System.Windows.Forms.Button buttonWelfare;
 	}
 }
 

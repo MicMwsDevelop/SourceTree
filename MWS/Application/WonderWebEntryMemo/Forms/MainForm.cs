@@ -6,12 +6,13 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2022/03/17 勝呂)
+// Ver1.03(2023/08/21 勝呂):厚生局データメモ追加機能の追加
 //
-using EntryMemo.Settings;
+using WonderWebEntryMemo.Settings;
 using System;
 using System.Windows.Forms;
 
-namespace EntryMemo.Forms
+namespace WonderWebEntryMemo.Forms
 {
 	public partial class MainForm : Form
 	{
@@ -31,7 +32,7 @@ namespace EntryMemo.Forms
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 			// 環境設定の読込
-			Program.gSettings = EntryMemoSettingsIF.GetSettings();
+			Program.gSettings = WonderWebEntryMemoSettingsIF.GetSettings();
 
 			// バージョン情報設定
 			labelVersion.Text = Program.ProgramVersion;
@@ -58,6 +59,20 @@ namespace EntryMemo.Forms
 		private void buttonOnline_Click(object sender, EventArgs e)
 		{
 			using (OnlineForm dlg = new OnlineForm())
+			{
+				dlg.ShowDialog();
+			}
+		}
+
+		/// <summary>
+		/// 厚生局データメモ追加
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.03(2023/08/21 勝呂):厚生局データメモ追加機能の追加
+		private void buttonWelfare_Click(object sender, EventArgs e)
+		{
+			using (WelfareForm dlg = new WelfareForm())
 			{
 				dlg.ShowDialog();
 			}
