@@ -178,7 +178,10 @@ namespace EntryFinishedUser.Forms
 			{
 				try
 				{
-					tMemo memo = FinishedUser.To_tMemo();
+					// Ver2.06(2023/08/22 勝呂):メモ欄の担当部署を営業管理部からシステム管理部に変更。組織変更対応
+					//tMemo memo = FinishedUser.To_tMemo();
+					tMemo memo = FinishedUser.To_tMemo(Program.gSettings.SectionName);
+
 					memo.fMemMemo = FinishedUser.GetMemoPlanString();
 					JunpDatabaseAccess.InsertInto_tMemo(memo, Program.gSettings.ConnectJunp.ConnectionString);
 				}

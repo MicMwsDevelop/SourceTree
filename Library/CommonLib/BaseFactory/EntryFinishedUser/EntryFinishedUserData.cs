@@ -316,16 +316,21 @@ namespace CommonLib.BaseFactory.EntryFinishedUser
 		/// <summary>
 		/// tMemoに変換
 		/// </summary>
+		/// <param name="section">担当部署</param>
 		/// <returns>tMemo</returns>
-		public tMemo To_tMemo()
+		public tMemo To_tMemo(string section)
 		{
 			tMemo ret = new tMemo
 			{
 				fMemKey = CustomerID,
 				fMemTable = "tClient",
-				fMemType = string.Format("{0} {1:D2}:{2:D2} 営業管理部", new Date(DateTime.Now).ToString(), DateTime.Now.Hour, DateTime.Now.Minute),
+
+				// Ver2.06(2023/08/22 勝呂):メモ欄の担当部署を営業管理部からシステム管理部に変更。組織変更対応
+				//fMemType = string.Format("{0} {1:D2}:{2:D2} 営業管理部", new Date(DateTime.Now).ToString(), DateTime.Now.Hour, DateTime.Now.Minute),
+				fMemType = string.Format("{0} {1:D2}:{2:D2} {3}", new Date(DateTime.Now).ToString(), DateTime.Now.Hour, DateTime.Now.Minute, section),
+
 				fMemUpdate = DateTime.Now,
-				fMemUpdateMan = "営業管理部"
+				fMemUpdateMan = section
 			};
 			return ret;
 		}

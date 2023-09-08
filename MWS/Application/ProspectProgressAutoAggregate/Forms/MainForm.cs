@@ -38,8 +38,9 @@ namespace ProspectProgressAutoAggregate.Forms
 			// 決算期の設定
 			List<Tuple<int, string>> list = new List<Tuple<int, string>>();
 			//list.Add(new Tuple<int, string>(46, "46期"));
-			list.Add(new Tuple<int, string>(47, "47期"));
+			//list.Add(new Tuple<int, string>(47, "47期"));
 			list.Add(new Tuple<int, string>(48, "48期"));
+			list.Add(new Tuple<int, string>(49, "49期"));
 			comboBoxPeriod.DataSource = list;
 			comboBoxPeriod.DisplayMember = "Item2";
 			comboBoxPeriod.ValueMember = "Item1";

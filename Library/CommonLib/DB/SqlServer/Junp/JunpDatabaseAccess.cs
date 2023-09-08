@@ -401,6 +401,19 @@ namespace CommonLib.DB.SqlServer.Junp
 		}
 
 		/// <summary>
+		/// [JunpDB].[dbo].[vMic顧客情報]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>vMic顧客情報</returns>
+		public static List<vMic顧客情報> Select_vMic顧客情報(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic顧客情報], whereStr, orderStr, connectStr);
+			return vMic顧客情報.DataTableToList(table);
+		}
+
+		/// <summary>
 		/// [JunpDB].[dbo].[vMic全ユーザー2]の取得
 		/// </summary>
 		/// <param name="whereStr">Where句</param>

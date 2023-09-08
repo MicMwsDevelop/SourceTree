@@ -98,6 +98,18 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
+		/// [charlieDB].[dbo].[T_CUSSTOMER_USE_INFOMATION]の取得（顧客利用情報）
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>顧客利用情報リスト</returns>
+		public static DataTable GetDataTable_T_CUSSTOMER_USE_INFOMATION(string whereStr, string orderStr, string connectStr)
+		{
+			return DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, orderStr, connectStr);
+		}
+
+		/// <summary>
 		/// [charlieDB].[dbo].[T_DEMO_USER]の取得（デモ用ID管理情報）
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
@@ -239,20 +251,6 @@ namespace CommonLib.DB.SqlServer.Charlie
 			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_APPLICATION_DATA], whereStr, orderStr, connectStr);
 			return T_APPLICATION_DATA.DataTableToList(table);
 		}
-
-		/// <summary>
-		/// [charlieDB].[dbo].[T_MWS_APPLY]の取得（申込情報）
-		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>申込情報リスト</returns>
-		public static List<T_MWS_APPLY> Select_T_MWS_APPLY(string whereStr, string orderStr, string connectStr)
-		{
-			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_MWS_APPLY], whereStr, orderStr, connectStr);
-			return T_MWS_APPLY.DataTableToList(table);
-		}
-
 
 
 		//////////////////////////////
@@ -450,11 +448,24 @@ namespace CommonLib.DB.SqlServer.Charlie
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>販売店情報参照ビュー</returns>
+		/// <returns>サービス利用情報参照ビュー</returns>
 		public static List<V_SERVICE> Select_V_SERVICE(string whereStr, string orderStr, string connectStr)
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.V_SERVICE], whereStr, orderStr, connectStr);
 			return V_SERVICE.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[view_前月申込データ]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>前月申込データ参照ビュー</returns>
+		public static List<view_前月申込データ> Select_view_前月申込データ(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.view_前月申込データ], whereStr, orderStr, connectStr);
+			return view_前月申込データ.DataTableToList(table);
 		}
 	}
 }

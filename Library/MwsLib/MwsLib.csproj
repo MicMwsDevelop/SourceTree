@@ -53,6 +53,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\DateTimePickerNull.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Settings\HeadOffice\HeadOfficeSettings.cs" />
     <Compile Include="Settings\HeadOffice\HeadOfficeSettingsIF.cs" />
     <Compile Include="Settings\Mail\MailSettings.cs" />

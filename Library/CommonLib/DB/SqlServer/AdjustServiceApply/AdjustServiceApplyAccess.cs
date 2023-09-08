@@ -7,14 +7,9 @@
 // 
 // Ver1.00(2023/06/07 勝呂):新規作成
 // 
-using CommonLib.BaseFactory.AlmexMainte;
 using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Charlie.View;
-using CommonLib.BaseFactory.Junp.View;
-using CommonLib.Common;
-using CommonLib.DB.SqlServer.AlmexMainte;
-using CommonLib.DB.SqlServer.Charlie;
-using CommonLib.DB.SqlServer.Junp;
+using CommonLib.DB.SqlServer.Coupler;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -74,34 +69,10 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 		}
 
 		/// <summary>
-		/// 顧客管理利用情報から利用申込サービスの取得
-		/// </summary>
-		/// <param name="compDateTime">前回取得日時</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>顧客管理利用情報</returns>
-		public static List<T_CUSSTOMER_USE_INFOMATION> GetCustomerUseInformationUseService(DateTime compDateTime, string connectStr)
-		{
-			DataTable table = AdjustServiceApplyGetIO.GetCustomerUseInformationUseService(compDateTime, connectStr);
-			return T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
-		}
-
-		/// <summary>
-		/// 顧客管理利用情報から解約申込サービスの取得
-		/// </summary>
-		/// <param name="compDateTime">前回取得日時</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>顧客管理利用情報</returns>
-		public static List<T_CUSSTOMER_USE_INFOMATION> GetCustomerUseInformationCancelService(DateTime compDateTime, string connectStr)
-		{
-			DataTable table = AdjustServiceApplyGetIO.GetCustomerUseInformationCancelService(compDateTime, connectStr);
-			return T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
-		}
-
-		/// <summary>
-		/// 最終同期日時の取得
+		/// 前回同期日時の取得（サービス情報）
 		/// </summary>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>最終同期日時</returns>
+		/// <returns>前回同期日時</returns>
 		public static T_FILE_CREATEDATE GetLastSynchroTime(string connectStr)
 		{
 			DataTable table = AdjustServiceApplyGetIO.GetLastSynchroTime(connectStr);
@@ -109,38 +80,79 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 		}
 
 		/// <summary>
-		/// サービス申込情報から利用申込サービスの取得
+		/// 前回同期日時以降の顧客管理利用情報の取得
 		/// </summary>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>サービス申込情報</returns>
-		public static List<T_MWS_APPLY> GetMwsApplyUserService(string connectStr)
+		/// <returns>顧客管理利用情報</returns>
+		public static List<T_CUSSTOMER_USE_INFOMATION> GetCustomerUseInformationAfterSynchroTime(string connectStr)
 		{
-			DataTable table = AdjustServiceApplyGetIO.GetMwsApplyUserService(connectStr);
-			return T_MWS_APPLY.DataTableToList(table);
+			DataTable table = AdjustServiceApplyGetIO.GetCustomerUseInformationAfterSynchroTime(connectStr);
+			return T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
 		}
 
-		/// <summary>
-		/// サービス申込情報から解約申込サービスの取得
-		/// </summary>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>サービス申込情報</returns>
-		public static List<T_MWS_APPLY> GetMwsApplyCancelService(string connectStr)
-		{
-			DataTable table = AdjustServiceApplyGetIO.GetMwsApplyCancelService(connectStr);
-			return T_MWS_APPLY.DataTableToList(table);
-		}
+
+
+
+
+
+		///// <summary>
+		///// 顧客管理利用情報から利用申込サービスの取得
+		///// </summary>
+		///// <param name="compDateTime">前回取得日時</param>
+		///// <param name="connectStr">SQL Server接続文字列</param>
+		///// <returns>顧客管理利用情報</returns>
+		//public static List<T_CUSSTOMER_USE_INFOMATION> GetCustomerUseInformationUseService(DateTime compDateTime, string connectStr)
+		//{
+		//	DataTable table = AdjustServiceApplyGetIO.GetCustomerUseInformationUseService(compDateTime, connectStr);
+		//	return T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
+		//}
+
+		///// <summary>
+		///// 顧客管理利用情報から解約申込サービスの取得
+		///// </summary>
+		///// <param name="compDateTime">前回取得日時</param>
+		///// <param name="connectStr">SQL Server接続文字列</param>
+		///// <returns>顧客管理利用情報</returns>
+		//public static List<T_CUSSTOMER_USE_INFOMATION> GetCustomerUseInformationCancelService(DateTime compDateTime, string connectStr)
+		//{
+		//	DataTable table = AdjustServiceApplyGetIO.GetCustomerUseInformationCancelService(compDateTime, connectStr);
+		//	return T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
+		//}
+
+		///// <summary>
+		///// サービス申込情報から利用申込サービスの取得
+		///// </summary>
+		///// <param name="connectStr">SQL Server接続文字列</param>
+		///// <returns>サービス申込情報</returns>
+		//public static List<T_MWS_APPLY> GetMwsApplyUserService(string connectStr)
+		//{
+		//	DataTable table = AdjustServiceApplyGetIO.GetMwsApplyUserService(connectStr);
+		//	return T_MWS_APPLY.DataTableToList(table);
+		//}
+
+		///// <summary>
+		///// サービス申込情報から解約申込サービスの取得
+		///// </summary>
+		///// <param name="connectStr">SQL Server接続文字列</param>
+		///// <returns>サービス申込情報</returns>
+		//public static List<T_MWS_APPLY> GetMwsApplyCancelService(string connectStr)
+		//{
+		//	DataTable table = AdjustServiceApplyGetIO.GetMwsApplyCancelService(connectStr);
+		//	return T_MWS_APPLY.DataTableToList(table);
+		//}
 
 
 		//////////////////////////////
 		// UPDATE SET
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_MWS_APPLY]の更新（サービス申込情報）
+		/// [CouplerDB].[dbo].[APPLY]の更新（申込情報）
 		/// </summary>
 		/// <param name="list">サービス申込情報リスト</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <param name="databaseName">データベース名</param>
 		/// <returns>影響行数</returns>
-		public static int UpdateSet_T_MWS_APPLY(List<T_MWS_APPLY> list, string updateUser, string connectStr)
+		public static int UpdateSet_T_COUPLER_APPLY(List<V_COUPLER_APPLY> list, string updateUser, string connectStr, string databaseName)
 		{
 			int rowCount = -1;
 			using (SqlConnection con = new SqlConnection(connectStr))
@@ -151,36 +163,38 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 					con.Open();
 
 					// トランザクション開始
-					using (SqlTransaction tran = con.BeginTransaction())
+					//using (SqlTransaction tran = con.BeginTransaction())
 					{
 						try
 						{
-							foreach (T_MWS_APPLY apply in list)
+							foreach (V_COUPLER_APPLY apply in list)
 							{
-								string sqlStr = string.Format(@"UPDATE {0} SET system_flg = '1', update_date = {1}, update_user = {2} WHERE apply_id = {3}"
-																			, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_MWS_APPLY]
-																			, DateTime.Now, updateUser, apply.apply_id);
+								string sqlStr = string.Format(@"UPDATE {0} SET system_flg = '1', update_date = getdate(), update_user = '{1}' WHERE apply_id = {2}"
+																			, string.Format("{0}.[dbo].{1}", databaseName, CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.APPLY])
+																			, updateUser, apply.apply_id);
+
 								// 実行
-								rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlStr);
+								//rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlStr);
+								rowCount = DatabaseController.SqlExecuteNonQuery(con, sqlStr);
 								if (rowCount <= -1)
 								{
-									throw new ApplicationException("サービス申込情報更新エラー");
+									throw new ApplicationException("申込情報更新エラー");
 								}
 							}
 							// コミット
-							tran.Commit();
+							//tran.Commit();
 						}
 						catch
 						{
 							// ロールバック
-							tran.Rollback();
+							//tran.Rollback();
 							throw;
 						}
 					}
 				}
 				catch (Exception ex)
 				{
-					throw new ApplicationException(string.Format("サービス申込情報更新エラー({0})", ex.Message));
+					throw new ApplicationException(string.Format("申込情報更新エラー({0})", ex.Message));
 				}
 				finally
 				{
@@ -199,7 +213,7 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 		// INSERT INTO
 
 		/// <summary>
-		/// 最終同期日時の新規追加
+		/// 前回同期日時の新規追加（サービス情報）
 		/// </summary>
 		/// <param name="userName">作成者</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>

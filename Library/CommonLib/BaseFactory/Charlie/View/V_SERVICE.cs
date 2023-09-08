@@ -1,7 +1,7 @@
 ﻿//
 // V_SERVICE.cs
 //
-// [CharlieDB].[dbo].[V_SERVICE]
+// [CharlieDB].[dbo].[V_SERVICE] サービス利用情報ビュー
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 

@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.03 XMLファイルの変更(2022/06/08 勝呂)
+// Ver2.06(2023/08/22 勝呂):メモ欄の担当部署を営業管理部からシステム管理部に変更。組織変更対応
 //
 using MwsLib.Settings.SqlServer;
 using System;
@@ -28,6 +29,12 @@ namespace EntryFinishedUser.Settings
 		public string CurlineCloudListFolder { get; set; }
 
 		/// <summary>
+		/// 担当部署
+		/// </summary>
+		// Ver2.06(2023/08/22 勝呂):メモ欄の担当部署を営業管理部からシステム管理部に変更。組織変更対応
+		public string SectionName = "システム管理部";
+
+		/// <summary>
 		/// SQL Server接続情報 JunpDB
 		/// </summary>
 		public SqlServerConnect ConnectJunp { get; set; }
@@ -44,6 +51,7 @@ namespace EntryFinishedUser.Settings
         {
 			HanahashiUserListFolder = string.Empty;
 			CurlineCloudListFolder = string.Empty;
+			SectionName = string.Empty;
 			ConnectJunp = new SqlServerConnect();
 			ConnectCharlie = new SqlServerConnect();
 		}
@@ -69,6 +77,7 @@ namespace EntryFinishedUser.Settings
 			{
 				if (HanahashiUserListFolder == other.HanahashiUserListFolder
 					&& CurlineCloudListFolder == other.CurlineCloudListFolder
+					&& SectionName == other.SectionName
 					&& ConnectJunp.Equals(other.ConnectJunp)
 					&& ConnectCharlie.Equals(other.ConnectCharlie))
 				{

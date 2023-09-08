@@ -1,11 +1,11 @@
 ﻿//
 // V_COUPLER_APPLY.cs
 //
-// [CharlieDB].[dbo].[V_COUPLER_APPLY]
+// [CharlieDB].[dbo].[V_COUPLER_APPLY] 申込情報ビュー
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2020/12/22 勝呂)
+// Ver1.00(2023/06/07 勝呂):新規作成
 // 
 using CommonLib.DB;
 using System;
@@ -28,6 +28,9 @@ namespace CommonLib.BaseFactory.Charlie.View
         public DateTime? update_date { get; set; }
         public string update_user { get; set; }
 
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
         public V_COUPLER_APPLY()
         {
             apply_id = 0;

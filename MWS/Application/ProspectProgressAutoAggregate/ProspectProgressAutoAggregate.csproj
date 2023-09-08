@@ -112,6 +112,9 @@
     <None Include="見込進捗_48期.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="見込進捗_49期.xlsx.org">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

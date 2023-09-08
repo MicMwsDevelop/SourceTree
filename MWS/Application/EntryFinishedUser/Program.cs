@@ -20,6 +20,7 @@
 // Ver2.03 XMLファイルの変更(2022/06/08 勝呂)
 // Ver2.04 paletteESとソフトウェア保守料１年の契約期間のチェックの障害修正(2022/06/17 勝呂)
 // Ver2.05 課金データ作成の機能追加により、終了ユーザー処理自動実行モード処理の撤廃(2022/12/06 勝呂)
+// Ver2.06(2023/08/22 勝呂):メモ欄の担当部署を営業管理部からシステム管理部に変更。組織変更対応
 /////////////////////////////////////////////////////////
 // 
 using ClosedXML.Excel;
@@ -30,14 +31,12 @@ using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.Common;
 using CommonLib.DB.SqlServer;
 using CommonLib.DB.SqlServer.Charlie;
-using CommonLib.DB.SqlServer.EntryFinishedUser;
 using CommonLib.DB.SqlServer.Junp;
 using EntryFinishedUser.BaseFactory;
 using EntryFinishedUser.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -95,12 +94,12 @@ namespace EntryFinishedUser
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver2.05 (2022/12/06)";
+		public const string VersionStr = "Ver2.06 (2023/08/22)";
 
 		/// <summary>
 		/// 製品名
 		/// </summary>
-		public static string ProductName = "終了ユーザー管理";
+		public const string ProductName = "終了ユーザー管理";
 
 		/// <summary>
 		/// リプレース先リスト

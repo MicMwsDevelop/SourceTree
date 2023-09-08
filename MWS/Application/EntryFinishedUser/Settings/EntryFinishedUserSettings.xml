@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntryFinishedUserSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <HanahashiUserListFolder>\\storage\公開データ\総務部公開用\はなはなし\月次発送リスト</HanahashiUserListFolder>
-  <CurlineCloudListFolder>\\storage\公開データ\ヘルスケア事業部公開用\CURLINE申込データ\クラウド利用報告</CurlineCloudListFolder>
+  <HanahashiUserListFolder>\\storage\公開データ\総合企画部公開用\930_（移）人事総務公開\はなはなし\月次発送リスト</HanahashiUserListFolder>
+  <CurlineCloudListFolder>\\storage\公開データ\CS事業部公開用\6.企画推進部\旧HC事業部公開用\CURLINE申込データ\クラウド利用報告</CurlineCloudListFolder>
+  <SectionName>システム管理部</SectionName>
   <ConnectJunp>
     <InstanceName>SQLSV</InstanceName>
     <!-- InstanceName>TESTSV</InstanceName -->

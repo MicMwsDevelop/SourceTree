@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.000 新規作成(2019/06/28 勝呂)
+// Ver1.00(2023/06/07 勝呂):新規作成
 // 
 using CommonLib.Common;
 
@@ -22,14 +22,19 @@ namespace CommonLib.DB.SqlServer.Coupler
 		public enum TableType
 		{
 			/// <summary>
-			/// サービス利用情報
+			/// サービス情報
 			/// </summary>
-			T_COUPLER_SERVICE = 1,
+			SERVICE = 1,
 
 			/// <summary>
 			/// 製品顧客管理情報
 			/// </summary>
-			T_COUPLER_PRODUCTUSER = 2,
+			PRODUCTUSER = 2,
+
+			/// <summary>
+			/// 申込情報
+			/// </summary>
+			APPLY = 3,
 		}
 
 		/// <summary>
@@ -37,30 +42,9 @@ namespace CommonLib.DB.SqlServer.Coupler
 		/// </summary>
 		public static readonly EnumDictionary<TableType, string> TableName = new EnumDictionary<TableType, string>()
 		{
-			{ TableType.T_COUPLER_SERVICE, "SERVICE" },
-			{ TableType.T_COUPLER_PRODUCTUSER, "PRODUCTUSER" },
-			//{ TableType.T_COUPLER_SERVICE, "T_COUPLER_SERVICE" },
-			//{ TableType.T_COUPLER_PRODUCTUSER, "T_COUPLER_PRODUCTUSER" },
+			{ TableType.SERVICE, "[SERVICE]" },
+			{ TableType.PRODUCTUSER, "[PRODUCTUSER]" },
+			{ TableType.APPLY, "[APPLY]" },
 		};
-
-		///// <summary>
-		///// ビュー種別 
-		///// </summary>
-		//public enum ViewType
-		//{
-		//	vMicPCA仕入先マスタ = 1,
-		//	vMicPCA消費税率 = 2,
-		//	vMicPCA商品マスタ = 3,
-		//}
-
-		///// <summary>
-		///// ビュー種別/ビュー文字列
-		///// </summary>
-		//public static readonly EnumDictionary<ViewType, string> ViewName = new EnumDictionary<ViewType, string>()
-		//{
-		//	{ ViewType.vMicPCA仕入先マスタ, "vMicPCA仕入先マスタ" },
-		//	{ ViewType.vMicPCA消費税率, "vMicPCA消費税率" },
-		//	{ ViewType.vMicPCA商品マスタ, "vMicPCA商品マスタ" },
-		//};
 	}
 }

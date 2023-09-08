@@ -71,6 +71,7 @@
     <Compile Include="BaseFactory\Charlie\Table\M_CODE.cs" />
     <Compile Include="BaseFactory\Charlie\Table\売上実績.cs" />
     <Compile Include="BaseFactory\Charlie\View\view_MWS顧客情報.cs" />
+    <Compile Include="BaseFactory\Charlie\View\view_前月申込データ.cs" />
     <Compile Include="BaseFactory\Charlie\View\V_COUPLER_APPLY.cs" />
     <Compile Include="BaseFactory\Charlie\View\V_CUSTOMER.cs" />
     <Compile Include="BaseFactory\Charlie\View\V_SERVICE.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="BaseFactory\Charlie\View\販売店情報参照ビュー.cs" />
     <Compile Include="BaseFactory\CheckOrderSlip\OrderSlipData.cs" />
     <Compile Include="BaseFactory\CloudBackup\GroupMicPCA売上明細.cs" />
+    <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_APPLY.cs" />
     <Compile Include="BaseFactory\EntryFinishedUser\EntryFinishedUserData.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic社内データ管理ヘッダ.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic社内データ管理利用部署情報.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="BaseFactory\Junp\View\vMic全ユーザー3.cs" />
     <Compile Include="BaseFactory\Junp\View\vMic当月売上予想.cs" />
     <Compile Include="BaseFactory\Junp\View\vMic翌月売上予想.cs" />
+    <Compile Include="BaseFactory\Junp\View\vMic顧客情報.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\GroupMicPCA売上明細.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\アルメックス仕入商品情報.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\クラウドバックアップ仕入商品情報.cs" />
@@ -102,6 +105,7 @@
     <Compile Include="BaseFactory\MakePurchaseFile\仕入商品情報.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\売上明細.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\仕入集計.cs" />
+    <Compile Include="BaseFactory\MwsCuiEditTool\EditCustomerUseInformation.cs" />
     <Compile Include="BaseFactory\MwsSimulation\Estimate.cs" />
     <Compile Include="BaseFactory\MwsSimulation\GroupPlan.cs" />
     <Compile Include="BaseFactory\MwsSimulation\ServiceInfo.cs" />
@@ -267,6 +271,8 @@
     <Compile Include="DB\SqlServer\Junp\JunpDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\Junp\JunpDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\MakePurchaseFile\MakePurchaseFileAccess.cs" />
+    <Compile Include="DB\SqlServer\MwsCuiEditTool\MwsCuiEditToolAccess.cs" />
+    <Compile Include="DB\SqlServer\MwsKakinBatchTool\MwsKakinBatchToolAccess.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationAccess.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationController.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationGetIO.cs" />

@@ -1,8 +1,8 @@
 ﻿//
-// T_COUPLER_SERVICE.cs
+// SERVICE.cs
 //
-// カプラーサービス利用情報クラス
-// [COUPLER].[dbo].[T_COUPLER_SERVICE]
+// サービス情報クラス
+// [COUPLER].[dbo].[SERVICE]
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -82,7 +82,7 @@ namespace CommonLib.BaseFactory.Coupler.Table
 		{
 			get
 			{
-				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10)", CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.T_COUPLER_SERVICE]);
+				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10)", CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.SERVICE]);
 			}
 		}
 
@@ -94,7 +94,7 @@ namespace CommonLib.BaseFactory.Coupler.Table
 		{
 			get
 			{
-				return string.Format(@"DELETE FROM {0} WHERE cp_id = '{1}' AND service_id = {2}", CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.T_COUPLER_SERVICE], cp_id, service_id);
+				return string.Format(@"DELETE FROM {0} WHERE cp_id = '{1}' AND service_id = {2}", CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.SERVICE], cp_id, service_id);
 			}
 		}
 
@@ -123,7 +123,7 @@ namespace CommonLib.BaseFactory.Coupler.Table
 			get
 			{
 				return string.Format(@"UPDATE {0} SET start_date = @1, end_date = @2, contrac_type = @3, payment_type = @4, create_date = @5, create_user = @6, update_date = @7, update_user = @8"
-									+ " WHERE cp_id = '{1}' AND service_id = {2}", CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.T_COUPLER_SERVICE], cp_id, service_id);
+									+ " WHERE cp_id = '{1}' AND service_id = {2}", CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.SERVICE], cp_id, service_id);
 			}
 		}
 

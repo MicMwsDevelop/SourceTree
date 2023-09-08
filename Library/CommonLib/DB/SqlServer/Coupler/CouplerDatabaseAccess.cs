@@ -19,31 +19,34 @@ namespace CommonLib.DB.SqlServer.Coupler
 		// テーブル関連
 		////////////////////////////////////////////////////////////////
 
+		//////////////////////////////
+		// SELECT
+
 		/// <summary>
-		/// [Coupler].[dbo].[SERVICE]の取得
+		/// [Coupler].[dbo].[SERVICE] 利用情報の取得
 		/// </summary>
 		/// <param name="dbConnect">DB接続情報</param>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>サービス利用情報</returns>
-		public static List<T_COUPLER_SERVICE> Select_T_COUPLER_SERVICE(string whereStr, string orderStr, string connectStr)
+		/// <returns>利用情報</returns>
+		public static List<T_COUPLER_SERVICE> Select_SERVICE(string whereStr, string orderStr, string connectStr)
 		{
-			DataTable table = DatabaseAccess.SelectDatabase(CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.T_COUPLER_SERVICE], whereStr, orderStr, connectStr);
+			DataTable table = DatabaseAccess.SelectDatabase(CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.SERVICE], whereStr, orderStr, connectStr);
 			return T_COUPLER_SERVICE.DataTableToList(table);
 		}
 
 		/// <summary>
-		/// [Coupler].[dbo].[PRODUCTUSER]の取得
+		/// [Coupler].[dbo].[PRODUCTUSER] 製品顧客管理情報の取得
 		/// </summary>
 		/// <param name="dbConnect">DB接続情報</param>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>製品顧客管理情報</returns>
-		public static List<T_COUPLER_PRODUCTUSER> Select_T_COUPLER_PRODUCTUSER(string whereStr, string orderStr, string connectStr)
+		public static List<T_COUPLER_PRODUCTUSER> Select_PRODUCTUSER(string whereStr, string orderStr, string connectStr)
 		{
-			DataTable table = DatabaseAccess.SelectDatabase(CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.T_COUPLER_PRODUCTUSER], whereStr, orderStr, connectStr);
+			DataTable table = DatabaseAccess.SelectDatabase(CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.PRODUCTUSER], whereStr, orderStr, connectStr);
 			return T_COUPLER_PRODUCTUSER.DataTableToList(table);
 		}
 	}

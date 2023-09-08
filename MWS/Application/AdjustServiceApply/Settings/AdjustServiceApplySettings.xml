@@ -2,16 +2,24 @@
 <AdjustServiceApplySettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<ConnectCharlie>
 		<InstanceName>SQLSV</InstanceName>
-		<!-- InstanceName>TESTSV</InstanceName -->
+		<!-- InstanceName>TESTSV2</InstanceName -->
 		<DatabaseName>CharlieDB</DatabaseName>
 		<UserID>web</UserID>
 		<Password>02035612</Password>
 	</ConnectCharlie>
 	<ConnectJunp>
 		<InstanceName>SQLSV</InstanceName>
-		<!-- InstanceName>TESTSV</InstanceName -->
+		<!-- InstanceName>TESTSV2</InstanceName -->
 		<DatabaseName>JunpDB</DatabaseName>
 		<UserID>web</UserID>
 		<Password>02035612</Password>
 	</ConnectJunp>
+	<ConnectCoupler>
+		<InstanceName>SQLSV</InstanceName>
+		<!-- InstanceName>[CPTest-DB].[COUPLER]</InstanceName -->
+		<DatabaseName>[CP-DB01].[COUPLER]</DatabaseName>
+		<!-- DatabaseName>COUPLER</DatabaseName -->
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</ConnectCoupler>
 </AdjustServiceApplySettings>

@@ -52,7 +52,7 @@
 			this.MinimizeBox = false;
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "サービス申込情報調整処理";
+			this.Text = "申込情報調整処理";
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);
 

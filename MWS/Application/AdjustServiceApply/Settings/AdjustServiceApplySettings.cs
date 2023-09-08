@@ -28,12 +28,18 @@ namespace AdjustServiceApply.Settings
 		public SqlServerConnect ConnectJunp { get; set; }
 
 		/// <summary>
+		/// SQL Server接続情報 CouplerDB
+		/// </summary>
+		public SqlServerConnect ConnectCoupler { get; set; }
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public AdjustServiceApplySettings()
         {
 			ConnectCharlie = new SqlServerConnect();
 			ConnectJunp = new SqlServerConnect();
+			ConnectCoupler = new SqlServerConnect();
 		}
 
 		/// <summary>
@@ -55,7 +61,7 @@ namespace AdjustServiceApply.Settings
 		{
 			if (other != null)
 			{
-				if (ConnectCharlie.Equals(other.ConnectCharlie) && ConnectJunp.Equals(other.ConnectJunp))
+				if (ConnectCharlie.Equals(other.ConnectCharlie) && ConnectJunp.Equals(other.ConnectJunp) && ConnectCoupler.Equals(other.ConnectCoupler))
 				{
 					return true;
 				}

@@ -120,6 +120,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			vMih担当者 = 25,
 			vMic営業担当 = 26,
 			vMic全販売店 = 27,
+			vMic顧客情報 = 28,
 		}
 
 		/// <summary>
@@ -154,6 +155,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			{ ViewType.vMih担当者, string.Format("{0}.vMih担当者", DatabaseName) },
 			{ ViewType.vMic営業担当, string.Format("{0}.vMic営業担当", DatabaseName) },
 			{ ViewType.vMic全販売店, string.Format("{0}.vMic全販売店", DatabaseName) },
+			{ ViewType.vMic顧客情報, string.Format("{0}.vMic顧客情報", DatabaseName) },
 		};
 	}
 }
