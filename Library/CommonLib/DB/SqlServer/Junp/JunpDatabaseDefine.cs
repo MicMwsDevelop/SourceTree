@@ -65,7 +65,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			{ TableType.tMemo, string.Format("{0}.tMemo", DatabaseName) },
 			{ TableType.tMik保守契約, string.Format("{0}.tMik保守契約", DatabaseName) },
 			{ TableType.tMikユーザ, string.Format("{0}.tMikユーザ", DatabaseName) },
-			{ TableType.tClient, string.Format("{0}.[tClient]", DatabaseName) },
+			{ TableType.tClient, string.Format("{0}.tClient", DatabaseName) },
 			{ TableType.tMih送料商品コード, string.Format("{0}.tMih送料商品コード", DatabaseName) },
 			{ TableType.tMihPca在庫引当表J, string.Format("{0}.tMihPca在庫引当表J", DatabaseName) },
 			{ TableType.tMic離島, string.Format("{0}.tMic離島", DatabaseName) },

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OnlineDemandEarningsFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!-- ExportDir>\\SQLSV\PCADATA</ExportDir -->
+	<ExportDir>C:\_売上データ作成\オンライン請求作業売上データ</ExportDir>
+	<ExportFilename>オンライン請求作業売上データ</ExportFilename>
+	<PcaVersion>7</PcaVersion>
+	<SlipInitialNumber>64001</SlipInitialNumber>
+	<Mail>
+		<From>densan@mic.jp</From>
+		<To>keiri@mic.jp</To>
+		<CC>sys_kanri@mic.jp</CC>
+		<TestTo>suguro@mic.jp</TestTo>
+		<TestCC>suguro@mic.jp</TestCC>
+		<Smtp>dove.mic.jp</Smtp>
+		<Port>25</Port>
+		<User></User>
+		<Pass></Pass>
+	</Mail>
+	<ConnectJunp>
+		<!-- InstanceName>SQLSV</InstanceName -->
+		<InstanceName>TESTSV</InstanceName>
+		<DatabaseName>JunpDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</ConnectJunp>
+	<ConnectCharlie>
+		<!-- InstanceName>SQLSV</InstanceName -->
+		<InstanceName>TESTSV</InstanceName>
+		<DatabaseName>CharlieDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</ConnectCharlie>
+	<HomonGoodsID>044029</HomonGoodsID>
+	<RemoteGoodsID>044030</RemoteGoodsID>
+</OnlineDemandEarningsFileSettings>

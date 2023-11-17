@@ -8,12 +8,11 @@
 // 
 // Ver1.00(2023/06/07 勝呂):新規作成
 // 
-using CommonLib.Common;
+using CommonLib.BaseFactory.Charlie.View;
 using CommonLib.DB;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using CommonLib.BaseFactory.Charlie.View;
 
 namespace CommonLib.BaseFactory.Coupler.Table
 {

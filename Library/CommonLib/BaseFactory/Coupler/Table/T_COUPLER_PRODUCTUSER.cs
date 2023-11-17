@@ -9,9 +9,11 @@
 // Ver1.000 新規作成(2019/10/18 勝呂)
 // 
 using CommonLib.DB;
+using CommonLib.DB.SqlServer.Coupler;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace CommonLib.BaseFactory.Coupler.Table
 {
@@ -82,22 +84,22 @@ namespace CommonLib.BaseFactory.Coupler.Table
 		public string default_paswd { get; set; }
 
 		/// <summary>
-		/// 
+		/// ログインパスワード更新日時
 		/// </summary>
-		public string paswd_update { get; set; }
+		public DateTime? paswd_update { get; set; }
 
 		/// <summary>
-		/// 
+		/// 同時接続クライアント数
 		/// </summary>
 		public int license_count { get; set; }
 
 		/// <summary>
-		/// 
+		/// paletteバージョン番号
 		/// </summary>
 		public int ver_id { get; set; }
 
 		/// <summary>
-		/// 
+		/// テストユーザフラグ
 		/// </summary>
 		public bool testuser_flg { get; set; }
 
@@ -122,6 +124,17 @@ namespace CommonLib.BaseFactory.Coupler.Table
 		public string update_user { get; set; }
 
 		/// <summary>
+		/// INSERT INTO SQL文字列の取得
+		/// </summary>
+		public static string InsertIntoSqlString
+		{
+			get
+			{
+				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20)", CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.PRODUCTUSER]);
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public T_COUPLER_PRODUCTUSER()
@@ -138,7 +151,7 @@ namespace CommonLib.BaseFactory.Coupler.Table
 			login_end_date = null;
 			login_paswd = string.Empty;
 			default_paswd = string.Empty;
-			paswd_update = string.Empty;
+			paswd_update = null;
 			license_count = 0;
 			ver_id = 0;
 			testuser_flg = false;
@@ -174,7 +187,7 @@ namespace CommonLib.BaseFactory.Coupler.Table
 						login_end_date = DataBaseValue.ConvObjectToDateTimeNull(row["login_end_date"]),
 						login_paswd = row["login_paswd"].ToString().Trim(),
 						default_paswd = row["default_paswd"].ToString().Trim(),
-						paswd_update = row["paswd_update"].ToString().Trim(),
+						paswd_update = DataBaseValue.ConvObjectToDateTimeNull(row["paswd_update"]),
 						license_count = DataBaseValue.ConvObjectToInt(row["license_count"]),
 						ver_id = DataBaseValue.ConvObjectToInt(row["ver_id"]),
 						testuser_flg = ("0" == row["testuser_flg"].ToString()) ? false : true,
@@ -188,6 +201,37 @@ namespace CommonLib.BaseFactory.Coupler.Table
 				return result;
 			}
 			return null;
+		}
+
+		/// <summary>
+		/// INSERT INTOパラメタの取得
+		/// </summary>
+		/// <returns></returns>
+		public SqlParameter[] GetInsertIntoParameters()
+		{
+			SqlParameter[] param = {
+				new SqlParameter("@1", cp_id),
+				new SqlParameter("@2", user_type.ToString()),
+				new SqlParameter("@3", trial_flg ? "1" : "0"),
+				new SqlParameter("@4", end_flg ? "1" : "0"),
+				new SqlParameter("@5", customer_id.ToString()),
+				new SqlParameter("@6", customer_nm),
+				new SqlParameter("@7", email1),
+				new SqlParameter("@8", email2),
+				new SqlParameter("@9", login_start_date.HasValue ? login_start_date.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@10", login_end_date.HasValue ? login_end_date.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@11", login_paswd),
+				new SqlParameter("@12", default_paswd),
+				new SqlParameter("@13", paswd_update.HasValue ? paswd_update.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@14", license_count.ToString()),
+				new SqlParameter("@15", ver_id.ToString()),
+				new SqlParameter("@16", testuser_flg ? "1" : "0"),
+				new SqlParameter("@17", create_date.HasValue ? create_date.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@18", create_user),
+				new SqlParameter("@19", update_date.HasValue ? update_date.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@20", update_user),
+			};
+			return param;
 		}
 	}
 }

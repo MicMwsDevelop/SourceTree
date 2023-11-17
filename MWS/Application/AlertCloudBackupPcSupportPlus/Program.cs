@@ -16,6 +16,7 @@
 /////////////////////////////////////////////////////////
 // Ver1.00 新規作成(2021/02/05 勝呂)
 // Ver1.01 アラートに引っかかったユーザーがしばらくの間、毎日、アラートさせるので、チェックから除外するユーザーを登録できるように改修(2021/10/03 勝呂)
+// Ver1.02(2023/09/14 勝呂):組織変更対応 営業管理部→システム管理部
 /////////////////////////////////////////////////////////
 //
 using AlertCloudBackupPcSupportPlus.Mail;
@@ -44,6 +45,11 @@ namespace AlertCloudBackupPcSupportPlus
 		/// プログラム名
 		/// </summary>
 		public const string PROC_NAME = "ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟPC安心ｻﾎﾟｰﾄPlus申込ｱﾗｰﾄ";
+
+		/// <summary>
+		/// プログラムバージョン
+		/// </summary>
+		public const string VersionStr = "Ver1.02";
 
 		/// <summary>
 		/// 環境設定

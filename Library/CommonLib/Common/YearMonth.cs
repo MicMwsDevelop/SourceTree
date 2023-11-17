@@ -57,7 +57,7 @@ namespace CommonLib.Common
         public static readonly YearMonth MaxValue = new YearMonth { YearValue = 9999, MonthValue = 12 };
 
         /// <summary>
-        /// 
+        /// 当月初日
         /// </summary>
         public Date First
         {
@@ -68,7 +68,7 @@ namespace CommonLib.Common
         }
 
         /// <summary>
-        /// 
+        /// 当月末日
         /// </summary>
         public Date Last
         {
@@ -78,12 +78,34 @@ namespace CommonLib.Common
             }
         }
 
-        /// <summary>
-        /// コントラクタ
-        /// </summary>
-        /// <param name="year"></param>
-        /// <param name="month"></param>
-        public YearMonth(int year, int month)
+		/// <summary>
+		/// 翌月
+		/// </summary>
+		public YearMonth Next
+		{
+			get
+			{
+				return DateConversion.ToDate(this, 1).PlusMonths(1).ToYearMonth();
+			}
+		}
+
+		/// <summary>
+		/// 先月
+		/// </summary>
+		public YearMonth Prev
+		{
+			get
+			{
+				return DateConversion.ToDate(this, 1).PlusMonths(-1).ToYearMonth();
+			}
+		}
+
+		/// <summary>
+		/// コントラクタ
+		/// </summary>
+		/// <param name="year"></param>
+		/// <param name="month"></param>
+		public YearMonth(int year, int month)
         {
             if (year < MinValue.Year || year > MaxValue.Year)
             {

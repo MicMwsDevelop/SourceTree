@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AdjustServiceApplySettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ConnectCharlie>
+    <!-- InstanceName>SQLSV</InstanceName -->
+    <InstanceName>TESTSV2</InstanceName>
+    <DatabaseName>CharlieDB</DatabaseName>
+    <UserID>web</UserID>
+    <Password>02035612</Password>
+  </ConnectCharlie>
+  <ConnectJunp>
+    <!-- InstanceName>SQLSV</InstanceName -->
+    <InstanceName>TESTSV2</InstanceName>
+    <DatabaseName>JunpDB</DatabaseName>
+    <UserID>web</UserID>
+    <Password>02035612</Password>
+  </ConnectJunp>
+  <ConnectCoupler>
+    <!-- InstanceName>SQLSV</InstanceName -->
+    <InstanceName>TESTSV2</InstanceName>
+    <!-- DatabaseName>[CP-DB01].[COUPLER]</DatabaseName -->
+    <DatabaseName>[MWS-DB].[COUPLER_DEV]</DatabaseName>
+    <UserID>web</UserID>
+    <Password>02035612</Password>
+  </ConnectCoupler>
+  <Mail>
+    <From>densan@mic.jp</From>
+    <To>densan@mic.jp</To>
+    <CC></CC>
+    <TestTo>suguro@mic.jp</TestTo>
+    <TestCC></TestCC>
+    <Smtp>dove.mic.jp</Smtp>
+    <Port>25</Port>
+    <User />
+    <Pass />
+  </Mail>
+</AdjustServiceApplySettings>

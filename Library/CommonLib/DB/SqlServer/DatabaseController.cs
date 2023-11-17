@@ -80,6 +80,38 @@ namespace CommonLib.DB.SqlServer
 
 		/// <summary>
 		/// SQLコマンドの実行
+		/// 結果セットの取得
+		/// </summary>
+		/// <param name="con">SQL接続情報</param>
+		/// <param name="sqlString">SQL文</param>
+		/// <param name="timeOutSecond">タイムアウト(秒数)</param>
+		/// <returns>結果セット</returns>
+		public static DataTable SqlExcuteDataAdapterTimeOut(SqlConnection con, string sqlString, int timeOutSecond)
+		{
+			DataTable result = null;
+			try
+			{
+				using (SqlCommand cmd = new SqlCommand(sqlString, con))
+				{
+					// タイムアウト
+					cmd.CommandTimeout = timeOutSecond;
+
+					using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+					{
+						result = new DataTable();
+						da.Fill(result);
+					}
+				}
+			}
+			catch
+			{
+				throw;
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// SQLコマンドの実行
 		/// 結果のないSQLステートメント（UPDATE、INSERTなど）に使用
 		/// </summary>
 		/// <param name="con">SQL接続情報</param>

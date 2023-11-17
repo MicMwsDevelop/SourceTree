@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2021/02/05 勝呂)
+// Ver1.02(2023/09/14 勝呂):組織変更対応 営業管理部→システム管理部
 //
 using CommonLib.BaseFactory.AlertCloudBackupPcSupportPlus;
 using System;
@@ -44,7 +45,7 @@ namespace AlertCloudBackupPcSupportPlus.Mail
 
 				// 本文
 				msg.Body += @"<div>"
-						+ @"<p>営業管理部 各位</p>"
+						+ @"<p>システム管理部 各位</p>"
 						+ @"<p>クラウドバックアップとPC安心サポートPlusが申し込まれている可能性があるためご確認ください。</p>"
 						+ @"<br>"
 						+ @"</div>";
@@ -129,7 +130,7 @@ namespace AlertCloudBackupPcSupportPlus.Mail
 
 				msg.Body += @"</div>"
 							+ @"<div>"
-							+ @"<p>以上、よろしくお願いいたします。<br><br>営業管理部</p>"
+							+ @"<p>以上、よろしくお願いいたします。<br><br>システム管理部</p>"
 							+ @"</div>"
 							+ @"</font>"
 							+ @"</body>"

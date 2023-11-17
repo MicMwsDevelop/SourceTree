@@ -226,6 +226,41 @@ namespace CommonLib.DB.SqlServer
 		}
 
 		/// <summary>
+		/// レコードの取得(SqlExcuteDataAdapter)
+		/// </summary>
+		/// <param name="strSQL">SQL文</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <param name="timeOutSecond">タイムアウト(秒数)</param>
+		/// <returns>結果セット</returns>
+		public static DataTable SelectDatabaseTimeOut(string strSQL, string connectStr, int timeOutSecond)
+		{
+			DataTable result = null;
+			using (SqlConnection con = new SqlConnection(connectStr))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					result = DatabaseController.SqlExcuteDataAdapterTimeOut(con, strSQL, timeOutSecond);
+				}
+				catch (Exception ex)
+				{
+					throw new ApplicationException(string.Format("SelectDatabase() Error!({0})", ex.Message));
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
 		/// レコードの取得
 		/// </summary>
 		/// <param name="tableName">テーブル/ビュー名</param>

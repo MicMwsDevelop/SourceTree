@@ -23,6 +23,16 @@ namespace AlertCloudBackupPcSupportPlus.Forms
 		}
 
 		/// <summary>
+		/// Form Load
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainForm_Load(object sender, EventArgs e)
+		{
+			this.Text = string.Format("{0} ({1})", Program.PROC_NAME, Program.VersionStr);
+		}
+
+		/// <summary>
 		/// 実行
 		/// </summary>
 		/// <param name="sender"></param>

@@ -108,14 +108,14 @@ namespace CommonLib.DB.SqlServer.Charlie
 			T_DEMO_SERVICE = 16,
 
 			/// <summary>
-			/// CouplerDB 顧客情報追加連絡テーブル
+			/// メールアドレス（kikaku@mic.jp）
 			/// </summary>
-			_test_PRODUCTUSER_INSERT = 17,
+			M_MAIL = 17,
 
 			/// <summary>
-			/// CouplerDB 顧客情報変更連絡テーブル
+			/// オンライン請求作業情報
 			/// </summary>
-			_test_PRODUCTUSER_UPDATE = 18,
+			T_USE_ONLINE_DEMAND = 18,
 		}
 
 		/// <summary>
@@ -138,10 +138,9 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ TableType.T_CUSTOMER_FOUNDATIONS, string.Format("{0}.T_CUSTOMER_FOUNDATIONS", DatabaseName) },
 			{ TableType.T_APPLICATION_DATA, string.Format("{0}.T_APPLICATION_DATA", DatabaseName) },
 			{ TableType.T_FILE_CREATEDATE, string.Format("{0}.T_FILE_CREATEDATE", DatabaseName) },
-
 			{ TableType.T_DEMO_SERVICE, string.Format("{0}.T_DEMO_SERVICE", DatabaseName) },
-			{ TableType._test_PRODUCTUSER_INSERT, string.Format("{0}._test_PRODUCTUSER_INSERT", DatabaseName) },
-			{ TableType._test_PRODUCTUSER_UPDATE, string.Format("{0}._test_PRODUCTUSER_UPDATE", DatabaseName) },
+			{ TableType.M_MAIL, string.Format("{0}.M_MAIL", DatabaseName) },
+			{ TableType.T_USE_ONLINE_DEMAND, string.Format("{0}.T_USE_ONLINE_DEMAND", DatabaseName) },
 		};
 
 		/// <summary>

@@ -1,0 +1,79 @@
+﻿namespace AdjustServiceApply.Forms
+{
+	partial class MainForm
+	{
+		/// <summary>
+		/// 必要なデザイナー変数です。
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
+
+		/// <summary>
+		/// 使用中のリソースをすべてクリーンアップします。
+		/// </summary>
+		/// <param name="disposing">マネージド リソースを破棄する場合は true を指定し、その他の場合は false を指定します。</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
+
+		#region Windows フォーム デザイナーで生成されたコード
+
+		/// <summary>
+		/// デザイナー サポートに必要なメソッドです。このメソッドの内容を
+		/// コード エディターで変更しないでください。
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.buttonUpdateApplyInfo = new System.Windows.Forms.Button();
+			this.buttonUpdateCustomerInfo = new System.Windows.Forms.Button();
+			this.SuspendLayout();
+			// 
+			// buttonUpdateApplyInfo
+			// 
+			this.buttonUpdateApplyInfo.Location = new System.Drawing.Point(222, 12);
+			this.buttonUpdateApplyInfo.Name = "buttonUpdateApplyInfo";
+			this.buttonUpdateApplyInfo.Size = new System.Drawing.Size(204, 94);
+			this.buttonUpdateApplyInfo.TabIndex = 1;
+			this.buttonUpdateApplyInfo.Text = "2. 申込情報更新";
+			this.buttonUpdateApplyInfo.UseVisualStyleBackColor = true;
+			this.buttonUpdateApplyInfo.Click += new System.EventHandler(this.buttonUpdateApplyInfo_Click);
+			// 
+			// buttonUpdateCustomerInfo
+			// 
+			this.buttonUpdateCustomerInfo.Location = new System.Drawing.Point(12, 12);
+			this.buttonUpdateCustomerInfo.Name = "buttonUpdateCustomerInfo";
+			this.buttonUpdateCustomerInfo.Size = new System.Drawing.Size(204, 94);
+			this.buttonUpdateCustomerInfo.TabIndex = 0;
+			this.buttonUpdateCustomerInfo.Text = "1. 顧客情報更新";
+			this.buttonUpdateCustomerInfo.UseVisualStyleBackColor = true;
+			this.buttonUpdateCustomerInfo.Click += new System.EventHandler(this.buttonUpdateCustomerInfo_Click);
+			// 
+			// MainForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(449, 123);
+			this.Controls.Add(this.buttonUpdateCustomerInfo);
+			this.Controls.Add(this.buttonUpdateApplyInfo);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.Name = "MainForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Text = "申込情報調整処理";
+			this.Load += new System.EventHandler(this.MainForm_Load);
+			this.ResumeLayout(false);
+
+		}
+
+		#endregion
+
+		private System.Windows.Forms.Button buttonUpdateApplyInfo;
+		private System.Windows.Forms.Button buttonUpdateCustomerInfo;
+	}
+}
+
