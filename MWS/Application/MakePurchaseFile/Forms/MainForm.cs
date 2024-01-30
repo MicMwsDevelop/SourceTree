@@ -9,6 +9,8 @@
 // Ver1.02 汎用データレイアウト 仕入明細データ Version 9(Rev3.00)に対応(2022/05/25 勝呂)
 // Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/10 勝呂)
 // Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
+// Ver1.06(2023/11/21 勝呂):002199 ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月の商品追加対応
+// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
 //
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Junp.Table;
@@ -94,6 +96,9 @@ namespace MakePurchaseFile.Forms
 			textBoxCloudBackupFilename.Text = Settings.クラウドバックアップ仕入データファイル名;
 			textBoxAlmexFilename.Text = Settings.アルメックス保守仕入データファイル名;
 
+			// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+			textBoxOnlineLicenseFilename.Text = Settings.オン資格保守サービス仕入データファイル名;
+
 			// Ver1.02 汎用データレイアウト 仕入明細データ Version 9(Rev3.00)に対応(2022/05/25 勝呂)
 			textBoxPcaVersion.Text = Settings.PcaVersion.ToString();
 
@@ -108,6 +113,9 @@ namespace MakePurchaseFile.Forms
 			buttonOutputNarcohm.Visible = true;
 			buttonPutputCloudBackup.Visible = true;
 			buttonOutputAlmex.Visible = true;
+
+			// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+			buttonOutputOnlineLicense.Visible = true;
 #endif
 		}
 
@@ -143,38 +151,38 @@ namespace MakePurchaseFile.Forms
 				Cursor.Current = Cursors.WaitCursor;
 
 				/////////////////////////////////////
-				// 7. りすとん月額仕入データ作成
+				// 1. りすとん月額仕入データ作成
 
 				りすとん月額仕入データファイル出力(collectMonth);
 
 				/////////////////////////////////////
-				// 8. Microsoft365仕入データ作成
+				// 2. Microsoft365仕入データ作成
 
 				Microsoft365仕入データファイル出力(collectMonth);
 
 				/////////////////////////////////////
-				// 9. 問心伝月額仕入データ作成
+				// 3. 問心伝月額仕入データ作成
 
 				問心伝月額仕入データファイル出力(collectMonth);
 
 				/////////////////////////////////////
-				// 11. Curline本体アプリ仕入データ作成
+				// 4. Curline本体アプリ仕入データ作成
 
 				// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
 				//Curline本体アプリ仕入データファイル出力(collectMonth);
 
 				/////////////////////////////////////
-				// 12. ナルコーム仕入データ作成
+				// 5. ナルコーム仕入データ作成
 
 				ナルコーム仕入データファイル出力(collectMonth);
 
 				/////////////////////////////////////
-				// 13. クラウドバックアップ仕入データ作成
+				// 6. クラウドバックアップ仕入データ作成
 
 				クラウドバックアップ仕入データファイル出力(collectMonth);
 
 				/////////////////////////////////////
-				// 14. アルメックス保守仕入データ作成
+				// 7. アルメックス保守仕入データ作成
 
 				YearMonth thisYM = collectMonth + 1;    // 対象月を当月初日に変更
 				string msg = アルメックス保守仕入データファイル出力(thisYM);
@@ -190,6 +198,16 @@ namespace MakePurchaseFile.Forms
 				{
 					MessageBox.Show(string.Format("{0}\nERROR.LOGを確認してください。", msg), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
+
+				// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+				/////////////////////////////////////
+				// 8. オン資格保守サービス仕入データ作成
+
+				// 対象月を当月初日
+				オン資格保守サービス仕入データファイル出力(thisYM);
+
+				// カーソルを元に戻す
+				Cursor.Current = preCursor;
 			}
 			catch (Exception ex)
 			{
@@ -214,9 +232,7 @@ namespace MakePurchaseFile.Forms
 		/// <param name="e"></param>
 		private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-//#if !DEBUG
 			DropTable();
-//#endif
 		}
 
 		/// <summary>
@@ -314,7 +330,7 @@ namespace MakePurchaseFile.Forms
 		}
 
 		/// <summary>
-		/// 7.りすとん月額仕入データ作成
+		/// 1.りすとん月額仕入データ作成
 		/// </summary>
 		/// <param name="collectMonth">対象年月</param>
 		public void りすとん月額仕入データファイル出力(YearMonth collectMonth)
@@ -378,7 +394,7 @@ namespace MakePurchaseFile.Forms
 		}
 
 		/// <summary>
-		/// 8.Microsoft365仕入データ作成
+		/// 2.Microsoft365仕入データ作成
 		/// </summary>
 		/// <param name="collectMonth">対象年月</param>
 		public void Microsoft365仕入データファイル出力(YearMonth collectMonth)
@@ -504,8 +520,7 @@ namespace MakePurchaseFile.Forms
 
 				denNo++;
 			}
-
-			/*
+#if false
 			List<仕入集計> Microsoft365仕入集計 = MakePurchaseFileAccess.Select_Microsoft365仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
 			string bumonCode = string.Empty;
 			foreach (仕入集計 data in Microsoft365仕入集計)
@@ -546,7 +561,7 @@ namespace MakePurchaseFile.Forms
 				pca.商品名2 = string.Empty;
 				outputList.Add(pca);
 			}
-			*/
+#endif
 			using (var sw = new StreamWriter(Settings.Microsoft365仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
 			{
 				foreach (汎用データレイアウト仕入明細データ pca in outputList)
@@ -558,7 +573,7 @@ namespace MakePurchaseFile.Forms
 		}
 
 		/// <summary>
-		/// 9.問心伝月額仕入データ作成
+		/// 3.問心伝月額仕入データ作成
 		/// </summary>
 		/// <param name="collectMonth">対象年月</param>
 		public void 問心伝月額仕入データファイル出力(YearMonth collectMonth)
@@ -617,12 +632,12 @@ namespace MakePurchaseFile.Forms
 			}
 		}
 
+#if false
 		/// <summary>
-		/// 11.Curline本体アプリ仕入データ作成
+		/// 4.Curline本体アプリ仕入データ作成
 		/// </summary>
 		/// <param name="collectMonth">対象年月</param>
 		// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
-/*
 		public void Curline本体アプリ仕入データファイル出力(YearMonth collectMonth)
 		{
 			List<仕入集計> Curline本体アプリ仕入集計 = MakePurchaseFileAccess.Select_Curline本体アプリ仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
@@ -678,10 +693,10 @@ namespace MakePurchaseFile.Forms
 				}
 			}
 		}
-*/
+#endif
 
 		/// <summary>
-		/// 12.ナルコーム仕入データ作成
+		/// 5.ナルコーム仕入データ作成
 		/// </summary>
 		/// <param name="collectMonth">対象年月</param>
 		public void ナルコーム仕入データファイル出力(YearMonth collectMonth)
@@ -743,7 +758,7 @@ namespace MakePurchaseFile.Forms
 		}
 
 		/// <summary>
-		/// 13.クラウドバックアップ仕入データ作成
+		/// 6.クラウドバックアップ仕入データ作成
 		/// </summary>
 		/// <param name="collectMonth">対象年月</param>
 		public void クラウドバックアップ仕入データファイル出力(YearMonth collectMonth)
@@ -804,7 +819,7 @@ namespace MakePurchaseFile.Forms
 		}
 
 		/// <summary>
-		/// 14.アルメックス保守仕入データ作成
+		/// 7.アルメックス保守仕入データ作成
 		/// </summary>
 		/// <param name="collectMonth">対象年月</param>
 		/// <returns>エラーメッセージ</returns>
@@ -868,13 +883,24 @@ namespace MakePurchaseFile.Forms
 									stockCode = list[0].sykd_mei.Replace("得意先No.", "").Trim();
 								}
 								List<tMik基本情報> basic = JunpDatabaseAccess.Select_tMik基本情報(string.Format("[fkj得意先情報] = '{0}'", stockCode), "", Settings.Connect.Junp.ConnectionString);
-								whereStr = string.Format("faiCliMicID = {0} AND (faiアプリケーション名 = '{1}' OR faiアプリケーション名 = '{2}' OR faiアプリケーション名 = '{3}' OR faiアプリケーション名 = '{4}' OR faiアプリケーション名 = '{5}')"
-																	, basic[0].fkjCliMicID
-																	, tMikコードマスタ.fcmコード_AlmexMainteTex30_Cash
-																	, tMikコードマスタ.fcmコード_AlmexMainteTex30_Credit
-																	, tMikコードマスタ.fcmコード_AlmexMainteFitA_Cash
-																	, tMikコードマスタ.fcmコード_AlmexMainteFitA_Credit
-																	, tMikコードマスタ.fcmコード_AlmexMainteFitA_QRCredit);
+
+								// Ver1.06(2023/11/21 勝呂):002199 ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月の商品追加対応
+								//whereStr = string.Format("faiCliMicID = {0} AND (faiアプリケーション名 = '{1}' OR faiアプリケーション名 = '{2}' OR faiアプリケーション名 = '{3}' OR faiアプリケーション名 = '{4}' OR faiアプリケーション名 = '{5}')"
+								//									, basic[0].fkjCliMicID
+								//									, tMikコードマスタ.fcmコード_AlmexMainteTex30_Cash
+								//									, tMikコードマスタ.fcmコード_AlmexMainteTex30_Credit
+								//									, tMikコードマスタ.fcmコード_AlmexMainteFitA_Cash
+								//									, tMikコードマスタ.fcmコード_AlmexMainteFitA_Credit
+								//									, tMikコードマスタ.fcmコード_AlmexMainteFitA_QRCredit);
+								whereStr = string.Format("faiCliMicID = {0} AND (faiアプリケーション名 = '{1}' OR faiアプリケーション名 = '{2}' OR faiアプリケーション名 = '{3}' OR faiアプリケーション名 = '{4}' OR faiアプリケーション名 = '{5}' OR faiアプリケーション名 = '{6}')"
+																	, basic[0].fkjCliMicID		// 0
+																	, tMikコードマスタ.fcmコード_AlmexMainteTex30_Cash		// 1
+																	, tMikコードマスタ.fcmコード_AlmexMainteTex30_Credit	// 2
+																	, tMikコードマスタ.fcmコード_AlmexMainteFitA_Cash		// 3
+																	, tMikコードマスタ.fcmコード_AlmexMainteFitA_Credit		// 4
+																	, tMikコードマスタ.fcmコード_AlmexMainteFitA_QRCredit	// 5
+																	, tMikコードマスタ.fcmコード_AlmexMainteFitA_Cash2);	// 6
+
 								List<tMikアプリケーション情報> apl = JunpDatabaseAccess.Select_tMikアプリケーション情報(whereStr, "faiアプリケーションNo, faiアプリケーション名", Settings.Connect.Junp.ConnectionString);
 								if (null != apl && 0 < apl.Count)
 								{
@@ -927,6 +953,69 @@ namespace MakePurchaseFile.Forms
 		}
 
 		/// <summary>
+		/// 8. オン資格保守サービス仕入データ作成
+		/// </summary>
+		/// <param name="collectMonth">対象年月</param>
+		// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+		public void オン資格保守サービス仕入データファイル出力(YearMonth collectMonth)
+		{
+			using (var sw = new StreamWriter(Settings.オン資格保守サービス仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+			{
+				List<vMicPCA売上明細> pcaList = MakePurchaseFileAccess.Select_オン資格保守サービス仕入集計(Settings.GetOnlineLicenseMaineGoods(), collectMonth, Settings.Connect.Junp.ConnectionString);
+				if (0 < pcaList.Count)
+				{
+					// 仕入先マスタ
+					List< Tuple<string, string>> stockMasterList = new List<Tuple<string, string>>();
+					List<string> stockCodeList = Settings.GetOnlineLicenseMainePurchaseCode();
+					foreach (string code in stockCodeList)
+					{
+						string whereStr = string.Format("rms_tcd = '{0}'", code);
+						List<vMicPCA仕入先マスタ> mst = JunpDatabaseAccess.Select_vMicPCA仕入先マスタ(whereStr, "", Settings.Connect.Junp.ConnectionString);
+						if (null != mst && 0 < mst.Count)
+						{
+							stockMasterList.Add(new Tuple<string, string>(code, mst[0].rms_mei1));
+						}
+					}
+					List<MakePurchaseData> outputList = new List<MakePurchaseData>();
+					foreach (vMicPCA売上明細 pca in pcaList)
+					{
+						if (0 != pca.数量)
+						{
+							オン資格保守サービス仕入商品情報 goods = Settings.オン資格保守サービス商品.Find(p => p.商品コード == pca.sykd_scd);
+							if (null != goods)
+							{
+								MakePurchaseData stock = new MakePurchaseData();
+								stock.f部門コード = pca.sykd_jbmn;
+								stock.f担当者コード = pca.sykd_jtan;
+								stock.f仕入商品コード = goods.商品コード;
+								stock.f単位 = pca.sykd_tani;
+								stock.f仕入価格 = goods.仕入価格;
+								stock.f売上日 = pca.sykd_uribi;
+								//stock.f仕入フラグ = 0;
+								stock.f消費税率 = pca.消費税;
+								stock.f数量 = pca.数量;
+								stock.f仕入先コード = goods.仕入先;
+								Tuple<string, string> stockMaster = stockMasterList.Find(p => p.Item1 == goods.仕入先);
+								if (null != stockMaster)
+								{
+									stock.f仕入先名 = stockMaster.Item2;
+								}
+								outputList.Add(stock);
+							}
+						}
+					}
+					int plusNo = Settings.オン資格保守サービス開始伝票番号;
+					foreach (MakePurchaseData output in outputList)
+					{
+						string record = output.ToPurchase(plusNo, Settings.PcaVersion);
+						sw.WriteLine(record);
+						plusNo++;
+					}
+				}
+			}
+		}
+
+		/// <summary>
 		/// りすとん月額仕入データファイル出力
 		/// </summary>
 		/// <param name="sender"></param>
@@ -953,7 +1042,7 @@ namespace MakePurchaseFile.Forms
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(string.Format("りすとん月額仕入データ出力エラー:{0}", ex.Message), "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -985,7 +1074,7 @@ namespace MakePurchaseFile.Forms
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(string.Format("Microsoft365仕入データ出力エラー:{0}", ex.Message), "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -1016,7 +1105,7 @@ namespace MakePurchaseFile.Forms
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(string.Format("問心伝月額仕入データ出力エラー:{0}", ex.Message), "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -1028,7 +1117,7 @@ namespace MakePurchaseFile.Forms
 		// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
 		private void buttonOutputCurline_Click(object sender, EventArgs e)
 		{
-/*
+#if false
 			// 対象年月
 			YearMonth collectMonth = new YearMonth(dateTimePickerTarget.Value.Year, dateTimePickerTarget.Value.Month);
 
@@ -1051,7 +1140,7 @@ namespace MakePurchaseFile.Forms
 			{
 				MessageBox.Show(ex.Message, "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-*/
+#endif
 		}
 
 		/// <summary>
@@ -1081,7 +1170,7 @@ namespace MakePurchaseFile.Forms
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(string.Format("ナルコーム仕入データ出力エラー:{0}", ex.Message), "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -1112,7 +1201,7 @@ namespace MakePurchaseFile.Forms
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(string.Format("クラウドバックアップ仕入データ出力エラー:{0}", ex.Message), "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -1151,7 +1240,40 @@ namespace MakePurchaseFile.Forms
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(string.Format("アルメックス保守仕入データ出力エラー:{0}", ex.Message), "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+		/// <summary>
+		/// オン資格保守サービス仕入データファイル出力
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+		private void buttonOutputOnlineLicense_Click(object sender, EventArgs e)
+		{
+			// 対象年月
+			YearMonth collectMonth = new YearMonth(dateTimePickerTarget.Value.Year, dateTimePickerTarget.Value.Month);
+
+			try
+			{
+				// 元のカーソルを保持
+				Cursor preCursor = Cursor.Current;
+
+				// カーソルを待機カーソルに変更
+				Cursor.Current = Cursors.WaitCursor;
+
+				YearMonth thisYM = collectMonth + 1;    // 対象月を当月初日に変更
+				オン資格保守サービス仕入データファイル出力(thisYM);
+
+				// カーソルを元に戻す
+				Cursor.Current = preCursor;
+
+				MessageBox.Show("仕入データを出力しました。", "正常終了", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(string.Format("オン資格保守サービス仕入データ出力エラー:{0}", ex.Message), "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 	}

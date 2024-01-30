@@ -116,26 +116,26 @@ namespace CommonLib.DB.SqlServer.ProspectProgressAutoAggregate
 			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
 		}
 
-		/// <summary>
-		/// ソフトウェア保守料売上予測の取得
-		/// </summary>
-		/// <param name="start">計上開始月</param>
-		/// <param name="end">計上終了月</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>レコード数</returns>
-		public static DataTable Select_ソフトウェア保守料売上予測(Date start, Date end, string connectStr)
-		{
-			string strSQL = string.Format(@"SELECT"
-								+ " 部門コード, 営業部名, 拠点コード, 拠点名, 顧客No, 顧客名, 受注番号, 受注承認日, 売上承認日, 納期, 売上金額, 計上月"
-								+ " FROM {0}"
-								+ " WHERE 計上月 >= '{1}' AND 計上月 <= '{2}'"
-								+ " ORDER BY 部門コード, 顧客No, 計上月"
-								, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicソフトウェア保守料売上予測]
-								, start.FirstDayOfTheMonth().ToYearMonth().ToString()
-								, end.LastDayOfTheMonth().ToYearMonth().ToString());
+		///// <summary>
+		///// ソフトウェア保守料売上予測の取得
+		///// </summary>
+		///// <param name="start">計上開始月</param>
+		///// <param name="end">計上終了月</param>
+		///// <param name="connectStr">SQL Server接続文字列</param>
+		///// <returns>レコード数</returns>
+		//public static DataTable Select_ソフトウェア保守料売上予測(Date start, Date end, string connectStr)
+		//{
+		//	string strSQL = string.Format(@"SELECT"
+		//						+ " 部門コード, 営業部名, 拠点コード, 拠点名, 顧客No, 顧客名, 受注番号, 受注承認日, 売上承認日, 納期, 売上金額, 計上月"
+		//						+ " FROM {0}"
+		//						+ " WHERE 計上月 >= '{1}' AND 計上月 <= '{2}'"
+		//						+ " ORDER BY 部門コード, 顧客No, 計上月"
+		//						, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicソフトウェア保守料売上予測]
+		//						, start.FirstDayOfTheMonth().ToYearMonth().ToString()
+		//						, end.LastDayOfTheMonth().ToYearMonth().ToString());
 
-			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
-		}
+		//	return DatabaseAccess.SelectDatabase(strSQL, connectStr);
+		//}
 
 		/// <summary>
 		/// 売上進捗ESの取得

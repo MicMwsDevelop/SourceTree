@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2022/01/07 勝呂)
+// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
 //
 using MwsLib.Settings.SqlServer;
 using System;
@@ -66,6 +67,12 @@ namespace MakePurchaseFile.Settings
 		public string アルメックス保守仕入データファイル名 { get; set; }
 
 		/// <summary>
+		/// オン資格保守サービス仕入データファイル名
+		/// </summary>
+		// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+		public string オン資格保守サービス仕入データファイル名 { get; set; }
+
+		/// <summary>
 		/// りすとん月額開始伝票番号：20020
 		/// </summary>
 		public int りすとん月額開始伝票番号 { get; set; }
@@ -101,6 +108,12 @@ namespace MakePurchaseFile.Settings
 		public int アルメックス開始伝票番号 { get; set; }
 
 		/// <summary>
+		/// オン資格保守サービス開始伝票番号：20901
+		/// </summary>
+		// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+		public int オン資格保守サービス開始伝票番号 { get; set; }
+
+		/// <summary>
 		/// Curline本体アプリ商品
 		/// </summary>
 		public List<仕入商品情報> Curline本体アプリ商品 { get; set; }
@@ -134,6 +147,12 @@ namespace MakePurchaseFile.Settings
 		/// アルメックス商品
 		/// </summary>
 		public List<アルメックス仕入商品情報> アルメックス商品 { get; set; }
+
+		/// <summary>
+		/// オン資格保守サービス仕入商品
+		/// </summary>
+		// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+		public List<オン資格保守サービス仕入商品情報> オン資格保守サービス商品 { get; set; }
 
 		/// <summary>
 		/// SQL Server接続情報
@@ -218,6 +237,18 @@ namespace MakePurchaseFile.Settings
 		}
 
 		/// <summary>
+		/// オン資格保守サービス仕入データパス名
+		/// </summary>
+		// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+		public string オン資格保守サービス仕入データパス名
+		{
+			get
+			{
+				return Path.Combine(出力先フォルダ, オン資格保守サービス仕入データファイル名);
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public MakePurchaseFileSettings()
@@ -246,6 +277,11 @@ namespace MakePurchaseFile.Settings
 			クラウドバックアップ商品 = new List<クラウドバックアップ仕入商品情報>();
 			アルメックス商品 = new List<アルメックス仕入商品情報>();
 			Connect = new SqlServerConnectSettings();
+
+			// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+			オン資格保守サービス仕入データファイル名 = string.Empty;
+			オン資格保守サービス開始伝票番号 = 0;
+			オン資格保守サービス商品 = new List<オン資格保守サービス仕入商品情報>();
 		}
 
 		/// <summary>
@@ -276,6 +312,7 @@ namespace MakePurchaseFile.Settings
 					&& ナルコーム仕入データファイル名 == other.ナルコーム仕入データファイル名
 					&& クラウドバックアップ仕入データファイル名 == other.クラウドバックアップ仕入データファイル名
 					&& アルメックス保守仕入データファイル名 == other.アルメックス保守仕入データファイル名
+					&& オン資格保守サービス仕入データファイル名 == other.オン資格保守サービス仕入データファイル名
 					&& りすとん月額開始伝票番号 == other.りすとん月額開始伝票番号
 					&& Microsoft365開始伝票番号 == other.Microsoft365開始伝票番号
 					&& 問心伝月額開始伝票番号 == other.問心伝月額開始伝票番号
@@ -283,6 +320,7 @@ namespace MakePurchaseFile.Settings
 					&& ナルコーム開始伝票番号 == other.ナルコーム開始伝票番号
 					&& クラウドバックアップ開始伝票番号 == other.クラウドバックアップ開始伝票番号
 					&& アルメックス開始伝票番号 == other.アルメックス開始伝票番号
+					&& オン資格保守サービス開始伝票番号 == other.オン資格保守サービス開始伝票番号
 					&& Curline本体アプリ商品.Equals(other.Curline本体アプリ商品)
 					&& Microsoft365商品.Equals(other.Microsoft365商品)
 					&& りすとん月額商品.Equals(other.りすとん月額商品)
@@ -290,6 +328,7 @@ namespace MakePurchaseFile.Settings
 					&& ナルコーム商品.Equals(other.ナルコーム商品)
 					&& クラウドバックアップ商品.Equals(other.ナルコーム商品)
 					&& アルメックス商品.Equals(other.アルメックス商品)
+					&& オン資格保守サービス商品.Equals(other.オン資格保守サービス商品)
 					&& Connect.Equals(other.Connect))
 				{
 					return true;
@@ -359,6 +398,43 @@ namespace MakePurchaseFile.Settings
 				str += "'" + goods.商品コード + "'";
 			}
 			return str;
+		}
+
+		/// <summary>
+		/// オン資格保守サービス商品コード群の取得
+		/// </summary>
+		/// <returns></returns>
+		// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+		public string GetOnlineLicenseMaineGoods()
+		{
+			string str = string.Empty;
+			foreach (オン資格保守サービス仕入商品情報 goods in オン資格保守サービス商品)
+			{
+				if (0 < str.Length)
+				{
+					str += ",";
+				}
+				str += "'" + goods.商品コード + "'";
+			}
+			return str;
+		}
+
+		/// <summary>
+		/// オン資格保守サービス仕入先の取得
+		/// </summary>
+		/// <returns></returns>
+		// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+		public List<string> GetOnlineLicenseMainePurchaseCode()
+		{
+			List<string> ret = new List<string>();
+			foreach (オン資格保守サービス仕入商品情報 goods in オン資格保守サービス商品)
+			{
+				if (0 < goods.仕入先.Length)
+				{
+					ret.Add(goods.仕入先);
+				}
+			}
+			return ret;
 		}
 	}
 }

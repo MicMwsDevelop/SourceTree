@@ -98,7 +98,7 @@ namespace AlmexMainteEarningsFile.Mail
 				}
 				msg.Body += @"</div>"
 							+ @"<div>"
-							+ @"<p>以上、よろしくお願いいたします。<br>営業管理部</p>"
+							+ @"<p>以上、よろしくお願いいたします。<br>システム管理部</p>"
 							+ @"</div>"
 							+ @"</font>"
 							+ @"</body>"
@@ -116,7 +116,7 @@ namespace AlmexMainteEarningsFile.Mail
 		private static void SendMail(MailMessage msg)
 		{
 			// 差出人（From）
-			msg.From = new MailAddress(Program.gSettings.Mail.From);           // eigyo_kanri@mic.jp
+			msg.From = new MailAddress(Program.gSettings.Mail.From);           // sys_kanri@mic.jp
 
 #if DEBUG
 			// 宛先（To）を登録する
@@ -127,10 +127,10 @@ namespace AlmexMainteEarningsFile.Mail
 			}
 #else
 			// 宛先（To）を登録する
-			msg.To.Add(new MailAddress(Program.gSettings.Mail.To));			// eigyo_kanri@mic.jp
+			msg.To.Add(new MailAddress(Program.gSettings.Mail.To));			// keiri@mic.jp
 			if (0 < Program.gSettings.Mail.CC.Length)
 			{
-				msg.CC.Add(new MailAddress(Program.gSettings.Mail.CC));			// eigyo_kanri@mic.jp
+				msg.CC.Add(new MailAddress(Program.gSettings.Mail.CC));			// sys_kanri@mic.jp;jigyo_plan_dx@mic.jp
 			}
 #endif
 

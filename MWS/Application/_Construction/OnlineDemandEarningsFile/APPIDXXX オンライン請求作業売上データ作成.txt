@@ -1,2 +1,0 @@
-APPIDXXX オンライン請求作業売上データ作成
-OnlineDemandEarningsFile

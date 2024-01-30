@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Settings\HeadOffice\HeadOfficeSettings.cs" />
     <Compile Include="Settings\HeadOffice\HeadOfficeSettingsIF.cs" />
+    <Compile Include="Settings\Mail\MailExSettings.cs" />
     <Compile Include="Settings\Mail\MailSettings.cs" />
     <Compile Include="Component\DataGridViewCalendarColumn.cs" />
     <Compile Include="Component\DataGridViewCalendarYMColumn.cs" />
@@ -111,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Settings\HeadOffice\HeadOfficeSettings.xml" />
+    <Content Include="Settings\Mail\MailExSettings.xml" />
     <Content Include="Settings\Mail\MailSettings.xml" />
     <Content Include="Settings\SqlServer\SqlServerConnectSettings.xml" />
   </ItemGroup>

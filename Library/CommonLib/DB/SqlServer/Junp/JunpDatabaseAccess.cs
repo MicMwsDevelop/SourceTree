@@ -285,6 +285,28 @@ namespace CommonLib.DB.SqlServer.Junp
 			return DatabaseAccess.InsertIntoDatabase(tMemo.InsertIntoSqlString, data.GetInsertIntoParameters(), connectStr);
 		}
 
+		/// <summary>
+		/// [JunpDB].[dbo].[tMikアプリケーション情報]の新規追加
+		/// </summary>
+		/// <param name="data">tMikアプリケーション情報</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		public static int InsertInto_tMikアプリケーション情報(tMikアプリケーション情報 data, string connectStr)
+		{
+			string whereStr = string.Format("[faiCliMicID] = {0}", data.faiCliMicID);
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報], whereStr, "[faiアプリケーションNo] DESC", connectStr);
+			List<tMikアプリケーション情報> list = tMikアプリケーション情報.DataTableToList(table);
+			if (null != list && 0 < list.Count)
+			{
+				data.faiアプリケーションNo = list[0].faiアプリケーションNo + 1;
+			}
+			else
+			{
+				data.faiアプリケーションNo = 1;
+			}
+			return DatabaseAccess.InsertIntoDatabase(tMikアプリケーション情報.InsertIntoSqlString, data.GetInsertIntoParameters(), connectStr);
+		}
+
 
 		//////////////////////////////
 		// DELETE
@@ -465,18 +487,18 @@ namespace CommonLib.DB.SqlServer.Junp
 			return vMic翌月売上予想.DataTableToList(table);
 		}
 
-		/// <summary>
-		/// [JunpDB].[dbo].[vMicソフトウェア保守料売上予測]の取得
-		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>vMicソフトウェア保守料売上予測</returns>
-		public static List<vMicソフトウェア保守料売上予測> Select_vMicソフトウェア保守料売上予測(string whereStr, string orderStr, string connectStr)
-		{
-			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicソフトウェア保守料売上予測], whereStr, orderStr, connectStr);
-			return vMicソフトウェア保守料売上予測.DataTableToList(table);
-		}
+		///// <summary>
+		///// [JunpDB].[dbo].[vMicソフトウェア保守料売上予測]の取得
+		///// </summary>
+		///// <param name="whereStr">Where句</param>
+		///// <param name="orderStr">Order句</param>
+		///// <param name="connectStr">SQL Server接続文字列</param>
+		///// <returns>vMicソフトウェア保守料売上予測</returns>
+		//public static List<vMicソフトウェア保守料売上予測> Select_vMicソフトウェア保守料売上予測(string whereStr, string orderStr, string connectStr)
+		//{
+		//	DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicソフトウェア保守料売上予測], whereStr, orderStr, connectStr);
+		//	return vMicソフトウェア保守料売上予測.DataTableToList(table);
+		//}
 
 		/// <summary>
 		/// [JunpDB].[dbo].[vMicユーザーオン資用]の取得

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OnlineLicenseMainteEarningsFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ExportDir>\\SQLSV\PCADATA</ExportDir>
+	<ExportFilename>オン資格保守サービス売上データ</ExportFilename>
+	<PcaVersion>7</PcaVersion>
+	<SlipInitialNumber>62001</SlipInitialNumber>
+	<Mail>
+		<From>mainte_info_sys@mic.jp</From>
+		<To>keiri@mic.jp</To>
+		<CC>sys_kanri@mic.jp;jigyo_plan_dx@mic.jp</CC>
+		<Bcc>mainte_info_sys@mic.jp</Bcc>
+		<TestTo>suguro@mic.jp</TestTo>
+		<TestCC>suguro@mic.jp</TestCC>
+		<TestBcc>suguro@mic.jp</TestBcc>
+		<Smtp>dove.mic.jp</Smtp>
+		<Port>25</Port>
+		<User></User>
+		<Pass></Pass>
+	</Mail>
+	<ConnectJunp>
+		<!-- InstanceName>SQLSV</InstanceName -->
+		<InstanceName>TESTSV</InstanceName>
+		<DatabaseName>JunpDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</ConnectJunp>
+</OnlineLicenseMainteEarningsFileSettings>

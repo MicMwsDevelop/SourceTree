@@ -1,0 +1,9 @@
+APPID636 オンライン請求作業売上データ作成
+OnlineDemandEarningsFile
+
+// アプリ管理サイト：APPID636 オンライン請求作業売上データ作成
+// 処理概要：オンライン請求作業情報（T_USE_ONLINE_DEMAND）から先月分以前の売上データを作成する
+// 入力ファイル：無
+// 出力ファイル：\\sqlsv\pcadata\オンライン請求作業売上データ_yyyyMMddHHmm.csv
+// 印刷物：無
+// メール送信：オンライン請求作業 売上連絡

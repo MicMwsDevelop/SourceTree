@@ -17,7 +17,7 @@ namespace CommonLib.DB.SqlServer.OnlineDemand
 	public static class OnlineDemandGetIO
 	{
 		/// <summary>
-		/// オンライン請求作業情報から先月分の情報を取得
+		/// オンライン請求作業済申請情報から先月分の情報を取得
 		/// </summary>
 		/// <param name="prevMonth">先月</param>
 		/// <param name="connectStr">SQL接続文字列</param>
@@ -44,7 +44,10 @@ namespace CommonLib.DB.SqlServer.OnlineDemand
 									+ " INNER JOIN {1} as U on U.[顧客No] = D.[CustomerID]"
 									+ " LEFT JOIN {2} as S on S.[sms_scd] = D.[GoodsID]"
 									+ " LEFT JOIN {3} as B on B.[fBshCode3] = U.[支店コード]"
-									+ " WHERE U.[終了フラグ] = '0' AND (D.[DeleteFlag] is null OR D.[DeleteFlag] = '0') AND D.[SalesDate] is null AND (convert(int, convert(nvarchar, D.[ApplyDate], 112)) >= {4} AND convert(int, convert(nvarchar, D.[ApplyDate], 112)) <= {5})"
+									+ " WHERE U.[終了フラグ] = '0' AND (D.[DeleteFlag] is null OR D.[DeleteFlag] = '0') AND (convert(int, convert(nvarchar, D.[ApplyDate], 112)) >= {4} AND convert(int, convert(nvarchar, D.[ApplyDate], 112)) <= {5})"
+#if !DEBUG
+									+ " AND D.[SalesDate] is null"
+#endif
 									+ " ORDER BY 顧客No, 申請日時"
 									, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_DEMAND]
 									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー2]

@@ -7,9 +7,9 @@
 // 
 // Ver1.00(2023/06/07 勝呂):新規作成
 // 
-using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.DB.SqlServer.Charlie;
 using CommonLib.DB.SqlServer.Junp;
+using System;
 using System.Data;
 
 namespace CommonLib.DB.SqlServer.AdjustServiceApply
@@ -70,6 +70,52 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 		}
 
 		/// <summary>
+		/// WW伝票参照ビュー抽出（DEBUG用）
+		/// WW伝票view.受注承認日が締日の範囲内で、数量>0の、伝票番号が最小の伝票データの取得
+		/// </summary>
+		/// <param name="denNo">伝票No</param>
+		/// <param name="customerNo">顧客No</param>
+		/// <param name="goodsCode">商品コード</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetWonderWebSlipByDebug(int denNo, int customerNo, string goodsCode, string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT H.f受注番号 as 伝票No"
+													+ ",H.f販売先コード as 販売先顧客ID"
+													+ ",H.fユーザーコード as ユーザー顧客ID"
+													+ ",H.f担当者コード as 担当者ＩＤ"
+													+ ",H.f担当者名 as 担当者名"
+													+ ",H.fBshCode3 as 担当支店ＩＤ"
+													+ ",H.f担当支店名 as 担当支店名"
+													+ ",cast(H.f受注日 as date) as 受注年月日"
+													+ ",cast(H.f受注承認日 as date) as 受注承認日"
+													+ ",cast(H.f売上承認日 as date) as 売上承認日"
+													+ ",D.f商品コード as 商品コード"
+													+ ",D.f商品名 as 商品名"
+													+ ",D.f区分 as 商品区分"
+													+ ",D.f数量 as 数量"
+													+ ",cast(D.f提供価格 as int) as 販売価格"
+													+ ",伝票申込種別.申込種別 as 申込種別"
+													+ ",U.システム略称 as システム略称"
+													+ ",'{7}' as 最終出力日時"
+													+ " FROM {0} as H"
+													+ " INNER JOIN {1} as U on H.fユーザーコード = U.顧客No"
+													+ " INNER JOIN {2} as D on H.f受注番号 = D.f受注番号"
+													+ " LEFT JOIN {3} as 伝票申込種別 on H.f受注番号=伝票申込種別.伝票No"
+													+ " WHERE (U.有効ユーザーフラグ = '1' OR U.システム略称 is null OR U.システム略称 = 'その他')"
+													+ " AND H.f受注番号 = {4} AND H.fユーザーコード = {5} AND D.f商品コード = '{6}'"
+													, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注ヘッダ]		// 0
+													, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー]		// 1
+													, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih受注詳細]		// 2
+													, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicWW伝票申込種別]	// 3
+													, denNo	// 4
+													, customerNo	// 5
+													, goodsCode	// 6
+													, DateTime.Now);	// 7
+			return DatabaseAccess.SelectDatabaseTimeOut(strSQL, connectStr, 600);
+		}
+
+		/// <summary>
 		/// 販売店情報参照ビューから販売店コードを取得
 		/// </summary>
 		/// <param name="storeCode">販売店コード</param>
@@ -105,14 +151,15 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 		}
 
 		/// <summary>
-		/// 前回同期日時の取得（サービス情報）
+		/// 前回同期日時の取得
 		/// </summary>
+		/// <param name="fileType">1:顧客情報、2:サービス情報</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>DataTable</returns>
-		public static DataTable GetLastSynchroTime(string connectStr)
+		public static DataTable GetLastSynchroTime(string fileType, string connectStr)
 		{
-			string strSQL = string.Format(@"SELECT TOP 1 * FROM {0} WHERE FILE_TYPE = '2' ORDER BY FILE_CREATEDATE DESC"
-												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_FILE_CREATEDATE]);
+			string strSQL = string.Format(@"SELECT TOP 1 * FROM {0} WHERE FILE_TYPE = '{1}' ORDER BY FILE_CREATEDATE DESC"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_FILE_CREATEDATE], fileType);
 			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
 		}
 
@@ -173,7 +220,7 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 												+ ", PC.[TRIAL_FLG] as trial_flg"
 												+ ", CASE PC.[END_FLG] WHEN '2' THEN '1' ELSE PC.[END_FLG] END as end_flg"
 												+ ", PC.[CUSTOMER_ID] as customer_id"
-												+ ", LEFT(CL.[fCliName] + B.[fkj顧客名２], 40) as customer_nm"
+												+ ", LEFT(CL.[fCliName] + isnull(B.[fkj顧客名２],''),40) as customer_nm"
 												+ ", BR.[fメールアドレス] as email1"
 												+ ", (SELECT TOP 1 [MAIL_ADDRESS] FROM {0}) as email2"
 												+ ", PC.[TRIAL_START_DATE] as login_start_date"
@@ -225,7 +272,7 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 												+ ", PC.[TRIAL_FLG] as trial_flg"
 												+ ", CASE PC.[END_FLG] WHEN '2' THEN '1' ELSE PC.[END_FLG] END as end_flg"
 												+ ", PC.[CUSTOMER_ID] as customer_id"
-												+ ", LEFT(CL.[fCliName] + B.[fkj顧客名２], 40) as customer_nm"
+												+ ", LEFT(CL.[fCliName] + isnull(B.[fkj顧客名２],''),40) as customer_nm"
 												+ ", BR.[fメールアドレス] as email1"
 												+ ", (SELECT TOP 1 [MAIL_ADDRESS] FROM {0}) as email2"
 												+ ", PC.[TRIAL_START_DATE] as login_start_date"
@@ -337,6 +384,135 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_PRODUCT_CONTROL]              // 1
 												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_SERVICE]  // 2
 												, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient]);  // 3
+
+			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
+		}
+
+		/// <summary>
+		/// 利用申込データの取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetUseApplicationData(string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT [APPLICATION_NO]"
+											+ ", [CUSTOMER_ID]"
+											+ ", [SERVICE_TYPE_ID]"
+											+ ", AD.[SERVICE_ID]"
+											+ ", [COUPLER_APPLICATION_NO]"
+											+ ", [APPLICATION_DATE]"
+											+ ", [APPLICATION_CANCELLATION_FLG]"
+											+ ", [CHECK_STATUS]"
+											+ ", [PCA_FINISHING_FLG]"
+											+ ", [DELETE_FLG]"
+											+ ", AD.[CREATE_DATE]"
+											+ ", [CREATE_PERSON]"
+											+ ", AD.[UPDATE_DATE]"
+											+ ", [UPDATE_PERSON]"
+											+ " FROM {0} as AD"
+											+ " INNER JOIN {1} as CA on CA.[apply_id] = AD.[COUPLER_APPLICATION_NO]"
+											+ " WHERE [system_flg] = '0' AND [DELETE_FLG] = '0' AND [PCA_FINISHING_FLG] = '1' AND [APPLICATION_CANCELLATION_FLG] = '0'"
+											+ " AND CONVERT(DATE, [APPLICATION_DATE]) >= DATEADD(dd, 1, EOMONTH(getdate(), -2)) AND CONVERT(DATE, [APPLICATION_DATE]) <= EOMONTH(getdate(), -1)"
+											+ " ORDER BY [CUSTOMER_ID], [SERVICE_ID], [COUPLER_APPLICATION_NO]"
+											, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_APPLICATION_DATA]				// 0
+											, CharlieDatabaseDefine.SynonymName[CharlieDatabaseDefine.SynonymType.T_COUPLER_APPLY]);	// 1
+
+			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
+		}
+
+		/// <summary>
+		/// 解約申込データの取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetCancelApplicationData(string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT [APPLICATION_NO]"
+											+ ", [CUSTOMER_ID]"
+											+ ", [SERVICE_TYPE_ID]"
+											+ ", AD.[SERVICE_ID]"
+											+ ", [COUPLER_APPLICATION_NO]"
+											+ ", [APPLICATION_DATE]"
+											+ ", [APPLICATION_CANCELLATION_FLG]"
+											+ ", [CHECK_STATUS]"
+											+ ", [PCA_FINISHING_FLG]"
+											+ ", [DELETE_FLG]"
+											+ ", AD.[CREATE_DATE]"
+											+ ", [CREATE_PERSON]"
+											+ ", AD.[UPDATE_DATE]"
+											+ ", [UPDATE_PERSON]"
+											+ " FROM {0} as AD"
+											+ " INNER JOIN {1} as CA on CA.[apply_id] = AD.[COUPLER_APPLICATION_NO]"
+											+ " WHERE [system_flg] = '0' AND [DELETE_FLG] = '0' AND [PCA_FINISHING_FLG] = '1' AND [APPLICATION_CANCELLATION_FLG] = '1'"
+											+ " AND CONVERT(DATE, [APPLICATION_DATE]) >= DATEADD(dd, 1, EOMONTH(getdate(), -2)) AND CONVERT(DATE, [APPLICATION_DATE]) <= EOMONTH(getdate(), -1)"
+											+ " ORDER BY [CUSTOMER_ID], [SERVICE_ID], [COUPLER_APPLICATION_NO]"
+											, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_APPLICATION_DATA]               // 0
+											, CharlieDatabaseDefine.SynonymName[CharlieDatabaseDefine.SynonymType.T_COUPLER_APPLY]);    // 1
+
+			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
+		}
+
+		/// <summary>
+		/// 申込データ（利用中）の取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetUsedApplicationData(string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT [APPLICATION_NO]"
+											+ ", [CUSTOMER_ID]"
+											+ ", [SERVICE_TYPE_ID]"
+											+ ", AD.[SERVICE_ID]"
+											+ ", [COUPLER_APPLICATION_NO]"
+											+ ", [APPLICATION_DATE]"
+											+ ", [APPLICATION_CANCELLATION_FLG]"
+											+ ", [CHECK_STATUS]"
+											+ ", [PCA_FINISHING_FLG]"
+											+ ", [DELETE_FLG]"
+											+ ", AD.[CREATE_DATE]"
+											+ ", [CREATE_PERSON]"
+											+ ", AD.[UPDATE_DATE]"
+											+ ", [UPDATE_PERSON]"
+											+ " FROM {0} as AD"
+											+ " INNER JOIN {1} as CA on CA.[apply_id] = AD.[COUPLER_APPLICATION_NO]"
+											+ " WHERE [system_flg] = '0' AND [DELETE_FLG] = '0' AND [PCA_FINISHING_FLG] = '0' AND [APPLICATION_CANCELLATION_FLG] = '0'"
+											+ " AND CONVERT(DATE, [APPLICATION_DATE]) < DATEADD(dd, 1, EOMONTH(getdate() , -1))"        // 申込日が前月末日以前
+											+ " ORDER BY [CUSTOMER_ID], [SERVICE_ID], [COUPLER_APPLICATION_NO]"
+											, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_APPLICATION_DATA]               // 0
+											, CharlieDatabaseDefine.SynonymName[CharlieDatabaseDefine.SynonymType.T_COUPLER_APPLY]);    // 1
+
+			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
+		}
+
+		/// <summary>
+		/// 申込データ（解約済）の取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetCanceledApplicationData(string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT [APPLICATION_NO]"
+											+ ", [CUSTOMER_ID]"
+											+ ", [SERVICE_TYPE_ID]"
+											+ ", AD.[SERVICE_ID]"
+											+ ", [COUPLER_APPLICATION_NO]"
+											+ ", [APPLICATION_DATE]"
+											+ ", [APPLICATION_CANCELLATION_FLG]"
+											+ ", [CHECK_STATUS]"
+											+ ", [PCA_FINISHING_FLG]"
+											+ ", [DELETE_FLG]"
+											+ ", AD.[CREATE_DATE]"
+											+ ", [CREATE_PERSON]"
+											+ ", AD.[UPDATE_DATE]"
+											+ ", [UPDATE_PERSON]"
+											+ " FROM {0} as AD"
+											+ " INNER JOIN {1} as CA on CA.[apply_id] = AD.[COUPLER_APPLICATION_NO]"
+											+ " WHERE [system_flg] = '0' AND [DELETE_FLG] = '0' AND [PCA_FINISHING_FLG] = '0' AND [APPLICATION_CANCELLATION_FLG] = '1'"
+											+ " AND AD.[SERVICE_ID] not in (1028120, 1030120)"		// 地図分析、3DentMovie
+											+ " AND CONVERT(DATE, [APPLICATION_DATE]) < DATEADD(dd, 1, EOMONTH(getdate() , -1))"        // 申込日が前月末日以前
+											+ " ORDER BY [CUSTOMER_ID], [SERVICE_ID], [COUPLER_APPLICATION_NO]"
+											, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_APPLICATION_DATA]               // 0
+											, CharlieDatabaseDefine.SynonymName[CharlieDatabaseDefine.SynonymType.T_COUPLER_APPLY]);    // 1
 
 			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
 		}

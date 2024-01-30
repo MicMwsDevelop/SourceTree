@@ -60,6 +60,9 @@ namespace MakePurchaseFile.Forms
 			this.buttonOutputNarcohm = new System.Windows.Forms.Button();
 			this.buttonPutputCloudBackup = new System.Windows.Forms.Button();
 			this.buttonOutputAlmex = new System.Windows.Forms.Button();
+			this.buttonOutputOnlineLicense = new System.Windows.Forms.Button();
+			this.textBoxOnlineLicenseFilename = new System.Windows.Forms.TextBox();
+			this.label12 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -87,17 +90,17 @@ namespace MakePurchaseFile.Forms
 			this.buttonStart.Location = new System.Drawing.Point(500, 68);
 			this.buttonStart.Name = "buttonStart";
 			this.buttonStart.Size = new System.Drawing.Size(232, 107);
-			this.buttonStart.TabIndex = 27;
+			this.buttonStart.TabIndex = 30;
 			this.buttonStart.Text = "START";
 			this.buttonStart.UseVisualStyleBackColor = true;
 			this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
 			// 
 			// buttonExit
 			// 
-			this.buttonExit.Location = new System.Drawing.Point(610, 434);
+			this.buttonExit.Location = new System.Drawing.Point(610, 492);
 			this.buttonExit.Name = "buttonExit";
 			this.buttonExit.Size = new System.Drawing.Size(122, 49);
-			this.buttonExit.TabIndex = 30;
+			this.buttonExit.TabIndex = 33;
 			this.buttonExit.Text = "終了";
 			this.buttonExit.UseVisualStyleBackColor = true;
 			this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
@@ -226,11 +229,11 @@ namespace MakePurchaseFile.Forms
 			// 
 			this.label9.AutoSize = true;
 			this.label9.ForeColor = System.Drawing.Color.Red;
-			this.label9.Location = new System.Drawing.Point(21, 464);
+			this.label9.Location = new System.Drawing.Point(17, 519);
 			this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(351, 19);
-			this.label9.TabIndex = 26;
+			this.label9.TabIndex = 29;
 			this.label9.Text = "※出力物に関する変更はXMLファイルを変更してください。";
 			// 
 			// textBoxCloudBackupFilename
@@ -275,7 +278,7 @@ namespace MakePurchaseFile.Forms
 			this.label2.Location = new System.Drawing.Point(565, 182);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(124, 19);
-			this.label2.TabIndex = 28;
+			this.label2.TabIndex = 31;
 			this.label2.Text = "PCAバージョン番号";
 			// 
 			// textBoxPcaVersion
@@ -285,7 +288,7 @@ namespace MakePurchaseFile.Forms
 			this.textBoxPcaVersion.Name = "textBoxPcaVersion";
 			this.textBoxPcaVersion.ReadOnly = true;
 			this.textBoxPcaVersion.Size = new System.Drawing.Size(37, 27);
-			this.textBoxPcaVersion.TabIndex = 29;
+			this.textBoxPcaVersion.TabIndex = 32;
 			this.textBoxPcaVersion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// buttonOutputListon
@@ -373,11 +376,44 @@ namespace MakePurchaseFile.Forms
 			this.buttonOutputAlmex.Visible = false;
 			this.buttonOutputAlmex.Click += new System.EventHandler(this.buttonOutputAlmex_Click);
 			// 
+			// buttonOutputOnlineLicense
+			// 
+			this.buttonOutputOnlineLicense.Font = new System.Drawing.Font("Meiryo UI", 5.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.buttonOutputOnlineLicense.Location = new System.Drawing.Point(468, 489);
+			this.buttonOutputOnlineLicense.Name = "buttonOutputOnlineLicense";
+			this.buttonOutputOnlineLicense.Size = new System.Drawing.Size(28, 27);
+			this.buttonOutputOnlineLicense.TabIndex = 28;
+			this.buttonOutputOnlineLicense.Text = "出力";
+			this.buttonOutputOnlineLicense.UseVisualStyleBackColor = true;
+			this.buttonOutputOnlineLicense.Visible = false;
+			this.buttonOutputOnlineLicense.Click += new System.EventHandler(this.buttonOutputOnlineLicense_Click);
+			// 
+			// textBoxOnlineLicenseFilename
+			// 
+			this.textBoxOnlineLicenseFilename.BackColor = System.Drawing.Color.White;
+			this.textBoxOnlineLicenseFilename.Location = new System.Drawing.Point(21, 489);
+			this.textBoxOnlineLicenseFilename.Name = "textBoxOnlineLicenseFilename";
+			this.textBoxOnlineLicenseFilename.ReadOnly = true;
+			this.textBoxOnlineLicenseFilename.Size = new System.Drawing.Size(447, 27);
+			this.textBoxOnlineLicenseFilename.TabIndex = 27;
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(21, 467);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(258, 19);
+			this.label12.TabIndex = 26;
+			this.label12.Text = "オン資格保守サービス仕入データファイル名";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(751, 506);
+			this.ClientSize = new System.Drawing.Size(751, 558);
+			this.Controls.Add(this.buttonOutputOnlineLicense);
+			this.Controls.Add(this.textBoxOnlineLicenseFilename);
+			this.Controls.Add(this.label12);
 			this.Controls.Add(this.buttonOutputAlmex);
 			this.Controls.Add(this.buttonPutputCloudBackup);
 			this.Controls.Add(this.buttonOutputNarcohm);
@@ -457,6 +493,9 @@ namespace MakePurchaseFile.Forms
 		private System.Windows.Forms.Button buttonOutputNarcohm;
 		private System.Windows.Forms.Button buttonPutputCloudBackup;
 		private System.Windows.Forms.Button buttonOutputAlmex;
+		private System.Windows.Forms.Button buttonOutputOnlineLicense;
+		private System.Windows.Forms.TextBox textBoxOnlineLicenseFilename;
+		private System.Windows.Forms.Label label12;
 	}
 }
 

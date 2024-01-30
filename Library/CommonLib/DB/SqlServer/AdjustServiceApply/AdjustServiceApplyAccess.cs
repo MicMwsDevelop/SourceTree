@@ -6,12 +6,11 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2023/06/07 勝呂):新規作成
+// Ver1.02(2024/01/24 勝呂):販売店情報参照ビューから販売店コードを取得処理で例外エラー
 // 
 using CommonLib.BaseFactory.AdjustServiceApply;
 using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Charlie.View;
-using CommonLib.BaseFactory.Coupler.Table;
-using CommonLib.DB.SqlServer.Coupler;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -40,6 +39,20 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 		}
 
 		/// <summary>
+		/// WW伝票参照ビュー抽出から受注承認日が締日の範囲内で、数量>0の、伝票番号が最小の伝票データの取得（DEBUG用）
+		/// </summary>
+		/// <param name="denNo">伝票No</param>
+		/// <param name="customerNo">顧客No</param>
+		/// <param name="goodsCode">商品コード</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>WW伝票参照ビューリスト</returns>
+		public static List<WW伝票参照ビュー> GetWonderWebSlipByDebug(int denNo, int customerNo, string goodsCode, string connectStr)
+		{
+			DataTable table = AdjustServiceApplyGetIO.GetWonderWebSlipByDebug(denNo, customerNo, goodsCode, connectStr);
+			return WW伝票参照ビュー.DataTableToList(table);
+		}
+
+		/// <summary>
 		/// 販売店情報参照ビューから販売店コードを取得
 		/// </summary>
 		/// <param name="storeCode">販売店コード</param>
@@ -55,6 +68,8 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 				{
 					result.Add(DataBaseValue.ConvObjectToInt(row["販売店コード"]));
 				}
+				// Ver1.02(2024/01/24 勝呂):販売店情報参照ビューから販売店コードを取得処理で例外エラー
+				return result;
 			}
 			return null;
 		}
@@ -71,13 +86,24 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 		}
 
 		/// <summary>
+		/// 前回同期日時の取得（顧客情報）
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>前回同期日時</returns>
+		public static T_FILE_CREATEDATE GetLastSynchroTimeForCustomer(string connectStr)
+		{
+			DataTable table = AdjustServiceApplyGetIO.GetLastSynchroTime("1", connectStr);
+			return T_FILE_CREATEDATE.DataTableToData(table);
+		}
+
+		/// <summary>
 		/// 前回同期日時の取得（サービス情報）
 		/// </summary>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>前回同期日時</returns>
-		public static T_FILE_CREATEDATE GetLastSynchroTime(string connectStr)
+		public static T_FILE_CREATEDATE GetLastSynchroTimeForService(string connectStr)
 		{
-			DataTable table = AdjustServiceApplyGetIO.GetLastSynchroTime(connectStr);
+			DataTable table = AdjustServiceApplyGetIO.GetLastSynchroTime("2", connectStr);
 			return T_FILE_CREATEDATE.DataTableToData(table);
 		}
 
@@ -134,6 +160,50 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 		{
 			DataTable table = AdjustServiceApplyGetIO.GetCheckCuiUseDate(connectStr);
 			return CheckCuiUseDate.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// 利用申込データの取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>利用情報利用日確認情報</returns>
+		public static List<T_APPLICATION_DATA> GetUseApplicationData(string connectStr)
+		{
+			DataTable table = AdjustServiceApplyGetIO.GetUseApplicationData(connectStr);
+			return T_APPLICATION_DATA.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// 解約申込データの取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>利用情報利用日確認情報</returns>
+		public static List<T_APPLICATION_DATA> GetCancelApplicationData(string connectStr)
+		{
+			DataTable table = AdjustServiceApplyGetIO.GetCancelApplicationData(connectStr);
+			return T_APPLICATION_DATA.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// 申込データ（利用中）の取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>利用情報利用日確認情報</returns>
+		public static List<T_APPLICATION_DATA> GetUsedApplicationData(string connectStr)
+		{
+			DataTable table = AdjustServiceApplyGetIO.GetUsedApplicationData(connectStr);
+			return T_APPLICATION_DATA.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// 申込データ（解約済）の取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>利用情報利用日確認情報</returns>
+		public static List<T_APPLICATION_DATA> GetCanceledApplicationData(string connectStr)
+		{
+			DataTable table = AdjustServiceApplyGetIO.GetCanceledApplicationData(connectStr);
+			return T_APPLICATION_DATA.DataTableToList(table);
 		}
 
 

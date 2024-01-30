@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AlmexMainteEarningsFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<ExportDir>c:\_test</ExportDir>
+	<ExportDir>C:\_売上データ作成\アルメックス保守売上データ</ExportDir>
 	<ExportFilename>アルメックス保守売上データ</ExportFilename>
 	<PcaVersion>7</PcaVersion>
-	<SlipInitialNumber>61001</SlipInitialNumber>
+	<SlipInitialNumber>680001</SlipInitialNumber>
 	<Mail>
-		<From>eigyo_kanri@mic.jp</From>
+		<From>sys_kanri@mic.jp</From>
 		<To>keiri@mic.jp</To>
-		<CC>eigyo_kanri@mic.jp</CC>
+		<CC>sys_kanri@mic.jp;jigyo_plan_dx@mic.jp</CC>
 		<TestTo>suguro@mic.jp</TestTo>
 		<TestCC>suguro@mic.jp</TestCC>
 		<Smtp>dove.mic.jp</Smtp>
@@ -17,22 +17,22 @@
 	</Mail>
   <Connect>
     <Junp>
-      <InstanceName>SQLSV</InstanceName>
-      <!-- InstanceName>TESTSV</InstanceName -->
+		<!--InstanceName>SQLSV</InstanceName -->
+      <InstanceName>TESTSV</InstanceName>
       <DatabaseName>JunpDB</DatabaseName>
       <UserID>web</UserID>
       <Password>02035612</Password>
     </Junp>
     <Charlie>
-      <InstanceName>SQLSV</InstanceName>
-      <!-- InstanceName>TESTSV</InstanceName -->
+		<!-- InstanceName>SQLSV</InstanceName -->
+      <InstanceName>TESTSV</InstanceName>
       <DatabaseName>CharlieDB</DatabaseName>
       <UserID>web</UserID>
       <Password>02035612</Password>
     </Charlie>
     <Coupler>
-      <InstanceName>CP-DB01</InstanceName>
-      <!--InstanceName>CPTest-DB</InstanceName-->
+		<!-- InstanceName>CP-DB01</InstanceName -->
+      <InstanceName>CPTest-DB</InstanceName>
       <DatabaseName>COUPLER</DatabaseName>
       <UserID>cpuser</UserID>
       <!--UserID>sa</UserID-->

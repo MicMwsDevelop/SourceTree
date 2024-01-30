@@ -12,6 +12,8 @@ using System;
 using CommonLib.DB;
 using System.Collections.Generic;
 using System.Data;
+using CommonLib.DB.SqlServer.Junp;
+using System.Data.SqlClient;
 
 namespace CommonLib.BaseFactory.Junp.Table
 {
@@ -28,13 +30,24 @@ namespace CommonLib.BaseFactory.Junp.Table
 		public string fai登録ｶｰﾄﾞ回収日 { get; set; }
 		public bool fai保守 { get; set; }
 		public string fai契約書回収年月 { get; set; }
-		public int fai保守料金 { get; set; }
+		public int? fai保守料金 { get; set; }
 		public string fai保守契約開始 { get; set; }
 		public string fai保守契約終了 { get; set; }
 		public string fai保守契約備考 { get; set; }
 		public bool fai終了フラグ { get; set; }
 		public DateTime? fai更新日 { get; set; }
 		public string fai更新者 { get; set; }
+
+		/// <summary>
+		/// INSERT INTO SQL文字列の取得
+		/// </summary>
+		public static string InsertIntoSqlString
+		{
+			get
+			{
+				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18)", JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報]);
+			}
+		}
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -52,7 +65,7 @@ namespace CommonLib.BaseFactory.Junp.Table
 			fai登録ｶｰﾄﾞ回収日 = string.Empty;
 			fai保守 = false;
 			fai契約書回収年月 = string.Empty;
-			fai保守料金 = 0;
+			fai保守料金 = null;
 			fai保守契約開始 = string.Empty;
 			fai保守契約終了 = string.Empty;
 			fai保守契約備考 = string.Empty;
@@ -86,7 +99,7 @@ namespace CommonLib.BaseFactory.Junp.Table
 						fai登録ｶｰﾄﾞ回収日 = row["fai登録ｶｰﾄﾞ回収日"].ToString().Trim(),
 						fai保守 = (row["fai保守"].ToString().Trim() == "0") ? false : true,
 						fai契約書回収年月 = row["fai契約書回収年月"].ToString().Trim(),
-						fai保守料金 = DataBaseValue.ConvObjectToInt(row["fai保守料金"]),
+						fai保守料金 = DataBaseValue.ConvObjectToIntNull(row["fai保守料金"]),
 						fai保守契約開始 = row["fai保守契約開始"].ToString().Trim(),
 						fai保守契約終了 = row["fai保守契約終了"].ToString().Trim(),
 						fai保守契約備考 = row["fai保守契約備考"].ToString().Trim(),
@@ -99,6 +112,35 @@ namespace CommonLib.BaseFactory.Junp.Table
 				return result;
 			}
 			return null;
+		}
+
+		/// <summary>
+		/// INSERT INTOパラメタの取得
+		/// </summary>
+		/// <returns></returns>
+		public SqlParameter[] GetInsertIntoParameters()
+		{
+			SqlParameter[] param = {
+				new SqlParameter("@1", faiCliMicID),
+				new SqlParameter("@2", faiアプリケーションNo),
+				new SqlParameter("@3", faiアプリケーション名 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@4", faiLicensedKey ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@5", faiVersion情報 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@6", faiオプション1 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@7", faiオプション2 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@8", faiオプション3 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@9", fai登録ｶｰﾄﾞ回収日 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@10", (fai保守) ? '1' : '0'),
+				new SqlParameter("@11", fai契約書回収年月 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@12", (fai保守料金.HasValue) ? fai保守料金.Value : System.Data.SqlTypes.SqlInt32.Null),
+				new SqlParameter("@13", fai保守契約開始 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@14", fai保守契約終了 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@15", fai保守契約備考 ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@16", (fai終了フラグ) ? '1' : '0'),
+				new SqlParameter("@17", DateTime.Now),
+				new SqlParameter("@18", fai更新者 ?? System.Data.SqlTypes.SqlString.Null)
+			};
+			return param;
 		}
 	}
 }

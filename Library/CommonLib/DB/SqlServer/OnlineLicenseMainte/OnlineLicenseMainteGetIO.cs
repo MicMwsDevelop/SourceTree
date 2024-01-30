@@ -1,11 +1,11 @@
 ﻿//
 // OnlineLicenseMainteGetIO.cs
 //
-// オンライン資格確認保守サービス データ取得クラス
+// オンライン資格保守サービス データ取得クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2023/10/04 勝呂):新規作成
+// Ver1.00(2023/11/20 勝呂):新規作成
 // 
 using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.Common;
@@ -21,7 +21,7 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseMainte
 		//////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// アプリケーション情報からオンライン資格確認保守サービスの更新対象医院の取得
+		/// アプリケーション情報からオン資格保守サービス売上情報の取得
 		/// </summary>
 		/// <param name="ym">保守終了年月</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
@@ -52,24 +52,22 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseMainte
 									+ " INNER JOIN {2} as C on C.fcmコード = A.faiアプリケーション名"
 									+ " INNER JOIN {3} as S on S.sms_scd = C.fcmサブコード"
 									+ " INNER JOIN {4} as B on B.fBshCode3 = U.支店コード"
-									+ " WHERE U.終了フラグ = '0' AND A.fai終了フラグ = '0' AND A.fai保守契約終了 = '{5}' AND C.fcmコード種別 = '{6}' AND (C.fcmコード = '{7}' OR C.fcmコード = '{8}' OR C.fcmコード = '{9}' OR C.fcmコード = '{10}' OR C.fcmコード = '{11}')"
+									+ " WHERE U.終了フラグ = '0' AND A.fai終了フラグ = '0' AND A.fai保守契約終了 = '{5}' AND C.fcmコード種別 = '{6}' AND C.fcmコード IN ('{7}', '{8}', '{9}', '{10}', '{11}')"
 									+ " ORDER BY U.顧客No, S.sms_scd"
-									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー2]
-									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報]
-									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ]
-									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
-									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]
-									, ym.GetNormalString()
-									, tMikコードマスタ.fcmコード種別_ApplicationName
-									, tMikコードマスタ.fcmコード_AlmexMainteTex30_Cash
-									, tMikコードマスタ.fcmコード_AlmexMainteTex30_Credit
-									, tMikコードマスタ.fcmコード_AlmexMainteFitA_Cash
-									, tMikコードマスタ.fcmコード_AlmexMainteFitA_Credit
-									, tMikコードマスタ.fcmコード_AlmexMainteFitA_QRCredit);
+									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー2]			// 0
+									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報]	// 1
+									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ]				// 2
+									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]			// 3
+									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]				// 4
+									, ym.GetNormalString()	// 5
+									, tMikコードマスタ.fcmコード種別_ApplicationName	// 6
+									, tMikコードマスタ.fcmコード_Richo_LineUsageFee1  // 7
+									, tMikコードマスタ.fcmコード_Richo_MainteUsageFeePC1  // 8
+									, tMikコードマスタ.fcmコード_Richo_MainteUsageFeeRT1      // 9
+									, tMikコードマスタ.fcmコード_Ryoyo_LineUsageFee      // 10
+									, tMikコードマスタ.fcmコード_Ryoyo_MainteUsageFee);	// 11
 
 			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
 		}
-
-
 	}
 }

@@ -46,18 +46,18 @@ namespace CommonLib.DB.SqlServer.ProspectProgressAutoAggregate
 			return 売上予測ES保守.DataTableToList(dt);
 		}
 
-		/// <summary>
-		/// ソフトウェア保守料売上予測の取得
-		/// </summary>
-		/// <param name="start">計上開始月</param>
-		/// <param name="end">計上終了月</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>売上予想リスト</returns>
-		public static List<vMicソフトウェア保守料売上予測> Select_ソフトウェア保守料売上予測(Date start, Date end, string connectStr)
-		{
-			DataTable dt = ProspectProgressAutoAggregateGetIO.Select_ソフトウェア保守料売上予測(start, end, connectStr);
-			return vMicソフトウェア保守料売上予測.DataTableToList(dt);
-		}
+		///// <summary>
+		///// ソフトウェア保守料売上予測の取得
+		///// </summary>
+		///// <param name="start">計上開始月</param>
+		///// <param name="end">計上終了月</param>
+		///// <param name="connectStr">SQL Server接続文字列</param>
+		///// <returns>売上予想リスト</returns>
+		//public static List<vMicソフトウェア保守料売上予測> Select_ソフトウェア保守料売上予測(Date start, Date end, string connectStr)
+		//{
+		//	DataTable dt = ProspectProgressAutoAggregateGetIO.Select_ソフトウェア保守料売上予測(start, end, connectStr);
+		//	return vMicソフトウェア保守料売上予測.DataTableToList(dt);
+		//}
 
 		/// <summary>
 		/// 売上進捗ESの取得

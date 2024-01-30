@@ -209,7 +209,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 		/// <returns>MWSコードマスタ管理リスト</returns>
 		public static List<M_CODE_EX> Select_M_CODE_EX(string whereStr, string orderStr, string connectStr)
 		{
-			string sqlStr = string.Format("SELECT[GOODS_ID]"
+			string sqlStr = string.Format("SELECT [GOODS_ID]"
 														+ ", MC.[SERVICE_TYPE_ID]"
 														+ ", ST.[SERVICE_TYPE_NAME]"
 														+ ", MC.[SERVICE_ID]"

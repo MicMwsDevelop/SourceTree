@@ -120,7 +120,7 @@ namespace CommonLib.BaseFactory.AdjustServiceApply
 		/// <returns>ログ出力文字列</returns>
 		public string GetLog()
 		{
-			return string.Format("CouplerID：{0} 顧客：{1} {2} サービス：{3} {4} 利用開始日または利用終了日が指定されていません。", cp_id, customer_id, customer_name, service_id, service_name);
+			return string.Format("{0} {1} {2} サービス：{3} {4} 利用開始日または利用終了日が指定されていません。", cp_id, customer_id, customer_name, service_id, service_name);
 		}
 	}
 }

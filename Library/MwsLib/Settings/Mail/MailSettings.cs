@@ -6,8 +6,11 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2020/10/27 勝呂)
+// Ver1.01(2024/01/05 勝呂):メール送信機能を追加
 //
 using System;
+using System.Net;
+using System.Net.Mail;
 
 namespace MwsLib.Settings.Mail
 {
@@ -154,6 +157,57 @@ namespace MwsLib.Settings.Mail
 		public override int GetHashCode()
 		{
 			return ToString().GetHashCode();
+		}
+
+		/// <summary>
+		/// メール送信
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="settings"></param>
+		// Ver1.01(2024/01/05 勝呂):メール送信機能を追加
+		public static void SendMail(MailMessage msg, MailSettings settings)
+		{
+			// 差出人（From）
+			msg.From = new MailAddress(settings.From);           // sys_kanri@mic.jp
+
+#if DEBUG
+			string[] toArray = settings.TestTo.Split(';');    // suguro@mic.jp
+#else
+			string[] toArray = settings.To.Split(';');		// keiri@mic.jp
+#endif
+			// 宛先（To）を登録する
+			foreach (string to in toArray)
+			{
+				msg.To.Add(new MailAddress(to));
+			}
+#if DEBUG
+			string ccStr = settings.TestCC;       // suguro@mic.jp
+#else
+			string ccStr = settings.CC;			// sys_kanri@mic.jp;jigyo_plan_dx@mic.jp
+#endif
+			if (0 < ccStr.Length)
+			{
+				// CCを登録する
+				string[] ccArray = ccStr.Split(';');
+				foreach (string cc in ccArray)
+				{
+					msg.CC.Add(new MailAddress(cc));
+				}
+			}
+			// SMTPサーバの設定
+			using (SmtpClient smtp = new SmtpClient())
+			{
+				smtp.Host = settings.Smtp;
+				smtp.Port = settings.Port;
+
+				// SMTP認証
+				if (!String.IsNullOrEmpty(settings.User) && !String.IsNullOrEmpty(settings.Pass))
+				{
+					smtp.Credentials = new NetworkCredential(settings.User, settings.Pass);
+				}
+				// メール送信
+				smtp.Send(msg);
+			}
 		}
 	}
 }

@@ -17,6 +17,7 @@
 // Ver1.02 002189 アルメックス FIT-A 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月 削除の対応(2021/01/20 勝呂)
 // Ver1.03 売上日が翌月初日になっていたのを当月初日に修正(2021/12/23 勝呂)
 // Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
+// Ver1.05(2023/11/21 勝呂):002199 ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月の商品追加対応
 //
 using AlmexMainteEarningsFile.Mail;
 using AlmexMainteEarningsFile.Settings;
@@ -41,7 +42,7 @@ namespace AlmexMainteEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.04(2022/05/25)";
+		public const string VersionStr = "Ver1.05(2023/11/21)";
 
 		/// <summary>
 		/// 環境設定
@@ -70,7 +71,7 @@ namespace AlmexMainteEarningsFile
 			gSettings = AlmexMainteEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			gBootDate = new Date(2022, 1, 1);
+			gBootDate = new Date(2023, 12, 1);
 #else
 			gBootDate = Date.Today;
 #endif
@@ -159,9 +160,9 @@ namespace AlmexMainteEarningsFile
 						{
 							// 最終保守終了月なので終了フラグをONにする
 							sale.f終了フラグ = true;
-#if !DEBUG
+#if WRITE_DATABASE
 							// アプリケーション情報 終了フラグの設定
-							AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, gSettings.Connect.Junp.ConnectionString);
+							AlmexMainteAccess.UpdateSetApplicationInfoEndFlag(sale, PROC_NAME, gSettings.Connect.Junp.ConnectionString);
 #endif
 						}
 						else
@@ -170,7 +171,7 @@ namespace AlmexMainteEarningsFile
 							{
 								// 保守終了月を１か月更新
 								sale.f保守終了月 = sale.f保守終了月.Value + 1;
-#if !DEBUG
+#if WRITE_DATABASE
 								// アプリケーション情報の更新
 								AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, gSettings.Connect.Junp.ConnectionString);
 #endif

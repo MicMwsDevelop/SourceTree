@@ -1,11 +1,11 @@
 ﻿//
 // OnlineLicenseMainteEarningsOut.cs
 //
-// オンライン資格確認保守サービス売上情報クラス
+// オンライン資格保守サービス売上情報クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2023/10/04 勝呂):新規作成
+// Ver1.00(2024/01/23 勝呂):新規作成
 // 
 using CommonLib.BaseFactory.Pca;
 using CommonLib.Common;
@@ -98,6 +98,39 @@ namespace CommonLib.BaseFactory.OnlineLicenseMainte
 		public string 摘要名(YearMonth ym)
 		{
 			return string.Format("{0}年{1}月分", ym.Year, ym.Month);
+		}
+
+		/// <summary>
+		/// 最終徴収年月の取得
+		/// 保守開始月から４年後
+		/// </summary>
+		public YearMonth? 最終徴収年月
+		{
+			get
+			{
+				if (f保守開始月.HasValue)
+				{
+					return f保守開始月.Value.PlusYears(4);
+				}
+				return null;
+			}
+		}
+
+		/// <summary>
+		/// 最終徴収年月かどうか？
+		/// 保守開始月から４年後かどうか？
+		/// </summary>
+		/// <returns>判定</returns>
+		public bool Is最終徴収年月
+		{
+			get
+			{
+				if (f保守終了月.HasValue)
+				{
+					return (f保守終了月.Value == 最終徴収年月) ? true : false;
+				}
+				return false;
+			}
 		}
 
 		/// <summary>

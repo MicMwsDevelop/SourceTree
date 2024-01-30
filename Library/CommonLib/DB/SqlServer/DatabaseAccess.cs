@@ -246,7 +246,7 @@ namespace CommonLib.DB.SqlServer
 				}
 				catch (Exception ex)
 				{
-					throw new ApplicationException(string.Format("SelectDatabase() Error!({0})", ex.Message));
+					throw new ApplicationException(string.Format("SelectDatabaseTimeOut() Error!({0})", ex.Message));
 				}
 				finally
 				{

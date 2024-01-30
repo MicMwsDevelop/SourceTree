@@ -102,6 +102,7 @@
     <Compile Include="BaseFactory\Junp\View\vMic顧客情報.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\GroupMicPCA売上明細.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\アルメックス仕入商品情報.cs" />
+    <Compile Include="BaseFactory\MakePurchaseFile\オン資格保守サービス仕入商品情報.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\クラウドバックアップ仕入商品情報.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\ナルコーム仕入商品情報.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\ナルコーム仕入集計.cs" />

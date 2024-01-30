@@ -9,6 +9,7 @@
 // Ver1.01 新規作成(2022/04/04 勝呂):ナルコーム仕入データ作成時に数量０を除外する
 // Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/10 勝呂)
 // Ver1.04(2023/03/30 勝呂):Microsoft365仕入データの単価が仕入価格でなく、標準価格となっている障害
+// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
 //
 using CommonLib.BaseFactory.Junp.View;
 using CommonLib.BaseFactory.MakePurchaseFile;
@@ -455,6 +456,27 @@ namespace CommonLib.DB.SqlServer.MakePurchaseFile
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>DataTable</returns>
 		public static List<vMicPCA売上明細> Select_アルメックス仕入集計(string goods, YearMonth ym, string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT * FROM {0}"
+										+ " WHERE sykd_kingaku <> 0 AND sykd_uribi >= {1} AND sykd_uribi <= {2} AND sykd_scd IN ({3})"
+										+ " ORDER BY sykd_jbmn, sykd_uribi, sykd_scd"
+										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]
+										, ym.ToSpan().Start.ToIntYMD()
+										, ym.ToSpan().End.ToIntYMD()
+										, goods);
+			DataTable dt = DatabaseAccess.SelectDatabase(strSQL, connectStr);
+			return vMicPCA売上明細.DataTableToList(dt);
+		}
+
+		/// <summary>
+		/// オン資格保守サービス仕入集計
+		/// </summary>
+		/// <param name="goods">商品コードリスト</param>
+		/// <param name="span">検索期間</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+		public static List<vMicPCA売上明細> Select_オン資格保守サービス仕入集計(string goods, YearMonth ym, string connectStr)
 		{
 			string strSQL = string.Format(@"SELECT * FROM {0}"
 										+ " WHERE sykd_kingaku <> 0 AND sykd_uribi >= {1} AND sykd_uribi <= {2} AND sykd_scd IN ({3})"

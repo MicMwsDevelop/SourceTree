@@ -27,29 +27,74 @@ namespace CommonLib.BaseFactory.Junp.Table
 		public const string fcmコード種別_ApplicationName = "18";
 
 		/// <summary>
-		/// fcmコード 031:ｱﾙﾒｯｸｽ TEX-30 保守(現金仕様)1ヶ月
+		/// fcmコード 031:002170 ｱﾙﾒｯｸｽ TEX-30 保守(現金仕様)1ヶ月 \25,500
 		/// </summary>
 		public const string fcmコード_AlmexMainteTex30_Cash = "031";
 
 		/// <summary>
-		/// fcmコード 032:ｱﾙﾒｯｸｽ TEX-30 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月
+		/// fcmコード 032:002171 ｱﾙﾒｯｸｽ TEX-30 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月 \29,000
 		/// </summary>
 		public const string fcmコード_AlmexMainteTex30_Credit = "032";
 
 		/// <summary>
-		/// fcmコード 033:ｱﾙﾒｯｸｽ FIT-A 保守(現金仕様)1ヶ月
+		/// fcmコード 033:002186 ｱﾙﾒｯｸｽ FIT-A 保守(現金仕様)1ヶ月 \26,500
 		/// </summary>
 		public const string fcmコード_AlmexMainteFitA_Cash = "033";
 
 		/// <summary>
-		/// fcmコード 034:ｱﾙﾒｯｸｽ FIT-A保守(ｸﾚ仕様/取端無)1ヶ月
+		/// fcmコード 034:002187 ｱﾙﾒｯｸｽ FIT-A保守(ｸﾚ仕様/取端無)1ヶ月 \27,000
 		/// </summary>
 		public const string fcmコード_AlmexMainteFitA_Credit = "034";
 
 		/// <summary>
-		/// fcmコード 035:ｱﾙﾒｯｸｽ FIT-A 保守(QRｸﾚｼﾞｯﾄ仕様)1ヶ月
+		/// fcmコード 035:002188 ｱﾙﾒｯｸｽ FIT-A 保守(QRｸﾚｼﾞｯﾄ仕様)1ヶ月 \28,000
 		/// </summary>
 		public const string fcmコード_AlmexMainteFitA_QRCredit = "035";
+
+		/// <summary>
+		/// fcmコード 036:002199 ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月 \51,500
+		/// </summary>
+		public const string fcmコード_AlmexMainteFitA_Cash2 = "036";
+
+		/// <summary>
+		/// fcmコード 040:018248 ﾘｺｰ ｵﾝ資用 閉域網利用料 1年 \36,000
+		/// </summary>
+		public const string fcmコード_Richo_LineUsageFee1 = "040";
+
+		/// <summary>
+		/// fcmコード 041:018249 ﾘｺｰ ｵﾝ資用 閉域網利用料 5年 \162,000
+		/// </summary>
+		public const string fcmコード_Richo_LineUsageFee5 = "041";
+
+		/// <summary>
+		/// fcmコード 042:018252 ﾘｺｰ ｵﾝ資用ﾉｰﾄPC ｵﾝｻｲﾄ保守 1年 \14,800
+		/// </summary>
+		public const string fcmコード_Richo_MainteUsageFeePC1 = "042";
+
+		/// <summary>
+		/// fcmコード 043:018253 ﾘｺｰ ｵﾝ資用ﾉｰﾄPC ｵﾝｻｲﾄ保守 5年 \71,500
+		/// </summary>
+		public const string fcmコード_Richo_MainteUsageFeePC5 = "043";
+
+		/// <summary>
+		/// fcmコード 044:018250 ﾘｺｰ ｵﾝ資用ﾙｰﾀｰ ｵﾝｻｲﾄ保守 1年 \8,800
+		/// </summary>
+		public const string fcmコード_Richo_MainteUsageFeeRT1 = "044";
+
+		/// <summary>
+		/// fcmコード 045:018251 ﾘｺｰ ｵﾝ資用ﾙｰﾀｰ ｵﾝｻｲﾄ保守 5年 \44,000
+		/// </summary>
+		public const string fcmコード_Richo_MainteUsageFeeRT5 = "045";
+
+		/// <summary>
+		/// fcmコード 046:018213 菱ｴﾚ ｵﾝ資格 ﾙｰﾀｰ年間接続保守料 \50,400
+		/// </summary>
+		public const string fcmコード_Ryoyo_LineUsageFee = "046";
+
+		/// <summary>
+		/// fcmコード 047:018214 菱ｴﾚ ｵﾝ資格 年間保守料平日9-17時 \24,000
+		/// </summary>
+		public const string fcmコード_Ryoyo_MainteUsageFee = "047";
 
 		/// <summary>
 		/// fcmID
