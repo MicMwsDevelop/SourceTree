@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2024/01/23 勝呂):新規作成
+// Ver1.03(2024/02/05 勝呂):売上データの利用年月分の表記と年月が正しくない
 //
 using CommonLib.BaseFactory.OnlineLicenseMainte;
 using CommonLib.Common;
@@ -26,8 +27,8 @@ namespace OnlineLicenseMainteEarningsFile.Mail
 		/// </summary>
 		/// <param name="userList">ユーザーリスト</param>
 		/// <param name="formalFilename">出力ファイル名</param>
-		/// <param name="useDate">利用日</param>
-		public static void OnlineLicenseMainteSendMail(List<OnlineLicenseMainteEarningsOut> userList, string formalFilename, Date useDate)
+		/// <param name="tekiyoDate">摘要利用年月日（ yyyy年MM月更新分）</param>
+		public static void OnlineLicenseMainteSendMail(List<OnlineLicenseMainteEarningsOut> userList, string formalFilename, Date tekiyoDate)
 		{
 			using (MailMessage msg = new MailMessage())
 			{
@@ -54,7 +55,7 @@ namespace OnlineLicenseMainteEarningsFile.Mail
 							, Program.gSettings.ExportDir
 							, formalFilename);
 
-				YearMonth ym = useDate.ToYearMonth();
+				YearMonth ym = tekiyoDate.ToYearMonth();
 				if (null != userList)
 				{
 					msg.Body += @"<table style=""BORDER-COLLAPSE: collapse"" bordercolor=""black"" border=1>"
@@ -62,7 +63,7 @@ namespace OnlineLicenseMainteEarningsFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>保守サービス</font></th>"
-								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>利用年月</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>更新月</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>終了</font></th>"
 								+ @"</tr>";
 					foreach (OnlineLicenseMainteEarningsOut user in userList)
@@ -89,7 +90,7 @@ namespace OnlineLicenseMainteEarningsFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>保守サービス</font></th>"
-								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>利用年月</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>更新月</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>終了</font></th>"
 								+ @"</tr>"
 								+ @"</table>";

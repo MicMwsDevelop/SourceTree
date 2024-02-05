@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CommonLib</RootNamespace>
     <AssemblyName>CommonLib</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -82,6 +82,7 @@
     <Compile Include="BaseFactory\Charlie\View\社員マスタ参照ビュー.cs" />
     <Compile Include="BaseFactory\Charlie\View\販売店区分参照ビュー.cs" />
     <Compile Include="BaseFactory\Charlie\View\販売店情報参照ビュー.cs" />
+    <Compile Include="BaseFactory\CheckMwsServiceIllegalData\CheckUseCustomerInfo.cs" />
     <Compile Include="BaseFactory\CheckOrderSlip\OrderSlipData.cs" />
     <Compile Include="BaseFactory\CloudBackup\GroupMicPCA売上明細.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_APPLY.cs" />
@@ -258,6 +259,8 @@
     <Compile Include="DB\ConvertDataTable.cs" />
     <Compile Include="DB\SQLite\SQLiteAccess.cs" />
     <Compile Include="DB\SQLite\SQLiteController.cs" />
+    <Compile Include="DB\SqlServer\CheckMwsServiceIllegalData\CheckMwsServiceIllegalDataAccess.cs" />
+    <Compile Include="DB\SqlServer\CheckMwsServiceIllegalData\CheckMwsServiceIllegalDataGetIO.cs" />
     <Compile Include="DB\SqlServer\CheckOrderSlip\CheckOrderSlipAccess.cs" />
     <Compile Include="DB\SqlServer\CheckOrderSlip\CheckOrderSlipController.cs" />
     <Compile Include="DB\SqlServer\CheckOrderSlip\CheckOrderSlipGetIO.cs" />

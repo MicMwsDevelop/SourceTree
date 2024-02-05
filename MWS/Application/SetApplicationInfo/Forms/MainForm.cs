@@ -45,11 +45,7 @@ namespace SetApplicationInfo.Forms
 			Settings = SetApplicationInfoSettingsIF.GetSettings();
 
 			// プログラムタイトル設定
-#if DEBUG
 			this.Text = string.Format("{0} ({1}) {2}", Program.ProcName, Program.VersionStr, Settings.ConnectJunp.InstanceName);
-#else
-			this.Text = string.Format("{0} ({1})", Program.ProcName, Program.VersionStr);
-#endif
 		}
 
 		/// <summary>
@@ -142,7 +138,9 @@ namespace SetApplicationInfo.Forms
 							//data.fai終了フラグ = false;
 							//data.fai更新日 = DateTime.Now;
 							data.fai更新者 = Program.ProcName;
+#if !DebugNoWrite
 							JunpDatabaseAccess.InsertInto_tMikアプリケーション情報(data, Settings.ConnectJunp.ConnectionString);
+#endif
 						}
 						MessageBox.Show("アプリケーション情報を設定しました。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 					}

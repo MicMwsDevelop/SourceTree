@@ -36,6 +36,18 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseMainte
 		}
 
 		/// <summary>
+		/// アプリケーション情報からオン資格保守サービス売上情報の取得（緊急用）
+		/// </summary>
+		/// <param name="customerNoString">顧客No群</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>オン資格保守サービス売上情報リスト</returns>
+		public static List<OnlineLicenseMainteEarningsOut> GetOnlineLicenseMainteEarningsOutEmergency(string customerNoString, string connectStr)
+		{
+			DataTable dt = OnlineLicenseMainteGetIO.GetOnlineLicenseMainteEarningsOutEmergency(customerNoString, connectStr);
+			return OnlineLicenseMainteEarningsOut.DataTableToList(dt);
+		}
+
+		/// <summary>
 		/// アプリケーション情報の更新
 		/// </summary>
 		/// <param name="sale">オンライン資格保守サービス売上情報</param>

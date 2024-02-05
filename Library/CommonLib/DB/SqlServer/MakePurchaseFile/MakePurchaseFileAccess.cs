@@ -488,5 +488,22 @@ namespace CommonLib.DB.SqlServer.MakePurchaseFile
 			DataTable dt = DatabaseAccess.SelectDatabase(strSQL, connectStr);
 			return vMicPCA売上明細.DataTableToList(dt);
 		}
+
+		/// <summary>
+		/// オン資格保守サービス仕入集計（Debug用）
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		// Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+		public static List<vMicPCA売上明細> Select_オン資格保守サービス仕入集計Debug(string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT * FROM {0}"
+										+ " WHERE sykd_kingaku <> 0"
+										+ " AND sykd_scd IN ('018248', '018250', '018252')"
+										+ " AND sykd_tekmei = '2024年2月更新分'"
+										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]);
+			DataTable dt = DatabaseAccess.SelectDatabase(strSQL, connectStr);
+			return vMicPCA売上明細.DataTableToList(dt);
+		}
 	}
 }

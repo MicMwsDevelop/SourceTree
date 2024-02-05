@@ -28,7 +28,7 @@ namespace OnlineLicenseMainteEarningsFile.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			this.Text = string.Format("{0}  {1}", Program.PROC_NAME, Program.VersionStr);
+			this.Text = string.Format("{0}  {1} {2}", Program.PROC_NAME, Program.VersionStr, Program.gSettings.ConnectJunp.InstanceName);
 
 			textBoxFolder.Text = Program.gSettings.ExportDir;
 			textBoxFilename.Text = Program.gSettings.ExportFilename;

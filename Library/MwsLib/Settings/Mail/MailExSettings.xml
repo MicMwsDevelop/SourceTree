@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <MailSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<Mail>
-		<From>eigyo_kanri@mic.jp</From>
+		<From>mainte_info_sys@mic.jp</From>
 		<To>keiri@mic.jp</To>
-		<CC>eigyo_kanri@mic.jp</CC>
+		<CC>mainte_info_sys@mic.jp</CC>
+		<Bcc>mainte_info_sys@mic.jp</Bcc>
 		<TestTo>suguro@mic.jp</TestTo>
 		<TestCC>suguro@mic.jp</TestCC>
+		<TestBcc>suguro@mic.jp</TestBcc>
 		<Smtp>dove.mic.jp</Smtp>
 		<Port>25</Port>
 		<User></User>

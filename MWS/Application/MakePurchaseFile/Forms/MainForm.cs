@@ -962,6 +962,7 @@ namespace MakePurchaseFile.Forms
 			using (var sw = new StreamWriter(Settings.オン資格保守サービス仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
 			{
 				List<vMicPCA売上明細> pcaList = MakePurchaseFileAccess.Select_オン資格保守サービス仕入集計(Settings.GetOnlineLicenseMaineGoods(), collectMonth, Settings.Connect.Junp.ConnectionString);
+				//List<vMicPCA売上明細> pcaList = MakePurchaseFileAccess.Select_オン資格保守サービス仕入集計Debug(Settings.Connect.Junp.ConnectionString);
 				if (0 < pcaList.Count)
 				{
 					// 仕入先マスタ

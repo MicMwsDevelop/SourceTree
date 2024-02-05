@@ -703,3 +703,10 @@
 /MWS/Application/_Construction/CheckMwsServiceIllegalData
 /MWS/Application/_Construction/ExtendUseEndDate
 /MWS/Application/NoticeOnlineLicenseConfirm/Mail/オンライン請求作業 売上連絡.msg
+/Library/CommonLib/.vs
+/Library/MwsLib/.vs
+/MWS/Application/AlartFinishedUserSale/.vs
+/MWS/Application/WonderEstimateExcel/.vs/WonderEstimateExcel/FileContentIndex
+/MWS/CommonDialog/.vs/CommonDialog/FileContentIndex
+/MWS/CommonDialog/PrintPreview/.vs
+/MWS/CommonDialog/Progress/.vs
