@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <MakePurchaseFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<!-- 出力先フォルダ>\\sqlsv\pcadata</出力先フォルダ -->
-	<出力先フォルダ>C:\_仕入データ作成</出力先フォルダ>
+	<出力先フォルダ>\\sqlsv\pcadata</出力先フォルダ>
+	<!-- 出力先フォルダ>C:\_仕入データ作成</出力先フォルダ -->
 	<PcaVersion>7</PcaVersion>
 	<りすとん月額仕入データファイル名>りすとん月額仕入データ.csv</りすとん月額仕入データファイル名>
 	<Microsoft365仕入データファイル名>Microsoft365仕入データ.csv</Microsoft365仕入データファイル名>
@@ -326,15 +326,6 @@
 			<仕入数>1</仕入数>
 			<仕入フラグ>0</仕入フラグ>
 		</アルメックス仕入商品情報>
-		<アルメックス仕入商品情報>
-			<商品コード>002199</商品コード >
-			<商品名>ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月</商品名>
-			<仕入商品コード>002199</仕入商品コード>
-			<仕入価格>46350</仕入価格>
-			<仕入先></仕入先>
-			<仕入数>1</仕入数>
-			<仕入フラグ>0</仕入フラグ>
-		</アルメックス仕入商品情報>
 	</アルメックス商品>
 	<オン資格保守サービス商品>
 		<オン資格保守サービス仕入商品情報>
@@ -346,13 +337,13 @@
 		<オン資格保守サービス仕入商品情報>
 			<商品コード>018250</商品コード>
 			<商品名>ﾘｺｰ ｵﾝ資用ﾙｰﾀｰ ｵﾝｻｲﾄ保守 1年</商品名>
-			<仕入価格>8103</仕入価格>
+			<仕入価格>8100</仕入価格>
 			<仕入先>350085</仕入先>
 		</オン資格保守サービス仕入商品情報>
 		<オン資格保守サービス仕入商品情報>
 			<商品コード>018252</商品コード>
 			<商品名>ﾘｺｰ ｵﾝ資用ﾉｰﾄPC ｵﾝｻｲﾄ保守 1年</商品名>
-			<仕入価格>13505</仕入価格>
+			<仕入価格>13500</仕入価格>
 			<仕入先>350085</仕入先>
 		</オン資格保守サービス仕入商品情報>
 		<オン資格保守サービス仕入商品情報>
@@ -370,22 +361,22 @@
 	</オン資格保守サービス商品>
 	<Connect>
 		<Junp>
-			<!-- InstanceName>SQLSV</InstanceName -->
-			<InstanceName>TESTSV</InstanceName>
+			<InstanceName>SQLSV</InstanceName>
+			<!-- InstanceName>TESTSV</InstanceName -->
 			<DatabaseName>JunpDB</DatabaseName>
 			<UserID>web</UserID>
 			<Password>02035612</Password>
 		</Junp>
 			<Charlie>
-			<!-- InstanceName>SQLSV</InstanceName -->
-			<InstanceName>TESTSV</InstanceName>
+			<InstanceName>SQLSV</InstanceName>
+			<!-- InstanceName>TESTSV</InstanceName -->
 			<DatabaseName>CharlieDB</DatabaseName>
 			<UserID>web</UserID>
 			<Password>02035612</Password>
 		</Charlie>
 		<Coupler>
-			<!-- InstanceName>CP-DB01</InstanceName -->
-			<InstanceName>CPTest-DB</InstanceName>
+			<InstanceName>CP-DB01</InstanceName>
+			<!-- InstanceName>CPTest-DB</InstanceName -->
 			<DatabaseName>COUPLER</DatabaseName>
 			<UserID>cpuser</UserID>
 			<!--UserID>sa</UserID-->

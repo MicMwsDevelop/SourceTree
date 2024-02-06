@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2024/01/23 勝呂):新規作成
+// Ver1.03(2024/02/05 勝呂):売上データの利用年月分の表記と年月が正しくない
 // 
 using CommonLib.BaseFactory.Pca;
 using CommonLib.Common;
@@ -97,7 +98,9 @@ namespace CommonLib.BaseFactory.OnlineLicenseMainte
 		/// </summary>
 		public string 摘要名(YearMonth ym)
 		{
-			return string.Format("{0}年{1}月分", ym.Year, ym.Month);
+			// Ver1.03(2024/02/05 勝呂):売上データの利用年月分の表記と年月が正しくない
+			//return string.Format("{0}年{1}月分", ym.Year, ym.Month);
+			return string.Format("{0}年{1}月更新分", ym.Year, ym.Month);
 		}
 
 		/// <summary>
@@ -212,12 +215,12 @@ namespace CommonLib.BaseFactory.OnlineLicenseMainte
 		/// </summary>
 		/// <param name="no">伝票No</param>
 		/// <param name="hanbaisakiCode">販売先コード</param>
-		/// <param name="saleDate">売上日 </param>
-		/// <param name="useDate">利用日 </param>
+		/// <param name="saleDate">売上日</param>
+		/// <param name="tekiyoDate">摘要利用年月日（ yyyy年MM月更新分）</param>
 		/// <param name="tax">税率</param>
 		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>CSV文字列</returns>
-		public string ToEarnings(int no, string hanbaisakiCode, Date saleDate, Date useDate, int tax, int pcaVer)
+		public string ToEarnings(int no, string hanbaisakiCode, Date saleDate, Date tekiyoDate, int tax, int pcaVer)
 		{
 			汎用データレイアウト売上明細データ pca = new 汎用データレイアウト売上明細データ();
 			pca.売上日 = saleDate.ToIntYMD();// 2:売上年月日
@@ -227,7 +230,7 @@ namespace CommonLib.BaseFactory.OnlineLicenseMainte
 			pca.部門コード = fPCA部門コード.Value.ToString();// 9:部門コード(6)
 			pca.担当者コード = fPCA担当者コード;// 10:担当者コード(13)
 			pca.摘要コード = "0";// 11:摘要コード(6)
-			pca.摘要名 = 摘要名(useDate.ToYearMonth());//12:摘要名(30)｢利用年月分｣
+			pca.摘要名 = 摘要名(tekiyoDate.ToYearMonth());//12:摘要名(30)｢利用年月分｣
 			pca.商品コード = f商品コード;// 15:商品コード(13)
 			pca.マスター区分 = 0;// 16:マスタ区分
 			pca.商品名 = 商品名;// 17:品名(36)
@@ -252,9 +255,10 @@ namespace CommonLib.BaseFactory.OnlineLicenseMainte
 		/// <param name="no">伝票No</param>
 		/// <param name="hanbaisakiCode">販売先コード</param>
 		/// <param name="saleDate">売上日 </param>
+		/// <param name="tekiyoDate">摘要利用年月日（ yyyy年MM月更新分）</param>
 		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>CSV文字列</returns>
-		public string ToArticle1(int no, string hanbaisakiCode, Date saleDate, int pcaVer)
+		public string ToArticle1(int no, string hanbaisakiCode, Date saleDate, Date tekiyoDate, int pcaVer)
 		{
 			汎用データレイアウト売上明細データ pca = new 汎用データレイアウト売上明細データ();
 			pca.売上日 = saleDate.ToIntYMD();// 2:売上年月日
@@ -264,7 +268,7 @@ namespace CommonLib.BaseFactory.OnlineLicenseMainte
 			pca.部門コード = fPCA部門コード.Value.ToString();// 9:部門コード(6)
 			pca.担当者コード = fPCA担当者コード;// 10:担当者コード(13)
 			pca.摘要コード = "0";// 11:摘要コード(6)
-			pca.摘要名 = 摘要名(saleDate.ToYearMonth());//12:摘要名(30)｢利用年月分｣
+			pca.摘要名 = 摘要名(tekiyoDate.ToYearMonth());//12:摘要名(30)｢利用年月分｣
 			pca.商品コード = PcaGoodsIDDefine.ArticleCode;// 15:000014(13) 
 			pca.マスター区分 = 4;// 16:マスタ区分
 			pca.商品名 = 記事行1_品名;// 17:品名 ○○○○様分(36)
@@ -279,9 +283,10 @@ namespace CommonLib.BaseFactory.OnlineLicenseMainte
 		/// <param name="no">伝票No</param>
 		/// <param name="hanbaisakiCode">販売先コード</param>
 		/// <param name="saleDate">売上日 </param>
+		/// <param name="tekiyoDate">摘要利用年月日（ yyyy年MM月更新分）</param>
 		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>CSV文字列</returns>
-		public string ToArticle2(int no, string hanbaisakiCode, Date saleDate, int pcaVer)
+		public string ToArticle2(int no, string hanbaisakiCode, Date saleDate, Date tekiyoDate, int pcaVer)
 		{
 			汎用データレイアウト売上明細データ pca = new 汎用データレイアウト売上明細データ();
 			pca.売上日 = saleDate.ToIntYMD();// 2:売上年月日
@@ -291,7 +296,7 @@ namespace CommonLib.BaseFactory.OnlineLicenseMainte
 			pca.部門コード = fPCA部門コード.Value.ToString();// 9:部門コード(6)
 			pca.担当者コード = fPCA担当者コード;// 10:担当者コード(13)
 			pca.摘要コード = "0";// 11:摘要コード(6)
-			pca.摘要名 = 摘要名(saleDate.ToYearMonth());//12:摘要名(30)｢利用年月分｣
+			pca.摘要名 = 摘要名(tekiyoDate.ToYearMonth());//12:摘要名(30)｢利用年月分｣
 			pca.商品コード = PcaGoodsIDDefine.ArticleCode;// 15:000014(13) 
 			pca.マスター区分 = 4;// 16:マスタ区分
 			pca.商品名 = 記事行2_品名;// 17:品名 得意先No. XXXXXX(36)

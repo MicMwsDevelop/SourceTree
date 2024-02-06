@@ -160,7 +160,7 @@ namespace AlmexMainteEarningsFile
 						{
 							// 最終保守終了月なので終了フラグをONにする
 							sale.f終了フラグ = true;
-#if WRITE_DATABASE
+#if !DebugNoWrite
 							// アプリケーション情報 終了フラグの設定
 							AlmexMainteAccess.UpdateSetApplicationInfoEndFlag(sale, PROC_NAME, gSettings.Connect.Junp.ConnectionString);
 #endif
@@ -171,7 +171,7 @@ namespace AlmexMainteEarningsFile
 							{
 								// 保守終了月を１か月更新
 								sale.f保守終了月 = sale.f保守終了月.Value + 1;
-#if WRITE_DATABASE
+#if !DebugNoWrite
 								// アプリケーション情報の更新
 								AlmexMainteAccess.UpdateSetApplicationInfo(sale, PROC_NAME, gSettings.Connect.Junp.ConnectionString);
 #endif
