@@ -7,8 +7,10 @@
 // 
 // Ver1.00 新規作成(2021/02/05 勝呂)
 // Ver1.02(2023/09/14 勝呂):組織変更対応 営業管理部→システム管理部
+// Ver1.03(2024/02/06 越田):2023/08組織変更対応 メール「ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟPC安心ｻﾎﾟｰﾄPlus申込ｱﾗｰﾄ」の宛先・送信元など変更(メールアドレス複数指定対応含む)
 //
 using CommonLib.BaseFactory.AlertCloudBackupPcSupportPlus;
+using MwsLib.Settings.Mail;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -44,8 +46,9 @@ namespace AlertCloudBackupPcSupportPlus.Mail
 				msg.Subject = @"ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟPC安心ｻﾎﾟｰﾄPlus申込ｱﾗｰﾄ";
 
 				// 本文
+				// Ver1.03(2024/02/06 越田):2023/08組織変更対応 メール「ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟPC安心ｻﾎﾟｰﾄPlus申込ｱﾗｰﾄ」の宛先・送信元など変更(メールアドレス複数指定対応含む)
 				msg.Body += @"<div>"
-						+ @"<p>システム管理部 各位</p>"
+						+ @"<p>宛先部署 担当者様</p>"
 						+ @"<p>クラウドバックアップとPC安心サポートPlusが申し込まれている可能性があるためご確認ください。</p>"
 						+ @"<br>"
 						+ @"</div>";
@@ -128,16 +131,19 @@ namespace AlertCloudBackupPcSupportPlus.Mail
 				}
 				msg.Body += @"</table>";
 
+				// Ver1.03(2024/02/06 越田):2023/08組織変更対応 メール「ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟPC安心ｻﾎﾟｰﾄPlus申込ｱﾗｰﾄ」の宛先・送信元など変更(メールアドレス複数指定対応含む)
 				msg.Body += @"</div>"
 							+ @"<div>"
-							+ @"<p>以上、よろしくお願いいたします。<br><br>システム管理部</p>"
+							+ @"<p>以上、よろしくお願いいたします。</p>"
 							+ @"</div>"
 							+ @"</font>"
 							+ @"</body>"
 							+ @"</html>";
 
 				// メール送信
-				SendMailControl.SendMail(msg);
+				// Ver1.03(2024/02/06 越田):2023/08組織変更対応 メール「ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟPC安心ｻﾎﾟｰﾄPlus申込ｱﾗｰﾄ」の宛先・送信元など変更(メールアドレス複数指定対応含む)
+				//SendMailControl.SendMail(msg);
+				MailSettings.SendMail(msg, Program.gSettings.Mail);
 			}
 		}
 
