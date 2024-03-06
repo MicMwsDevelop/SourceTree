@@ -7,6 +7,8 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2019/10/18 勝呂)
+// Ver1.01(2024/03/01 勝呂):testuser_flgの値は0と1の他にNULLも存在していた
+// Ver1.02(2024/03/04 勝呂):testuser_flgの値はNULL固定
 // 
 using CommonLib.DB;
 using CommonLib.DB.SqlServer.Coupler;
@@ -100,8 +102,13 @@ namespace CommonLib.BaseFactory.Coupler.Table
 
 		/// <summary>
 		/// テストユーザフラグ
+		/// 0:通常
+		/// 1:テストユーザ
+		/// NULL:MWSユーザー
 		/// </summary>
-		public bool testuser_flg { get; set; }
+		// Ver1.01(2024/03/01 勝呂):testuser_flgの値は0と1の他にNULLも存在していた
+		//public bool testuser_flg { get; set; }
+		public int? testuser_flg { get; set; }
 
 		/// <summary>
 		/// 作成日時
@@ -154,7 +161,7 @@ namespace CommonLib.BaseFactory.Coupler.Table
 			paswd_update = null;
 			license_count = 0;
 			ver_id = 0;
-			testuser_flg = false;
+			testuser_flg = null;
 			create_date = null;
 			create_user = string.Empty;
 			update_date = null;
@@ -190,7 +197,11 @@ namespace CommonLib.BaseFactory.Coupler.Table
 						paswd_update = DataBaseValue.ConvObjectToDateTimeNull(row["paswd_update"]),
 						license_count = DataBaseValue.ConvObjectToInt(row["license_count"]),
 						ver_id = DataBaseValue.ConvObjectToInt(row["ver_id"]),
-						testuser_flg = ("0" == row["testuser_flg"].ToString()) ? false : true,
+
+						// Ver1.01(2024/03/01 勝呂):testuser_flgの値は0と1の他にNULLも存在していた
+						//testuser_flg = ("0" == row["testuser_flg"].ToString()) ? false : true,
+						testuser_flg = DataBaseValue.ConvObjectToIntNull(row["testuser_flg"]),
+
 						create_date = DataBaseValue.ConvObjectToDateTimeNull(row["create_date"]),
 						create_user = row["create_user"].ToString().Trim(),
 						update_date = DataBaseValue.ConvObjectToDateTimeNull(row["update_date"]),
@@ -225,7 +236,13 @@ namespace CommonLib.BaseFactory.Coupler.Table
 				new SqlParameter("@13", paswd_update.HasValue ? paswd_update.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@14", license_count.ToString()),
 				new SqlParameter("@15", ver_id.ToString()),
-				new SqlParameter("@16", testuser_flg ? "1" : "0"),
+
+				// Ver1.01(2024/03/01 勝呂):testuser_flgの値は0と1の他にNULLも存在していた
+				//new SqlParameter("@16", testuser_flg ? "1" : "0"),
+				// Ver1.02(2024/03/04 勝呂):testuser_flgの値はNULL固定
+				//new SqlParameter("@16", testuser_flg.HasValue ? testuser_flg.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@16", System.Data.SqlTypes.SqlString.Null),
+
 				new SqlParameter("@17", create_date.HasValue ? create_date.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@18", create_user),
 				new SqlParameter("@19", update_date.HasValue ? update_date.Value.ToString() : System.Data.SqlTypes.SqlString.Null),

@@ -102,7 +102,7 @@ namespace CommonLib.BaseFactory.Charlie.View
 			create_user = string.Empty;
 			update_date = null;
 			update_user = string.Empty;
-			customer_id=0;
+			customer_id =0;
 		}
 
 		/// <summary>

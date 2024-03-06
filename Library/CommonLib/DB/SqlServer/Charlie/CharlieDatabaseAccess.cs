@@ -9,6 +9,7 @@
 // 
 using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Charlie.View;
+using CommonLib.BaseFactory.Coupler.Table;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -467,5 +468,24 @@ namespace CommonLib.DB.SqlServer.Charlie
 			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.view_前月申込データ], whereStr, orderStr, connectStr);
 			return view_前月申込データ.DataTableToList(table);
 		}
+
+
+		////////////////////////////////////////////////////////////////
+		// シノニム関連
+		////////////////////////////////////////////////////////////////
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_COUPLER_PRODUCTUSER]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>カプラー顧客情報リスト</returns>
+		public static List<T_COUPLER_PRODUCTUSER> Synonym_T_COUPLER_PRODUCTUSER(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.SynonymName[CharlieDatabaseDefine.SynonymType.T_COUPLER_PRODUCTUSER], whereStr, orderStr, connectStr);
+			return T_COUPLER_PRODUCTUSER.DataTableToList(table);
+		}
+
 	}
 }

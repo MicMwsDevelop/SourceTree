@@ -8,9 +8,12 @@
 // Ver1.00(2023/06/07 勝呂):新規作成
 // Ver1.01(2024/01/18 勝呂):MS DTC無効に対応するため、トランザクション処理を行わない
 // Ver1.02(2024/01/24 勝呂):販売店情報参照ビューから販売店コードを取得処理で例外エラー
-// 
-//#define TEST_MODE
-
+// Ver1.03(2024/02/11 勝呂):しばらく朝バッチ方式の結果に合わせるために、「前回同期日時以降に追加、更新された顧客管理利用情報のサービスに該当する申込情報のシステム反映フラグを更新する」処理は一時的に見合わせ
+// Ver1.04(2024/02/20 勝呂):社員マスタ参照後の判定文でアプリケーションエラー
+// Ver1.05(2024/02/22 勝呂):顧客情報更新時の異常終了の検知方法の変更
+// Ver1.06(2024/03/01 勝呂):[PRODUCTUSER].[testuser_flg]のMWSユーザーの設定値は0でなく、NULLだった。そのため、「view_前月申込データ」の結果から除外されていた
+// Ver1.07(2024/03/04 勝呂):testuser_flgの値はNULL固定
+//
 using AdjustServiceApply.Log;
 using AdjustServiceApply.Mail;
 using AdjustServiceApply.Settings;
@@ -44,7 +47,7 @@ namespace AdjustServiceApply
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string gVersionStr = "1.02";
+		public const string gVersionStr = "1.07";
 
 		/// <summary>
 		/// 環境設定
@@ -111,9 +114,10 @@ namespace AdjustServiceApply
 							ExecCustomerInfo();
 							return;
 						case "2":
+#if !DebugNoWrite
 							// 顧客情報更新
 							ExecCustomerInfo();
-
+#endif
 							// 申込情報更新
 							ExecApplyInfo();
 							return;
@@ -217,15 +221,14 @@ namespace AdjustServiceApply
 				LogOut.Out(log);
 				mailLogList.Add(log);
 
-				List<int> customerIDList = new List<int>();
+				// デバッグ用
+				//List<WW伝票参照ビュー> slipList = AdjustServiceApplyAccess.GetWonderWebSlipByDebug(640287, 10034720, "800350", gSettings.ConnectCharlie.ConnectionString);
 
 				// 受注承認日が前回同期日時以降の伝票で、数量>0、伝票番号が最小の伝票データの取得
 				// 1-1_Sel_V_CHECK.sql
-#if TEST_MODE
-				List<WW伝票参照ビュー> slipList = AdjustServiceApplyAccess.GetWonderWebSlipByDebug(639572, 10074200, "800162", gSettings.ConnectCharlie.ConnectionString);
-#else
 				List<WW伝票参照ビュー> slipList = AdjustServiceApplyAccess.GetWonderWebSlip(gSettings.ConnectCharlie.ConnectionString);
-#endif
+
+				List<int> customerIDList = new List<int>();
 				if (null != slipList && 0 < slipList.Count)
 				{
 					foreach (WW伝票参照ビュー slip in slipList)
@@ -266,7 +269,10 @@ namespace AdjustServiceApply
 											string specialistMsgLog = string.Empty;
 											whereStr = string.Format("社員番号 = '{0}' AND 営業区分 = 1", slip.担当者ID);
 											List<社員マスタ参照ビュー> employeeList = CharlieDatabaseAccess.Select_社員マスタ参照ビュー(whereStr, "", gSettings.ConnectCharlie.ConnectionString);
-											if (null == employeeList && 0 == employeeList.Count)
+
+											// Ver1.04(2024/02/20 勝呂):社員マスタ参照後の判定文でアプリケーションエラー
+											//if (null == employeeList && 0 == employeeList.Count)
+											if (null == employeeList || 0 == employeeList.Count)
 											{
 												// 警告「※社員マスタ参照ビューに営業担当者ID(XXXX)が存在しません。」
 												specialistMsgLog = string.Format("警告「社員マスタ参照ビューに営業担当者ID({0})が存在しません。」", slip.担当者ID);
@@ -288,7 +294,10 @@ namespace AdjustServiceApply
 											{
 												saleType = '2';   // 販売種別:2（販売店）
 												List<int> storeCodeList = AdjustServiceApplyAccess.GetStoreCode(slip.販売先顧客ID, gSettings.ConnectCharlie.ConnectionString);
-												if (null == storeCodeList && 0 == storeCodeList.Count)
+
+												// Ver1.04(2024/02/20 勝呂):社員マスタ参照後の判定文でアプリケーションエラー
+												//if (null == storeCodeList && 0 == storeCodeList.Count)
+												if (null == storeCodeList || 0 == storeCodeList.Count)
 												{
 													// 警告「※WW伝票の販売先顧客ID(XXXX)が販売店情報に存在しませんでした。」
 													customerMsgLog = string.Format("※WW伝票の販売先顧客ID({0})が販売店情報に存在しませんでした。", slip.販売先顧客ID);
@@ -305,7 +314,10 @@ namespace AdjustServiceApply
 											// WW伝票のユーザ顧客IDが顧客管理基本に存在するかチェック
 											whereStr = string.Format("CUSTOMER_ID = {0}", slip.ユーザー顧客ID);
 											List<T_CUSTOMER_FOUNDATIONS> cfList = CharlieDatabaseAccess.Select_T_CUSTOMER_FOUNDATIONS(whereStr, "", gSettings.ConnectCharlie.ConnectionString);
-											if (null == cfList && 0 == cfList.Count)
+
+											// Ver1.04(2024/02/20 勝呂):社員マスタ参照後の判定文でアプリケーションエラー
+											//if (null == cfList && 0 == cfList.Count)
+											if (null == cfList || 0 == cfList.Count)
 											{
 												// ★顧客管理基本情報に顧客IDが存在しないため登録する
 												InsertIntoT_CUSTOMER_FOUNDATIONS(slip, saleType, updateUser);
@@ -321,13 +333,19 @@ namespace AdjustServiceApply
 											// 顧客管理利用情報の顧客・サービス存在チェック
 											whereStr = string.Format("CUSTOMER_ID = {0} AND SERVICE_TYPE_ID = {1} AND SERVICE_ID = {2}", slip.ユーザー顧客ID, codeList[0].SERVICE_TYPE_ID, codeList[0].SERVICE_ID);
 											List<T_CUSSTOMER_USE_INFOMATION> cuiList = CharlieDatabaseAccess.Select_T_CUSSTOMER_USE_INFOMATION(whereStr, "", gSettings.ConnectCharlie.ConnectionString);
-											if (null == cuiList && 0 == cuiList.Count)
+
+											// Ver1.04(2024/02/20 勝呂):社員マスタ参照後の判定文でアプリケーションエラー
+											//if (null == cuiList && 0 == cuiList.Count)
+											if (null == cuiList || 0 == cuiList.Count)
 											{
 												// 顧客管理利用情報にサービスが登録されていない ※本来、受注承認時に登録されているはず
 												whereStr = string.Format("CUSTOMER_ID = {0} AND SERVICE_TYPE_ID = {1} AND SERVICE_ID = {2} AND DELETE_FLG = '0' AND APPLICATION_CANCELLATION_FLG = '0' AND PCA_FINISHING_FLG = '0' AND APPLICATION_DATE >= DATEADD(dd, 1, EOMONTH(getdate(), -2)) AND APPLICATION_DATE <= getdate()"    // 先月初日～当日
 																						, slip.ユーザー顧客ID, codeList[0].SERVICE_TYPE_ID, codeList[0].SERVICE_ID);
 												List<T_APPLICATION_DATA> aplList = CharlieDatabaseAccess.Select_T_APPLICATION_DATA(whereStr, "", gSettings.ConnectCharlie.ConnectionString);
-												if (null == aplList && 0 == aplList.Count)
+
+												// Ver1.04(2024/02/20 勝呂):社員マスタ参照後の判定文でアプリケーションエラー
+												//if (null == aplList && 0 == aplList.Count)
+												if (null == aplList || 0 == aplList.Count)
 												{
 													// 利用期間：当日～翌月末日
 													DateTime? startDate = DateTime.Today;   // システム日付
@@ -452,6 +470,9 @@ namespace AdjustServiceApply
 							log = string.Format("例外エラー「{0} 伝票No：{1} 商品コード：{2} 顧客ID：{3}」 ", ex.Message, slip.伝票No, slip.商品コード, slip.ユーザー顧客ID);
 							LogOut.Out(log);
 							mailLogList.Add(log);
+
+							// Ver1.05(2024/02/22 勝呂):
+							errorCount++;
 						}
 					}
 					log= string.Format("WW伝票抽出処理 終了 【取得件数：{0}件】", slipList.Count);
@@ -470,7 +491,6 @@ namespace AdjustServiceApply
 				log = string.Format("WW伝票抽出 異常終了：{0}", ex.Message);
 				LogOut.Out(log);
 				mailLogList.Add(log);
-				return;
 			}
 		}
 
@@ -541,12 +561,12 @@ namespace AdjustServiceApply
 									updateUseList.Add(use);
 									log = string.Format("利用申込 システム反映フラグ設定 {0} サービス：{1} 申込日時：{2}", use.CUSTOMER_ID, use.SERVICE_ID, use.APPLICATION_DATE.Value.ToString());
 									LogOut.Out(log);
-									mailLogList.Add(log);
+									//mailLogList.Add(log);
 								}
 							}
 							if (0 < updateUseList.Count)
 							{
-#if !TEST_MODE
+#if !DebugNoWrite
 								// 申込情報の更新
 								UpdateSet_T_COUPLER_APPLY(updateUseList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "利用申込 システム反映フラグ設定", mailLogList);
 #endif
@@ -578,12 +598,12 @@ namespace AdjustServiceApply
 									updateCancelList.Add(cancel);
 									log = string.Format("解約申込 システム反映フラグ設定 {0} サービス：{1} 申込日時：{2}", cancel.CUSTOMER_ID, cancel.SERVICE_ID, cancel.APPLICATION_DATE.Value.ToString());
 									LogOut.Out(log);
-									mailLogList.Add(log);
+									//mailLogList.Add(log);
 								}
 							}
 							if (0 < updateCancelList.Count)
 							{
-#if !TEST_MODE
+#if !DebugNoWrite
 								// 申込情報の更新
 								UpdateSet_T_COUPLER_APPLY(updateCancelList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "解約申込 システム反映フラグ設定", mailLogList);
 #endif
@@ -591,81 +611,85 @@ namespace AdjustServiceApply
 						}
 					}
 				}
-				// 前回同期日時以降に追加、更新された顧客管理利用情報のサービスに該当する申込情報のシステム反映フラグを更新する
-				// →上記の処理では前前月以前の申込情報のシステム反映フラグが更新されない  ※達人プラスなどは申込後、しばらくたってからナルコームから連絡があり、その後起票するため
-
-				// 2-8_顧客利用情報-最終出力日時以降.sql
-				// 基本サービス以外 AND 利用開始日<>null AND 利用終了日<>null AND (作成日時 > 前回同期日時 OR 更新日時 > 前回同期日時)
-				cuiList = AdjustServiceApplyAccess.GetCustomerUseInformationAfterSynchroTime(gSettings.ConnectCharlie.ConnectionString);
-				if (null != cuiList && 0 < cuiList.Count)
+				// Ver1.03(2024/02/11 勝呂):しばらく朝バッチ方式の結果に合わせるために、「前回同期日時以降に追加、更新された顧客管理利用情報のサービスに該当する申込情報のシステム反映フラグを更新する」処理は一時的に見合わせ
 				{
-					// 利用中サービスの抽出
-					List<T_CUSSTOMER_USE_INFOMATION> useCuiList = cuiList.FindAll(p => p.PAUSE_END_STATUS == false);
-					if (null != useCuiList && 0 < useCuiList.Count)
-					{
-						// 前月以前、システム反映フラグ=0の利用申込情報を抽出
-						// 2-9_申込データ-利用中.sql
-						List<T_APPLICATION_DATA> usedAplDataList = AdjustServiceApplyAccess.GetUsedApplicationData(gSettings.ConnectCharlie.ConnectionString);
-						if (null != usedAplDataList && 0 < usedAplDataList.Count)
-						{
-							List<T_APPLICATION_DATA> updateUsedList = new List<T_APPLICATION_DATA>();
-							foreach (T_CUSSTOMER_USE_INFOMATION cui in useCuiList)
-							{
-								List<T_APPLICATION_DATA> usedList = usedAplDataList.FindAll(p => p.CUSTOMER_ID == cui.CUSTOMER_ID && p.SERVICE_ID == cui.SERVICE_ID);
-								if (null != usedList && 0 < usedList.Count)
-								{
-									foreach (T_APPLICATION_DATA used in usedList)
-									{
-										updateUsedList.Add(used);
-										log = string.Format("利用中 システム反映フラグ設定 {0} サービス：{1} 申込日時：{2}", used.CUSTOMER_ID, used.SERVICE_ID, used.APPLICATION_DATE.Value.ToShortDateString());
-										LogOut.Out(log);
-										mailLogList.Add(log);
-									}
-								}
-							}
-							if (0 < updateUsedList.Count)
-							{
-#if !TEST_MODE
-								// 申込情報の更新
-								UpdateSet_T_COUPLER_APPLY(updateUsedList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "利用中 システム反映フラグ設定", mailLogList);
-#endif
-							}
-						}
-					}
-					// 解約サービスの抽出
-					List<T_CUSSTOMER_USE_INFOMATION> cancelCuiList = cuiList.FindAll(p => p.PAUSE_END_STATUS == true);
-					if (null != cancelCuiList && 0 < cancelCuiList.Count)
-					{
-						// 前月以前、システム反映フラグ=0の解約申込情報を抽出
-						// 2-10_申込データ-解約済.sql
-						List<T_APPLICATION_DATA> canceledAplDataList = AdjustServiceApplyAccess.GetCanceledApplicationData(gSettings.ConnectCharlie.ConnectionString);
-						if (null != canceledAplDataList && 0 < canceledAplDataList.Count)
-						{
-							List<T_APPLICATION_DATA> updateCancelApplyList = new List<T_APPLICATION_DATA>();
-							foreach (T_CUSSTOMER_USE_INFOMATION cui in cancelCuiList)
-							{
-								List<T_APPLICATION_DATA> canceledList = canceledAplDataList.FindAll(p => p.CUSTOMER_ID == cui.CUSTOMER_ID && p.SERVICE_ID == cui.SERVICE_ID);
-								if (null != canceledList && 0 < canceledList.Count)
-								{
-									foreach (T_APPLICATION_DATA canceled in canceledList)
-									{
-										updateCancelApplyList.Add(canceled);
-										log = string.Format("解約済 システム反映フラグ設定 {0} サービス：{1} 申込日時：{2}", canceled.CUSTOMER_ID, canceled.SERVICE_ID, canceled.APPLICATION_DATE.Value.ToShortDateString());
-										LogOut.Out(log);
-										mailLogList.Add(log);
-									}
-								}
-							}
-							if (0 < updateCancelApplyList.Count)
-							{
-#if !TEST_MODE
-								// 申込情報の更新
-								UpdateSet_T_COUPLER_APPLY(updateCancelApplyList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "解約済 システム反映フラグ設定", mailLogList);
-#endif
-							}
-						}
-					}
+					//				// 前回同期日時以降に追加、更新された顧客管理利用情報のサービスに該当する申込情報のシステム反映フラグを更新する
+					//				// →上記の処理では前前月以前の申込情報のシステム反映フラグが更新されない  ※達人プラスなどは申込後、しばらくたってからナルコームから連絡があり、その後起票するため
+
+					//				// 2-8_顧客利用情報-最終出力日時以降.sql
+					//				// 基本サービス以外 AND 利用開始日<>null AND 利用終了日<>null AND (作成日時 > 前回同期日時 OR 更新日時 > 前回同期日時)
+					//				cuiList = AdjustServiceApplyAccess.GetCustomerUseInformationAfterSynchroTime(gSettings.ConnectCharlie.ConnectionString);
+					//				if (null != cuiList && 0 < cuiList.Count)
+					//				{
+					//					// 利用中サービスの抽出
+					//					List<T_CUSSTOMER_USE_INFOMATION> useCuiList = cuiList.FindAll(p => p.PAUSE_END_STATUS == false);
+					//					if (null != useCuiList && 0 < useCuiList.Count)
+					//					{
+					//						// 前月以前、システム反映フラグ=0の利用申込情報を抽出
+					//						// 2-9_申込データ-利用中.sql
+					//						List<T_APPLICATION_DATA> usedAplDataList = AdjustServiceApplyAccess.GetUsedApplicationData(gSettings.ConnectCharlie.ConnectionString);
+					//						if (null != usedAplDataList && 0 < usedAplDataList.Count)
+					//						{
+					//							List<T_APPLICATION_DATA> updateUsedList = new List<T_APPLICATION_DATA>();
+					//							foreach (T_CUSSTOMER_USE_INFOMATION cui in useCuiList)
+					//							{
+					//								List<T_APPLICATION_DATA> usedList = usedAplDataList.FindAll(p => p.CUSTOMER_ID == cui.CUSTOMER_ID && p.SERVICE_ID == cui.SERVICE_ID);
+					//								if (null != usedList && 0 < usedList.Count)
+					//								{
+					//									foreach (T_APPLICATION_DATA used in usedList)
+					//									{
+					//										updateUsedList.Add(used);
+					//										log = string.Format("利用中 システム反映フラグ設定 {0} サービス：{1} 申込日時：{2}", used.CUSTOMER_ID, used.SERVICE_ID, used.APPLICATION_DATE.Value.ToShortDateString());
+					//										LogOut.Out(log);
+					//										//mailLogList.Add(log);
+					//									}
+					//								}
+					//							}
+					//							if (0 < updateUsedList.Count)
+					//							{
+					//#if !DebugNoWrite
+					//								// 申込情報の更新
+					//								UpdateSet_T_COUPLER_APPLY(updateUsedList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "利用中 システム反映フラグ設定", mailLogList);
+					//#endif
+					//							}
+					//						}
+					//					}
+					//					// 解約サービスの抽出
+					//					List<T_CUSSTOMER_USE_INFOMATION> cancelCuiList = cuiList.FindAll(p => p.PAUSE_END_STATUS == true);
+					//					if (null != cancelCuiList && 0 < cancelCuiList.Count)
+					//					{
+					//						// 前月以前、システム反映フラグ=0の解約申込情報を抽出
+					//						// 2-10_申込データ-解約済.sql
+					//						List<T_APPLICATION_DATA> canceledAplDataList = AdjustServiceApplyAccess.GetCanceledApplicationData(gSettings.ConnectCharlie.ConnectionString);
+					//						if (null != canceledAplDataList && 0 < canceledAplDataList.Count)
+					//						{
+					//							List<T_APPLICATION_DATA> updateCancelApplyList = new List<T_APPLICATION_DATA>();
+					//							foreach (T_CUSSTOMER_USE_INFOMATION cui in cancelCuiList)
+					//							{
+					//								List<T_APPLICATION_DATA> canceledList = canceledAplDataList.FindAll(p => p.CUSTOMER_ID == cui.CUSTOMER_ID && p.SERVICE_ID == cui.SERVICE_ID);
+					//								if (null != canceledList && 0 < canceledList.Count)
+					//								{
+					//									foreach (T_APPLICATION_DATA canceled in canceledList)
+					//									{
+					//										updateCancelApplyList.Add(canceled);
+					//										log = string.Format("解約済 システム反映フラグ設定 {0} サービス：{1} 申込日時：{2}", canceled.CUSTOMER_ID, canceled.SERVICE_ID, canceled.APPLICATION_DATE.Value.ToShortDateString());
+					//										LogOut.Out(log);
+					//										//mailLogList.Add(log);
+					//									}
+					//								}
+					//							}
+					//							if (0 < updateCancelApplyList.Count)
+					//							{
+					//#if !DebugNoWrite
+					//								// 申込情報の更新
+					//								UpdateSet_T_COUPLER_APPLY(updateCancelApplyList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "解約済 システム反映フラグ設定", mailLogList);
+					//#endif
+					//							}
+					//						}
+					//					}
+					//				}
 				}
+
 				log = "申込情報更新 終了";
 				LogOut.Out(log);
 				mailLogList.Add(log);
@@ -690,7 +714,7 @@ namespace AdjustServiceApply
 				LogOut.Out(log);
 				mailLogList.Add(log);
 
-#if !TEST_MODE
+#if !DebugNoWrite
 				// 前回同期日時を追加
 				// 2-7_InsertInto_T_FILE_CREATEDATE_利用情報.sql
 				AdjustServiceApplyAccess.SetLastSynchroTimeForService(updateUser, gSettings.ConnectCharlie.ConnectionString);
@@ -768,6 +792,8 @@ namespace AdjustServiceApply
 		/// </summary>
 		public static bool ExecCustomerInfo()
 		{
+			int errorCount = 0;
+
 			// ログファイル名の設定
 			string updateUser = "顧客情報更新";
 			gCustomerInfoLogPathname = LogOut.SetLogFileName(updateUser, Directory.GetCurrentDirectory());
@@ -801,9 +827,10 @@ namespace AdjustServiceApply
 						// 同時接続クライアント数を設定
 						user.license_count = user.GetClientLicenseCount();
 					}
-#if !TEST_MODE
+#if !DebugNoWrite
 					// 顧客情報の更新
-					Set_T_COUPLER_PRODUCTUSER(mwsList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName);
+					// Ver1.05(2024/02/22 勝呂):顧客情報更新時の異常終了の検知方法の変更
+					errorCount += Set_T_COUPLER_PRODUCTUSER(mwsList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName);
 #endif
 				}
 				else
@@ -838,9 +865,10 @@ namespace AdjustServiceApply
 						// 同時接続クライアント数を設定
 						user.license_count = user.GetClientLicenseCount();
 					}
-#if !TEST_MODE
+#if !DebugNoWrite
 					// 顧客情報の更新
-					Set_T_COUPLER_PRODUCTUSER(trialList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName);
+					// Ver1.05(2024/02/22 勝呂):顧客情報更新時の異常終了の検知方法の変更
+					errorCount += Set_T_COUPLER_PRODUCTUSER(trialList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName);
 #endif
 				}
 				else
@@ -875,9 +903,10 @@ namespace AdjustServiceApply
 						// 同時接続クライアント数を設定
 						user.license_count = user.GetClientLicenseCount();
 					}
-#if !TEST_MODE
+#if !DebugNoWrite
 					// 顧客情報の更新
-					Set_T_COUPLER_PRODUCTUSER(demoList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName);
+					// Ver1.05(2024/02/22 勝呂):顧客情報更新時の異常終了の検知方法の変更
+					errorCount += Set_T_COUPLER_PRODUCTUSER(demoList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName);
 #endif
 				}
 				else
@@ -886,7 +915,7 @@ namespace AdjustServiceApply
 				}
 				LogOut.Out("社員用ユーザー、デモ用ユーザー更新 終了");
 
-#if !TEST_MODE
+#if !DebugNoWrite
 				// 前回同期日時を追加
 				// 2-7_InsertInto_T_FILE_CREATEDATE_利用情報.sql
 				AdjustServiceApplyAccess.SetLastSynchroTimeForCustomer(updateUser, gSettings.ConnectCharlie.ConnectionString);
@@ -897,6 +926,11 @@ namespace AdjustServiceApply
 				LogOut.Out(string.Format("顧客情報更新 異常終了：{0}", ex.Message));
 				LogOut.Out("■■■■■■■■■■■■顧客情報更新 終了■■■■■■■■■■■■\n");
 				return false;
+			}
+			// Ver1.05(2024/02/22 勝呂):顧客情報更新時の異常終了の検知方法の変更
+			if (0 < errorCount)
+			{
+				LogOut.Out(string.Format("【エラー：{0}件】", errorCount));
 			}
 			LogOut.Out("■■■■■■■■■■■■顧客情報更新 終了■■■■■■■■■■■■\n");
 			return true;
@@ -987,10 +1021,12 @@ namespace AdjustServiceApply
 		/// <param name="updateUser">更新者</param>
 		/// <param name="connectStr">SQL接続文字列</param>
 		/// <param name="databaseName">データベース名</param>
-		/// <returns></returns>
+		/// <returns>エラー回数</returns>
 		/// <exception cref="ApplicationException"></exception>
 		private static int Set_T_COUPLER_PRODUCTUSER(List<UpdateCouplerProductUser> userList, string updateUser, string connectStr, string databaseName)
 		{
+			int errorCount = 0;
+
 			int rowCount = -1;
 			string sqlStr = string.Empty;
 			using (SqlConnection con = new SqlConnection(connectStr))
@@ -1037,6 +1073,7 @@ namespace AdjustServiceApply
 							catch (Exception ex2)
 							{
 								LogOut.Out(string.Format("顧客情報削除エラー {0} {1} {2}({3})", user.cp_id, user.customer_id, user.customer_nm, ex2.Message));
+								errorCount++;
 							}
 						}
 						else
@@ -1102,6 +1139,7 @@ namespace AdjustServiceApply
 									catch (Exception ex3)
 									{
 										LogOut.Out(string.Format("顧客情報更新エラー {0} {1} {2}({3})", user.cp_id, user.customer_id, user.customer_nm, ex3.Message));
+										errorCount++;
 									}
 								}
 								else
@@ -1136,12 +1174,14 @@ namespace AdjustServiceApply
 									catch (Exception ex3)
 									{
 										LogOut.Out(string.Format("顧客情報追加エラー {0} {1} {2}({3})", user.cp_id, user.customer_id, user.customer_nm, ex3.Message));
+										errorCount++;
 									}
 								}
 							}
 							catch (Exception ex2)
 							{
 								LogOut.Out(string.Format("顧客情報更新エラー {0} {1} {2}({3})", user.cp_id, user.customer_id, user.customer_nm, ex2.Message));
+								errorCount++;
 							}
 						}
 					}
@@ -1149,6 +1189,7 @@ namespace AdjustServiceApply
 				catch (Exception ex1)
 				{
 					LogOut.Out(string.Format("顧客情報更新エラー({0})", ex1.Message));
+					errorCount++;
 				}
 				finally
 				{
@@ -1159,7 +1200,9 @@ namespace AdjustServiceApply
 					}
 				}
 			}
-			return rowCount;
+			// Ver1.05(2024/02/22 勝呂):顧客情報更新時の異常終了の検知方法の変更
+			//return rowCount;
+			return errorCount;
 		}
 	}
 }

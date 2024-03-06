@@ -37,5 +37,25 @@ namespace CommonLib.DB.SqlServer.CheckMwsServiceIllegalData
 			DataTable table = CheckMwsServiceIllegalDataGetIO.GetCheckUseCustomerInfo(connectStr);
 			return CheckUseCustomerInfo.DataTableToList(table);
 		}
+
+		/// <summary>
+		/// チェック用の顧客利用情報の顧客IDリストの取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>顧客IDリスト</returns>
+		public static List<int> GetCuiCustomerIdList(string connectStr)
+		{
+			DataTable table = CheckMwsServiceIllegalDataGetIO.GetCuiCustomerIdList(connectStr);
+			if (null != table && 0 < table.Rows.Count)
+			{
+				List<int> result = new List<int>();
+				foreach (DataRow row in table.Rows)
+				{
+					result.Add(DataBaseValue.ConvObjectToInt(row["CUSTOMER_ID"]));
+				}
+				return result;
+			}
+			return null;
+		}
 	}
 }

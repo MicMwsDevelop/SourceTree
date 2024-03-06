@@ -33,7 +33,7 @@ namespace AdjustServiceApply.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			this.Text = string.Format("{0} Ver{1}", Program.gProcName, Program.gVersionStr);
+			this.Text = string.Format("{0} Ver{1} {2}", Program.gProcName, Program.gVersionStr, Program.gSettings.ConnectCharlie.InstanceName);
 
 			T_FILE_CREATEDATE customer = AdjustServiceApplyAccess.GetLastSynchroTimeForCustomer(Program.gSettings.ConnectCharlie.ConnectionString);
 			T_FILE_CREATEDATE service = AdjustServiceApplyAccess.GetLastSynchroTimeForService(Program.gSettings.ConnectCharlie.ConnectionString);
