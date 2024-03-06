@@ -18,6 +18,7 @@
 // Ver1.02 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
 // Ver1.03 奇数月の時、摘要の利用期間の開始月が正しくない(2022/01/05 勝呂)
 // Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
+// Ver1.05 2023/08組織変更対応 メール「ソフトウェア保守料自動更新 売上連絡」の宛先・送信元など変更(メールアドレス複数指定対応含む)(2024/02/06 越田)
 //
 using CommonLib.BaseFactory.SoftwareMainteEarnings;
 using CommonLib.Common;
@@ -42,7 +43,7 @@ namespace SoftwareMainteEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.04(2022/05/25)";
+		public const string VersionStr = "Ver1.05(2024/02/06)";
 
 		/// <summary>
 		/// 環境設定

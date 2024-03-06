@@ -6,8 +6,10 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2020/10/09 勝呂)
-// 
+// Ver1.05 2023/08組織変更対応 メール「ソフトウェア保守料自動更新 売上連絡」の宛先・送信元など変更(メールアドレス複数指定対応含む)(2024/02/06 越田)
+
 using CommonLib.BaseFactory.SoftwareMainteEarnings;
+using MwsLib.Settings.Mail;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -42,8 +44,9 @@ namespace SoftwareMainteEarningsFile.Mail
 				msg.Subject = "ソフトウェア保守料自動更新 売上連絡";
 
 				// 本文
+				// Ver1.05 2023/08組織変更対応 メール「ソフトウェア保守料自動更新 売上連絡」の宛先・送信元など変更(メールアドレス複数指定対応含む)(2024/02/06 越田)
 				msg.Body += string.Format(@"<div>"
-							+ @"<p>経理部各位</p>"
+							+ @"<p>宛先部署 担当者様</p>"
 							+ @"<p>palette ES ソフトウェア保守料１年の期間更新と売上データを作成しました。<br>"
 							+ @"<br>"
 							+ @"{0}フォルダに{1}を格納しました。<br>"
@@ -83,16 +86,19 @@ namespace SoftwareMainteEarningsFile.Mail
 								+ @"</table>";
 					msg.Body += @"<br><p>ソフトウェア保守料更新対象ユーザーはありませんでした。</p>";
 				}
+				// Ver1.05 2023/08組織変更対応 メール「ソフトウェア保守料自動更新 売上連絡」の宛先・送信元など変更(メールアドレス複数指定対応含む)(2024/02/06 越田)
 				msg.Body += @"</div>"
 							+ @"<div>"
-							+ @"<p>以上、よろしくお願いいたします。<br>営業管理部</p>"
+							+ @"<p>以上、よろしくお願いいたします。</p>"
 							+ @"</div>"
 							+ @"</font>"
 							+ @"</body>"
 							+ @"</html>";
 
 				// メール送信
-				SendMailControl.SendMail(msg);
+				// Ver1.05 2023/08組織変更対応 メール「ソフトウェア保守料自動更新 売上連絡」の宛先・送信元など変更(メールアドレス複数指定対応含む)(2024/02/06 越田)
+				//SendMailControl.SendMail(msg);
+				MailSettings.SendMail(msg, Program.gSettings.Mail);
 			}
 		}
 

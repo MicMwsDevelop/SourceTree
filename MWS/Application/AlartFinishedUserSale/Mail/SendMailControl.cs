@@ -6,8 +6,10 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2021/08/18):新規作成(勝呂)
+// Ver1.01(2024/02/06):2023/08組織変更対応 メール「終了ユーザー課金アラート」の宛先・送信元など変更(メールアドレス複数指定対応含む)(越田)
 //
 using CommonLib.BaseFactory.Pca;
+using MwsLib.Settings.Mail;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -42,8 +44,9 @@ namespace AlartFinishedUserSale.Mail
 				msg.Subject = @"終了ユーザー課金アラート";
 
 				// 本文
+				// Ver1.01(2024/02/06):2023/08組織変更対応 メール「終了ユーザー課金アラート」の宛先・送信元など変更(メールアドレス複数指定対応含む)(越田)
 				msg.Body += @"<div>"
-						+ @"<p>営業管理部 各位</p>"
+						+ @"<p>宛先部署 担当者様</p>"
 						+ @"<p>先月終了ユーザーに課金が発生してます。課金データ作成の売上データをご確認ください。</p>"
 						+ @"</div>";
 
@@ -83,15 +86,18 @@ namespace AlartFinishedUserSale.Mail
 					}
 				}
 				msg.Body += @"</table><br>";
+				// Ver1.01(2024/02/06):2023/08組織変更対応 メール「終了ユーザー課金アラート」の宛先・送信元など変更(メールアドレス複数指定対応含む)(越田)
 				msg.Body += @"</div>"
-							+ @"<p>以上、よろしくお願いいたします。<br><br>営業管理部</p>"
+							+ @"<p>以上、よろしくお願いいたします。</p>"
 							+ @"</div>"
 							+ @"</font>"
 							+ @"</body>"
 							+ @"</html>";
 
 				// メール送信
-				SendMailControl.SendMail(msg);
+				// Ver1.01(2024/02/06):2023/08組織変更対応 メール「終了ユーザー課金アラート」の宛先・送信元など変更(メールアドレス複数指定対応含む)(越田)
+				//SendMailControl.SendMail(msg);
+				MailSettings.SendMail(msg, Program.gSettings.Mail);
 			}
 		}
 

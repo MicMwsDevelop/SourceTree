@@ -15,7 +15,7 @@
 // メール送信：終了ユーザー課金アラート
 /////////////////////////////////////////////////////////
 // Ver1.00(2021/08/18):新規作成(勝呂)
-//
+// Ver1.01(2024/02/06):2023/08組織変更対応 メール「終了ユーザー課金アラート」の宛先・送信元など変更(メールアドレス複数指定対応含む)(越田)
 using AlartFinishedUserSale.Mail;
 using AlartFinishedUserSale.Settings;
 using CommonLib.BaseFactory.Junp.Table;
@@ -41,7 +41,7 @@ namespace AlartFinishedUserSale
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public static readonly string gVersionStr = "Ver1.00(2021/08/20)";
+		public static readonly string gVersionStr = "Ver1.01(2024/02/06)";
 
 		/// <summary>
 		/// 環境設定
