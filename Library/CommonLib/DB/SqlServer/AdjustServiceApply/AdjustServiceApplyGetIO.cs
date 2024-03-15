@@ -7,10 +7,16 @@
 // 
 // Ver1.00(2023/06/07 勝呂):新規作成
 // 
+using CommonLib.BaseFactory.Charlie.Table;
+using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.DB.SqlServer.Charlie;
 using CommonLib.DB.SqlServer.Junp;
 using System;
 using System.Data;
+using static CommonLib.BaseFactory.MwsDefine;
+using System.Net.Mail;
+using System.Net.Sockets;
+using System.Windows.Forms;
 
 namespace CommonLib.DB.SqlServer.AdjustServiceApply
 {
@@ -351,6 +357,49 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_FILE_CREATEDATE]);	// 2
 
 			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
+		}
+
+		/// <summary>
+		/// 全顧客情報の取得（MWSユーザー）
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		public static DataTable GetAllMwsUser(string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT"
+												+ " PC.[PRODUCT_ID] as cp_id"
+												+ ", PC.[USER_CLASSIFICATION] as user_type"
+												+ ", PC.[TRIAL_FLG] as trial_flg"
+												+ ", CASE PC.[END_FLG] WHEN '2' THEN '1' ELSE PC.[END_FLG] END as end_flg"
+												+ ", PC.[CUSTOMER_ID] as customer_id"
+												+ ", LEFT(CL.[fCliName] + isnull(B.[fkj顧客名２], ''), 40) as customer_nm"
+												+ ", BR.[fメールアドレス] as email1"
+												+ ", (SELECT TOP 1 [MAIL_ADDRESS] FROM {0}) as email2"
+												+ ", PC.[TRIAL_START_DATE] as login_start_date"
+												+ ", iif(PC.[PERIOD_END_DATE] is null, '2999-12-31 23:59:59.000', PC.[PERIOD_END_DATE]) as login_end_date"
+												+ ", PC.[PASSWORD] as default_paswd"
+												+ ", iif(MU.[fus同時接続ｸﾗｲｱﾝﾄ数] is null, 0, MU.[fus同時接続ｸﾗｲｱﾝﾄ数]) as license_count"
+												+ ", iif(LTRIM(RTRIM(MU.[fusシステム名])) is null, 999, iif(LTRIM(RTRIM(MU.[fusシステム名])) = '', 999, convert(int, LTRIM(RTRIM(MU.[fusシステム名]))))) as system_code"
+												+ ", CF.[DELETE_FLG] as delete_flg"
+												+ " FROM {1} as PC"
+												+ " INNER JOIN {2} as CL on CL.[fCliID] = PC.[CUSTOMER_ID]"
+												+ " LEFT JOIN {3} as B on B.[fkjCliMicID] = PC.[CUSTOMER_ID]"
+												+ " LEFT JOIN {4} as MU on MU.[fusCliMicID] = PC.[CUSTOMER_ID]"
+												+ " LEFT JOIN {5} as U on U.[fUsrID] = CL.[fCliFirstcMan]"
+												+ " LEFT JOIN {6} as BR on BR.[fBshCode1] = U.[fUsrBusho1] AND BR.[fBshCode2] = U.[fUsrBusho2] AND BR.[fBshCode3] = U.[fUsrBusho3]"
+												+ " LEFT JOIN {7} as CF on PC.[CUSTOMER_ID] = CF.[CUSTOMER_ID]"
+												+ " WHERE LEFT(PC.[PRODUCT_ID], 3) = 'MWS' AND PC.[CUSTOMER_ID] is not null AND PC.[TRIAL_START_DATE] is not null"
+												+ " ORDER BY customer_id"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_MAIL]   // 0
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_PRODUCT_CONTROL]    // 1
+												, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient]    // 2
+												, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報]   // 3
+												, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ]    // 4
+												, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tUser]  // 5
+												, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]   // 6
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSTOMER_FOUNDATIONS]);    // 7
+
+				return DatabaseAccess.SelectDatabase(strSQL, connectStr);
 		}
 
 		/// <summary>

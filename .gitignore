@@ -937,3 +937,15 @@
 /MWS/Application/CheckMwsServiceIllegalData/.vs/CheckMwsServiceIllegalData/FileContentIndex/b4cdfd51-5bd3-4d6b-bb27-b2f9eb872a5d.vsidx
 /MWS/Application/CheckMwsServiceIllegalData/.vs/CheckMwsServiceIllegalData/FileContentIndex/c360de5f-74f1-4ab8-b253-ff790c693d69.vsidx
 /MWS/Application/CheckMwsServiceIllegalData/.vs/CheckMwsServiceIllegalData.csproj.dtbcache.json
+/MWS/Application/CheckMwsServiceIllegalData/.vs/CheckMwsServiceIllegalData/FileContentIndex/615594b3-8494-421a-b5d0-891920e8d08e.vsidx
+/MWS/Application/CheckMwsServiceIllegalData/.vs/CheckMwsServiceIllegalData/FileContentIndex/d969b803-1af9-4a21-aa7b-fd4f376f8b18.vsidx
+/MWS/Application/CheckMwsServiceIllegalData/bin/Debug/MWSサービス異常データ_20240307.xlsx
+/.gitignore
+/MWS/Application/CheckMwsServiceIllegalData/.vs/CheckMwsServiceIllegalData
+/MWS/Application/CheckMwsServiceIllegalData/bin/Debug
+/MWS/Application/CheckMwsServiceIllegalData/bin/Debug/MWSサービス異常データ_20240311.xlsx
+/MWS/Application/CheckMwsServiceIllegalData/obj
+/Python/MyDiaryProject/.vs/MyDiaryProject
+/Python/MyDiaryProject
+*.xlsx
+*.txt

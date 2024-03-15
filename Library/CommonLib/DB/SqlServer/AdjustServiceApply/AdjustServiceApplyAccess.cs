@@ -152,6 +152,17 @@ namespace CommonLib.DB.SqlServer.AdjustServiceApply
 		}
 
 		/// <summary>
+		/// 全顧客情報の取得（MWSユーザー）
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>顧客管理利用情報</returns>
+		public static List<UpdateCouplerProductUser> GetAllMwsUser(string connectStr)
+		{
+			DataTable table = AdjustServiceApplyGetIO.GetAllMwsUser(connectStr);
+			return UpdateCouplerProductUser.DataTableToList(table);
+		}
+
+		/// <summary>
 		/// 利用情報利用日確認情報の取得
 		/// </summary>
 		/// <param name="connectStr">SQL Server接続文字列</param>

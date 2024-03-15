@@ -159,6 +159,48 @@ namespace AdjustServiceApply.Forms
 		}
 
 		/// <summary>
+		/// 3. 全顧客情報更新
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonAllUpdateCustomerInfo_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.No == MessageBox.Show("すべての顧客情報を更新します。よろしいですか？", "顧客情報更新", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+			{
+				return;
+			}
+			// 元のカーソルを保持
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
+			bool ret = Program.ExecAllCustomerInfo();
+
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
+
+			if (false == ret)
+			{
+				MessageBox.Show("全顧客情報更新 異常終了", "顧客情報更新", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			MessageBox.Show("全顧客情報更新 正常終了", "顧客情報更新", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+			string[] files = GetLogFiles("顧客情報更新_*.log");
+			listBoxCustomerLog.Items.Clear();
+			listBoxCustomerLog.Items.AddRange(files);
+
+			// 顧客情報更新ログを開く
+			using (Process process = new Process())
+			{
+				process.StartInfo.FileName = Program.gCustomerInfoLogPathname;
+				process.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
+				process.Start();
+			}
+		}
+
+		/// <summary>
 		/// 顧客情報更新ログ参照
 		/// </summary>
 		/// <param name="sender"></param>

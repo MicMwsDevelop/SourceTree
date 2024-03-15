@@ -39,6 +39,7 @@
 			this.listBoxApplyLog = new System.Windows.Forms.ListBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
+			this.buttonAllUpdateCustomerInfo = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// buttonUpdateApplyInfo
@@ -158,11 +159,23 @@
 			this.label4.TabIndex = 8;
 			this.label4.Text = "■申込情報更新ログ";
 			// 
+			// buttonAllUpdateCustomerInfo
+			// 
+			this.buttonAllUpdateCustomerInfo.Font = new System.Drawing.Font("Meiryo UI", 12F);
+			this.buttonAllUpdateCustomerInfo.Location = new System.Drawing.Point(13, 691);
+			this.buttonAllUpdateCustomerInfo.Name = "buttonAllUpdateCustomerInfo";
+			this.buttonAllUpdateCustomerInfo.Size = new System.Drawing.Size(287, 41);
+			this.buttonAllUpdateCustomerInfo.TabIndex = 11;
+			this.buttonAllUpdateCustomerInfo.Text = "3. 全顧客情報更新（MWSユーザー）";
+			this.buttonAllUpdateCustomerInfo.UseVisualStyleBackColor = true;
+			this.buttonAllUpdateCustomerInfo.Click += new System.EventHandler(this.buttonAllUpdateCustomerInfo_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(616, 696);
+			this.ClientSize = new System.Drawing.Size(616, 744);
+			this.Controls.Add(this.buttonAllUpdateCustomerInfo);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.listBoxApplyLog);
@@ -201,6 +214,7 @@
 		private System.Windows.Forms.ListBox listBoxApplyLog;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Button buttonAllUpdateCustomerInfo;
 	}
 }
 

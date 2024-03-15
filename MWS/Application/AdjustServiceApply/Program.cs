@@ -13,6 +13,8 @@
 // Ver1.05(2024/02/22 勝呂):顧客情報更新時の異常終了の検知方法の変更
 // Ver1.06(2024/03/01 勝呂):[PRODUCTUSER].[testuser_flg]のMWSユーザーの設定値は0でなく、NULLだった。そのため、「view_前月申込データ」の結果から除外されていた
 // Ver1.07(2024/03/04 勝呂):testuser_flgの値はNULL固定
+// Ver1.08(2024/03/07 勝呂):全MWSユーザーの顧客情報を更新する処理の追加
+// Ver1.09(2024/03/08 勝呂):申込情報更新で今月終了ユーザーの利用申込サービスの申込情報のシステム反映済フラグを更新していなかった
 //
 using AdjustServiceApply.Log;
 using AdjustServiceApply.Mail;
@@ -47,7 +49,7 @@ namespace AdjustServiceApply
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string gVersionStr = "1.07";
+		public const string gVersionStr = "1.09";
 
 		/// <summary>
 		/// 環境設定
@@ -112,7 +114,7 @@ namespace AdjustServiceApply
 						case "1":
 							// 顧客情報更新
 							ExecCustomerInfo();
-							return;
+							break;
 						case "2":
 #if !DebugNoWrite
 							// 顧客情報更新
@@ -120,10 +122,18 @@ namespace AdjustServiceApply
 #endif
 							// 申込情報更新
 							ExecApplyInfo();
-							return;
+							break;
+						// Ver1.08(2024/03/07 勝呂):全MWSユーザーの顧客情報を更新する処理の追加
+						case "3":
+							// 全顧客情報の更新
+							ExecAllCustomerInfo();
+							break;
 					}
 				}
-				Application.Run(new Forms.MainForm());
+				else
+				{
+					Application.Run(new Forms.MainForm());
+				}
 			}
 			finally
 			{
@@ -546,7 +556,7 @@ namespace AdjustServiceApply
 					foreach (var id in customerIDList)
 					{
 						// 2-4_顧客利用情報-利用申込.sql
-						// 基本サービス以外 AND 課金対象外フラグ=OFF AND 利用期限日=NULL AND 利用開始日<>NULL AND 利用終了日<>NULL AND 利用開始日が翌月末日以前 AND 利用終了日が翌月末日以降
+						// 基本サービス以外 AND 課金対象外フラグ=OFF AND 利用期限日=NULL AND 利用開始日<>NULL AND 課金終了日<>NULL AND 利用開始日が翌月末日以前 AND 課金終了日が翌月末日以降
 						string whereStr = string.Format("CUSTOMER_ID = {0} AND SERVICE_TYPE_ID <> 1 AND PAUSE_END_STATUS = 0 AND PERIOD_END_DATE is null AND USE_START_DATE is not null AND USE_END_DATE is not null AND CONVERT(DATE, USE_START_DATE) <= EOMONTH(getdate(), 1) AND CONVERT(DATE, USE_END_DATE) >= EOMONTH(getdate(), 1)", id.Key);
 						cuiList = CharlieDatabaseAccess.Select_T_CUSSTOMER_USE_INFOMATION(whereStr, "SERVICE_ID", gSettings.ConnectCharlie.ConnectionString);
 						if (null != cuiList && 0 < cuiList.Count)
@@ -568,8 +578,38 @@ namespace AdjustServiceApply
 							{
 #if !DebugNoWrite
 								// 申込情報の更新
-								UpdateSet_T_COUPLER_APPLY(updateUseList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "利用申込 システム反映フラグ設定", mailLogList);
+								UpdateSet_T_COUPLER_APPLY(updateUseList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "利用申込 システム反映フラグ設定");
 #endif
+							}
+						}
+						else
+						{
+							// Ver1.09(2024/03/08 勝呂):申込情報更新で今月終了ユーザーの利用申込サービスの申込情報のシステム反映済フラグを更新していなかった
+							// 2-11_顧客利用情報-利用申込-終了ユーザー.sql
+							// 基本サービス以外 AND 課金対象外フラグ=ON AND 利用期限日<>NULL AND 利用開始日<>NULL AND 課金終了日<>NULL AND 課金終了日が今月末日
+							whereStr = string.Format("CUSTOMER_ID = {0} AND [SERVICE_TYPE_ID] <> 1 AND [PAUSE_END_STATUS] = 1 AND [PERIOD_END_DATE] is not null AND [USE_START_DATE] is not null AND [USE_END_DATE] is not null AND CONVERT(DATE, [USE_END_DATE]) = EOMONTH(getdate())", id.Key);
+							cuiList = CharlieDatabaseAccess.Select_T_CUSSTOMER_USE_INFOMATION(whereStr, "SERVICE_ID", gSettings.ConnectCharlie.ConnectionString);
+							if (null != cuiList && 0 < cuiList.Count)
+							{
+								List<T_APPLICATION_DATA> updateUseList = new List<T_APPLICATION_DATA>();
+								List<T_APPLICATION_DATA> useList = useAplDataList.FindAll(p => p.CUSTOMER_ID == id.Key);
+								foreach (T_APPLICATION_DATA use in useList)
+								{
+									T_CUSSTOMER_USE_INFOMATION cui = cuiList.Find(p => p.SERVICE_ID == use.SERVICE_ID);
+									if (null != cui)
+									{
+										updateUseList.Add(use);
+										log = string.Format("利用申込 システム反映フラグ設定 {0} サービス：{1} 申込日時：{2}", use.CUSTOMER_ID, use.SERVICE_ID, use.APPLICATION_DATE.Value.ToString());
+										LogOut.Out(log);
+									}
+								}
+								if (0 < updateUseList.Count)
+								{
+#if !DebugNoWrite
+									// 申込情報の更新
+									UpdateSet_T_COUPLER_APPLY(updateUseList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "利用申込 システム反映フラグ設定");
+#endif
+								}
 							}
 						}
 					}
@@ -605,7 +645,7 @@ namespace AdjustServiceApply
 							{
 #if !DebugNoWrite
 								// 申込情報の更新
-								UpdateSet_T_COUPLER_APPLY(updateCancelList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "解約申込 システム反映フラグ設定", mailLogList);
+								UpdateSet_T_COUPLER_APPLY(updateCancelList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "解約申込 システム反映フラグ設定");
 #endif
 							}
 						}
@@ -641,7 +681,6 @@ namespace AdjustServiceApply
 					//										updateUsedList.Add(used);
 					//										log = string.Format("利用中 システム反映フラグ設定 {0} サービス：{1} 申込日時：{2}", used.CUSTOMER_ID, used.SERVICE_ID, used.APPLICATION_DATE.Value.ToShortDateString());
 					//										LogOut.Out(log);
-					//										//mailLogList.Add(log);
 					//									}
 					//								}
 					//							}
@@ -649,7 +688,7 @@ namespace AdjustServiceApply
 					//							{
 					//#if !DebugNoWrite
 					//								// 申込情報の更新
-					//								UpdateSet_T_COUPLER_APPLY(updateUsedList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "利用中 システム反映フラグ設定", mailLogList);
+					//								UpdateSet_T_COUPLER_APPLY(updateUsedList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "利用中 システム反映フラグ設定");
 					//#endif
 					//							}
 					//						}
@@ -674,7 +713,6 @@ namespace AdjustServiceApply
 					//										updateCancelApplyList.Add(canceled);
 					//										log = string.Format("解約済 システム反映フラグ設定 {0} サービス：{1} 申込日時：{2}", canceled.CUSTOMER_ID, canceled.SERVICE_ID, canceled.APPLICATION_DATE.Value.ToShortDateString());
 					//										LogOut.Out(log);
-					//										//mailLogList.Add(log);
 					//									}
 					//								}
 					//							}
@@ -682,7 +720,7 @@ namespace AdjustServiceApply
 					//							{
 					//#if !DebugNoWrite
 					//								// 申込情報の更新
-					//								UpdateSet_T_COUPLER_APPLY(updateCancelApplyList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "解約済 システム反映フラグ設定", mailLogList);
+					//								UpdateSet_T_COUPLER_APPLY(updateCancelApplyList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName, "解約済 システム反映フラグ設定");
 					//#endif
 					//							}
 					//						}
@@ -944,9 +982,8 @@ namespace AdjustServiceApply
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <param name="databaseName">データベース名</param>
 		/// <param name="logTitle">ログ出力文字列</param>
-		/// <param name="mailLogList">メールログ情報リスト</param>
 		/// <returns>影響行数</returns>
-		private static int UpdateSet_T_COUPLER_APPLY(List<T_APPLICATION_DATA> aplDataList, string updateUser, string connectStr, string databaseName, string logTitle, MailLogOut mailLogList)
+		private static int UpdateSet_T_COUPLER_APPLY(List<T_APPLICATION_DATA> aplDataList, string updateUser, string connectStr, string databaseName, string logTitle)
 		{
 			int rowCount = -1;
 			using (SqlConnection con = new SqlConnection(connectStr))
@@ -987,14 +1024,12 @@ namespace AdjustServiceApply
 								//tran.Commit();
 								string log = string.Format("{0} {1} サービス：{2} 申込日時：{3}", logTitle, aplData.CUSTOMER_ID, aplData.SERVICE_ID, aplData.APPLICATION_DATE.Value.ToString());
 								LogOut.Out(log);
-								mailLogList.Add(log);
 							}
 						}
 						catch (Exception ex2)
 						{
 							string log = string.Format("{0} 申込情報更新エラー({1}) {2} サービス：{3} 申込日時：{4}", logTitle, ex2.Message, aplData.CUSTOMER_ID, aplData.SERVICE_ID, aplData.APPLICATION_DATE.Value.ToString());
 							LogOut.Out(log);
-							mailLogList.Add(log);
 						}
 					}
 				}
@@ -1203,6 +1238,80 @@ namespace AdjustServiceApply
 			// Ver1.05(2024/02/22 勝呂):顧客情報更新時の異常終了の検知方法の変更
 			//return rowCount;
 			return errorCount;
+		}
+
+		/// <summary>
+		/// 3. 全顧客情報更新
+		/// </summary>
+		// Ver1.08(2024/03/07 勝呂):全MWSユーザーの顧客情報を更新する処理の追加
+		public static bool ExecAllCustomerInfo()
+		{
+			int errorCount = 0;
+
+			// ログファイル名の設定
+			string updateUser = "顧客情報更新";
+			gCustomerInfoLogPathname = LogOut.SetLogFileName(updateUser, Directory.GetCurrentDirectory());
+
+			LogOut.Out("■■■■■■■■■■■■全顧客情報更新 開始■■■■■■■■■■■■");
+			try
+			{
+				// MWSユーザー（MWS）
+				// ID：T_PRODUCT_CONTROL.PRODUCT_ID
+				// ユーザー種別：T_PRODUCT_CONTROL.USER_CLASSIFICATION
+				// 体験版フラグ：T_PRODUCT_CONTROL.TRIAL_FLG
+				// 終了フラグ：CASE T_PRODUCT_CONTROL.END_FLG WHEN '2' THEN '1' ELSE T_PRODUCT_CONTROL.END_FLG END
+				// 顧客No：T_PRODUCT_CONTROL.CUSTOMER_ID
+				// 顧客名：tClient.fCliName + tMikユーザ.fkj顧客名２
+				// メールアドレス１：tMih支店情報.fメールアドレス ※拠点のメールアドレス
+				// メールアドレス２：SELECT TOP 1 MAIL_ADDRESS FROM M_MAIL
+				// 利用開始日付：T_PRODUCT_CONTROL.TRIAL_START_DATE
+				// 利用終了日付：iif(T_PRODUCT_CONTROL.PERIOD_END_DATE is null, '2999-12-31 23:59:59.000', T_PRODUCT_CONTROL.PERIOD_END_DATE)
+				// 初期パスワード：T_PRODUCT_CONTROL.PASSWORD
+				// 同時接続クライアント数：tMikユーザ.fus同時接続ｸﾗｲｱﾝﾄ数
+				// システムコード：tMikユーザ.fusシステム名
+
+				// 前回同期日時以降の顧客情報の取得（MWSユーザー）
+				LogOut.Out("MWSユーザー更新 開始");
+				List<UpdateCouplerProductUser> mwsList = AdjustServiceApplyAccess.GetAllMwsUser(gSettings.ConnectCharlie.ConnectionString);
+				if (null != mwsList && 0 < mwsList.Count)
+				{
+					LogOut.Out(string.Format("取得件数 {0}件", mwsList.Count));
+					foreach (UpdateCouplerProductUser user in mwsList)
+					{
+						// 同時接続クライアント数を設定
+						user.license_count = user.GetClientLicenseCount();
+					}
+#if !DebugNoWrite
+					// 顧客情報の更新
+					// Ver1.05(2024/02/22 勝呂):顧客情報更新時の異常終了の検知方法の変更
+					errorCount += Set_T_COUPLER_PRODUCTUSER(mwsList, updateUser, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName);
+#endif
+				}
+				else
+				{
+					LogOut.Out("取得件数 0件");
+				}
+				LogOut.Out("MWSユーザー更新 終了");
+
+#if !DebugNoWrite
+				// 前回同期日時を追加
+				// 2-7_InsertInto_T_FILE_CREATEDATE_利用情報.sql
+				AdjustServiceApplyAccess.SetLastSynchroTimeForCustomer(updateUser, gSettings.ConnectCharlie.ConnectionString);
+#endif
+			}
+			catch (Exception ex)
+			{
+				LogOut.Out(string.Format("全顧客情報更新 異常終了：{0}", ex.Message));
+				LogOut.Out("■■■■■■■■■■■■全顧客情報更新 終了■■■■■■■■■■■■\n");
+				return false;
+			}
+			// Ver1.05(2024/02/22 勝呂):顧客情報更新時の異常終了の検知方法の変更
+			if (0 < errorCount)
+			{
+				LogOut.Out(string.Format("【エラー：{0}件】", errorCount));
+			}
+			LogOut.Out("■■■■■■■■■■■■全顧客情報更新 終了■■■■■■■■■■■■\n");
+			return true;
 		}
 	}
 }
