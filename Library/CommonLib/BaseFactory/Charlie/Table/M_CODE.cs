@@ -17,15 +17,55 @@ namespace CommonLib.BaseFactory.Charlie.Table
 {
 	public class M_CODE
 	{
+		/// <summary>
+		/// 商品ID
+		/// </summary>
 		public string GOODS_ID { get; set; }
+
+		/// <summary>
+		/// サービス種別ID
+		/// </summary>
 		public int SERVICE_TYPE_ID { get; set; }
+
+		/// <summary>
+		/// サービスID
+		/// </summary>
 		public int SERVICE_ID { get; set; }
+
+		/// <summary>
+		/// セット販売機能
+		/// 一括販売=0,月額課金用=1（既定値0）
+		/// </summary>
 		public string SET_SALE { get; set; }
+
+		/// <summary>
+		/// 備考(商品名)
+		/// </summary>
 		public string REMARKS { get; set; }
+
+		/// <summary>
+		/// 削除フラグ
+		/// </summary>
 		public string DELETE_FLG { get; set; }
+
+		/// <summary>
+		/// 作成日時
+		/// </summary>
 		public DateTime? CREATE_DATE { get; set; }
+
+		/// <summary>
+		/// 作成者
+		/// </summary>
 		public string CREATE_PERSON { get; set; }
+
+		/// <summary>
+		/// 更新日時
+		/// </summary>
 		public DateTime? UPDATE_DATE { get; set; }
+
+		/// <summary>
+		/// 更新者
+		/// </summary>
 		public string UPDATE_PERSON { get; set; }
 
 		/// <summary>

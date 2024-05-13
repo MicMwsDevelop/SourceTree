@@ -17,7 +17,8 @@
 // Ver1.02 002189 アルメックス FIT-A 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月 削除の対応(2021/01/20 勝呂)
 // Ver1.03 売上日が翌月初日になっていたのを当月初日に修正(2021/12/23 勝呂)
 // Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
-// Ver1.05(2023/11/21 勝呂):002199 ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月の商品追加対応
+// Ver1.05(2024/04/10 勝呂):002199 ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月の商品追加対応
+// Ver1.06(2024/05/10 勝呂):メール送信先が複数指定された時にアプリケーションエラー
 //
 using AlmexMainteEarningsFile.Mail;
 using AlmexMainteEarningsFile.Settings;
@@ -42,7 +43,7 @@ namespace AlmexMainteEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.05(2023/11/21)";
+		public const string VersionStr = "Ver1.06(2024/05/10)";
 
 		/// <summary>
 		/// 環境設定
@@ -71,7 +72,7 @@ namespace AlmexMainteEarningsFile
 			gSettings = AlmexMainteEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			gBootDate = new Date(2023, 12, 1);
+			gBootDate = new Date(2024, 4, 1);
 #else
 			gBootDate = Date.Today;
 #endif

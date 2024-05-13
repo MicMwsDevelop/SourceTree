@@ -7,7 +7,7 @@
 // 
 // Ver1.00 新規作成(2020/11/24 勝呂)
 // Ver1.02 002189 アルメックス FIT-A 保守(ｸﾚｼﾞｯﾄ仕様)1ヶ月 削除の対応(2021/01/20 勝呂)
-// Ver1.05(2023/11/21 勝呂):002199 ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月の商品追加対応
+// Ver1.05(2024/04/10 勝呂):002199 ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月の商品追加対応
 // 
 using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.Common;
@@ -30,7 +30,7 @@ namespace CommonLib.DB.SqlServer.AlmexMainte
 		/// <returns>レコード数</returns>
 		public static DataTable GetAlmexMainteEarningsOut(YearMonth ym, string connectStr)
 		{
-			// Ver1.05(2023/11/21 勝呂):002199 ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月の商品追加対応
+			// Ver1.05(2024/04/10 勝呂):002199 ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月の商品追加対応
 			string strSQL = string.Format(@"SELECT"
 									+ " U.顧客No as f顧客No"
 									+ ", U.顧客名１ + U.顧客名２ as f顧客名"

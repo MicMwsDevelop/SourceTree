@@ -7,8 +7,9 @@
 // 
 // Ver1.00(2024/01/31 勝呂):新規作成
 // Ver1.01(2024/02/26 勝呂):異常データ検出パターンOの追加
+// Ver1.02(2024/04/03 勝呂):課金データ作成バッチにならい、申込情報から申込データに参照先を変更
 //
-using CommonLib.BaseFactory.Charlie.View;
+using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.Common;
 using CommonLib.DB;
 using System;
@@ -53,7 +54,7 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 		/// <summary>
 		/// 課金終了日
 		/// </summary>
-		public DateTime? UseEndtDate { get; set; }
+		public DateTime? UseEndDate { get; set; }
 
 		/// <summary>
 		/// 課金対象外フラグ
@@ -110,7 +111,7 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 			ServiceID = 0;
 			ServiceName = string.Empty;
 			UseStartDate = null;
-			UseEndtDate = null;
+			UseEndDate = null;
 			PauseEndStatus = false;
 			CreateDate = null;
 			CreatePerson = string.Empty;
@@ -140,7 +141,7 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 					data.ServiceID = DataBaseValue.ConvObjectToInt(row["ServiceID"]);
 					data.ServiceName = row["ServiceName"].ToString().Trim();
 					data.UseStartDate = DataBaseValue.ConvObjectToDateTimeNull(row["UseStartDate"]);
-					data.UseEndtDate = DataBaseValue.ConvObjectToDateTimeNull(row["UseEndtDate"]);
+					data.UseEndDate = DataBaseValue.ConvObjectToDateTimeNull(row["UseEndtDate"]);
 					data.PauseEndStatus = ("0" == row["PauseEndStatus"].ToString()) ? false : true;
 					data.CreateDate = DataBaseValue.ConvObjectToDateTimeNull(row["CreateDate"]);
 					data.CreatePerson = row["CreatePerson"].ToString().Trim();
@@ -154,29 +155,227 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 			}
 			return null;
 		}
-
-		/// <summary>
-		/// 顧客利用情報と申込情報の異常データの検出
-		/// </summary>
-		/// <param name="apply">申込情報</param>
-		/// <returns>判定</returns>
-		public bool IsIllegalData(V_COUPLER_APPLY apply)
-		{
-			if (null == apply || "1" == apply.system_flg)
-			{
-				// 申込情報なし or (システム反映済フラグ == 1)
-				if (false == UseStartDate.HasValue)
+		/*
+				/// <summary>
+				/// 顧客利用情報と申込情報の異常データの検出
+				/// </summary>
+				/// <param name="apply">申込情報</param>
+				/// <returns>判定</returns>
+				public bool IsIllegalData(V_COUPLER_APPLY apply)
 				{
-					if (false == UseEndtDate.HasValue)
+					if (null == apply || "1" == apply.system_flg)
 					{
-						// 利用開始日==null && 課金終了日==null
-						ErrorCode = "A";
-						Condition = "利用開始日と課金終了日が未設定。サービスは有効でない";
-						Handle = "処理なし。サービスがPC安心サポートの場合は顧客利用情報から削除";
+						// 申込情報なし or (システム反映済フラグ == 1)
+						if (false == UseStartDate.HasValue)
+						{
+							if (false == UseEndtDate.HasValue)
+							{
+								// 利用開始日==null && 課金終了日==null
+								ErrorCode = "A";
+								Condition = "利用開始日と課金終了日が未設定。サービスは有効でない";
+								Handle = "処理なし。サービスがPC安心サポートの場合は顧客利用情報から削除";
+							}
+							else
+							{
+								// 利用開始日==null && 課金終了日<>null
+								ErrorCode = "B";
+								Condition = "利用開始日が未設定。サービスが有効でない";
+								Handle = "顧客利用情報の利用開始日を設定";
+							}
+							return true;
+						}
+						if (PauseEndStatus)
+						{
+							if (false == PeriodEndDate.HasValue)
+							{
+								// 課金対象外フラグ==1 && 利用期限日==null
+								ErrorCode = "D";
+								Condition = "解約状態が正しくない";
+								Handle = "顧客利用情報の利用期限日に終了日を設定";
+								return true;
+							}
+						}
+						else
+						{
+							if (PeriodEndDate.HasValue)
+							{
+								// 課金対象外フラグ==1 && 利用期限日<>null
+								ErrorCode = "E";
+								Condition = "解約状態が正しくない";
+								Handle = "顧客利用情報の課金対象外フラグを設定";
+								return true;
+							}
+							else
+							{
+								if (UseEndtDate.HasValue && UseEndtDate.Value < DateTime.Today.EndOfNextMonth())
+								{
+									// 課金終了日 < 翌月末日
+									ErrorCode = "C";
+									Condition = "課金終了日が翌月末日前。解約情報がない";
+									Handle = "伝票起票が必要";
+									return true;
+								}
+							}
+						}
 					}
 					else
 					{
-						// 利用開始日==null && 課金終了日<>null
+						// 申込情報あり
+						if (false == UseStartDate.HasValue)
+						{
+							if (false == UseEndtDate.HasValue)
+							{
+								// 利用開始日==null && 課金終了日==null
+								ErrorCode = "F";
+								Condition = "利用開始日と課金終了日が未設定。サービスは有効でない";
+								Handle = "処理なし";
+							}
+							else
+							{
+								// 利用開始日==null && 課金終了日<>null
+								ErrorCode = "G";
+								Condition = "利用開始日が未設定。利用申込受付中のまま、解約申込ができない";
+								Handle = "顧客利用情報の利用開始日を設定。申込情報の利用申込は取消";
+							}
+							return true;
+						}
+						if (UseEndtDate.HasValue)
+						{
+							// 課金終了日<>null
+							if (PauseEndStatus)
+							{
+								if (false == PeriodEndDate.HasValue)
+								{
+									// 課金対象外フラグ==1 && 利用期限日==null
+									if ("0" == apply.apply_type)
+									{
+										// 利用申込
+										if (UseEndtDate.Value < apply.apply_date.Value)
+										{
+											// 利用申込受付日が課金終了日の翌月以降
+											ErrorCode = "I";
+											Condition = "解約状態が正しくない";
+											Handle = "顧客利用情報の利用期限日に課金終了日を設定。申込情報の申込受付日は課金終了日の翌月以降なので問題なし";
+											return true;
+										}
+										else if (apply.apply_date.Value <= UseEndtDate.Value.EndOfLastMonth())
+										{
+											// 利用申込受付日が課金終了月の前月以前
+											ErrorCode = "J";
+											Condition = "解約状態が正しくない";
+											Handle = "顧客利用情報の利用期限日に課金終了日を設定。申込情報の申込受付日が課金終了日の前月以前なので利用申込は取消";
+											return true;
+										}
+									}
+								}
+							}
+							else
+							{
+								if (PeriodEndDate.HasValue)
+								{
+									// 課金対象外フラグ==0 && 利用期限日<>null
+									if ("0" == apply.apply_type)
+									{
+										// 利用申込
+										if (UseEndtDate.Value < apply.apply_date.Value)
+										{
+											// 利用申込受付日が課金終了月の翌月以降
+											ErrorCode = "K";
+											Condition = "解約状態が正しくない";
+											Handle = "顧客利用情報の課金対象外フラグを設定。申込情報の申込受付日が課金終了日の翌月以降なので問題なし";
+											return true;
+										}
+										else if (apply.apply_date.Value <= UseEndtDate.Value.EndOfLastMonth())
+										{
+											// 利用申込受付日が課金終了月の前月以前
+											ErrorCode = "L";
+											Condition = "解約状態が正しくない";
+											Handle = "顧客利用情報の課金対象外フラグを設定。申込情報の申込受付日が課金終了日の前月以前なので利用申込は取消";
+											return true;
+										}
+									}
+								}
+								else
+								{
+									// 課金対象外フラグ==0 && 利用期限日==null
+									if ("0" == apply.apply_type)
+									{
+										// 利用申込
+										if (DateTime.Today.EndOfNextMonth() <= UseEndtDate.Value)
+										{
+											// 課金終了日が翌月末日以降
+											if (apply.apply_date.Value <= UseEndtDate.Value.EndOfLastMonth())
+											{
+												// 利用申込受付日が課金終了月の前月以前
+												ErrorCode = "H";
+												Condition = "利用申込中のままの状態。課金は問題なし";
+												Handle = "顧客利用情報の課金終了日が翌月末日以降なので問題なし。申込情報の申込受付日が課金終了日の前月以前なので利用申込は取消";
+												return true;
+											}
+										}
+									}
+									else
+									{
+										// 解約申込
+										if (apply.apply_date.Value < UseEndtDate.Value.BeginOfLastMonth())
+										{
+											// 解約申込受付日が課金終了月の２か月前以前
+											// Ver1.01(2024/02/26 勝呂):異常データ検出パターンOの追加
+											if (DateTime.Today.EndOfNextMonth() <= UseEndtDate.Value)
+											{
+												// 課金終了日が翌月末日以降
+												ErrorCode = "O";
+												Condition = "申込受付日が課金終了月の２か月前以前。課金終了日が翌月末日以降。解約情報がない";
+												Handle = "対応方法は不明？";
+											}
+											else
+											{
+												// 課金終了日が翌月末日前日以前
+												ErrorCode = "M";
+												Condition = "申込受付日が課金終了月の２か月前以前。課金終了日が翌月末日前日以前。解約情報がない";
+												Handle = "解約処理を行うか判断が必要";
+											}
+											return true;
+										}
+										else if (apply.apply_date.Value.ToDate().ToYearMonth() == UseEndtDate.Value.ToDate().ToYearMonth())
+										{
+											// 解約申込受付月と課金終了月が同月
+											ErrorCode = "N";
+											Condition = "解約申込とWWでの解約処理が同月に行われた";
+											Handle = "申込情報の解約申込を取消";
+											return true;
+										}
+									}
+								}
+							}
+						}
+					}
+					return false;
+				}
+		*/
+		/// <summary>
+		/// 顧客利用情報と申込データの異常データの検出
+		/// </summary>
+		/// <param name="apl">申込データ</param>
+		/// <returns>判定</returns>
+		// Ver1.02(2024/04/03 勝呂):課金データ作成バッチにならい、申込情報から申込データに参照先を変更
+		public bool IsIllegalData(T_APPLICATION_DATA apl)
+		{
+			if (null == apl)
+			{
+				// 申込データなし
+				if (false == UseStartDate.HasValue)
+				{
+					if (false == UseEndDate.HasValue)
+					{
+						// 利用開始日=null && 課金終了日=null
+						ErrorCode = "A";
+						Condition = "利用開始日と課金終了日が未設定。サービスは有効でない";
+						Handle = "処理なし";
+					}
+					else
+					{
+						// 利用開始日=null && 課金終了日<>null
 						ErrorCode = "B";
 						Condition = "利用開始日が未設定。サービスが有効でない";
 						Handle = "顧客利用情報の利用開始日を設定";
@@ -187,10 +386,10 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 				{
 					if (false == PeriodEndDate.HasValue)
 					{
-						// 課金対象外フラグ==1 && 利用期限日==null
+						// 課金対象外フラグ=1 && 利用期限日=null
 						ErrorCode = "D";
 						Condition = "解約状態が正しくない";
-						Handle = "顧客利用情報の利用期限日に終了日を設定";
+						Handle = "顧客利用情報の利用期限日に課金終了日を設定";
 						return true;
 					}
 				}
@@ -198,7 +397,7 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 				{
 					if (PeriodEndDate.HasValue)
 					{
-						// 課金対象外フラグ==1 && 利用期限日<>null
+						// 課金対象外フラグ=1 && 利用期限日<>null
 						ErrorCode = "E";
 						Condition = "解約状態が正しくない";
 						Handle = "顧客利用情報の課金対象外フラグを設定";
@@ -206,7 +405,8 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 					}
 					else
 					{
-						if (UseEndtDate.HasValue && UseEndtDate.Value < DateTime.Today.EndOfNextMonth())
+						// 課金対象外フラグ=0 && 利用期限日=null
+						if (UseEndDate.HasValue && UseEndDate.Value < DateTime.Today.EndOfNextMonth())
 						{
 							// 課金終了日 < 翌月末日
 							ErrorCode = "C";
@@ -219,37 +419,37 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 			}
 			else
 			{
-				// 申込情報あり
+				// 申込データあり
 				if (false == UseStartDate.HasValue)
 				{
-					if (false == UseEndtDate.HasValue)
+					if (false == UseEndDate.HasValue)
 					{
-						// 利用開始日==null && 課金終了日==null
+						// 利用開始日=null && 課金終了日=null
 						ErrorCode = "F";
 						Condition = "利用開始日と課金終了日が未設定。サービスは有効でない";
 						Handle = "処理なし";
 					}
 					else
 					{
-						// 利用開始日==null && 課金終了日<>null
+						// 利用開始日=null && 課金終了日<>null
 						ErrorCode = "G";
 						Condition = "利用開始日が未設定。利用申込受付中のまま、解約申込ができない";
 						Handle = "顧客利用情報の利用開始日を設定。申込情報の利用申込は取消";
 					}
 					return true;
 				}
-				if (UseEndtDate.HasValue)
+				if (UseEndDate.HasValue)
 				{
 					// 課金終了日<>null
 					if (PauseEndStatus)
 					{
 						if (false == PeriodEndDate.HasValue)
 						{
-							// 課金対象外フラグ==1 && 利用期限日==null
-							if ("0" == apply.apply_type)
+							// 課金対象外フラグ=1 && 利用期限日=null
+							if (false == apl.APPLICATION_CANCELLATION_FLG)
 							{
 								// 利用申込
-								if (UseEndtDate.Value < apply.apply_date.Value)
+								if (UseEndDate.Value < apl.APPLICATION_DATE.Value)
 								{
 									// 利用申込受付日が課金終了日の翌月以降
 									ErrorCode = "I";
@@ -257,7 +457,7 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 									Handle = "顧客利用情報の利用期限日に課金終了日を設定。申込情報の申込受付日は課金終了日の翌月以降なので問題なし";
 									return true;
 								}
-								else if (apply.apply_date.Value <= UseEndtDate.Value.EndOfLastMonth())
+								else if (apl.APPLICATION_DATE.Value <= UseEndDate.Value.EndOfLastMonth())
 								{
 									// 利用申込受付日が課金終了月の前月以前
 									ErrorCode = "J";
@@ -272,11 +472,11 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 					{
 						if (PeriodEndDate.HasValue)
 						{
-							// 課金対象外フラグ==0 && 利用期限日<>null
-							if ("0" == apply.apply_type)
+							// 課金対象外フラグ=0 && 利用期限日<>null
+							if (false == apl.APPLICATION_CANCELLATION_FLG)
 							{
 								// 利用申込
-								if (UseEndtDate.Value < apply.apply_date.Value)
+								if (UseEndDate.Value < apl.APPLICATION_DATE.Value)
 								{
 									// 利用申込受付日が課金終了月の翌月以降
 									ErrorCode = "K";
@@ -284,7 +484,7 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 									Handle = "顧客利用情報の課金対象外フラグを設定。申込情報の申込受付日が課金終了日の翌月以降なので問題なし";
 									return true;
 								}
-								else if (apply.apply_date.Value <= UseEndtDate.Value.EndOfLastMonth())
+								else if (apl.APPLICATION_DATE.Value <= UseEndDate.Value.EndOfLastMonth())
 								{
 									// 利用申込受付日が課金終了月の前月以前
 									ErrorCode = "L";
@@ -296,14 +496,22 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 						}
 						else
 						{
-							// 課金対象外フラグ==0 && 利用期限日==null
-							if ("0" == apply.apply_type)
+							// 課金対象外フラグ=0 && 利用期限日=null
+							if (UseEndDate.HasValue && UseEndDate.Value < DateTime.Today.EndOfNextMonth())
+							{
+								// 課金終了日 < 翌月末日
+								ErrorCode = "C";
+								Condition = "課金終了日が翌月末日前。解約情報がない";
+								Handle = "伝票起票が必要";
+								return true;
+							}
+							if (false == apl.APPLICATION_CANCELLATION_FLG)
 							{
 								// 利用申込
-								if (DateTime.Today.EndOfNextMonth() <= UseEndtDate.Value)
+								if (DateTime.Today.EndOfNextMonth() <= UseEndDate.Value)
 								{
 									// 課金終了日が翌月末日以降
-									if (apply.apply_date.Value <= UseEndtDate.Value.EndOfLastMonth())
+									if (apl.APPLICATION_DATE.Value <= UseEndDate.Value.EndOfLastMonth())
 									{
 										// 利用申込受付日が課金終了月の前月以前
 										ErrorCode = "H";
@@ -316,11 +524,11 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 							else
 							{
 								// 解約申込
-								if (apply.apply_date.Value < UseEndtDate.Value.BeginOfLastMonth())
+								if (apl.APPLICATION_DATE.Value < UseEndDate.Value.BeginOfLastMonth())
 								{
 									// 解約申込受付日が課金終了月の２か月前以前
 									// Ver1.01(2024/02/26 勝呂):異常データ検出パターンOの追加
-									if (DateTime.Today.EndOfNextMonth() <= UseEndtDate.Value)
+									if (DateTime.Today.EndOfNextMonth() <= UseEndDate.Value)
 									{
 										// 課金終了日が翌月末日以降
 										ErrorCode = "O";
@@ -336,7 +544,7 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 									}
 									return true;
 								}
-								else if (apply.apply_date.Value.ToDate().ToYearMonth() == UseEndtDate.Value.ToDate().ToYearMonth())
+								else if (apl.APPLICATION_DATE.Value.ToDate().ToYearMonth() == UseEndDate.Value.ToDate().ToYearMonth())
 								{
 									// 解約申込受付月と課金終了月が同月
 									ErrorCode = "N";
@@ -378,26 +586,59 @@ namespace CommonLib.BaseFactory.CheckMwsServiceIllegalData
 			ret[16] = "対処方法";
 			return ret;
 		}
-
+		/*
+				/// <summary>
+				/// 出力データ文字列の取得
+				/// </summary>
+				/// <param name="apply">申込情報</param>
+				/// <returns>出力データ文字列</returns>
+				public string[] GetOutputData(V_COUPLER_APPLY apply)
+				{
+					string[] ret = new string[17];
+					ret[0] = CustomerID.ToString();
+					ret[1] = CustomerName;
+					ret[2] = ServiceID.ToString();
+					ret[3] = ServiceName;
+					if (null != apply)
+					{
+						ret[4] = ("0" == apply.apply_type) ? "利用申込": "解約申込";
+						ret[5] = (apply.apply_date.HasValue) ? apply.apply_date.Value.ToShortDateString() : apply.apply_date.ToString();
+					}
+					ret[6] = (UseStartDate.HasValue) ? UseStartDate.Value.ToShortDateString() : UseStartDate.ToString();
+					ret[7] = (UseEndtDate.HasValue) ? UseEndtDate.Value.ToShortDateString() : UseEndtDate.ToString();
+					ret[8] = (PauseEndStatus) ? "1": "0";
+					ret[9] = (CreateDate.HasValue) ? CreateDate.Value.ToShortDateString() : CreateDate.ToString();
+					ret[10] = CreatePerson;
+					ret[11] = (UpdateDate.HasValue) ? UpdateDate.Value.ToShortDateString() : UpdateDate.ToString();
+					ret[12] = UpdatePerson;
+					ret[13] = (PeriodEndDate.HasValue) ? PeriodEndDate.Value.ToShortDateString() : PeriodEndDate.ToString();
+					ret[14] = ErrorCode;
+					ret[15] = Condition;
+					ret[16] = Handle;
+					return ret;
+				}
+		*/
 		/// <summary>
 		/// 出力データ文字列の取得
 		/// </summary>
+		/// <param name="apl">申込データ</param>
 		/// <returns>出力データ文字列</returns>
-		public string[] GetOutputData(V_COUPLER_APPLY apply)
+		// Ver1.02(2024/04/03 勝呂):課金データ作成バッチにならい、申込情報から申込データに参照先を変更
+		public string[] GetOutputData(T_APPLICATION_DATA apl)
 		{
 			string[] ret = new string[17];
 			ret[0] = CustomerID.ToString();
 			ret[1] = CustomerName;
 			ret[2] = ServiceID.ToString();
 			ret[3] = ServiceName;
-			if (null != apply)
+			if (null != apl)
 			{
-				ret[4] = ("0" == apply.apply_type) ? "利用申込": "解約申込";
-				ret[5] = (apply.apply_date.HasValue) ? apply.apply_date.Value.ToShortDateString() : apply.apply_date.ToString();
+				ret[4] = (false == apl.APPLICATION_CANCELLATION_FLG) ? "利用申込" : "解約申込";
+				ret[5] = (apl.APPLICATION_DATE.HasValue) ? apl.APPLICATION_DATE.Value.ToShortDateString() : apl.APPLICATION_DATE.ToString();
 			}
 			ret[6] = (UseStartDate.HasValue) ? UseStartDate.Value.ToShortDateString() : UseStartDate.ToString();
-			ret[7] = (UseEndtDate.HasValue) ? UseEndtDate.Value.ToShortDateString() : UseEndtDate.ToString();
-			ret[8] = (PauseEndStatus) ? "1": "0";
+			ret[7] = (UseEndDate.HasValue) ? UseEndDate.Value.ToShortDateString() : UseEndDate.ToString();
+			ret[8] = (PauseEndStatus) ? "1" : "0";
 			ret[9] = (CreateDate.HasValue) ? CreateDate.Value.ToShortDateString() : CreateDate.ToString();
 			ret[10] = CreatePerson;
 			ret[11] = (UpdateDate.HasValue) ? UpdateDate.Value.ToShortDateString() : UpdateDate.ToString();

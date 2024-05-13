@@ -17,16 +17,59 @@ namespace CommonLib.BaseFactory.Charlie.Table
 {
 	public class M_SERVICE
 	{
+		/// <summary>
+		/// サービスID
+		/// </summary>
 		public int SERVICE_ID { get; set; }
+
+		/// <summary>
+		/// サービス種別ID
+		/// </summary>
 		public int SERVICE_TYPE_ID { get; set; }
+
+		/// <summary>
+		/// 親サービスID
+		/// </summary>
 		public int PARENTS_SERVICE_ID { get; set; }
+
+		/// <summary>
+		/// サービス名
+		/// </summary>
 		public string SERVICE_NAME { get; set; }
+
+		/// <summary>
+		/// 有効無効フラグ 0:有効 1:無効
+		/// </summary>
 		public string UMU_FLG { get; set; }
+
+		/// <summary>
+		/// ソートキー
+		/// </summary>
 		public int SORT_KEY { get; set; }
+
+		/// <summary>
+		/// 削除フラグ
+		/// </summary>
 		public string DELETE_FLG { get; set; }
+
+		/// <summary>
+		/// 作成日時
+		/// </summary>
 		public DateTime? CREATE_DATE { get; set; }
+
+		/// <summary>
+		/// 作成者
+		/// </summary>
 		public string CREATE_PERSON { get; set; }
+
+		/// <summary>
+		/// 更新日時
+		/// </summary>
 		public DateTime? UPDATE_DATE { get; set; }
+
+		/// <summary>
+		/// 更新者
+		/// </summary>
 		public string UPDATE_PERSON { get; set; }
 
 		/// <summary>

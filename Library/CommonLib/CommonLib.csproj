@@ -65,11 +65,11 @@
     <Compile Include="BaseFactory\Charlie\Table\T_DEMO_USER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_FILE_CREATEDATE.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_LICENSE_PRODUCT_CONTRACT.cs" />
-    <Compile Include="BaseFactory\Charlie\Table\T_MWS_APPLY.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_DETAIL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_HEADER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_ONLINE_DEMAND.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_USE_ONLINE_HOMON.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
     <Compile Include="BaseFactory\Charlie\Table\M_CODE.cs" />
     <Compile Include="BaseFactory\Charlie\Table\売上実績.cs" />
@@ -116,6 +116,7 @@
     <Compile Include="BaseFactory\MwsSimulation\ServiceInfo.cs" />
     <Compile Include="BaseFactory\MwsSimulation\SetPlan.cs" />
     <Compile Include="BaseFactory\OnlineDemand\OnlineDemandEarningsOut.cs" />
+    <Compile Include="BaseFactory\OnlineLicenseHomon\OnlineLicenseHomonEarningsOut.cs" />
     <Compile Include="BaseFactory\OnlineLicenseMainte\OnlineLicenseMainteEarningsOut.cs" />
     <Compile Include="BaseFactory\PcaInvoiceDataConverter\CustomerInfo.cs" />
     <Compile Include="BaseFactory\PcaInvoiceDataConverter\InvoiceDetailData.cs" />
@@ -287,6 +288,8 @@
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationGetIO.cs" />
     <Compile Include="DB\SqlServer\OnlineDemand\OnlineDemandAccess.cs" />
     <Compile Include="DB\SqlServer\OnlineDemand\OnlineDemandGetIO.cs" />
+    <Compile Include="DB\SqlServer\OnlineLicenseHomon\OnlineLicenseHomonAccess.cs" />
+    <Compile Include="DB\SqlServer\OnlineLicenseHomon\OnlineLicenseHomonGetIO.cs" />
     <Compile Include="DB\SqlServer\OnlineLicenseMainte\OnlineLicenseMainteAccess.cs" />
     <Compile Include="DB\SqlServer\OnlineLicenseMainte\OnlineLicenseMainteGetIO.cs" />
     <Compile Include="DB\SqlServer\PcaInvoiceDataConverter\PcaInvoiceDataConverterAccess.cs" />

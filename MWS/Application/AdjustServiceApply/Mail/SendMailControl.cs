@@ -6,8 +6,10 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2023/06/07 勝呂):新規作成
+// Ver1.10(2024/05/10 勝呂):メール送信先が複数指定された時にアプリケーションエラー
 // 
 using AdjustServiceApply.Log;
+using MwsLib.Settings.Mail;
 using System;
 using System.Net;
 using System.Net.Mail;
@@ -54,48 +56,9 @@ namespace AdjustServiceApply.Mail
 					msg.Body += string.Format("{0}<br>", log);
 				}
 				// メール送信
-				SendMailControl.SendMail(msg);
-			}
-		}
-
-		/// <summary>
-		/// メール送信
-		/// </summary>
-		/// <param name="msg"></param>
-		private static void SendMail(MailMessage msg)
-		{
-			// 差出人（From）
-			msg.From = new MailAddress(Program.gSettings.Mail.From);           // densan@mic.jp
-
-#if DEBUG
-			// 宛先（To）を登録する
-			msg.To.Add(new MailAddress(Program.gSettings.Mail.TestTo));      // suguro@mic.jp
-			if (0 < Program.gSettings.Mail.TestCC.Length)
-			{
-				msg.CC.Add(new MailAddress(Program.gSettings.Mail.TestCC));
-			}
-#else
-			// 宛先（To）を登録する
-			msg.To.Add(new MailAddress(Program.gSettings.Mail.To));			// densan@mic.jp
-			if (0 < Program.gSettings.Mail.CC.Length)
-			{
-				msg.CC.Add(new MailAddress(Program.gSettings.Mail.CC));
-			}
-#endif
-
-			// SMTPサーバの設定
-			using (SmtpClient smtp = new SmtpClient())
-			{
-				smtp.Host = Program.gSettings.Mail.Smtp;
-				smtp.Port = Program.gSettings.Mail.Port;
-
-				// SMTP認証
-				if (!String.IsNullOrEmpty(Program.gSettings.Mail.User) && !String.IsNullOrEmpty(Program.gSettings.Mail.Pass))
-				{
-					smtp.Credentials = new NetworkCredential(Program.gSettings.Mail.User, Program.gSettings.Mail.Pass);
-				}
-				// メール送信
-				smtp.Send(msg);
+				// Ver1.10(2024/05/10 勝呂):メール送信先が複数指定された時にアプリケーションエラー
+				//SendMailControl.SendMail(msg);
+				MailSettings.SendMail(msg, Program.gSettings.Mail);
 			}
 		}
 	}

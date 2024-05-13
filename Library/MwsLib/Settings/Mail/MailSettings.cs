@@ -168,7 +168,7 @@ namespace MwsLib.Settings.Mail
 		public static void SendMail(MailMessage msg, MailSettings settings)
 		{
 			// 差出人（From）
-			msg.From = new MailAddress(settings.From);           // sys_kanri@mic.jp
+			msg.From = new MailAddress(settings.From);           // mainte_info_sys@mic.jp
 
 #if DEBUG
 			string[] toArray = settings.TestTo.Split(';');    // suguro@mic.jp

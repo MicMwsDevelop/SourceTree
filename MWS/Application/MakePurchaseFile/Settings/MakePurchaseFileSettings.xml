@@ -326,6 +326,15 @@
 			<仕入数>1</仕入数>
 			<仕入フラグ>0</仕入フラグ>
 		</アルメックス仕入商品情報>
+		<アルメックス仕入商品情報>
+			<商品コード>002199</商品コード >
+			<商品名>ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月</商品名>
+			<仕入商品コード>002199</仕入商品コード>
+			<仕入価格>46350</仕入価格>
+			<仕入先></仕入先>
+			<仕入数>1</仕入数>
+			<仕入フラグ>0</仕入フラグ>
+		</アルメックス仕入商品情報>
 	</アルメックス商品>
 	<オン資格保守サービス商品>
 		<オン資格保守サービス仕入商品情報>
@@ -362,25 +371,25 @@
 	<Connect>
 		<Junp>
 			<InstanceName>SQLSV</InstanceName>
-			<!-- InstanceName>TESTSV</InstanceName -->
+			<!-- InstanceName>TESTSV2</InstanceName -->
 			<DatabaseName>JunpDB</DatabaseName>
 			<UserID>web</UserID>
 			<Password>02035612</Password>
 		</Junp>
 			<Charlie>
 			<InstanceName>SQLSV</InstanceName>
-			<!-- InstanceName>TESTSV</InstanceName -->
+			<!-- InstanceName>TESTSV2</InstanceName -->
 			<DatabaseName>CharlieDB</DatabaseName>
 			<UserID>web</UserID>
 			<Password>02035612</Password>
 		</Charlie>
 		<Coupler>
-			<InstanceName>CP-DB01</InstanceName>
-			<!-- InstanceName>CPTest-DB</InstanceName -->
-			<DatabaseName>COUPLER</DatabaseName>
-			<UserID>cpuser</UserID>
-			<!--UserID>sa</UserID-->
-			<Password>Sqladmin#39</Password>
+			<InstanceName>SQLSV</InstanceName>
+			<!-- InstanceName>TESTSV2</InstanceName -->
+			<DatabaseName>[MWS-DB].[COUPLER]</DatabaseName>
+			<!-- DatabaseName>[MWS-DB].[COUPLER_DEV]</DatabaseName -->
+			<UserID>web</UserID>
+			<Password>02035612</Password>
 		</Coupler>
 	</Connect>
 </MakePurchaseFileSettings>

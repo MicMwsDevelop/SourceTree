@@ -22,14 +22,6 @@
       <Fax>011-251-8488</Fax>
     </BranchSettings>
     <BranchSettings>
-      <Name>株式会社ミック 盛岡</Name>
-      <Zipcode>020-0871</Zipcode>
-      <Address1>岩手県盛岡市中ノ橋通1-4-22</Address1>
-      <Address2>中ノ橋106ビル4F</Address2>
-      <Tel>019-604-6727</Tel>
-      <Fax>019-604-6728</Fax>
-    </BranchSettings>
-    <BranchSettings>
       <Name>株式会社ミック 仙台</Name>
       <Zipcode>980-0802</Zipcode>
       <Address1>宮城県仙台市青葉区二日町14-15</Address1>
@@ -87,11 +79,11 @@
     </BranchSettings>
     <BranchSettings>
       <Name>株式会社ミック 広島</Name>
-      <Zipcode>730-0016</Zipcode>
-      <Address1>広島県広島市中区幟町13-11</Address1>
-      <Address2>明治安田生命広島幟町ビル8F</Address2>
-      <Tel>082-511-2167</Tel>
-      <Fax>082-511-2168</Fax>
+      <Zipcode>732-0825</Zipcode>
+      <Address1>広島県広島市南区金屋町2-14</Address1>
+      <Address2>アフロディテビル5F</Address2>
+      <Tel>082-553-9751</Tel>
+      <Fax>082-553-9749</Fax>
     </BranchSettings>
     <BranchSettings>
       <Name>株式会社ミック 福岡</Name>
@@ -103,12 +95,11 @@
     </BranchSettings>
   </BranchList>
   <StaffList>
-    <string>板垣 容子</string>
-    <string>木村 剛</string>
+    <string>竹内 祐吾</string>
     <string>藤井 利彦</string>
-    <string>秋 相文</string>
-    <string>大野 宗孝</string>
-    <string>小河 寛明</string>
+    <string>尾形 直哉</string>
+    <string>有馬 麻沙子</string>
+    <string>高峰 禎敏</string>
   </StaffList>
   <CurrentBranchIndex>5</CurrentBranchIndex>
   <CurrentStaffIndex>1</CurrentStaffIndex>

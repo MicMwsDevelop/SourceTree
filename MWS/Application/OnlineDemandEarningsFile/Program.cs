@@ -135,7 +135,6 @@ namespace OnlineDemandEarningsFile
 								sw.WriteLine(sale.ToArticle1(no, sale.請求先コード, requestDate, gSettings.PcaVersion));
 
 								// 得意先No. を記事行２を追加
-								// ○○○○様分 を記事行１を追加
 								sw.WriteLine(sale.ToArticle2(no, sale.請求先コード, requestDate, gSettings.PcaVersion));
 							}
 							no++;
@@ -144,7 +143,7 @@ namespace OnlineDemandEarningsFile
 					// 中間ファイルをリネームして出力ファルダにコピー
 					File.Copy(gSettings.TemporaryPathname, gSettings.FormalPathname(gFormalFilename));
 
-#if !DEBUG
+#if !DebugNoWrite
 					foreach (OnlineDemandEarningsOut sale in saleList)
 					{
 						// オンライン請求作業情報の売上日時を更新

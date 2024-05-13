@@ -16,17 +16,60 @@ namespace CommonLib.BaseFactory.Charlie.View
 {
 	public class V_COUPLER_APPLY
 	{
+		/// <summary>
+		/// 申込No
+		/// </summary>
         public int apply_id { get; set; }
+
+		/// <summary>
+		/// MWSID
+		/// </summary>
         public string cp_id { get; set; }
+
+		/// <summary>
+		/// 顧客No
+		/// </summary>
         public int customer_id { get; set; }
+
+		/// <summary>
+		/// サービスID
+		/// </summary>
         public int service_id { get; set; }
+
+		/// <summary>
+		/// 申込日時
+		/// </summary>
         public DateTime? apply_date { get; set; }
+
+		/// <summary>
+		/// 申込種別 0:利用申込、1:解約申込
+		/// </summary>
         public string apply_type { get; set; }
+
+		/// <summary>
+		/// システム反映済フラグ 0:未反映、1:反映済、2:取消
+		/// </summary>
         public string system_flg { get; set; }
-        public DateTime? create_date { get; set; }
-        public string create_user { get; set; }
-        public DateTime? update_date { get; set; }
-        public string update_user { get; set; }
+
+		/// <summary>
+		/// 作成日時
+		/// </summary>
+		public DateTime? create_date { get; set; }
+
+		/// <summary>
+		/// 作成者
+		/// </summary>
+		public string create_user { get; set; }
+
+		/// <summary>
+		/// 更新日時
+		/// </summary>
+		public DateTime? update_date { get; set; }
+
+		/// <summary>
+		/// 更新者
+		/// </summary>
+		public string update_user { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ

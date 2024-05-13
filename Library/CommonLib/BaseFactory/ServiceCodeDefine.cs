@@ -111,6 +111,16 @@ namespace CommonLib.BaseFactory
 			TabletEx = 44,
 
 			/// <summary>
+			/// オンライン資格確認連携
+			/// </summary>
+			OnlineLicense = 46,
+
+			/// <summary>
+			/// 電子処方箋
+			/// </summary>
+			ElectricPrescription = 48,
+
+			/// <summary>
 			/// シカハコ
 			/// </summary>
 			Shikahako = 1000,
@@ -135,6 +145,11 @@ namespace CommonLib.BaseFactory
 			/// Ver1.01 Web予約受付対応(2021/09/07 勝呂)
 			/// </summary>
 			WebAppoint = 17100,
+
+			/// <summary>
+			/// Web問診票
+			/// </summary>
+			WebMonshin = 17200,
 
 			/// <summary>
 			/// ユーザー
@@ -587,6 +602,52 @@ namespace CommonLib.BaseFactory
 			TabletKensahyo = 1044120,
 
 			/////////////////////////
+			// 46 オンライン資格確認連携
+
+			/// <summary>
+			/// オンライン資格確認連携
+			/// </summary>
+			OnlineLicenseConfirm = 1046100,
+
+			/// <summary>
+			/// 資格情報一括照会
+			/// </summary>
+			LicenseInquiry = 1046120,
+
+			/// <summary>
+			/// 特定健診情報閲覧
+			/// </summary>
+			HealthCheckInfo = 1046140,
+
+			/// <summary>
+			/// 薬剤情報等閲覧
+			/// </summary>
+			DrugInfo = 1046160,
+
+			/// <summary>
+			/// オンライン資格確認医療扶助連携
+			/// </summary>
+			OnlineLicenseSeiho = 1046180,
+
+			/// <summary>
+			/// オンライン資格確認訪問診療連携
+			/// </summary>
+			OnlineLicenseHomon = 1046200,
+
+			/////////////////////////
+			// 48 電子処方箋
+
+			/// <summary>
+			/// 電子処方箋管理
+			/// </summary>
+			ElectricPrescription = 1048100,
+
+			/// <summary>
+			/// 院内処方チェック
+			/// </summary>
+			InhospitalPrescription = 1048120,
+
+			/////////////////////////
 			// 1000 シカハコ
 
 			// 1510100 シカハコ
@@ -722,6 +783,13 @@ namespace CommonLib.BaseFactory
 			/// </summary>
 			WebAppoint = 6810100,
 
+			/////////////////////////
+			// 17200 Web問診票
+
+			/// <summary>
+			/// Web問診票
+			/// </summary>
+			WebMonshin = 7010100,
 
 			/////////////////////////
 			// 100000 ユーザー

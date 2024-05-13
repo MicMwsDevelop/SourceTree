@@ -253,6 +253,19 @@ namespace CommonLib.DB.SqlServer.Charlie
 			return T_APPLICATION_DATA.DataTableToList(table);
 		}
 
+		/// <summary>
+		/// [charlieDB].[dbo].[T_USE_ONLINE_HOMON]の取得（オン資格確認訪問診療連携契約情報）
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>申込データリスト</returns>
+		public static List<T_USE_ONLINE_HOMON> Select_T_USE_ONLINE_HOMON(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_HOMON], whereStr, orderStr, connectStr);
+			return T_USE_ONLINE_HOMON.DataTableToList(table);
+		}
+
 
 		//////////////////////////////
 		// UPDATE SET
@@ -487,5 +500,17 @@ namespace CommonLib.DB.SqlServer.Charlie
 			return T_COUPLER_PRODUCTUSER.DataTableToList(table);
 		}
 
+		/// <summary>
+		/// [charlieDB].[dbo].[T_COUPLER_APPLY]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>申込情報リスト</returns>
+		public static List<T_COUPLER_APPLY> Synonym_T_COUPLER_APPLY(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.SynonymName[CharlieDatabaseDefine.SynonymType.T_COUPLER_APPLY], whereStr, orderStr, connectStr);
+			return T_COUPLER_APPLY.DataTableToList(table);
+		}
 	}
 }

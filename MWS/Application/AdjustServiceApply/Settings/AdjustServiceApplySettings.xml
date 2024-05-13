@@ -17,16 +17,15 @@
   <ConnectCoupler>
     <!-- InstanceName>SQLSV</InstanceName -->
     <InstanceName>TESTSV2</InstanceName>
-    <!-- DatabaseName>[CP-DB01].[COUPLER]</DatabaseName -->
+    <!-- DatabaseName>[MWS-DB].[COUPLER]</DatabaseName -->
     <DatabaseName>[MWS-DB].[COUPLER_DEV]</DatabaseName>
     <UserID>web</UserID>
     <Password>02035612</Password>
   </ConnectCoupler>
   <Mail>
-    <From>densan@mic.jp</From>
-    <!--To>sys_kanri@mic.jp</To -->
-    <To>suguro@mic.jp</To>
-	  <CC></CC>
+    <From>mainte_info_sys@mic.jp</From>
+    <To>mainte_info_sys@mic.jp</To>
+    <CC></CC>
     <TestTo>suguro@mic.jp</TestTo>
     <TestCC></TestCC>
     <Smtp>dove.mic.jp</Smtp>

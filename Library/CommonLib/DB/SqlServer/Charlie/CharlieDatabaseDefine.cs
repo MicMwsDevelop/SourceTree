@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2019/06/28 勝呂)
 // Ver1.01 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/10 勝呂)
+// Ver1.02(2024/03/25 勝呂):オン資格訪問診療 補助金パックに対応
 // 
 using CommonLib.Common;
 
@@ -116,6 +117,11 @@ namespace CommonLib.DB.SqlServer.Charlie
 			/// オンライン請求作業情報
 			/// </summary>
 			T_USE_ONLINE_DEMAND = 18,
+
+			/// <summary>
+			/// オン資格確認訪問診療連携契約情報
+			/// </summary>
+			T_USE_ONLINE_HOMON = 19,
 		}
 
 		/// <summary>
@@ -141,6 +147,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ TableType.T_DEMO_SERVICE, string.Format("{0}.T_DEMO_SERVICE", DatabaseName) },
 			{ TableType.M_MAIL, string.Format("{0}.M_MAIL", DatabaseName) },
 			{ TableType.T_USE_ONLINE_DEMAND, string.Format("{0}.T_USE_ONLINE_DEMAND", DatabaseName) },
+			{ TableType.T_USE_ONLINE_HOMON, string.Format("{0}.T_USE_ONLINE_HOMON", DatabaseName) },
 		};
 
 		/// <summary>

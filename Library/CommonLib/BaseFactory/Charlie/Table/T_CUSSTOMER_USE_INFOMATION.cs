@@ -49,32 +49,32 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		public string APPLICATION_NO { get; set; }
 
 		/// <summary>
-		/// 
+		/// 課金開始年月日
 		/// </summary>
 		public DateTime? KAKIN_START_DATE { get; set; }
 
 		/// <summary>
-		/// 
+		/// 利用開始年月日
 		/// </summary>
 		public DateTime? USE_START_DATE { get; set; }
 
 		/// <summary>
-		/// 
+		/// 利用終了年月日
 		/// </summary>
 		public DateTime? USE_END_DATE { get; set; }
 
 		/// <summary>
-		/// 
+		/// 解約申込日
 		/// </summary>
 		public DateTime? CANCELLATION_DAY { get; set; }
 
 		/// <summary>
-		/// 
+		/// 解約処理日
 		/// </summary>
 		public DateTime? CANCELLATION_PROCESSING_DATE { get; set; }
 
 		/// <summary>
-		/// 課金対象外フラグ
+		/// 課金対象外フラグ 利用中=0､終了＝1 
 		/// </summary>
 		public bool PAUSE_END_STATUS { get; set; }
 

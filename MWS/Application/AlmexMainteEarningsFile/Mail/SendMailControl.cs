@@ -6,12 +6,12 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2020/11/24 勝呂)
+// Ver1.06(2024/05/10 勝呂):メール送信先が複数指定された時にアプリケーションエラー
 //
 using CommonLib.BaseFactory.AlmexMainte;
 using CommonLib.Common;
-using System;
+using MwsLib.Settings.Mail;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Mail;
 using System.Text;
 
@@ -105,48 +105,9 @@ namespace AlmexMainteEarningsFile.Mail
 							+ @"</html>";
 
 				// メール送信
-				SendMailControl.SendMail(msg);
-			}
-		}
-
-		/// <summary>
-		/// メール送信
-		/// </summary>
-		/// <param name="msg"></param>
-		private static void SendMail(MailMessage msg)
-		{
-			// 差出人（From）
-			msg.From = new MailAddress(Program.gSettings.Mail.From);           // sys_kanri@mic.jp
-
-#if DEBUG
-			// 宛先（To）を登録する
-			msg.To.Add(new MailAddress(Program.gSettings.Mail.TestTo));      // suguro@mic.jp
-			if (0 < Program.gSettings.Mail.TestCC.Length)
-			{
-				msg.CC.Add(new MailAddress(Program.gSettings.Mail.TestCC));      // suguro@mic.jp
-			}
-#else
-			// 宛先（To）を登録する
-			msg.To.Add(new MailAddress(Program.gSettings.Mail.To));			// keiri@mic.jp
-			if (0 < Program.gSettings.Mail.CC.Length)
-			{
-				msg.CC.Add(new MailAddress(Program.gSettings.Mail.CC));			// sys_kanri@mic.jp;jigyo_plan_dx@mic.jp
-			}
-#endif
-
-			// SMTPサーバの設定
-			using (SmtpClient smtp = new SmtpClient())
-			{
-				smtp.Host = Program.gSettings.Mail.Smtp;
-				smtp.Port = Program.gSettings.Mail.Port;
-
-				// SMTP認証
-				if (!String.IsNullOrEmpty(Program.gSettings.Mail.User) && !String.IsNullOrEmpty(Program.gSettings.Mail.Pass))
-				{
-					smtp.Credentials = new NetworkCredential(Program.gSettings.Mail.User, Program.gSettings.Mail.Pass);
-				}
-				// メール送信
-				smtp.Send(msg);
+				// Ver1.06(2024/05/10 勝呂):メール送信先が複数指定された時にアプリケーションエラー
+				//SendMailControl.SendMail(msg);
+				MailSettings.SendMail(msg, Program.gSettings.Mail);
 			}
 		}
 	}

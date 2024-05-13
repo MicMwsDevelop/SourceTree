@@ -15,6 +15,10 @@ namespace CommonLib.DB.SqlServer.Coupler
 {
 	public static class CouplerDatabaseAccess
 	{
+		// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+		// カプラーDBのレコードの取得は本クラスを使用せず、CharlieDatabaseAccessのシノニムで取得する
+		// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
 		////////////////////////////////////////////////////////////////
 		// テーブル関連
 		////////////////////////////////////////////////////////////////
@@ -23,7 +27,7 @@ namespace CommonLib.DB.SqlServer.Coupler
 		// SELECT
 
 		/// <summary>
-		/// [Coupler].[dbo].[SERVICE] 利用情報の取得
+		/// [Coupler].[dbo].[SERVICE] サービス情報の取得
 		/// </summary>
 		/// <param name="dbConnect">DB接続情報</param>
 		/// <param name="whereStr">Where句</param>

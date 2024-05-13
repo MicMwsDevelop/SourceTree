@@ -125,7 +125,7 @@ namespace OnlineLicenseMainteEarningsFile
 
 			try
 			{
-#if DebugNoWrite
+#if false
 				// 緊急用
 				string customerNoStr = "10019664,10002822,20005135,20006802,20007938,20010480,10048260,10048254,10000210,10030884,10026081,20002673,20007564,20005812,10068679"
 												+ ",20003035,10030527,10017040,20005217,20015175,20008437,10048481,10092238,20010670,10037935,10002334,10010059,10000106,10000638,10064592"
@@ -172,7 +172,6 @@ namespace OnlineLicenseMainteEarningsFile
 									sw.WriteLine(sale.ToArticle1(no, sale.f請求先コード, targetDate, tekiyoDate, gSettings.PcaVersion));
 
 									// 得意先No. を記事行２を追加
-									// ○○○○様分 を記事行１を追加
 									// Ver1.03(2024/02/05 勝呂):売上データの利用年月分の表記と年月が正しくない
 									//sw.WriteLine(sale.ToArticle2(no, sale.f請求先コード, saleDate, gSettings.PcaVersion));
 									sw.WriteLine(sale.ToArticle2(no, sale.f請求先コード, targetDate, tekiyoDate, gSettings.PcaVersion));
@@ -216,7 +215,7 @@ namespace OnlineLicenseMainteEarningsFile
 								// 2027/12～2028/11→2028/11：終了
 								sale.f保守終了月 = sale.f保守終了月.Value.PlusYears(1);
 
-#if DebugNoWrite == false
+#if !DebugNoWrite
 								// アプリケーション情報の更新
 								OnlineLicenseMainteAccess.UpdateSetApplicationInfo(sale, UPDATE_PERSON, gSettings.ConnectJunp.ConnectionString);
 #endif

@@ -6,16 +6,13 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2024/01/29 勝呂):新規作成
+// Ver1.02(2024/04/03 勝呂):課金データ作成バッチにならい、申込情報から申込データに参照先を変更
+// Ver1.03(2024/04/18 勝呂):受注伝票サービス利用期間不具合検出機能の追加
+// Ver1.04(2024/04/26 勝呂):受注伝票サービス利用期間不具合検出機能に検索条件漏れがあったので修正
 // 
-using ClosedXML.Excel;
-using CommonLib.BaseFactory.Charlie.View;
 using CommonLib.BaseFactory.CheckMwsServiceIllegalData;
 using CommonLib.Common;
-using CommonLib.DB.SqlServer.Charlie;
-using CommonLib.DB.SqlServer.CheckMwsServiceIllegalData;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -42,11 +39,11 @@ namespace CheckMwsServiceIllegalData.Forms
 		}
 
 		/// <summary>
-		/// 検出開始
+		/// MWSサービス異常データ出力
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void buttonExec_Click(object sender, EventArgs e)
+		private void buttonCheckAbnormalData_Click(object sender, EventArgs e)
 		{
 			// 元のカーソルを保持
 			Cursor preCursor = Cursor.Current;
@@ -54,91 +51,62 @@ namespace CheckMwsServiceIllegalData.Forms
 			// カーソルを待機カーソルに変更
 			Cursor.Current = Cursors.WaitCursor;
 
-			// orgファイル→Excelファイルをコピー
-			string orgPpathname = Path.Combine(Directory.GetCurrentDirectory(), CheckUseCustomerInfo.OrgFilename);
 			string xlsPathname = Path.Combine(Directory.GetCurrentDirectory(), string.Format(CheckUseCustomerInfo.ExcelFilename, Date.Today.ToIntYMD()));
-			File.Copy(orgPpathname, xlsPathname, true);
+			string msg = Program.CheckAbnormalData(xlsPathname, false);
 
-			try
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
+
+			if (0 == msg.Length)
 			{
-				// 出力データ
-				List<string[]> outputData = new List<string[]>();
-				List<int> idList = CheckMwsServiceIllegalDataAccess.GetCuiCustomerIdList(Program.gSettings.ConnectCharlie.ConnectionString);
-				if (null != idList && 0 < idList.Count)
-				{
-					// CUI抽出条件：終了フラグ=0、CUI削除フラグ=0
-					List<CheckUseCustomerInfo> allCuiList = CheckMwsServiceIllegalDataAccess.GetCheckUseCustomerInfo(Program.gSettings.ConnectCharlie.ConnectionString);
-
-					// 申込情報抽出条件：MWSユーザー、システム反映済フラグ=0、地図分析と3DentMovieを除く
-					List<V_COUPLER_APPLY> allApplyList = CharlieDatabaseAccess.Select_V_COUPLER_APPLY("system_flg = 0 AND LEFT(cp_id, 3) = 'MWS' AND service_id not in (1028120, 1030120)", "cp_id, service_id, apply_id desc", Program.gSettings.ConnectCharlie.ConnectionString);
-					foreach (int id in idList)
-					{
-						List<CheckUseCustomerInfo> cuiList = allCuiList.FindAll(p => p.CustomerID == id);
-						if (0 < cuiList.Count)
-						{
-							foreach (CheckUseCustomerInfo cui in cuiList) 
-							{
-								V_COUPLER_APPLY apply = allApplyList.Find(p => p.customer_id == cui.CustomerID && p.service_id == cui.ServiceID);
-								if (cui.IsIllegalData(apply))
-								{
-									outputData.Add(cui.GetOutputData(apply));
-								}
-							}
-						}
-					}
-				}
-				// エクセルファイルへの出力
-				ExcelOut(xlsPathname, outputData);
-
-				// カーソルを元に戻す
-				Cursor.Current = preCursor;
-
-				// Excelの起動
-				using (Process process = new Process())
-				{
-					process.StartInfo.FileName = xlsPathname;
-					process.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
-					process.Start();
-				}
+				MessageBox.Show("MWSサービス異常データファイルを出力しました。", "正常終了", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 			}
-			catch (Exception ex)
+			else
 			{
-				MessageBox.Show(ex.Message, Program.gProcName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(msg, "異常終了", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			// アプリケーションの終了
 			this.Close();
 		}
 
 		/// <summary>
-		/// EXCEL出力
+		/// 受注伝票サービス利用期間不具合検出
 		/// </summary>
-		/// <param name="pathname">Excelファイルパス名</param>
-		private void ExcelOut(string pathname, List<string[]> outputData)
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.03(2024/04/18 勝呂):受注伝票サービス利用期間不具合検出機能の追加
+		private void buttonCheckIllegalCuiServiceTerm_Click(object sender, EventArgs e)
 		{
-			try
+			// 元のカーソルを保持
+			Cursor preCursor = Cursor.Current;
+
+			// カーソルを待機カーソルに変更
+			Cursor.Current = Cursors.WaitCursor;
+
+			// サービス利用期間が正しくない顧客利用情報の取得
+			// Ver1.04(2024/04/26 勝呂):受注伝票サービス利用期間不具合検出機能に検索条件漏れがあったので修正
+			int findCount;
+			string msg = Program.CheckIllegalCuiServiceTerm(out findCount);
+			// カーソルを元に戻す
+			Cursor.Current = preCursor;
+
+			if (0 == msg.Length)
 			{
-				using (XLWorkbook wb = new XLWorkbook(pathname))
+				if (0 < findCount)
 				{
-					IXLWorksheet ws = wb.Worksheet(CheckUseCustomerInfo.ExcelSheetName);
-					int row = 2;
-					foreach (string[] rowData in outputData)
-					{
-						int column = 1;
-						foreach (string data in rowData)
-						{
-							ws.Cell(row, column).SetValue(data);
-							column++;
-						}
-						row++;
-					}
-					// Excelファイルの保存
-					wb.Save();
+					MessageBox.Show(string.Format("サービス利用期間が正しくない顧客利用情報が{0}件ありました。メールをご確認ください。", findCount), "報告", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+				}
+				else
+				{
+					MessageBox.Show("受注伝票サービス利用期間の不具合はありませんでした。", "正常終了", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 				}
 			}
-			catch (Exception ex)
+			else
 			{
-				MessageBox.Show(ex.Message, Program.gProcName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(msg, "異常終了", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+			// アプリケーションの終了
+			this.Close();
 		}
 	}
 }

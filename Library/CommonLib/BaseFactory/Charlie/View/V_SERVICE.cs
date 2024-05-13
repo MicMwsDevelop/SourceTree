@@ -7,7 +7,6 @@
 // 
 // Ver1.00(2023/07/26 勝呂):新規作成
 // 
-using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.DB;
 using System;
 using System.Collections.Generic;
@@ -20,6 +19,7 @@ namespace CommonLib.BaseFactory.Charlie.View
 	/// </summary>
 	public class V_SERVICE
 	{
+/*
 		/// <summary>
 		/// サービスステータス
 		/// </summary>
@@ -31,7 +31,7 @@ namespace CommonLib.BaseFactory.Charlie.View
 			契約終了予定 = 3,
 			解約申込受付中 = 4,
 		}
-
+*/
 		/// <summary>
 		/// MWSID
 		/// </summary>
@@ -137,7 +137,7 @@ namespace CommonLib.BaseFactory.Charlie.View
 			}
 			return null;
 		}
-
+/*
 		/// <summary>
 		/// 
 		/// </summary>
@@ -224,5 +224,6 @@ namespace CommonLib.BaseFactory.Charlie.View
 			}
 			return ServiceStatus.利用申込可能;
 		}
+*/
 	}
 }

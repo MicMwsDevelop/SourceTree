@@ -17,25 +17,105 @@ namespace CommonLib.BaseFactory.Charlie.Table
 {
 	public class T_USE_CONTRACT_HEADER
 	{
+		/// <summary>
+		/// 申込No
+		/// </summary>
 		public int fContractID { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
 		public bool fContractFinalized { get; set; }
+
+		/// <summary>
+		/// 顧客No
+		/// </summary>
 		public int fCustomerID { get; set; }
+
+		/// <summary>
+		/// 契約種別
+		/// ＶＰ：paletteES、まとめ：おまとめプラン、セット：セット契約
+		/// </summary>
 		public string fContractType { get; set; }
+
+		/// <summary>
+		/// 契約月数
+		/// </summary>
 		public int? fMonths { get; set; }
+
+		/// <summary>
+		/// PCA商品コード
+		/// </summary>
 		public string fGoodsID { get; set; }
+
+		/// <summary>
+		/// 申込日時
+		/// </summary>
 		public DateTime? fApplyDate { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
 		public int? fInvoiceNo { get; set; }
+
+		/// <summary>
+		/// 契約金額
+		/// </summary>
 		public int? fTotalAmount { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
 		public DateTime? fDueDate { get; set; }
+
+		/// <summary>
+		/// 契約開始日
+		/// </summary>
 		public DateTime? fContractStartDate { get; set; }
+
+		/// <summary>
+		/// 契約終了日
+		/// </summary>
 		public DateTime? fContractEndDate { get; set; }
+
+		/// <summary>
+		/// 課金開始日
+		/// </summary>
 		public DateTime? fBillingStartDate { get; set; }
+
+		/// <summary>
+		/// 課金終了日
+		/// </summary>
 		public DateTime? fBillingEndDate { get; set; }
+
+		/// <summary>
+		/// 終了フラグ
+		/// </summary>
 		public bool fEndFlag { get; set; }
+
+		/// <summary>
+		/// 削除フラグ
+		/// </summary>
 		public bool fDeleteFlag { get; set; }
+
+		/// <summary>
+		/// 作成日時
+		/// </summary>
 		public DateTime? fCreateDate { get; set; }
+
+		/// <summary>
+		/// 作成者
+		/// </summary>
 		public string fCreatePerson { get; set; }
+
+		/// <summary>
+		/// 更新日時
+		/// </summary>
 		public DateTime? fUpdateDate { get; set; }
+
+		/// <summary>
+		/// 更新者
+		/// </summary>
 		public string fUpdatePerson { get; set; }
 
 		/// <summary>

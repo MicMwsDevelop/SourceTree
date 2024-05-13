@@ -64,7 +64,6 @@ namespace CommonLib.BaseFactory.Charlie.Table
 
 		/// <summary>
 		/// 削除フラグ
-		/// 1:削除
 		/// </summary>
 		public bool DELETE_FLG { get; set; }
 
@@ -89,8 +88,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		public string UPDATE_PERSON { get; set; }
 
 		/// <summary>
-		/// 申込種別
-		/// 0:その他 1:VP 2:UG 3:月額 4:まとめ
+		/// 申込種別 0:その他 1:VP 2:UG 3:月額 4:まとめ
 		/// </summary>
 		public char APPLY_TYPE { get; set; }
 

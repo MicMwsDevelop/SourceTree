@@ -17,15 +17,49 @@ namespace CommonLib.BaseFactory.Charlie.Table
 {
 	public class T_USE_CONTRACT_DETAIL
 	{
+		/// <summary>
+		/// 申込No
+		/// </summary>
 		public int fContractDetailID { get; set; }
+
+		/// <summary>
+		/// おまとめプラン契約ヘッダ情報申込No
+		/// </summary>
 		public int fContractID { get; set; }
+
+		/// <summary>
+		/// サービスID
+		/// </summary>
 		public int fSERVICE_ID { get; set; }
+
+		/// <summary>
+		/// サービス名
+		/// </summary>
 		public string fSERVICE_NAME { get; set; }
+
+		/// <summary>
+		/// 作成日時
+		/// </summary>
 		public DateTime? fCreateDate { get; set; }
+
+		/// <summary>
+		/// 作成者
+		/// </summary>
 		public string fCreatePerson { get; set; }
+
+		/// <summary>
+		/// 更新日時
+		/// </summary>
 		public DateTime? fUpdateDate { get; set; }
+
+		/// <summary>
+		/// 更新者
+		/// </summary>
 		public string fUpdatePerson { get; set; }
 
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
 		public T_USE_CONTRACT_DETAIL()
 		{
 			fContractDetailID = 0;

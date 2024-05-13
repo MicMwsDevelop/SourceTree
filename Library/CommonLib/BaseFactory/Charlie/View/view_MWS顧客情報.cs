@@ -16,13 +16,40 @@ namespace CommonLib.BaseFactory.Charlie.View
 {
 	public class view_MWS顧客情報
     {
+		/// <summary>
+		/// MWSID
+		/// </summary>
         public string MWSID { get; set; }
-        public int 顧客No { get; set; }
-        public string 得意先No { get; set; }
-        public string 顧客名 { get; set; }
-        public string 県番号 { get; set; }
-        public string 都道府県名 { get; set; }
-        public string 住所 { get; set; }
+
+		/// <summary>
+		/// 顧客No
+		/// </summary>
+		public int 顧客No { get; set; }
+
+		/// <summary>
+		/// 得意先No
+		/// </summary>
+		public string 得意先No { get; set; }
+
+		/// <summary>
+		/// 顧客名
+		/// </summary>
+		public string 顧客名 { get; set; }
+
+		/// <summary>
+		/// 県番号
+		/// </summary>
+		public string 県番号 { get; set; }
+
+		/// <summary>
+		/// 都道府県名
+		/// </summary>
+		public string 都道府県名 { get; set; }
+
+		/// <summary>
+		/// 住所
+		/// </summary>
+		public string 住所 { get; set; }
 
         /// <summary>
         /// デフォルトコンストラクタ

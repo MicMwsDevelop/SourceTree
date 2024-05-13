@@ -97,6 +97,16 @@ namespace CommonLib.BaseFactory.Junp.Table
 		public const string fcmコード_Ryoyo_MainteUsageFee = "047";
 
 		/// <summary>
+		/// fcmコード 048:018502 SHINKO オン資・オンサイト保守(更新)　売価：\36,000(税抜)　仕入値：\24,000(税抜)
+		/// </summary>
+		public const string fcmコード_Shinko_MainteUsageFee1 = "048";
+
+		/// <summary>
+		/// fcmコード 049:018501 MICオンライン資格確認保守サービス(更新)　売価：\40,800(税抜)　仕入値：\34,800(税抜)
+		/// </summary>
+		public const string fcmコード_Mic_MainteUsageFee1 = "049";
+
+		/// <summary>
 		/// fcmID
 		/// </summary>
 		public int fcmID { get; set; }

@@ -5,6 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
+/////////////////////////////////////////////////////////
 // Ver1.00(2023/06/07 勝呂):新規作成
 // Ver1.01(2024/01/18 勝呂):MS DTC無効に対応するため、トランザクション処理を行わない
 // Ver1.02(2024/01/24 勝呂):販売店情報参照ビューから販売店コードを取得処理で例外エラー
@@ -15,6 +16,7 @@
 // Ver1.07(2024/03/04 勝呂):testuser_flgの値はNULL固定
 // Ver1.08(2024/03/07 勝呂):全MWSユーザーの顧客情報を更新する処理の追加
 // Ver1.09(2024/03/08 勝呂):申込情報更新で今月終了ユーザーの利用申込サービスの申込情報のシステム反映済フラグを更新していなかった
+// Ver1.10(2024/05/10 勝呂):メール送信先が複数指定された時にアプリケーションエラー
 //
 using AdjustServiceApply.Log;
 using AdjustServiceApply.Mail;
@@ -49,7 +51,7 @@ namespace AdjustServiceApply
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string gVersionStr = "1.09";
+		public const string gVersionStr = "1.10";
 
 		/// <summary>
 		/// 環境設定

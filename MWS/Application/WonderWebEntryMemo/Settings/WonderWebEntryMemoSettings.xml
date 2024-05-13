@@ -2,7 +2,7 @@
 <WonderWebEntryMemoSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ConnectJunp>
     <InstanceName>SQLSV</InstanceName>
-    <!-- InstanceName>TESTSV</InstanceName -->
+    <!-- InstanceName>TESTSV2</InstanceName -->
     <DatabaseName>JunpDB</DatabaseName>
     <UserID>web</UserID>
     <Password>02035612</Password>

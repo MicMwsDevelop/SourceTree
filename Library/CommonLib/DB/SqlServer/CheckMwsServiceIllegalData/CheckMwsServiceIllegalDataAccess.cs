@@ -57,5 +57,16 @@ namespace CommonLib.DB.SqlServer.CheckMwsServiceIllegalData
 			}
 			return null;
 		}
+
+		/// <summary>
+		/// サービス利用期間が正しくない顧客利用情報の取得
+		/// </summary>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>顧客利用情報異常データ検出クラスリスト</returns>
+		public static List<CheckUseCustomerInfo> GetIllegalCuiServiceTerm(string connectStr)
+		{
+			DataTable table = CheckMwsServiceIllegalDataGetIO.GetIllegalCuiServiceTerm(connectStr);
+			return CheckUseCustomerInfo.DataTableToList(table);
+		}
 	}
 }
