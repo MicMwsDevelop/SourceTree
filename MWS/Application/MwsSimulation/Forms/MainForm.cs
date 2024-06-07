@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
+using static CommonLib.BaseFactory.MwsSimulation.Estimate;
+using static CommonLib.BaseFactory.ServiceCodeDefine;
 
 namespace MwsSimulation.Forms
 {
@@ -38,55 +40,73 @@ namespace MwsSimulation.Forms
 		public static List<InitGroupPlan> gInitGroupPlanList { get; set; }
 
 		/// <summary>
-		/// おまとめプラン情報リスト
+		/// おまとめプラン情報リスト（0:12ヵ月/24ヵ月/36ヵ月/48ヵ月/60ヵ月）
+		/// </summary>
+		public static GroupPlanList gGroupPlanList201901 { get; set; }
+
+		/// <summary>
+		/// おまとめプランの中で下限金額の最小値（0:12ヵ月/24ヵ月/36ヵ月/48ヵ月/60ヵ月）
+		/// </summary>
+		public static int gMinAmmount201901 { get; set; }
+
+		/// <summary>
+		/// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（0:12ヵ月/24ヵ月/36ヵ月/48ヵ月/60ヵ月）
+		/// </summary>
+		// Ver1.050 おまとめプランが１円から適用できるように修正(2018/09/18 勝呂)
+		public static int gMinFreeMonthMinAmmount201901 { get; set; }
+
+		/// <summary>
+		/// おまとめプラン情報リスト（1:12ヵ月/24ヵ月/36ヵ月）
 		/// </summary>
 		public static GroupPlanList gGroupPlanList { get; set; }
 
 		/// <summary>
-		/// おまとめプランの中で下限金額の最小値
+		/// おまとめプランの中で下限金額の最小値（1:12ヵ月/24ヵ月/36ヵ月）
 		/// </summary>
 		public static int gMinAmmount { get; set; }
 
 		/// <summary>
-		/// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）
+		/// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（1:12ヵ月/24ヵ月/36ヵ月）
 		/// </summary>
 		// Ver1.050 おまとめプランが１円から適用できるように修正(2018/09/18 勝呂)
 		public static int gMinFreeMonthMinAmmount { get; set; }
 
 		/// <summary>
-		/// おまとめプラン情報リスト（旧版）
-		/// </summary>
-		public static GroupPlanList gOldGroupPlanList { get; set; }
-
-		/// <summary>
-		/// おまとめプランの中で下限金額の最小値（旧版）
-		/// </summary>
-		public static int gOldMinAmmount { get; set; }
-
-		/// <summary>
-		/// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（旧版）
-		/// </summary>
-		// Ver1.050 おまとめプランが１円から適用できるように修正(2018/09/18 勝呂)
-		public static int gOldMinFreeMonthMinAmmount { get; set; }
-
-		/// <summary>
-		/// おまとめプラン情報リスト（新版）
+		/// おまとめプラン情報リスト（2:12ヵ月/36ヵ月/60ヵ月）
 		/// </summary>
 		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-		public static GroupPlanList gNewGroupPlanList { get; set; }
+		public static GroupPlanList gGroupPlanList201907 { get; set; }
 
 		/// <summary>
-		/// おまとめプランの中で下限金額の最小値（新版）
+		/// おまとめプランの中で下限金額の最小値（2:12ヵ月/36ヵ月/60ヵ月）
 		/// </summary>
 		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-		public static int gNewMinAmmount { get; set; }
+		public static int gMinAmmount201907 { get; set; }
 
 		/// <summary>
-		/// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（新版）
+		/// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（2:12ヵ月/36ヵ月/60ヵ月）
 		/// </summary>
 		// Ver1.050 おまとめプランが１円から適用できるように修正(2018/09/18 勝呂)
 		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-		public static int gNewMinFreeMonthMinAmmount { get; set; }
+		public static int gMinFreeMonthMinAmmount201907 { get; set; }
+
+		/// <summary>
+		/// おまとめプラン情報リスト（3:12ヵ月/36ヵ月）
+		/// </summary>
+		// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
+		public static GroupPlanList gGroupPlanList202408 { get; set; }
+
+		/// <summary>
+		/// おまとめプランの中で下限金額の最小値（3:12ヵ月/36ヵ月）
+		/// </summary>
+		// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
+		public static int gMinAmmount202408 { get; set; }
+
+		/// <summary>
+		/// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（3:12ヵ月/36ヵ月）
+		/// </summary>
+		// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
+		public static int gMinFreeMonthMinAmmount202408 { get; set; }
 
 		/// <summary>
 		/// セット割サービス情報リスト
@@ -142,9 +162,9 @@ namespace MwsSimulation.Forms
 
 			gServiceList = null;
 			gInitGroupPlanList = null;
-			gOldGroupPlanList = null;
-			gOldMinAmmount = 0;
-			gOldMinFreeMonthMinAmmount = 0;
+			gGroupPlanList = null;
+			gMinAmmount = 0;
+			gMinFreeMonthMinAmmount = 0;
 			gSetPlanList = null;
 			gTabletViewerPrice = 0;
 			gSettings = null;
@@ -155,13 +175,18 @@ namespace MwsSimulation.Forms
 			MaxPage = 0;
 
 			// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-			gNewGroupPlanList = null;
-			gNewMinAmmount = 0;
-			gNewMinFreeMonthMinAmmount = 0;
+			gGroupPlanList201907 = null;
+			gMinAmmount201907 = 0;
+			gMinFreeMonthMinAmmount201907 = 0;
 
-			gGroupPlanList = null;
-			gMinAmmount = 0;
-			gMinFreeMonthMinAmmount = 0;
+			gGroupPlanList201901 = null;
+			gMinAmmount201901 = 0;
+			gMinFreeMonthMinAmmount201901 = 0;
+
+			// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
+			gGroupPlanList202408 = null;
+			gMinAmmount202408 = 0;
+			gMinFreeMonthMinAmmount202408 = 0;
 		}
 
 		/// <summary>
@@ -203,35 +228,47 @@ namespace MwsSimulation.Forms
 				// おススメセット情報リストの取得
 				gInitGroupPlanList = SQLiteMwsSimulationAccess.GetInitGroupPlan(dataFolder);
 
-				// おまとめプラン情報リストの取得
-				gGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, 0);
+				// おまとめプラン情報リストの取得（1:12ヵ月/24ヵ月/36ヵ月）
+				gGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, MatomeContractType.Matome12_24_36);
 
-				// おまとめプランの中で下限金額の最小値
+				// おまとめプランの中で下限金額の最小値（1:12ヵ月/24ヵ月/36ヵ月）
 				gMinAmmount = gGroupPlanList.GetMinAmmount();
 
-				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）
+				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（1:12ヵ月/24ヵ月/36ヵ月）
 				gMinFreeMonthMinAmmount = gGroupPlanList.GetMinFreeMonthMinAmmount();
 
-				// おまとめプラン情報リスト（旧版）の取得
-				gOldGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, 1);
+				// おまとめプラン情報リストの取得（0:12ヵ月/24ヵ月/36ヵ月/48ヵ月/60ヵ月）
+				gGroupPlanList201901 = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, MatomeContractType.MatomeAll);
 
-				// おまとめプランの中で下限金額の最小値（旧版）
-				gOldMinAmmount = gOldGroupPlanList.GetMinAmmount();
+				// おまとめプランの中で下限金額の最小値（0:12ヵ月/24ヵ月/36ヵ月/48ヵ月/60ヵ月）
+				gMinAmmount201901 = gGroupPlanList201901.GetMinAmmount();
 
-				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（旧版）
-				gOldMinFreeMonthMinAmmount = gOldGroupPlanList.GetMinFreeMonthMinAmmount();
+				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（0:12ヵ月/24ヵ月/36ヵ月/48ヵ月/60ヵ月）
+				gMinFreeMonthMinAmmount201901 = gGroupPlanList201901.GetMinFreeMonthMinAmmount();
 
-				// おまとめプラン情報リスト（新版）の取得
+				// おまとめプラン情報リストの取得（2:12ヵ月/36ヵ月/60ヵ月）
 				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-				gNewGroupPlanList = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, 2);
+				gGroupPlanList201907 = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, MatomeContractType.Matome12_36_60);
 
-				// おまとめプランの中で下限金額の最小値（新版）
+				// おまとめプランの中で下限金額の最小値（2:12ヵ月/36ヵ月/60ヵ月）
 				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-				gNewMinAmmount = gNewGroupPlanList.GetMinAmmount();
+				gMinAmmount201907 = gGroupPlanList201907.GetMinAmmount();
 
-				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（新版）
+				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（2:12ヵ月/36ヵ月/60ヵ月）
 				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-				gNewMinFreeMonthMinAmmount = gNewGroupPlanList.GetMinFreeMonthMinAmmount();
+				gMinFreeMonthMinAmmount201907 = gGroupPlanList201907.GetMinFreeMonthMinAmmount();
+
+				// おまとめプラン情報リストの取得（3:12ヵ月/36ヵ月）
+				// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
+				gGroupPlanList202408 = SQLiteMwsSimulationAccess.GetGroupPlanList(dataFolder, MatomeContractType.Matome12_36);
+
+				// おまとめプランの中で下限金額の最小値（3:12ヵ月/36ヵ月）
+				// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
+				gMinAmmount202408 = gGroupPlanList202408.GetMinAmmount();
+
+				// おまとめプランの中で無償月数が最小値の下限金額（無償月数が０月は除く）（3:12ヵ月/36ヵ月）
+				// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
+				gMinFreeMonthMinAmmount202408 = gGroupPlanList202408.GetMinFreeMonthMinAmmount();
 
 				// セット割サービス情報リストの設定
 				gSetPlanList = SQLiteMwsSimulationAccess.GetSetPlanList(dataFolder);
@@ -239,7 +276,7 @@ namespace MwsSimulation.Forms
 				// バージョン情報の取得
 				gVersionInfo = SQLiteMwsSimulationAccess.GetVerionInfo(dataFolder);
 
-				ServiceInfo tabletViewer = gServiceList.Find(p => p.ServiceCode == Program.SERVICE_CODE_TABLETVIEWER);
+				ServiceInfo tabletViewer = gServiceList.Find(p => p.ServiceCode == (int)ServiceCode.TabletViewer);
 				if (null != tabletViewer)
 				{
 					gTabletViewerPrice = tabletViewer.Price;
@@ -326,11 +363,12 @@ namespace MwsSimulation.Forms
 			if (0 == tabControlEstimate.SelectedIndex)
 			{
 				// おまとめプラン
-				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+#if DEBUG
+				// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
 				if (gSettings.UsedNewForm)
 				{
-					// 新フォーム使用
-					using (SimulationMatomeNewForm form = new SimulationMatomeNewForm())
+					// 12ヵ月/36ヵ月
+					using (SimulationMatomeForm202408 form = new SimulationMatomeForm202408())
 					{
 						if (DialogResult.OK == form.ShowDialog())
 						{
@@ -345,7 +383,8 @@ namespace MwsSimulation.Forms
 				}
 				else
 				{
-					using (SimulationMatomeForm form = new SimulationMatomeForm())
+					// 12ヵ月/36ヵ月/60ヵ月
+					using (SimulationMatomeForm201907 form = new SimulationMatomeForm201907())
 					{
 						if (DialogResult.OK == form.ShowDialog())
 						{
@@ -358,6 +397,41 @@ namespace MwsSimulation.Forms
 						}
 					}
 				}
+#else
+				// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+				if (gSettings.UsedNewForm)
+				{
+					// 12ヵ月/36ヵ月/60ヵ月
+					using (SimulationMatomeForm201907 form = new SimulationMatomeForm201907())
+					{
+						if (DialogResult.OK == form.ShowDialog())
+						{
+							EstimateMatomeList.Add(form.EstimateData);
+
+							// おまとめプラン見積書情報リストボックスの設定
+							this.SetListBoxMatome();
+
+							listBoxMatome.SelectedIndex = listBoxMatome.Items.Count - 1;
+						}
+					}
+				}
+				else
+				{
+					// 12ヵ月/24ヵ月/36ヵ月/48ヵ月/60ヵ月
+					using (SimulationMatomeForm201901 form = new SimulationMatomeForm201901())
+					{
+						if (DialogResult.OK == form.ShowDialog())
+						{
+							EstimateMatomeList.Add(form.EstimateData);
+
+							// おまとめプラン見積書情報リストボックスの設定
+							this.SetListBoxMatome();
+
+							listBoxMatome.SelectedIndex = listBoxMatome.Items.Count - 1;
+						}
+					}
+				}
+#endif
 			}
 			else
 			{
@@ -414,47 +488,10 @@ namespace MwsSimulation.Forms
 					// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 					Estimate est = EstimateMatomeList[listBoxMatome.SelectedIndex];
 
-					// おまとめプラン
-					// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-					if (gSettings.UsedNewForm)
+					if (24 == est.AgreeMonthes || 48 == est.AgreeMonthes)
 					{
-						// 新フォーム使用
-						if (est.IsMatomeOldForm)
-						{
-							// 旧フォーム
-							using (SimulationMatomeOldForm form = new SimulationMatomeOldForm(est))
-							{
-								if (DialogResult.OK == form.ShowDialog())
-								{
-									est = form.EstimateData;
-
-									// おまとめプラン見積書情報リストボックスの設定
-									this.SetListBoxMatome();
-
-									listBoxMatome.SelectedIndex = saveIndex;
-								}
-							}
-						}
-						else
-						{
-							// 新フォーム
-							using (SimulationMatomeNewForm form = new SimulationMatomeNewForm(est))
-							{
-								if (DialogResult.OK == form.ShowDialog())
-								{
-									est = form.EstimateData;
-
-									// おまとめプラン見積書情報リストボックスの設定
-									this.SetListBoxMatome();
-
-									listBoxMatome.SelectedIndex = saveIndex;
-								}
-							}
-						}
-					}
-					else
-					{
-						using (SimulationMatomeForm form = new SimulationMatomeForm(est))
+						// 12ヵ月/24ヵ月/36ヵ月/48ヵ月/60ヵ月
+						using (SimulationMatomeForm201901 form = new SimulationMatomeForm201901(est))
 						{
 							if (DialogResult.OK == form.ShowDialog())
 							{
@@ -467,6 +504,57 @@ namespace MwsSimulation.Forms
 							}
 						}
 					}
+#if DEBUG
+					else if (60 == est.AgreeMonthes)
+					{
+						// 12ヵ月/36ヵ月/60ヵ月
+						using (SimulationMatomeForm201907 form = new SimulationMatomeForm201907(est))
+						{
+							if (DialogResult.OK == form.ShowDialog())
+							{
+								est = form.EstimateData;
+
+								// おまとめプラン見積書情報リストボックスの設定
+								this.SetListBoxMatome();
+
+								listBoxMatome.SelectedIndex = saveIndex;
+							}
+						}
+					}
+					else
+					{
+						// 12ヵ月/36ヵ月
+						using (SimulationMatomeForm202408 form = new SimulationMatomeForm202408(est))
+						{
+							if (DialogResult.OK == form.ShowDialog())
+							{
+								est = form.EstimateData;
+
+								// おまとめプラン見積書情報リストボックスの設定
+								this.SetListBoxMatome();
+
+								listBoxMatome.SelectedIndex = saveIndex;
+							}
+						}
+					}
+#else
+					else
+					{
+						// 12ヵ月/36ヵ月/60ヵ月
+						using (SimulationMatomeForm201907 form = new SimulationMatomeForm201907(est))
+						{
+							if (DialogResult.OK == form.ShowDialog())
+							{
+								est = form.EstimateData;
+
+								// おまとめプラン見積書情報リストボックスの設定
+								this.SetListBoxMatome();
+
+								listBoxMatome.SelectedIndex = saveIndex;
+							}
+						}
+					}
+#endif
 				}
 			}
 			else
@@ -1150,12 +1238,13 @@ namespace MwsSimulation.Forms
 		private void MakeSampleXmlData()
 		{
 			gSettings.StaffList.Clear();
-			gSettings.StaffList.Add("板垣 容子");
-			gSettings.StaffList.Add("木村 剛");
-			gSettings.StaffList.Add("藤井 利彦");
-			gSettings.StaffList.Add("秋 相文");
 			gSettings.StaffList.Add("大野 宗孝");
 			gSettings.StaffList.Add("小河 寛明");
+			gSettings.StaffList.Add("竹内 祐吾");
+			gSettings.StaffList.Add("藤井 利彦");
+			gSettings.StaffList.Add("尾形 直哉");
+			gSettings.StaffList.Add("有馬 麻沙子");
+			gSettings.StaffList.Add("高峰 禎敏");
 
 			gSettings.BranchList.Clear();
 			BranchSettings branch = new BranchSettings();
@@ -1224,7 +1313,7 @@ namespace MwsSimulation.Forms
 			branch = new BranchSettings();
 			branch.Name = "株式会社ミック 金沢";
 			branch.Zipcode = "920-0027";
-			branch.Address1 = "福井県金沢市駅西新町3-1-10";
+			branch.Address1 = "石川県金沢市駅西新町3-1-10";
 			branch.Address2 = "NEWSビル3F";
 			branch.Tel = "076-265-7203";
 			branch.Fax = "076-265-7204";
@@ -1241,11 +1330,11 @@ namespace MwsSimulation.Forms
 
 			branch = new BranchSettings();
 			branch.Name = "株式会社ミック 広島";
-			branch.Zipcode = "730-0016";
-			branch.Address1 = "広島県広島市中区幟町13-11";
-			branch.Address2 = "明治安田生命広島幟町ビル8F";
-			branch.Tel = "082-511-2167";
-			branch.Fax = "082-511-2168";
+			branch.Zipcode = "732-0825";
+			branch.Address1 = "広島県広島市南区金屋町2-14";
+			branch.Address2 = "アフロディテ5F";
+			branch.Tel = "082-553-9751";
+			branch.Fax = "082-553-9749";
 			gSettings.BranchList.Add(branch);
 
 			branch = new BranchSettings();

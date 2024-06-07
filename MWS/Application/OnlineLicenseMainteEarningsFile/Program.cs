@@ -22,6 +22,9 @@
 // Ver1.01(2024/01/30 勝呂):メール送信設定にBCCを追加
 // Ver1.02(2024/02/01 勝呂):売上作成対象は保守終了月が翌月でなく、当月が正しい
 // Ver1.03(2024/02/05 勝呂):売上データの利用年月分の表記と年月が正しくない
+// Ver1.04(2024/05/17 勝呂):fai保守契約終了の更新時に条件文の不具合を修正
+// Ver1.05(2024/05/29 勝呂):SHINKO ｵﾝ資･ｵﾝｻｲﾄ保守、MIC ｵﾝﾗｲﾝ資格確認保守ｻｰﾋﾞｽに対応
+// Ver1.05(2024/05/29 勝呂):売上データの更新単位を月から空白に修正
 //
 using CommonLib.BaseFactory.OnlineLicenseMainte;
 using CommonLib.Common;
@@ -51,7 +54,7 @@ namespace OnlineLicenseMainteEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.03(2024/02/05)";
+		public const string VersionStr = "Ver1.05(2024/05/29)";
 
 		/// <summary>
 		/// 環境設定
@@ -80,7 +83,7 @@ namespace OnlineLicenseMainteEarningsFile
 			gSettings = OnlineLicenseMainteEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			gBootDate = new Date(2024, 1, 1);
+			gBootDate = new Date(2024, 6, 1);
 #else
 			gBootDate = Date.Today;
 #endif

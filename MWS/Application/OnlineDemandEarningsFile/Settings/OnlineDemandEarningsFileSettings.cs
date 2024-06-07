@@ -55,18 +55,23 @@ namespace OnlineDemandEarningsFile.Settings
 		public SqlServerConnect ConnectCharlie { get; set; }
 
 		/// <summary>
-		/// オンライン請求設定（訪問対応）商品ID
+		/// 044029 ｵﾝﾗｲﾝ請求 設定作業(訪問)
 		/// </summary>
-		public string HomonGoodsID { get; set; }
+		//public string OnlineDemandHomonGoodsID { get; set; }
 
 		/// <summary>
-		/// オンライン請求設定（リモート対応）商品ID
+		/// 044030 ｵﾝﾗｲﾝ請求 設定作業(リモート)
 		/// </summary>
-		public string RemoteGoodsID { get; set; }
+		//public string OnlineDemandRemoteGoodsID { get; set; }
+
+		/// <summary>
+		/// 018426 ｵﾝﾗｲﾝ資格確認訪問診療連携環境設定費
+		/// </summary>
+		//public string OnlineHomonGoodsID { get; set; }
 
 		/// <summary>
 		/// 出力ファイル名
-		/// アルメックス保守売上データ_202011251201.csv
+		/// オンライン請求作業売上データ_202404011201.csv
 		/// </summary>
 		public string FormalFilename
 		{
@@ -110,8 +115,9 @@ namespace OnlineDemandEarningsFile.Settings
 			Mail = new MailSettings();
 			ConnectJunp = new SqlServerConnect();
 			ConnectCharlie = new SqlServerConnect();
-			HomonGoodsID = string.Empty;
-			RemoteGoodsID = string.Empty;
+			//OnlineDemandHomonGoodsID = string.Empty;
+			//OnlineDemandRemoteGoodsID = string.Empty;
+			//OnlineHomonGoodsID = string.Empty;
 		}
 
 		/// <summary>
@@ -148,9 +154,10 @@ namespace OnlineDemandEarningsFile.Settings
 					&& SlipInitialNumber == other.SlipInitialNumber
 					&& Mail.Equals(other.Mail)
 					&& ConnectJunp.Equals(other.ConnectJunp)
-					&& ConnectCharlie.Equals(other.ConnectCharlie)
-					&& HomonGoodsID == other.HomonGoodsID
-					&& RemoteGoodsID == other.RemoteGoodsID)
+					&& ConnectCharlie.Equals(other.ConnectCharlie))
+					//&& OnlineDemandHomonGoodsID == other.OnlineDemandHomonGoodsID
+					//&& OnlineDemandRemoteGoodsID == other.OnlineDemandRemoteGoodsID
+					//&& OnlineHomonGoodsID == other.OnlineHomonGoodsID)
 				{
 					return true;
 				}

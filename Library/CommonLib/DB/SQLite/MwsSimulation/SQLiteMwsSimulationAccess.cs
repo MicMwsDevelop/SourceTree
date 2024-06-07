@@ -7,12 +7,14 @@
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
 //
 using CommonLib.BaseFactory.MwsSimulation;
 using CommonLib.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using static CommonLib.BaseFactory.MwsSimulation.Estimate;
 
 namespace CommonLib.DB.SQLite.MwsSimulation
 {
@@ -68,15 +70,16 @@ namespace CommonLib.DB.SQLite.MwsSimulation
 		}
 
 		/// <summary>
-		/// おまとめプラン情報リストの取得（旧版）
+		/// おまとめプラン情報リストの取得
 		/// </summary>
 		/// <param name="dbPath">データベース格納フォルダ</param>
-		/// <param name="readType">読込種別</param>
+		/// <param name="readType">読込種別（0:12ヵ月/24ヵ月/36ヵ月/48ヵ月/60ヵ月、1:12ヵ月/24ヵ月/36ヵ月、2:12ヵ月/36ヵ月/60ヵ月、3:12ヵ月/36ヵ月）</param>
 		/// <returns>おススメセット情報リスト</returns>
 		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-		public static GroupPlanList GetGroupPlanList(string dbPath, int readType)
+		// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
+		public static GroupPlanList GetGroupPlanList(string dbPath, MatomeContractType type)
 		{
-			DataTable table = SQLiteMwsSimulationGetIO.GetGroupPlan(dbPath, readType);
+			DataTable table = SQLiteMwsSimulationGetIO.GetGroupPlan(dbPath, type);
 			return SQLiteMwsSimulationController.ConvertGroupPlan(table);
 		}
 

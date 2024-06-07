@@ -6,7 +6,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2024/03/21 勝呂):新規作成
+// Ver1.00(2024/07/01 勝呂):新規作成
 // 
 using CommonLib.DB;
 using System;
@@ -36,6 +36,16 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		/// 商品コード
 		/// </summary>
 		public string GoodsID { get; set; }
+
+		/// <summary>
+		/// カプラー申込ID
+		/// </summary>
+		public int CouplerApplyID { get; set; }
+
+		/// <summary>
+		/// 注文ID
+		/// </summary>
+		public int OrderReserveID { get; set; }
 
 		/// <summary>
 		/// 契約開始日
@@ -86,6 +96,8 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			CustomerID = 0;
 			ApplyDate = null;
 			GoodsID = string.Empty;
+			CouplerApplyID = 0;
+			OrderReserveID = 0;
 			ContractStartDate = null;
 			ContractEndDate = null;
 			SalesDate = null;
@@ -112,7 +124,10 @@ namespace CommonLib.BaseFactory.Charlie.Table
 					{
 						ApplyNo = DataBaseValue.ConvObjectToInt(row["ApplyNo"]),
 						CustomerID = DataBaseValue.ConvObjectToInt(row["CustomerID"]),
+						ApplyDate = DataBaseValue.ConvObjectToDateTimeNull(row["ApplyDate"]),
 						GoodsID = row["GoodsID"].ToString().Trim(),
+						CouplerApplyID = DataBaseValue.ConvObjectToInt(row["CouplerApplyID"]),
+						OrderReserveID = DataBaseValue.ConvObjectToInt(row["OrderReserveID"]),
 						ContractStartDate = DataBaseValue.ConvObjectToDateTimeNull(row["ContractStartDate"]),
 						ContractEndDate = DataBaseValue.ConvObjectToDateTimeNull(row["ContractEndDate"]),
 						SalesDate = DataBaseValue.ConvObjectToDateTimeNull(row["SalesDate"]),

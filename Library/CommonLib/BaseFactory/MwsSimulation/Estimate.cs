@@ -7,6 +7,7 @@
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
 //
 using CommonLib.Common;
 using CommonLib.DB.SQLite.MwsSimulation;
@@ -33,6 +34,23 @@ namespace CommonLib.BaseFactory.MwsSimulation
 			MatomeNone,
 			/// <summary>まとめ契約あり</summary>
 			Matome,
+		};
+
+		/// <summary>
+		/// おまとめプラン契約期間種別
+		/// 0:12ヵ月/24ヵ月/36ヵ月/48ヵ月/60ヵ月、1:12ヵ月/24ヵ月/36ヵ月、2:12ヵ月/36ヵ月/60ヵ月、3:12ヵ月/36ヵ月
+		/// </summary>
+		// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
+		public enum MatomeContractType
+		{
+			/// <summary>0:12ヵ月/24ヵ月/36ヵ月/48ヵ月/60ヵ月</summary>
+			MatomeAll = 0,
+			/// <summary>1:12ヵ月/24ヵ月/36ヵ月</summary>
+			Matome12_24_36,
+			/// <summary>2:12ヵ月/36ヵ月/60ヵ月</summary>
+			Matome12_36_60,
+			/// <summary>3:12ヵ月/36ヵ月</summary>
+			Matome12_36,
 		};
 
 		/// <summary>
@@ -110,21 +128,21 @@ namespace CommonLib.BaseFactory.MwsSimulation
 			}
 		}
 
-		/// <summary>
-		/// まとめ旧フォームかどうか？
-		/// </summary>
-		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-		public bool IsMatomeOldForm
-		{
-			get
-			{
-				if (12 == AgreeMonthes || 24 == AgreeMonthes)
-				{
-					return true;
-				}
-				return false;
-			}
-		}
+		///// <summary>
+		///// まとめ旧フォームかどうか？
+		///// </summary>
+		//// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+		//public bool IsMatomeOldForm
+		//{
+		//	get
+		//	{
+		//		if (12 == AgreeMonthes || 24 == AgreeMonthes)
+		//		{
+		//			return true;
+		//		}
+		//		return false;
+		//	}
+		//}
 
 		/// <summary>
 		/// 契約開始日の取得
@@ -242,10 +260,10 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		/// </summary>
 		/// <param name="serviceList">申込サービス情報リスト</param>
 		/// <param name="groupList">おまとめプラン・セット割サービスリスト</param>
-		/// <param name="chartComputeCode">電子カルテ標準サービスサービスコード</param>
+		/// <param name="electricChartCode">電子カルテ標準サービスサービスコード</param>
 		/// <param name="tabletViewerCode">TABLETビューワサービスコード</param>
 		/// <param name="platform">プラットフォーム利用料</param>
-		public void SetEstimateData(List<ServiceInfo> serviceList, List<GroupService> groupList, string chartComputeCode, string tabletViewerCode, ServiceInfo platform = null)
+		public void SetEstimateData(List<ServiceInfo> serviceList, List<GroupService> groupList, ServiceCodeDefine.ServiceCode electricChartCode, ServiceCodeDefine.ServiceCode tabletViewerCode, ServiceInfo platform = null)
 		{
 			this.ServiceList.Clear();
 
@@ -264,15 +282,15 @@ namespace CommonLib.BaseFactory.MwsSimulation
 				this.ServiceList.Add(estSvr);
 			}
 			// 電子カルテ標準サービスとTABLETビューワの存在確認
-			bool existChartCompute = false;
+			bool existElectricChart = false;
 			bool existTabletViewer = false;
 			foreach (ServiceInfo service in serviceList)
 			{
-				if (chartComputeCode == service.ServiceCode)
+				if ((int)electricChartCode == service.ServiceCode)
 				{
-					existChartCompute = true;
+					existElectricChart = true;
 				}
-				else if (tabletViewerCode == service.ServiceCode)
+				else if ((int)tabletViewerCode == service.ServiceCode)
 				{
 					existTabletViewer = true;
 				}
@@ -283,7 +301,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 				EstimateService estSvr = new EstimateService();
 				estSvr.GoodsID = service.GoodsID;
 				estSvr.ServiceName = service.ServiceName;
-				if (tabletViewerCode == service.ServiceCode && true == existChartCompute && true == existTabletViewer)
+				if ((int)tabletViewerCode == service.ServiceCode && true == existElectricChart && true == existTabletViewer)
 				{
 					estSvr.Price = 0;
 				}

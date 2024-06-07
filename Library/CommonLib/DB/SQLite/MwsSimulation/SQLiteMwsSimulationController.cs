@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
+// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
 //
 using CommonLib.BaseFactory.MwsSimulation;
 using CommonLib.Common;
@@ -80,15 +81,19 @@ namespace CommonLib.DB.SQLite.MwsSimulation
 				foreach (DataRow row in table.Rows)
 				{
 					ServiceInfo service = new ServiceInfo();
-					service.ServiceCode = row["ServiceCode"].ToString();
+					service.ServiceCode = DataBaseValue.ConvObjectToInt(row["ServiceCode"]);
 					service.ServiceName = row["ServiceName"].ToString();
-					service.ParentServiceCode = row["ParentServiceCode"].ToString();
+					service.ParentServiceCode = DataBaseValue.ConvObjectToInt(row["ParentServiceCode"]);
 					service.ServiceType = DataBaseValue.ConvObjectToInt(row["ServiceType"]);
 					service.ServiceTypeName = row["ServiceTypeName"].ToString();
 					service.Price = DataBaseValue.ConvObjectToInt(row["Price"]);
 					service.GoodsID = row["GoodsID"].ToString();
 					service.GoodsName = row["GoodsName"].ToString();
 					service.GoodsKubun = DataBaseValue.ConvObjectToInt(row["GoodsKubun"]);
+
+					// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+					service.Matome = DataBaseValue.ConvObjectToBool(row["Matome"]);
+
 					if (SQLiteMwsSimulationDef.MWS_STANDARD_GOODSID == service.GoodsID)
 					{
 						result.Platform = service;
@@ -234,15 +239,15 @@ namespace CommonLib.DB.SQLite.MwsSimulation
 		/// </summary>
 		/// <param name="table">データテーブル</param>
 		/// <returns>サービス情報リスト</returns>
-		public static List<string> ConvertInitGroupPlanElement(DataTable table)
+		public static List<int> ConvertInitGroupPlanElement(DataTable table)
 		{
-			List<string> result = null;
+			List<int> result = null;
 			if (null != table)
 			{
-				result = new List<string>();
+				result = new List<int>();
 				foreach (DataRow row in table.Rows)
 				{
-					result.Add(row["ServiceCode"].ToString());
+					result.Add(DataBaseValue.ConvObjectToInt(row["ServiceCode"]));
 				}
 			}
 			return result;

@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2024/03/21 勝呂):新規作成
+// Ver1.00(2024/07/01 勝呂):新規作成
 // 
 using CommonLib.BaseFactory.Pca;
 using CommonLib.Common;
@@ -16,13 +16,11 @@ using System.Data;
 
 namespace CommonLib.BaseFactory.OnlineLicenseHomon
 {
+	/// <summary>
+	/// オン資格訪問診療売上情報
+	/// </summary>
 	public class OnlineLicenseHomonEarningsOut
 	{
-		/// <summary>
-		/// 018426 ｵﾝ資格確認訪問診療連携環境設定費
-		/// </summary>
-		//public const string 設定費_商品コード = "018426";
-
 		/// <summary>
 		/// 018427 ｵﾝﾗｲﾝ資格確認訪問診療連携費
 		/// </summary>
@@ -99,17 +97,6 @@ namespace CommonLib.BaseFactory.OnlineLicenseHomon
 			}
 		}
 
-		///// <summary>
-		///// 018427 ｵﾝﾗｲﾝ資格確認訪問診療連携費かどうか？
-		///// </summary>
-		//public bool Is連携費
-		//{
-		//	get
-		//	{
-		//		return (連携費_商品コード == 商品コード) ? true : false;
-		//	}
-		//}
-
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
@@ -134,16 +121,6 @@ namespace CommonLib.BaseFactory.OnlineLicenseHomon
 			契約終了日 = null;
 			売上日時 = null;
 		}
-
-		///// <summary>
-		///// 摘要名の取得
-		///// yyyy/MM 初期設定
-		///// <param name="saleDate">売上日</param>
-		///// </summary>
-		//public string 摘要名_設定費(Date saleDate)
-		//{
-		//	return string.Format("{0} 初期設定", saleDate.ToYearMonth().GetNormalString());
-		//}
 
 		/// <summary>
 		/// 摘要名の取得
@@ -197,25 +174,6 @@ namespace CommonLib.BaseFactory.OnlineLicenseHomon
 			}
 			return null;
 		}
-
-		///// <summary>
-		///// 摘要名の取得
-		///// </summary>
-		///// <param name="code">商品コード</param>
-		///// <param name="saleDate">売上日</param>
-		///// <param name="startDate">利用開始日</param>
-		///// <param name="endDate">利用終了日</param>
-		///// <returns></returns>
-		//private string 摘要名(string code, Date saleDate, DateTime? startDate, DateTime? endDate)
-		//{
-		//	if (設定費_商品コード == code)
-		//	{
-		//		// 018426 ｵﾝ資格確認訪問診療連携環境設定費
-		//		return 摘要名_設定費(saleDate);
-		//	}
-		//	// 018427 ｵﾝﾗｲﾝ資格確認訪問診療連携費
-		//	return 摘要名_連携費(startDate, endDate);
-		//}
 
 		/// <summary>
 		/// 売上データCSV文字列の取得

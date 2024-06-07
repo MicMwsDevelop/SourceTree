@@ -88,6 +88,7 @@ namespace OnlineDemandEarningsFile.Forms
 			{
 				MessageBox.Show("売上データファイル名が設定されていません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
+			this.Close();
 		}
 
 		/// <summary>

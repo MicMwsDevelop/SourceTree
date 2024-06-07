@@ -372,7 +372,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		/// <summary>
 		/// サービスコードリスト
 		/// </summary>
-		public List<string> ServiceCodeList { get; set; }
+		public List<int> ServiceCodeList { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -381,7 +381,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		{
 			GroupID = 0;
 			GroupName = string.Empty;
-			ServiceCodeList = new List<string>();
+			ServiceCodeList = new List<int>();
 		}
 
 		/// <summary>

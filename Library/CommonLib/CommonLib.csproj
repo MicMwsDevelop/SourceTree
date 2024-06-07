@@ -68,6 +68,7 @@
     <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_DETAIL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_HEADER.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_USE_ELECTRIC_PRESCRIPTION.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_ONLINE_DEMAND.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_ONLINE_HOMON.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="BaseFactory\CheckOrderSlip\OrderSlipData.cs" />
     <Compile Include="BaseFactory\CloudBackup\GroupMicPCA売上明細.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_APPLY.cs" />
+    <Compile Include="BaseFactory\ElectricPrescription\ElectricPrescriptionEarningsOut.cs" />
     <Compile Include="BaseFactory\EntryFinishedUser\EntryFinishedUserData.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic社内データ管理ヘッダ.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic社内データ管理利用部署情報.cs" />
@@ -273,6 +275,8 @@
     <Compile Include="DB\SqlServer\DatabaseController.cs" />
     <Compile Include="DB\SqlServer\DatabaseTableSQL.cs" />
     <Compile Include="DB\DataBaseValue.cs" />
+    <Compile Include="DB\SqlServer\ElectricPrescription\ElectricPrescriptionAccess.cs" />
+    <Compile Include="DB\SqlServer\ElectricPrescription\ElectricPrescriptionGetIO.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserAccess.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserController.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserGetIO.cs" />

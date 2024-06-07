@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2024/03/21 勝呂):新規作成
+// Ver1.00(2024/07/01 勝呂):新規作成
 // 
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Charlie.Table;
@@ -28,11 +28,11 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 		//////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// オン資格訪問診療契約情報からオン資格訪問診療売上情報の取得
+		/// オン資訪問診療連携契約情報の取得
 		/// </summary>
 		/// <param name="applyDate">申込日時</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>オン資格訪問診療売上情報リスト</returns>
+		/// <returns>オン資訪問診療売上情報リスト</returns>
 		public static List<OnlineLicenseHomonEarningsOut> GetOnlineLicenseHomonEarningsOut(Date applyDate, string connectStr)
 		{
 			DataTable dt = OnlineLicenseHomonGetIO.GetOnlineLicenseHomonEarningsOut(applyDate, connectStr);
@@ -40,16 +40,16 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 		}
 
 		/// <summary>
-		/// オン資格訪問診療契約情報 売上日時の設定
+		/// オン資訪問診療連携契約情報 売上日時の設定
 		/// </summary>
-		/// <param name="sale">オン資格訪問診療売上情報</param>
+		/// <param name="sale">オン資認訪問診療連携契約情報</param>
 		/// <param name="procName">アプリ名</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>結果行数</returns>
 		public static int UpdateSetOnlineLicenseHomonSaleDate(OnlineLicenseHomonEarningsOut sale, string procName, string connectStr)
 		{
 			string updateStr = string.Format(@"UPDATE {0} SET [SalesDate] = @1, [UpdateDate] = @2, [UpdatePerson] = @3 WHERE [ApplyNo] = {1}"
-								, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_HOMON]	// 0
+								, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_HOMON]   // 0
 								, sale.受付No);	// 1
 
 			SqlParameter[] param = {
@@ -61,7 +61,7 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 		}
 
 		/// <summary>
-		/// 顧客利用情報の追加
+		/// 顧客管理利用情報にオンライン資格確認訪問診療連携サービスを追加
 		/// </summary>
 		/// <param name="sale">オン資格訪問診療売上情報</param>
 		/// <param name="procName">アプリ名</param>
@@ -75,12 +75,13 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 			{
 				// 変更
 				T_CUSSTOMER_USE_INFOMATION cui = cuiList[0];
-				string updateStr = string.Format(@"UPDATE {0} SET USE_END_DATE = @1, CANCELLATION_DAY = @2"
-												+ ", CANCELLATION_PROCESSING_DATE = @3, PAUSE_END_STATUS = @4, DELETE_FLG = @5"
-												+ ", UPDATE_DATE = @6, UPDATE_PERSON = @7, PERIOD_END_DATE = @8, RENEWAL_FLG = @9"
+				string updateStr = string.Format(@"UPDATE {0} SET [USE_END_DATE] = @1, [CANCELLATION_DAY] = @2"
+												+ ", [CANCELLATION_PROCESSING_DATE] = @3, [PAUSE_END_STATUS] = @4, [DELETE_FLG] = @5"
+												+ ", [UPDATE_DATE] = @6, [UPDATE_PERSON] = @7, [PERIOD_END_DATE] = @8, [RENEWAL_FLG] = @9"
 												+ " WHERE CUSTOMER_ID = {1} AND SERVICE_ID = {2}"
-												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]
-												, cui.CUSTOMER_ID, cui.SERVICE_ID);
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]	// 0
+												, cui.CUSTOMER_ID	// 1
+												, cui.SERVICE_ID);		// 2
 				SqlParameter[] param = {
 					new SqlParameter("@1", sale.契約終了日.Value),		// USE_END_DATE
 					new SqlParameter("@2", System.Data.SqlTypes.SqlString.Null),		// CANCELLATION_DAY
@@ -90,7 +91,7 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 					new SqlParameter("@6", DateTime.Now),		// UPDATE_DATE
 					new SqlParameter("@7", procName),			// UPDATE_PERSON
 					new SqlParameter("@8", System.Data.SqlTypes.SqlString.Null),		// PERIOD_END_DATE
-					new SqlParameter("@9", "0"),		// RENEWAL_FLG
+					new SqlParameter("@9", "1"),		// RENEWAL_FLG
 				};
 				return DatabaseAccess.UpdateSetDatabase(updateStr, param, connectStr);
 			}
@@ -105,6 +106,7 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 				cui.USE_END_DATE = sale.契約終了日;
 				cui.CREATE_DATE = DateTime.Now;
 				cui.CREATE_PERSON = procName;
+				cui.RENEWAL_FLG = true;
 				SqlParameter[] param = cui.GetInsertIntoParameters();
 				return DatabaseAccess.InsertIntoDatabase(T_CUSSTOMER_USE_INFOMATION.InsertIntoSqlString, param, connectStr);
 			}
@@ -135,8 +137,9 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 					foreach (V_COUPLER_APPLY apply in applyList)
 					{
 						string sqlStr = string.Format(@"UPDATE {0} SET system_flg = '2', update_date = getdate(), update_user = '{1}' WHERE apply_id = {2}"
-																	, string.Format("{0}.[dbo].{1}", databaseName, CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.APPLY])
-																	, procName, apply.apply_id);
+																	, string.Format("{0}.[dbo].{1}", databaseName, CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.APPLY])	// 0
+																	, procName			// 1
+																	, apply.apply_id);	// 2
 						// 実行
 						rowCount = DatabaseController.SqlExecuteNonQuery(con, sqlStr);
 						if (rowCount <= -1)

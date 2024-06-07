@@ -1,6 +1,6 @@
 ﻿namespace MwsSimulation.Forms
 {
-	partial class SimulationMatomeOldForm
+	partial class SimulationMatomeForm201907
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationMatomeOldForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationMatomeForm201907));
 			this.listViewService = new System.Windows.Forms.ListView();
 			this.columnHeaderServiceTypeName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderServiceName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -40,28 +40,28 @@
 			this.buttonOK = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.radioButtonMatome36 = new System.Windows.Forms.RadioButton();
+			this.radioButtonMatome60 = new System.Windows.Forms.RadioButton();
 			this.label15 = new System.Windows.Forms.Label();
-			this.textBoxMatomeMonthlyPrice36 = new System.Windows.Forms.TextBox();
-			this.radioButtonMatome24 = new System.Windows.Forms.RadioButton();
+			this.textBoxMatomeMonthlyPrice60 = new System.Windows.Forms.TextBox();
+			this.radioButtonMatome36 = new System.Windows.Forms.RadioButton();
 			this.label14 = new System.Windows.Forms.Label();
-			this.textBoxMatomeMonthlyPrice24 = new System.Windows.Forms.TextBox();
+			this.textBoxMatomeMonthlyPrice36 = new System.Windows.Forms.TextBox();
 			this.textBoxNormalMonthlyPrice = new System.Windows.Forms.TextBox();
 			this.textBoxMatomeMonthlyPrice12 = new System.Windows.Forms.TextBox();
 			this.radioButtonMatome12 = new System.Windows.Forms.RadioButton();
+			this.radioButtonNormal60 = new System.Windows.Forms.RadioButton();
 			this.radioButtonNormal36 = new System.Windows.Forms.RadioButton();
-			this.radioButtonNormal24 = new System.Windows.Forms.RadioButton();
 			this.label3 = new System.Windows.Forms.Label();
+			this.textBoxNormalTotalPrice60 = new System.Windows.Forms.TextBox();
 			this.textBoxNormalTotalPrice36 = new System.Windows.Forms.TextBox();
-			this.textBoxNormalTotalPrice24 = new System.Windows.Forms.TextBox();
 			this.radioButtonNormal12 = new System.Windows.Forms.RadioButton();
 			this.textBoxNormalTotalPrice12 = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
+			this.textBoxMatomeFree60 = new System.Windows.Forms.TextBox();
+			this.textBoxMatomeTotalPrice60 = new System.Windows.Forms.TextBox();
 			this.textBoxMatomeFree36 = new System.Windows.Forms.TextBox();
 			this.textBoxMatomeTotalPrice36 = new System.Windows.Forms.TextBox();
-			this.textBoxMatomeFree24 = new System.Windows.Forms.TextBox();
-			this.textBoxMatomeTotalPrice24 = new System.Windows.Forms.TextBox();
 			this.textBoxMatomeFree12 = new System.Windows.Forms.TextBox();
 			this.textBoxMatomeTotalPrice12 = new System.Windows.Forms.TextBox();
 			this.labelMatomeMessage = new System.Windows.Forms.Label();
@@ -196,28 +196,28 @@
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Controls.Add(this.radioButtonMatome36);
+			this.groupBox1.Controls.Add(this.radioButtonMatome60);
 			this.groupBox1.Controls.Add(this.label15);
-			this.groupBox1.Controls.Add(this.textBoxMatomeMonthlyPrice36);
-			this.groupBox1.Controls.Add(this.radioButtonMatome24);
+			this.groupBox1.Controls.Add(this.textBoxMatomeMonthlyPrice60);
+			this.groupBox1.Controls.Add(this.radioButtonMatome36);
 			this.groupBox1.Controls.Add(this.label14);
-			this.groupBox1.Controls.Add(this.textBoxMatomeMonthlyPrice24);
+			this.groupBox1.Controls.Add(this.textBoxMatomeMonthlyPrice36);
 			this.groupBox1.Controls.Add(this.textBoxNormalMonthlyPrice);
 			this.groupBox1.Controls.Add(this.textBoxMatomeMonthlyPrice12);
 			this.groupBox1.Controls.Add(this.radioButtonMatome12);
+			this.groupBox1.Controls.Add(this.radioButtonNormal60);
 			this.groupBox1.Controls.Add(this.radioButtonNormal36);
-			this.groupBox1.Controls.Add(this.radioButtonNormal24);
 			this.groupBox1.Controls.Add(this.label3);
+			this.groupBox1.Controls.Add(this.textBoxNormalTotalPrice60);
 			this.groupBox1.Controls.Add(this.textBoxNormalTotalPrice36);
-			this.groupBox1.Controls.Add(this.textBoxNormalTotalPrice24);
 			this.groupBox1.Controls.Add(this.radioButtonNormal12);
 			this.groupBox1.Controls.Add(this.textBoxNormalTotalPrice12);
 			this.groupBox1.Controls.Add(this.label6);
 			this.groupBox1.Controls.Add(this.label5);
+			this.groupBox1.Controls.Add(this.textBoxMatomeFree60);
+			this.groupBox1.Controls.Add(this.textBoxMatomeTotalPrice60);
 			this.groupBox1.Controls.Add(this.textBoxMatomeFree36);
 			this.groupBox1.Controls.Add(this.textBoxMatomeTotalPrice36);
-			this.groupBox1.Controls.Add(this.textBoxMatomeFree24);
-			this.groupBox1.Controls.Add(this.textBoxMatomeTotalPrice24);
 			this.groupBox1.Controls.Add(this.textBoxMatomeFree12);
 			this.groupBox1.Controls.Add(this.textBoxMatomeTotalPrice12);
 			this.groupBox1.Controls.Add(this.labelMatomeMessage);
@@ -228,17 +228,17 @@
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "■おまとめプラン";
 			// 
-			// radioButtonMatome36
+			// radioButtonMatome60
 			// 
-			this.radioButtonMatome36.AutoSize = true;
-			this.radioButtonMatome36.Enabled = false;
-			this.radioButtonMatome36.Location = new System.Drawing.Point(14, 157);
-			this.radioButtonMatome36.Name = "radioButtonMatome36";
-			this.radioButtonMatome36.Size = new System.Drawing.Size(92, 21);
-			this.radioButtonMatome36.TabIndex = 20;
-			this.radioButtonMatome36.Text = "36ヵ月プラン";
-			this.radioButtonMatome36.UseVisualStyleBackColor = true;
-			this.radioButtonMatome36.CheckedChanged += new System.EventHandler(this.radioButtonMatome36_CheckedChanged);
+			this.radioButtonMatome60.AutoSize = true;
+			this.radioButtonMatome60.Enabled = false;
+			this.radioButtonMatome60.Location = new System.Drawing.Point(14, 157);
+			this.radioButtonMatome60.Name = "radioButtonMatome60";
+			this.radioButtonMatome60.Size = new System.Drawing.Size(92, 21);
+			this.radioButtonMatome60.TabIndex = 20;
+			this.radioButtonMatome60.Text = "60ヵ月プラン";
+			this.radioButtonMatome60.UseVisualStyleBackColor = true;
+			this.radioButtonMatome60.CheckedChanged += new System.EventHandler(this.radioButtonMatome60_CheckedChanged);
 			// 
 			// label15
 			// 
@@ -249,28 +249,28 @@
 			this.label15.TabIndex = 14;
 			this.label15.Text = "月額利用料";
 			// 
-			// textBoxMatomeMonthlyPrice36
+			// textBoxMatomeMonthlyPrice60
 			// 
-			this.textBoxMatomeMonthlyPrice36.BackColor = System.Drawing.Color.White;
-			this.textBoxMatomeMonthlyPrice36.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxMatomeMonthlyPrice36.Location = new System.Drawing.Point(357, 157);
-			this.textBoxMatomeMonthlyPrice36.Name = "textBoxMatomeMonthlyPrice36";
-			this.textBoxMatomeMonthlyPrice36.ReadOnly = true;
-			this.textBoxMatomeMonthlyPrice36.Size = new System.Drawing.Size(93, 24);
-			this.textBoxMatomeMonthlyPrice36.TabIndex = 23;
-			this.textBoxMatomeMonthlyPrice36.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.textBoxMatomeMonthlyPrice60.BackColor = System.Drawing.Color.White;
+			this.textBoxMatomeMonthlyPrice60.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.textBoxMatomeMonthlyPrice60.Location = new System.Drawing.Point(357, 157);
+			this.textBoxMatomeMonthlyPrice60.Name = "textBoxMatomeMonthlyPrice60";
+			this.textBoxMatomeMonthlyPrice60.ReadOnly = true;
+			this.textBoxMatomeMonthlyPrice60.Size = new System.Drawing.Size(93, 24);
+			this.textBoxMatomeMonthlyPrice60.TabIndex = 23;
+			this.textBoxMatomeMonthlyPrice60.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
-			// radioButtonMatome24
+			// radioButtonMatome36
 			// 
-			this.radioButtonMatome24.AutoSize = true;
-			this.radioButtonMatome24.Enabled = false;
-			this.radioButtonMatome24.Location = new System.Drawing.Point(14, 128);
-			this.radioButtonMatome24.Name = "radioButtonMatome24";
-			this.radioButtonMatome24.Size = new System.Drawing.Size(92, 21);
-			this.radioButtonMatome24.TabIndex = 16;
-			this.radioButtonMatome24.Text = "24ヵ月プラン";
-			this.radioButtonMatome24.UseVisualStyleBackColor = true;
-			this.radioButtonMatome24.CheckedChanged += new System.EventHandler(this.radioButtonMatome24_CheckedChanged);
+			this.radioButtonMatome36.AutoSize = true;
+			this.radioButtonMatome36.Enabled = false;
+			this.radioButtonMatome36.Location = new System.Drawing.Point(14, 128);
+			this.radioButtonMatome36.Name = "radioButtonMatome36";
+			this.radioButtonMatome36.Size = new System.Drawing.Size(92, 21);
+			this.radioButtonMatome36.TabIndex = 16;
+			this.radioButtonMatome36.Text = "36ヵ月プラン";
+			this.radioButtonMatome36.UseVisualStyleBackColor = true;
+			this.radioButtonMatome36.CheckedChanged += new System.EventHandler(this.radioButtonMatome36_CheckedChanged);
 			// 
 			// label14
 			// 
@@ -281,16 +281,16 @@
 			this.label14.TabIndex = 7;
 			this.label14.Text = "月額利用料";
 			// 
-			// textBoxMatomeMonthlyPrice24
+			// textBoxMatomeMonthlyPrice36
 			// 
-			this.textBoxMatomeMonthlyPrice24.BackColor = System.Drawing.Color.White;
-			this.textBoxMatomeMonthlyPrice24.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxMatomeMonthlyPrice24.Location = new System.Drawing.Point(357, 127);
-			this.textBoxMatomeMonthlyPrice24.Name = "textBoxMatomeMonthlyPrice24";
-			this.textBoxMatomeMonthlyPrice24.ReadOnly = true;
-			this.textBoxMatomeMonthlyPrice24.Size = new System.Drawing.Size(93, 24);
-			this.textBoxMatomeMonthlyPrice24.TabIndex = 19;
-			this.textBoxMatomeMonthlyPrice24.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.textBoxMatomeMonthlyPrice36.BackColor = System.Drawing.Color.White;
+			this.textBoxMatomeMonthlyPrice36.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.textBoxMatomeMonthlyPrice36.Location = new System.Drawing.Point(357, 127);
+			this.textBoxMatomeMonthlyPrice36.Name = "textBoxMatomeMonthlyPrice36";
+			this.textBoxMatomeMonthlyPrice36.ReadOnly = true;
+			this.textBoxMatomeMonthlyPrice36.Size = new System.Drawing.Size(93, 24);
+			this.textBoxMatomeMonthlyPrice36.TabIndex = 19;
+			this.textBoxMatomeMonthlyPrice36.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// textBoxNormalMonthlyPrice
 			// 
@@ -326,29 +326,31 @@
 			this.radioButtonMatome12.UseVisualStyleBackColor = true;
 			this.radioButtonMatome12.CheckedChanged += new System.EventHandler(this.radioButtonMatome12_CheckedChanged);
 			// 
+			// radioButtonNormal60
+			// 
+			this.radioButtonNormal60.AutoSize = true;
+			this.radioButtonNormal60.Enabled = false;
+			this.radioButtonNormal60.Location = new System.Drawing.Point(321, 18);
+			this.radioButtonNormal60.Name = "radioButtonNormal60";
+			this.radioButtonNormal60.Size = new System.Drawing.Size(63, 21);
+			this.radioButtonNormal60.TabIndex = 5;
+			this.radioButtonNormal60.Text = "60ヵ月";
+			this.radioButtonNormal60.UseVisualStyleBackColor = true;
+			this.radioButtonNormal60.CheckedChanged += new System.EventHandler(this.radioButtonNormal60_CheckedChanged);
+			// 
 			// radioButtonNormal36
 			// 
 			this.radioButtonNormal36.AutoSize = true;
+			this.radioButtonNormal36.Checked = true;
 			this.radioButtonNormal36.Enabled = false;
-			this.radioButtonNormal36.Location = new System.Drawing.Point(321, 18);
+			this.radioButtonNormal36.Location = new System.Drawing.Point(222, 18);
 			this.radioButtonNormal36.Name = "radioButtonNormal36";
 			this.radioButtonNormal36.Size = new System.Drawing.Size(63, 21);
-			this.radioButtonNormal36.TabIndex = 5;
+			this.radioButtonNormal36.TabIndex = 3;
+			this.radioButtonNormal36.TabStop = true;
 			this.radioButtonNormal36.Text = "36ヵ月";
 			this.radioButtonNormal36.UseVisualStyleBackColor = true;
 			this.radioButtonNormal36.CheckedChanged += new System.EventHandler(this.radioButtonNormal36_CheckedChanged);
-			// 
-			// radioButtonNormal24
-			// 
-			this.radioButtonNormal24.AutoSize = true;
-			this.radioButtonNormal24.Enabled = false;
-			this.radioButtonNormal24.Location = new System.Drawing.Point(222, 18);
-			this.radioButtonNormal24.Name = "radioButtonNormal24";
-			this.radioButtonNormal24.Size = new System.Drawing.Size(63, 21);
-			this.radioButtonNormal24.TabIndex = 3;
-			this.radioButtonNormal24.Text = "24ヵ月";
-			this.radioButtonNormal24.UseVisualStyleBackColor = true;
-			this.radioButtonNormal24.CheckedChanged += new System.EventHandler(this.radioButtonNormal24_CheckedChanged);
 			// 
 			// label3
 			// 
@@ -359,41 +361,39 @@
 			this.label3.TabIndex = 0;
 			this.label3.Text = "契約なし";
 			// 
+			// textBoxNormalTotalPrice60
+			// 
+			this.textBoxNormalTotalPrice60.BackColor = System.Drawing.Color.White;
+			this.textBoxNormalTotalPrice60.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.textBoxNormalTotalPrice60.Location = new System.Drawing.Point(309, 40);
+			this.textBoxNormalTotalPrice60.Name = "textBoxNormalTotalPrice60";
+			this.textBoxNormalTotalPrice60.ReadOnly = true;
+			this.textBoxNormalTotalPrice60.Size = new System.Drawing.Size(93, 24);
+			this.textBoxNormalTotalPrice60.TabIndex = 6;
+			this.textBoxNormalTotalPrice60.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
 			// textBoxNormalTotalPrice36
 			// 
 			this.textBoxNormalTotalPrice36.BackColor = System.Drawing.Color.White;
 			this.textBoxNormalTotalPrice36.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxNormalTotalPrice36.Location = new System.Drawing.Point(309, 40);
+			this.textBoxNormalTotalPrice36.Location = new System.Drawing.Point(210, 40);
 			this.textBoxNormalTotalPrice36.Name = "textBoxNormalTotalPrice36";
 			this.textBoxNormalTotalPrice36.ReadOnly = true;
 			this.textBoxNormalTotalPrice36.Size = new System.Drawing.Size(93, 24);
-			this.textBoxNormalTotalPrice36.TabIndex = 6;
+			this.textBoxNormalTotalPrice36.TabIndex = 4;
 			this.textBoxNormalTotalPrice36.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			// 
-			// textBoxNormalTotalPrice24
-			// 
-			this.textBoxNormalTotalPrice24.BackColor = System.Drawing.Color.White;
-			this.textBoxNormalTotalPrice24.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxNormalTotalPrice24.Location = new System.Drawing.Point(210, 40);
-			this.textBoxNormalTotalPrice24.Name = "textBoxNormalTotalPrice24";
-			this.textBoxNormalTotalPrice24.ReadOnly = true;
-			this.textBoxNormalTotalPrice24.Size = new System.Drawing.Size(93, 24);
-			this.textBoxNormalTotalPrice24.TabIndex = 4;
-			this.textBoxNormalTotalPrice24.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// radioButtonNormal12
 			// 
 			this.radioButtonNormal12.AutoSize = true;
-			this.radioButtonNormal12.Checked = true;
 			this.radioButtonNormal12.Enabled = false;
 			this.radioButtonNormal12.Location = new System.Drawing.Point(129, 18);
 			this.radioButtonNormal12.Name = "radioButtonNormal12";
 			this.radioButtonNormal12.Size = new System.Drawing.Size(63, 21);
 			this.radioButtonNormal12.TabIndex = 1;
-			this.radioButtonNormal12.TabStop = true;
 			this.radioButtonNormal12.Text = "12ヵ月";
 			this.radioButtonNormal12.UseVisualStyleBackColor = true;
-			this.radioButtonNormal12.CheckedChanged += new System.EventHandler(this.radioButtonNormal12_CheckedChanged);
+			this.radioButtonNormal12.CheckedChanged += new System.EventHandler(this.radioButtonNormal36_CheckedChanged);
 			// 
 			// textBoxNormalTotalPrice12
 			// 
@@ -424,16 +424,41 @@
 			this.label5.TabIndex = 10;
 			this.label5.Text = "おまとめ料金";
 			// 
+			// textBoxMatomeFree60
+			// 
+			this.textBoxMatomeFree60.BackColor = System.Drawing.Color.White;
+			this.textBoxMatomeFree60.Enabled = false;
+			this.textBoxMatomeFree60.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.textBoxMatomeFree60.Location = new System.Drawing.Point(210, 157);
+			this.textBoxMatomeFree60.Name = "textBoxMatomeFree60";
+			this.textBoxMatomeFree60.ReadOnly = true;
+			this.textBoxMatomeFree60.Size = new System.Drawing.Size(141, 24);
+			this.textBoxMatomeFree60.TabIndex = 22;
+			this.textBoxMatomeFree60.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// textBoxMatomeTotalPrice60
+			// 
+			this.textBoxMatomeTotalPrice60.BackColor = System.Drawing.Color.White;
+			this.textBoxMatomeTotalPrice60.Enabled = false;
+			this.textBoxMatomeTotalPrice60.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.textBoxMatomeTotalPrice60.Location = new System.Drawing.Point(111, 157);
+			this.textBoxMatomeTotalPrice60.Name = "textBoxMatomeTotalPrice60";
+			this.textBoxMatomeTotalPrice60.ReadOnly = true;
+			this.textBoxMatomeTotalPrice60.Size = new System.Drawing.Size(93, 24);
+			this.textBoxMatomeTotalPrice60.TabIndex = 21;
+			this.textBoxMatomeTotalPrice60.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.textBoxMatomeTotalPrice60.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxMatomeTotalPrice60_MouseDoubleClick);
+			// 
 			// textBoxMatomeFree36
 			// 
 			this.textBoxMatomeFree36.BackColor = System.Drawing.Color.White;
 			this.textBoxMatomeFree36.Enabled = false;
 			this.textBoxMatomeFree36.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxMatomeFree36.Location = new System.Drawing.Point(210, 157);
+			this.textBoxMatomeFree36.Location = new System.Drawing.Point(210, 127);
 			this.textBoxMatomeFree36.Name = "textBoxMatomeFree36";
 			this.textBoxMatomeFree36.ReadOnly = true;
 			this.textBoxMatomeFree36.Size = new System.Drawing.Size(141, 24);
-			this.textBoxMatomeFree36.TabIndex = 22;
+			this.textBoxMatomeFree36.TabIndex = 18;
 			this.textBoxMatomeFree36.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// textBoxMatomeTotalPrice36
@@ -441,38 +466,13 @@
 			this.textBoxMatomeTotalPrice36.BackColor = System.Drawing.Color.White;
 			this.textBoxMatomeTotalPrice36.Enabled = false;
 			this.textBoxMatomeTotalPrice36.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxMatomeTotalPrice36.Location = new System.Drawing.Point(111, 157);
+			this.textBoxMatomeTotalPrice36.Location = new System.Drawing.Point(111, 127);
 			this.textBoxMatomeTotalPrice36.Name = "textBoxMatomeTotalPrice36";
 			this.textBoxMatomeTotalPrice36.ReadOnly = true;
 			this.textBoxMatomeTotalPrice36.Size = new System.Drawing.Size(93, 24);
-			this.textBoxMatomeTotalPrice36.TabIndex = 21;
+			this.textBoxMatomeTotalPrice36.TabIndex = 17;
 			this.textBoxMatomeTotalPrice36.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textBoxMatomeTotalPrice36.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxMatomeTotalPrice36_MouseDoubleClick);
-			// 
-			// textBoxMatomeFree24
-			// 
-			this.textBoxMatomeFree24.BackColor = System.Drawing.Color.White;
-			this.textBoxMatomeFree24.Enabled = false;
-			this.textBoxMatomeFree24.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxMatomeFree24.Location = new System.Drawing.Point(210, 127);
-			this.textBoxMatomeFree24.Name = "textBoxMatomeFree24";
-			this.textBoxMatomeFree24.ReadOnly = true;
-			this.textBoxMatomeFree24.Size = new System.Drawing.Size(141, 24);
-			this.textBoxMatomeFree24.TabIndex = 18;
-			this.textBoxMatomeFree24.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			// 
-			// textBoxMatomeTotalPrice24
-			// 
-			this.textBoxMatomeTotalPrice24.BackColor = System.Drawing.Color.White;
-			this.textBoxMatomeTotalPrice24.Enabled = false;
-			this.textBoxMatomeTotalPrice24.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.textBoxMatomeTotalPrice24.Location = new System.Drawing.Point(111, 127);
-			this.textBoxMatomeTotalPrice24.Name = "textBoxMatomeTotalPrice24";
-			this.textBoxMatomeTotalPrice24.ReadOnly = true;
-			this.textBoxMatomeTotalPrice24.Size = new System.Drawing.Size(93, 24);
-			this.textBoxMatomeTotalPrice24.TabIndex = 17;
-			this.textBoxMatomeTotalPrice24.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.textBoxMatomeTotalPrice24.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxMatomeTotalPrice24_MouseDoubleClick);
 			// 
 			// textBoxMatomeFree12
 			// 
@@ -748,7 +748,7 @@
 			this.dateTimePickerLimitDate.Size = new System.Drawing.Size(141, 24);
 			this.dateTimePickerLimitDate.TabIndex = 10;
 			// 
-			// SimulationMatomeOldForm
+			// SimulationMatomeForm201907
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -784,11 +784,11 @@
 			this.Controls.Add(this.listViewService);
 			this.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Name = "SimulationMatomeOldForm";
+			this.Name = "SimulationMatomeForm201907";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "MIC WEB SERVICE 御見積書作成（おまとめプラン）";
-			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SimulationMatomeOldForm_FormClosed);
-			this.Load += new System.EventHandler(this.SimulationMatomeOldForm_Load);
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SimulationMatomeNewForm_FormClosed);
+			this.Load += new System.EventHandler(this.SimulationMatomeNewForm_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
@@ -816,10 +816,10 @@
 		private System.Windows.Forms.Label labelMatomeMessage;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.TextBox textBoxMatomeFree60;
+		private System.Windows.Forms.TextBox textBoxMatomeTotalPrice60;
 		private System.Windows.Forms.TextBox textBoxMatomeFree36;
 		private System.Windows.Forms.TextBox textBoxMatomeTotalPrice36;
-		private System.Windows.Forms.TextBox textBoxMatomeFree24;
-		private System.Windows.Forms.TextBox textBoxMatomeTotalPrice24;
 		private System.Windows.Forms.TextBox textBoxMatomeFree12;
 		private System.Windows.Forms.TextBox textBoxMatomeTotalPrice12;
 		private System.Windows.Forms.Label label4;
@@ -841,23 +841,23 @@
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.Button buttonAllOn;
 		private System.Windows.Forms.Button buttonAllOff;
+		private System.Windows.Forms.TextBox textBoxNormalTotalPrice60;
 		private System.Windows.Forms.TextBox textBoxNormalTotalPrice36;
-		private System.Windows.Forms.TextBox textBoxNormalTotalPrice24;
 		private System.Windows.Forms.TextBox textBoxNormalTotalPrice12;
 		private System.Windows.Forms.Label label16;
 		private System.Windows.Forms.Label label17;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.DateTimePicker dateTimePickerLimitDate;
-		private System.Windows.Forms.RadioButton radioButtonMatome36;
+		private System.Windows.Forms.RadioButton radioButtonMatome60;
 		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.TextBox textBoxMatomeMonthlyPrice36;
-		private System.Windows.Forms.RadioButton radioButtonMatome24;
+		private System.Windows.Forms.TextBox textBoxMatomeMonthlyPrice60;
+		private System.Windows.Forms.RadioButton radioButtonMatome36;
 		private System.Windows.Forms.Label label14;
-		private System.Windows.Forms.TextBox textBoxMatomeMonthlyPrice24;
+		private System.Windows.Forms.TextBox textBoxMatomeMonthlyPrice36;
 		private System.Windows.Forms.TextBox textBoxNormalMonthlyPrice;
 		private System.Windows.Forms.TextBox textBoxMatomeMonthlyPrice12;
+		private System.Windows.Forms.RadioButton radioButtonNormal60;
 		private System.Windows.Forms.RadioButton radioButtonNormal36;
-		private System.Windows.Forms.RadioButton radioButtonNormal24;
 	}
 }

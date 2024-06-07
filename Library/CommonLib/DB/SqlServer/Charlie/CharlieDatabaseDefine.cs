@@ -122,6 +122,11 @@ namespace CommonLib.DB.SqlServer.Charlie
 			/// オン資格確認訪問診療連携契約情報
 			/// </summary>
 			T_USE_ONLINE_HOMON = 19,
+
+			/// <summary>
+			/// 電子処方箋管理契約情報
+			/// </summary>
+			T_USE_ELECTRIC_PRESCRIPTION = 20,
 		}
 
 		/// <summary>
@@ -148,6 +153,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ TableType.M_MAIL, string.Format("{0}.M_MAIL", DatabaseName) },
 			{ TableType.T_USE_ONLINE_DEMAND, string.Format("{0}.T_USE_ONLINE_DEMAND", DatabaseName) },
 			{ TableType.T_USE_ONLINE_HOMON, string.Format("{0}.T_USE_ONLINE_HOMON", DatabaseName) },
+			{ TableType.T_USE_ELECTRIC_PRESCRIPTION, string.Format("{0}.T_USE_ELECTRIC_PRESCRIPTION", DatabaseName) },
 		};
 
 		/// <summary>

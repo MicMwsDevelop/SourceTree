@@ -1112,7 +1112,7 @@ namespace CommonLib.DB.SQLite.MwsSimulation
 							{
 								// おススメセット情報の追加
 								InsertIntoInitGroupPlan(con, tran, plan);
-								foreach (string serviceCode in plan.ServiceCodeList)
+								foreach (int serviceCode in plan.ServiceCodeList)
 								{
 									// おススメセットサービス情報の追加
 									InsertIntoInitGroupPlanElement(con, tran, plan.GroupID, serviceCode);
@@ -1175,12 +1175,12 @@ namespace CommonLib.DB.SQLite.MwsSimulation
 		/// <param name="groupID">グループID</param>
 		/// <param name="serviceCode">サービスコード</param>
 		/// <returns>影響行数</returns>
-		private static int InsertIntoInitGroupPlanElement(SQLiteConnection con, SQLiteTransaction tran, int groupID, string serviceCode)
+		private static int InsertIntoInitGroupPlanElement(SQLiteConnection con, SQLiteTransaction tran, int groupID, int serviceCode)
 		{
 			int result = -1;
 			string sqlString = string.Format(@"INSERT INTO {0} VALUES (@1, @2)", SQLiteMwsSimulationDef.INIT_GROUP_PLAN_ELEMENT_TABLE_NAME);
 			SQLiteParameter[] param = { new SQLiteParameter("@1", groupID),
-										new SQLiteParameter("@2", serviceCode) };
+														new SQLiteParameter("@2", serviceCode) };
 			// 実行
 			result = SQLiteController.SqlExecuteCommand(con, tran, sqlString, param);
 			if (result <= -1)

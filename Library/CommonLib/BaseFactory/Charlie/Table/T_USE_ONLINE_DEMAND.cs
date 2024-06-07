@@ -1,7 +1,7 @@
 ﻿//
 // T_USE_ONLINE_DEMAND.cs
 //
-// オンライン請求作業情報クラス
+// オンライン請求作業済申請情報クラス
 // [CharlieDB].[dbo].[T_USE_ONLINE_DEMAND]
 // 
 // Copyright (C) MIC All Rights Reserved.
@@ -16,12 +16,12 @@ using System.Data;
 namespace CommonLib.BaseFactory.Charlie.Table
 {
 	/// <summary>
-	/// オンライン請求作業情報クラス
+	/// オンライン請求作業済申請情報
 	/// </summary>
 	public class T_USE_ONLINE_DEMAND
 	{
 		/// <summary>
-		/// 申込No
+		/// 受付番号
 		/// </summary>
 		public int ApplyNo { get; set; }
 

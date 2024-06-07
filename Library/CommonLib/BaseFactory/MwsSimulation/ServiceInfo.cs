@@ -7,9 +7,9 @@
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // Ver2.210 おまとめプランにクラウドバックアップが含まれないように対応(2020/11/20 勝呂)
+// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
 //
 using CommonLib.Common;
-using CommonLib.BaseFactory;
 using CommonLib.DB.SQLite.MwsSimulation;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		/// <summary>
 		/// サービスコード
 		/// </summary>
-		public string ServiceCode { get; set; }
+		public int ServiceCode { get; set; }
 
 		/// <summary>
 		/// サービス名称
@@ -35,7 +35,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		/// <summary>
 		/// 親サービスコード
 		/// </summary>
-		public string ParentServiceCode { get; set; }
+		public int ParentServiceCode { get; set; }
 
 		/// <summary>
 		/// サービス種別
@@ -68,6 +68,12 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		public int GoodsKubun { get; set; }
 
 		/// <summary>
+		/// おまとめプラン対象サービス
+		/// </summary>
+		// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+		public bool Matome { get; set; }
+
+		/// <summary>
 		/// 選択状態
 		/// </summary>
 		public bool Select { get; set; }
@@ -84,16 +90,17 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		{
 			get
 			{
-				if (SQLiteMwsSimulationDef.GOODS_KUBUN_GROUP_PLAN_SERVICE == GoodsKubun)
-				{
-					// Ver2.210 おまとめプランにクラウドバックアップが含まれないように対応(2020/11/20 勝呂)
-					if ((int)ServiceCodeDefine.ServiceCode.ExCloudBackup != int.Parse(ServiceCode))
-					{
-						// 1036260 クラウドバックアップ はおまとめプランに含めない
-						return true;
-					}
-				}
-				return false;
+				// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+				//if (SQLiteMwsSimulationDef.GOODS_KUBUN_GROUP_PLAN_SERVICE == GoodsKubun)
+				//{
+				//	// Ver2.210 おまとめプランにクラウドバックアップが含まれないように対応(2020/11/20 勝呂)
+				//	if ((int)ServiceCodeDefine.ServiceCode.ExCloudBackup != int.Parse(ServiceCode))
+				//	{
+				//		// 1036260 クラウドバックアップ はおまとめプランに含めない
+				//		return true;
+				//	}
+				//}
+				return Matome;
 			}
 		}
 
@@ -104,7 +111,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		{
 			get
 			{
-				if (0 < ParentServiceCode.Length)
+				if (0 < ParentServiceCode)
 				{
 					return true;
 				}
@@ -117,9 +124,9 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		/// </summary>
 		public ServiceInfo()
 		{
-			ServiceCode = string.Empty;
+			ServiceCode = 0;
 			ServiceName = string.Empty;
-			ParentServiceCode = string.Empty;
+			ParentServiceCode = 0;
 			ServiceType = 0;
 			ServiceTypeName = string.Empty;
 			Price = 0;
@@ -128,6 +135,9 @@ namespace CommonLib.BaseFactory.MwsSimulation
 			GoodsKubun = 0;
 			Select = false;
 			SetService = false;
+
+			// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+			Matome = false;
 		}
 
 		/// <summary>
@@ -169,6 +179,9 @@ namespace CommonLib.BaseFactory.MwsSimulation
 				if (GoodsName != other.GoodsName)
 					return false;
 				if (GoodsKubun != other.GoodsKubun)
+					return false;
+				// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+				if (Matome != other.Matome)
 					return false;
 				if (Select != other.Select)
 					return false;
@@ -212,7 +225,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		/// <returns>出力レコード</returns>
 		public override string ToString()
 		{
-			return ServiceCode + ServiceName + ParentServiceCode + ServiceType.ToString() + ServiceTypeName + Price.ToString() + GoodsID + GoodsName + GoodsKubun.ToString();
+			return ServiceCode.ToString() + ServiceName + ParentServiceCode.ToString() + ServiceType.ToString() + ServiceTypeName + Price.ToString() + GoodsID + GoodsName + GoodsKubun.ToString();
 		}
 	}
 
@@ -256,7 +269,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		/// </summary>
 		/// <param name="id">サービスコード</param>
 		/// <returns>サービス名称</returns>
-		public string GetServiceName(string id)
+		public string GetServiceName(int id)
 		{
 			foreach (ServiceInfo service in this)
 			{
@@ -350,6 +363,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 
 		/// <summary>
 		/// サービスコード
+		/// item1:商品コード、item2:サービス名称
 		/// </summary>
 		public List<Tuple<string, string>> ServiceCodeList { get; set; }
 

@@ -131,12 +131,82 @@ namespace CommonLib.BaseFactory
 			Liston = 2000,
 
 			/// <summary>
-			/// PC 安心ｻﾎﾟｰﾄ
+			/// 達人プラスVersion5
+			/// </summary>
+			TatsujinPlusVer5 = 3000,
+
+			/// <summary>
+			/// Microsoft365(SoftBank)
+			/// </summary>
+			Microsoft365SB = 4000,
+
+			/// <summary>
+			/// Microsoft365
+			/// </summary>
+			Microsoft365 = 4001,
+
+			/// <summary>
+			/// オンライン予約システムアポデント
+			/// </summary>
+			ApoDent = 5000,
+
+			/// <summary>
+			/// Ecoレセプトビューワ
+			/// </summary>
+			EcoReceiptViewer = 6000,
+
+			/// <summary>
+			/// ﾌﾟﾛｾｼｱVersion2Web版
+			/// </summary>
+			Processia = 7000,
+
+			/// <summary>
+			/// 問心伝
+			/// </summary>
+			Monshinden = 8000,
+
+			/// <summary>
+			/// DtooL
+			/// </summary>
+			Dtool = 9000,
+
+			/// <summary>
+			/// 達人プラス
+			/// </summary>
+			TatsujinPlus = 10000,
+
+			/// <summary>
+			/// スマート変換サービス
+			/// </summary>
+			SmartConvert = 11000,
+
+			/// <summary>
+			/// Curline
+			/// </summary>
+			Curline = 12000,
+
+			/// <summary>
+			/// 介護伝送
+			/// </summary>
+			KaigoDenso = 13000,
+
+			/// <summary>
+			/// ESET
+			/// </summary>
+			Eset = 14000,
+
+			/// <summary>
+			/// ナビック
+			/// </summary>
+			Navic = 15000,
+
+			/// <summary>
+			/// PC 安心サポート
 			/// </summary>
 			PcSupport = 16000,
 
 			/// <summary>
-			/// PC 安心ｻﾎﾟｰﾄPlus
+			/// PC 安心サポートPlus
 			/// </summary>
 			PcSupportPlus = 17000,
 
@@ -150,6 +220,11 @@ namespace CommonLib.BaseFactory
 			/// Web問診票
 			/// </summary>
 			WebMonshin = 17200,
+
+			/// <summary>
+			/// デンタルパス
+			/// </summary>
+			DentalPass = 18000,
 
 			/// <summary>
 			/// ユーザー
@@ -199,7 +274,7 @@ namespace CommonLib.BaseFactory
 			/// <summary>
 			/// ２号カルテ標準サービス
 			/// </summary>
-			Chart2Standard = 1012100,
+			Chart2Standard = 1014100,
 
 			/// <summary>
 			/// ２号カルテ月締め行発行
@@ -431,6 +506,11 @@ namespace CommonLib.BaseFactory
 			/// </summary>
 			ReportHokenSeikyu = 1024420,
 
+			/// <summary>
+			/// キャッシュレス対応帳票
+			/// </summary>
+			CashlessList = 1024440,
+
 			/////////////////////////
 			// 26 集患
 
@@ -454,6 +534,7 @@ namespace CommonLib.BaseFactory
 
 			/// <summary>
 			/// 地図分析
+			/// ※廃止サービス
 			/// </summary>
 			AnalyzeMap = 1028120,
 
@@ -467,6 +548,7 @@ namespace CommonLib.BaseFactory
 
 			/// <summary>
 			/// ３ＤｅｎｔＭＯＶＩＥ
+			/// ※廃止サービス
 			/// </summary>
 			LinkThreeDentMovie = 1030120,
 
@@ -571,6 +653,11 @@ namespace CommonLib.BaseFactory
 			// 40 口腔ケア
 
 			/// <summary>
+			/// スマート検査表
+			/// </summary>
+			SmartKesahyo = 1036160,
+
+			/// <summary>
 			/// 口腔ケアノート
 			/// </summary>
 			MouthCareNote = 1040100,
@@ -638,14 +725,14 @@ namespace CommonLib.BaseFactory
 			// 48 電子処方箋
 
 			/// <summary>
-			/// 電子処方箋管理
+			/// 電子処方箋管理サービス（院外処方）
 			/// </summary>
-			ElectricPrescription = 1048100,
+			ElectricPrescriptionOutside = 1048100,
 
 			/// <summary>
-			/// 院内処方チェック
+			/// 電子処方箋管理サービス（院内処方）
 			/// </summary>
-			InhospitalPrescription = 1048120,
+			ElectricPrescriptionInside = 1048120,
 
 			/////////////////////////
 			// 1000 シカハコ
@@ -790,6 +877,19 @@ namespace CommonLib.BaseFactory
 			/// Web問診票
 			/// </summary>
 			WebMonshin = 7010100,
+
+			/////////////////////////
+			// 18000 デンタルパス
+
+			/// <summary>
+			/// デンタルパス
+			/// </summary>
+			DentalPass = 3210100,
+
+			/// <summary>
+			/// デンタルパス SMS
+			/// </summary>
+			DentalPassSms = 3210120,
 
 			/////////////////////////
 			// 100000 ユーザー

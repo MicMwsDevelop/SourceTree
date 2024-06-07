@@ -34,9 +34,9 @@ namespace CommonLib.DB.SqlServer.MwsSimulation
 				foreach (DataRow row in table.Rows)
 				{
 					ServiceInfo service = new ServiceInfo();
-					service.ServiceCode = row["ServiceCode"].ToString();
+					service.ServiceCode = DataBaseValue.ConvObjectToInt(row["ServiceCode"]);
 					service.ServiceName = row["ServiceName"].ToString();
-					service.ParentServiceCode = row["ParentServiceCode"].ToString();
+					service.ParentServiceCode = DataBaseValue.ConvObjectToInt(row["ParentServiceCode"]);
 					service.ServiceType = DataBaseValue.ConvObjectToInt(row["ServiceType"]);
 					service.ServiceTypeName = row["ServiceTypeName"].ToString();
 					service.Price = DataBaseValue.ConvObjectToInt(row["Price"]);
@@ -172,7 +172,7 @@ namespace CommonLib.DB.SqlServer.MwsSimulation
 						group.GroupName = row["GroupName"].ToString();
 						result.Add(group);
 					}
-					group.ServiceCodeList.Add(row["ServiceCode"].ToString());
+					group.ServiceCodeList.Add(DataBaseValue.ConvObjectToInt(row["ServiceCode"]));
 				}
 			}
 			return result;

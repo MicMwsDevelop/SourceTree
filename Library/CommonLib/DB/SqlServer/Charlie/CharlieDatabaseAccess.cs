@@ -254,16 +254,29 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_USE_ONLINE_HOMON]の取得（オン資格確認訪問診療連携契約情報）
+		/// [charlieDB].[dbo].[T_USE_ONLINE_HOMON]の取得（オン資訪問診療連携契約情報）
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>申込データリスト</returns>
+		/// <returns>オン資訪問診療連携契約情報リスト</returns>
 		public static List<T_USE_ONLINE_HOMON> Select_T_USE_ONLINE_HOMON(string whereStr, string orderStr, string connectStr)
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_HOMON], whereStr, orderStr, connectStr);
 			return T_USE_ONLINE_HOMON.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_USE_ELECTRIC_PRESCRIPTION]の取得（電子処方箋管理契約情報）
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>電子処方箋管理契約情報リスト</returns>
+		public static List<T_USE_ELECTRIC_PRESCRIPTION> Select_T_USE_ELECTRIC_PRESCRIPTION(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ELECTRIC_PRESCRIPTION], whereStr, orderStr, connectStr);
+			return T_USE_ELECTRIC_PRESCRIPTION.DataTableToList(table);
 		}
 
 

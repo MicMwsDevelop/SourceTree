@@ -15,6 +15,7 @@
 /////////////////////////////////////////////////////////
 // Ver1.00(2023/12/01 勝呂):新規作成
 // Ver1.05(2024/01/05 勝呂):メール送信先が複数指定された時にアプリケーションエラー
+// Ver1.06(2024/07/01 勝呂):オン資訪問診療連携の018426 ｵﾝﾗｲﾝ資格確認訪問診療連携環境設定費の売上データ作成に対応
 //
 using CommonLib.BaseFactory.OnlineDemand;
 using CommonLib.Common;
@@ -39,7 +40,7 @@ namespace OnlineDemandEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.01(2024/01/05)";
+		public const string VersionStr = "Ver1.06(2024/07/01)";
 
 		/// <summary>
 		/// 環境設定
@@ -67,7 +68,7 @@ namespace OnlineDemandEarningsFile
 			gSettings = OnlineDemandEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			gBootDate = new Date(2024, 1, 1);
+			gBootDate = new Date(2024, 4, 1);
 #else
 			gBootDate = Date.Today;
 #endif
@@ -146,7 +147,7 @@ namespace OnlineDemandEarningsFile
 #if !DebugNoWrite
 					foreach (OnlineDemandEarningsOut sale in saleList)
 					{
-						// オンライン請求作業情報の売上日時を更新
+						// オンライン請求作業情報の売上日時を設定
 						OnlineDemandAccess.UpdateSetOnlineDemandSaleDate(sale, PROC_NAME, gSettings.ConnectCharlie.ConnectionString);
 					}
 #endif
@@ -160,7 +161,7 @@ namespace OnlineDemandEarningsFile
 						;
 					}
 				}
-				// 営業管理部にメール送信
+				// オンライン請求作業 売上連絡メール送信（経理課宛）
 				SendMailControl.OnlineDemandSendMail(saleList, gFormalFilename);
 			}
 			catch (Exception ex)

@@ -22,7 +22,7 @@ namespace OnlineDemandEarningsFile.Mail
 	public static class SendMailControl
 	{
 		/// <summary>
-		/// メール送信（経理部宛て）
+		/// メール送信（経理課宛て）
 		/// </summary>
 		/// <param name="userList">ユーザーリスト</param>
 		/// <param name="formalFilename">出力ファイル名</param>
@@ -44,7 +44,7 @@ namespace OnlineDemandEarningsFile.Mail
 
 				// 本文
 				msg.Body += string.Format(@"<div>"
-							+ @"<p>経理部各位</p>"
+							+ @"<p>経理課各位</p>"
 							+ @"<p>オンライン請求作業の売上データを作成しました。<br>"
 							+ @"<br>"
 							+ @"{0}フォルダに{1}を格納しました。<br>"

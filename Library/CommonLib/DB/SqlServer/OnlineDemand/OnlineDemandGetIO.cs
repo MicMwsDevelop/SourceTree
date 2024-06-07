@@ -44,18 +44,17 @@ namespace CommonLib.DB.SqlServer.OnlineDemand
 									+ " INNER JOIN {1} as U on U.[顧客No] = D.[CustomerID]"
 									+ " LEFT JOIN {2} as S on S.[sms_scd] = D.[GoodsID]"
 									+ " LEFT JOIN {3} as B on B.[fBshCode3] = U.[支店コード]"
-									+ " WHERE U.[終了フラグ] = '0' AND (D.[DeleteFlag] is null OR D.[DeleteFlag] = '0') AND (convert(int, convert(nvarchar, D.[ApplyDate], 112)) >= {4} AND convert(int, convert(nvarchar, D.[ApplyDate], 112)) <= {5})"
+									+ " WHERE U.[終了フラグ] = '0' AND (D.[DeleteFlag] is null OR D.[DeleteFlag] = '0') AND (convert(int, convert(nvarchar, D.[ApplyDate], 112)) BETWEEN {4} AND {5})"
 #if !DEBUG
 									+ " AND D.[SalesDate] is null"
 #endif
 									+ " ORDER BY 顧客No, 申請日時"
-									, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_DEMAND]
-									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー2]
-									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
-									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]
-									, prevMonth.First.ToIntYMD()		// 先月初日
-									, prevMonth.Last.ToIntYMD()		// 先月末日
-									);
+									, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_DEMAND]		// 0
+									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー2]	// 1
+									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]		// 2
+									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]		// 3
+									, prevMonth.First.ToIntYMD()		// 4 先月初日
+									, prevMonth.Last.ToIntYMD());		// 5 先月末日
 
 			return DatabaseAccess.SelectDatabase(strSQL, connectStr);
 		}

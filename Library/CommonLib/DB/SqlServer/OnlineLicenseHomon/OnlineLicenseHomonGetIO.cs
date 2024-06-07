@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2024/03/21 勝呂):新規作成
+// Ver1.00(2024/07/01 勝呂):新規作成
 // 
 using CommonLib.Common;
 using CommonLib.DB.SqlServer.Charlie;
@@ -17,7 +17,7 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 	static public class OnlineLicenseHomonGetIO
 	{
 		/// <summary>
-		/// オン資格訪問診療契約情報からオン資格訪問診療売上情報の取得
+		/// オンライン資格確認訪問診療連携契約情報の取得
 		/// </summary>
 		/// <param name="applyDate">申込日時</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
@@ -47,9 +47,9 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 									+ " INNER JOIN {1} as U on U.[顧客No] = H.[CustomerID]"	// 1
 									+ " LEFT JOIN {2} as S on S.[sms_scd] = H.[GoodsID]"	// 2
 									+ " LEFT JOIN {3} as B on B.[fBshCode3] = U.[支店コード]"	// 3
-									+ " WHERE H.[DeleteFlag] = '0' AND U.[終了フラグ] = '0' AND CONVERT(int, CONVERT(NVARCHAR, H.[ApplyDate], 112)) between {4} AND {5}"
+									+ " WHERE H.[DeleteFlag] = '0' AND U.[終了フラグ] = '0' AND (CONVERT(int, CONVERT(NVARCHAR, H.[ApplyDate], 112)) between {4} AND {5})"
 									+ " ORDER BY H.[ApplyNo]"
-									, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_HOMON]	// 0
+									, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_HOMON]   // 0
 									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全ユーザー2]	// 1
 									, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]		// 2
 									, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報]	// 3

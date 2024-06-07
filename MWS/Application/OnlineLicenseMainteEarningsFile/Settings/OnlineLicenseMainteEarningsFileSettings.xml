@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <OnlineLicenseMainteEarningsFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<!-- ExportDir>\\sqlsv\pcadata</ExportDir -->
-	<ExportDir>C:\_売上データ作成\オン資格保守サービス売上データ</ExportDir>
+	<ExportDir>\\sqlsv\pcadata</ExportDir>
+	<!-- ExportDir>C:\_売上データ作成\オン資格保守サービス売上データ</ExportDir -->
 	<ExportFilename>オン資格保守サービス売上データ</ExportFilename>
 	<PcaVersion>7</PcaVersion>
 	<SlipInitialNumber>62001</SlipInitialNumber>
@@ -19,8 +19,8 @@
 		<Pass></Pass>
 	</Mail>
 	<ConnectJunp>
-		<!-- InstanceName>SQLSV</InstanceName -->
-		<InstanceName>TESTSV2</InstanceName>
+		<InstanceName>SQLSV</InstanceName>
+		<!-- InstanceName>TESTSV2</InstanceName -->
 		<DatabaseName>JunpDB</DatabaseName>
 		<UserID>web</UserID>
 		<Password>02035612</Password>

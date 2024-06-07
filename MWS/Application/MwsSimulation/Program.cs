@@ -19,6 +19,10 @@
 // Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
 // Ver2.210 おまとめプランにクラウドバックアップが含まれないように対応(2020/11/20 勝呂)
 // Ver2.220 Web予約受付に対応(2021/09/07 勝呂)
+/////////////////////////////////////////////////////////
+// 未リリース
+// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
 // 
 using MwsSimulation.Forms;
 using System;
@@ -28,36 +32,6 @@ namespace MwsSimulation
 {
 	static class Program
 	{
-		/// <summary>
-		/// 電子カルテ標準サービス サービスコード
-		/// </summary>
-		public const string SERVICE_CODE_CHART_COMPUTE = "1042100";
-
-		/// <summary>
-		/// １号カルテ標準サービス サービスコード
-		/// </summary>
-		public const string SERVICE_CODE_CHART1_STD = "1012100";
-
-		/// <summary>
-		/// ２号カルテ標準サービス サービスコード
-		/// </summary>
-		public const string SERVICE_CODE_CHART2_STD = "1014100";
-
-		/// <summary>
-		/// TABLETビューワ サービスコード
-		/// </summary>
-		public const string SERVICE_CODE_TABLETVIEWER = "1036240";
-
-		/// <summary>
-		/// paletteアカウント サービスコード
-		/// </summary>
-		public const string SERVICE_CODE_PALETTE_ACCOUNT = "1036220";
-
-		/// <summary>
-		/// リモートサービス サービスコード
-		/// </summary>
-		public const string SERVICE_CODE_REMOTE = "1038100";
-
 		/// <summary>
 		/// カレントデータフォルダ
 		/// </summary>

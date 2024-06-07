@@ -7,6 +7,7 @@
 // 
 // Ver1.00(2024/01/23 勝呂):新規作成
 // Ver1.03(2024/02/05 勝呂):売上データの利用年月分の表記と年月が正しくない
+// Ver1.04(2024/05/17 勝呂):fai保守契約終了の更新時に条件文の不具合を修正
 // 
 using CommonLib.BaseFactory.Pca;
 using CommonLib.Common;
@@ -30,7 +31,9 @@ namespace CommonLib.BaseFactory.OnlineLicenseMainte
 
 		public YearMonth? f保守終了月 { get; set; }
 
-		public string fアプリケーションNo { get; set; }
+		// Ver1.04(2024/05/17 勝呂):fai保守契約終了の更新時に条件文の不具合を修正
+		//public string fアプリケーションNo { get; set; }
+		public int fアプリケーションNo { get; set; }
 
 		public string fアプリケーション名 { get; set; }
 
@@ -147,7 +150,11 @@ namespace CommonLib.BaseFactory.OnlineLicenseMainte
 			f請求先コード = string.Empty;
 			f保守開始月 = null;
 			f保守終了月 = null;
-			fアプリケーションNo = string.Empty;
+
+			// Ver1.04(2024/05/17 勝呂):fai保守契約終了の更新時に条件文の不具合を修正
+			//fアプリケーションNo = string.Empty;
+			fアプリケーションNo = 0;
+
 			fアプリケーション名 = string.Empty;
 			fcm名称 = string.Empty;
 			f更新単位 = string.Empty;
@@ -190,7 +197,10 @@ namespace CommonLib.BaseFactory.OnlineLicenseMainte
 					{
 						data.f保守終了月 = ym;
 					}
-					data.fアプリケーションNo = row["fアプリケーションNo"].ToString().Trim();
+					// Ver1.04(2024/05/17 勝呂):fai保守契約終了の更新時に条件文の不具合を修正
+					//data.fアプリケーションNo = row["fアプリケーションNo"].ToString().Trim();
+					data.fアプリケーションNo = DataBaseValue.ConvObjectToInt(row["fアプリケーションNo"]);
+
 					data.fアプリケーション名 = row["fアプリケーション名"].ToString().Trim();
 					data.fcm名称 = row["fcm名称"].ToString().Trim();
 					data.f更新単位 = row["f更新単位"].ToString().Trim();

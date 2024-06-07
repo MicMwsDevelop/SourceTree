@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2020/11/24 勝呂)
+// Ver1.07(2024/05/17 勝呂):fai保守契約終了の更新時に条件文の不具合を修正
 // 
 using CommonLib.BaseFactory.AlmexMainte;
 using CommonLib.BaseFactory.Junp.View;
@@ -58,10 +59,17 @@ namespace CommonLib.DB.SqlServer.AlmexMainte
 		/// <returns>結果行数</returns>
 		public static int UpdateSetApplicationInfo(AlmexMainteEarningsOut sale, string procName, string connectStr)
 		{
+			// Ver1.07(2024/05/17 勝呂):fai保守契約終了の更新時に条件文の不具合を修正
+			//string updateStr = string.Format(@"UPDATE {0} SET fai保守契約終了 = @1, fai更新日 = @2, fai更新者 = @3"
+			//					+ " WHERE faiCliMicID = {1}"
+			//					, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報]
+			//					, sale.f顧客No);
 			string updateStr = string.Format(@"UPDATE {0} SET fai保守契約終了 = @1, fai更新日 = @2, fai更新者 = @3"
-								+ " WHERE faiCliMicID = {1}"
+								+ " WHERE faiCliMicID = {1} AND faiアプリケーションNo = {2} AND faiアプリケーション名 = '{3}'"
 								, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報]
-								, sale.f顧客No);
+								, sale.f顧客No
+								, sale.fアプリケーションNo
+								, sale.fアプリケーション名);
 
 			SqlParameter[] param = {
 				new SqlParameter("@1", sale.f保守終了月.Value.GetNormalString()),	// fai保守契約終了

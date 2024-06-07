@@ -57,11 +57,7 @@ namespace CheckMwsServiceIllegalData.Forms
 			// カーソルを元に戻す
 			Cursor.Current = preCursor;
 
-			if (0 == msg.Length)
-			{
-				MessageBox.Show("MWSサービス異常データファイルを出力しました。", "正常終了", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-			}
-			else
+			if (0 < msg.Length)
 			{
 				MessageBox.Show(msg, "異常終了", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}

@@ -19,6 +19,7 @@
 // Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
 // Ver1.05(2024/04/10 勝呂):002199 ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月の商品追加対応
 // Ver1.06(2024/05/10 勝呂):メール送信先が複数指定された時にアプリケーションエラー
+// Ver1.07(2024/05/17 勝呂):fai保守契約終了の更新時に条件文の不具合を修正
 //
 using AlmexMainteEarningsFile.Mail;
 using AlmexMainteEarningsFile.Settings;
@@ -43,7 +44,7 @@ namespace AlmexMainteEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.06(2024/05/10)";
+		public const string VersionStr = "Ver1.07(2024/07/17)";
 
 		/// <summary>
 		/// 環境設定

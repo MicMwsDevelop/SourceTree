@@ -133,23 +133,29 @@
     <Compile Include="Forms\SetStaffForm.Designer.cs">
       <DependentUpon>SetStaffForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SimulationMatomeForm201901.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SimulationMatomeForm201901.designer.cs">
+      <DependentUpon>SimulationMatomeForm201901.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SimulationMatomeForm202408.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SimulationMatomeForm202408.designer.cs">
+      <DependentUpon>SimulationMatomeForm202408.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SimulationMatomeForm201907.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SimulationMatomeForm201907.designer.cs">
+      <DependentUpon>SimulationMatomeForm201907.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SimulationMatomeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SimulationMatomeForm.designer.cs">
+    <Compile Include="Forms\SimulationMatomeForm.Designer.cs">
       <DependentUpon>SimulationMatomeForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\SimulationMatomeNewForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SimulationMatomeNewForm.designer.cs">
-      <DependentUpon>SimulationMatomeNewForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\SimulationMatomeOldForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SimulationMatomeOldForm.Designer.cs">
-      <DependentUpon>SimulationMatomeOldForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\EnvironmentStaffForm.cs">
       <SubType>Form</SubType>
@@ -201,14 +207,17 @@
     <EmbeddedResource Include="Forms\SetStaffForm.resx">
       <DependentUpon>SetStaffForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SimulationMatomeForm201901.resx">
+      <DependentUpon>SimulationMatomeForm201901.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SimulationMatomeForm202408.resx">
+      <DependentUpon>SimulationMatomeForm202408.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SimulationMatomeForm201907.resx">
+      <DependentUpon>SimulationMatomeForm201907.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\SimulationMatomeForm.resx">
       <DependentUpon>SimulationMatomeForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SimulationMatomeNewForm.resx">
-      <DependentUpon>SimulationMatomeNewForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SimulationMatomeOldForm.resx">
-      <DependentUpon>SimulationMatomeOldForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EnvironmentStaffForm.resx">
       <DependentUpon>EnvironmentStaffForm.cs</DependentUpon>

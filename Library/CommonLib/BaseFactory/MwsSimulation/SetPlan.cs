@@ -35,7 +35,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		public int Price { get; set; }
 
 		/// <summary>
-		/// サービス情報リスト
+		/// サービス情報リスト（商品コード、サービス名）
 		/// </summary>
 		public List<Tuple<string, string>> ServiceList;
 

@@ -8,10 +8,10 @@
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // 
 using CommonDialog.PrintPreview;
+using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.MwsSimulation;
 using CommonLib.Common;
 using CommonLib.DB.SQLite.MwsSimulation;
-using CommonLib.DB.SqlServer.Junp;
 using MwsSimulation.Print;
 using System;
 using System.Collections.Generic;
@@ -296,7 +296,7 @@ namespace MwsSimulation.Forms
 			if (e.Item.Checked)
 			{
 				targetService.Select = true;
-				if (Program.SERVICE_CODE_CHART_COMPUTE == targetService.ServiceCode)
+				if ((int)ServiceCodeDefine.ServiceCode.ElectricChartStandard == targetService.ServiceCode)
 				{
 					// 電子カルテ標準サービス選択時には１号カルテ標準サービス、２号カルテ標準サービス、TABLETビューワ、paletteアカウントのサービスを選択状態にする
 					foreach (ListViewItem item in listViewService.Items)
@@ -304,7 +304,7 @@ namespace MwsSimulation.Forms
 						if (false == item.Checked)
 						{
 							ServiceInfo svr = item.Tag as ServiceInfo;
-							if (Program.SERVICE_CODE_CHART1_STD == svr.ServiceCode || Program.SERVICE_CODE_CHART2_STD == svr.ServiceCode || Program.SERVICE_CODE_TABLETVIEWER == svr.ServiceCode || Program.SERVICE_CODE_PALETTE_ACCOUNT == svr.ServiceCode)
+							if ((int)ServiceCodeDefine.ServiceCode.Chart1Standard == svr.ServiceCode || (int)ServiceCodeDefine.ServiceCode.Chart2Standard == svr.ServiceCode || (int)ServiceCodeDefine.ServiceCode.TabletViewer == svr.ServiceCode || (int)ServiceCodeDefine.ServiceCode.ExPaletteAccount == svr.ServiceCode)
 							{
 								// １号カルテ標準サービス、２号カルテ標準サービス、TABLETビューワ、paletteアカウント
 								item.Checked = true;
@@ -538,7 +538,7 @@ namespace MwsSimulation.Forms
 				est.Apply = Estimate.ApplyType.Monthly;
 
 				// 見積書情報の設定
-				est.SetEstimateData(serviceList, groupList, Program.SERVICE_CODE_CHART_COMPUTE, Program.SERVICE_CODE_TABLETVIEWER, platform);
+				est.SetEstimateData(serviceList, groupList, ServiceCodeDefine.ServiceCode.ElectricChartStandard, ServiceCodeDefine.ServiceCode.TabletViewer, platform);
 
 				// 見積書印刷
 				this.PrintEstimate(PrintEstimateDef.MwsPaperType.Estimate, est, false);
@@ -643,7 +643,7 @@ namespace MwsSimulation.Forms
 					EstimateData.EstimateID = SQLiteMwsSimulationAccess.GetLastEstimateNumber(dataFolder);
 
 					// 見積書情報の設定
-					EstimateData.SetEstimateData(serviceList, groupList, Program.SERVICE_CODE_CHART_COMPUTE, Program.SERVICE_CODE_TABLETVIEWER, platform);
+					EstimateData.SetEstimateData(serviceList, groupList, ServiceCodeDefine.ServiceCode.ElectricChartStandard, ServiceCodeDefine.ServiceCode.TabletViewer, platform);
 
 					try
 					{
@@ -709,7 +709,7 @@ namespace MwsSimulation.Forms
 					EstimateData.Apply = Estimate.ApplyType.Monthly;
 
 					// 見積書情報の設定
-					EstimateData.SetEstimateData(serviceList, groupList, Program.SERVICE_CODE_CHART_COMPUTE, Program.SERVICE_CODE_TABLETVIEWER, platform);
+					EstimateData.SetEstimateData(serviceList, groupList, ServiceCodeDefine.ServiceCode.ElectricChartStandard, ServiceCodeDefine.ServiceCode.TabletViewer, platform);
 
 					try
 					{
@@ -797,7 +797,7 @@ namespace MwsSimulation.Forms
 		{
 			msg = string.Empty;
 
-			int orderChartComputeIndex = -1;
+			int orderElectricChartIndex = -1;
 			bool orderChart1Std = false;
 			bool orderChart2Std = false;
 			int i = 0;
@@ -806,17 +806,17 @@ namespace MwsSimulation.Forms
 				if (srcItem.Checked)
 				{
 					ServiceInfo srcService = srcItem.Tag as ServiceInfo;
-					if (Program.SERVICE_CODE_CHART_COMPUTE == srcService.ServiceCode)
+					if ((int)ServiceCodeDefine.ServiceCode.ElectricChartStandard == srcService.ServiceCode)
 					{
 						// 電子カルテ標準サービス
-						orderChartComputeIndex = i;
+						orderElectricChartIndex = i;
 					}
-					else if (Program.SERVICE_CODE_CHART1_STD == srcService.ServiceCode)
+					else if ((int)ServiceCodeDefine.ServiceCode.Chart1Standard == srcService.ServiceCode)
 					{
 						// １号カルテ標準サービス
 						orderChart1Std = true;
 					}
-					else if (Program.SERVICE_CODE_CHART2_STD == srcService.ServiceCode)
+					else if ((int)ServiceCodeDefine.ServiceCode.Chart2Standard == srcService.ServiceCode)
 					{
 						// ２号カルテ標準サービス
 						orderChart2Std = true;
@@ -825,13 +825,13 @@ namespace MwsSimulation.Forms
 				i++;
 			}
 			// 電子カルテ標準サービスには１号カルテ標準サービスおよび２号カルテ標準サービスが必須
-			if (-1 != orderChartComputeIndex)
+			if (-1 != orderElectricChartIndex)
 			{
 				// 電子カルテ標準サービス申込み有り
 				if (false == orderChart1Std || false == orderChart2Std)
 				{
 					msg = "[電子カルテ標準サービス] には親サービスに [１号カルテ標準サービス] と [２号カルテ標準サービス] の申込が必要です";
-					return orderChartComputeIndex;
+					return orderElectricChartIndex;
 				}
 			}
 			return -1;
@@ -861,15 +861,15 @@ namespace MwsSimulation.Forms
 					}
 				}
 			}
-			bool isChartCompute = false;
+			bool isElectricChart = false;
 			foreach (ListViewItem item in listViewService.Items)
 			{
 				ServiceInfo service = item.Tag as ServiceInfo;
-				if (Program.SERVICE_CODE_CHART_COMPUTE == service.ServiceCode)
+				if ((int)ServiceCodeDefine.ServiceCode.ElectricChartStandard == service.ServiceCode)
 				{
 					if (item.Checked)
 					{
-						isChartCompute = true;
+						isElectricChart = true;
 					}
 					break;
 				}
@@ -889,10 +889,10 @@ namespace MwsSimulation.Forms
 						}
 						else
 						{
-							if (isChartCompute)
+							if (isElectricChart)
 							{
 								// 電子カルテ標準サービス選択済
-								if (Program.SERVICE_CODE_TABLETVIEWER != service.ServiceCode)
+								if ((int)ServiceCodeDefine.ServiceCode.TabletViewer != service.ServiceCode)
 								{
 									// TABLETビューワ以外
 									normalPrice += service.Price;

@@ -1,15 +1,16 @@
 ﻿//
-// SimulationMatomeOldForm.cs
+// SimulationMatomeForm201901.cs
 //
-// おまとめプラン御見積書作成画面（旧版）
+// おまとめプラン御見積書作成画面（2019/01～12ヵ月、24ヵ月、36ヵ月、48ヵ月、60ヵ月）
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-// Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
+// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
 // 
 using CommonDialog.PrintPreview;
+using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.MwsSimulation;
 using CommonLib.Common;
 using CommonLib.DB.SQLite.MwsSimulation;
@@ -23,9 +24,9 @@ using System.Windows.Forms;
 namespace MwsSimulation.Forms
 {
 	/// <summary>
-	/// おまとめプラン 御見積書作成画面
+	/// おまとめプラン 御見積書作成画面（2019/01～12ヵ月、24ヵ月、36ヵ月、48ヵ月、60ヵ月）
 	/// </summary>
-	public partial class SimulationMatomeOldForm : Form
+	public partial class SimulationMatomeForm201901 : Form
 	{
 		/// <summary>
 		/// 印刷設定保持用
@@ -53,9 +54,19 @@ namespace MwsSimulation.Forms
 		private bool ExistMatome24 { get; set; }
 
 		/// <summary>
-		/// おまとめプラン36ヵ月がマスターに存在する
+		/// おまとめプラン36ヵ月プランがマスターに存在する
 		/// </summary>
 		private bool ExistMatome36 { get; set; }
+
+		/// <summary>
+		/// おまとめプラン48ヵ月がマスターに存在する
+		/// </summary>
+		private bool ExistMatome48 { get; set; }
+
+		/// <summary>
+		/// おまとめプラン60ヵ月がマスターに存在する
+		/// </summary>
+		private bool ExistMatome60 { get; set; }
 
 		/// <summary>
 		/// 見積書情報
@@ -65,7 +76,7 @@ namespace MwsSimulation.Forms
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public SimulationMatomeOldForm()
+		public SimulationMatomeForm201901()
 		{
 			InitializeComponent();
 
@@ -75,13 +86,15 @@ namespace MwsSimulation.Forms
 			ExistMatome12 = false;
 			ExistMatome24 = false;
 			ExistMatome36 = false;
+			ExistMatome48 = false;
+			ExistMatome60 = false;
 			EstimateData = null;
 		}
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		public SimulationMatomeOldForm(Estimate est)
+		public SimulationMatomeForm201901(Estimate est)
 		{
 			InitializeComponent();
 
@@ -91,6 +104,8 @@ namespace MwsSimulation.Forms
 			ExistMatome12 = false;
 			ExistMatome24 = false;
 			ExistMatome36 = false;
+			ExistMatome48 = false;
+			ExistMatome60 = false;
 			EstimateData = est;
 		}
 
@@ -99,7 +114,7 @@ namespace MwsSimulation.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SimulationMatomeOldForm_Load(object sender, EventArgs e)
+		private void SimulationMatomeForm_Load(object sender, EventArgs e)
 		{
 			// 元のカーソルを保持
 			Cursor preCursor = Cursor.Current;
@@ -113,9 +128,13 @@ namespace MwsSimulation.Forms
 			radioButtonNormal12.CheckedChanged -= new EventHandler(radioButtonNormal12_CheckedChanged);
 			radioButtonNormal24.CheckedChanged -= new EventHandler(radioButtonNormal24_CheckedChanged);
 			radioButtonNormal36.CheckedChanged -= new EventHandler(radioButtonNormal36_CheckedChanged);
+			radioButtonNormal48.CheckedChanged -= new EventHandler(radioButtonNormal48_CheckedChanged);
+			radioButtonNormal60.CheckedChanged -= new EventHandler(radioButtonNormal60_CheckedChanged);
 			radioButtonMatome12.CheckedChanged -= new EventHandler(radioButtonMatome12_CheckedChanged);
 			radioButtonMatome24.CheckedChanged -= new EventHandler(radioButtonMatome24_CheckedChanged);
 			radioButtonMatome36.CheckedChanged -= new EventHandler(radioButtonMatome36_CheckedChanged);
+			radioButtonMatome48.CheckedChanged -= new EventHandler(radioButtonMatome48_CheckedChanged);
+			radioButtonMatome60.CheckedChanged -= new EventHandler(radioButtonMatome60_CheckedChanged);
 			dateTimePickerPrintDate.ValueChanged -= new EventHandler(dateTimePickerPrintDate_ValueChanged);
 
 			// ウィンドウサイズの変更
@@ -126,7 +145,9 @@ namespace MwsSimulation.Forms
 			listViewService.BeginUpdate();
 			foreach (ServiceInfo service in MainForm.gServiceList)
 			{
-				if (Program.SERVICE_CODE_REMOTE != service.ServiceCode && true == service.IsGroupPlanService)
+				// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+				//if (Program.SERVICE_CODE_REMOTE != service.ServiceCode && true == service.IsGroupPlanService)
+				if (service.IsGroupPlanService)
 				{
 					// おまとめプラン対象サービス
 					ListViewItem lvItem = new ListViewItem(service.GetListViewData());
@@ -136,7 +157,7 @@ namespace MwsSimulation.Forms
 			}
 			listViewService.EndUpdate();
 
-			if (MainForm.gOldGroupPlanList.IsExistKeiyakuMonth(12))
+			if (MainForm.gGroupPlanList201901.IsExistKeiyakuMonth(12))
 			{
 				// おまとめプラン12ヵ月プランが有効
 				ExistMatome12 = true;
@@ -145,7 +166,7 @@ namespace MwsSimulation.Forms
 				textBoxMatomeTotalPrice12.Enabled = true;
 				textBoxMatomeFree12.Enabled = true;
 			}
-			if (MainForm.gOldGroupPlanList.IsExistKeiyakuMonth(24))
+			if (MainForm.gGroupPlanList201901.IsExistKeiyakuMonth(24))
 			{
 				// おまとめプラン24ヵ月プランが有効
 				ExistMatome24 = true;
@@ -154,14 +175,32 @@ namespace MwsSimulation.Forms
 				textBoxMatomeTotalPrice24.Enabled = true;
 				textBoxMatomeFree24.Enabled = true;
 			}
-			if (MainForm.gOldGroupPlanList.IsExistKeiyakuMonth(36))
+			if (MainForm.gGroupPlanList201901.IsExistKeiyakuMonth(36))
 			{
-				// おまとめプラン36ヵ月が有効
+				// おまとめプラン36ヵ月プランが有効
 				ExistMatome36 = true;
 				radioButtonNormal36.Enabled = true;
 				textBoxNormalTotalPrice36.Enabled = true;
 				textBoxMatomeTotalPrice36.Enabled = true;
 				textBoxMatomeFree36.Enabled = true;
+			}
+			if (MainForm.gGroupPlanList201901.IsExistKeiyakuMonth(48))
+			{
+				// おまとめプラン48ヵ月プランが有効
+				ExistMatome48 = true;
+				radioButtonNormal48.Enabled = true;
+				textBoxNormalTotalPrice48.Enabled = true;
+				textBoxMatomeTotalPrice48.Enabled = true;
+				textBoxMatomeFree48.Enabled = true;
+			}
+			if (MainForm.gGroupPlanList201901.IsExistKeiyakuMonth(60))
+			{
+				// おまとめプラン60ヵ月が有効
+				ExistMatome60 = true;
+				radioButtonNormal60.Enabled = true;
+				textBoxNormalTotalPrice60.Enabled = true;
+				textBoxMatomeTotalPrice60.Enabled = true;
+				textBoxMatomeFree60.Enabled = true;
 			}
 			// オススメセットの設定
 			if (3 == MainForm.gInitGroupPlanList.Count)
@@ -209,6 +248,12 @@ namespace MwsSimulation.Forms
 						case 36:
 							radioButtonMatome36.Checked = true;
 							break;
+						case 48:
+							radioButtonMatome48.Checked = true;
+							break;
+						case 60:
+							radioButtonMatome60.Checked = true;
+							break;
 					}
 					// 選択済みのサービスのチェックボックスをON
 					foreach (EstimateService estService in EstimateData.ServiceList)
@@ -241,6 +286,12 @@ namespace MwsSimulation.Forms
 						case 36:
 							radioButtonNormal36.Checked = true;
 							break;
+						case 48:
+							radioButtonNormal48.Checked = true;
+							break;
+						case 60:
+							radioButtonNormal60.Checked = true;
+							break;
 					}
 					// 選択済みのサービスのチェックボックスをON
 					foreach (EstimateService estService in EstimateData.ServiceList)
@@ -259,11 +310,11 @@ namespace MwsSimulation.Forms
 			}
 			else
 			{
-				// 契約月数を12ヵ月で設定
-				radioButtonNormal12.Checked = true;
+				// 契約月数を36ヵ月で設定
+				radioButtonNormal36.Checked = true;
 
 				// 契約期間の設定
-				labelAgreeSpan.Tag = Estimate.GetAgreeSapn(true, Date.Today, 12);
+				labelAgreeSpan.Tag = Estimate.GetAgreeSapn(true, Date.Today, 36);
 
 				// 有効期限の設定
 				dateTimePickerLimitDate.Value  = Estimate.GetLimitDate(Date.Today).ToDateTime();
@@ -283,9 +334,13 @@ namespace MwsSimulation.Forms
 			radioButtonNormal12.CheckedChanged += new EventHandler(radioButtonNormal12_CheckedChanged);
 			radioButtonNormal24.CheckedChanged += new EventHandler(radioButtonNormal24_CheckedChanged);
 			radioButtonNormal36.CheckedChanged += new EventHandler(radioButtonNormal36_CheckedChanged);
+			radioButtonNormal48.CheckedChanged += new EventHandler(radioButtonNormal48_CheckedChanged);
+			radioButtonNormal60.CheckedChanged += new EventHandler(radioButtonNormal60_CheckedChanged);
 			radioButtonMatome12.CheckedChanged += new EventHandler(radioButtonMatome12_CheckedChanged);
 			radioButtonMatome24.CheckedChanged += new EventHandler(radioButtonMatome24_CheckedChanged);
 			radioButtonMatome36.CheckedChanged += new EventHandler(radioButtonMatome36_CheckedChanged);
+			radioButtonMatome48.CheckedChanged += new EventHandler(radioButtonMatome48_CheckedChanged);
+			radioButtonMatome60.CheckedChanged += new EventHandler(radioButtonMatome60_CheckedChanged);
 			dateTimePickerPrintDate.ValueChanged += new EventHandler(dateTimePickerPrintDate_ValueChanged);
 
 			// カーソルを元に戻す
@@ -340,7 +395,7 @@ namespace MwsSimulation.Forms
 			if (e.Item.Checked)
 			{
 				targetService.Select = true;
-				if (Program.SERVICE_CODE_CHART_COMPUTE == targetService.ServiceCode)
+				if ((int)ServiceCodeDefine.ServiceCode.ElectricChartStandard == targetService.ServiceCode)
 				{
 					// 電子カルテ標準サービス選択時には１号カルテ標準サービス、２号カルテ標準サービス、TABLETビューワ、paletteアカウントのサービスを選択状態にする
 					foreach (ListViewItem item in listViewService.Items)
@@ -348,7 +403,7 @@ namespace MwsSimulation.Forms
 						if (false == item.Checked)
 						{
 							ServiceInfo svr = item.Tag as ServiceInfo;
-							if (Program.SERVICE_CODE_CHART1_STD == svr.ServiceCode || Program.SERVICE_CODE_CHART2_STD == svr.ServiceCode || Program.SERVICE_CODE_TABLETVIEWER == svr.ServiceCode || Program.SERVICE_CODE_PALETTE_ACCOUNT == svr.ServiceCode)
+							if ((int)ServiceCodeDefine.ServiceCode.Chart1Standard == svr.ServiceCode || (int)ServiceCodeDefine.ServiceCode.Chart2Standard == svr.ServiceCode || (int)ServiceCodeDefine.ServiceCode.TabletViewer == svr.ServiceCode || (int)ServiceCodeDefine.ServiceCode.ExPaletteAccount == svr.ServiceCode)
 							{
 								// １号カルテ標準サービス、２号カルテ標準サービス、TABLETビューワ、paletteアカウント
 								item.Checked = true;
@@ -512,6 +567,46 @@ namespace MwsSimulation.Forms
 		}
 
 		/// <summary>
+		/// 48ヵ月
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void radioButtonNormal48_CheckedChanged(object sender, EventArgs e)
+		{
+			if (null != labelAgreeSpan.Tag)
+			{
+				// 契約期間の設定
+				Span agreeSpan = labelAgreeSpan.Tag as Span;
+				labelAgreeSpan.Tag = new Span(agreeSpan.Start, Estimate.GetAgreeEndDate(agreeSpan.Start, this.GetAgreeMonthes()));
+
+				// 契約期間の表示
+				DrawAgreeSpan((Span)labelAgreeSpan.Tag);
+			}
+			// サービス利用料の表示
+			this.DrawServicePrice();
+		}
+
+		/// <summary>
+		/// 60ヵ月
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void radioButtonNormal60_CheckedChanged(object sender, EventArgs e)
+		{
+			if (null != labelAgreeSpan.Tag)
+			{
+				// 契約期間の設定
+				Span agreeSpan = labelAgreeSpan.Tag as Span;
+				labelAgreeSpan.Tag = new Span(agreeSpan.Start, Estimate.GetAgreeEndDate(agreeSpan.Start, this.GetAgreeMonthes()));
+
+				// 契約期間の表示
+				DrawAgreeSpan((Span)labelAgreeSpan.Tag);
+			}
+			// サービス利用料の表示
+			this.DrawServicePrice();
+		}
+
+		/// <summary>
 		/// 12ヵ月プラン
 		/// </summary>
 		/// <param name="sender"></param>
@@ -557,6 +652,46 @@ namespace MwsSimulation.Forms
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void radioButtonMatome36_CheckedChanged(object sender, EventArgs e)
+		{
+			if (null != labelAgreeSpan.Tag)
+			{
+				// 契約期間の設定
+				Span agreeSpan = labelAgreeSpan.Tag as Span;
+				labelAgreeSpan.Tag = new Span(agreeSpan.Start, Estimate.GetAgreeEndDate(agreeSpan.Start, this.GetAgreeMonthes()));
+
+				// 契約期間の表示
+				DrawAgreeSpan((Span)labelAgreeSpan.Tag);
+			}
+			// サービス利用料の表示
+			this.DrawServicePrice();
+		}
+
+		/// <summary>
+		/// 48ヵ月プラン
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void radioButtonMatome48_CheckedChanged(object sender, EventArgs e)
+		{
+			if (null != labelAgreeSpan.Tag)
+			{
+				// 契約期間の設定
+				Span agreeSpan = labelAgreeSpan.Tag as Span;
+				labelAgreeSpan.Tag = new Span(agreeSpan.Start, Estimate.GetAgreeEndDate(agreeSpan.Start, this.GetAgreeMonthes()));
+
+				// 契約期間の表示
+				DrawAgreeSpan((Span)labelAgreeSpan.Tag);
+			}
+			// サービス利用料の表示
+			this.DrawServicePrice();
+		}
+
+		/// <summary>
+		/// 60ヵ月プラン
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void radioButtonMatome60_CheckedChanged(object sender, EventArgs e)
 		{
 			if (null != labelAgreeSpan.Tag)
 			{
@@ -689,10 +824,10 @@ namespace MwsSimulation.Forms
 				est.SetRemark(textBoxRemark.Lines);
 
 				// 申込み種別
-				est.Apply = (radioButtonNormal12.Checked || radioButtonNormal24.Checked || radioButtonNormal36.Checked) ? Estimate.ApplyType.MatomeNone: Estimate.ApplyType.Matome;
+				est.Apply = (radioButtonNormal12.Checked || radioButtonNormal24.Checked || radioButtonNormal36.Checked || radioButtonNormal48.Checked || radioButtonNormal60.Checked) ? Estimate.ApplyType.MatomeNone: Estimate.ApplyType.Matome;
 
 				// 見積書情報の設定
-				est.SetEstimateData(serviceList, groupList, Program.SERVICE_CODE_CHART_COMPUTE, Program.SERVICE_CODE_TABLETVIEWER);
+				est.SetEstimateData(serviceList, groupList, ServiceCodeDefine.ServiceCode.ElectricChartStandard, ServiceCodeDefine.ServiceCode.TabletViewer);
 
 				// 見積書印刷
 				this.PrintEstimate(PrintEstimateDef.MwsPaperType.Estimate, est, false);
@@ -790,13 +925,13 @@ namespace MwsSimulation.Forms
 					EstimateData.SetRemark(textBoxRemark.Lines);
 
 					// 申込み種別
-					EstimateData.Apply = (radioButtonNormal12.Checked || radioButtonNormal24.Checked || radioButtonNormal36.Checked) ? Estimate.ApplyType.MatomeNone : Estimate.ApplyType.Matome;
+					EstimateData.Apply = (radioButtonNormal12.Checked || radioButtonNormal24.Checked || radioButtonNormal36.Checked || radioButtonNormal48.Checked || radioButtonNormal60.Checked) ? Estimate.ApplyType.MatomeNone : Estimate.ApplyType.Matome;
 
 					// 次回見積書情報番号の取得
 					EstimateData.EstimateID = SQLiteMwsSimulationAccess.GetLastEstimateNumber(dataFolder);
 
 					// 見積書情報の設定
-					EstimateData.SetEstimateData(serviceList, groupList, Program.SERVICE_CODE_CHART_COMPUTE, Program.SERVICE_CODE_TABLETVIEWER);
+					EstimateData.SetEstimateData(serviceList, groupList, ServiceCodeDefine.ServiceCode.ElectricChartStandard, ServiceCodeDefine.ServiceCode.TabletViewer);
 
 					try
 					{
@@ -859,10 +994,10 @@ namespace MwsSimulation.Forms
 					EstimateData.SetRemark(textBoxRemark.Lines);
 
 					// 申込み種別
-					EstimateData.Apply = (radioButtonNormal12.Checked || radioButtonNormal24.Checked || radioButtonNormal36.Checked) ? Estimate.ApplyType.MatomeNone : Estimate.ApplyType.Matome;
+					EstimateData.Apply = (radioButtonNormal12.Checked || radioButtonNormal24.Checked || radioButtonNormal36.Checked || radioButtonNormal48.Checked || radioButtonNormal60.Checked) ? Estimate.ApplyType.MatomeNone : Estimate.ApplyType.Matome;
 
 					// 見積書情報の設定
-					EstimateData.SetEstimateData(serviceList, groupList, Program.SERVICE_CODE_CHART_COMPUTE, Program.SERVICE_CODE_TABLETVIEWER);
+					EstimateData.SetEstimateData(serviceList, groupList, ServiceCodeDefine.ServiceCode.ElectricChartStandard, ServiceCodeDefine.ServiceCode.TabletViewer);
 
 					try
 					{
@@ -904,7 +1039,7 @@ namespace MwsSimulation.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SimulationMatomeOldForm_FormClosed(object sender, FormClosedEventArgs e)
+		private void SimulationMatomeForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			MainForm.gSettings.SimulationMatomeFormSize = new Size(this.Width, this.Height);
 		}
@@ -950,7 +1085,7 @@ namespace MwsSimulation.Forms
 		{
 			msg = string.Empty;
 
-			int orderChartComputeIndex = -1;
+			int orderElectricChartIndex = -1;
 			bool orderChart1Std = false;
 			bool orderChart2Std = false;
 			int i = 0;
@@ -959,17 +1094,17 @@ namespace MwsSimulation.Forms
 				if (srcItem.Checked)
 				{
 					ServiceInfo srcService = srcItem.Tag as ServiceInfo;
-					if (Program.SERVICE_CODE_CHART_COMPUTE == srcService.ServiceCode)
+					if ((int)ServiceCodeDefine.ServiceCode.ElectricChartStandard == srcService.ServiceCode)
 					{
 						// 電子カルテ標準サービス
-						orderChartComputeIndex = i;
+						orderElectricChartIndex = i;
 					}
-					else if (Program.SERVICE_CODE_CHART1_STD == srcService.ServiceCode)
+					else if ((int)ServiceCodeDefine.ServiceCode.Chart1Standard == srcService.ServiceCode)
 					{
 						// １号カルテ標準サービス
 						orderChart1Std = true;
 					}
-					else if (Program.SERVICE_CODE_CHART2_STD == srcService.ServiceCode)
+					else if ((int)ServiceCodeDefine.ServiceCode.Chart2Standard == srcService.ServiceCode)
 					{
 						// ２号カルテ標準サービス
 						orderChart2Std = true;
@@ -978,13 +1113,13 @@ namespace MwsSimulation.Forms
 				i++;
 			}
 			// 電子カルテ標準サービスには１号カルテ標準サービスおよび２号カルテ標準サービスが必須
-			if (-1 != orderChartComputeIndex)
+			if (-1 != orderElectricChartIndex)
 			{
 				// 電子カルテ標準サービス申込み有り
 				if (false == orderChart1Std || false == orderChart2Std)
 				{
 					msg = "[電子カルテ標準サービス] には、[１号カルテ標準サービス] と [２号カルテ標準サービス] の申込が必要です";
-					return orderChartComputeIndex;
+					return orderElectricChartIndex;
 				}
 			}
 			return -1;
@@ -997,16 +1132,16 @@ namespace MwsSimulation.Forms
 		private int GetServicePrice()
 		{
 			int price = 0;
-			bool isChartCompute = false;
+			bool isElectricChart = false;
 			foreach (ListViewItem item in listViewService.Items)
 			{
 				ServiceInfo service = item.Tag as ServiceInfo;
-				if (Program.SERVICE_CODE_CHART_COMPUTE == service.ServiceCode)
+				if ((int)ServiceCodeDefine.ServiceCode.ElectricChartStandard == service.ServiceCode)
 				{
 					// 電子カルテ標準サービス
 					if (item.Checked)
 					{
-						isChartCompute = true;
+						isElectricChart = true;
 					}
 					break;
 				}
@@ -1016,10 +1151,10 @@ namespace MwsSimulation.Forms
 				ServiceInfo service = item.Tag as ServiceInfo;
 				if (item.Checked)
 				{
-					if (isChartCompute)
+					if (isElectricChart)
 					{
 						// 電子カルテ標準サービス選択済
-						if (Program.SERVICE_CODE_TABLETVIEWER != service.ServiceCode)
+						if ((int)ServiceCodeDefine.ServiceCode.TabletViewer != service.ServiceCode)
 						{
 							// TABLETビューワ以外
 							price += service.Price;
@@ -1045,7 +1180,7 @@ namespace MwsSimulation.Forms
 			{
 				item.Checked = false;
 			}
-			foreach (string code in plan.ServiceCodeList)
+			foreach (int code in plan.ServiceCodeList)
 			{
 				foreach (ListViewItem item in listViewService.Items)
 				{
@@ -1071,18 +1206,26 @@ namespace MwsSimulation.Forms
 				textBoxNormalTotalPrice12.Text = @"\0";
 				textBoxNormalTotalPrice24.Text = @"\0";
 				textBoxNormalTotalPrice36.Text = @"\0";
+				textBoxNormalTotalPrice48.Text = @"\0";
+				textBoxNormalTotalPrice60.Text = @"\0";
 				textBoxNormalMonthlyPrice.Text = @"\0";
 
 				// おまとめプラン契約あり
 				textBoxMatomeTotalPrice12.Text = @"\0";
 				textBoxMatomeTotalPrice24.Text = @"\0";
 				textBoxMatomeTotalPrice36.Text = @"\0";
+				textBoxMatomeTotalPrice48.Text = @"\0";
+				textBoxMatomeTotalPrice60.Text = @"\0";
 				textBoxMatomeMonthlyPrice12.Text = @"\0";
 				textBoxMatomeMonthlyPrice24.Text = @"\0";
 				textBoxMatomeMonthlyPrice36.Text = @"\0";
+				textBoxMatomeMonthlyPrice48.Text = @"\0";
+				textBoxMatomeMonthlyPrice60.Text = @"\0";
 				textBoxMatomeFree12.Text = @"\0";
 				textBoxMatomeFree24.Text = @"\0";
 				textBoxMatomeFree36.Text = @"\0";
+				textBoxMatomeFree48.Text = @"\0";
+				textBoxMatomeFree60.Text = @"\0";
 
 				// プラットフォーム利用料
 				textBoxPlatformPrice.Text = @"\0";
@@ -1097,9 +1240,11 @@ namespace MwsSimulation.Forms
 				radioButtonMatome12.Enabled = false;
 				radioButtonMatome24.Enabled = false;
 				radioButtonMatome36.Enabled = false;
-				radioButtonNormal12.Checked = true;
+				radioButtonMatome48.Enabled = false;
+				radioButtonMatome60.Enabled = false;
+				radioButtonNormal36.Checked = true;
 
-				labelMatomeMessage.Text = string.Format(@"※あと \{0} でおまとめプラン割引が適用できます。", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + MainForm.gOldMinFreeMonthMinAmmount));
+				labelMatomeMessage.Text = string.Format(@"※あと \{0} でおまとめプラン割引が適用できます。", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + MainForm.gMinFreeMonthMinAmmount201901));
 			}
 			else
 			{
@@ -1109,27 +1254,41 @@ namespace MwsSimulation.Forms
 				int normalTotalPrice12 = GroupPlanList.GetNormalTotalPrice(12, MainForm.gServiceList.Platform.Price, servicePrice);
 				int normalTotalPrice24 = GroupPlanList.GetNormalTotalPrice(24, MainForm.gServiceList.Platform.Price, servicePrice);
 				int normalTotalPrice36 = GroupPlanList.GetNormalTotalPrice(36, MainForm.gServiceList.Platform.Price, servicePrice);
+				int normalTotalPrice48 = GroupPlanList.GetNormalTotalPrice(48, MainForm.gServiceList.Platform.Price, servicePrice);
+				int normalTotalPrice60 = GroupPlanList.GetNormalTotalPrice(60, MainForm.gServiceList.Platform.Price, servicePrice);
 				textBoxNormalTotalPrice12.Text = string.Format(@"\{0}", StringUtil.CommaEdit(normalTotalPrice12));
 				textBoxNormalTotalPrice24.Text = string.Format(@"\{0}", StringUtil.CommaEdit(normalTotalPrice24));
 				textBoxNormalTotalPrice36.Text = string.Format(@"\{0}", StringUtil.CommaEdit(normalTotalPrice36));
+				textBoxNormalTotalPrice48.Text = string.Format(@"\{0}", StringUtil.CommaEdit(normalTotalPrice48));
+				textBoxNormalTotalPrice60.Text = string.Format(@"\{0}", StringUtil.CommaEdit(normalTotalPrice60));
 				textBoxNormalMonthlyPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + servicePrice));
 
 				// おまとめプラン契約あり
-				GroupPlan plan12 = MainForm.gOldGroupPlanList.GetMachGroupPlan(12, servicePrice);
-				GroupPlan plan24 = MainForm.gOldGroupPlanList.GetMachGroupPlan(24, servicePrice);
-				GroupPlan plan36 = MainForm.gOldGroupPlanList.GetMachGroupPlan(36, servicePrice);
+				GroupPlan plan12 = MainForm.gGroupPlanList201901.GetMachGroupPlan(12, servicePrice);
+				GroupPlan plan24 = MainForm.gGroupPlanList201901.GetMachGroupPlan(24, servicePrice);
+				GroupPlan plan36 = MainForm.gGroupPlanList201901.GetMachGroupPlan(36, servicePrice);
+				GroupPlan plan48 = MainForm.gGroupPlanList201901.GetMachGroupPlan(48, servicePrice);
+				GroupPlan plan60 = MainForm.gGroupPlanList201901.GetMachGroupPlan(60, servicePrice);
 				int matomeTotalPrice12 = plan12.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, servicePrice);
 				int matomeTotalPrice24 = plan24.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, servicePrice);
 				int matomeTotalPrice36 = plan36.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, servicePrice);
+				int matomeTotalPrice48 = plan48.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, servicePrice);
+				int matomeTotalPrice60 = plan60.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, servicePrice);
 				textBoxMatomeTotalPrice12.Text = string.Format(@"\{0}", StringUtil.CommaEdit(matomeTotalPrice12));
 				textBoxMatomeTotalPrice24.Text = string.Format(@"\{0}", StringUtil.CommaEdit(matomeTotalPrice24));
 				textBoxMatomeTotalPrice36.Text = string.Format(@"\{0}", StringUtil.CommaEdit(matomeTotalPrice36));
+				textBoxMatomeTotalPrice48.Text = string.Format(@"\{0}", StringUtil.CommaEdit(matomeTotalPrice48));
+				textBoxMatomeTotalPrice60.Text = string.Format(@"\{0}", StringUtil.CommaEdit(matomeTotalPrice60));
 				int matomeMonthlyPrice12 = plan12.GetGroupPlanPrice(servicePrice);
 				int matomeMonthlyPrice24 = plan24.GetGroupPlanPrice(servicePrice);
 				int matomeMonthlyPrice36 = plan36.GetGroupPlanPrice(servicePrice);
+				int matomeMonthlyPrice48 = plan48.GetGroupPlanPrice(servicePrice);
+				int matomeMonthlyPrice60 = plan60.GetGroupPlanPrice(servicePrice);
 				textBoxMatomeMonthlyPrice12.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + matomeMonthlyPrice12));
 				textBoxMatomeMonthlyPrice24.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + matomeMonthlyPrice24));
 				textBoxMatomeMonthlyPrice36.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + matomeMonthlyPrice36));
+				textBoxMatomeMonthlyPrice48.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + matomeMonthlyPrice48));
+				textBoxMatomeMonthlyPrice60.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + matomeMonthlyPrice60));
 
 				if (0 < plan12.FreeMonth)
 				{
@@ -1161,20 +1320,42 @@ namespace MwsSimulation.Forms
 					textBoxMatomeTotalPrice36.Tag = string.Format("({0}+{1})x36", MainForm.gServiceList.Platform.Price, servicePrice);
 					textBoxMatomeFree36.Text = @"\0";
 				}
-				if (MainForm.gOldMinFreeMonthMinAmmount <= servicePrice)
+				if (0 < plan48.FreeMonth)
+				{
+					textBoxMatomeTotalPrice48.Tag = string.Format("{0}x48+{1}x{2}", MainForm.gServiceList.Platform.Price, servicePrice, 48 - plan48.FreeMonth);
+					textBoxMatomeFree48.Text = string.Format(@"\{0} ({1}ヵ月)", StringUtil.CommaEdit(normalTotalPrice48 - matomeTotalPrice48), plan48.FreeMonth);
+				}
+				else
+				{
+					textBoxMatomeTotalPrice48.Tag = string.Format("({0}+{1})x48", MainForm.gServiceList.Platform.Price, servicePrice);
+					textBoxMatomeFree48.Text = @"\0";
+				}
+				if (0 < plan60.FreeMonth)
+				{
+					textBoxMatomeTotalPrice60.Tag = string.Format("{0}x60+{1}x{2}", MainForm.gServiceList.Platform.Price, servicePrice, 60 - plan60.FreeMonth);
+					textBoxMatomeFree60.Text = string.Format(@"\{0} ({1}ヵ月)", StringUtil.CommaEdit(normalTotalPrice60 - matomeTotalPrice60), plan60.FreeMonth);
+				}
+				else
+				{
+					textBoxMatomeTotalPrice60.Tag = string.Format("({0}+{1})x60", MainForm.gServiceList.Platform.Price, servicePrice);
+					textBoxMatomeFree60.Text = @"\0";
+				}
+				if (MainForm.gMinFreeMonthMinAmmount201901 <= servicePrice)
 				{
 					labelMatomeMessage.Text = "※おまとめプラン割引が適用できます。";
 				}
 				else
 				{
-					labelMatomeMessage.Text = string.Format(@"※あと \{0} でおまとめプラン割引が適用できます。", StringUtil.CommaEdit(MainForm.gOldMinFreeMonthMinAmmount - servicePrice));
+					labelMatomeMessage.Text = string.Format(@"※あと \{0} でおまとめプラン割引が適用できます。", StringUtil.CommaEdit(MainForm.gMinFreeMonthMinAmmount201901 - servicePrice));
 				}
-				if (MainForm.gOldMinAmmount <= servicePrice)
+				if (MainForm.gMinAmmount201901 <= servicePrice)
 				{
 					// おまとめプラン適用金額
 					radioButtonMatome12.Enabled = true;
 					radioButtonMatome24.Enabled = true;
 					radioButtonMatome36.Enabled = true;
+					radioButtonMatome48.Enabled = true;
+					radioButtonMatome60.Enabled = true;
 				}
 				else
 				{
@@ -1182,12 +1363,14 @@ namespace MwsSimulation.Forms
 					radioButtonMatome12.Enabled = false;
 					radioButtonMatome24.Enabled = false;
 					radioButtonMatome36.Enabled = false;
-					radioButtonNormal12.Checked = true;
+					radioButtonMatome48.Enabled = false;
+					radioButtonMatome60.Enabled = false;
+					radioButtonNormal36.Checked = true;
 				}
 				// プラットフォーム利用料
 				textBoxPlatformPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price));
 
-				if (radioButtonNormal12.Checked || radioButtonNormal24.Checked || radioButtonNormal36.Checked)
+				if (radioButtonNormal12.Checked || radioButtonNormal24.Checked || radioButtonNormal36.Checked || radioButtonNormal48.Checked || radioButtonNormal60.Checked)
 				{
 					// おまとめプラン契約なし
 
@@ -1216,13 +1399,29 @@ namespace MwsSimulation.Forms
 						// 月額利用料
 						textBoxMonthlyPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + matomeMonthlyPrice24));
 					}
-					else
+					else if (radioButtonMatome36.Checked)
 					{
 						// サービス利用料
 						textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(matomeMonthlyPrice36));
 
 						// 月額利用料
 						textBoxMonthlyPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + matomeMonthlyPrice36));
+					}
+					else if (radioButtonMatome48.Checked)
+					{
+						// サービス利用料
+						textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(matomeMonthlyPrice48));
+
+						// 月額利用料
+						textBoxMonthlyPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + matomeMonthlyPrice48));
+					}
+					else
+					{
+						// サービス利用料
+						textBoxServicePrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(matomeMonthlyPrice60));
+
+						// 月額利用料
+						textBoxMonthlyPrice.Text = string.Format(@"\{0}", StringUtil.CommaEdit(MainForm.gServiceList.Platform.Price + matomeMonthlyPrice60));
 					}
 				}
 			}
@@ -1238,7 +1437,7 @@ namespace MwsSimulation.Forms
 			groupList = new List<GroupService>();
 			serviceList = new List<ServiceInfo>();
 
-			if (radioButtonMatome12.Checked || radioButtonMatome24.Checked || radioButtonMatome36.Checked)
+			if (radioButtonMatome12.Checked || radioButtonMatome24.Checked || radioButtonMatome36.Checked || radioButtonMatome48.Checked || radioButtonMatome60.Checked)
 			{
 				// おまとめプラン契約あり
 				GroupService groupService = null;
@@ -1263,7 +1462,7 @@ namespace MwsSimulation.Forms
 				if (null != groupService)
 				{
 					int price = this.GetServicePrice();
-					GroupPlan targetPlan = MainForm.gOldGroupPlanList.GetMachGroupPlan(this.GetAgreeMonthes(), price);
+					GroupPlan targetPlan = MainForm.gGroupPlanList201901.GetMachGroupPlan(this.GetAgreeMonthes(), price);
 					groupService.GoodsID = targetPlan.GoodsID;
 					groupService.GoodsName = targetPlan.GoodsName;
 					groupService.Price = targetPlan.GetGroupPlanTotalPrice(MainForm.gServiceList.Platform.Price, price);
@@ -1312,7 +1511,15 @@ namespace MwsSimulation.Forms
 			{
 				return 24;
 			}
-			return 36;
+			if (radioButtonNormal36.Checked || radioButtonMatome36.Checked)
+			{
+				return 36;
+			}
+			if (radioButtonNormal48.Checked || radioButtonMatome48.Checked)
+			{
+				return 48;
+			}
+			return 60;
 		}
 
 
@@ -1505,6 +1712,26 @@ namespace MwsSimulation.Forms
 			if (null != textBoxMatomeTotalPrice36.Tag)
 			{
 				MessageBox.Show(textBoxMatomeTotalPrice36.Tag as string);
+			}
+#endif
+		}
+
+		private void textBoxMatomeTotalPrice48_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+#if DEBUG
+			if (null != textBoxMatomeTotalPrice48.Tag)
+			{
+				MessageBox.Show(textBoxMatomeTotalPrice48.Tag as string);
+			}
+#endif
+		}
+
+		private void textBoxMatomeTotalPrice60_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+#if DEBUG
+			if (null != textBoxMatomeTotalPrice60.Tag)
+			{
+				MessageBox.Show(textBoxMatomeTotalPrice60.Tag as string);
 			}
 #endif
 		}

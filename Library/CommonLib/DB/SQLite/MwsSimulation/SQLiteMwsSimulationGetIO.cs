@@ -7,10 +7,13 @@
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
+// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
 //
+using CommonLib.BaseFactory.MwsSimulation;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
+using static CommonLib.BaseFactory.MwsSimulation.Estimate;
 
 namespace CommonLib.DB.SQLite.MwsSimulation
 {
@@ -149,10 +152,11 @@ namespace CommonLib.DB.SQLite.MwsSimulation
 		/// おまとめプラン情報の取得
 		/// </summary>
 		/// <param name="dbPath">データベース格納フォルダ</param>
-		/// <param name="readType">読込種別</param>
+		/// <param name="readType">読込種別（0:12ヵ月/24ヵ月/36ヵ月/48ヵ月/60ヵ月、1:12ヵ月/24ヵ月/36ヵ月、2:12ヵ月/36ヵ月/60ヵ月、3:12ヵ月/36ヵ月）</param>
 		/// <returns>おまとめプラン情報レコード</returns>
 		// Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
-		public static DataTable GetGroupPlan(string dbPath, int readType)
+		// Ver2.31(2024/08/01 勝呂):おまとめプラン60ヵ月販売終了に対応
+		public static DataTable GetGroupPlan(string dbPath, Estimate.MatomeContractType type)
 		{
 			DataTable result = null;
 			using (SQLiteConnection con = new SQLiteConnection(SQLiteAccess.CreateConnectionString(Path.Combine(dbPath, SQLiteMwsSimulationDef.MWS_SIMULATION_MASTER_DATABASE_NAME))))
@@ -163,19 +167,34 @@ namespace CommonLib.DB.SQLite.MwsSimulation
 					con.Open();
 
 					string strSql = string.Empty;
-					switch (readType)
+					switch (type)
 					{
 						// 全て
-						case 0:
+						case MatomeContractType.MatomeAll:
 							strSql = string.Format(@"SELECT * FROM {0} ORDER BY GoodsID ASC, SeqNo ASC", SQLiteMwsSimulationDef.GROUP_PLAN_TABLE_NAME);
 							break;
-						// 12ヵ月 or 24ヵ月 or 32ヵ月
-						case 1:
-							strSql = string.Format(@"SELECT * FROM {0} WHERE GoodsID = '{1}' OR GoodsID = '{2}' OR GoodsID = '{3}' ORDER BY GoodsID ASC, SeqNo ASC", SQLiteMwsSimulationDef.GROUP_PLAN_TABLE_NAME, SQLiteMwsSimulationDef.MWS_MATOME12_GOODSID, SQLiteMwsSimulationDef.MWS_MATOME24_GOODSID, SQLiteMwsSimulationDef.MWS_MATOME36_GOODSID);
+						// 12ヵ月/24ヵ月/36ヵ月
+						case MatomeContractType.Matome12_24_36:
+							strSql = string.Format(@"SELECT * FROM {0} WHERE GoodsID IN ('{1}', '{2}', '{3}') ORDER BY GoodsID ASC, SeqNo ASC"
+																, SQLiteMwsSimulationDef.GROUP_PLAN_TABLE_NAME
+																, SQLiteMwsSimulationDef.MWS_MATOME12_GOODSID
+																, SQLiteMwsSimulationDef.MWS_MATOME24_GOODSID
+																, SQLiteMwsSimulationDef.MWS_MATOME36_GOODSID);
 							break;
-						// 12ヵ月 or 36ヵ月 or 60ヵ月
-						case 2:
-							strSql = string.Format(@"SELECT * FROM {0} WHERE GoodsID = '{1}' OR GoodsID = '{2}' OR GoodsID = '{3}' ORDER BY GoodsID ASC, SeqNo ASC", SQLiteMwsSimulationDef.GROUP_PLAN_TABLE_NAME, SQLiteMwsSimulationDef.MWS_MATOME12_GOODSID, SQLiteMwsSimulationDef.MWS_MATOME36_GOODSID, SQLiteMwsSimulationDef.MWS_MATOME60_GOODSID);
+						// 12ヵ月/36ヵ月/60ヵ月
+						case MatomeContractType.Matome12_36_60:
+							strSql = string.Format(@"SELECT * FROM {0} WHERE GoodsID IN ('{1}', '{2}', '{3}') ORDER BY GoodsID ASC, SeqNo ASC"
+																, SQLiteMwsSimulationDef.GROUP_PLAN_TABLE_NAME
+																, SQLiteMwsSimulationDef.MWS_MATOME12_GOODSID
+																, SQLiteMwsSimulationDef.MWS_MATOME36_GOODSID
+																, SQLiteMwsSimulationDef.MWS_MATOME60_GOODSID);
+							break;
+						// 12ヵ月/36ヵ月
+						case MatomeContractType.Matome12_36:
+							strSql = string.Format(@"SELECT * FROM {0} WHERE GoodsID IN ('{1}', '{2}') ORDER BY GoodsID ASC, SeqNo ASC"
+																, SQLiteMwsSimulationDef.GROUP_PLAN_TABLE_NAME
+																, SQLiteMwsSimulationDef.MWS_MATOME12_GOODSID
+																, SQLiteMwsSimulationDef.MWS_MATOME36_GOODSID);
 							break;
 					}
 					using (SQLiteCommand cmd = new SQLiteCommand(strSql, con))
@@ -259,7 +278,9 @@ namespace CommonLib.DB.SQLite.MwsSimulation
 					// 接続
 					con.Open();
 
-					string strSql = string.Format(@"SELECT * FROM {0} WHERE GroupID = {1} ORDER BY ServiceCode ASC", SQLiteMwsSimulationDef.INIT_GROUP_PLAN_ELEMENT_TABLE_NAME, groupID);
+					string strSql = string.Format(@"SELECT * FROM {0} WHERE GroupID = {1} ORDER BY ServiceCode ASC"
+																	, SQLiteMwsSimulationDef.INIT_GROUP_PLAN_ELEMENT_TABLE_NAME
+																	, groupID);
 					using (SQLiteCommand cmd = new SQLiteCommand(strSql, con))
 					{
 						using (SQLiteDataAdapter da = new SQLiteDataAdapter(cmd))
@@ -341,7 +362,9 @@ namespace CommonLib.DB.SQLite.MwsSimulation
 					// 接続
 					con.Open();
 
-					string strSql = string.Format(@"SELECT GoodsID, ServiceName FROM {0} WHERE ParentGoodsID = '{1}' ORDER BY GoodsID ASC", SQLiteMwsSimulationDef.SET_PLAN_ELEMENT_TABLE_NAME, parentGoodsID);
+					string strSql = string.Format(@"SELECT GoodsID, ServiceName FROM {0} WHERE ParentGoodsID = '{1}' ORDER BY GoodsID ASC"
+																	, SQLiteMwsSimulationDef.SET_PLAN_ELEMENT_TABLE_NAME
+																	, parentGoodsID);
 					using (SQLiteCommand cmd = new SQLiteCommand(strSql, con))
 					{
 						using (SQLiteDataAdapter da = new SQLiteDataAdapter(cmd))
@@ -515,7 +538,9 @@ namespace CommonLib.DB.SQLite.MwsSimulation
 					// 接続
 					con.Open();
 
-					string strSql = string.Format(@"SELECT * FROM {0} WHERE EstimateID = {1} ORDER BY SeqNo ASC", SQLiteMwsSimulationDef.ESTIMATE_SERVICE_TABLE_NAME, estimateID);
+					string strSql = string.Format(@"SELECT * FROM {0} WHERE EstimateID = {1} ORDER BY SeqNo ASC"
+																, SQLiteMwsSimulationDef.ESTIMATE_SERVICE_TABLE_NAME
+																, estimateID);
 					using (SQLiteCommand cmd = new SQLiteCommand(strSql, con))
 					{
 						using (SQLiteDataAdapter da = new SQLiteDataAdapter(cmd))
@@ -558,7 +583,10 @@ namespace CommonLib.DB.SQLite.MwsSimulation
 					// 接続
 					con.Open();
 
-					string strSql = string.Format(@"SELECT * FROM {0} WHERE EstimateID = {1} AND ParentGoodsID = '{2}' ORDER BY SeqNo ASC", SQLiteMwsSimulationDef.ESTIMATE_GROUP_ELEMENT_TABLE_NAME, estimateID, parentGoodsID);
+					string strSql = string.Format(@"SELECT * FROM {0} WHERE EstimateID = {1} AND ParentGoodsID = '{2}' ORDER BY SeqNo ASC"
+																, SQLiteMwsSimulationDef.ESTIMATE_GROUP_ELEMENT_TABLE_NAME
+																, estimateID
+																, parentGoodsID);
 					using (SQLiteCommand cmd = new SQLiteCommand(strSql, con))
 					{
 						using (SQLiteDataAdapter da = new SQLiteDataAdapter(cmd))
