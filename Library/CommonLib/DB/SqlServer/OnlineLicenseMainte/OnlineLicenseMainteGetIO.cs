@@ -7,8 +7,8 @@
 // 
 /////////////////////////////////////////////////////////
 // Ver1.00(2023/11/20 勝呂):新規作成
-// Ver1.05(2024/05/29 勝呂):SHINKO ｵﾝ資･ｵﾝｻｲﾄ保守、MIC ｵﾝﾗｲﾝ資格確認保守ｻｰﾋﾞｽに対応
-// Ver1.05(2024/05/29 勝呂):売上データの更新単位を月から空白に修正
+// Ver1.05(2024/07/19 勝呂):SHINKO ｵﾝ資･ｵﾝｻｲﾄ保守、MIC ｵﾝﾗｲﾝ資格確認保守ｻｰﾋﾞｽに対応
+// Ver1.05(2024/07/19 勝呂):売上データの更新単位を月から空白に修正
 // 
 using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.Common;
@@ -31,8 +31,8 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseMainte
 		/// <returns>レコード数</returns>
 		public static DataTable GetOnlineLicenseMainteEarningsOut(YearMonth ym, string connectStr)
 		{
-			// Ver1.05(2024/05/29 勝呂):SHINKO ｵﾝ資･ｵﾝｻｲﾄ保守、MIC ｵﾝﾗｲﾝ資格確認保守ｻｰﾋﾞｽに対応
-			// Ver1.05(2024/05/29 勝呂):売上データの更新単位を月から空白に修正
+			// Ver1.05(2024/07/19 勝呂):SHINKO ｵﾝ資･ｵﾝｻｲﾄ保守、MIC ｵﾝﾗｲﾝ資格確認保守ｻｰﾋﾞｽに対応
+			// Ver1.05(2024/07/19 勝呂):売上データの更新単位を月から空白に修正
 			//string strSQL = string.Format(@"SELECT"
 			//						+ " U.顧客No as f顧客No"
 			//						+ ", U.顧客名１ + U.顧客名２ as f顧客名"
@@ -123,8 +123,8 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseMainte
 		/// <returns>レコード数</returns>
 		public static DataTable GetOnlineLicenseMainteEarningsOutEmergency(string customerNoString, string connectStr)
 		{
-			// Ver1.05(2024/05/29 勝呂):SHINKO ｵﾝ資･ｵﾝｻｲﾄ保守、MIC ｵﾝﾗｲﾝ資格確認保守ｻｰﾋﾞｽに対応
-			// Ver1.05(2024/05/29 勝呂):売上データの更新単位を月から空白に修正
+			// Ver1.05(2024/07/19 勝呂):SHINKO ｵﾝ資･ｵﾝｻｲﾄ保守、MIC ｵﾝﾗｲﾝ資格確認保守ｻｰﾋﾞｽに対応
+			// Ver1.05(2024/07/19 勝呂):売上データの更新単位を月から空白に修正
 			//string strSQL = string.Format(@"SELECT"
 			//						+ " U.顧客No as f顧客No"
 			//						+ ", U.顧客名１ + U.顧客名２ as f顧客名"

@@ -177,7 +177,7 @@ namespace CommonLib.BaseFactory.ElectricPrescription
 				foreach (DataRow row in table.Rows)
 				{
 					ElectricPrescriptionEarningsOut data = new ElectricPrescriptionEarningsOut();
-					data.受付番号 = DataBaseValue.ConvObjectToInt(row["ApplyNo"]);
+					data.受付番号 = DataBaseValue.ConvObjectToInt(row["受付No"]);
 					data.顧客No = DataBaseValue.ConvObjectToInt(row["顧客No"]);
 					data.顧客名 = row["顧客名"].ToString().Trim();
 					data.得意先コード = row["得意先コード"].ToString().Trim();

@@ -7,6 +7,7 @@
 // 
 // Ver1.00 新規作成(2022/03/17 勝呂)
 // Ver1.03(2023/08/21 勝呂):厚生局データメモ追加機能の追加
+// Ver1.04(2024/06/18 勝呂):CSVファイルによるメモ追加機能の追加（企画推進部で使用）
 //
 using WonderWebEntryMemo.Settings;
 using System;
@@ -73,6 +74,20 @@ namespace WonderWebEntryMemo.Forms
 		private void buttonWelfare_Click(object sender, EventArgs e)
 		{
 			using (WelfareForm dlg = new WelfareForm())
+			{
+				dlg.ShowDialog();
+			}
+		}
+
+		/// <summary>
+		/// CSVファイルインポート
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.04(2024/06/18 勝呂):CSVファイルによるメモ追加機能の追加（企画推進部で使用）
+		private void buttonImportFile_Click(object sender, EventArgs e)
+		{
+			using (ImportCsvFileForm dlg = new ImportCsvFileForm())
 			{
 				dlg.ShowDialog();
 			}

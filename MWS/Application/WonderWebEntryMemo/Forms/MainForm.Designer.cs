@@ -33,16 +33,18 @@ namespace WonderWebEntryMemo.Forms
 			this.buttonBank = new System.Windows.Forms.Button();
 			this.buttonOnline = new System.Windows.Forms.Button();
 			this.buttonWelfare = new System.Windows.Forms.Button();
+			this.buttonImportFile = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// labelVersion
 			// 
+			this.labelVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelVersion.AutoSize = true;
-			this.labelVersion.Location = new System.Drawing.Point(205, 167);
+			this.labelVersion.Location = new System.Drawing.Point(197, 209);
 			this.labelVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.labelVersion.Name = "labelVersion";
 			this.labelVersion.Size = new System.Drawing.Size(138, 17);
-			this.labelVersion.TabIndex = 3;
+			this.labelVersion.TabIndex = 4;
 			this.labelVersion.Text = "Ver1.00 2022/03/10";
 			this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -76,11 +78,22 @@ namespace WonderWebEntryMemo.Forms
 			this.buttonWelfare.UseVisualStyleBackColor = true;
 			this.buttonWelfare.Click += new System.EventHandler(this.buttonWelfare_Click);
 			// 
+			// buttonImportFile
+			// 
+			this.buttonImportFile.Location = new System.Drawing.Point(24, 149);
+			this.buttonImportFile.Name = "buttonImportFile";
+			this.buttonImportFile.Size = new System.Drawing.Size(299, 37);
+			this.buttonImportFile.TabIndex = 3;
+			this.buttonImportFile.Text = "CSVファイルによるメモ追加";
+			this.buttonImportFile.UseVisualStyleBackColor = true;
+			this.buttonImportFile.Click += new System.EventHandler(this.buttonImportFile_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(356, 193);
+			this.ClientSize = new System.Drawing.Size(348, 235);
+			this.Controls.Add(this.buttonImportFile);
 			this.Controls.Add(this.buttonWelfare);
 			this.Controls.Add(this.buttonOnline);
 			this.Controls.Add(this.buttonBank);
@@ -105,6 +118,7 @@ namespace WonderWebEntryMemo.Forms
 		private System.Windows.Forms.Button buttonBank;
 		private System.Windows.Forms.Button buttonOnline;
 		private System.Windows.Forms.Button buttonWelfare;
+		private System.Windows.Forms.Button buttonImportFile;
 	}
 }
 

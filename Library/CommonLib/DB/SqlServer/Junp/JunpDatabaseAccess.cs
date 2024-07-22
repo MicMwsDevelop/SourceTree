@@ -368,7 +368,7 @@ namespace CommonLib.DB.SqlServer.Junp
 		/// <summary>
 		/// vMicPCA商品マスタの取得
 		/// </summary>
-		/// <param name="code"></param>
+		/// <param name="code">商品コード</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns></returns>
 		public static vMicPCA商品マスタ Select_vMicPCA商品マスタ(string code, string connectStr)
@@ -381,6 +381,19 @@ namespace CommonLib.DB.SqlServer.Junp
 				return list.First();
 			}
 			return null;
+		}
+
+		/// <summary>
+		/// vMicPCA商品マスタの取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns></returns>
+		public static List<vMicPCA商品マスタ> Select_vMicPCA商品マスタ(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ], whereStr, orderStr, connectStr);
+			return vMicPCA商品マスタ.DataTableToList(table);
 		}
 
 		/// <summary>

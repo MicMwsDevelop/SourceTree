@@ -7,6 +7,7 @@
 // 
 // Ver1.00(2023/12/01 勝呂):新規作成
 // Ver1.05(2024/01/05 勝呂):メール送信先が複数指定された時にアプリケーションエラー
+// Ver1.06(2024/07/08 勝呂):各種作業料名称変更に伴う修正
 //
 using CommonLib.BaseFactory.OnlineDemand;
 using MwsLib.Settings.Mail;
@@ -40,12 +41,12 @@ namespace OnlineDemandEarningsFile.Mail
 							+ @"<font face=""MS UI Gothic"" size=""2"">";
 
 				// 件名
-				msg.Subject = "オンライン請求作業 売上連絡";
+				msg.Subject = "各種作業料 売上連絡";
 
 				// 本文
 				msg.Body += string.Format(@"<div>"
 							+ @"<p>経理課各位</p>"
-							+ @"<p>オンライン請求作業の売上データを作成しました。<br>"
+							+ @"<p>各種作業料の売上データを作成しました。<br>"
 							+ @"<br>"
 							+ @"{0}フォルダに{1}を格納しました。<br>"
 							+ @"PCA読込作業をお願いします。<br></p>"
@@ -91,7 +92,7 @@ namespace OnlineDemandEarningsFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>申請日時</font></th>"
 								+ @"</tr>"
 								+ @"</table>";
-					msg.Body += @"<br><p>オンライン請求作業の売上データはありませんでした。</p>";
+					msg.Body += @"<br><p>各種作業料の売上データはありませんでした。</p>";
 				}
 				msg.Body += @"</div>"
 							+ @"<div>"

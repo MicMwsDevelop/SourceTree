@@ -10,6 +10,7 @@
 using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Charlie.View;
 using CommonLib.BaseFactory.Coupler.Table;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -279,6 +280,19 @@ namespace CommonLib.DB.SqlServer.Charlie
 			return T_USE_ELECTRIC_PRESCRIPTION.DataTableToList(table);
 		}
 
+		/// <summary>
+		/// [charlieDB].[dbo].[T_売上明細データ内訳]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>売上明細データ内訳情報リスト</returns>
+		public static List<T_売上明細データ内訳> Select_T_売上明細データ内訳(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_売上明細データ内訳], whereStr, orderStr, connectStr);
+			return T_売上明細データ内訳.DataTableToList(table);
+		}
+
 
 		//////////////////////////////
 		// UPDATE SET
@@ -315,6 +329,18 @@ namespace CommonLib.DB.SqlServer.Charlie
 		{
 			return DatabaseAccess.UpdateSetDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters(), connectStr);
 		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の更新（PC安心サポート契約情報）
+		/// </summary>
+		/// <param name="data">PC安心サポート契約情報</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		public static int UpdateSet_T_USE_PCCSUPPORT(T_USE_PCCSUPPORT data, string connectStr)
+		{
+			return DatabaseAccess.UpdateSetDatabase(data.UpdateSetSqlString, data.GetUpdateSetParameters(), connectStr);
+		}
+
 
 
 		//////////////////////////////
@@ -395,6 +421,45 @@ namespace CommonLib.DB.SqlServer.Charlie
 
 		//////////////////////////////
 		// DELETE
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_USE_CONTRACT_HEADER]の削除
+		/// </summary>
+		/// <param name="contractID">契約番号</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		/// <exception cref="ApplicationException"></exception>
+		public static int Delete_T_USE_CONTRACT_HEADER(int contractID, string connectStr)
+		{
+			string sqlStr = string.Format("DELETE FROM {0} WHERE fContractID = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_HEADER], contractID);
+			return DatabaseAccess.DeleteDatabase(sqlStr, connectStr);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の削除
+		/// </summary>
+		/// <param name="applyNo">受付No</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns></returns>
+		public static int Delete_T_USE_PCCSUPPORT(int applyNo, string connectStr)
+		{
+			string sqlStr = string.Format("DELETE FROM {0} WHERE fApplyNo = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT], applyNo);
+			return DatabaseAccess.DeleteDatabase(sqlStr, connectStr);
+		}
+
+		/// <summary>
+		/// [charlieDB].[dbo].[T_USE_ONLINE_DEMAND]の削除
+		/// </summary>
+		/// <param name="applyNo">受付No</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns></returns>
+		public static int Delete_T_USE_ONLINE_DEMAND(int applyNo, string connectStr)
+		{
+			string sqlStr = string.Format("DELETE FROM {0} WHERE ApplyNo = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_DEMAND], applyNo);
+			return DatabaseAccess.DeleteDatabase(sqlStr, connectStr);
+		}
+
+
 
 
 		////////////////////////////////////////////////////////////////

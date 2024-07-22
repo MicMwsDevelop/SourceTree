@@ -1,21 +1,22 @@
 ﻿//
 // Program.cs
 // 
-// オンライン請求作業売上データ作成 プログラムクラス
+// 各種作業料売上データ作成 プログラムクラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
 /////////////////////////////////////////////////////////
-// アプリ管理サイト：APPID636 オンライン請求作業売上データ作成
-// 処理概要：オンライン請求作業情報（T_USE_ONLINE_DEMAND）から先月分以前の売上データを作成する
+// アプリ管理サイト：APPID636 各種作業料売上データ作成
+// 処理概要：各種作業料作業済申請情報（T_USE_ONLINE_DEMAND）から先月分以前の売上データを作成する
 // 入力ファイル：無
-// 出力ファイル：\\sqlsv\pcadata\オンライン請求作業売上データ_yyyyMMddHHmm.csv
+// 出力ファイル：\\sqlsv\pcadata\各種作業料売上データ_yyyyMMddHHmm.csv
 // 印刷物：無
-// メール送信：オンライン請求作業 売上連絡
+// メール送信：各種作業料 売上連絡
 /////////////////////////////////////////////////////////
 // Ver1.00(2023/12/01 勝呂):新規作成
 // Ver1.05(2024/01/05 勝呂):メール送信先が複数指定された時にアプリケーションエラー
 // Ver1.06(2024/07/01 勝呂):オン資訪問診療連携の018426 ｵﾝﾗｲﾝ資格確認訪問診療連携環境設定費の売上データ作成に対応
+// Ver1.06(2024/07/08 勝呂):各種作業料名称変更に伴う修正
 //
 using CommonLib.BaseFactory.OnlineDemand;
 using CommonLib.Common;
@@ -35,12 +36,12 @@ namespace OnlineDemandEarningsFile
 		/// <summary>
 		/// プログラム名
 		/// </summary>
-		public const string PROC_NAME = "オンライン請求作業売上データ作成";
+		public const string PROC_NAME = "各種作業料売上データ作成";
 
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.06(2024/07/01)";
+		public const string VersionStr = "Ver1.06(2024/07/08)";
 
 		/// <summary>
 		/// 環境設定
@@ -68,7 +69,7 @@ namespace OnlineDemandEarningsFile
 			gSettings = OnlineDemandEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			gBootDate = new Date(2024, 4, 1);
+			gBootDate = new Date(2024, 8, 1);
 #else
 			gBootDate = Date.Today;
 #endif
@@ -94,7 +95,7 @@ namespace OnlineDemandEarningsFile
 		}
 
 		/// <summary>
-		/// オンライン請求作業売上データ.csvの出力
+		/// 各種作業料売上データ.csvの出力
 		/// </summary>
 		/// <param name="bootDate">実行日</param>
 		/// <returns>エラーメッセージ</returns>
@@ -108,7 +109,7 @@ namespace OnlineDemandEarningsFile
 			YearMonth prevMonth = bootDate.FirstDayOfLasMonth().ToYearMonth();   // 先月
 			try
 			{
-				// オンライン請求作業情報から先月末日以前の情報を取得
+				// 各種作業料作業済申請情報から先月末日以前の情報を取得
 				List<OnlineDemandEarningsOut> saleList = OnlineDemandAccess.GetOnlineDemandEarningsOut(prevMonth, gSettings.ConnectCharlie.ConnectionString);
 				if (null != saleList && 0 < saleList.Count)
 				{
@@ -147,21 +148,21 @@ namespace OnlineDemandEarningsFile
 #if !DebugNoWrite
 					foreach (OnlineDemandEarningsOut sale in saleList)
 					{
-						// オンライン請求作業情報の売上日時を設定
+						// 各種作業料作業済申請の売上日時を設定
 						OnlineDemandAccess.UpdateSetOnlineDemandSaleDate(sale, PROC_NAME, gSettings.ConnectCharlie.ConnectionString);
 					}
 #endif
 				}
 				else
 				{
-					// オンライン請求作業売上データ.csvの出力
+					// 各種作業料売上データ.csvの出力
 					using (var sw = new StreamWriter(gSettings.FormalPathname(gFormalFilename), false, System.Text.Encoding.GetEncoding("shift_jis")))
 					{
 						// 出力物はないが、売上データファイルは出力する
 						;
 					}
 				}
-				// オンライン請求作業 売上連絡メール送信（経理課宛）
+				// 各種作業料 売上連絡メール送信（経理課宛）
 				SendMailControl.OnlineDemandSendMail(saleList, gFormalFilename);
 			}
 			catch (Exception ex)

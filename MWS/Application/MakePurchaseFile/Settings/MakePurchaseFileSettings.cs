@@ -365,6 +365,78 @@ namespace MakePurchaseFile.Settings
 		}
 
 		/// <summary>
+		/// りすとん月額商品コード群の取得
+		/// </summary>
+		/// <returns></returns>
+		public string GetListonGoods()
+		{
+			string str = string.Empty;
+			foreach (仕入商品情報 goods in りすとん月額商品)
+			{
+				if (0 < str.Length)
+				{
+					str += ",";
+				}
+				str += "'" + goods.商品コード + "'";
+			}
+			return str;
+		}
+
+		/// <summary>
+		/// Microsoft365商品コード群の取得
+		/// </summary>
+		/// <returns></returns>
+		public string GetMicrosoft365Goods()
+		{
+			string str = string.Empty;
+			foreach (仕入商品情報 goods in Microsoft365商品)
+			{
+				if (0 < str.Length)
+				{
+					str += ",";
+				}
+				str += "'" + goods.商品コード + "'";
+			}
+			return str;
+		}
+
+		/// <summary>
+		/// 問心伝月額商品コード群の取得
+		/// </summary>
+		/// <returns></returns>
+		public string GetMonshindenGoods()
+		{
+			string str = string.Empty;
+			foreach (仕入商品情報 goods in 問心伝月額商品)
+			{
+				if (0 < str.Length)
+				{
+					str += ",";
+				}
+				str += "'" + goods.商品コード + "'";
+			}
+			return str;
+		}
+
+		/// <summary>
+		/// ナルコーム月額商品コード群の取得
+		/// </summary>
+		/// <returns></returns>
+		public string GetNarcohrmGoods()
+		{
+			string str = string.Empty;
+			foreach (ナルコーム仕入商品情報 goods in ナルコーム商品)
+			{
+				if (0 < str.Length)
+				{
+					str += ",";
+				}
+				str += "'" + goods.商品コード + "'";
+			}
+			return str;
+		}
+
+		/// <summary>
 		/// クラウドバックアップ商品コード群の取得
 		/// </summary>
 		/// <returns></returns>

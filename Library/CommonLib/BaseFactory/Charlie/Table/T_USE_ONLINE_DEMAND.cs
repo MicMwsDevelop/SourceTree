@@ -76,6 +76,17 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		public string UpdatePerson { get; set; }
 
 		/// <summary>
+		/// 利用申込が取消が可能かどうか？
+		/// </summary>
+		public bool IsEnableCancel
+		{
+			get
+			{
+				return (SalesDate is null) ? true : false;
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public T_USE_ONLINE_DEMAND()

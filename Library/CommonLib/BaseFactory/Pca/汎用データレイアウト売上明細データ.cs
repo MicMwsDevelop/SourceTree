@@ -364,25 +364,25 @@ namespace CommonLib.BaseFactory.Pca
 				売上日 = int.Parse(csv[1].Trim('\"'));
 				請求日 = int.Parse(csv[2].Trim('\"'));
 				伝票No = int.Parse(csv[3].Trim('\"'));
-				得意先コード = csv[4].Trim('\"');
-				得意先名 = csv[5].Trim('\"');
-				直送先コード = csv[6].Trim('\"');
-				先方担当者名 = csv[7].Trim('\"');
-				部門コード = csv[8].Trim('\"');
-				担当者コード = csv[9].Trim('\"');
-				摘要コード = csv[10].Trim('\"');
-				摘要名 = csv[11].Trim('\"');
-				分類コード = csv[12].Trim('\"');
-				伝票区分 = csv[13].Trim('\"');
-				商品コード = csv[14].Trim('\"');
+				得意先コード = csv[4].Trim('\"').Trim();
+				得意先名 = csv[5].Trim('\"').Trim();
+				直送先コード = csv[6].Trim('\"').Trim();
+				先方担当者名 = csv[7].Trim('\"').Trim();
+				部門コード = csv[8].Trim('\"').Trim();
+				担当者コード = csv[9].Trim('\"').Trim();
+				摘要コード = csv[10].Trim('\"').Trim();
+				摘要名 = csv[11].Trim('\"').Trim();
+				分類コード = csv[12].Trim('\"').Trim();
+				伝票区分 = csv[13].Trim('\"').Trim();
+				商品コード = csv[14].Trim('\"').Trim();
 				マスター区分 = int.Parse(csv[15].Trim('\"'));
-				商品名 = csv[16].Trim('\"');
+				商品名 = csv[16].Trim('\"').Trim();
 				区 = int.Parse(csv[17].Trim('\"'));
-				倉庫コード = csv[18].Trim('\"');
+				倉庫コード = csv[18].Trim('\"').Trim();
 				入数 = int.Parse(csv[19].Trim('\"'));
 				箱数 = int.Parse(csv[20].Trim('\"'));
 				数量 = int.Parse(csv[21].Trim('\"'));
-				単位 = csv[22].Trim('\"');
+				単位 = csv[22].Trim('\"').Trim();
 				単価 = int.Parse(csv[23].Trim('\"'));
 				売上金額 = int.Parse(csv[24].Trim('\"'));
 				原単価 = int.Parse(csv[25].Trim('\"'));
@@ -392,14 +392,14 @@ namespace CommonLib.BaseFactory.Pca
 				内税額 = int.Parse(csv[29].Trim('\"'));
 				税区分 = int.Parse(csv[30].Trim('\"'));
 				税込区分 = int.Parse(csv[31].Trim('\"'));
-				備考 = csv[32].Trim('\"');
+				備考 = csv[32].Trim('\"').Trim();
 				標準価格 = int.Parse(csv[33].Trim('\"'));
 				同時入荷区分 = int.Parse(csv[34].Trim('\"'));
 				売単価 = int.Parse(csv[35].Trim('\"'));
 				売価金額 = int.Parse(csv[36].Trim('\"'));
-				規格型番 = csv[37].Trim('\"');
-				色 = csv[38].Trim('\"');
-				サイズ = csv[39].Trim('\"');
+				規格型番 = csv[37].Trim('\"').Trim();
+				色 = csv[38].Trim('\"').Trim();
+				サイズ = csv[39].Trim('\"').Trim();
 				計算式コード = int.Parse(csv[40].Trim('\"'));
 				商品項目１ = int.Parse(csv[41].Trim('\"'));
 				商品項目２ = int.Parse(csv[42].Trim('\"'));
@@ -409,15 +409,15 @@ namespace CommonLib.BaseFactory.Pca
 				売上項目３ = int.Parse(csv[46].Trim('\"'));
 				税率 = int.Parse(csv[47].Trim('\"'));
 				伝票消費税額 = int.Parse(csv[48].Trim('\"'));
-				ﾌﾟﾛｼﾞｪｸﾄコード = csv[49].Trim('\"');
-				伝票No2 = csv[50].Trim('\"');
+				ﾌﾟﾛｼﾞｪｸﾄコード = csv[49].Trim('\"').Trim();
+				伝票No2 = csv[50].Trim('\"').Trim();
 				データ区分 = int.Parse(csv[51].Trim('\"'));
-				商品名２ = csv[52].Trim('\"');
+				商品名２ = csv[52].Trim('\"').Trim();
 				if (54 <= csv.Length)
 				{
 					// 汎用データレイアウト指定 8: Rev4.50
 					単位区分 = int.Parse(csv[53].Trim('\"'));
-					ロットNo = csv[54].Trim('\"');
+					ロットNo = csv[54].Trim('\"').Trim();
 				}
 				if (56 <= csv.Length)
 				{
@@ -427,8 +427,8 @@ namespace CommonLib.BaseFactory.Pca
 				if (57 <= csv.Length)
 				{
 					// 汎用データレイアウト指定 10: DX-Rev2.00
-					決済会社コード = csv[56].Trim('\"');
-					決済会社名 = csv[57].Trim('\"');
+					決済会社コード = csv[56].Trim('\"').Trim();
+					決済会社名 = csv[57].Trim('\"').Trim();
 					決済日 = int.Parse(csv[58].Trim('\"'));
 					決済手数料 = int.Parse(csv[59].Trim('\"'));
 					手数料外税額 = int.Parse(csv[60].Trim('\"'));
@@ -436,8 +436,8 @@ namespace CommonLib.BaseFactory.Pca
 					手数料税区分 = int.Parse(csv[62].Trim('\"'));
 					手数料税率 = int.Parse(csv[63].Trim('\"'));
 					手数料税込区分 = int.Parse(csv[64].Trim('\"'));
-					決済摘要コード = csv[65].Trim('\"');
-					決済摘要名 = csv[66].Trim('\"');
+					決済摘要コード = csv[65].Trim('\"').Trim();
+					決済摘要名 = csv[66].Trim('\"').Trim();
 				}
 				// Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
 				if (68 <= csv.Length)
@@ -468,6 +468,234 @@ namespace CommonLib.BaseFactory.Pca
 				}
 			}
 			return false;
+		}
+
+		/// <summary>
+		/// DeepCopy
+		/// </summary>
+		/// <returns>汎用データレイアウト売上明細データ</returns>
+		public 汎用データレイアウト売上明細データ DeepCopy()
+		{
+			汎用データレイアウト売上明細データ ret = new 汎用データレイアウト売上明細データ();
+			ret.伝区 = 伝区;
+			ret.売上日 = 売上日;
+			ret.請求日 = 請求日;
+			ret.伝票No = 伝票No;
+			ret.得意先コード = 得意先コード;
+			ret.得意先名 = 得意先名;
+			ret.直送先コード = 直送先コード;
+			ret.先方担当者名 = 先方担当者名;
+			ret.部門コード = 部門コード;
+			ret.担当者コード = 担当者コード;
+			ret.摘要コード = 摘要コード;
+			ret.摘要名 = 摘要名;
+			ret.分類コード = 分類コード;
+			ret.伝票区分 = 伝票区分;
+			ret.商品コード = 商品コード;
+			ret.マスター区分 = マスター区分;
+			ret.商品名 = 商品名;
+			ret.区 = 区;
+			ret.倉庫コード = 倉庫コード;
+			ret.入数 = 入数;
+			ret.箱数 = 箱数;
+			ret.数量 = 数量;
+			ret.単位 = 単位;
+			ret.単価 = 単価;
+			ret.売上金額 = 売上金額;
+			ret.原単価 = 原単価;
+			ret.原価金額 = 原価金額;
+			ret.粗利益 = 粗利益;
+			ret.外税額 = 外税額;
+			ret.内税額 = 内税額;
+			ret.税区分 = 税区分;
+			ret.税込区分 = 税込区分;
+			ret.備考 = 備考;
+			ret.標準価格 = 標準価格;
+			ret.同時入荷区分 = 同時入荷区分;
+			ret.売単価 = 売単価;
+			ret.売価金額 = 売価金額;
+			ret.規格型番 = 規格型番;
+			ret.色 = 色;
+			ret.サイズ = サイズ;
+			ret.計算式コード = 計算式コード;
+			ret.商品項目１ = 商品項目１;
+			ret.商品項目２ = 商品項目２;
+			ret.商品項目３ = 商品項目３;
+			ret.売上項目１ = 売上項目１;
+			ret.売上項目２ = 売上項目２;
+			ret.売上項目３ = 売上項目３;
+			ret.税率 = 税率;
+			ret.伝票消費税額 = 伝票消費税額;
+			ret.ﾌﾟﾛｼﾞｪｸﾄコード = ﾌﾟﾛｼﾞｪｸﾄコード;
+			ret.伝票No2 = 伝票No2;
+			ret.データ区分 = データ区分;
+			ret.商品名２ = 商品名２;
+			ret.単位区分 = 単位区分;
+			ret.ロットNo = ロットNo;
+			ret.直送先名 = 直送先名;
+			ret.決済会社コード = 決済会社コード;
+			ret.決済会社名 = 決済会社名;
+			ret.決済日 = 決済日;
+			ret.決済手数料 = 決済手数料;
+			ret.手数料外税額 = 手数料外税額;
+			ret.手数料内税額 = 手数料内税額;
+			ret.手数料税区分 = 手数料税区分;
+			ret.手数料税率 = 手数料税率;
+			ret.手数料税込区分 = 手数料税込区分;
+			ret.決済摘要コード = 決済摘要コード;
+			ret.決済摘要名 = 決済摘要名;
+			ret.売上税種別 = 売上税種別;
+			ret.原価税込区分 = 原価税込区分;
+			ret.原価税率 = 原価税率;
+			ret.原価税種別 = 原価税種別;
+			return ret;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="data"></param>
+		/// <param name="tekiyoMei"></param>
+		/// <param name="code"></param>
+		/// <param name="goodsName"></param>
+		public void SetData(汎用データレイアウト売上明細データ data, string tekiyoMei, string code, string goodsName)
+		{
+			伝区 = data.伝区;
+			売上日 = data.売上日;
+			請求日 = data.請求日;
+			伝票No = data.伝票No;
+			得意先コード = data.得意先コード.Trim();
+			得意先名 = data.得意先名;
+			直送先コード = data.直送先コード;
+			先方担当者名 = data.先方担当者名;
+			部門コード = data.部門コード;
+			担当者コード = data.担当者コード;
+			摘要コード = data.摘要コード;
+			摘要名 = tekiyoMei;
+			分類コード = data.分類コード;
+			伝票区分 = data.伝票区分;
+			商品コード = code;
+			マスター区分 = data.マスター区分;
+			商品名 = goodsName;
+			区 = data.区;
+			倉庫コード = data.倉庫コード;
+			入数 = data.入数;
+			箱数 = data.箱数;
+			数量 = data.数量;
+			単位 = data.単位;
+			単価 = data.単価;
+			売上金額 = data.売上金額;
+			原単価 = data.原単価;
+			原価金額 = data.原価金額;
+			粗利益 = data.粗利益;
+			外税額 = data.外税額;
+			内税額 = data.内税額;
+			税区分 = data.税区分;
+			税込区分 = data.税込区分;
+			備考 = data.備考;
+			標準価格 = data.標準価格;
+			同時入荷区分 = data.同時入荷区分;
+			売単価 = data.売単価;
+			売価金額 = data.売価金額;
+			規格型番 = data.規格型番;
+			色 = data.色;
+			サイズ = data.サイズ;
+			計算式コード = data.計算式コード;
+			商品項目１ = data.商品項目１;
+			商品項目２ = data.商品項目２;
+			商品項目３ = data.商品項目３;
+			売上項目１ = data.売上項目１;
+			売上項目２ = data.売上項目２;
+			売上項目３ = data.売上項目３;
+			税率 = data.税率;
+			伝票消費税額 = data.伝票消費税額;
+			ﾌﾟﾛｼﾞｪｸﾄコード = data.ﾌﾟﾛｼﾞｪｸﾄコード;
+			伝票No2 = data.伝票No2;
+			データ区分 = data.データ区分;
+			商品名２ = data.商品名２;
+			単位区分 = data.単位区分;
+			ロットNo = data.ロットNo;
+			直送先名 = data.直送先名;
+			決済会社コード = data.決済会社コード;
+			決済会社名 = data.決済会社名;
+			決済日 = data.決済日;
+			決済手数料 = data.決済手数料;
+			手数料外税額 = data.手数料外税額;
+			手数料内税額 = data.手数料内税額;
+			手数料税区分 = data.手数料税区分;
+			手数料税率 = data.手数料税率;
+			手数料税込区分 = data.手数料税込区分;
+			決済摘要コード = data.決済摘要コード;
+			決済摘要名 = data.決済摘要名;
+			売上税種別 = data.売上税種別;
+			原価税込区分 = data.原価税込区分;
+			原価税率 = data.原価税率;
+			原価税種別 = data.原価税種別;
+		}
+
+		/// <summary>
+		/// 汎用データレイアウト売上明細データ +演算子
+		/// </summary>
+		/// <param name="src"></param>
+		/// <param name="dst"></param>
+		/// <returns></returns>
+		public static 汎用データレイアウト売上明細データ operator + (汎用データレイアウト売上明細データ src, 汎用データレイアウト売上明細データ dst)
+		{
+			汎用データレイアウト売上明細データ ret = src.DeepCopy();
+			//伝区 = 0;
+			//売上日 = 0;
+			//請求日 = 0;
+			//伝票No = 0;
+			//得意先コード = string.Empty;
+			//得意先名 = string.Empty;
+			//直送先コード = string.Empty;
+			//先方担当者名 = string.Empty;
+			//部門コード = string.Empty;
+			//担当者コード = string.Empty;
+			//摘要コード = string.Empty;
+			//摘要名 = string.Empty;
+			//分類コード = string.Empty;
+			//伝票区分 = string.Empty;
+			//商品コード = string.Empty;
+			//マスター区分 = 0;
+			//商品名 = string.Empty;
+			//区 = 0;
+			//倉庫コード = string.Empty;
+			//入数 = 0;
+			//箱数 = 0;
+			ret.数量 = 1;
+			//単位 = string.Empty;
+			ret.単価 += dst.単価;
+			ret.売上金額 += dst.売上金額;
+			ret.原単価 += dst.原単価;
+			ret.原価金額 += dst.原価金額;
+			ret.粗利益 += dst.粗利益;
+			ret.外税額 += dst.外税額;
+			ret.内税額 += dst.内税額;
+			//税区分 = 0;
+			//税込区分 = 0;
+			//備考 = string.Empty;
+			ret.標準価格 += dst.標準価格;
+			//同時入荷区分 = 0;
+			ret.売単価 += dst.売単価;
+			ret.売価金額 += dst.売価金額;
+			//規格型番 = string.Empty;
+			//色 = string.Empty;
+			//サイズ = string.Empty;
+			//計算式コード = 0;
+			//商品項目１ = 0;
+			//商品項目２ = 0;
+			//商品項目３ = 0;
+			//売上項目１ = 0;
+			//売上項目２ = 0;
+			//売上項目３ = 0;
+			//税率 = 0;
+			ret.伝票消費税額 += dst.伝票消費税額;
+			//ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
+			//伝票No2 = string.Empty;
+			//データ区分 = 0;
+			//商品名２ = string.Empty;
+			return ret;
 		}
 	}
 }

@@ -276,7 +276,7 @@ namespace ElectricPrescriptionEarningsFile
 #endif
 					}
 				}
-				// サービス名の取得
+				// サービス名の取得（電子処方箋管理サービス（院外処方）、電子処方箋管理サービス（院内処方））
 				whereStr = string.Format("SERVICE_ID IN ({0}, {1})", (int)ServiceCodeDefine.ServiceCode.ElectricPrescriptionOutside, (int)ServiceCodeDefine.ServiceCode.ElectricPrescriptionInside);
 				List<M_SERVICE> svList = CharlieDatabaseAccess.Select_M_SERVICE(whereStr, "SERVICE_ID", gSettings.ConnectCharlie.ConnectionString);
 

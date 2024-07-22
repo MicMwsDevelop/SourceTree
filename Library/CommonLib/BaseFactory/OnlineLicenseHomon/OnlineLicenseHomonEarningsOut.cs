@@ -1,7 +1,7 @@
 ﻿//
 // OnlineLicenseHomonEarningsOut.cs
 //
-// オン資格訪問診療売上情報クラス
+// オン資訪問診療売上情報クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -17,7 +17,7 @@ using System.Data;
 namespace CommonLib.BaseFactory.OnlineLicenseHomon
 {
 	/// <summary>
-	/// オン資格訪問診療売上情報
+	/// オン資訪問診療売上情報
 	/// </summary>
 	public class OnlineLicenseHomonEarningsOut
 	{
@@ -61,6 +61,8 @@ namespace CommonLib.BaseFactory.OnlineLicenseHomon
 		public DateTime? 契約終了日 { get; set; }
 
 		public DateTime? 売上日時 { get; set; }
+
+		public int CouplerApplyID { get; set; }
 
 		/// <summary>
 		/// 商品名の取得
@@ -120,6 +122,7 @@ namespace CommonLib.BaseFactory.OnlineLicenseHomon
 			契約開始日 = null;
 			契約終了日 = null;
 			売上日時 = null;
+			CouplerApplyID = 0;
 		}
 
 		/// <summary>
@@ -168,6 +171,7 @@ namespace CommonLib.BaseFactory.OnlineLicenseHomon
 					data.契約開始日 = DataBaseValue.ConvObjectToDateTimeNull(row["契約開始日"]);
 					data.契約終了日 = DataBaseValue.ConvObjectToDateTimeNull(row["契約終了日"]);
 					data.売上日時 = DataBaseValue.ConvObjectToDateTimeNull(row["売上日時"]);
+					data.CouplerApplyID = DataBaseValue.ConvObjectToInt(row["CouplerApplyID"]);
 					result.Add(data);
 				}
 				return result;

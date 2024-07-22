@@ -10,17 +10,18 @@
 // Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/10 勝呂)
 // Ver1.04(2023/03/30 勝呂):Microsoft365仕入データの単価が仕入価格でなく、標準価格となっている障害
 // Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
+/////////////////////////////////////////////////////////////////////////////
+// VerX.XX(2024/06/25 勝呂):課金データ作成売上データ圧縮対応
 //
+using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Junp.View;
 using CommonLib.BaseFactory.MakePurchaseFile;
 using CommonLib.Common;
-using CommonLib.DB.SqlServer.Junp;
 using CommonLib.DB.SqlServer.Charlie;
+using CommonLib.DB.SqlServer.Junp;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection;
-using CommonLib.BaseFactory;
 
 namespace CommonLib.DB.SqlServer.MakePurchaseFile
 {
@@ -504,6 +505,130 @@ namespace CommonLib.DB.SqlServer.MakePurchaseFile
 										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]);
 			DataTable dt = DatabaseAccess.SelectDatabase(strSQL, connectStr);
 			return vMicPCA売上明細.DataTableToList(dt);
+		}
+
+		/// <summary>
+		/// 売上データの取得
+		/// </summary>
+		/// <param name="span">検索期間</param>
+		/// <param name="goods1">商品コード1リスト</param>
+		/// <param name="goods2">商品コード2リスト</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>DataTable</returns>
+		// VerX.XX(2024/06/25 勝呂):課金データ作成売上データ圧縮対応
+		public static List<売上データ> Select_売上データ(YearMonth ym, string goods1, string goods2, string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT"
+										+ " [sykd_denno] as 伝票No"
+										+ ",[sykd_uribi] as 売上日"
+										+ ",convert(int, [sykd_jbmn]) as 部門コード"
+										+ ",convert(int, [sykd_jtan]) as 担当者コード"
+										+ ",[sykd_scd] as 商品コード"
+										+ ",[sykd_mkbn] as マスター区分"
+										+ ",[sykd_tekmei] as 摘要名"
+										+ ",[sykd_mei] as 商品名"
+										+ ",convert(int, [sykd_suryo]) as 数量"
+										+ ",[sykd_tani] as 単位"
+										+ ",convert(int, [sykd_rate]) as 税率"
+										+ ",[sykd_eda] as 枝番"
+										+ ",[sykd_tcd] as 得意先コード"
+										+ ",M.[顧客名１] + M.[顧客名２] as 得意先名"
+										+ ",'vMicPCA売上明細' as データ元"
+										+ " FROM {0} as P"      // 0
+										+ " LEFT JOIN {1} as M on P.[sykd_tcd] = M.[得意先No]"	// 1
+										+ " WHERE [sykd_suryo] <> 0 AND ([sykd_uribi] BETWEEN {2} AND {3})"		// 2 3
+										+ " AND [sykd_scd] IN ({4})"	// 4
+										+ " UNION"
+										+ " SELECT"
+										+ " [伝票No]"
+										+ ",[売上日]"
+										+ ",[部門コード]"
+										+ ",[担当者コード]"
+										+ ",[商品コード]"
+										+ ",[マスター区分]"
+										+ ",[摘要名]"
+										+ ",[商品名]"
+										+ ",[数量]"
+										+ ",[単位]"
+										+ ",[税率]"
+										+ ",[受付番号] as 枝番"
+										+ ",[得意先コード] as 得意先コード"
+										+ ",M.[顧客名１] + M.[顧客名２] as 得意先名"
+										+ ",'T_売上明細データ内訳' as データ元"
+										+ " FROM {5} as C"	// 5
+										+ " LEFT JOIN {1} as M on C.[得意先コード] = M.[得意先No]"       // 1
+										+ " WHERE [数量] <> 0 AND ([売上日] BETWEEN {2} AND {3})"        // 2 3
+										+ " AND [商品コード] IN ({6})"		// 6
+										+ " ORDER BY 部門コード, 伝票No, 枝番"
+										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]  // 0
+										, CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.顧客マスタ参照ビュー]	// 1
+										, ym.ToSpan().Start.ToIntYMD()	// 2
+										, ym.ToSpan().End.ToIntYMD()	// 3
+										, goods1	// 4
+										, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_売上明細データ内訳]	 // 5
+										, goods2); 	// 6
+			DataTable dt = DatabaseAccess.SelectDatabase(strSQL, connectStr);
+			return 売上データ.DataTableToList(dt);
+		}
+
+		/// <summary>
+		/// 記事データの取得
+		/// </summary>
+		/// <param name="denNo">伝票No</param>
+		/// <param name="ymd">売上日</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>結果</returns>
+		// VerX.XX(2024/06/25 勝呂):課金データ作成売上データ圧縮対応
+		public static List<売上データ> Select_記事データ(int denNo, int ymd, string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT"
+										+ " [sykd_denno] as 伝票No"
+										+ ",[sykd_uribi] as 売上日"
+										+ ",convert(int, [sykd_jbmn]) as 部門コード"
+										+ ",convert(int, [sykd_jtan]) as 担当者コード"
+										+ ",[sykd_scd] as 商品コード"
+										+ ",[sykd_mkbn] as マスター区分"
+										+ ",[sykd_tekmei] as 摘要名"
+										+ ",[sykd_mei] as 商品名"
+										+ ",convert(int, [sykd_suryo]) as 数量"
+										+ ",[sykd_tani] as 単位"
+										+ ",convert(int, [sykd_rate]) as 税率"
+										+ ",[sykd_eda] as 枝番"
+										+ ",[sykd_tcd] as 得意先コード"
+										+ ",M.[顧客名１] + M.[顧客名２] as 得意先名"
+										+ ",'vMicPCA売上明細' as データ元"
+										+ " FROM {0} as P"      // 0
+										+ " LEFT JOIN {1} as M on M.[得意先No] = substring(P.[sykd_mei], 8, 6)"
+										+ " WHERE [sykd_denno] = {2} AND [sykd_uribi] = {3} and [sykd_scd] = '{4}' AND [sykd_mei] LIKE '得意先No.%'"     // 2 3 4
+										+ " UNION"
+										+ " SELECT"
+										+ " [伝票No]"
+										+ ",[売上日]"
+										+ ",[部門コード]"
+										+ ",[担当者コード]"
+										+ ",[商品コード]"
+										+ ",[マスター区分]"
+										+ ",[摘要名]"
+										+ ",[商品名]"
+										+ ",[数量]"
+										+ ",[単位]"
+										+ ",[税率]"
+										+ ",[受付番号] as 枝番"
+										+ ",[得意先コード] as 得意先コード"
+										+ ",M.[顧客名１] + M.[顧客名２] as 得意先名"
+										+ ",'T_売上明細データ内訳' as データ元"
+										+ " FROM {5} as C"  // 5
+										+ " LEFT JOIN {1} as M on M.[得意先No] = substring(C.[商品名], 8, 6)"       // 1
+										+ " WHERE [伝票No] = {2} AND [売上日] = {3} and [商品コード] = '{4}' AND [商品名] LIKE '得意先No.%'"        // 2 3 4
+										+ " ORDER BY 枝番"
+										, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA売上明細]  // 0
+										, CharlieDatabaseDefine.ViewName[CharlieDatabaseDefine.ViewType.顧客マスタ参照ビュー] // 1
+										, denNo  // 2
+										, ymd    // 3
+										, PcaGoodsIDDefine.ArticleCode    // 4
+										, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_売上明細データ内訳]);   // 5
+			DataTable dt = DatabaseAccess.SelectDatabase(strSQL, connectStr);
+			return 売上データ.DataTableToList(dt);
 		}
 	}
 }

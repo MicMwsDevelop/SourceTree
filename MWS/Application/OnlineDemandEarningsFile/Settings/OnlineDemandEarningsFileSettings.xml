@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <OnlineDemandEarningsFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<!-- ExportDir>\\SQLSV\PCADATA</ExportDir -->
-	<ExportDir>C:\_売上データ作成\オンライン請求作業売上データ</ExportDir>
-	<ExportFilename>オンライン請求作業売上データ</ExportFilename>
+	<ExportDir>\\SQLSV\PCADATA</ExportDir>
+	<!-- ExportDir>C:\_売上データ作成\各種作業料売上データ</ExportDir -->
+	<ExportFilename>各種作業料売上データ</ExportFilename>
 	<PcaVersion>7</PcaVersion>
 	<SlipInitialNumber>64001</SlipInitialNumber>
 	<Mail>
@@ -17,15 +17,15 @@
 		<Pass></Pass>
 	</Mail>
 	<ConnectJunp>
-		<!-- InstanceName>SQLSV</InstanceName -->
-		<InstanceName>TESTSV2</InstanceName>
+		<InstanceName>SQLSV</InstanceName>
+		<!-- InstanceName>TESTSV2</InstanceName -->
 		<DatabaseName>JunpDB</DatabaseName>
 		<UserID>web</UserID>
 		<Password>02035612</Password>
 	</ConnectJunp>
 	<ConnectCharlie>
-		<!-- InstanceName>SQLSV</InstanceName -->
-		<InstanceName>TESTSV2</InstanceName>
+		<InstanceName>SQLSV</InstanceName>
+		<!-- InstanceName>TESTSV2</InstanceName -->
 		<DatabaseName>CharlieDB</DatabaseName>
 		<UserID>web</UserID>
 		<Password>02035612</Password>

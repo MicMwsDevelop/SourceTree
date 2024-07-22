@@ -9,12 +9,8 @@
 // Ver1.02(2024/01/24 勝呂):販売店情報参照ビューから販売店コードを取得処理で例外エラー
 // 
 using CommonLib.BaseFactory.CheckMwsServiceIllegalData;
-using CommonLib.BaseFactory.Charlie.Table;
-using CommonLib.BaseFactory.Charlie.View;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace CommonLib.DB.SqlServer.CheckMwsServiceIllegalData
 {

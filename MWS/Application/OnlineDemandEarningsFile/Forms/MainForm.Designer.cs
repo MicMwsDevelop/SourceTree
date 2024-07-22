@@ -86,8 +86,8 @@
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(592, 70);
 			this.label3.TabIndex = 8;
-			this.label3.Text = "本アプリはオンライン請求作業済申請情報（T_USE_ONLINE_DEMAND）から先月分の売上データのCSVファイルを出力します。\r\n※実行後、売上日時を格納。" +
-    "\r\n   サイレイトモードでの実行は引数に \"Auto\" を指定してください。";
+			this.label3.Text = "本アプリは各種作業料作業済申請情報（T_USE_ONLINE_DEMAND）から先月分の売上データのCSVファイルを出力します。\r\n※実行後、売上日時を格納。\r\n" +
+    "   サイレイトモードでの実行は引数に \"Auto\" を指定してください。";
 			// 
 			// textBoxFolder
 			// 

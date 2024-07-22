@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\SourceTree\\MWS\\Application\\WonderEstimateExcel\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{67C7BD55-4D1B-4521-AB67-E6CFE945042F}|WonderEstimateExcel.csproj|d:\\sourcetree\\mws\\application\\wonderestimateexcel\\estimatecsv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67C7BD55-4D1B-4521-AB67-E6CFE945042F}|WonderEstimateExcel.csproj|solutionrelative:estimatecsv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EstimateCsv.cs",
+              "DocumentMoniker": "D:\\SourceTree\\MWS\\Application\\WonderEstimateExcel\\EstimateCsv.cs",
+              "RelativeDocumentMoniker": "EstimateCsv.cs",
+              "ToolTip": "D:\\SourceTree\\MWS\\Application\\WonderEstimateExcel\\EstimateCsv.cs",
+              "RelativeToolTip": "EstimateCsv.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-17T23:03:32.21Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

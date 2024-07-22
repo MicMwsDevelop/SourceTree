@@ -73,6 +73,7 @@
     <Compile Include="BaseFactory\Charlie\Table\T_USE_ONLINE_HOMON.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_PCCSUPPORT.cs" />
     <Compile Include="BaseFactory\Charlie\Table\M_CODE.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_売上明細データ内訳.cs" />
     <Compile Include="BaseFactory\Charlie\Table\売上実績.cs" />
     <Compile Include="BaseFactory\Charlie\View\view_MWS顧客情報.cs" />
     <Compile Include="BaseFactory\Charlie\View\view_前月申込データ.cs" />
@@ -110,9 +111,11 @@
     <Compile Include="BaseFactory\MakePurchaseFile\ナルコーム仕入商品情報.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\ナルコーム仕入集計.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\仕入商品情報.cs" />
+    <Compile Include="BaseFactory\MakePurchaseFile\売上データ.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\売上明細.cs" />
     <Compile Include="BaseFactory\MakePurchaseFile\仕入集計.cs" />
-    <Compile Include="BaseFactory\MwsCuiEditTool\EditCustomerUseInformation.cs" />
+    <Compile Include="BaseFactory\MwsServiceCancelTool\EditCouplerApply.cs" />
+    <Compile Include="BaseFactory\MwsServiceCancelTool\EditCustomerUseInformation.cs" />
     <Compile Include="BaseFactory\MwsSimulation\Estimate.cs" />
     <Compile Include="BaseFactory\MwsSimulation\GroupPlan.cs" />
     <Compile Include="BaseFactory\MwsSimulation\ServiceInfo.cs" />
@@ -285,7 +288,7 @@
     <Compile Include="DB\SqlServer\Junp\JunpDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\Junp\JunpDatabaseDefine.cs" />
     <Compile Include="DB\SqlServer\MakePurchaseFile\MakePurchaseFileAccess.cs" />
-    <Compile Include="DB\SqlServer\MwsCuiEditTool\MwsCuiEditToolAccess.cs" />
+    <Compile Include="DB\SqlServer\MwsServiceCancelTool\MwsServiceCancelToolAccess.cs" />
     <Compile Include="DB\SqlServer\MwsKakinBatchTool\MwsKakinBatchToolAccess.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationAccess.cs" />
     <Compile Include="DB\SqlServer\MwsSimulation\MwsSimulationController.cs" />

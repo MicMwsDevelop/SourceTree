@@ -1,7 +1,7 @@
 ﻿//
 // OnlineDemandGetIO.cs
 //
-// オンライン請求作業作業売上データ作成 データ取得クラス
+// 各種作業料売上データ作成 データ取得クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -17,7 +17,7 @@ namespace CommonLib.DB.SqlServer.OnlineDemand
 	public static class OnlineDemandGetIO
 	{
 		/// <summary>
-		/// オンライン請求作業済申請情報から先月分の情報を取得
+		/// 各種作業料作業済申請情報から先月分の情報を取得
 		/// </summary>
 		/// <param name="prevMonth">先月</param>
 		/// <param name="connectStr">SQL接続文字列</param>

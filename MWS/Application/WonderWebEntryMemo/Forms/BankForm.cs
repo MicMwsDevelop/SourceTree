@@ -12,12 +12,12 @@ using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.Common;
 using CommonLib.DB.SqlServer;
 using CommonLib.DB.SqlServer.Junp;
-using WonderWebEntryMemo.BaseFactory;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Windows.Forms;
+using WonderWebEntryMemo.BaseFactory;
 
 namespace WonderWebEntryMemo.Forms
 {

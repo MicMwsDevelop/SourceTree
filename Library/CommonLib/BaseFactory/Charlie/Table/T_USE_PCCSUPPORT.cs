@@ -118,6 +118,72 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		}
 
 		/// <summary>
+		/// UPDATE SET SQL文字列の取得
+		/// </summary>
+		public string UpdateSetSqlString
+		{
+			get
+			{
+				return string.Format(@"UPDATE {0} SET fCustomerID = @1, fServiceId = @2, fYears = @3, fGoodsID = @4, fApplyDate = @5, fContractStartDate = @6"
+									+ ", fContractEndDate = @7, fBillingStartDate = @8, fBillingEndDate = @9, fEndFlag = @10, fDeleteFlag = @11"
+									+ ", fCreateDate = @12, fCreatePerson = @13, fUpdateDate = @14, fUpdatePerson = @15"
+									+ " WHERE fApplyNo = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT], fApplyNo);
+			}
+		}
+
+		/// <summary>
+		/// 利用申込が取消が可能かどうか？
+		/// </summary>
+		public bool IsEnableCancel
+		{
+			get
+			{
+				return (fBillingStartDate is null) && (fBillingEndDate is null) ? true : false;
+			}
+		}
+
+		/// <summary>
+		/// 商品コードが更新かどうか？
+		/// PC安心サポート１年契約（更新用） or PC安心サポートPlus１年契約（更新用）
+		/// </summary>
+		public bool IsContinueGoods
+		{
+			get
+			{
+				return (PcaGoodsIDDefine.PcSupport1Continue == fGoodsID || PcaGoodsIDDefine.PcSupportPlus1Continue == fGoodsID) ? true : false;
+			}
+		}
+
+		/// <summary>
+		/// 商品コードがPC安心サポートPlusかどうか？
+		/// </summary>
+		public bool IsPcSupportPlusGoods
+		{
+			get
+			{
+				switch (fGoodsID)
+				{
+					case PcaGoodsIDDefine.PcSupportPlus1:
+					case PcaGoodsIDDefine.PcSupportPlus3:
+					case PcaGoodsIDDefine.PcSupportPlus1Continue:
+						return true;
+				}
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// サービスコードがPC安心サポート３年契約またはPC安心サポートPlus３年契約かどうか？
+		/// </summary>
+		public bool IsThreeYearService
+		{
+			get
+			{
+				return ((int)ServiceCodeDefine.ServiceCode.PcSafetySupport3 == fServiceId || (int)ServiceCodeDefine.ServiceCode.PcSafetySupportPlus3 == fServiceId) ? true : false;
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public T_USE_PCCSUPPORT()
@@ -191,6 +257,32 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			param.Add(new SqlParameter("@14", fUpdateDate.HasValue ? fUpdateDate.Value : System.Data.SqlTypes.SqlDateTime.Null));
 			param.Add(new SqlParameter("@15", fUpdatePerson ?? System.Data.SqlTypes.SqlString.Null));
 			return param.ToArray();
+		}
+
+		/// <summary>
+		/// UPDATE SETパラメタの取得
+		/// </summary>
+		/// <returns></returns>
+		public SqlParameter[] GetUpdateSetParameters()
+		{
+			SqlParameter[] param = {
+				new SqlParameter("@1", fCustomerID),
+				new SqlParameter("@2", fServiceId),
+				new SqlParameter("@3", fYears),
+				new SqlParameter("@4", fGoodsID ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@5", fApplyDate.HasValue ? fApplyDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@6", fContractStartDate.HasValue ? fContractStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@7", fContractEndDate.HasValue ? fContractEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@8", fBillingStartDate.HasValue ? fBillingStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@9", fBillingEndDate.HasValue ? fBillingEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@10", fEndFlag ? "1" : "0"),
+				new SqlParameter("@11", fDeleteFlag ? "1" : "0"),
+				new SqlParameter("@12", fCreateDate.HasValue ? fCreateDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@13", fCreatePerson ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@14", fUpdateDate.HasValue ? fUpdateDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@15", fUpdatePerson ?? System.Data.SqlTypes.SqlString.Null)
+			};
+			return param;
 		}
 
 		/// <summary>

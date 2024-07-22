@@ -1,7 +1,7 @@
 ﻿//
 // OnlineDemandEarningsOut.cs
 // 
-// オンライン請求作業売上データクラス
+// 各種作業料売上データクラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -17,7 +17,7 @@ using System.Data;
 namespace CommonLib.BaseFactory.OnlineDemand
 {
 	/// <summary>
-	/// オンライン請求作業売上データクラス
+	/// 各種作業料売上データクラス
 	/// </summary>
 	public class OnlineDemandEarningsOut
 	{
@@ -149,7 +149,7 @@ namespace CommonLib.BaseFactory.OnlineDemand
 		}
 
 		/// <summary>
-		/// 売上データCSV文字列の取得
+		/// 売上明細データCSV文字列の取得
 		/// </summary>
 		/// <param name="no">伝票No</param>
 		/// <param name="hanbaisakiCode">販売先コード</param>
@@ -186,7 +186,7 @@ namespace CommonLib.BaseFactory.OnlineDemand
 		}
 
 		/// <summary>
-		/// 売上データ記事行１ CSV文字列の取得
+		/// 売上明細データ記事行１ CSV文字列の取得
 		/// ○○○○様分
 		/// </summary>
 		/// <param name="no">伝票No</param>
@@ -213,7 +213,7 @@ namespace CommonLib.BaseFactory.OnlineDemand
 		}
 
 		/// <summary>
-		/// 売上データ記事行２ CSV文字列の取得
+		/// 売上明細データ記事行２ CSV文字列の取得
 		/// 得意先No. XXXXXX
 		/// </summary>
 		/// <param name="no">伝票No</param>

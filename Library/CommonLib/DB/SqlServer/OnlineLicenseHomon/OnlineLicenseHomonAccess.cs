@@ -30,7 +30,7 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 		/// <summary>
 		/// オン資訪問診療連携契約情報の取得
 		/// </summary>
-		/// <param name="applyDate">申込日時</param>
+		/// <param name="applyDate">申込日</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>オン資訪問診療売上情報リスト</returns>
 		public static List<OnlineLicenseHomonEarningsOut> GetOnlineLicenseHomonEarningsOut(Date applyDate, string connectStr)
@@ -42,7 +42,7 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 		/// <summary>
 		/// オン資訪問診療連携契約情報 売上日時の設定
 		/// </summary>
-		/// <param name="sale">オン資認訪問診療連携契約情報</param>
+		/// <param name="sale">オン資訪問診療連携契約情報</param>
 		/// <param name="procName">アプリ名</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>結果行数</returns>
@@ -61,13 +61,13 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 		}
 
 		/// <summary>
-		/// 顧客管理利用情報にオンライン資格確認訪問診療連携サービスを追加
+		/// 顧客管理利用情報にオンライン資格確認訪問診療連携費サービスを追加
 		/// </summary>
-		/// <param name="sale">オン資格訪問診療売上情報</param>
+		/// <param name="sale">オン資訪問診療売上情報</param>
 		/// <param name="procName">アプリ名</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>結果行数</returns>
-		public static int InsertIntoCustomerUseInformation(OnlineLicenseHomonEarningsOut sale, string procName, string connectStr)
+		public static int SetCustomerUseInformation(OnlineLicenseHomonEarningsOut sale, string procName, string connectStr)
 		{
 			string whereStr = string.Format("CUSTOMER_ID = {0} AND SERVICE_ID = {1}", sale.顧客No, (int)ServiceCodeDefine.ServiceCode.OnlineLicenseHomon);
 			List<T_CUSSTOMER_USE_INFOMATION> cuiList = CharlieDatabaseAccess.Select_T_CUSSTOMER_USE_INFOMATION(whereStr, "", connectStr);
@@ -117,10 +117,10 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 		//////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// 申込情報の利用申込のシステム反映済フラグを取消に設定
+		/// 申込情報の利用申込のシステム反映済フラグをシステム反映に設定
 		/// </summary>
 		/// <param name="applyList">申込情報リスト</param>
-		/// <param name="procName">アプリ名</param>
+		/// <param name="procName">プロシージャ名</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <param name="databaseName">データベース名</param>
 		/// <returns>影響行数</returns>
@@ -136,7 +136,7 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 
 					foreach (V_COUPLER_APPLY apply in applyList)
 					{
-						string sqlStr = string.Format(@"UPDATE {0} SET system_flg = '2', update_date = getdate(), update_user = '{1}' WHERE apply_id = {2}"
+						string sqlStr = string.Format(@"UPDATE {0} SET system_flg = '1', update_date = getdate(), update_user = '{1}' WHERE apply_id = {2}"
 																	, string.Format("{0}.[dbo].{1}", databaseName, CouplerDatabaseDefine.TableName[CouplerDatabaseDefine.TableType.APPLY])	// 0
 																	, procName			// 1
 																	, apply.apply_id);	// 2

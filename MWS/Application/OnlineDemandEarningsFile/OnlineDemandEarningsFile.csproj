@@ -7,7 +7,7 @@
     <ProjectGuid>{2D75DC96-93DD-4AAA-9C5B-11AFA1189C53}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>OnlineDemandEarningsFile</RootNamespace>
-    <AssemblyName>オンライン請求作業売上データ作成</AssemblyName>
+    <AssemblyName>各種作業料売上データ作成</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

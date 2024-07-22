@@ -24,11 +24,11 @@ namespace CommonLib.DB.SqlServer.OnlineDemand
 		//////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// オンライン請求作業済申請情報から先月分の情報を取得
+		/// 各種作業料作業済申請情報から先月分の情報を取得
 		/// </summary>
 		/// <param name="prevMonth">先月</param>
 		/// <param name="connectStr">SQL接続文字列</param>
-		/// <returns>オンライン請求作業済申請情報リスト</returns>
+		/// <returns>各種作業料作業済申請情報リスト</returns>
 		public static List<OnlineDemandEarningsOut> GetOnlineDemandEarningsOut(YearMonth prevMonth, string connectStr)
 		{
 			DataTable dt = OnlineDemandGetIO.GetOnlineDemandEarningsOut(prevMonth, connectStr);
@@ -36,9 +36,9 @@ namespace CommonLib.DB.SqlServer.OnlineDemand
 		}
 
 		/// <summary>
-		/// オンライン請求作業情報 売上日時の設定
+		/// 各種作業料作業済申請情報 売上日時の設定
 		/// </summary>
-		/// <param name="sale">オンライン請求作業情報</param>
+		/// <param name="sale">各種作業料作業済申請情報</param>
 		/// <param name="procName">アプリ名</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>結果行数</returns>

@@ -49,10 +49,95 @@ namespace CommonLib.BaseFactory.Junp.View
         public int sms_ztan { get; set; }
         public short sms_state { get; set; }
 
-        /// <summary>
-        /// デフォルトコンストラクタ
-        /// </summary>
-        public vMicPCA商品マスタ()
+		/// <summary>
+		/// 自社製品かどうか？
+		/// </summary>
+		public bool Is自社分
+		{
+			get
+			{
+				if (3 == sms_skbn1)
+				{
+					if (28 == sms_skbn2)
+					{
+						if (201 == sms_skbn3)
+						{
+							// MWS月額課金
+							return true;
+						}
+					}
+				}
+				else if (30 == sms_skbn1)
+				{
+					if (28 == sms_skbn2)
+					{
+						if (200 == sms_skbn3)
+						{
+							// MIC WEB SERVICE(ﾌﾟﾗｯﾄﾌｫｰﾑ利用 月額)
+							return true;
+						}
+					}
+					else if (1 == sms_skbn2)
+					{
+						if (213 == sms_skbn3)
+						{
+							// Dtool
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// 他社製品かどうか？
+		/// </summary>
+		public bool Is他社分
+		{
+			get 
+			{
+				return (false == Is自社分) ? true : false;
+			}
+		}
+
+		/// <summary>
+		/// セット割サービスかどうか？
+		/// </summary>
+		public bool Isセット割サービス
+		{
+			get 
+			{
+				return (1 == sms_skbn1 && 28 == sms_skbn2 && 206 == sms_skbn3) ? true : false;
+			}
+		}
+
+		/// <summary>
+		/// おまとめプランかどうか？
+		/// </summary>
+		public bool Isおまとめプラン
+		{
+			get
+			{
+				return (3 == sms_skbn1 && 30 == sms_skbn2 && 204 == sms_skbn3) ? true : false;
+			}
+		}
+
+		/// <summary>
+		/// おまとめプランかどうか？
+		/// </summary>
+		public bool IsPC安心サポート
+		{
+			get
+			{
+				return (30 == sms_skbn1 && 7 == sms_skbn2 && 207 == sms_skbn3) ? true : false;
+			}
+		}
+
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
+		public vMicPCA商品マスタ()
         {
             sms_scd = string.Empty;
             sms_mei = string.Empty;

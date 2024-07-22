@@ -84,49 +84,54 @@ namespace CommonLib.DB.SqlServer.Charlie
 			売上実績 = 11,
 
 			/// <summary>
-			/// 電子処方箋契約ヘッダ情報
-			/// </summary>
-			T_USE_PRESCRIPTION_HEADER = 12,
-
-			/// <summary>
 			/// 顧客管理基本
 			/// </summary>
-			T_CUSTOMER_FOUNDATIONS = 13,
+			T_CUSTOMER_FOUNDATIONS = 12,
 
 			/// <summary>
 			/// 申込データ
 			/// </summary>
-			T_APPLICATION_DATA = 14,
+			T_APPLICATION_DATA = 13,
 
 			/// <summary>
 			/// 同期日時管理テーブル
 			/// </summary>
-			T_FILE_CREATEDATE = 15,
+			T_FILE_CREATEDATE = 14,
 
 			/// <summary>
 			/// デモ用サービス利用情報
 			/// </summary>
-			T_DEMO_SERVICE = 16,
+			T_DEMO_SERVICE = 15,
 
 			/// <summary>
 			/// メールアドレス（kikaku@mic.jp）
 			/// </summary>
-			M_MAIL = 17,
+			M_MAIL = 16,
 
 			/// <summary>
-			/// オンライン請求作業情報
+			/// 各種作業料作業済申請情報
 			/// </summary>
-			T_USE_ONLINE_DEMAND = 18,
+			T_USE_ONLINE_DEMAND = 17,
 
 			/// <summary>
-			/// オン資格確認訪問診療連携契約情報
+			/// オン資訪問診療連携契約情報
 			/// </summary>
-			T_USE_ONLINE_HOMON = 19,
+			T_USE_ONLINE_HOMON = 18,
 
 			/// <summary>
 			/// 電子処方箋管理契約情報
 			/// </summary>
-			T_USE_ELECTRIC_PRESCRIPTION = 20,
+			T_USE_ELECTRIC_PRESCRIPTION = 19,
+
+			/// <summary>
+			/// 電子処方箋契約ヘッダ情報
+			/// </summary>
+			T_USE_PRESCRIPTION_HEADER = 20,
+
+			/// <summary>
+			/// T_売上明細データ内訳
+			/// </summary>
+			T_売上明細データ内訳 = 21,
 		}
 
 		/// <summary>
@@ -145,7 +150,6 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ TableType.T_USE_CONTRACT_HEADER, string.Format("{0}.T_USE_CONTRACT_HEADER", DatabaseName) },
 			{ TableType.T_USE_CONTRACT_DETAIL, string.Format("{0}.T_USE_CONTRACT_DETAIL", DatabaseName) },
 			{ TableType.売上実績, string.Format("{0}.売上実績", DatabaseName) },
-			{ TableType.T_USE_PRESCRIPTION_HEADER, string.Format("{0}.T_USE_PRESCRIPTION_HEADER", DatabaseName) },
 			{ TableType.T_CUSTOMER_FOUNDATIONS, string.Format("{0}.T_CUSTOMER_FOUNDATIONS", DatabaseName) },
 			{ TableType.T_APPLICATION_DATA, string.Format("{0}.T_APPLICATION_DATA", DatabaseName) },
 			{ TableType.T_FILE_CREATEDATE, string.Format("{0}.T_FILE_CREATEDATE", DatabaseName) },
@@ -154,6 +158,8 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ TableType.T_USE_ONLINE_DEMAND, string.Format("{0}.T_USE_ONLINE_DEMAND", DatabaseName) },
 			{ TableType.T_USE_ONLINE_HOMON, string.Format("{0}.T_USE_ONLINE_HOMON", DatabaseName) },
 			{ TableType.T_USE_ELECTRIC_PRESCRIPTION, string.Format("{0}.T_USE_ELECTRIC_PRESCRIPTION", DatabaseName) },
+			{ TableType.T_USE_PRESCRIPTION_HEADER, string.Format("{0}.T_USE_PRESCRIPTION_HEADER", DatabaseName) },
+			{ TableType.T_売上明細データ内訳, string.Format("{0}.T_売上明細データ内訳", DatabaseName) },
 		};
 
 		/// <summary>

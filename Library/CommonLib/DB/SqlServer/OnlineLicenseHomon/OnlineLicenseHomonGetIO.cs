@@ -1,7 +1,7 @@
 ﻿//
 // OnlineLicenseHomonGetIO.cs
 //
-// オン資格訪問診療サービス データ取得クラス
+// オン資訪問診療サービス データ取得クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -17,9 +17,9 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 	static public class OnlineLicenseHomonGetIO
 	{
 		/// <summary>
-		/// オンライン資格確認訪問診療連携契約情報の取得
+		/// オン資訪問診療連携契約情報の取得
 		/// </summary>
-		/// <param name="applyDate">申込日時</param>
+		/// <param name="applyDate">申込日</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>レコード数</returns>
 		public static DataTable GetOnlineLicenseHomonEarningsOut(Date applyDate, string connectStr)
@@ -43,6 +43,7 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 									+ ",H.[ContractStartDate] as 契約開始日"
 									+ ",H.[ContractEndDate] as 契約終了日"
 									+ ",H.[SalesDate] as 売上日時"
+									+ ",H.[CouplerApplyID]"
 									+ " FROM {0} as H"	// 0
 									+ " INNER JOIN {1} as U on U.[顧客No] = H.[CustomerID]"	// 1
 									+ " LEFT JOIN {2} as S on S.[sms_scd] = H.[GoodsID]"	// 2

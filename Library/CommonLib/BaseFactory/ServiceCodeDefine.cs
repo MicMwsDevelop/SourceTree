@@ -847,17 +847,17 @@ namespace CommonLib.BaseFactory
 			// 17000 PC安心サポートPlus
 
 			/// <summary>
-			/// PC安心サポート３年契約Plus
+			/// PC安心サポートPlus３年契約
 			/// </summary>
 			PcSafetySupportPlus3 = 6610120,
 
 			/// <summary>
-			/// PC安心サポート１年契約Plus
+			/// PC安心サポートPlus１年契約
 			/// </summary>
 			PcSafetySupportPlus1 = 6610100,
 
 			/// <summary>
-			/// PC安心サポート１年契約(更新用)Plus
+			/// PC安心サポートPlus１年契約(更新用)
 			/// </summary>
 			PcSafetySupportPlusContinue = 6610140,
 
