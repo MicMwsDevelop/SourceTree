@@ -17,12 +17,12 @@
     <Password>02035612</Password>
     </Charlie>
     <Coupler>
-    <InstanceName>CP-DB01</InstanceName>
-    <!--InstanceName>CPTest-DB</InstanceName-->
-    <DatabaseName>COUPLER</DatabaseName>
-    <UserID>cpuser</UserID>
-    <!--UserID>sa</UserID-->
-    <Password>Sqladmin#39</Password>
+    <InstanceName>SQLSV</InstanceName>
+    <!--InstanceName>TESTSV2</InstanceName-->
+    <DatabaseName>[MWS-DB].[COUPLER]</DatabaseName>
+    <!-- DatabaseName>[MWS-DB].[COUPLER_DEV]</DatabaseName -->
+    <UserID>web</UserID>
+    <Password>02035612</Password>
     </Coupler>
   </Connect>
 </ScanImageManagerSettings>

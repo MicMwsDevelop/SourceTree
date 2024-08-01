@@ -20,8 +20,9 @@
 // 9. システム管理部に対し、「[ｵﾝﾗｲﾝ資格確認訪問診療連携] 利用申込更新」メールを送信する
 //////////////////////////////////////////////////////////////////
 // Ver1.00(2024/07/09 勝呂):新規作成
+// Ver1.01(2024/07/29 勝呂):オン資訪問診療連携費 売上連絡メールの申込日時を利用期間に変更
+// Ver1.02(2024/08/01 勝呂):オン資訪問診療契約情報の売上日時の更新時の障害対応
 //
-using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Charlie.View;
 using CommonLib.BaseFactory.OnlineLicenseHomon;
 using CommonLib.Common;
@@ -49,7 +50,7 @@ namespace OnlineLicenseHomonEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string gVersionStr = "1.00";
+		public const string gVersionStr = "1.02";
 
 		/// <summary>
 		/// 環境設定
@@ -191,6 +192,9 @@ namespace OnlineLicenseHomonEarningsFile
 
 						foreach (OnlineLicenseHomonEarningsOut homon in homonList)
 						{
+							// Ver1.02(2024/08/01 勝呂):オン資訪問診療契約情報の売上日時の更新時の障害対応
+							homon.売上日時 = saleDate.ToDateTime();
+
 							if (0 == homon.請求先コード.Length)
 							{
 								// 請求先がユーザーと同一

@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2024/07/01 勝呂):新規作成
+// Ver1.02(2024/08/01 勝呂):オン資訪問診療契約情報の売上日時の更新時の障害対応
 // 
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Charlie.Table;
@@ -50,10 +51,11 @@ namespace CommonLib.DB.SqlServer.OnlineLicenseHomon
 		{
 			string updateStr = string.Format(@"UPDATE {0} SET [SalesDate] = @1, [UpdateDate] = @2, [UpdatePerson] = @3 WHERE [ApplyNo] = {1}"
 								, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_HOMON]   // 0
-								, sale.受付No);	// 1
+								, sale.受付No);   // 1
 
+			// Ver1.02(2024/08/01 勝呂):オン資訪問診療契約情報の売上日時の更新時の障害対応
 			SqlParameter[] param = {
-				new SqlParameter("@1", DateTime.Now),		// SalesDate
+				new SqlParameter("@1", sale.売上日時.Value),		// SalesDate
 				new SqlParameter("@2", DateTime.Now),		// UpdateDate
 				new SqlParameter("@3", procName)			// UpdatePerson
             };

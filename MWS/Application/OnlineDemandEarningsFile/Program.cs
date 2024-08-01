@@ -17,6 +17,8 @@
 // Ver1.05(2024/01/05 勝呂):メール送信先が複数指定された時にアプリケーションエラー
 // Ver1.06(2024/07/01 勝呂):オン資訪問診療連携の018426 ｵﾝﾗｲﾝ資格確認訪問診療連携環境設定費の売上データ作成に対応
 // Ver1.06(2024/07/08 勝呂):各種作業料名称変更に伴う修正
+// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+// Ver1.08(2024/08/01 勝呂):各種作業料作業済申請情報の更新時の障害対応
 //
 using CommonLib.BaseFactory.OnlineDemand;
 using CommonLib.Common;
@@ -41,7 +43,7 @@ namespace OnlineDemandEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.06(2024/07/08)";
+		public const string VersionStr = "Ver1.08(2024/08/01)";
 
 		/// <summary>
 		/// 環境設定
@@ -113,31 +115,42 @@ namespace OnlineDemandEarningsFile
 				List<OnlineDemandEarningsOut> saleList = OnlineDemandAccess.GetOnlineDemandEarningsOut(prevMonth, gSettings.ConnectCharlie.ConnectionString);
 				if (null != saleList && 0 < saleList.Count)
 				{
+					// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+					// 売上日：申請月の末日
+					Date saleDate = bootDate.FirstDayOfLasMonth().LastDayOfTheMonth();
+
 					// 消費税
 					int taxRate = JunpDatabaseAccess.GetTaxRate(prevMonth.First, gSettings.ConnectJunp.ConnectionString);
 
 					// 中間ファイルの出力
 					using (var sw = new StreamWriter(gSettings.TemporaryPathname, false, System.Text.Encoding.GetEncoding("shift_jis")))
 					{
-						// 売上日
 						foreach (OnlineDemandEarningsOut sale in saleList)
 						{
 							Date requestDate = sale.申請日時.Value.ToDate();
 							if (0 == sale.請求先コード.Length)
 							{
 								// 請求先がユーザーと同一
-								sw.WriteLine(sale.ToEarnings(no, sale.得意先コード, requestDate, taxRate, gSettings.PcaVersion));
+								// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+								//sw.WriteLine(sale.ToEarnings(no, sale.得意先コード, requestDate, taxRate, gSettings.PcaVersion));
+								sw.WriteLine(sale.ToEarnings(no, sale.得意先コード, saleDate, requestDate, taxRate, gSettings.PcaVersion));
 							}
 							else
 							{
 								// 請求先がユーザーと異なる
-								sw.WriteLine(sale.ToEarnings(no, sale.請求先コード, requestDate, taxRate, gSettings.PcaVersion));
+								// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+								//sw.WriteLine(sale.ToEarnings(no, sale.請求先コード, requestDate, taxRate, gSettings.PcaVersion));
+								sw.WriteLine(sale.ToEarnings(no, sale.請求先コード, saleDate, requestDate, taxRate, gSettings.PcaVersion));
 
 								// ○○○○様分 を記事行１を追加
-								sw.WriteLine(sale.ToArticle1(no, sale.請求先コード, requestDate, gSettings.PcaVersion));
+								// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+								//sw.WriteLine(sale.ToArticle1(no, sale.請求先コード, requestDate, gSettings.PcaVersion));
+								sw.WriteLine(sale.ToArticle1(no, sale.請求先コード, saleDate, requestDate, gSettings.PcaVersion));
 
 								// 得意先No. を記事行２を追加
-								sw.WriteLine(sale.ToArticle2(no, sale.請求先コード, requestDate, gSettings.PcaVersion));
+								// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+								//sw.WriteLine(sale.ToArticle2(no, sale.請求先コード, requestDate, gSettings.PcaVersion));
+								sw.WriteLine(sale.ToArticle2(no, sale.請求先コード, saleDate, requestDate, gSettings.PcaVersion));
 							}
 							no++;
 						}
@@ -149,7 +162,9 @@ namespace OnlineDemandEarningsFile
 					foreach (OnlineDemandEarningsOut sale in saleList)
 					{
 						// 各種作業料作業済申請の売上日時を設定
-						OnlineDemandAccess.UpdateSetOnlineDemandSaleDate(sale, PROC_NAME, gSettings.ConnectCharlie.ConnectionString);
+						// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+						//OnlineDemandAccess.UpdateSetOnlineDemandSaleDate(sale, PROC_NAME, gSettings.ConnectCharlie.ConnectionString);
+						OnlineDemandAccess.UpdateSetOnlineDemandSaleDate(sale, saleDate, PROC_NAME, gSettings.ConnectCharlie.ConnectionString);
 					}
 #endif
 				}

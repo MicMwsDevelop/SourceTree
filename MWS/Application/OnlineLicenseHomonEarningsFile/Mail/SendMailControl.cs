@@ -6,9 +6,11 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2024/07/01 勝呂):新規作成
+// Ver1.01(2024/07/29 勝呂):オン資訪問診療連携費 売上連絡メールの申込日時を利用期間に変更
 //
 using CommonLib.BaseFactory.Charlie.View;
 using CommonLib.BaseFactory.OnlineLicenseHomon;
+using CommonLib.Common;
 using MwsLib.Settings.Mail;
 using System.Collections.Generic;
 using System.Net.Mail;
@@ -61,7 +63,7 @@ namespace OnlineLicenseHomonEarningsFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>商品コード</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>商品名</font></th>"
-								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>申込日時</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>利用期間</font></th>"
 								+ @"</tr>";
 					foreach (OnlineLicenseHomonEarningsOut homon in homonList)
 					{
@@ -76,7 +78,10 @@ namespace OnlineLicenseHomonEarningsFile.Mail
 								, homon.顧客名
 								, homon.商品コード
 								, homon.商品名
-								, homon.申込日時.Value.ToShortDateString());
+
+								// Ver1.01(2024/07/29 勝呂):オン資訪問診療連携費 売上連絡メールの申込日時を利用期間に変更
+								//, homon.申込日時.Value.ToShortDateString());
+								, string.Format("{0}～{1}", homon.契約開始日.Value.ToDate().ToYearMonth().GetNormalString(), homon.契約終了日.Value.ToDate().ToYearMonth().GetNormalString()));
 					}
 					msg.Body += @"</table>";
 				}
@@ -88,7 +93,7 @@ namespace OnlineLicenseHomonEarningsFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>商品コード</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>商品名</font></th>"
-								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>申込日時</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>利用期間</font></th>"
 								+ @"</tr>"
 								+ @"</table>";
 					msg.Body += @"<br><p>オン資訪問診療連携費の売上データはありませんでした。</p>";

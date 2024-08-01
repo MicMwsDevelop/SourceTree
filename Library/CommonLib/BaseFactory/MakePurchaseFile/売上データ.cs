@@ -15,7 +15,7 @@ using System.Data;
 namespace CommonLib.BaseFactory.MakePurchaseFile
 {
 	/// <summary>
-	/// vMicPCA売上明細とT_課金売上データ内訳からPCA売上明細データを作成
+	/// vMicPCA売上明細からPCA売上明細データを作成
 	/// </summary>
 	public class 売上データ
 	{
@@ -33,7 +33,6 @@ namespace CommonLib.BaseFactory.MakePurchaseFile
 		public int 枝番 { get; set; }
 		public string 得意先コード { get; set; }
 		public string 得意先名 { get; set; }
-		public string データ元 { get; set; }
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -54,7 +53,6 @@ namespace CommonLib.BaseFactory.MakePurchaseFile
 			枝番 = 0;
 			得意先コード = string.Empty;
 			得意先名 = string.Empty;
-			データ元 = string.Empty;
 		}
 
 		/// <summary>
@@ -85,7 +83,6 @@ namespace CommonLib.BaseFactory.MakePurchaseFile
 						枝番 = DataBaseValue.ConvObjectToInt(row["枝番"]),
 						得意先コード = row["得意先コード"].ToString().Trim(),
 						得意先名 = row["得意先名"].ToString().Trim(),
-						データ元 = row["データ元"].ToString().Trim(),
 					};
 					dataList.Add(data);
 				}

@@ -7,7 +7,7 @@
     <ProjectGuid>{1346D7E5-3DBF-48CF-B8E3-1586DF390434}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>CheckMwsServiceIllegalData</RootNamespace>
-    <AssemblyName>MWSサービス異常データ検出</AssemblyName>
+    <AssemblyName>MWSサービス異常データ検出ツール</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

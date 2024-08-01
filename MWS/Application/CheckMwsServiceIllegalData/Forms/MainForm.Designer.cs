@@ -80,7 +80,7 @@
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "MWSサービス異常データ検出";
+			this.Text = "MWSサービス異常データ検出ツール";
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);
 

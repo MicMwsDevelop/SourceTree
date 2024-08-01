@@ -27,7 +27,6 @@ using MwsLib.Log;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace MakePurchaseFile.Forms
@@ -67,7 +66,6 @@ namespace MakePurchaseFile.Forms
 			// 環境設定の読込
 			Settings = PurchaseTransferSettingsIF.GetSettings();
 
-#if! TEST
 			// 仕入商品情報テーブルの削除
 			if (!DropTable())
 			{
@@ -83,7 +81,6 @@ namespace MakePurchaseFile.Forms
 			{
 				return;
 			}
-#endif
 			// 先月初日を設定
 			dateTimePickerTarget.Value = Date.Today.FirstDayOfLasMonth().ToDateTime();
 
@@ -154,32 +151,6 @@ namespace MakePurchaseFile.Forms
 				// カーソルを待機カーソルに変更
 				Cursor.Current = Cursors.WaitCursor;
 
-#if TEST
-				/////////////////////////////////////
-				// 1. りすとん月額仕入データ作成
-
-				りすとん月額仕入データファイル出力2(collectMonth);
-
-				/////////////////////////////////////
-				// 2. Microsoft365仕入データ作成
-
-				Microsoft365仕入データファイル出力2(collectMonth);
-
-				/////////////////////////////////////
-				// 3. 問心伝月額仕入データ作成
-
-				問心伝月額仕入データファイル出力2(collectMonth);
-
-				/////////////////////////////////////
-				// 5. ナルコーム仕入データ作成
-
-				ナルコーム仕入データファイル出力2(collectMonth);
-
-				/////////////////////////////////////
-				// 6. クラウドバックアップ仕入データ作成
-
-				クラウドバックアップ仕入データファイル出力2(collectMonth);
-#else
 				/////////////////////////////////////
 				// 1. りすとん月額仕入データ作成
 
@@ -210,7 +181,6 @@ namespace MakePurchaseFile.Forms
 				// 6. クラウドバックアップ仕入データ作成
 
 				クラウドバックアップ仕入データファイル出力(collectMonth);
-#endif
 
 				/////////////////////////////////////
 				// 7. アルメックス保守仕入データ作成
@@ -551,48 +521,47 @@ namespace MakePurchaseFile.Forms
 
 				denNo++;
 			}
-#if false
-			List<仕入集計> Microsoft365仕入集計 = MakePurchaseFileAccess.Select_Microsoft365仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
-			string bumonCode = string.Empty;
-			foreach (仕入集計 data in Microsoft365仕入集計)
-			{
-				if (bumonCode != data.sykd_jbmn)
-				{
-					bumonCode = data.sykd_jbmn;
-					denNo++;
-				}
-				汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
-				pca.入荷方法 = 0;   // 0:通常仕入
-				pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
-				pca.精算日 = collectMonth.First.FirstDayOfNextMonth().ToIntYMD(); // 対象月翌月初日
-				pca.伝票No = denNo;
-				pca.仕入先コード = data.仕入先;
-				pca.仕入先名 = string.Empty;   // 仕入先名は空白
-				pca.先方担当者名 = string.Empty;
-				pca.部門コード = data.sykd_jbmn.Substring(1);
-				pca.担当者コード = "0";
-				pca.摘要コード = "0";
-				pca.摘要名 = string.Empty;
-				pca.商品コード = data.sykd_scd;
-				pca.商品名 = data.sykd_mei;
-				pca.区 = 0;  // 仕入
-				pca.倉庫コード = "0";
-				pca.数量 = data.数量;
-				pca.単位 = string.Empty;
-				pca.単価 = data.評価単価;
-				pca.金額 = pca.数量 * pca.単価;
-				pca.税区分 = 2;
-				pca.備考 = "0";
-				pca.規格型番 = string.Empty;
-				pca.色 = string.Empty;
-				pca.サイズ = string.Empty;
-				pca.税率 = data.sykd_rate;
-				pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-				pca.伝票No2 = string.Empty;
-				pca.商品名2 = string.Empty;
-				outputList.Add(pca);
-			}
-#endif
+			// 旧集計処理
+			//List<仕入集計> Microsoft365仕入集計 = MakePurchaseFileAccess.Select_Microsoft365仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
+			//string bumonCode = string.Empty;
+			//foreach (仕入集計 data in Microsoft365仕入集計)
+			//{
+			//	if (bumonCode != data.sykd_jbmn)
+			//	{
+			//		bumonCode = data.sykd_jbmn;
+			//		denNo++;
+			//	}
+			//	汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
+			//	pca.入荷方法 = 0;   // 0:通常仕入
+			//	pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
+			//	pca.精算日 = collectMonth.First.FirstDayOfNextMonth().ToIntYMD(); // 対象月翌月初日
+			//	pca.伝票No = denNo;
+			//	pca.仕入先コード = data.仕入先;
+			//	pca.仕入先名 = string.Empty;   // 仕入先名は空白
+			//	pca.先方担当者名 = string.Empty;
+			//	pca.部門コード = data.sykd_jbmn.Substring(1);
+			//	pca.担当者コード = "0";
+			//	pca.摘要コード = "0";
+			//	pca.摘要名 = string.Empty;
+			//	pca.商品コード = data.sykd_scd;
+			//	pca.商品名 = data.sykd_mei;
+			//	pca.区 = 0;  // 仕入
+			//	pca.倉庫コード = "0";
+			//	pca.数量 = data.数量;
+			//	pca.単位 = string.Empty;
+			//	pca.単価 = data.評価単価;
+			//	pca.金額 = pca.数量 * pca.単価;
+			//	pca.税区分 = 2;
+			//	pca.備考 = "0";
+			//	pca.規格型番 = string.Empty;
+			//	pca.色 = string.Empty;
+			//	pca.サイズ = string.Empty;
+			//	pca.税率 = data.sykd_rate;
+			//	pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
+			//	pca.伝票No2 = string.Empty;
+			//	pca.商品名2 = string.Empty;
+			//	outputList.Add(pca);
+			//}
 			using (var sw = new StreamWriter(Settings.Microsoft365仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
 			{
 				foreach (汎用データレイアウト仕入明細データ pca in outputList)
@@ -1311,584 +1280,413 @@ namespace MakePurchaseFile.Forms
 			}
 		}
 
-		/// <summary>
-		/// 1.りすとん月額仕入データ作成（New）
-		/// </summary>
-		/// <param name="collectMonth">対象年月</param>
-		// VerX.XX(2024/06/25 勝呂):課金データ作成売上データ圧縮対応
-		public void りすとん月額仕入データファイル出力2(YearMonth collectMonth)
-		{
-			using (var sw = new StreamWriter(Settings.りすとん月額仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
-			{
-				// りすとん月額.sql
-				string goods = Settings.GetListonGoods();
-				List<売上データ> dataList = MakePurchaseFileAccess.Select_売上データ(collectMonth, goods, goods, Settings.Connect.Junp.ConnectionString);
-				if (null != dataList && 0 < dataList.Count)
-				{
-					int denNo = Settings.りすとん月額開始伝票番号;
+		///// <summary>
+		///// 1.りすとん月額仕入データ作成（New）
+		///// </summary>
+		///// <param name="collectMonth">対象年月</param>
+		//public void りすとん月額仕入データファイル出力2(YearMonth collectMonth)
+		//{
+		//	using (var sw = new StreamWriter(Settings.りすとん月額仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+		//	{
+		//		// りすとん月額.sql
+		//		string goods = Settings.GetListonGoods();
+		//		List<売上データ> dataList = MakePurchaseFileAccess.Select_売上データ(collectMonth, goods, goods, Settings.Connect.Junp.ConnectionString);
+		//		if (null != dataList && 0 < dataList.Count)
+		//		{
+		//			int denNo = Settings.りすとん月額開始伝票番号;
 
-					var list = dataList.GroupBy(x => new { x.部門コード , x.商品コード , x.商品名 , x.単位, x.税率 } ) .Select(y => new { y.Key.部門コード, y.Key.商品コード, y.Key.商品名, y.Key.単位, y.Key.税率, 数量 = y.Sum(z => z.数量) }).OrderBy(x =>x.部門コード);
-					List<汎用データレイアウト仕入明細データ> pcaList = new List<汎用データレイアウト仕入明細データ>();
-					foreach (var data in list)
-					{
-						仕入商品情報 goodsInfo = Settings.りすとん月額商品.Find(p => p.商品コード == data.商品コード);
-						if (null != goodsInfo)
-						{
-							汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
-							pca.入荷方法 = 0;   // 0:通常仕入
-							pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
-							pca.精算日 = pca.仕入日;
-							pca.伝票No = denNo;
-							pca.仕入先コード = goodsInfo.仕入先;
-							pca.仕入先名 = string.Empty;   // 仕入先名は空白
-							pca.先方担当者名 = string.Empty;
-							pca.部門コード = data.部門コード.ToString();
-							pca.担当者コード = "0";
-							pca.摘要コード = "0";
-							pca.摘要名 = string.Empty;
-							pca.商品コード = data.商品コード;
-							pca.商品名 = data.商品名;
-							pca.区 = 0;  // 仕入
-							pca.倉庫コード = "0";
-							pca.数量 = data.数量;
-							pca.単位 = string.Empty;
-							pca.単価 = goodsInfo.仕入価格;
-							pca.金額 = pca.数量 * pca.単価;
-							pca.税区分 = 2;
-							pca.備考 = "0";
-							pca.規格型番 = string.Empty;
-							pca.色 = string.Empty;
-							pca.サイズ = string.Empty;
-							pca.税率 = data.税率;
-							pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-							pca.伝票No2 = string.Empty;
-							pca.商品名2 = string.Empty;
-							pcaList.Add(pca);
+		//			var list = dataList.GroupBy(x => new { x.部門コード , x.商品コード , x.商品名 , x.単位, x.税率 } ) .Select(y => new { y.Key.部門コード, y.Key.商品コード, y.Key.商品名, y.Key.単位, y.Key.税率, 数量 = y.Sum(z => z.数量) }).OrderBy(x =>x.部門コード);
+		//			List<汎用データレイアウト仕入明細データ> pcaList = new List<汎用データレイアウト仕入明細データ>();
+		//			foreach (var data in list)
+		//			{
+		//				仕入商品情報 goodsInfo = Settings.りすとん月額商品.Find(p => p.商品コード == data.商品コード);
+		//				if (null != goodsInfo)
+		//				{
+		//					汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
+		//					pca.入荷方法 = 0;   // 0:通常仕入
+		//					pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
+		//					pca.精算日 = pca.仕入日;
+		//					pca.伝票No = denNo;
+		//					pca.仕入先コード = goodsInfo.仕入先;
+		//					pca.仕入先名 = string.Empty;   // 仕入先名は空白
+		//					pca.先方担当者名 = string.Empty;
+		//					pca.部門コード = data.部門コード.ToString();
+		//					pca.担当者コード = "0";
+		//					pca.摘要コード = "0";
+		//					pca.摘要名 = string.Empty;
+		//					pca.商品コード = data.商品コード;
+		//					pca.商品名 = data.商品名;
+		//					pca.区 = 0;  // 仕入
+		//					pca.倉庫コード = "0";
+		//					pca.数量 = data.数量;
+		//					pca.単位 = string.Empty;
+		//					pca.単価 = goodsInfo.仕入価格;
+		//					pca.金額 = pca.数量 * pca.単価;
+		//					pca.税区分 = 2;
+		//					pca.備考 = "0";
+		//					pca.規格型番 = string.Empty;
+		//					pca.色 = string.Empty;
+		//					pca.サイズ = string.Empty;
+		//					pca.税率 = data.税率;
+		//					pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
+		//					pca.伝票No2 = string.Empty;
+		//					pca.商品名2 = string.Empty;
+		//					pcaList.Add(pca);
 
-							denNo++;
-						}
-					}
-					//foreach (売上データ data in dataList)
-					//{
-					//	仕入商品情報 goodsInfo = Settings.りすとん月額商品.Find(p => p.商品コード == data.商品コード);
-					//	if (null != goodsInfo)
-					//	{
-					//		汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
-					//		pca.入荷方法 = 0;   // 0:通常仕入
-					//		pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
-					//		pca.精算日 = pca.仕入日;
-					//		pca.伝票No = denNo;
-					//		pca.仕入先コード = goodsInfo.仕入先;
-					//		pca.仕入先名 = string.Empty;   // 仕入先名は空白
-					//		pca.先方担当者名 = string.Empty;
-					//		pca.部門コード = data.部門コード.ToString();
-					//		pca.担当者コード = data.担当者コード.ToString();
-					//		pca.摘要コード = "0";
-					//		pca.摘要名 = string.Empty;
-					//		pca.商品コード = data.商品コード;
-					//		pca.商品名 = data.商品名;
-					//		pca.区 = 0;  // 仕入
-					//		pca.倉庫コード = "0";
-					//		pca.数量 = data.数量;
-					//		pca.単位 = string.Empty;
-					//		pca.単価 = goodsInfo.仕入価格;
-					//		pca.金額 = pca.数量 * pca.単価;
-					//		pca.税区分 = 2;
-					//		pca.備考 = "0";
-					//		pca.規格型番 = string.Empty;
-					//		pca.色 = string.Empty;
-					//		pca.サイズ = string.Empty;
-					//		pca.税率 = data.税率;
-					//		pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-					//		pca.伝票No2 = string.Empty;
-					//		pca.商品名2 = string.Empty;
-					//		pcaList.Add(pca);
+		//					denNo++;
+		//				}
+		//			}
+		//			foreach (汎用データレイアウト仕入明細データ pca in pcaList)
+		//			{
+		//				string record = pca.ToCsvString(Settings.PcaVersion);
+		//				sw.WriteLine(record);
+		//			}
+		//		}
+		//	}
+		//}
 
-					//		denNo++;
-					//	}
-					//}
-					foreach (汎用データレイアウト仕入明細データ pca in pcaList)
-					{
-						string record = pca.ToCsvString(Settings.PcaVersion);
-						sw.WriteLine(record);
-					}
-				}
-			}
-		}
+		///// <summary>
+		///// 2.Microsoft365仕入データ作成（New）
+		///// 経理部からの要望でMicrosoft365仕入データに関しては、得意先に関する記事データを出力すること
+		///// </summary>
+		///// <param name="collectMonth">対象年月</param>
+		//// Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/10 勝呂)
+		//public void Microsoft365仕入データファイル出力2(YearMonth collectMonth)
+		//{
+		//	using (var sw = new StreamWriter(Settings.Microsoft365仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+		//	{
+		//		// Microsoft365商品.sql
+		//		string goods = Settings.GetMicrosoft365Goods();
+		//		List<売上データ> dataList = MakePurchaseFileAccess.Select_売上データ(collectMonth, goods, goods, Settings.Connect.Junp.ConnectionString);
+		//		if (null != dataList && 0 < dataList.Count)
+		//		{
+		//			int denNo = Settings.Microsoft365開始伝票番号;
+		//			List<汎用データレイアウト仕入明細データ> pcaList = new List<汎用データレイアウト仕入明細データ>();
+		//			foreach (売上データ data in dataList)
+		//			{
+		//				仕入商品情報 goodsInfo = Settings.Microsoft365商品.Find(p => p.商品コード == data.商品コード);
+		//				if (null != goodsInfo)
+		//				{
+		//					// 仕入データ
+		//					汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
+		//					pca.入荷方法 = 0;   // 0:通常仕入
+		//					pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
+		//					pca.精算日 = collectMonth.First.FirstDayOfNextMonth().ToIntYMD(); // 対象月翌月初日
+		//					pca.伝票No = denNo;
+		//					pca.仕入先コード = goodsInfo.仕入先;
+		//					pca.仕入先名 = string.Empty;   // 仕入先名は空白
+		//					pca.先方担当者名 = string.Empty;
+		//					pca.部門コード = data.部門コード.ToString();
+		//					pca.担当者コード = data.担当者コード.ToString();
+		//					pca.摘要コード = "0";
+		//					pca.摘要名 = data.摘要名;
+		//					pca.マスター区分 = 0; // 0:一般商品、1:雑商品、2:諸雑 費、3:値引、4:記事
+		//					pca.商品コード = data.商品コード;
+		//					pca.商品名 = data.商品名;
+		//					pca.区 = 0;  // 仕入
+		//					pca.倉庫コード = "0";
+		//					pca.数量 = data.数量;
+		//					pca.単位 = string.Empty;
+		//					// Ver1.04(2023/03/30 勝呂):Microsoft365仕入データの単価が仕入価格でなく、標準価格となっている障害
+		//					//pca.単価 = meisai.単価;
+		//					pca.単価 = goodsInfo.仕入価格;
+		//					pca.金額 = pca.数量 * pca.単価;
+		//					pca.税区分 = 2;
+		//					pca.備考 = "0";
+		//					pca.規格型番 = string.Empty;
+		//					pca.色 = string.Empty;
+		//					pca.サイズ = string.Empty;
+		//					pca.税率 = data.税率;
+		//					pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
+		//					pca.伝票No2 = string.Empty;
+		//					pca.商品名2 = string.Empty;
+		//					pcaList.Add(pca);
+		//					string 得意先コード = data.得意先コード;
+		//					string 得意先名 = data.GetCustmerName();
+		//					List<売上データ> articleList = MakePurchaseFileAccess.Select_記事データ(data.伝票No, data.売上日, Settings.Connect.Junp.ConnectionString);
+		//					if (null != articleList && 0 < articleList.Count)
+		//					{
+		//						// 請求先と得意先が違う
+		//						得意先コード = articleList[0].GetTokuisakiCodeInGoodsName();
+		//						得意先名 = articleList[0].GetCustmerName();
+		//					}
+		//					// 記事データ（得意先番号）
+		//					汎用データレイアウト仕入明細データ article1 = new 汎用データレイアウト仕入明細データ();
+		//					article1.入荷方法 = pca.入荷方法;
+		//					article1.仕入日 = pca.仕入日;
+		//					article1.精算日 = pca.精算日;
+		//					article1.伝票No = pca.伝票No;
+		//					article1.仕入先コード = pca.仕入先コード;
+		//					article1.仕入先名 = pca.仕入先名;
+		//					article1.先方担当者名 = pca.先方担当者名;
+		//					article1.部門コード = pca.部門コード;
+		//					article1.担当者コード = pca.担当者コード;
+		//					article1.摘要コード = pca.摘要コード;
+		//					article1.摘要名 = pca.摘要名;
+		//					article1.商品コード = PcaGoodsIDDefine.ArticleCode;  // 000014
+		//					article1.マスター区分 = 4; // 0:一般商品、1:雑商品、2:諸雑 費、3:値引、4:記事
+		//					article1.商品名 = string.Format("得意先No.{0}", 得意先コード);
+		//					article1.区 = pca.区;
+		//					article1.倉庫コード = pca.倉庫コード;
+		//					article1.数量 = 0;
+		//					article1.単位 = string.Empty;
+		//					article1.単価 = 0;
+		//					article1.金額 = 0;
+		//					article1.税区分 = 0;
+		//					article1.備考 = "0";
+		//					article1.規格型番 = string.Empty;
+		//					article1.色 = string.Empty;
+		//					article1.サイズ = string.Empty;
+		//					article1.税率 = 0;
+		//					article1.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
+		//					article1.伝票No2 = string.Empty;
+		//					article1.商品名2 = string.Empty;
+		//					pcaList.Add(article1);
 
-		/// <summary>
-		/// 2.Microsoft365仕入データ作成（New）
-		/// 経理部からの要望でMicrosoft365仕入データに関しては、得意先に関する記事データを出力すること
-		/// </summary>
-		/// <param name="collectMonth">対象年月</param>
-		// Ver1.03 経理部の要請により、Microsoft365仕入データを部門毎の集計を止めて、得意先に関する記事データを追加(2023/02/10 勝呂)
-		// VerX.XX(2024/06/25 勝呂):課金データ作成売上データ圧縮対応
-		public void Microsoft365仕入データファイル出力2(YearMonth collectMonth)
-		{
-			using (var sw = new StreamWriter(Settings.Microsoft365仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
-			{
-				// Microsoft365商品.sql
-				string goods = Settings.GetMicrosoft365Goods();
-				List<売上データ> dataList = MakePurchaseFileAccess.Select_売上データ(collectMonth, goods, goods, Settings.Connect.Junp.ConnectionString);
-				if (null != dataList && 0 < dataList.Count)
-				{
-					int denNo = Settings.Microsoft365開始伝票番号;
+		//					// 記事データ（得意先名）
+		//					汎用データレイアウト仕入明細データ article2 = new 汎用データレイアウト仕入明細データ();
+		//					article2.入荷方法 = pca.入荷方法;
+		//					article2.仕入日 = pca.仕入日;
+		//					article2.精算日 = pca.精算日;
+		//					article2.伝票No = pca.伝票No;
+		//					article2.仕入先コード = pca.仕入先コード;
+		//					article2.仕入先名 = pca.仕入先名;
+		//					article2.先方担当者名 = pca.先方担当者名;
+		//					article2.部門コード = pca.部門コード;
+		//					article2.担当者コード = pca.担当者コード;
+		//					article2.摘要コード = pca.摘要コード;
+		//					article2.摘要名 = pca.摘要名;
+		//					article2.商品コード = PcaGoodsIDDefine.ArticleCode;  // 000014
+		//					article2.マスター区分 = 4; // 0:一般商品、1:雑商品、2:諸雑 費、3:値引、4:記事
+		//					article2.商品名 = 得意先名;
+		//					article2.区 = pca.区;
+		//					article2.倉庫コード = pca.倉庫コード;
+		//					article2.数量 = 0;
+		//					article2.単位 = string.Empty;
+		//					article2.単価 = 0;
+		//					article2.金額 = 0;
+		//					article2.税区分 = 0;
+		//					article2.備考 = "0";
+		//					article2.規格型番 = string.Empty;
+		//					article2.色 = string.Empty;
+		//					article2.サイズ = string.Empty;
+		//					article2.税率 = 0;
+		//					article2.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
+		//					article2.伝票No2 = string.Empty;
+		//					article2.商品名2 = string.Empty;
+		//					pcaList.Add(article2);
 
-					List<汎用データレイアウト仕入明細データ> pcaList = new List<汎用データレイアウト仕入明細データ>();
-					foreach (売上データ data in dataList)
-					{
-						仕入商品情報 goodsInfo = Settings.Microsoft365商品.Find(p => p.商品コード == data.商品コード);
-						if (null != goodsInfo)
-						{
-							// 仕入データ
-							汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
-							pca.入荷方法 = 0;   // 0:通常仕入
-							pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
-							pca.精算日 = collectMonth.First.FirstDayOfNextMonth().ToIntYMD(); // 対象月翌月初日
-							pca.伝票No = denNo;
-							pca.仕入先コード = goodsInfo.仕入先;
-							pca.仕入先名 = string.Empty;   // 仕入先名は空白
-							pca.先方担当者名 = string.Empty;
-							pca.部門コード = data.部門コード.ToString();
-							pca.担当者コード = data.担当者コード.ToString();
-							pca.摘要コード = "0";
-							pca.摘要名 = data.摘要名;
-							pca.マスター区分 = 0; // 0:一般商品、1:雑商品、2:諸雑 費、3:値引、4:記事
-							pca.商品コード = data.商品コード;
-							pca.商品名 = data.商品名;
-							pca.区 = 0;  // 仕入
-							pca.倉庫コード = "0";
-							pca.数量 = data.数量;
-							pca.単位 = string.Empty;
+		//					denNo++;
+		//				}
+		//			}
+		//			foreach (汎用データレイアウト仕入明細データ pca in pcaList)
+		//			{
+		//				string record = pca.ToCsvString(Settings.PcaVersion);
+		//				sw.WriteLine(record);
+		//			}
+		//		}
+		//	}
+		//}
 
-							// Ver1.04(2023/03/30 勝呂):Microsoft365仕入データの単価が仕入価格でなく、標準価格となっている障害
-							//pca.単価 = meisai.単価;
-							pca.単価 = goodsInfo.仕入価格;
+		///// <summary>
+		///// 3.問心伝月額仕入データ作成（New）
+		///// </summary>
+		///// <param name="collectMonth">対象年月</param>
+		//public void 問心伝月額仕入データファイル出力2(YearMonth collectMonth)
+		//{
+		//	using (var sw = new StreamWriter(Settings.問心伝月額仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+		//	{
+		//		// 問心伝月額.sql
+		//		string goods = Settings.GetMonshindenGoods();
+		//		List<売上データ> dataList = MakePurchaseFileAccess.Select_売上データ(collectMonth, goods, goods, Settings.Connect.Junp.ConnectionString);
+		//		if (null != dataList && 0 < dataList.Count)
+		//		{
+		//			int denNo = Settings.問心伝月額開始伝票番号;
 
-							pca.金額 = pca.数量 * pca.単価;
-							pca.税区分 = 2;
-							pca.備考 = "0";
-							pca.規格型番 = string.Empty;
-							pca.色 = string.Empty;
-							pca.サイズ = string.Empty;
-							pca.税率 = data.税率;
-							pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-							pca.伝票No2 = string.Empty;
-							pca.商品名2 = string.Empty;
-							pcaList.Add(pca);
+		//			var list = dataList.GroupBy(x => new { x.部門コード, x.商品コード, x.商品名, x.単位, x.税率 }).Select(y => new { y.Key.部門コード, y.Key.商品コード, y.Key.商品名, y.Key.単位, y.Key.税率, 数量 = y.Sum(z => z.数量) }).OrderBy(x => x.部門コード);
+		//			List<汎用データレイアウト仕入明細データ> pcaList = new List<汎用データレイアウト仕入明細データ>();
+		//			foreach (var data in list)
+		//			{
+		//				仕入商品情報 goodsInfo = Settings.問心伝月額商品.Find(p => p.商品コード == data.商品コード);
+		//				if (null != goodsInfo)
+		//				{
+		//					汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
+		//					pca.入荷方法 = 0;   // 0:通常仕入
+		//					pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
+		//					pca.精算日 = pca.仕入日;
+		//					pca.伝票No = denNo;
+		//					pca.仕入先コード = goodsInfo.仕入先;
+		//					pca.仕入先名 = string.Empty;   // 仕入先名は空白
+		//					pca.先方担当者名 = string.Empty;
+		//					pca.部門コード = data.部門コード.ToString();
+		//					pca.担当者コード = "0";
+		//					pca.摘要コード = "0";
+		//					pca.摘要名 = string.Empty;
+		//					pca.商品コード = data.商品コード;
+		//					pca.商品名 = data.商品名;
+		//					pca.区 = 0;  // 仕入
+		//					pca.倉庫コード = "0";
+		//					pca.数量 = data.数量;
+		//					pca.単位 = string.Empty;
+		//					pca.単価 = goodsInfo.仕入価格;
+		//					pca.金額 = pca.数量 * pca.単価;
+		//					pca.税区分 = 2;
+		//					pca.備考 = "0";
+		//					pca.規格型番 = string.Empty;
+		//					pca.色 = string.Empty;
+		//					pca.サイズ = string.Empty;
+		//					pca.税率 = data.税率;
+		//					pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
+		//					pca.伝票No2 = string.Empty;
+		//					pca.商品名2 = string.Empty;
+		//					pcaList.Add(pca);
 
-							string 得意先コード = data.得意先コード;
-							string 得意先名 = data.GetCustmerName();
-							List<売上データ> articleList = MakePurchaseFileAccess.Select_記事データ(data.伝票No, data.売上日, Settings.Connect.Junp.ConnectionString);
-							if (null != articleList && 0 < articleList.Count)
-							{
-								// 請求先と得意先が違う
-								得意先コード = articleList[0].GetTokuisakiCodeInGoodsName();
-								得意先名 = articleList[0].GetCustmerName();
-							}
-							// 記事データ（得意先番号）
-							汎用データレイアウト仕入明細データ article1 = new 汎用データレイアウト仕入明細データ();
-							article1.入荷方法 = pca.入荷方法;
-							article1.仕入日 = pca.仕入日;
-							article1.精算日 = pca.精算日;
-							article1.伝票No = pca.伝票No;
-							article1.仕入先コード = pca.仕入先コード;
-							article1.仕入先名 = pca.仕入先名;
-							article1.先方担当者名 = pca.先方担当者名;
-							article1.部門コード = pca.部門コード;
-							article1.担当者コード = pca.担当者コード;
-							article1.摘要コード = pca.摘要コード;
-							article1.摘要名 = pca.摘要名;
-							article1.商品コード = PcaGoodsIDDefine.ArticleCode;  // 000014
-							article1.マスター区分 = 4; // 0:一般商品、1:雑商品、2:諸雑 費、3:値引、4:記事
-							article1.商品名 = string.Format("得意先No.{0}", 得意先コード);
-							article1.区 = pca.区;
-							article1.倉庫コード = pca.倉庫コード;
-							article1.数量 = 0;
-							article1.単位 = string.Empty;
-							article1.単価 = 0;
-							article1.金額 = 0;
-							article1.税区分 = 0;
-							article1.備考 = "0";
-							article1.規格型番 = string.Empty;
-							article1.色 = string.Empty;
-							article1.サイズ = string.Empty;
-							article1.税率 = 0;
-							article1.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-							article1.伝票No2 = string.Empty;
-							article1.商品名2 = string.Empty;
-							pcaList.Add(article1);
+		//					denNo++;
+		//				}
+		//			}
+		//			foreach (汎用データレイアウト仕入明細データ pca in pcaList)
+		//			{
+		//				string record = pca.ToCsvString(Settings.PcaVersion);
+		//				sw.WriteLine(record);
+		//			}
+		//		}
+		//	}
+		//}
 
-							// 記事データ（得意先名）
-							汎用データレイアウト仕入明細データ article2 = new 汎用データレイアウト仕入明細データ();
-							article2.入荷方法 = pca.入荷方法;
-							article2.仕入日 = pca.仕入日;
-							article2.精算日 = pca.精算日;
-							article2.伝票No = pca.伝票No;
-							article2.仕入先コード = pca.仕入先コード;
-							article2.仕入先名 = pca.仕入先名;
-							article2.先方担当者名 = pca.先方担当者名;
-							article2.部門コード = pca.部門コード;
-							article2.担当者コード = pca.担当者コード;
-							article2.摘要コード = pca.摘要コード;
-							article2.摘要名 = pca.摘要名;
-							article2.商品コード = PcaGoodsIDDefine.ArticleCode;  // 000014
-							article2.マスター区分 = 4; // 0:一般商品、1:雑商品、2:諸雑 費、3:値引、4:記事
-							article2.商品名 = 得意先名;
-							article2.区 = pca.区;
-							article2.倉庫コード = pca.倉庫コード;
-							article2.数量 = 0;
-							article2.単位 = string.Empty;
-							article2.単価 = 0;
-							article2.金額 = 0;
-							article2.税区分 = 0;
-							article2.備考 = "0";
-							article2.規格型番 = string.Empty;
-							article2.色 = string.Empty;
-							article2.サイズ = string.Empty;
-							article2.税率 = 0;
-							article2.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-							article2.伝票No2 = string.Empty;
-							article2.商品名2 = string.Empty;
-							pcaList.Add(article2);
+		///// <summary>
+		///// 5.ナルコーム仕入データ作成（New）
+		///// </summary>
+		///// <param name="collectMonth">対象年月</param>
+		//public void ナルコーム仕入データファイル出力2(YearMonth collectMonth)
+		//{
+		//	using (var sw = new StreamWriter(Settings.ナルコーム仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+		//	{
+		//		// ナルコーム商品.sql
+		//		string goods = Settings.GetNarcohrmGoods();
+		//		List<売上データ> dataList = MakePurchaseFileAccess.Select_売上データ(collectMonth, goods, goods, Settings.Connect.Junp.ConnectionString);
+		//		if (null != dataList && 0 < dataList.Count)
+		//		{
+		//			int denNo = Settings.ナルコーム開始伝票番号;
 
-							denNo++;
-						}
-					}
-					foreach (汎用データレイアウト仕入明細データ pca in pcaList)
-					{
-						string record = pca.ToCsvString(Settings.PcaVersion);
-						sw.WriteLine(record);
-					}
-				}
-			}
-		}
+		//			var list = dataList.GroupBy(x => new { x.売上日, x.部門コード, x.商品コード, x.商品名, x.単位, x.税率 }).Select(y => new { y.Key.売上日, y.Key.部門コード, y.Key.商品コード, y.Key.商品名, y.Key.単位, y.Key.税率, 数量 = y.Sum(z => z.数量) }).OrderBy(x => x.部門コード).ThenBy(x => x.商品コード);
+		//			List<汎用データレイアウト仕入明細データ> pcaList = new List<汎用データレイアウト仕入明細データ>();
+		//			foreach (var data in list)
+		//			{
+		//				ナルコーム仕入商品情報 goodsInfo = Settings.ナルコーム商品.Find(p => p.商品コード == data.商品コード);
+		//				if (null != goodsInfo)
+		//				{
+		//					汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
+		//					pca.科目区分 = goodsInfo.仕入フラグ;
+		//					pca.仕入日 = data.売上日;
+		//					pca.精算日 = data.売上日;
+		//					pca.伝票No = denNo;
+		//					pca.仕入先コード = goodsInfo.仕入先;
+		//					pca.仕入先名 = string.Empty;
+		//					pca.先方担当者名 = string.Empty;
+		//					pca.部門コード = data.部門コード.ToString();
+		//					pca.担当者コード = "0";
+		//					pca.摘要コード = "0";
+		//					pca.摘要名 = string.Empty;
+		//					pca.商品コード = data.商品コード;
+		//					pca.商品名 = data.商品名;
+		//					pca.区 = 2;  // 単価訂正
+		//					pca.倉庫コード = "0";
+		//					pca.数量 = data.数量;
+		//					pca.単位 = string.Empty;
+		//					pca.単価 = goodsInfo.仕入価格;
+		//					pca.金額 = pca.数量 * pca.単価;
+		//					pca.税区分 = 2;
+		//					pca.備考 = "0";
+		//					pca.規格型番 = string.Empty;
+		//					pca.色 = string.Empty;
+		//					pca.サイズ = string.Empty;
+		//					pca.税率 = data.税率;
+		//					pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
+		//					pca.伝票No2 = string.Empty;
+		//					pca.商品名2 = string.Empty;
+		//					pcaList.Add(pca);
 
-		/// <summary>
-		/// 3.問心伝月額仕入データ作成（New）
-		/// </summary>
-		/// <param name="collectMonth">対象年月</param>
-		// VerX.XX(2024/06/25 勝呂):課金データ作成売上データ圧縮対応
-		public void 問心伝月額仕入データファイル出力2(YearMonth collectMonth)
-		{
-			using (var sw = new StreamWriter(Settings.問心伝月額仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
-			{
-				// 問心伝月額.sql
-				string goods = Settings.GetMonshindenGoods();
-				List<売上データ> dataList = MakePurchaseFileAccess.Select_売上データ(collectMonth, goods, goods, Settings.Connect.Junp.ConnectionString);
-				if (null != dataList && 0 < dataList.Count)
-				{
-					int denNo = Settings.問心伝月額開始伝票番号;
+		//					denNo++;
+		//				}
+		//			}
+		//			foreach (汎用データレイアウト仕入明細データ pca in pcaList)
+		//			{
+		//				string record = pca.ToCsvString(Settings.PcaVersion);
+		//				sw.WriteLine(record);
+		//			}
+		//		}
+		//	}
+		//}
 
-					var list = dataList.GroupBy(x => new { x.部門コード, x.商品コード, x.商品名, x.単位, x.税率 }).Select(y => new { y.Key.部門コード, y.Key.商品コード, y.Key.商品名, y.Key.単位, y.Key.税率, 数量 = y.Sum(z => z.数量) }).OrderBy(x => x.部門コード);
-					List<汎用データレイアウト仕入明細データ> pcaList = new List<汎用データレイアウト仕入明細データ>();
-					foreach (var data in list)
-					{
-						仕入商品情報 goodsInfo = Settings.問心伝月額商品.Find(p => p.商品コード == data.商品コード);
-						if (null != goodsInfo)
-						{
-							汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
-							pca.入荷方法 = 0;   // 0:通常仕入
-							pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
-							pca.精算日 = pca.仕入日;
-							pca.伝票No = denNo;
-							pca.仕入先コード = goodsInfo.仕入先;
-							pca.仕入先名 = string.Empty;   // 仕入先名は空白
-							pca.先方担当者名 = string.Empty;
-							pca.部門コード = data.部門コード.ToString();
-							pca.担当者コード = "0";
-							pca.摘要コード = "0";
-							pca.摘要名 = string.Empty;
-							pca.商品コード = data.商品コード;
-							pca.商品名 = data.商品名;
-							pca.区 = 0;  // 仕入
-							pca.倉庫コード = "0";
-							pca.数量 = data.数量;
-							pca.単位 = string.Empty;
-							pca.単価 = goodsInfo.仕入価格;
-							pca.金額 = pca.数量 * pca.単価;
-							pca.税区分 = 2;
-							pca.備考 = "0";
-							pca.規格型番 = string.Empty;
-							pca.色 = string.Empty;
-							pca.サイズ = string.Empty;
-							pca.税率 = data.税率;
-							pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-							pca.伝票No2 = string.Empty;
-							pca.商品名2 = string.Empty;
-							pcaList.Add(pca);
+		///// <summary>
+		///// 6.クラウドバックアップ仕入データ作成（New）
+		///// </summary>
+		///// <param name="collectMonth">対象年月</param>
+		//public void クラウドバックアップ仕入データファイル出力2(YearMonth collectMonth)
+		//{
+		//	using (var sw = new StreamWriter(Settings.クラウドバックアップ仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+		//	{
+		//		// クラウドバックアップ.sql
+		//		string goods1 = Settings.GetCloudBackupGoods();
+		//		List<売上データ> dataList = MakePurchaseFileAccess.Select_売上データ(collectMonth, goods1, "800083", Settings.Connect.Junp.ConnectionString);
+		//		if (null != dataList && 0 < dataList.Count)
+		//		{
+		//			int denNo = Settings.クラウドバックアップ開始伝票番号;
 
-							denNo++;
-						}
-					}
-					//foreach (売上データ data in dataList)
-					//{
-					//	仕入商品情報 goodsInfo = Settings.問心伝月額商品.Find(p => p.商品コード == data.商品コード);
-					//	if (null != goodsInfo)
-					//	{
-					//		汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
-					//		pca.入荷方法 = 0;   // 0:通常仕入
-					//		pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
-					//		pca.精算日 = pca.仕入日;
-					//		pca.伝票No = denNo;
-					//		pca.仕入先コード = goodsInfo.仕入先;
-					//		pca.仕入先名 = string.Empty;   // 仕入先名は空白
-					//		pca.先方担当者名 = string.Empty;
-					//		pca.部門コード = data.部門コード.ToString();
-					//		pca.担当者コード = data.担当者コード.ToString();
-					//		pca.摘要コード = "0";
-					//		pca.摘要名 = string.Empty;
-					//		pca.商品コード = data.商品コード;
-					//		pca.商品名 = data.商品名;
-					//		pca.区 = 0;  // 仕入
-					//		pca.倉庫コード = "0";
-					//		pca.数量 = data.数量;
-					//		pca.単位 = string.Empty;
-					//		pca.単価 = goodsInfo.仕入価格;
-					//		pca.金額 = pca.数量 * pca.単価;
-					//		pca.税区分 = 2;
-					//		pca.備考 = "0";
-					//		pca.規格型番 = string.Empty;
-					//		pca.色 = string.Empty;
-					//		pca.サイズ = string.Empty;
-					//		pca.税率 = data.税率;
-					//		pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-					//		pca.伝票No2 = string.Empty;
-					//		pca.商品名2 = string.Empty;
-					//		pcaList.Add(pca);
+		//			var list = dataList.GroupBy(x => new { x.売上日, x.部門コード, x.商品コード, x.商品名, x.単位, x.税率 }).Select(y => new { y.Key.売上日, y.Key.部門コード, y.Key.商品コード, y.Key.商品名, y.Key.単位, y.Key.税率, 数量 = y.Sum(z => z.数量) }).OrderBy(x => x.部門コード).ThenBy(x => x.商品コード);
+		//			List<汎用データレイアウト仕入明細データ> pcaList = new List<汎用データレイアウト仕入明細データ>();
+		//			foreach (var data in list)
+		//			{
+		//				クラウドバックアップ仕入商品情報 goodsInfo = Settings.クラウドバックアップ商品.Find(p => p.商品コード == data.商品コード);
+		//				if (null != goodsInfo)
+		//				{
+		//					汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
+		//					pca.科目区分 = goodsInfo.仕入フラグ;
+		//					pca.仕入日 = data.売上日;
+		//					pca.精算日 = data.売上日;
+		//					pca.伝票No = denNo;
+		//					pca.仕入先コード = goodsInfo.仕入先;
+		//					pca.仕入先名 = string.Empty;
+		//					pca.先方担当者名 = string.Empty;
+		//					pca.部門コード = data.部門コード.ToString();
+		//					pca.担当者コード = "0";
+		//					pca.摘要コード = "0";
+		//					pca.摘要名 = string.Empty;
+		//					pca.商品コード = goodsInfo.仕入商品コード;
+		//					pca.商品名 = "MWS ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟ(月額)";
+		//					pca.区 = 2;  // 単価訂正
+		//					pca.倉庫コード = "0";
 
-					//		denNo++;
-					//	}
-					//}
-					foreach (汎用データレイアウト仕入明細データ pca in pcaList)
-					{
-						string record = pca.ToCsvString(Settings.PcaVersion);
-						sw.WriteLine(record);
-					}
-				}
-			}
-		}
+		//					// PC安心サポート Plus3年契約 仕入数:36
+		//					// PC安心サポート Plus1年契約 仕入数:12
+		//					// PC安心サポート Plus1年更新 仕入数:12
+		//					// MWS ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟ(月額) 仕入数:1
+		//					pca.数量 = goodsInfo.仕入数 * data.数量;
 
-		/// <summary>
-		/// 5.ナルコーム仕入データ作成（New）
-		/// </summary>
-		/// <param name="collectMonth">対象年月</param>
-		// VerX.XX(2024/06/25 勝呂):課金データ作成売上データ圧縮対応
-		public void ナルコーム仕入データファイル出力2(YearMonth collectMonth)
-		{
-			using (var sw = new StreamWriter(Settings.ナルコーム仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
-			{
-				// ナルコーム商品.sql
-				string goods = Settings.GetNarcohrmGoods();
-				List<売上データ> dataList = MakePurchaseFileAccess.Select_売上データ(collectMonth, goods, goods, Settings.Connect.Junp.ConnectionString);
-				if (null != dataList && 0 < dataList.Count)
-				{
-					int denNo = Settings.ナルコーム開始伝票番号;
+		//					pca.単位 = string.Empty;
+		//					pca.単価 = goodsInfo.仕入価格;
+		//					pca.金額 = pca.数量 * pca.単価;
+		//					pca.税区分 = 2;
+		//					pca.備考 = "0";
+		//					pca.規格型番 = string.Empty;
+		//					pca.色 = string.Empty;
+		//					pca.サイズ = string.Empty;
+		//					pca.税率 = data.税率;
+		//					pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
+		//					pca.伝票No2 = string.Empty;
+		//					pca.商品名2 = string.Empty;
+		//					pcaList.Add(pca);
 
-					var list = dataList.GroupBy(x => new { x.売上日, x.部門コード, x.商品コード, x.商品名, x.単位, x.税率 }).Select(y => new { y.Key.売上日, y.Key.部門コード, y.Key.商品コード, y.Key.商品名, y.Key.単位, y.Key.税率, 数量 = y.Sum(z => z.数量) }).OrderBy(x => x.部門コード).ThenBy(x => x.商品コード);
-					List<汎用データレイアウト仕入明細データ> pcaList = new List<汎用データレイアウト仕入明細データ>();
-					foreach (var data in list)
-					{
-						ナルコーム仕入商品情報 goodsInfo = Settings.ナルコーム商品.Find(p => p.商品コード == data.商品コード);
-						if (null != goodsInfo)
-						{
-							汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
-							pca.科目区分 = goodsInfo.仕入フラグ;
-							pca.仕入日 = data.売上日;
-							pca.精算日 = data.売上日;
-							pca.伝票No = denNo;
-							pca.仕入先コード = goodsInfo.仕入先;
-							pca.仕入先名 = string.Empty;
-							pca.先方担当者名 = string.Empty;
-							pca.部門コード = data.部門コード.ToString();
-							pca.担当者コード = "0";
-							pca.摘要コード = "0";
-							pca.摘要名 = string.Empty;
-							pca.商品コード = data.商品コード;
-							pca.商品名 = data.商品名;
-							pca.区 = 2;  // 単価訂正
-							pca.倉庫コード = "0";
-							pca.数量 = data.数量;
-							pca.単位 = string.Empty;
-							pca.単価 = goodsInfo.仕入価格;
-							pca.金額 = pca.数量 * pca.単価;
-							pca.税区分 = 2;
-							pca.備考 = "0";
-							pca.規格型番 = string.Empty;
-							pca.色 = string.Empty;
-							pca.サイズ = string.Empty;
-							pca.税率 = data.税率;
-							pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-							pca.伝票No2 = string.Empty;
-							pca.商品名2 = string.Empty;
-							pcaList.Add(pca);
-
-							denNo++;
-						}
-					}
-					//foreach (売上データ data in dataList)
-					//{
-					//	ナルコーム仕入商品情報 goodsInfo = Settings.ナルコーム商品.Find(p => p.商品コード == data.商品コード);
-					//	if (null != goodsInfo)
-					//	{
-					//		汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
-					//		pca.科目区分 = goodsInfo.仕入フラグ;
-					//		pca.仕入日 = data.売上日;
-					//		pca.精算日 = data.売上日;
-					//		pca.伝票No = denNo;
-					//		pca.仕入先コード = goodsInfo.仕入先;
-					//		pca.仕入先名 = string.Empty;
-					//		pca.先方担当者名 = string.Empty;
-					//		pca.部門コード = data.部門コード.ToString();
-					//		pca.担当者コード = data.担当者コード.ToString();
-					//		pca.摘要コード = "0";
-					//		pca.摘要名 = string.Empty;
-					//		pca.商品コード = data.商品コード;
-					//		pca.商品名 = data.商品名;
-					//		pca.区 = 2;  // 単価訂正
-					//		pca.倉庫コード = "0";
-					//		pca.数量 = data.数量;
-					//		pca.単位 = string.Empty;
-					//		pca.単価 = goodsInfo.仕入価格;
-					//		pca.金額 = pca.数量 * pca.単価;
-					//		pca.税区分 = 2;
-					//		pca.備考 = "0";
-					//		pca.規格型番 = string.Empty;
-					//		pca.色 = string.Empty;
-					//		pca.サイズ = string.Empty;
-					//		pca.税率 = data.税率;
-					//		pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-					//		pca.伝票No2 = string.Empty;
-					//		pca.商品名2 = string.Empty;
-					//		pcaList.Add(pca);
-
-					//		denNo++;
-					//	}
-					//}
-					foreach (汎用データレイアウト仕入明細データ pca in pcaList)
-					{
-						string record = pca.ToCsvString(Settings.PcaVersion);
-						sw.WriteLine(record);
-					}
-				}
-			}
-		}
-
-		/// <summary>
-		/// 6.クラウドバックアップ仕入データ作成（New）
-		/// </summary>
-		/// <param name="collectMonth">対象年月</param>
-		// VerX.XX(2024/06/25 勝呂):課金データ作成売上データ圧縮対応
-		public void クラウドバックアップ仕入データファイル出力2(YearMonth collectMonth)
-		{
-			using (var sw = new StreamWriter(Settings.クラウドバックアップ仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
-			{
-				// クラウドバックアップ.sql
-				string goods1 = Settings.GetCloudBackupGoods();
-				List<売上データ> dataList = MakePurchaseFileAccess.Select_売上データ(collectMonth, goods1, "800083", Settings.Connect.Junp.ConnectionString);
-				if (null != dataList && 0 < dataList.Count)
-				{
-					int denNo = Settings.クラウドバックアップ開始伝票番号;
-
-					var list = dataList.GroupBy(x => new { x.売上日, x.部門コード, x.商品コード, x.商品名, x.単位, x.税率 }).Select(y => new { y.Key.売上日, y.Key.部門コード, y.Key.商品コード, y.Key.商品名, y.Key.単位, y.Key.税率, 数量 = y.Sum(z => z.数量) }).OrderBy(x => x.部門コード).ThenBy(x => x.商品コード);
-					List<汎用データレイアウト仕入明細データ> pcaList = new List<汎用データレイアウト仕入明細データ>();
-					foreach (var data in list)
-					{
-						クラウドバックアップ仕入商品情報 goodsInfo = Settings.クラウドバックアップ商品.Find(p => p.商品コード == data.商品コード);
-						if (null != goodsInfo)
-						{
-							汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
-							pca.科目区分 = goodsInfo.仕入フラグ;
-							pca.仕入日 = data.売上日;
-							pca.精算日 = data.売上日;
-							pca.伝票No = denNo;
-							pca.仕入先コード = goodsInfo.仕入先;
-							pca.仕入先名 = string.Empty;
-							pca.先方担当者名 = string.Empty;
-							pca.部門コード = data.部門コード.ToString();
-							pca.担当者コード = "0";
-							pca.摘要コード = "0";
-							pca.摘要名 = string.Empty;
-							pca.商品コード = goodsInfo.仕入商品コード;
-							pca.商品名 = "MWS ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟ(月額)";
-							pca.区 = 2;  // 単価訂正
-							pca.倉庫コード = "0";
-
-							// PC安心サポート Plus3年契約 仕入数:36
-							// PC安心サポート Plus1年契約 仕入数:12
-							// PC安心サポート Plus1年更新 仕入数:12
-							// MWS ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟ(月額) 仕入数:1
-							pca.数量 = goodsInfo.仕入数 * data.数量;
-
-							pca.単位 = string.Empty;
-							pca.単価 = goodsInfo.仕入価格;
-							pca.金額 = pca.数量 * pca.単価;
-							pca.税区分 = 2;
-							pca.備考 = "0";
-							pca.規格型番 = string.Empty;
-							pca.色 = string.Empty;
-							pca.サイズ = string.Empty;
-							pca.税率 = data.税率;
-							pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-							pca.伝票No2 = string.Empty;
-							pca.商品名2 = string.Empty;
-							pcaList.Add(pca);
-
-							denNo++;
-						}
-					}
-					//foreach (売上データ data in dataList)
-					//{
-					//	クラウドバックアップ仕入商品情報 goodsInfo = Settings.クラウドバックアップ商品.Find(p => p.商品コード == data.商品コード);
-					//	if (null != goodsInfo)
-					//	{
-					//		汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
-					//		pca.科目区分 = goodsInfo.仕入フラグ;
-					//		pca.仕入日 = data.売上日;
-					//		pca.精算日 = data.売上日;
-					//		pca.伝票No = denNo;
-					//		pca.仕入先コード = goodsInfo.仕入先;
-					//		pca.仕入先名 = string.Empty;
-					//		pca.先方担当者名 = string.Empty;
-					//		pca.部門コード = data.部門コード.ToString();
-					//		pca.担当者コード = data.担当者コード.ToString();
-					//		pca.摘要コード = "0";
-					//		pca.摘要名 = string.Empty;
-					//		pca.商品コード = goodsInfo.仕入商品コード;
-					//		pca.商品名 = "MWS ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟ(月額)";
-					//		pca.区 = 2;  // 単価訂正
-					//		pca.倉庫コード = "0";
-
-					//		// PC安心サポート Plus3年契約 仕入数:36
-					//		// PC安心サポート Plus1年契約 仕入数:12
-					//		// PC安心サポート Plus1年更新 仕入数:12
-					//		// MWS ｸﾗｳﾄﾞﾊﾞｯｸｱｯﾌﾟ(月額) 仕入数:1
-					//		pca.数量 = goodsInfo.仕入数 * data.数量;
-
-					//		pca.単位 = string.Empty;
-					//		pca.単価 = goodsInfo.仕入価格;
-					//		pca.金額 = pca.数量 * pca.単価;
-					//		pca.税区分 = 2;
-					//		pca.備考 = "0";
-					//		pca.規格型番 = string.Empty;
-					//		pca.色 = string.Empty;
-					//		pca.サイズ = string.Empty;
-					//		pca.税率 = data.税率;
-					//		pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-					//		pca.伝票No2 = string.Empty;
-					//		pca.商品名2 = string.Empty;
-					//		pcaList.Add(pca);
-
-					//		denNo++;
-					//	}
-					//}
-					foreach (汎用データレイアウト仕入明細データ pca in pcaList)
-					{
-						string record = pca.ToCsvString(Settings.PcaVersion);
-						sw.WriteLine(record);
-					}
-				}
-			}
-		}
+		//					denNo++;
+		//				}
+		//			}
+		//			foreach (汎用データレイアウト仕入明細データ pca in pcaList)
+		//			{
+		//				string record = pca.ToCsvString(Settings.PcaVersion);
+		//				sw.WriteLine(record);
+		//			}
+		//		}
+		//	}
+		//}
 	}
 }

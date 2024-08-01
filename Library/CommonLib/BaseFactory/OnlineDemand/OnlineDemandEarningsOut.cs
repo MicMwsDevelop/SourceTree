@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2023/12/01 勝呂):新規作成
+// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
 //
 using CommonLib.BaseFactory.Pca;
 using CommonLib.Common;
@@ -153,15 +154,23 @@ namespace CommonLib.BaseFactory.OnlineDemand
 		/// </summary>
 		/// <param name="no">伝票No</param>
 		/// <param name="hanbaisakiCode">販売先コード</param>
+		/// <param name="saleDate">売上日 </param>
 		/// <param name="requestDate">申請日 </param>
 		/// <param name="tax">税率</param>
 		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>CSV文字列</returns>
-		public string ToEarnings(int no, string hanbaisakiCode, Date requestDate, int tax, int pcaVer)
+		// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+		//public string ToEarnings(int no, string hanbaisakiCode, Date requestDate, int tax, int pcaVer)
+		public string ToEarnings(int no, string hanbaisakiCode, Date saleDate, Date requestDate, int tax, int pcaVer)
 		{
 			汎用データレイアウト売上明細データ pca = new 汎用データレイアウト売上明細データ();
-			pca.売上日 = requestDate.ToIntYMD();// 2:売上年月日
-			pca.請求日 = requestDate.ToIntYMD();// 3:請求年月日
+
+			// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+			//pca.売上日 = requestDate.ToIntYMD();// 2:売上年月日
+			//pca.請求日 = requestDate.ToIntYMD();// 3:請求年月日
+			pca.売上日 = saleDate.ToIntYMD();// 2:売上年月日
+			pca.請求日 = saleDate.ToIntYMD();// 3:請求年月日
+
 			pca.伝票No = no;// 4:伝票番号
 			pca.得意先コード = hanbaisakiCode;// 5:得意先コード(13)
 			pca.部門コード = PCA部門コード.Value.ToString();// 9:部門コード(6)
@@ -191,14 +200,22 @@ namespace CommonLib.BaseFactory.OnlineDemand
 		/// </summary>
 		/// <param name="no">伝票No</param>
 		/// <param name="hanbaisakiCode">販売先コード</param>
+		/// <param name="saleDate">売上日 </param>
 		/// <param name="requestDate">申請日 </param>
 		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>CSV文字列</returns>
-		public string ToArticle1(int no, string hanbaisakiCode, Date requestDate, int pcaVer)
+		// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+		//public string ToArticle1(int no, string hanbaisakiCode, Date requestDate, int pcaVer)
+		public string ToArticle1(int no, string hanbaisakiCode, Date saleDate, Date requestDate, int pcaVer)
 		{
 			汎用データレイアウト売上明細データ pca = new 汎用データレイアウト売上明細データ();
-			pca.売上日 = requestDate.ToIntYMD();// 2:売上年月日
-			pca.請求日 = requestDate.ToIntYMD();// 3:請求年月日
+
+			// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+			//pca.売上日 = requestDate.ToIntYMD();// 2:売上年月日
+			//pca.請求日 = requestDate.ToIntYMD();// 3:請求年月日
+			pca.売上日 = saleDate.ToIntYMD();// 2:売上年月日
+			pca.請求日 = saleDate.ToIntYMD();// 3:請求年月日
+
 			pca.伝票No = no;// 4:伝票番号
 			pca.得意先コード = hanbaisakiCode;// 5:得意先コード(13)
 			pca.部門コード = PCA部門コード.Value.ToString();// 9:部門コード(6)
@@ -218,14 +235,22 @@ namespace CommonLib.BaseFactory.OnlineDemand
 		/// </summary>
 		/// <param name="no">伝票No</param>
 		/// <param name="hanbaisakiCode">販売先コード</param>
+		/// <param name="saleDate">売上日 </param>
 		/// <param name="requestDate">申請日 </param>
 		/// <param name="pcaVer">PCAバージョン情報 </param>
 		/// <returns>CSV文字列</returns>
-		public string ToArticle2(int no, string hanbaisakiCode, Date requestDate, int pcaVer)
+		// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+		//public string ToArticle2(int no, string hanbaisakiCode, Date requestDate, int pcaVer)
+		public string ToArticle2(int no, string hanbaisakiCode, Date saleDate, Date requestDate, int pcaVer)
 		{
 			汎用データレイアウト売上明細データ pca = new 汎用データレイアウト売上明細データ();
-			pca.売上日 = requestDate.ToIntYMD();// 2:売上年月日
-			pca.請求日 = requestDate.ToIntYMD();// 3:請求年月日
+
+			// Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
+			//pca.売上日 = requestDate.ToIntYMD();// 2:売上年月日
+			//pca.請求日 = requestDate.ToIntYMD();// 3:請求年月日
+			pca.売上日 = saleDate.ToIntYMD();// 2:売上年月日
+			pca.請求日 = saleDate.ToIntYMD();// 3:請求年月日
+
 			pca.伝票No = no;// 4:伝票番号
 			pca.得意先コード = hanbaisakiCode;// 5:得意先コード(13)
 			pca.部門コード = PCA部門コード.Value.ToString();// 9:部門コード(6)

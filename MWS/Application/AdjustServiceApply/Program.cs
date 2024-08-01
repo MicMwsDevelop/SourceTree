@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 /////////////////////////////////////////////////////////
+// APPID639 申込情報更新処理
 // Ver1.00(2023/06/07 勝呂):新規作成
 // Ver1.01(2024/01/18 勝呂):MS DTC無効に対応するため、トランザクション処理を行わない
 // Ver1.02(2024/01/24 勝呂):販売店情報参照ビューから販売店コードを取得処理で例外エラー
@@ -17,6 +18,7 @@
 // Ver1.08(2024/03/07 勝呂):全MWSユーザーの顧客情報を更新する処理の追加
 // Ver1.09(2024/03/08 勝呂):申込情報更新で今月終了ユーザーの利用申込サービスの申込情報のシステム反映済フラグを更新していなかった
 // Ver1.10(2024/05/10 勝呂):メール送信先が複数指定された時にアプリケーションエラー
+// Ver1.11(2024/08/01 勝呂):差分バッチからの移植処理である受注承認された伝票のサービスが顧客利用情報に存在しない時に、顧客利用情報にサービスを登録する処理だが、販売種別がその他の時にも顧客利用情報にサービスが登録されてしまう障害があったので処理の見直し
 //
 using AdjustServiceApply.Log;
 using AdjustServiceApply.Mail;
@@ -25,7 +27,6 @@ using CommonLib.BaseFactory.AdjustServiceApply;
 using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Charlie.View;
 using CommonLib.BaseFactory.Coupler.Table;
-using CommonLib.Common;
 using CommonLib.DB.SqlServer;
 using CommonLib.DB.SqlServer.AdjustServiceApply;
 using CommonLib.DB.SqlServer.Charlie;
@@ -51,7 +52,7 @@ namespace AdjustServiceApply
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string gVersionStr = "1.10";
+		public const string gVersionStr = "1.11";
 
 		/// <summary>
 		/// 環境設定
@@ -342,6 +343,8 @@ namespace AdjustServiceApply
 												LogOut.Out(log);
 												mailLogList.Add(log);
 											}
+											// Ver1.11(2024/08/01 勝呂):差分バッチからの移植処理である受注承認された伝票のサービスが顧客利用情報に存在しない時に、顧客利用情報にサービスを登録する処理だが、販売種別がその他の時にも顧客利用情報にサービスが登録されてしまう障害があったので処理の見直し
+#if false 
 											// 顧客管理利用情報の顧客・サービス存在チェック
 											whereStr = string.Format("CUSTOMER_ID = {0} AND SERVICE_TYPE_ID = {1} AND SERVICE_ID = {2}", slip.ユーザー顧客ID, codeList[0].SERVICE_TYPE_ID, codeList[0].SERVICE_ID);
 											List<T_CUSSTOMER_USE_INFOMATION> cuiList = CharlieDatabaseAccess.Select_T_CUSSTOMER_USE_INFOMATION(whereStr, "", gSettings.ConnectCharlie.ConnectionString);
@@ -404,6 +407,7 @@ namespace AdjustServiceApply
 												// 顧客管理利用情報にサービスが登録されているので、無処理
 												;
 											}
+#endif
 										}
 										else
 										{

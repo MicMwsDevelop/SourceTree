@@ -1,7 +1,7 @@
 ﻿//
 // MainForm.cs
 //
-// MWSサービス異常データ検出 メイン画面クラス
+// MWSサービス異常データ検出ツール メイン画面クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
