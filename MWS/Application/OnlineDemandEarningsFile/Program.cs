@@ -19,6 +19,7 @@
 // Ver1.06(2024/07/08 勝呂):各種作業料名称変更に伴う修正
 // Ver1.07(2024/07/29 勝呂):売上日を申請月の末日に変更する
 // Ver1.08(2024/08/01 勝呂):各種作業料作業済申請情報の更新時の障害対応
+// Ver1.09(2024/08/27 勝呂):オン資電子処方箋連携の018475 ｵﾝﾗｲﾝ資格確認電子処方箋連携環境設定の売上データ作成に対応
 //
 using CommonLib.BaseFactory.OnlineDemand;
 using CommonLib.Common;
@@ -43,7 +44,7 @@ namespace OnlineDemandEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.08(2024/08/01)";
+		public const string VersionStr = "Ver1.09(2024/08/27)";
 
 		/// <summary>
 		/// 環境設定
@@ -71,7 +72,7 @@ namespace OnlineDemandEarningsFile
 			gSettings = OnlineDemandEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			gBootDate = new Date(2024, 8, 1);
+			gBootDate = new Date(2024, 9, 1);
 #else
 			gBootDate = Date.Today;
 #endif

@@ -119,7 +119,7 @@ namespace CommonLib.DB.SqlServer.Charlie
 			T_USE_ONLINE_HOMON = 18,
 
 			/// <summary>
-			/// 電子処方箋管理契約情報
+			/// オン資電子処方箋連携契約情報
 			/// </summary>
 			T_USE_ELECTRIC_PRESCRIPTION = 19,
 

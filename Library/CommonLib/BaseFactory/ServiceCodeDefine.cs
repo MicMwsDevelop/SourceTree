@@ -721,18 +721,10 @@ namespace CommonLib.BaseFactory
 			/// </summary>
 			OnlineLicenseHomon = 1046200,
 
-			/////////////////////////
-			// 48 電子処方箋
-
 			/// <summary>
-			/// 電子処方箋管理サービス（院外処方）
+			/// オンライン資格確認電子処方箋連携
 			/// </summary>
-			ElectricPrescriptionOutside = 1048100,
-
-			/// <summary>
-			/// 電子処方箋管理サービス（院内処方）
-			/// </summary>
-			ElectricPrescriptionInside = 1048120,
+			OnlineLicenseElectricPrescript = 1046220,
 
 			/////////////////////////
 			// 1000 シカハコ

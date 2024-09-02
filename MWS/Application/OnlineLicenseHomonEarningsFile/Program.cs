@@ -22,6 +22,7 @@
 // Ver1.00(2024/07/09 勝呂):新規作成
 // Ver1.01(2024/07/29 勝呂):オン資訪問診療連携費 売上連絡メールの申込日時を利用期間に変更
 // Ver1.02(2024/08/01 勝呂):オン資訪問診療契約情報の売上日時の更新時の障害対応
+// Ver1.03(2024/09/01 勝呂):申込情報の更新処理に失敗。SQL接続情報の指定に間違い
 //
 using CommonLib.BaseFactory.Charlie.View;
 using CommonLib.BaseFactory.OnlineLicenseHomon;
@@ -50,7 +51,7 @@ namespace OnlineLicenseHomonEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string gVersionStr = "1.02";
+		public const string gVersionStr = "1.03";
 
 		/// <summary>
 		/// 環境設定
@@ -147,7 +148,7 @@ namespace OnlineLicenseHomonEarningsFile
 		{
 			// オン資格訪問診療売上データ.csvの出力
 			string msg;
-			List<OnlineLicenseHomonEarningsOut> homonList = ExportEarningsFile(gBootDate, out msg);
+			List<OnlineLicenseHomonEarningsOut> homonList = ExportEarningsFile(bootDate, out msg);
 			if (0 == msg.Length)
 			{
 				// 利用申込情報のシステム反映済フラグを反映済に更新
@@ -284,7 +285,9 @@ namespace OnlineLicenseHomonEarningsFile
 					{
 #if !DebugNoWrite
 						// 申込情報の利用申込のシステム反映済フラグをシステム反映に設定
-						OnlineLicenseHomonAccess.UpdateSetCouplerApplySystemFlg(applyList, gProcName, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName);
+						// Ver1.03(2024/09/01 勝呂):申込情報の更新処理に失敗。SQL接続情報の指定に間違い
+						//OnlineLicenseHomonAccess.UpdateSetCouplerApplySystemFlg(applyList, gProcName, gSettings.ConnectCharlie.ConnectionString, gSettings.ConnectCoupler.DatabaseName);
+						OnlineLicenseHomonAccess.UpdateSetCouplerApplySystemFlg(applyList, gProcName, gSettings.ConnectCoupler.ConnectionString, gSettings.ConnectCoupler.DatabaseName);
 #endif
 					}
 				}

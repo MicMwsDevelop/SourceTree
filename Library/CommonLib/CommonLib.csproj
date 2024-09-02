@@ -88,7 +88,7 @@
     <Compile Include="BaseFactory\CheckOrderSlip\OrderSlipData.cs" />
     <Compile Include="BaseFactory\CloudBackup\GroupMicPCA売上明細.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_APPLY.cs" />
-    <Compile Include="BaseFactory\ElectricPrescription\ElectricPrescriptionEarningsOut.cs" />
+    <Compile Include="BaseFactory\OnlineElectricPrescript\OnlineElectricPrescriptEarningsFileOut.cs" />
     <Compile Include="BaseFactory\EntryFinishedUser\EntryFinishedUserData.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic社内データ管理ヘッダ.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic社内データ管理利用部署情報.cs" />
@@ -160,8 +160,6 @@
     <Compile Include="BaseFactory\Pca\PCA受注明細汎用データ.cs" />
     <Compile Include="BaseFactory\Pca\汎用データレイアウト売上明細データ.cs" />
     <Compile Include="BaseFactory\Pca\汎用データレイアウト仕入明細データ.cs" />
-    <Compile Include="BaseFactory\PrescriptionManager\UsePrescription.cs" />
-    <Compile Include="BaseFactory\PrescriptionManager\PrescriptionEarnings.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上予測ES保守.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上進捗ES.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上進捗まとめ.cs" />
@@ -278,8 +276,8 @@
     <Compile Include="DB\SqlServer\DatabaseController.cs" />
     <Compile Include="DB\SqlServer\DatabaseTableSQL.cs" />
     <Compile Include="DB\DataBaseValue.cs" />
-    <Compile Include="DB\SqlServer\ElectricPrescription\ElectricPrescriptionAccess.cs" />
-    <Compile Include="DB\SqlServer\ElectricPrescription\ElectricPrescriptionGetIO.cs" />
+    <Compile Include="DB\SqlServer\OnlineElectricPrescript\OnlineElectricPrescriptAccess.cs" />
+    <Compile Include="DB\SqlServer\OnlineElectricPrescript\OnlineElectricPrescriptGetIO.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserAccess.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserController.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserGetIO.cs" />
@@ -303,8 +301,6 @@
     <Compile Include="DB\SqlServer\PcaInvoiceDataConverter\PcaInvoiceDataConverterGetIO.cs" />
     <Compile Include="DB\SqlServer\PCA\PcaDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\PCA\PcaDatabaseDefine.cs" />
-    <Compile Include="DB\SqlServer\PrescriptionManager\PrescriptionManagerAccess.cs" />
-    <Compile Include="DB\SqlServer\PrescriptionManager\PrescriptionManagerGetIO.cs" />
     <Compile Include="DB\SqlServer\ProspectProgressAutoAggregate\ProspectProgressAutoAggregateAccess.cs" />
     <Compile Include="DB\SqlServer\ProspectProgressAutoAggregate\ProspectProgressAutoAggregateGetIO.cs" />
     <Compile Include="DB\SqlServer\PurchaseTransfer\PurchaseTransferAccess.cs" />
