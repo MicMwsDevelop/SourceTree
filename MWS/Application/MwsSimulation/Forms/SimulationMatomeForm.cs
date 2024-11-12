@@ -8,7 +8,7 @@
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // Ver2.100 おまとめプラン48ヵ月、60ヵ月に対応(2019/01/22 勝呂)
 // Ver2.101 消費税率の取得をMwsSimulationMaster.dbから[JunpDB].[dbo].[vMicPCA消費税率]に変更(2019/07/19 勝呂)
-// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+// Ver2.30(2024/10/04 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
 // 
 using CommonDialog.PrintPreview;
 using CommonLib.BaseFactory;
@@ -128,7 +128,7 @@ namespace MwsSimulation.Forms
 			listViewService.BeginUpdate();
 			foreach (ServiceInfo service in MainForm.gServiceList)
 			{
-				// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+				// Ver2.30(2024/10/04 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
 				//if (Program.SERVICE_CODE_REMOTE != service.ServiceCode && true == service.IsGroupPlanService)
 				if (service.IsGroupPlanService)
 				{

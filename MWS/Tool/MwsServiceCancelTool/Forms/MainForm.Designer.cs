@@ -104,7 +104,7 @@
 			this.buttonOnlineDemandCancel.Name = "buttonOnlineDemandCancel";
 			this.buttonOnlineDemandCancel.Size = new System.Drawing.Size(548, 43);
 			this.buttonOnlineDemandCancel.TabIndex = 8;
-			this.buttonOnlineDemandCancel.Text = "オンライン請求作業済申請 利用申込取消";
+			this.buttonOnlineDemandCancel.Text = "各種作業料 作業済申請取消";
 			this.buttonOnlineDemandCancel.UseVisualStyleBackColor = true;
 			this.buttonOnlineDemandCancel.Click += new System.EventHandler(this.buttonOnlineDemandCancel_Click);
 			// 

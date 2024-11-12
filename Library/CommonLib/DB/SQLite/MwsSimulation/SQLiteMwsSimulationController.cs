@@ -6,7 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
-// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+// Ver2.30(2024/10/04 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
 //
 using CommonLib.BaseFactory.MwsSimulation;
 using CommonLib.Common;
@@ -91,7 +91,7 @@ namespace CommonLib.DB.SQLite.MwsSimulation
 					service.GoodsName = row["GoodsName"].ToString();
 					service.GoodsKubun = DataBaseValue.ConvObjectToInt(row["GoodsKubun"]);
 
-					// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+					// Ver2.30(2024/10/04 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
 					service.Matome = DataBaseValue.ConvObjectToBool(row["Matome"]);
 
 					if (SQLiteMwsSimulationDef.MWS_STANDARD_GOODSID == service.GoodsID)

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PriceUpEarningsFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!-- ExportDir>\\SQLSV\PCADATA</ExportDir -->
+	<ExportDir>C:\_売上データ作成\MWSサービス価格改定売上データ</ExportDir>
+	<ExportFilename>MWSサービス価格改定売上データ</ExportFilename>
+	<PcaVersionEarnings>7</PcaVersionEarnings>
+	<PcaVersionGoods>10</PcaVersionGoods>
+	<SlipInitialNumber>850000</SlipInitialNumber>
+</PriceUpEarningsFileSettings>

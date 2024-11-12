@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2024/01/22 勝呂):新規作成
+// Ver1.01(2024/11/12 勝呂):ライセンスキー追加対応 MICオンライン資格確認保守サービス DX推進課依頼
 //
 using CommonLib.Common;
 using System.Collections.Generic;
@@ -50,6 +51,12 @@ namespace SetApplicationInfo.BaseFactory
 		public string Marks { get; set; }
 
 		/// <summary>
+		/// ライセンスキー
+		/// </summary>
+		// Ver1.01(2024/11/12 勝呂):ライセンスキー追加対応 MICオンライン資格確認保守サービス DX推進課依頼
+		public string LicensedKey { get; set; }
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public ApplicationInfo()
@@ -61,6 +68,9 @@ namespace SetApplicationInfo.BaseFactory
 			StartYM = null;
 			EndYM = null;
 			Marks = string.Empty;
+
+			// Ver1.01(2024/11/12 勝呂):ライセンスキー追加対応 MICオンライン資格確認保守サービス DX推進課依頼
+			LicensedKey = string.Empty;
 		}
 
 		/// <summary>
@@ -71,7 +81,10 @@ namespace SetApplicationInfo.BaseFactory
 		public bool SetData(string line)
 		{
 			List<string> split = SplitString.CSVSplitLine2(line);
-			if (7 == split.Count)
+
+			// Ver1.01(2024/11/12 勝呂):ライセンスキー追加対応 MICオンライン資格確認保守サービス DX推進課依頼
+			//if (7 == split.Count)
+			if (7 <= split.Count)
 			{
 				CustomerNo = split[0].ToInt();
 				CustomerName = split[1].Trim();
@@ -89,6 +102,12 @@ namespace SetApplicationInfo.BaseFactory
 				}
 				EndYM = ym;
 				Marks = split[6].Trim();
+
+				// Ver1.01(2024/11/12 勝呂):ライセンスキー追加対応 MICオンライン資格確認保守サービス DX推進課依頼
+				if (8 <= split.Count) 
+				{
+					LicensedKey = split[7].Trim();
+				}
 				return true;
 			}
 			return false;

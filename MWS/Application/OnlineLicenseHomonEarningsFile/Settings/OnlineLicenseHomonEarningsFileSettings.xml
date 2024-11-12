@@ -15,7 +15,6 @@
 	<ConnectJunp>
 		<InstanceName>SQLSV</InstanceName>
 		<!-- InstanceName>TESTSV2</InstanceName -->
-		<DatabaseName>CharlieDB</DatabaseName>
 		<DatabaseName>JunpDB</DatabaseName>
 		<UserID>web</UserID>
 		<Password>02035612</Password>
@@ -23,7 +22,6 @@
 	<ConnectCoupler>
 		<InstanceName>SQLSV</InstanceName>
 		<!-- InstanceName>TESTSV2</InstanceName -->
-		<DatabaseName>CharlieDB</DatabaseName>
 		<DatabaseName>[MWS-DB].[COUPLER]</DatabaseName>
 		<!-- DatabaseName>[MWS-DB].[COUPLER_DEV]</DatabaseName -->
 		<UserID>web</UserID>

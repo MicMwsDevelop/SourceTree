@@ -1,11 +1,11 @@
 ﻿//
 // OnlineDemandCancelForm.cs
 // 
-// オンライン請求作業済申請 利用申込取消画面クラス
+// 各種作業料 作業済申請取消画面クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2024/06/11 勝呂):新規作成
+// Ver1.00(2024/11/01 勝呂):新規作成
 //
 using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Junp.View;
@@ -19,7 +19,7 @@ using System.Windows.Forms;
 namespace MwsServiceCancelTool.Forms
 {
 	/// <summary>
-	/// オンライン請求作業済申請 利用申込取消画面クラス
+	/// 各種作業料 作業済申請取消画面クラス
 	/// </summary>
 	public partial class OnlineDemandCancelForm : Form
 	{
@@ -29,12 +29,12 @@ namespace MwsServiceCancelTool.Forms
 		public vMic顧客情報 CustomerInfo { get; set; }
 
 		/// <summary>
-		/// オンライン請求作業済申請情報
+		/// 各種作業料作業済申請情報
 		/// </summary>
 		private List<T_USE_ONLINE_DEMAND> OnlineDemandList { get; set; }
 
 		/// <summary>
-		/// オンライン請求作業済申請情報 DataSource
+		/// 各種作業料作業済申請情報 DataSource
 		/// </summary>
 		private BindingSource BindingSourceOnlineDemand;
 
@@ -76,7 +76,7 @@ namespace MwsServiceCancelTool.Forms
 				OnlineDemandList = T_USE_ONLINE_DEMAND.DataTableToList(table);
 				if (null != OnlineDemandList && 0 < OnlineDemandList.Count)
 				{
-					// オンライン請求作業済申請情報の設定
+					// 各種作業料作業済申請情報の設定
 					BindingSourceOnlineDemand = new BindingSource(table, null);
 					dataGridViewOnlineDemand.DataSource = BindingSourceOnlineDemand;
 				}
@@ -84,7 +84,7 @@ namespace MwsServiceCancelTool.Forms
 		}
 
 		/// <summary>
-		/// オンライン請求作業済申請情報削除
+		/// 各種作業料作業済申請情報削除
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

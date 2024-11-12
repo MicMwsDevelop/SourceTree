@@ -122,17 +122,17 @@ namespace CommonLib.DB.SqlServer.VariousDocumentOut
 											+ " LEFT JOIN {9} as TK ON TK.fcmコード種別 = '01' and U.fusシステム名 = TK.fcmコード"
 											+ " LEFT JOIN {9} as TK2 ON U.fusシステム名 = TK2.fcmコード AND TK2.fcmコード種別 = '91'"
 											+ " WHERE B.fkj得意先情報 = '{10}'"
-											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient]
-											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報]
-											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ]
-											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMih担当者]
-											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic営業担当]
-											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik代行回収]
-											, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_PRODUCT_CONTROL]
-											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik県番号]
-											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全販売店]
-											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ]
-											, tokuisakiNo);
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient]				// 0
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報]		// 1
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ]			// 2
+											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMih担当者]		// 3
+											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic営業担当]		// 4
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik代行回収]		// 5
+											, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_PRODUCT_CONTROL]	// 6
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik県番号]		// 7
+											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全販売店]		// 8
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ]	// 9
+											, tokuisakiNo);		// 10
 			DataTable table = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
 			return CustomerInfo.DataTableToData(table);
 		}
@@ -187,17 +187,17 @@ namespace CommonLib.DB.SqlServer.VariousDocumentOut
 											+ " LEFT JOIN {9} as TK ON TK.fcmコード種別 = '01' and U.fusシステム名 = TK.fcmコード"
 											+ " LEFT JOIN {9} as TK2 ON U.fusシステム名 = TK2.fcmコード AND TK2.fcmコード種別 = '91'"
 											+ " WHERE CL.fCliID = {10}"
-											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient]
-											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報]
-											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ]
-											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMih担当者]
-											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic営業担当]
-											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik代行回収]
-											, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_PRODUCT_CONTROL]
-											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik県番号]
-											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全販売店]
-											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ]
-											, CustomerNo);
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tClient]				// 0
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報]		// 1
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ]			// 2
+											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMih担当者]		// 3
+											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic営業担当]		// 4
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik代行回収]		// 5
+											, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_PRODUCT_CONTROL]	// 6
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik県番号]		// 7
+											, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMic全販売店]		// 8
+											, JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ]	// 9
+											, CustomerNo);	// 10
 			DataTable table = DatabaseAccess.SelectDatabase(sqlStr, connectStr);
 			return CustomerInfo.DataTableToData(table);
 		}

@@ -7,7 +7,7 @@
 // 
 // Ver2.000 新規作成(2018/10/24 勝呂)
 // Ver2.210 おまとめプランにクラウドバックアップが含まれないように対応(2020/11/20 勝呂)
-// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+// Ver2.30(2024/10/04 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
 //
 using CommonLib.Common;
 using CommonLib.DB.SQLite.MwsSimulation;
@@ -70,7 +70,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		/// <summary>
 		/// おまとめプラン対象サービス
 		/// </summary>
-		// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+		// Ver2.30(2024/10/04 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
 		public bool Matome { get; set; }
 
 		/// <summary>
@@ -90,7 +90,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 		{
 			get
 			{
-				// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+				// Ver2.30(2024/10/04 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
 				//if (SQLiteMwsSimulationDef.GOODS_KUBUN_GROUP_PLAN_SERVICE == GoodsKubun)
 				//{
 				//	// Ver2.210 おまとめプランにクラウドバックアップが含まれないように対応(2020/11/20 勝呂)
@@ -136,7 +136,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 			Select = false;
 			SetService = false;
 
-			// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+			// Ver2.30(2024/10/04 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
 			Matome = false;
 		}
 
@@ -180,7 +180,7 @@ namespace CommonLib.BaseFactory.MwsSimulation
 					return false;
 				if (GoodsKubun != other.GoodsKubun)
 					return false;
-				// Ver2.30(2024/05/20 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
+				// Ver2.30(2024/10/04 勝呂):サービス情報マスタにフィールドを追加して、おまとめプランに含めるかどうかの判断するように仕様変更
 				if (Matome != other.Matome)
 					return false;
 				if (Select != other.Select)

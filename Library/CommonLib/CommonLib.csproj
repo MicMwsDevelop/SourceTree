@@ -158,6 +158,7 @@
     <Compile Include="BaseFactory\Junp\View\vSoftwareMainteLimit.cs" />
     <Compile Include="BaseFactory\PcaGoodsIDDefine.cs" />
     <Compile Include="BaseFactory\Pca\PCA受注明細汎用データ.cs" />
+    <Compile Include="BaseFactory\Pca\商品マスタ.cs" />
     <Compile Include="BaseFactory\Pca\汎用データレイアウト売上明細データ.cs" />
     <Compile Include="BaseFactory\Pca\汎用データレイアウト仕入明細データ.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上予測ES保守.cs" />

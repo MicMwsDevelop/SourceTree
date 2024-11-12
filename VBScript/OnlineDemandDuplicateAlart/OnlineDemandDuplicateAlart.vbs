@@ -77,8 +77,8 @@ Sub Main()
 		'         送信元・送信先を定義
 		'------------------------------------
 		oMsg.From = "tasksv@mic.jp"
-		oMsg.To = "mainte_info_sys@mic.jp"
-		'oMsg.To = "suguro@mic.jp"
+		'oMsg.To = "mainte_info_sys@mic.jp"
+		oMsg.To = "suguro@mic.jp"
 
 		'------------------------------------
 		'             件名・本文

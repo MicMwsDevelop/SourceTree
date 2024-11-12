@@ -46,7 +46,7 @@
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(215, 32);
 			this.buttonOK.TabIndex = 6;
-			this.buttonOK.Text = "オンライン請求作業済申請情報削除";
+			this.buttonOK.Text = "各種作業料作業済申請情報削除";
 			this.buttonOK.UseVisualStyleBackColor = true;
 			this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
 			// 
@@ -111,9 +111,9 @@
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(11, 46);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(377, 17);
+			this.label1.Size = new System.Drawing.Size(368, 17);
 			this.label1.TabIndex = 4;
-			this.label1.Text = "■オンライン請求作業済申請情報（T_USE_ONLINE_DEMAND）";
+			this.label1.Text = "■各種作業料作業済申請情報（T_USE_ONLINE_DEMAND）";
 			// 
 			// labelCustomerNo
 			// 
@@ -143,7 +143,7 @@
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "OnlineDemandCancelForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "オンライン請求作業済申請 利用申込取消";
+			this.Text = "各種作業料 作業済申請取消";
 			this.Load += new System.EventHandler(this.OnlineDemandCancelForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewOnlineDemand)).EndInit();
 			this.ResumeLayout(false);

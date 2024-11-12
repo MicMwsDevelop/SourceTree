@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00(2024/01/22 勝呂):新規作成
+// Ver1.01(2024/11/12 勝呂):ライセンスキー追加対応 MICオンライン資格確認保守サービス DX推進課依頼
 //
 using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.DB.SqlServer.Junp;
@@ -123,7 +124,10 @@ namespace SetApplicationInfo.Forms
 							data.faiCliMicID = info.CustomerNo;
 							//data.faiアプリケーションNo = 0;
 							data.faiアプリケーション名 = info.AplNo;
-							//data.faiLicensedKey = string.Empty;
+
+							// Ver1.01(2024/11/12 勝呂):ライセンスキー追加対応 MICオンライン資格確認保守サービス DX推進課依頼
+							data.faiLicensedKey = info.LicensedKey;
+
 							//data.faiVersion情報 = string.Empty;
 							//data.faiオプション1 = string.Empty;
 							//data.faiオプション2 = string.Empty;

@@ -530,25 +530,46 @@ namespace VariousDocumentOut.BaseFactory
 								textFrame.Characters.Text = common.顧客情報.住所2;
 								break;
 							case "医療機関コード１":
-								textFrame.Characters.Text = clinicCode.Substring(0, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(0, 1);
+								}
 								break;
 							case "医療機関コード２":
-								textFrame.Characters.Text = clinicCode.Substring(1, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(1, 1);
+								}
 								break;
 							case "医療機関コード３":
-								textFrame.Characters.Text = clinicCode.Substring(2, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(2, 1);
+								}
 								break;
 							case "医療機関コード４":
-								textFrame.Characters.Text = clinicCode.Substring(3, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(3, 1);
+								}
 								break;
 							case "医療機関コード５":
-								textFrame.Characters.Text = clinicCode.Substring(4, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(4, 1);
+								}
 								break;
 							case "医療機関コード６":
-								textFrame.Characters.Text = clinicCode.Substring(5, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(5, 1);
+								}
 								break;
 							case "医療機関コード７":
-								textFrame.Characters.Text = clinicCode.Substring(6, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(6, 1);
+								}
 								break;
 							case "顧客名":
 								textFrame.Characters.Text = common.顧客情報.顧客名;
@@ -563,25 +584,46 @@ namespace VariousDocumentOut.BaseFactory
 								textFrame.Characters.Text = common.顧客情報.電話番号;
 								break;
 							case "郵便番号１":
-								textFrame.Characters.Text = zipCode.Substring(0, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(0, 1);
+								}
 								break;
 							case "郵便番号２":
-								textFrame.Characters.Text = zipCode.Substring(1, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(1, 1);
+								}
 								break;
 							case "郵便番号３":
-								textFrame.Characters.Text = zipCode.Substring(2, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(2, 1);
+								}
 								break;
 							case "郵便番号４":
-								textFrame.Characters.Text = zipCode.Substring(3, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(3, 1);
+								}
 								break;
 							case "郵便番号５":
-								textFrame.Characters.Text = zipCode.Substring(4, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(4, 1);
+								}
 								break;
 							case "郵便番号６":
-								textFrame.Characters.Text = zipCode.Substring(5, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(5, 1);
+								}
 								break;
 							case "郵便番号７":
-								textFrame.Characters.Text = zipCode.Substring(6, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(6, 1);
+								}
 								break;
 							case "メーカー名":
 								textFrame.Characters.Text = common.社名;
@@ -637,25 +679,46 @@ namespace VariousDocumentOut.BaseFactory
 								textFrame.Characters.Text = common.顧客情報.住所2;
 								break;
 							case "医療機関コード１":
-								textFrame.Characters.Text = clinicCode.Substring(0, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(0, 1);
+								}
 								break;
 							case "医療機関コード２":
-								textFrame.Characters.Text = clinicCode.Substring(1, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(1, 1);
+								}
 								break;
 							case "医療機関コード３":
-								textFrame.Characters.Text = clinicCode.Substring(2, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(2, 1);
+								}
 								break;
 							case "医療機関コード４":
-								textFrame.Characters.Text = clinicCode.Substring(3, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(3, 1);
+								}
 								break;
 							case "医療機関コード５":
-								textFrame.Characters.Text = clinicCode.Substring(4, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(4, 1);
+								}
 								break;
 							case "医療機関コード６":
-								textFrame.Characters.Text = clinicCode.Substring(5, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(5, 1);
+								}
 								break;
 							case "医療機関コード７":
-								textFrame.Characters.Text = clinicCode.Substring(6, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(6, 1);
+								}
 								break;
 							case "顧客名":
 								textFrame.Characters.Text = common.顧客情報.顧客名;
@@ -670,25 +733,46 @@ namespace VariousDocumentOut.BaseFactory
 								textFrame.Characters.Text = common.顧客情報.電話番号;
 								break;
 							case "郵便番号１":
-								textFrame.Characters.Text = zipCode.Substring(0, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(0, 1);
+								}
 								break;
 							case "郵便番号２":
-								textFrame.Characters.Text = zipCode.Substring(1, 1);
+								if (0 < zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(1, 1);
+								}
 								break;
 							case "郵便番号３":
-								textFrame.Characters.Text = zipCode.Substring(2, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(2, 1);
+								}
 								break;
 							case "郵便番号４":
-								textFrame.Characters.Text = zipCode.Substring(3, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(3, 1);
+								}
 								break;
 							case "郵便番号５":
-								textFrame.Characters.Text = zipCode.Substring(4, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(4, 1);
+								}
 								break;
 							case "郵便番号６":
-								textFrame.Characters.Text = zipCode.Substring(5, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(5, 1);
+								}
 								break;
 							case "郵便番号７":
-								textFrame.Characters.Text = zipCode.Substring(6, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(6, 1);
+								}
 								break;
 							case "メーカー名":
 								textFrame.Characters.Text = common.社名;
@@ -788,9 +872,11 @@ namespace VariousDocumentOut.BaseFactory
 					ws1.Cell(6, 2).SetValue(common.顧客情報.支部名);
 
 					// 都道府県
-					ws1.Cell(11, 38).SetValue(common.顧客情報.県番号.Substring(0, 1));
-					ws1.Cell(11, 42).SetValue(common.顧客情報.県番号.Substring(1, 1));
-
+					if (2 == common.顧客情報.県番号.Length)
+					{
+						ws1.Cell(11, 38).SetValue(common.顧客情報.県番号.Substring(0, 1));
+						ws1.Cell(11, 42).SetValue(common.顧客情報.県番号.Substring(1, 1));
+					}
 					// 機関コード
 					string clinicCode2 = common.顧客情報.NumericClinicCode;
 					if (7 == clinicCode2.Length)
@@ -827,9 +913,11 @@ namespace VariousDocumentOut.BaseFactory
 					IXLWorksheet ws2 = wb.Worksheet("電子証明書発行等依頼内訳");
 
 					// 都道府県
-					ws2.Cell(9, 73).SetValue(common.顧客情報.県番号.Substring(0, 1));
-					ws2.Cell(9, 80).SetValue(common.顧客情報.県番号.Substring(1, 1));
-
+					if (2 == common.顧客情報.県番号.Length)
+					{
+						ws2.Cell(9, 73).SetValue(common.顧客情報.県番号.Substring(0, 1));
+						ws2.Cell(9, 80).SetValue(common.顧客情報.県番号.Substring(1, 1));
+					}
 					// 機関コード
 					if (7 == clinicCode2.Length)
 					{
@@ -921,28 +1009,52 @@ namespace VariousDocumentOut.BaseFactory
 								textFrame.Characters.Text = common.顧客情報.住所2;
 								break;
 							case "医療機関コード１":
-								textFrame.Characters.Text = clinicCode.Substring(0, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(0, 1);
+								}
 								break;
 							case "医療機関コード２":
-								textFrame.Characters.Text = clinicCode.Substring(1, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(1, 1);
+								}
 								break;
 							case "医療機関コード３":
-								textFrame.Characters.Text = clinicCode.Substring(2, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(2, 1);
+								}
 								break;
 							case "医療機関コード４":
-								textFrame.Characters.Text = clinicCode.Substring(3, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(3, 1);
+								}
 								break;
 							case "医療機関コード５":
-								textFrame.Characters.Text = clinicCode.Substring(4, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(4, 1);
+								}
 								break;
 							case "医療機関コード６":
-								textFrame.Characters.Text = clinicCode.Substring(5, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(5, 1);
+								}
 								break;
 							case "医療機関コード７":
-								textFrame.Characters.Text = clinicCode.Substring(6, 1);
+								if (7 == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(6, 1);
+								}
 								break;
 							case "顧客名":
-								textFrame.Characters.Text = common.顧客情報.顧客名;
+								if (0 < clinicCode.Length)
+								{
+									textFrame.Characters.Text = common.顧客情報.顧客名;
+								}
 								break;
 							case "住所":
 								textFrame.Characters.Text = common.顧客情報.住所;
@@ -954,25 +1066,46 @@ namespace VariousDocumentOut.BaseFactory
 								textFrame.Characters.Text = common.顧客情報.電話番号;
 								break;
 							case "郵便番号１":
-								textFrame.Characters.Text = zipCode.Substring(0, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(0, 1);
+								}
 								break;
 							case "郵便番号２":
-								textFrame.Characters.Text = zipCode.Substring(1, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(1, 1);
+								}
 								break;
 							case "郵便番号３":
-								textFrame.Characters.Text = zipCode.Substring(2, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(2, 1);
+								}
 								break;
 							case "郵便番号４":
-								textFrame.Characters.Text = zipCode.Substring(3, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(3, 1);
+								}
 								break;
 							case "郵便番号５":
-								textFrame.Characters.Text = zipCode.Substring(4, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(4, 1);
+								}
 								break;
 							case "郵便番号６":
-								textFrame.Characters.Text = zipCode.Substring(5, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(5, 1);
+								}
 								break;
 							case "郵便番号７":
-								textFrame.Characters.Text = zipCode.Substring(6, 1);
+								if (7 == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(6, 1);
+								}
 								break;
 							case "メーカー名":
 								textFrame.Characters.Text = common.社名;
@@ -2054,7 +2187,11 @@ namespace VariousDocumentOut.BaseFactory
 								textFrame.Characters.Text = common.顧客情報.電話番号;
 								break;
 							case "APLUSコード":
-								textFrame.Characters.Text = common.顧客情報.代行回収APLUSコード.Substring(8);
+								// Ver1.21(2024/09/17 勝呂):16-アプラス預金口座振替依頼書・自動払込利用申込書 でAPLUSコードが発番されていない時にExcel出力する際にアプリケーションエラーが発生
+								if (0 < common.顧客情報.代行回収APLUSコード.Length)
+								{
+									textFrame.Characters.Text = common.顧客情報.代行回収APLUSコード.Substring(8);
+								}
 								break;
 						}
 					}

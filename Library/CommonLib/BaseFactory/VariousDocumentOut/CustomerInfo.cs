@@ -19,44 +19,199 @@ namespace CommonLib.BaseFactory.VariousDocumentOut
 	/// </summary>
 	public class CustomerInfo
 	{
+		/// <summary>
+		/// tMik基本情報.fkj顧客区分
+		/// </summary>
 		public int 顧客区分 { get; set; }
+
+		/// <summary>
+		/// tClient.fCliID
+		/// </summary>
 		public int 顧客No { get; set; }
+
+		/// <summary>
+		/// tMik基本情報.fkj得意先情報
+		/// </summary>
 		public string 得意先No { get; set; }
+
+		/// <summary>
+		/// tClient.顧客名1
+		/// </summary>
 		public string 顧客名1 { get; set; }
+
+		/// <summary>
+		/// tMik基本情報.fkj顧客名2
+		/// </summary>
 		public string 顧客名2 { get; set; }
+
+		/// <summary>
+		/// tMik基本情報.fkj住所1
+		/// </summary>
 		public string 住所1 { get; set; }
+
+		/// <summary>
+		/// tMik基本情報.fkj住所2
+		/// </summary>
 		public string 住所2 { get; set; }
+
+		/// <summary>
+		/// tMik基本情報.fkj郵便番号
+		/// </summary>
 		public string 郵便番号 { get; set; }
+
+		/// <summary>
+		/// tMik基本情報.fkjファックス番号
+		/// </summary>
 		public string FAX番号 { get; set; }
+
+		/// <summary>
+		/// tMik基本情報.fkj電話番号
+		/// </summary>
 		public string 電話番号 { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fus院長名
+		/// </summary>
 		public string 院長名 { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fus運用サポート情報
+		/// </summary>
 		public string 運用サポート情報 { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fus医保医療コード
+		/// </summary>
 		public string 医保医療コード { get; set; }
+
+		/// <summary>
+		/// tClient.fCliYomi
+		/// </summary>
 		public string フリガナ { get; set; }
+
+		/// <summary>
+		/// tMik基本情報.fkj住所フリガナ
+		/// </summary>
 		public string 住所フリガナ { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fus院長名フリガナ
+		/// </summary>
 		public string 院長名フリガナ { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fus休診日
+		/// </summary>
 		public string 休診日 { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fus診療時間
+		/// </summary>
 		public string 診療時間 { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fusﾒｰﾙｱﾄﾞﾚｽ
+		/// </summary>
 		public string メールアドレス { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fus備考2
+		/// </summary>
 		public string 備考 { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fus単体
+		/// </summary>
 		public int 単体 { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fusサーバー
+		/// </summary>
 		public int サーバー { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fusクライアント
+		/// </summary>
 		public int クライアント { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fus納品月
+		/// </summary>
 		public string 納品月 { get; set; }
+
+		/// <summary>
+		/// vMih担当者.fBshName3
+		/// </summary>
 		public string 支店名 { get; set; }
+
+		/// <summary>
+		/// vMih担当者.fUsrName
+		/// </summary>
 		public string 担当者名 { get; set; }
+
+		/// <summary>
+		/// vMic営業担当.営業担当者名
+		/// </summary>
 		public string 営業担当者名 { get; set; }
+
+		/// <summary>
+		/// ftMik代行回収.daAPLUSコード
+		/// </summary>
 		public string 代行回収APLUSコード { get; set; }
+
+		/// <summary>
+		/// ftMik代行回収.fda状態
+		/// </summary>
 		public string 代行回収状態 { get; set; }
+
+		/// <summary>
+		/// tMikユーザ.fus開設者
+		/// </summary>
 		public string 開設者名 { get; set; }
+
+		/// <summary>
+		/// T_PRODUCT_CONTROL.PRODUCT_ID
+		/// </summary>
 		public string MWS_ID { get; set; }
+
+		/// <summary>
+		/// T_PRODUCT_CONTROL.PASSWORD
+		/// </summary>
 		public string MWS_パスワード { get; set; }
+
+		/// <summary>
+		/// T_PRODUCT_CONTROL.PASSWORD_READING
+		/// </summary>
 		public string MWS_パスワード読み { get; set; }
+
+		/// <summary>
+		/// tMik県番号.県番号
+		/// </summary>
 		public string 県番号 { get; set; }
+
+		/// <summary>
+		/// tMik県番号.都道府県名
+		/// </summary>
 		public string 都道府県名 { get; set; }
+
+		/// <summary>
+		/// vMic全販売店.顧客No
+		/// </summary>
 		public int 販売店ID { get; set; }
+
+		/// <summary>
+		/// vMic全販売店.顧客名1 + vMic全販売店.顧客名2
+		/// </summary>
 		public string 販売店名称 { get; set; }
+
+		/// <summary>
+		/// tMikコードマスタ.fcm名称（fcmコード種別 = '01'）
+		/// </summary>
 		public string システム名称 { get; set; }
+
+		/// <summary>
+		/// tMikコードマスタ.fcm名称（fcmコード種別 = '91'）
+		/// </summary>
 		public string システム略称 { get; set; }
 
 		/// <summary>
