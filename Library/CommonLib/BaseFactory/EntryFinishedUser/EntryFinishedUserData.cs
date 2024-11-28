@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2019/06/28 勝呂)
+// Ver2.07(2024/11/25 勝呂):palette CS版追加対応
 // 
 using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.Common;
@@ -127,6 +128,7 @@ namespace CommonLib.BaseFactory.EntryFinishedUser
 		/// 終了ユーザー対象システムかどうか？
 		/// </summary>
 		/// <returns>判定</returns>
+		// Ver2.07(2024/11/25 勝呂):palette CS版追加対応
 		public bool IsEnableSystem
 		{
 			get {
@@ -139,6 +141,11 @@ namespace CommonLib.BaseFactory.EntryFinishedUser
 					return true;
 				}
 				if (MwsDefine.SystemCodeEtc == SystemCode)
+				{
+					return true;
+				}
+				// Ver2.07(2024/11/25 勝呂):palette CS版追加対応
+				if (MwsDefine.SystemCodePaletteClientServer == SystemCode)
 				{
 					return true;
 				}

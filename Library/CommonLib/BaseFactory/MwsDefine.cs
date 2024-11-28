@@ -4,6 +4,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2019/02/08 勝呂)
+// Ver2.07(2024/11/25 勝呂):palette CS版追加対応
 //
 using CommonLib.Common;
 
@@ -45,6 +46,12 @@ namespace CommonLib.BaseFactory
 		/// palette 単体版
 		/// </summary>
 		public const string SystemCodePaletteStandalone = "102";
+
+		/// <summary>
+		/// palette CS版
+		/// </summary>
+		// Ver2.07(2024/11/25 勝呂):palette CS版追加対応
+		public const string SystemCodePaletteClientServer = "103";
 
 		/// <summary>
 		/// その他

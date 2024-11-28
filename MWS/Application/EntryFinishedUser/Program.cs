@@ -21,6 +21,7 @@
 // Ver2.04 paletteESとソフトウェア保守料１年の契約期間のチェックの障害修正(2022/06/17 勝呂)
 // Ver2.05 課金データ作成の機能追加により、終了ユーザー処理自動実行モード処理の撤廃(2022/12/06 勝呂)
 // Ver2.06(2023/08/22 勝呂):メモ欄の担当部署を営業管理部からシステム管理部に変更。組織変更対応
+// Ver2.07(2024/11/25 勝呂):palette CS版追加対応
 /////////////////////////////////////////////////////////
 // 
 using ClosedXML.Excel;
@@ -94,7 +95,7 @@ namespace EntryFinishedUser
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver2.06 (2023/08/22)";
+		public const string VersionStr = "Ver2.07 (2024/11/25)";
 
 		/// <summary>
 		/// 製品名
