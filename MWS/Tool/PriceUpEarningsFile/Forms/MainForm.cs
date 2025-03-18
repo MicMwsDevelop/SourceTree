@@ -53,7 +53,7 @@ namespace PriceUpEarningsFile.Forms
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 #if DEBUG
-			BootDate = new Date(2024, 10, 1);
+			BootDate = new Date(2025, 1, 1);
 #else
 			BootDate = Date.Today;
 #endif

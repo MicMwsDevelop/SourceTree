@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.00 新規作成(2020/10/09 勝呂)
+// Ver1.06 2025/02/19 勝呂:ソフトウェア保守料１年更新対象の抽出条件に課金対象外フラグがOFFの条件を追加
 // 
 using CommonLib.BaseFactory;
 using CommonLib.Common;
@@ -65,13 +66,14 @@ namespace CommonLib.DB.SqlServer.SoftwareMainteEarnings
 
 		/// <summary>
 		/// ソフトウェア保守料１年 自動更新対象利用情報の取得
-		/// 条件：ソフトウェア保守料１年の利用終了日が当月末日 and ソフトウェア保守料１年の利用終了日がpalette ESの利用終了日と違う
+		/// 条件：ソフトウェア保守料１年の課金終了日が当月末日 && ソフトウェア保守料１年の課金終了日がpalette ESの課金終了日と違う && paletteESとソフトウェア保守料の課金対象外フラグがOFF
 		/// </summary>
 		/// <param name="today">当日</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>レコード数</returns>
 		public static DataTable GetCustomerUseInfoSoftwareMainte12(Date today, string connectStr)
 		{
+			// Ver1.06 2025/02/19 勝呂:ソフトウェア保守料１年更新対象の抽出条件に課金対象外フラグがOFFの条件を追加
 			string strSQL = string.Format(@"SELECT"
 										+ " SOFT.[CUSTOMER_ID]"
 										+ ",SOFT.[SERVICE_ID]"
@@ -88,9 +90,9 @@ namespace CommonLib.DB.SqlServer.SoftwareMainteEarnings
 										+ " [CUSTOMER_ID]"
 										+ ", [USE_END_DATE]"
 										+ " FROM {0}"
-										+ " WHERE [SERVICE_ID] = {1} AND convert(int, convert(nvarchar, [USE_END_DATE], 112)) > {2}"   // 当月末日
+										+ " WHERE [SERVICE_ID] = {1} AND [PAUSE_END_STATUS] = 0 AND convert(int, convert(nvarchar, [USE_END_DATE], 112)) > {2}"   // 当月末日
 										+ ") AS ES ON SOFT.CUSTOMER_ID = ES.CUSTOMER_ID"
-										+ " WHERE SOFT.[SERVICE_ID] = {3} AND SOFT.[USE_END_DATE] <> ES.[USE_END_DATE] AND convert(int, convert(nvarchar, SOFT.[USE_END_DATE], 112)) = {2}" // 当月末日
+										+ " WHERE SOFT.[SERVICE_ID] = {3} AND SOFT.[PAUSE_END_STATUS] = 0 AND SOFT.[USE_END_DATE] <> ES.[USE_END_DATE] AND convert(int, convert(nvarchar, SOFT.[USE_END_DATE], 112)) = {2}" // 当月末日
 										+ " ORDER BY [CUSTOMER_ID] ASC"
 										, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]
 										, (int)ServiceCodeDefine.ServiceCode.PaletteES

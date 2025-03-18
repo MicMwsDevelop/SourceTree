@@ -5,13 +5,12 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2024/11/01 勝呂):新規作成
+// Ver1.00(2025/01/23 勝呂):新規作成
 //
 using CommonLib.BaseFactory;
-using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Junp.View;
+using CommonLib.BaseFactory.MwsServiceCancelTool;
 using CommonLib.Common;
-using CommonLib.DB.SqlServer;
 using CommonLib.DB.SqlServer.Charlie;
 using CommonLib.DB.SqlServer.MwsServiceCancelTool;
 using System;
@@ -34,7 +33,7 @@ namespace MwsServiceCancelTool.Forms
 		/// <summary>
 		/// PC安心サポート契約情報
 		/// </summary>
-		private T_USE_PCCSUPPORT PcSupport { get; set; }
+		private UseContractPcSupport PcSupport { get; set; }
 
 		/// <summary>
 		/// PC安心サポート契約情報 DataSource
@@ -80,9 +79,8 @@ namespace MwsServiceCancelTool.Forms
 				labelCustomerNo.Text = CustomerInfo.顧客No.ToString();
 				labelCustomerName.Text = CustomerInfo.顧客名;
 
-				string whereStr = string.Format("fEndFlag = '0' AND fDeleteFlag = '0' AND fCustomerID = {0}", CustomerInfo.顧客No);
-				DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT], whereStr, "fApplyNo DESC", Program.gSettings.ConnectCharlie.ConnectionString);
-				List<T_USE_PCCSUPPORT> list = T_USE_PCCSUPPORT.DataTableToList(table);
+				DataTable table = MwsServiceCancelToolAccess.DataTable_UseContractPcSupport(CustomerInfo.顧客No, Program.gSettings.ConnectCharlie.ConnectionString);
+				List<UseContractPcSupport> list = UseContractPcSupport.DataTableToList(table);
 				if (null != list && 0 < list.Count)
 				{
 					// PC安心サポート契約情報の設定
@@ -102,6 +100,7 @@ namespace MwsServiceCancelTool.Forms
 					}
 					if (PcSupport.IsEnableCancel)
 					{
+						// 利用申込の取消が可能
 						buttonOK.Enabled = true;
 					}
 					else
@@ -113,13 +112,18 @@ namespace MwsServiceCancelTool.Forms
 		}
 
 		/// <summary>
-		/// PC安心サポート削除
+		/// 利用申込取消
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void buttonOK_Click(object sender, EventArgs e)
 		{
-			if (DialogResult.Yes == MessageBox.Show("本当に削除してもよろしいですか？", "削除", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+			if (0 < dataGridViewApply.RowCount)
+			{
+				MessageBox.Show("カプラー申込情報があります。本取消処理を行う前に管理画面にて、クラウドバックアップの利用申込の取消処理を行ってください。", "利用申込取消", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+				return;
+			}
+			if (DialogResult.Yes == MessageBox.Show("PC安心サポートの利用申込を取り消してよろしいですか？", "利用申込取消", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
 			{
 				try
 				{
@@ -127,12 +131,13 @@ namespace MwsServiceCancelTool.Forms
 					// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の削除
 					int result = CharlieDatabaseAccess.Delete_T_USE_PCCSUPPORT(PcSupport.fApplyNo, Program.gSettings.ConnectCharlie.ConnectionString);
 #endif
+					MessageBox.Show("PC安心サポートの利用申込取消処理が正常終了しました。", "利用申込取消", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					this.DialogResult = DialogResult.OK;
 					this.Close();
 				}
 				catch (Exception ex) 
 				{
-					MessageBox.Show(ex.Message, "削除", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(ex.Message, "利用申込取消", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}

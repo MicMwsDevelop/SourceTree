@@ -19,6 +19,7 @@
 // Ver1.03 奇数月の時、摘要の利用期間の開始月が正しくない(2022/01/05 勝呂)
 // Ver1.04 汎用データレイアウト 売上明細データ Version 11(DX-Rev3.00)に対応(2022/05/25 勝呂)
 // Ver1.05 2023/08組織変更対応 メール「ソフトウェア保守料自動更新 売上連絡」の宛先・送信元など変更(メールアドレス複数指定対応含む)(2024/02/06 越田)
+// Ver1.06 2025/02/19 勝呂:ソフトウェア保守料１年更新対象の抽出条件に課金対象外フラグがOFFの条件を追加
 //
 using CommonLib.BaseFactory.SoftwareMainteEarnings;
 using CommonLib.Common;
@@ -43,7 +44,7 @@ namespace SoftwareMainteEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.05(2024/02/06)";
+		public const string VersionStr = "Ver1.06(2025/02/19)";
 
 		/// <summary>
 		/// 環境設定
@@ -67,7 +68,7 @@ namespace SoftwareMainteEarningsFile
 			gSettings = SoftwareMainteEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			CollectDate = new Date(2022, 3, 1);
+			CollectDate = new Date(2025, 3, 1);
 #else
 			// 集計日を当月初日に設定
 			CollectDate = Date.Today.FirstDayOfTheMonth();
@@ -157,7 +158,7 @@ namespace SoftwareMainteEarningsFile
 							{
 								sw.WriteLine(str);
 							}
-							// ソフトウェア保守料１年の利用終了日を１年更新
+							// ソフトウェア保守料１年の課金終了日を１年更新
 							foreach (CustomerUseInfoSoftwareMainte data in list)
 							{
 #if !DEBUG
@@ -166,8 +167,10 @@ namespace SoftwareMainteEarningsFile
 							}
 						}
 					}
-					// 営業管理部にメール送信
+//#if !DEBUG
+					// システム管理部にメール送信
 					SendMailControl.SoftwareMainteSendMail(saleList);
+//#endif
 				}
 			}
 			catch (Exception ex)

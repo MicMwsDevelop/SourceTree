@@ -5,15 +5,12 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2024/11/01 勝呂):新規作成
+// Ver1.00(2025/01/23 勝呂):新規作成
 //
 using CommonLib.BaseFactory;
-using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Junp.View;
-using CommonLib.BuiData;
+using CommonLib.BaseFactory.MwsServiceCancelTool;
 using CommonLib.Common;
-using CommonLib.DB.SqlServer;
-using CommonLib.DB.SqlServer.Charlie;
 using CommonLib.DB.SqlServer.MwsServiceCancelTool;
 using System;
 using System.Collections.Generic;
@@ -35,12 +32,12 @@ namespace MwsServiceCancelTool.Forms
 		/// <summary>
 		/// PC安心サポート契約情報
 		/// </summary>
-		private T_USE_PCCSUPPORT PcSupport { get; set; }
+		private UseContractPcSupport PcSupport { get; set; }
 
 		/// <summary>
 		/// 顧客管理利用情報
 		/// </summary>
-		private T_CUSSTOMER_USE_INFOMATION Cui { get; set; }
+		private CustomerUseInformation Cui { get; set; }
 
 		/// <summary>
 		/// PC安心サポート契約情報 DataSource
@@ -87,9 +84,8 @@ namespace MwsServiceCancelTool.Forms
 				labelCustomerNo.Text = CustomerInfo.顧客No.ToString();
 				labelCustomerName.Text = CustomerInfo.顧客名;
 
-				string whereStr = string.Format("fEndFlag = '0' AND fDeleteFlag = '0' AND fCustomerID = {0}", CustomerInfo.顧客No);
-				DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT], whereStr, "fApplyNo DESC", Program.gSettings.ConnectCharlie.ConnectionString);
-				List<T_USE_PCCSUPPORT> pcList = T_USE_PCCSUPPORT.DataTableToList(table);
+				DataTable table = MwsServiceCancelToolAccess.DataTable_UseContractPcSupport(CustomerInfo.顧客No, Program.gSettings.ConnectCharlie.ConnectionString);
+				List<UseContractPcSupport> pcList = UseContractPcSupport.DataTableToList(table);
 				if (null != pcList && 0 < pcList.Count)
 				{
 					// PC安心サポート契約情報の設定
@@ -162,17 +158,17 @@ namespace MwsServiceCancelTool.Forms
 					}
 					else
 					{
+						// 「PC安心サポートが更新されていないので、終了処理はできません」メッセージ表示
 						label1Warning.Visible = true;
 					}
 					if (PcSupport.IsPcSupportPlusGoods)
 					{
 						// PC安心サポートPlusなので、クラウドバックアップ（PC安心サポートPlus）の顧客管理利用情報を表示
-						whereStr = string.Format("CUSTOMER_ID = {0} AND SERVICE_ID = {1}", CustomerInfo.顧客No, (int)ServiceCodeDefine.ServiceCode.ExCloudBackupPcSupportPlus);
-						table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION], whereStr, "", Program.gSettings.ConnectCharlie.ConnectionString);
+						table = MwsServiceCancelToolAccess.DataTable_CustomerUseInformation(CustomerInfo.顧客No, (int)ServiceCodeDefine.ServiceCode.ExCloudBackupPcSupportPlus, Program.gSettings.ConnectCharlie.ConnectionString);
 						if (null != table && 0 < table.Rows.Count)
 						{
 							// 顧客管理利用情報の設定
-							List< T_CUSSTOMER_USE_INFOMATION> cuiList = T_CUSSTOMER_USE_INFOMATION.DataTableToList(table);
+							List<CustomerUseInformation> cuiList = CustomerUseInformation.DataTableToList(table);
 							if (null != cuiList && 0 < cuiList.Count)
 							{
 								Cui = cuiList[0];
@@ -195,50 +191,46 @@ namespace MwsServiceCancelTool.Forms
 		}
 
 		/// <summary>
-		/// PC安心サポート終了処理
+		/// 終了処理
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void buttonOK_Click(object sender, EventArgs e)
 		{
-			if (DialogResult.Yes == MessageBox.Show("PC安心サポートの終了処理を行います。よろしいですか？", "削除", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+			if (DialogResult.Yes == MessageBox.Show("PC安心サポートの終了処理を行います。よろしいですか？", "終了処理", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
 			{
 				try
 				{
 					if (PcSupport.IsPcSupportPlusGoods)
 					{
-						// クラウドバックアップ（PC安心サポートPlus）の課金終了日と利用期限日を１年前に戻す
+						// クラウドバックアップ（PC安心サポートPlus）の課金終了日と利用期限日を１年前に設定し、解約状態にする
 						Cui.PAUSE_END_STATUS = true;
 						Cui.USE_END_DATE = (DateTime)labelUseEndDate.Tag;
 						Cui.PERIOD_END_DATE = (DateTime)labelPeriodEndDate.Tag;
-						Cui.UPDATE_DATE = DateTime.Now;
-						Cui.UPDATE_PERSON = Program.ProcName;
-						Cui.RENEWAL_FLG = true;
 					}
-					// PC安心サポートの契約終了日と課金終了日を１年前に戻す
+					// PC安心サポートの契約終了日と課金終了日を１年前に設定し、終了フラグをONにする
 					PcSupport.fGoodsID = (string)labelGoodsID.Tag;
 					PcSupport.fContractEndDate = (Date)labelContractEndDate.Tag;
 					PcSupport.fBillingEndDate = (Date)labelBillingEndDate.Tag;
 					PcSupport.fEndFlag = true;
-					PcSupport.fUpdateDate = DateTime.Now;
-					PcSupport.fUpdatePerson = Program.ProcName;
 
 #if !DebugNoWrite
 					if (PcSupport.IsPcSupportPlusGoods)
 					{
 						// クラウドバックアップ（PC安心サポートPlus）
 						// [charlieDB].[dbo].[T_CUSSTOMER_USE_INFOMATION]の更新
-						int result1 = CharlieDatabaseAccess.UpdateSet_T_CUSSTOMER_USE_INFOMATION(Cui, Program.gSettings.ConnectCharlie.ConnectionString);
+						int result1 = MwsServiceCancelToolAccess.UpdateSet_CustomerUseInformation(Cui, Program.ProcName, Program.gSettings.ConnectCharlie.ConnectionString);
 					}
 					// [charlieDB].[dbo].[T_USE_PCCSUPPORT]の更新
-					int result2 = CharlieDatabaseAccess.UpdateSet_T_USE_PCCSUPPORT(PcSupport, Program.gSettings.ConnectCharlie.ConnectionString);
+					int result2 = MwsServiceCancelToolAccess.UpdateSet_UseContractPcSupport(PcSupport, Program.ProcName, Program.gSettings.ConnectCharlie.ConnectionString);
 #endif
+					MessageBox.Show("PC安心サポートの終了処理が正常終了しました。", "終了処理", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					this.DialogResult = DialogResult.OK;
 					this.Close();
 				}
 				catch (Exception ex) 
 				{
-					MessageBox.Show(ex.Message, "削除", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(ex.Message, "終了処理", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}

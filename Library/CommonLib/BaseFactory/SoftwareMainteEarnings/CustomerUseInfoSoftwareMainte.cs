@@ -30,7 +30,7 @@ namespace CommonLib.BaseFactory.SoftwareMainteEarnings
         public int SERVICE_ID { get; set; }
 
         /// <summary>
-        /// 課金開始日
+        /// 利用開始日
         /// </summary>
         public Date? USE_START_DATE { get; set; }
 
@@ -40,17 +40,17 @@ namespace CommonLib.BaseFactory.SoftwareMainteEarnings
         public Date? USE_END_DATE { get; set; }
 
         /// <summary>
-        /// 
+        /// 解約受付日
         /// </summary>
         public Date? CANCELLATION_DAY { get; set; }
 
         /// <summary>
-        /// 
+        /// 課金対象外フラグ
         /// </summary>
         public int? PAUSE_END_STATUS { get; set; }
 
         /// <summary>
-        /// 利用終了日
+        /// 利用期限日
         /// </summary>
         public Date? PERIOD_END_DATE { get; set; }
 
@@ -73,11 +73,11 @@ namespace CommonLib.BaseFactory.SoftwareMainteEarnings
                                     , SERVICE_ID);
             }
         }
-
-        /// <summary>
-        /// デフォルトコンストラクタ
-        /// </summary>
-        public CustomerUseInfoSoftwareMainte()
+		
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
+		public CustomerUseInfoSoftwareMainte()
         {
             CUSTOMER_ID = 0;
             SERVICE_ID = 0;

@@ -88,6 +88,10 @@
     <Compile Include="BaseFactory\CheckOrderSlip\OrderSlipData.cs" />
     <Compile Include="BaseFactory\CloudBackup\GroupMicPCA売上明細.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_APPLY.cs" />
+    <Compile Include="BaseFactory\MwsServiceCancelTool\CustomerUseInformation.cs" />
+    <Compile Include="BaseFactory\MwsServiceCancelTool\UseContract.cs" />
+    <Compile Include="BaseFactory\MwsServiceCancelTool\UseContractPcSupport.cs" />
+    <Compile Include="BaseFactory\MwsServiceCancelTool\UseOnlineDemand.cs" />
     <Compile Include="BaseFactory\OnlineElectricPrescript\OnlineElectricPrescriptEarningsFileOut.cs" />
     <Compile Include="BaseFactory\EntryFinishedUser\EntryFinishedUserData.cs" />
     <Compile Include="BaseFactory\Junp\Table\tMic社内データ管理ヘッダ.cs" />

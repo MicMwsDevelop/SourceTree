@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2024/11/01 勝呂):新規作成
+// Ver1.00(2025/01/23 勝呂):新規作成
 //
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Junp.View;
@@ -47,51 +47,91 @@ namespace MwsServiceCancelTool.Forms
 			this.Text = string.Format("{0}  ({1})", Program.ProcName, Program.gSettings.ConnectCharlie.InstanceName);
 
 #if DEBUG
-			// おまとめプラン 利用申込取消：10000082
-			textBoxCustomerNo.Text = "10000082";
+			/////////////////////
+			// TESTSV2
 
-			// PC安心サポート：10037770
+			// おまとめプラン
+			//textBoxCustomerNo.Text = "10000082";
+
+			// PC安心サポート
 			//textBoxCustomerNo.Text = "10037770";
 
-			// PC安心サポートPlus：10000082
+			// PC安心サポートPlus
 			//textBoxCustomerNo.Text = "10000082";
 
 			// PC安心サポート 自動更新後の終了処理
-			// 1年 2024/04～2025/03 ✖：20024179
+			// ✖1年 2024/04～2025/03
 			//textBoxCustomerNo.Text = "20024179";
-			// 1年+更新 2023/07～2025/06 1年：10025484
+			// 〇1年+更新 2023/07～2025/06
 			//textBoxCustomerNo.Text = "10025484";
-			// 1年+更新x2 2022/07～2025/06 更新：20005682
+			// 〇1年+更新x2 2022/07～2025/06
 			//textBoxCustomerNo.Text = "20005682";
-			// 3年 2022/04～2025/03 ✖：10027230
+			// ✖3年 2022/04～2025/03
 			//textBoxCustomerNo.Text = "10027230";
-			// 3年+更新 2021/07～2025/06 3年：20009855
+			// 〇3年+更新 2021/07～2025/06
 			//textBoxCustomerNo.Text = "20009855";
-			// 3年+更新x2 2020/07～2025/06 更新：20018105
+			// 〇3年+更新x2 2020/07～2025/06
 			//textBoxCustomerNo.Text = "20018105";
 
 			// PC安心サポートPlus 自動更新後の終了処理
-			// 1年 2024/04～2025/03 ✖：20015174
+			// ✖1年 2024/04～2025/03
 			//textBoxCustomerNo.Text = "20015174";
-			// 1年+更新 2023/07～2025/06 1年：20023024
+			// 〇1年+更新 2023/07～2025/06
 			//textBoxCustomerNo.Text = "20023024";
-			// 1年+更新x2 2022/07～2025/06 更新：10022369
+			// 〇1年+更新x2 2022/07～2025/06
 			//textBoxCustomerNo.Text = "10022369";
-			// 3年 2022/04～2025/03 ✖：20021256
+			// ✖3年 2022/04～2025/03
 			//textBoxCustomerNo.Text = "20021256";
-			// 3年+更新 2021/07～2025/06 3年：20009601
+			// 〇3年+更新 2021/07～2025/06
 			//textBoxCustomerNo.Text = "20009601";
-			// 3年+更新x2 2020/07～2025/06 更新：10002207
+			// 〇3年+更新x2 2020/07～2025/06
 			//textBoxCustomerNo.Text = "10002207";
 
-			// オンライン請求作業済申請 利用申込取消：10075375
+			// オンライン請求作業済申請 利用申込取消
 			//textBoxCustomerNo.Text = "10075375";
 
-			// セット割サービス 利用申込取消
-			// 〇：10000081
+			// セット割サービス
+			// 〇
 			//textBoxCustomerNo.Text = "10000081";
-			// ✖：10039002
+			// ✖
 			//textBoxCustomerNo.Text = "10039002";
+
+
+			/////////////////////
+			// SQLSV
+
+			// おまとめプラン
+			//textBoxCustomerNo.Text = "20008604";
+
+			// PC安心サポート
+			//textBoxCustomerNo.Text = "10000822";
+
+			// PC安心サポートPlus
+			//textBoxCustomerNo.Text = "20011827";
+
+			// オンライン請求作業済申請
+			// 〇
+			//textBoxCustomerNo.Text = "10001330";
+			// ×
+			textBoxCustomerNo.Text = "10003080";
+
+			// PC安心サポート 自動更新後の終了処理
+			// ✖1年 2024/04～2025/03
+			//textBoxCustomerNo.Text = "20024179";
+			// 〇1年+更新 2024/02～2026/01
+			//textBoxCustomerNo.Text = "20023972";
+			// 〇1年+更新x2 2022/07～2025/06
+			//textBoxCustomerNo.Text = "10022369";
+			// ✖3年 2022/04～2025/03
+			//textBoxCustomerNo.Text = "20021256";
+			// 〇3年+更新 2021/07～2025/06
+			//textBoxCustomerNo.Text = "20009601";
+			// 〇3年+更新x2 2020/07～2025/06
+			//textBoxCustomerNo.Text = "10002207";
+
+			// セット割サービス
+			// ✖
+			//textBoxCustomerNo.Text = "10003170";
 #endif
 		}
 
@@ -138,6 +178,10 @@ namespace MwsServiceCancelTool.Forms
 					dlg.ShowDialog();
 				}
 			}
+			else
+			{
+				MessageBox.Show("顧客が設定されていません。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 		}
 
 		/// <summary>
@@ -154,6 +198,10 @@ namespace MwsServiceCancelTool.Forms
 					dlg.SetCustomerInfo(CustomerInfo);
 					dlg.ShowDialog();
 				}
+			}
+			else
+			{
+				MessageBox.Show("顧客が設定されていません。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 
@@ -172,6 +220,10 @@ namespace MwsServiceCancelTool.Forms
 					dlg.ShowDialog();
 				}
 			}
+			else
+			{
+				MessageBox.Show("顧客が設定されていません。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 		}
 
 		/// <summary>
@@ -189,6 +241,10 @@ namespace MwsServiceCancelTool.Forms
 					dlg.ShowDialog();
 				}
 			}
+			else
+			{
+				MessageBox.Show("顧客が設定されていません。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 		}
 
 		/// <summary>
@@ -205,6 +261,10 @@ namespace MwsServiceCancelTool.Forms
 					dlg.SetCustomerInfo(CustomerInfo);
 					dlg.ShowDialog();
 				}
+			}
+			else
+			{
+				MessageBox.Show("顧客が設定されていません。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 	}

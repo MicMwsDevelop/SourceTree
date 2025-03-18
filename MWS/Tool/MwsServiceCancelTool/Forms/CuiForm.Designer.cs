@@ -44,40 +44,44 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridViewCui.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewCui.Location = new System.Drawing.Point(11, 38);
+			this.dataGridViewCui.Location = new System.Drawing.Point(12, 29);
+			this.dataGridViewCui.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.dataGridViewCui.MultiSelect = false;
 			this.dataGridViewCui.Name = "dataGridViewCui";
 			this.dataGridViewCui.ReadOnly = true;
 			this.dataGridViewCui.RowHeadersVisible = false;
 			this.dataGridViewCui.RowTemplate.Height = 21;
 			this.dataGridViewCui.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridViewCui.Size = new System.Drawing.Size(1075, 642);
+			this.dataGridViewCui.Size = new System.Drawing.Size(1209, 491);
 			this.dataGridViewCui.TabIndex = 0;
 			this.dataGridViewCui.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewCui_MouseDoubleClick);
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(11, 12);
+			this.label1.Font = new System.Drawing.Font("BIZ UDPゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(65, 17);
+			this.label1.Size = new System.Drawing.Size(59, 12);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "■顧客No";
 			// 
 			// textBoxCustomerNo
 			// 
-			this.textBoxCustomerNo.Location = new System.Drawing.Point(82, 9);
+			this.textBoxCustomerNo.Location = new System.Drawing.Point(92, 7);
+			this.textBoxCustomerNo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.textBoxCustomerNo.MaxLength = 8;
 			this.textBoxCustomerNo.Name = "textBoxCustomerNo";
-			this.textBoxCustomerNo.Size = new System.Drawing.Size(127, 24);
+			this.textBoxCustomerNo.Size = new System.Drawing.Size(142, 20);
 			this.textBoxCustomerNo.TabIndex = 2;
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(218, 12);
+			this.label2.Font = new System.Drawing.Font("BIZ UDPゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.label2.Location = new System.Drawing.Point(245, 9);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(60, 17);
+			this.label2.Size = new System.Drawing.Size(53, 12);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "■顧客名";
 			// 
@@ -85,25 +89,25 @@
 			// 
 			this.labelCustomerName.BackColor = System.Drawing.Color.White;
 			this.labelCustomerName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.labelCustomerName.Location = new System.Drawing.Point(284, 9);
+			this.labelCustomerName.Location = new System.Drawing.Point(320, 7);
 			this.labelCustomerName.Name = "labelCustomerName";
-			this.labelCustomerName.Size = new System.Drawing.Size(488, 24);
+			this.labelCustomerName.Size = new System.Drawing.Size(549, 19);
 			this.labelCustomerName.TabIndex = 4;
 			this.labelCustomerName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// CuiForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1096, 691);
+			this.ClientSize = new System.Drawing.Size(1233, 528);
 			this.Controls.Add(this.labelCustomerName);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.textBoxCustomerNo);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.dataGridViewCui);
-			this.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Font = new System.Drawing.Font("BIZ UDPゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-			this.Margin = new System.Windows.Forms.Padding(4);
+			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.Name = "CuiForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "顧客利用情報編集";

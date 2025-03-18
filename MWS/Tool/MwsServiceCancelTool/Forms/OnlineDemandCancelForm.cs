@@ -5,12 +5,14 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2024/11/01 勝呂):新規作成
+// Ver1.00(2025/01/23 勝呂):新規作成
 //
 using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Junp.View;
+using CommonLib.BaseFactory.MwsServiceCancelTool;
 using CommonLib.DB.SqlServer;
 using CommonLib.DB.SqlServer.Charlie;
+using CommonLib.DB.SqlServer.MwsServiceCancelTool;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,7 +33,7 @@ namespace MwsServiceCancelTool.Forms
 		/// <summary>
 		/// 各種作業料作業済申請情報
 		/// </summary>
-		private List<T_USE_ONLINE_DEMAND> OnlineDemandList { get; set; }
+		private List<UseOnlineDemand> OnlineDemandList { get; set; }
 
 		/// <summary>
 		/// 各種作業料作業済申請情報 DataSource
@@ -72,8 +74,8 @@ namespace MwsServiceCancelTool.Forms
 				labelCustomerName.Text = CustomerInfo.顧客名;
 
 				string whereStr = string.Format("DeleteFlag = '0' AND CustomerID = {0}", CustomerInfo.顧客No);
-				DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_DEMAND], whereStr, "ApplyNo DESC", Program.gSettings.ConnectCharlie.ConnectionString);
-				OnlineDemandList = T_USE_ONLINE_DEMAND.DataTableToList(table);
+				DataTable table = MwsServiceCancelToolAccess.DataTable_UseOnlineDemand(CustomerInfo.顧客No, Program.gSettings.ConnectCharlie.ConnectionString);
+				OnlineDemandList = UseOnlineDemand.DataTableToList(table);
 				if (null != OnlineDemandList && 0 < OnlineDemandList.Count)
 				{
 					// 各種作業料作業済申請情報の設定
@@ -84,7 +86,7 @@ namespace MwsServiceCancelTool.Forms
 		}
 
 		/// <summary>
-		/// 各種作業料作業済申請情報削除
+		/// 作業済申請取消
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -94,27 +96,30 @@ namespace MwsServiceCancelTool.Forms
 			{
 				foreach (DataGridViewRow row in dataGridViewOnlineDemand.SelectedRows)
 				{
-					T_USE_ONLINE_DEMAND demand = OnlineDemandList[row.Index];
+					UseOnlineDemand demand = OnlineDemandList[row.Index];
 					if (demand.IsEnableCancel)
 					{
-						if (DialogResult.Yes == MessageBox.Show("本当に削除してもよろしいですか？", "削除", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+						if (DialogResult.Yes == MessageBox.Show("作業済申請を取消してもよろしいですか？", "作業済申請取消", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
 						{
 #if !DebugNoWrite
 							// [charlieDB].[dbo].[T_USE_ONLINE_DEMAND]の削除
 							int result = CharlieDatabaseAccess.Delete_T_USE_ONLINE_DEMAND(demand.ApplyNo, Program.gSettings.ConnectCharlie.ConnectionString);
 #endif
+							MessageBox.Show("作業済申請の取消処理が正常終了しました。", "作業済申請取消", MessageBoxButtons.OK, MessageBoxIcon.Information);
+							this.DialogResult = DialogResult.OK;
+							this.Close();
 						}
 					}
 					else
 					{
-						MessageBox.Show("既に売上データが作成されているため削除することができません。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+						MessageBox.Show("既に売上データが作成されているため取消できません。\n\n[charlieDB].[dbo].[T_USE_ONLINE_DEMAND]のレコードを物理的に削除する必要があります。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					}
-					break;
+					return;
 				}
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "削除", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(ex.Message, "作業済申請取消", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 	}

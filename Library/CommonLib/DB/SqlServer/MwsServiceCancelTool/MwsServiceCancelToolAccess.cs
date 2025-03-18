@@ -5,9 +5,9 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2024/06/11 勝呂):新規作成
+// Ver1.00(2025/01/23 勝呂):新規作成
 //
-using CommonLib.BaseFactory.Charlie.Table;
+using CommonLib.BaseFactory.MwsServiceCancelTool;
 using CommonLib.Common;
 using CommonLib.DB.SqlServer.Charlie;
 using CommonLib.DB.SqlServer.Junp;
@@ -19,6 +19,121 @@ namespace CommonLib.DB.SqlServer.MwsServiceCancelTool
 {
 	public static class MwsServiceCancelToolAccess
 	{
+		/// <summary>
+		/// 契約ヘッダ情報の取得（おまとめプラン用）
+		/// </summary>
+		/// <param name="customerNo">顧客No</param>
+		/// <param name="connectStr">SQL接続文字列</param>
+		/// <returns>契約ヘッダ情報</returns>
+		public static DataTable DataTable_UseContractHeaderMatome(int customerNo, string connectStr)
+		{
+			string sqlStr = string.Format("SELECT TOP 1 fContractID, fCustomerID, fContractType, fMonths, fGoodsID, fApplyDate, fTotalAmount, fContractStartDate, fContractEndDate, fBillingStartDate, fBillingEndDate"
+												+ "  FROM {0}"
+												+ " WHERE fEndFlag = '0' AND fDeleteFlag = '0' AND fContractType = 'まとめ' AND fCustomerID = {1}"
+												+ " ORDER BY fContractID DESC"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_HEADER]
+												, customerNo);
+			return DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		}
+
+		/// <summary>
+		/// 契約ヘッダ情報の取得（セット割サービスプラン用）
+		/// </summary>
+		/// <param name="customerNo">顧客No</param>
+		/// <param name="connectStr">SQL接続文字列</param>
+		/// <returns>契約ヘッダ情報</returns>
+		public static DataTable DataTable_UseContractHeaderSetService(int customerNo, string connectStr)
+		{
+			string sqlStr = string.Format("SELECT fContractID, fCustomerID, fContractType, fMonths, fGoodsID, fApplyDate, fTotalAmount, fContractStartDate, fContractEndDate, fBillingStartDate, fBillingEndDate"
+												+ "  FROM {0}"
+												+ " WHERE fEndFlag = '0' AND fDeleteFlag = '0' AND fContractType = 'セット' AND fCustomerID = {1}"
+												+ " ORDER BY fContractID DESC"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_HEADER]
+												, customerNo);
+			return DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		}
+
+		/// <summary>
+		/// 契約詳細情報の取得
+		/// </summary>
+		/// <param name="fContractID">申込No</param>
+		/// <param name="connectStr">SQL接続文字列</param>
+		/// <returns>契約詳細情報</returns>
+		public static DataTable DataTable_UseContractDetail(int fContractID, string connectStr)
+		{
+			string sqlStr = string.Format("SELECT fContractDetailID, fContractID, fSERVICE_ID, fSERVICE_NAME"
+												+ "  FROM {0}"
+												+ " WHERE fContractID = {1}"
+												+ " ORDER BY fContractDetailID"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_DETAIL]
+												, fContractID);
+			return DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		}
+
+		/// <summary>
+		/// PC安心サポート契約情報の取得
+		/// </summary>
+		/// <param name="customerNo">顧客No</param>
+		/// <param name="connectStr">SQL接続文字列</param>
+		/// <returns>契約ヘッダ情報</returns>
+		public static DataTable DataTable_UseContractPcSupport(int customerNo, string connectStr)
+		{
+			string sqlStr = string.Format("SELECT TOP 1 fApplyNo, fCustomerID, fServiceId, fYears, fGoodsID, fApplyDate, fContractStartDate, fContractEndDate, fBillingStartDate, fBillingEndDate, fEndFlag"
+												+ "  FROM {0}"
+												+ " WHERE fEndFlag = '0' AND fDeleteFlag = '0' AND fCustomerID = {1}"
+												+ " ORDER BY fApplyNo DESC"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT]
+												, customerNo);
+			return DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		}
+
+		/// <summary>
+		/// 顧客管理利用情報の取得
+		/// </summary>
+		/// <param name="customerNo">顧客No</param>
+		/// <param name="serviceID">サービスID</param>
+		/// <param name="connectStr">SQL接続文字列</param>
+		/// <returns>顧客管理利用情報</returns>
+		public static DataTable DataTable_CustomerUseInformation(int customerNo, int serviceID, string connectStr)
+		{
+			string sqlStr = string.Format("SELECT"
+												+ " [CUSTOMER_ID]"
+												+ ", CUI.[SERVICE_ID]"
+												+ ", [SERVICE_NAME]"
+												+ ", [GOODS_ID]"
+												+ ", [USE_START_DATE]"
+												+ ", [USE_END_DATE]"
+												+ ", [PAUSE_END_STATUS]"
+												+ ", [PERIOD_END_DATE]"
+												+ "  FROM {0} as CUI"
+												+ " LEFT JOIN {1} as SV on SV.SERVICE_ID = CUI.[SERVICE_ID]"
+												+ " WHERE CUI.[CUSTOMER_ID] = {2} AND CUI.[SERVICE_ID] = {3}"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.M_SERVICE]
+												, customerNo
+												, serviceID);
+			return DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		}
+
+		/// <summary>
+		/// 各種作業料作業済申請情報の取得
+		/// </summary>
+		/// <param name="customerNo">顧客No</param>
+		/// <param name="connectStr">SQL接続文字列</param>
+		/// <returns>各種作業料作業済申請情報</returns>
+		public static DataTable DataTable_UseOnlineDemand(int customerNo, string connectStr)
+		{
+			string sqlStr = string.Format("SELECT [ApplyNo], [CustomerID], [RemoteFlag], [GoodsID], [sms_mei] as GoodsName, [ApplyDate], [SalesDate]"
+												+ " FROM {0} as D"
+												+ " LEFT JOIN {1} as G on G.[sms_scd] = D.[GoodsID]"
+												+ " WHERE [CustomerID] = {2}"
+												+ " ORDER BY [ApplyNo] DESC"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_DEMAND]
+												, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
+												, customerNo);
+			return DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		}
+
 		/// <summary>
 		/// 顧客管理利用情報の取得
 		/// </summary>
@@ -97,13 +212,13 @@ namespace CommonLib.DB.SqlServer.MwsServiceCancelTool
 		}
 
 		/// <summary>
-		/// おまとめプラン契約情報の削除（ヘッダ情報、詳細情報共に削除）
+		/// おまとめプラン契約情報の削除（契約ヘッダ情報、契約詳細情報を共に削除）
 		/// </summary>
-		/// <param name="header">おまとめプラン契約ヘッダ情報</param>
+		/// <param name="header">契約ヘッダ情報</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>影響行数</returns>
 		/// <exception cref="ApplicationException"></exception>
-		public static int Delete_Matome(T_USE_CONTRACT_HEADER header, string connectStr)
+		public static int Delete_UseContractMatome(UseContractHeader header, string connectStr)
 		{
 			int rowCount = -1;
 			using (SqlConnection con = new SqlConnection(connectStr))
@@ -119,15 +234,15 @@ namespace CommonLib.DB.SqlServer.MwsServiceCancelTool
 						try
 						{
 							// T_USE_CONTRACT_DETAILの削除
-							string sqlDetail = string.Format("DELETE FROM {0} WHERE fContractID = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_DETAIL], header.fContractID);
-							rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlDetail);
+							string sql = string.Format("DELETE FROM {0} WHERE fContractID = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_DETAIL], header.fContractID);
+							rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, sql);
 							if (rowCount <= -1)
 							{
 								throw new ApplicationException("Delete_Matome() Error!");
 							}
 							// T_USE_CONTRACT_HEADERの削除
-							string sqlHeader = string.Format("DELETE FROM {0} WHERE fContractID = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_HEADER], header.fContractID);
-							rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, sqlDetail);
+							sql = string.Format("DELETE FROM {0} WHERE fContractID = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_HEADER], header.fContractID);
+							rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, sql);
 							if (rowCount <= -1)
 							{
 								throw new ApplicationException("Delete_Matome() Error!");
@@ -145,7 +260,7 @@ namespace CommonLib.DB.SqlServer.MwsServiceCancelTool
 				}
 				catch (Exception ex)
 				{
-					throw new ApplicationException(string.Format("Delete_Matome() Error!({0})", ex.Message));
+					throw new ApplicationException(string.Format("Delete_UseContractMatome() Error!({0})", ex.Message));
 				}
 				finally
 				{
@@ -157,6 +272,58 @@ namespace CommonLib.DB.SqlServer.MwsServiceCancelTool
 				}
 			}
 			return rowCount;
+		}
+
+		/// <summary>
+		/// CustomerUseInformationの更新（顧客利用情報）
+		/// </summary>
+		/// <param name="data">顧客利用情報</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		public static int UpdateSet_CustomerUseInformation(CustomerUseInformation data, string updateUser, string connectStr)
+		{
+			string updateSQL = string.Format(@"UPDATE {0} SET GOODS_ID = @1, USE_END_DATE = @2, PAUSE_END_STATUS = @3"
+								+ ", UPDATE_DATE = @4, UPDATE_PERSON = @5, PERIOD_END_DATE = @6, RENEWAL_FLG = @7"
+								+ " WHERE CUSTOMER_ID = {1} AND SERVICE_ID = {2}"
+								, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_CUSSTOMER_USE_INFOMATION]
+								, data.CUSTOMER_ID
+								, data.SERVICE_ID);
+
+			SqlParameter[] param = {
+				new SqlParameter("@1", data.GOODS_ID ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@2", data.USE_END_DATE.HasValue ? data.USE_END_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@3", data.PAUSE_END_STATUS ? "1" : "0"),
+				new SqlParameter("@4", DateTime.Now),
+				new SqlParameter("@5", updateUser),
+				new SqlParameter("@6", data.PERIOD_END_DATE.HasValue ? data.PERIOD_END_DATE.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@7", "1")
+			};
+			return DatabaseAccess.UpdateSetDatabase(updateSQL, param, connectStr);
+		}
+
+		/// <summary>
+		/// UseContractPcSupportの更新（PC安心サポート契約情報）
+		/// </summary>
+		/// <param name="data">PC安心サポート契約情報</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>影響行数</returns>
+		public static int UpdateSet_UseContractPcSupport(UseContractPcSupport data, string updateUser, string connectStr)
+		{
+			string updateSQL = string.Format(@"UPDATE {0} SET fGoodsID = @1, fContractEndDate = @2, fBillingEndDate = @3, fEndFlag = @4"
+								+ ", fUpdateDate = @5, fUpdatePerson = @6"
+								+ " WHERE fApplyNo = {1}"
+								, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_PCCSUPPORT]
+								, data.fApplyNo);
+
+			SqlParameter[] param = {
+				new SqlParameter("@1", data.fGoodsID ?? System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@2", data.fContractEndDate.HasValue ? data.fContractEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@3", data.fBillingEndDate.HasValue ? data.fBillingEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@4", data.fEndFlag ? "1" : "0"),
+				new SqlParameter("@5", DateTime.Now),
+				new SqlParameter("@6", updateUser)
+			};
+			return DatabaseAccess.UpdateSetDatabase(updateSQL, param, connectStr);
 		}
 	}
 }

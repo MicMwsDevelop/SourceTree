@@ -5,13 +5,11 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2024/11/01 勝呂):新規作成
+// Ver1.00(2025/01/23 勝呂):新規作成
 //
-using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Junp.View;
+using CommonLib.BaseFactory.MwsServiceCancelTool;
 using CommonLib.Common;
-using CommonLib.DB.SqlServer;
-using CommonLib.DB.SqlServer.Charlie;
 using CommonLib.DB.SqlServer.MwsServiceCancelTool;
 using System;
 using System.Collections.Generic;
@@ -31,22 +29,22 @@ namespace MwsServiceCancelTool.Forms
 		public vMic顧客情報 CustomerInfo { get; set; }
 
 		/// <summary>
-		/// おまとめプラン契約ヘッダ情報
+		/// 契約ヘッダ情報
 		/// </summary>
-		private T_USE_CONTRACT_HEADER Header { get; set; }
+		private UseContractHeader Header { get; set; }
 
 		/// <summary>
-		/// おまとめプラン契約詳細情報
+		/// 契約詳細情報
 		/// </summary>
-		private List<T_USE_CONTRACT_DETAIL> DetailList { get; set; }
+		private List<UseContractDetail> DetailList { get; set; }
 
 		/// <summary>
-		/// おまとめプラン契約ヘッダ情報 DataSource
+		/// 契約ヘッダ情報 DataSource
 		/// </summary>
 		private BindingSource BindingSourceHeader;
 
 		/// <summary>
-		/// おまとめプラン契約詳細情報 DataSource
+		/// 契約詳細情報 DataSource
 		/// </summary>
 		private BindingSource BindingSourceDetail;
 
@@ -91,28 +89,26 @@ namespace MwsServiceCancelTool.Forms
 				labelCustomerNo.Text = CustomerInfo.顧客No.ToString();
 				labelCustomerName.Text = CustomerInfo.顧客名;
 
-				string whereStr = string.Format("fEndFlag = '0' AND fDeleteFlag = '0' AND fContractType = 'まとめ' AND fCustomerID = {0}", CustomerInfo.顧客No);
-				DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_HEADER], whereStr, "fContractID DESC", Program.gSettings.ConnectCharlie.ConnectionString);
-				List<T_USE_CONTRACT_HEADER> headerList = T_USE_CONTRACT_HEADER.DataTableToList(table);
+				DataTable table = MwsServiceCancelToolAccess.DataTable_UseContractHeaderMatome(CustomerInfo.顧客No, Program.gSettings.ConnectCharlie.ConnectionString);
+				List<UseContractHeader> headerList = UseContractHeader.DataTableToList(table);
 				if (null != headerList && 0 < headerList.Count)
 				{
-					// おまとめプラン契約ヘッダ情報の設定
+					// 契約ヘッダ情報の設定
 					Header = headerList[0];
 					BindingSourceHeader = new BindingSource(table, null);
 					dataGridViewHeader.DataSource = BindingSourceHeader;
 
-					whereStr = string.Format("fContractID = {0}", Header.fContractID);
-					table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_DETAIL], whereStr, "fContractDetailID", Program.gSettings.ConnectCharlie.ConnectionString);
-					DetailList = T_USE_CONTRACT_DETAIL.DataTableToList(table);
+					table = MwsServiceCancelToolAccess.DataTable_UseContractDetail(Header.fContractID, Program.gSettings.ConnectCharlie.ConnectionString);
+					DetailList = UseContractDetail.DataTableToList(table);
 					if (null != DetailList && 0 < DetailList.Count)
 					{
-						// おまとめプラン契約詳細情報の設定
+						// 契約詳細情報の設定
 						BindingSourceDetail = new BindingSource(table, null);
 						dataGridViewDetail.DataSource = BindingSourceDetail;
 					}
 					// おまとめプランに含まれるサービス群
 					List<string> serviceIdList = new List<string>();
-					foreach (T_USE_CONTRACT_DETAIL detail in DetailList)
+					foreach (UseContractDetail detail in DetailList)
 					{
 						serviceIdList.Add(detail.fSERVICE_ID.ToString());
 					}
@@ -125,6 +121,7 @@ namespace MwsServiceCancelTool.Forms
 					}
 					if (Header.IsEnableCancel)
 					{
+						// 利用申込の取消が可能
 						buttonOK.Enabled = true;
 					}
 					else
@@ -136,26 +133,32 @@ namespace MwsServiceCancelTool.Forms
 		}
 
 		/// <summary>
-		/// おまとめプラン削除
+		/// 利用申込取消
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void buttonOK_Click(object sender, EventArgs e)
 		{
-			if (DialogResult.Yes == MessageBox.Show("本当に削除してもよろしいですか？", "削除", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+			if (0 < dataGridViewApply.RowCount)
+			{
+				MessageBox.Show("カプラー申込情報があります。本取消処理を行う前に管理画面にて、サービスの利用申込の取消処理を行ってください。", "利用申込取消", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+				return;
+			}
+			if (DialogResult.Yes == MessageBox.Show("おまとめプラン利用申込を取り消してよろしいですか？", "利用申込取消", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
 			{
 				try
 				{
 #if !DebugNoWrite
-					// おまとめプラン契約情報の削除（ヘッダ情報、詳細情報共に削除）
-					int result = MwsServiceCancelToolAccess.Delete_Matome(Header, Program.gSettings.ConnectCharlie.ConnectionString);
+					// おまとめプラン契約情報の削除（契約ヘッダ情報、契約詳細情報を共に削除）
+					int result = MwsServiceCancelToolAccess.Delete_UseContractMatome(Header, Program.gSettings.ConnectCharlie.ConnectionString);
 #endif
+					MessageBox.Show("おまとめプランの利用申込取消処理が正常終了しました。", "利用申込取消", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					this.DialogResult = DialogResult.OK;
 					this.Close();
 				}
 				catch (Exception ex) 
 				{
-					MessageBox.Show(ex.Message, "削除", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(ex.Message, "おまとめプラン利用申込取消", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}

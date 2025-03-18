@@ -5,12 +5,12 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00(2024/11/01 勝呂):新規作成
+// Ver1.00(2025/01/23 勝呂):新規作成
 //
 using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Junp.View;
+using CommonLib.BaseFactory.MwsServiceCancelTool;
 using CommonLib.Common;
-using CommonLib.DB.SqlServer;
 using CommonLib.DB.SqlServer.Charlie;
 using CommonLib.DB.SqlServer.MwsServiceCancelTool;
 using System;
@@ -33,7 +33,7 @@ namespace MwsServiceCancelTool.Forms
 		/// <summary>
 		/// 契約ヘッダ情報リスト
 		/// </summary>
-		private List<T_USE_CONTRACT_HEADER> HeaderList { get; set; }
+		private List<UseContractHeader> HeaderList { get; set; }
 
 		/// <summary>
 		/// 契約ヘッダ情報 DataSource
@@ -79,9 +79,8 @@ namespace MwsServiceCancelTool.Forms
 				labelCustomerNo.Text = CustomerInfo.顧客No.ToString();
 				labelCustomerName.Text = CustomerInfo.顧客名;
 
-				string whereStr = string.Format("fEndFlag = '0' AND fDeleteFlag = '0' AND fContractType = 'セット' AND fCustomerID = {0}", CustomerInfo.顧客No);
-				DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_HEADER], whereStr, "fContractID", Program.gSettings.ConnectCharlie.ConnectionString);
-				HeaderList = T_USE_CONTRACT_HEADER.DataTableToList(table);
+				DataTable table = MwsServiceCancelToolAccess.DataTable_UseContractHeaderSetService(CustomerInfo.顧客No, Program.gSettings.ConnectCharlie.ConnectionString);
+				HeaderList = UseContractHeader.DataTableToList(table);
 				if (null != HeaderList && 0 < HeaderList.Count)
 				{
 					// 契約ヘッダ情報の設定
@@ -91,7 +90,7 @@ namespace MwsServiceCancelTool.Forms
 					// カプラー申込情報の設定
 					for (int i  = 0; i < HeaderList.Count; i++)
 					{
-						whereStr = string.Format("GOODS_ID = {0}", HeaderList[i].fGoodsID);
+						string whereStr = string.Format("GOODS_ID = {0}", HeaderList[i].fGoodsID);
 						List<M_CODE> mcodeList = CharlieDatabaseAccess.Select_M_CODE(whereStr, "SERVICE_ID", Program.gSettings.ConnectCharlie.ConnectionString);
 						if (null != mcodeList && 0 < mcodeList.Count)
 						{
@@ -135,7 +134,7 @@ namespace MwsServiceCancelTool.Forms
 		}
 
 		/// <summary>
-		/// セット割サービス削除
+		/// 利用申込取消
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -145,27 +144,30 @@ namespace MwsServiceCancelTool.Forms
 			{
 				foreach (DataGridViewRow row in dataGridViewHeader.SelectedRows)
 				{
-					T_USE_CONTRACT_HEADER header = HeaderList[row.Index];
+					UseContractHeader header = HeaderList[row.Index];
 					if (header.IsEnableCancel)
 					{
-						if (DialogResult.Yes == MessageBox.Show("本当に削除してもよろしいですか？", "削除", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+						if (DialogResult.Yes == MessageBox.Show("セット割サービスの利用申込を取り消してよろしいですか？", "利用申込取消", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
 						{
 #if !DebugNoWrite
 							// [charlieDB].[dbo].[T_USE_CONTRACT_HEADER]の削除
 							int result = CharlieDatabaseAccess.Delete_T_USE_CONTRACT_HEADER(header.fContractID, Program.gSettings.ConnectCharlie.ConnectionString);
 #endif
+							MessageBox.Show("セット割サービスの利用申込取消処理が正常終了しました。", "利用申込取消", MessageBoxButtons.OK, MessageBoxIcon.Information);
+							this.DialogResult = DialogResult.OK;
+							this.Close();
 						}
 					}
 					else
 					{
-						MessageBox.Show("既に売上データが作成されているため削除することができません。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+						MessageBox.Show("既に契約済みのため、利用申込の取消はできません。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					}
 					break;
 				}
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "削除", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(ex.Message, "利用申込取消", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 	}

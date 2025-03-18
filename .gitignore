@@ -1015,3 +1015,9 @@
 /PowerShell/aaa.bat
 /PowerShell/PowerShell Tools for Visual Studio 2015 - Visual Studio でPowerShell の開発・デバッグ.url
 *.url
+/MWS/Tool/ConvertAgrexBankMaster/.vs/ConvertAgrexBankMaster
+/MWS/Tool/ConvertAgrexBankMaster/bin
+/MWS/Tool/ConvertAgrexBankMaster/obj
+/MWS/Tool/MwsServiceCancelTool/Doc/MWSサービス利用申込取消ツール 機能仕様 - コピー.docx
+/MWS/Tool/TestDate
+/Test/PythonFloatTest

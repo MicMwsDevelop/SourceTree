@@ -141,6 +141,19 @@
   <metadata name="labelCustomerNo.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="label5.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="label5.Text" xml:space="preserve">
+    <value>当月にMWSサイトで作業済申請したオンライン請求 設定作業(リモート)、オンライン請求設定作業(訪問)、オンライン資格確認訪問診療連携環境設定費の各種作業料に対し、取消処理を行う機能です。
+※前月以前の作業済申請もしくは伝票起票された各種作業料は本ツールで取消処理できません
+
+操作方法および処理内容
+(1) 各種作業料作業済申請情報から作業済申請を取り消す情報を選択する
+(2)「作業済申請」ボタン押下
+(3) 各種作業料作業済申請情報から選択された作業済申請を削除
+</value>
+  </data>
   <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
