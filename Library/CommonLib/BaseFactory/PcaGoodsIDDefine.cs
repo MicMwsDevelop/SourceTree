@@ -11,6 +11,11 @@ namespace CommonLib.BaseFactory
 	public static class PcaGoodsIDDefine
 	{
 		/// <summary>
+		/// 商品コードレングス長
+		/// </summary>
+		public const int GoodsCodeLength = 6;
+	
+		/// <summary>
 		/// 記事レコード
 		/// </summary>
 		public const string ArticleCode = "000014";

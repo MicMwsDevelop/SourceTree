@@ -134,7 +134,8 @@ namespace MakePurchaseFile.Forms
 			// 
 			// textBoxListonFilename
 			// 
-			this.textBoxListonFilename.BackColor = System.Drawing.Color.White;
+			this.textBoxListonFilename.BackColor = System.Drawing.SystemColors.Control;
+			this.textBoxListonFilename.Enabled = false;
 			this.textBoxListonFilename.Location = new System.Drawing.Point(21, 122);
 			this.textBoxListonFilename.Name = "textBoxListonFilename";
 			this.textBoxListonFilename.ReadOnly = true;
@@ -144,6 +145,8 @@ namespace MakePurchaseFile.Forms
 			// label4
 			// 
 			this.label4.AutoSize = true;
+			this.label4.Enabled = false;
+			this.label4.ForeColor = System.Drawing.Color.Gray;
 			this.label4.Location = new System.Drawing.Point(21, 100);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(203, 19);
@@ -170,7 +173,8 @@ namespace MakePurchaseFile.Forms
 			// 
 			// textBoxMonshindenFilename
 			// 
-			this.textBoxMonshindenFilename.BackColor = System.Drawing.Color.White;
+			this.textBoxMonshindenFilename.BackColor = System.Drawing.SystemColors.Control;
+			this.textBoxMonshindenFilename.Enabled = false;
 			this.textBoxMonshindenFilename.Location = new System.Drawing.Point(21, 226);
 			this.textBoxMonshindenFilename.Name = "textBoxMonshindenFilename";
 			this.textBoxMonshindenFilename.ReadOnly = true;
@@ -180,6 +184,8 @@ namespace MakePurchaseFile.Forms
 			// label6
 			// 
 			this.label6.AutoSize = true;
+			this.label6.Enabled = false;
+			this.label6.ForeColor = System.Drawing.Color.Gray;
 			this.label6.Location = new System.Drawing.Point(21, 204);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(205, 19);
@@ -293,6 +299,7 @@ namespace MakePurchaseFile.Forms
 			// 
 			// buttonOutputListon
 			// 
+			this.buttonOutputListon.Enabled = false;
 			this.buttonOutputListon.Font = new System.Drawing.Font("Meiryo UI", 5.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonOutputListon.Location = new System.Drawing.Point(468, 122);
 			this.buttonOutputListon.Name = "buttonOutputListon";
@@ -317,6 +324,7 @@ namespace MakePurchaseFile.Forms
 			// 
 			// buttonOutputMonshinden
 			// 
+			this.buttonOutputMonshinden.Enabled = false;
 			this.buttonOutputMonshinden.Font = new System.Drawing.Font("Meiryo UI", 5.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonOutputMonshinden.Location = new System.Drawing.Point(468, 226);
 			this.buttonOutputMonshinden.Name = "buttonOutputMonshinden";
@@ -337,7 +345,6 @@ namespace MakePurchaseFile.Forms
 			this.buttonOutputCurline.TabIndex = 16;
 			this.buttonOutputCurline.Text = "出力";
 			this.buttonOutputCurline.UseVisualStyleBackColor = true;
-			this.buttonOutputCurline.Visible = false;
 			this.buttonOutputCurline.Click += new System.EventHandler(this.buttonOutputCurline_Click);
 			// 
 			// buttonOutputNarcohm

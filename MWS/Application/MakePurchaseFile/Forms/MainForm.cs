@@ -12,6 +12,8 @@
 // Ver1.06(2023/11/21 勝呂):002199 ｱﾙﾒｯｸｽ FIT-A 保守(現金2台仕様)1ヶ月の商品追加対応
 // Ver1.07(2023/12/01 勝呂):オン資格保守サービスの仕入データ作成に対応
 // Ver1.08(2024/07/19 勝呂):オン資格保守サービスの仕入データに商品名が登録されていなかった
+// Ver1.09(2025/04/09 勝呂):2024/12のりすとん販売終了対応
+// Ver1.09(2025/04/09 勝呂):2025/03の問心伝販売終了対応
 //
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Junp.Table;
@@ -86,9 +88,14 @@ namespace MakePurchaseFile.Forms
 
 			// 環境設定内容の表示
 			textBoxOutputFolder.Text = Settings.出力先フォルダ;
-			textBoxListonFilename.Text = Settings.りすとん月額仕入データファイル名;
+
+			// Ver1.09(2025/04/09 勝呂):2024/12のりすとん販売終了対応
+			//textBoxListonFilename.Text = Settings.りすとん月額仕入データファイル名;
+
 			textBoxMicrosoft365Filename.Text = Settings.Microsoft365仕入データファイル名;
-			textBoxMonshindenFilename.Text = Settings.問心伝月額仕入データファイル名;
+
+			// Ver1.09(2025/04/09 勝呂):2025/03の問心伝販売終了対応
+			//textBoxMonshindenFilename.Text = Settings.問心伝月額仕入データファイル名;
 
 			// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
 			//textBoxCurlineFilename.Text = Settings.Curline本体アプリ仕入データファイル名;
@@ -154,7 +161,8 @@ namespace MakePurchaseFile.Forms
 				/////////////////////////////////////
 				// 1. りすとん月額仕入データ作成
 
-				りすとん月額仕入データファイル出力(collectMonth);
+				// Ver1.09(2025/04/09 勝呂):2024/12のりすとん販売終了対応
+				//りすとん月額仕入データファイル出力(collectMonth);
 
 				/////////////////////////////////////
 				// 2. Microsoft365仕入データ作成
@@ -164,7 +172,8 @@ namespace MakePurchaseFile.Forms
 				/////////////////////////////////////
 				// 3. 問心伝月額仕入データ作成
 
-				問心伝月額仕入データファイル出力(collectMonth);
+				// Ver1.09(2025/04/09 勝呂):2025/03の問心伝販売終了対応
+				//問心伝月額仕入データファイル出力(collectMonth);
 
 				/////////////////////////////////////
 				// 4. Curline本体アプリ仕入データ作成
@@ -330,69 +339,70 @@ namespace MakePurchaseFile.Forms
 			return true;
 		}
 
-		/// <summary>
-		/// 1.りすとん月額仕入データ作成
-		/// </summary>
-		/// <param name="collectMonth">対象年月</param>
-		public void りすとん月額仕入データファイル出力(YearMonth collectMonth)
-		{
-			// (1)りすとん月額仕入振替月次 選択クエリの実行：7 りすとん月額仕入振替月次.sql
-			List<仕入集計> りすとん月額仕入集計 = MakePurchaseFileAccess.Select_りすとん月額仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
+		// Ver1.09(2025/04/09 勝呂):2024/12のりすとん販売終了対応
+		///// <summary>
+		///// 1.りすとん月額仕入データ作成
+		///// </summary>
+		///// <param name="collectMonth">対象年月</param>
+		//public void りすとん月額仕入データファイル出力(YearMonth collectMonth)
+		//{
+		//	// (1)りすとん月額仕入振替月次 選択クエリの実行：7 りすとん月額仕入振替月次.sql
+		//	List<仕入集計> りすとん月額仕入集計 = MakePurchaseFileAccess.Select_りすとん月額仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
 
-			// (2)プラス分振替データ出力
-			List<汎用データレイアウト仕入明細データ> outputList = new List<汎用データレイアウト仕入明細データ>();
+		//	// (2)プラス分振替データ出力
+		//	List<汎用データレイアウト仕入明細データ> outputList = new List<汎用データレイアウト仕入明細データ>();
 
-			int denNo = Settings.りすとん月額開始伝票番号;
-			string bumonCode = string.Empty;
-			foreach (仕入集計 data in りすとん月額仕入集計)
-			{
-				if (bumonCode != data.sykd_jbmn)
-				{
-					bumonCode = data.sykd_jbmn;
-					denNo++;
-				}
-				汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
-				pca.入荷方法 = 0;   // 0:通常仕入
-				pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
-				pca.精算日 = pca.仕入日;
-				pca.伝票No = denNo;
-				pca.仕入先コード = data.仕入先;
-				pca.仕入先名 = string.Empty;   // 仕入先名は空白
-				pca.先方担当者名 = string.Empty;
-				pca.部門コード = data.sykd_jbmn.Substring(1);
-				pca.担当者コード = "0";
-				pca.摘要コード = "0";
-				pca.摘要名 = string.Empty;
-				pca.商品コード = data.sykd_scd;
-				pca.商品名 = data.sykd_mei;
-				pca.区 = 0;  // 仕入
-				pca.倉庫コード = "0";
-				pca.数量 = data.数量;
-				pca.単位 = string.Empty;
-				pca.単価 = data.評価単価;
-				pca.金額 = pca.数量 * pca.単価;
-				pca.税区分 = 2;
-				pca.備考 = "0";
-				pca.規格型番 = string.Empty;
-				pca.色 = string.Empty;
-				pca.サイズ = string.Empty;
-				pca.税率 = data.sykd_rate;
-				pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-				pca.伝票No2 = string.Empty;
-				pca.商品名2 = string.Empty;
-				outputList.Add(pca);
-			}
-			// (3)\\SQLSV\PCADATAにりすとん月額振替仕入データファイルの新規作成
-			// 環境設定.りすとん月額振替出力パス名：\\SQLSV\PCADATA\りすとん月額振替仕入データ.txt
-			using (var sw = new StreamWriter(Settings.りすとん月額仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
-			{
-				foreach (汎用データレイアウト仕入明細データ pca in outputList)
-				{
-					string record = pca.ToCsvString(Settings.PcaVersion);
-					sw.WriteLine(record);
-				}
-			}
-		}
+		//	int denNo = Settings.りすとん月額開始伝票番号;
+		//	string bumonCode = string.Empty;
+		//	foreach (仕入集計 data in りすとん月額仕入集計)
+		//	{
+		//		if (bumonCode != data.sykd_jbmn)
+		//		{
+		//			bumonCode = data.sykd_jbmn;
+		//			denNo++;
+		//		}
+		//		汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
+		//		pca.入荷方法 = 0;   // 0:通常仕入
+		//		pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
+		//		pca.精算日 = pca.仕入日;
+		//		pca.伝票No = denNo;
+		//		pca.仕入先コード = data.仕入先;
+		//		pca.仕入先名 = string.Empty;   // 仕入先名は空白
+		//		pca.先方担当者名 = string.Empty;
+		//		pca.部門コード = data.sykd_jbmn.Substring(1);
+		//		pca.担当者コード = "0";
+		//		pca.摘要コード = "0";
+		//		pca.摘要名 = string.Empty;
+		//		pca.商品コード = data.sykd_scd;
+		//		pca.商品名 = data.sykd_mei;
+		//		pca.区 = 0;  // 仕入
+		//		pca.倉庫コード = "0";
+		//		pca.数量 = data.数量;
+		//		pca.単位 = string.Empty;
+		//		pca.単価 = data.評価単価;
+		//		pca.金額 = pca.数量 * pca.単価;
+		//		pca.税区分 = 2;
+		//		pca.備考 = "0";
+		//		pca.規格型番 = string.Empty;
+		//		pca.色 = string.Empty;
+		//		pca.サイズ = string.Empty;
+		//		pca.税率 = data.sykd_rate;
+		//		pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
+		//		pca.伝票No2 = string.Empty;
+		//		pca.商品名2 = string.Empty;
+		//		outputList.Add(pca);
+		//	}
+		//	// (3)\\SQLSV\PCADATAにりすとん月額振替仕入データファイルの新規作成
+		//	// 環境設定.りすとん月額振替出力パス名：\\SQLSV\PCADATA\りすとん月額振替仕入データ.txt
+		//	using (var sw = new StreamWriter(Settings.りすとん月額仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+		//	{
+		//		foreach (汎用データレイアウト仕入明細データ pca in outputList)
+		//		{
+		//			string record = pca.ToCsvString(Settings.PcaVersion);
+		//			sw.WriteLine(record);
+		//		}
+		//	}
+		//}
 
 		/// <summary>
 		/// 2.Microsoft365仕入データ作成
@@ -572,65 +582,66 @@ namespace MakePurchaseFile.Forms
 			}
 		}
 
-		/// <summary>
-		/// 3.問心伝月額仕入データ作成
-		/// </summary>
-		/// <param name="collectMonth">対象年月</param>
-		public void 問心伝月額仕入データファイル出力(YearMonth collectMonth)
-		{
-			List<仕入集計> 問心伝月額仕入集計 = MakePurchaseFileAccess.Select_問心伝月額仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
+		// Ver1.09(2025/04/09 勝呂):2025/03の問心伝販売終了対応
+		///// <summary>
+		///// 3.問心伝月額仕入データ作成
+		///// </summary>
+		///// <param name="collectMonth">対象年月</param>
+		//public void 問心伝月額仕入データファイル出力(YearMonth collectMonth)
+		//{
+		//	List<仕入集計> 問心伝月額仕入集計 = MakePurchaseFileAccess.Select_問心伝月額仕入集計(collectMonth, Settings.Connect.Junp.ConnectionString);
 
-			List<汎用データレイアウト仕入明細データ> outputList = new List<汎用データレイアウト仕入明細データ>();
+		//	List<汎用データレイアウト仕入明細データ> outputList = new List<汎用データレイアウト仕入明細データ>();
 
-			int denNo = Settings.問心伝月額開始伝票番号;
-			string bumonCode = string.Empty;
-			foreach (仕入集計 data in 問心伝月額仕入集計)
-			{
-				if (bumonCode != data.sykd_jbmn)
-				{
-					bumonCode = data.sykd_jbmn;
-					denNo++;
-				}
-				汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
-				pca.入荷方法 = 0;   // 0:通常仕入
-				pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
-				pca.精算日 = pca.仕入日;
-				pca.伝票No = denNo;
-				pca.仕入先コード = data.仕入先;
-				pca.仕入先名 = string.Empty;   // 仕入先名は空白
-				pca.先方担当者名 = string.Empty;
-				pca.部門コード = data.sykd_jbmn.Substring(1);
-				pca.担当者コード = "0";
-				pca.摘要コード = "0";
-				pca.摘要名 = string.Empty;
-				pca.商品コード = data.sykd_scd;
-				pca.商品名 = data.sykd_mei;
-				pca.区 = 0;  // 仕入
-				pca.倉庫コード = "0";
-				pca.数量 = data.数量;
-				pca.単位 = string.Empty;
-				pca.単価 = data.評価単価;
-				pca.金額 = pca.数量 * pca.単価;
-				pca.税区分 = 2;
-				pca.備考 = "0";
-				pca.規格型番 = string.Empty;
-				pca.色 = string.Empty;
-				pca.サイズ = string.Empty;
-				pca.税率 = data.sykd_rate;
-				pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
-				pca.伝票No2 = string.Empty;
-				pca.商品名2 = string.Empty;
-				outputList.Add(pca);
-			}
-			using (var sw = new StreamWriter(Settings.問心伝月額仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
-			{
-				foreach (汎用データレイアウト仕入明細データ pca in outputList)
-				{
-					string record = pca.ToCsvString(Settings.PcaVersion);
-					sw.WriteLine(record);
-				}
-			}
-		}
+		//	int denNo = Settings.問心伝月額開始伝票番号;
+		//	string bumonCode = string.Empty;
+		//	foreach (仕入集計 data in 問心伝月額仕入集計)
+		//	{
+		//		if (bumonCode != data.sykd_jbmn)
+		//		{
+		//			bumonCode = data.sykd_jbmn;
+		//			denNo++;
+		//		}
+		//		汎用データレイアウト仕入明細データ pca = new 汎用データレイアウト仕入明細データ();
+		//		pca.入荷方法 = 0;   // 0:通常仕入
+		//		pca.仕入日 = collectMonth.Last.ToIntYMD(); // 対象月末日
+		//		pca.精算日 = pca.仕入日;
+		//		pca.伝票No = denNo;
+		//		pca.仕入先コード = data.仕入先;
+		//		pca.仕入先名 = string.Empty;   // 仕入先名は空白
+		//		pca.先方担当者名 = string.Empty;
+		//		pca.部門コード = data.sykd_jbmn.Substring(1);
+		//		pca.担当者コード = "0";
+		//		pca.摘要コード = "0";
+		//		pca.摘要名 = string.Empty;
+		//		pca.商品コード = data.sykd_scd;
+		//		pca.商品名 = data.sykd_mei;
+		//		pca.区 = 0;  // 仕入
+		//		pca.倉庫コード = "0";
+		//		pca.数量 = data.数量;
+		//		pca.単位 = string.Empty;
+		//		pca.単価 = data.評価単価;
+		//		pca.金額 = pca.数量 * pca.単価;
+		//		pca.税区分 = 2;
+		//		pca.備考 = "0";
+		//		pca.規格型番 = string.Empty;
+		//		pca.色 = string.Empty;
+		//		pca.サイズ = string.Empty;
+		//		pca.税率 = data.sykd_rate;
+		//		pca.ﾌﾟﾛｼﾞｪｸﾄコード = string.Empty;
+		//		pca.伝票No2 = string.Empty;
+		//		pca.商品名2 = string.Empty;
+		//		outputList.Add(pca);
+		//	}
+		//	using (var sw = new StreamWriter(Settings.問心伝月額仕入データパス名, false, System.Text.Encoding.GetEncoding("shift_jis")))
+		//	{
+		//		foreach (汎用データレイアウト仕入明細データ pca in outputList)
+		//		{
+		//			string record = pca.ToCsvString(Settings.PcaVersion);
+		//			sw.WriteLine(record);
+		//		}
+		//	}
+		//}
 
 		// Ver1.05(2023/07/10 勝呂):Curline本体アプリ仕入データファイル出力廃止対応
 		///// <summary>
@@ -1018,6 +1029,7 @@ namespace MakePurchaseFile.Forms
 			}
 		}
 
+		// Ver1.09(2025/04/09 勝呂):2024/12のりすとん販売終了対応
 		/// <summary>
 		/// りすとん月額仕入データファイル出力
 		/// </summary>
@@ -1025,6 +1037,7 @@ namespace MakePurchaseFile.Forms
 		/// <param name="e"></param>
 		private void buttonOutputListon_Click(object sender, EventArgs e)
 		{
+#if false
 			// 対象年月
 			YearMonth collectMonth = new YearMonth(dateTimePickerTarget.Value.Year, dateTimePickerTarget.Value.Month);
 
@@ -1047,6 +1060,7 @@ namespace MakePurchaseFile.Forms
 			{
 				MessageBox.Show(string.Format("りすとん月額仕入データ出力エラー:{0}", ex.Message), "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+#endif
 		}
 
 		/// <summary>
@@ -1086,8 +1100,10 @@ namespace MakePurchaseFile.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
+		// Ver1.09(2025/04/09 勝呂):2025/03の問心伝販売終了対応
 		private void buttonOutputMonshinden_Click(object sender, EventArgs e)
 		{
+#if false
 			// 対象年月
 			YearMonth collectMonth = new YearMonth(dateTimePickerTarget.Value.Year, dateTimePickerTarget.Value.Month);
 
@@ -1110,6 +1126,7 @@ namespace MakePurchaseFile.Forms
 			{
 				MessageBox.Show(string.Format("問心伝月額仕入データ出力エラー:{0}", ex.Message), "仕入データ出力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+#endif
 		}
 
 		/// <summary>

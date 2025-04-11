@@ -192,6 +192,41 @@ namespace CommonLib.DB.SqlServer
 		}
 
 		/// <summary>
+		/// 単一の値の取得(SqlExecuteScalar)
+		/// クエリが単一の値を返すときに使用。結果は最初の行の最初の列
+		/// </summary>
+		/// <param name="strSQL">SQL文</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>オブジェクト</returns>
+		public static object ScalarDatabaseScopeIdentity(string strSQL, string connectStr, SqlParameter[] param)
+		{
+			object result = null;
+			using (SqlConnection con = new SqlConnection(connectStr))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					result = DatabaseController.SqlExecuteScalar(con, strSQL);
+				}
+				catch (Exception ex)
+				{
+					throw new ApplicationException(string.Format("ScalarDatabase() Error!({0})", ex.Message));
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
 		/// レコードの取得(SqlExcuteDataAdapter)
 		/// </summary>
 		/// <param name="strSQL">SQL文</param>
@@ -335,6 +370,46 @@ namespace CommonLib.DB.SqlServer
 				}
 			}
 			return rowCount;
+		}
+
+		/// <summary>
+		/// レコードの新規追加 - SCOPE_IDENTITY()
+		/// </summary>
+		/// <param name="sqlStr">SQL文</param>
+		/// <param name="param">パラメータ</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>SCOPE_IDENTITY()</returns>
+		public static object InsertIntoDatabaseScopeIdentity(string sqlStr, SqlParameter[] param, string connectStr)
+		{
+			object iNewRowIdentity = null;
+			using (SqlConnection con = new SqlConnection(connectStr))
+			{
+				try
+				{
+					// 接続
+					con.Open();
+
+					// 実行
+					iNewRowIdentity = DatabaseController.SqlExecuteScalar(con, sqlStr, param);
+					if (null == iNewRowIdentity)
+					{
+						throw new ApplicationException("InsertIntoDatabaseScopeIdentity() Error!");
+					}
+				}
+				catch (Exception ex)
+				{
+					throw new ApplicationException(string.Format("InsertIntoDatabaseScopeIdentity() Error!({0})", ex.Message));
+				}
+				finally
+				{
+					if (null != con)
+					{
+						// 切断
+						con.Close();
+					}
+				}
+			}
+			return iNewRowIdentity;
 		}
 
 		/// <summary>

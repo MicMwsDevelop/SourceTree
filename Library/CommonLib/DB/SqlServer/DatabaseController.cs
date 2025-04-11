@@ -49,6 +49,39 @@ namespace CommonLib.DB.SqlServer
 
 		/// <summary>
 		/// SQLコマンドの実行
+		/// クエリが単一の値を返すときに使用。結果は最初の行の最初の列（UPDATE、INSERTなど）に使用
+		/// </summary>
+		/// <param name="con">SqlConnection</param>
+		/// <param name="sqlString">クエリ</param>
+		/// <param name="param">引数</param>
+		/// <returns>実行結果</returns>
+		public static object SqlExecuteScalar(SqlConnection con, string sqlString, SqlParameter[] param)
+		{
+			object result = null;
+			{
+				using (SqlCommand cmd = new SqlCommand(sqlString, con))
+				{
+					cmd.Parameters.Clear();
+					if (null != param)
+					{
+						cmd.Parameters.AddRange(param);
+					}
+					try
+					{
+						// 実行
+						result = cmd.ExecuteScalar();
+					}
+					catch
+					{
+						throw;
+					}
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// SQLコマンドの実行
 		/// 結果セットの取得
 		/// </summary>
 		/// <param name="con">SQL接続情報</param>
