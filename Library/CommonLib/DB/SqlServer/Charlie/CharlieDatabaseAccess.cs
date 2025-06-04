@@ -294,29 +294,29 @@ namespace CommonLib.DB.SqlServer.Charlie
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_HARDSUBSC_HEADER]の取得（ハードサブスク管理 契約情報）
+		/// [charlieDB].[dbo].[T_HARD_SUBSCRIPT_HEADER]の取得（ハードサブスク管理 契約情報）
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>ハードサブスク管理契約情報リスト</returns>
-		public static List<T_HARDSUBSC_HEADER> Select_T_HARDSUBSC_HEADER(string whereStr, string orderStr, string connectStr)
+		/// <returns>ハードサブスク契約情報リスト</returns>
+		public static List<T_HARD_SUBSCRIPT_HEADER> Select_T_HARD_SUBSCRIPT_HEADER(string whereStr, string orderStr, string connectStr)
 		{
-			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_HARDSUBSC_HEADER], whereStr, orderStr, connectStr);
-			return T_HARDSUBSC_HEADER.DataTableToList(table);
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_HARD_SUBSCRIPT_HEADER], whereStr, orderStr, connectStr);
+			return T_HARD_SUBSCRIPT_HEADER.DataTableToList(table);
 		}
 
 		/// <summary>
-		/// [charlieDB].[dbo].[T_HARDSUBSC_DETAIL]の取得（ハードサブスク管理 機器情報）
+		/// [charlieDB].[dbo].[T_HARD_SUBSCRIPT_DETAIL]の取得（ハードサブスク管理 機器情報）
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>ハードサブスク管理機器情報リスト</returns>
-		public static List<T_HARDSUBSC_DETAIL> Select_T_HARDSUBSC_DETAIL(string whereStr, string orderStr, string connectStr)
+		/// <returns>ハードサブスク機器情報リスト</returns>
+		public static List<T_HARD_SUBSCRIPT_DETAIL> Select_T_HARD_SUBSCRIPT_DETAIL(string whereStr, string orderStr, string connectStr)
 		{
-			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_HARDSUBSC_DETAIL], whereStr, orderStr, connectStr);
-			return T_HARDSUBSC_DETAIL.DataTableToList(table);
+			DataTable table = DatabaseAccess.SelectDatabase(CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_HARD_SUBSCRIPT_DETAIL], whereStr, orderStr, connectStr);
+			return T_HARD_SUBSCRIPT_DETAIL.DataTableToList(table);
 		}
 
 

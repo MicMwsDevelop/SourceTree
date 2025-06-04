@@ -9,6 +9,7 @@
 // Ver1.01(2024/01/05 勝呂):メール送信機能を追加
 //
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 
@@ -193,6 +194,45 @@ namespace MwsLib.Settings.Mail
 				{
 					msg.CC.Add(new MailAddress(cc));
 				}
+			}
+			// SMTPサーバの設定
+			using (SmtpClient smtp = new SmtpClient())
+			{
+				smtp.Host = settings.Smtp;
+				smtp.Port = settings.Port;
+
+				// SMTP認証
+				if (!String.IsNullOrEmpty(settings.User) && !String.IsNullOrEmpty(settings.Pass))
+				{
+					smtp.Credentials = new NetworkCredential(settings.User, settings.Pass);
+				}
+				// メール送信
+				smtp.Send(msg);
+			}
+		}
+
+		/// <summary>
+		/// メール送信
+		/// </summary>
+		/// <param name="msg">メール本文</param>
+		/// <param name="settings">メール送信設定</param>
+		/// <param name="from">差出人</param>
+		/// <param name="toArray">宛先</param>
+		/// <param name="ccArray">CC</param>
+		public static void SendMail(MailMessage msg, MailSettings settings, string from, string[] toArray, string[] ccArray)
+		{
+			// 差出人（From）
+			msg.From = new MailAddress(from);
+
+			// 宛先（To）を登録する
+			foreach (string to in toArray)
+			{
+				msg.To.Add(new MailAddress(to));
+			}
+			// CCを登録する
+			foreach (string cc in ccArray)
+			{
+				msg.CC.Add(new MailAddress(cc));
 			}
 			// SMTPサーバの設定
 			using (SmtpClient smtp = new SmtpClient())

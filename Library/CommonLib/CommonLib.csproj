@@ -64,8 +64,8 @@
     <Compile Include="BaseFactory\Charlie\Table\T_CUSTOMER_FOUNDATIONS.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_DEMO_USER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_FILE_CREATEDATE.cs" />
-    <Compile Include="BaseFactory\Charlie\Table\T_HARDSUBSC_DETAIL.cs" />
-    <Compile Include="BaseFactory\Charlie\Table\T_HARDSUBSC_HEADER.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_HARD_SUBSCRIPT_DETAIL.cs" />
+    <Compile Include="BaseFactory\Charlie\Table\T_HARD_SUBSCRIPT_HEADER.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_LICENSE_PRODUCT_CONTRACT.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_PRODUCT_CONTROL.cs" />
     <Compile Include="BaseFactory\Charlie\Table\T_USE_CONTRACT_DETAIL.cs" />
@@ -90,6 +90,8 @@
     <Compile Include="BaseFactory\CheckOrderSlip\OrderSlipData.cs" />
     <Compile Include="BaseFactory\CloudBackup\GroupMicPCA売上明細.cs" />
     <Compile Include="BaseFactory\Coupler\Table\T_COUPLER_APPLY.cs" />
+    <Compile Include="BaseFactory\HardSubscript\HardSubscriptEarningsOut.cs" />
+    <Compile Include="BaseFactory\HardSubscript\HardSubscriptNotify.cs" />
     <Compile Include="BaseFactory\MwsServiceCancelTool\CustomerUseInformation.cs" />
     <Compile Include="BaseFactory\MwsServiceCancelTool\UseContract.cs" />
     <Compile Include="BaseFactory\MwsServiceCancelTool\UseContractPcSupport.cs" />
@@ -283,7 +285,7 @@
     <Compile Include="DB\SqlServer\DatabaseController.cs" />
     <Compile Include="DB\SqlServer\DatabaseTableSQL.cs" />
     <Compile Include="DB\DataBaseValue.cs" />
-    <Compile Include="DB\SqlServer\HardSubscManager\HardSubscManagerAccess.cs" />
+    <Compile Include="DB\SqlServer\HardSubscript\HardSubscriptAccess.cs" />
     <Compile Include="DB\SqlServer\OnlineElectricPrescript\OnlineElectricPrescriptAccess.cs" />
     <Compile Include="DB\SqlServer\OnlineElectricPrescript\OnlineElectricPrescriptGetIO.cs" />
     <Compile Include="DB\SqlServer\EntryFinishedUser\EntryFinishedUserAccess.cs" />
