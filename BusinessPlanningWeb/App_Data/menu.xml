@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BusinessPlanningWeb>
+  <Genre Title="受注未承認一覧" url="misyounin/misyounin.aspx"/>
+  <Genre Title="販売店実績" url="Distributor/Distributor.aspx"/> 
+  <Genre Title="新規獲得個人販売実績" url="AchievementES/AchievementES.aspx"/>
+  <Genre Title="paletteESソフトウェア保守料更新対象一覧" url="SoftwareMainteLimit/SoftwareMainteLimit.aspx"/>
+  <Genre Title="販売管理－備考抽出" url="Marks/Marks.aspx"/>
+  <Genre Title="ESET契約状態検索" url="ESET/Eset.aspx"/>
+  <Genre Title="オンライン資格確認売上集計" url="SaleOnlineQualifyTotal/SaleOnlineQualifyTotal.aspx"/>
+  <Genre Title="オン資進捗管理顧客一覧" url="OnlineLicenseProgressList/OnlineLicenseProgressList.aspx"/>
+  <Genre Title="各種作業料顧客一覧" url="OnlineDemand/OnlineDemand.aspx"/>
+  <Genre Title="オン資訪問診療連携費顧客一覧" url="OnlineLicenseHomon/OnlineLicenseHomon.aspx"/>
+  <Genre Title="オン資電子処方箋連携費顧客一覧" url="OnlineElectricPrescript/OnlineElectricPrescript.aspx"/>
+</BusinessPlanningWeb>
+
+
+<!-- 旧サイト（非表示） 
+<Genre Title="営業実績" url="BusinessPerformance/BusinessPerformance37.aspx"/>
+<Genre Title="見込客管理" url="ProspectiveCustomer.aspx"/>
+<Genre Title="U-BOX2009謝恩特別" url="SpecialPrice/SpecialPrice.aspx"/>
+<Genre Title="QURIA306F→309F" url="UPG/UPG.aspx"/>
+<Genre Title="2010年改正対応進捗" url="Kaisei/201003kaisei.aspx"/>
+<Genre Title="キャンペーン伝票抽出" url="Campaign/Campaign.aspx"/>
+<Genre Title="電子レセプト情報不備" url="online/online_Start.aspx"/>
+<Genre Title="電子レセプト対応" url="online/online.aspx"/>
+<Genre Title="2010/10金パラ" url="kaisei/201010kaisei.aspx"/>
+<Genre Title="2011/10金パラ" url="kaisei/201110kaisei.aspx"/>
+<Genre Title="助成申請書管理" url="keiyaku/keiyakuView.aspx"/>
+<Genre Title="改正" url="kaisei/201110kaisei.aspx">   
+<Genre Title="保守未リプレース" url="Hosyu/Hosyu_Info.aspx"/>
+<Genre Title="電子レセプト" url="online/online.aspx">
+<Genre Title="ミック作業" url="online/online_MIC.aspx"/>
+<Genre Title="ユーザー作業" url="online/online_User.aspx"/>
+<Genre Title="伝票承認漏チェック" url="online/online_Check.aspx"/>
+<Genre Title="設定作業未終了一覧" url="online/online_CheckEnd.aspx"/>
+<Genre Title="ＭＷＳ" url="kaisei/201110kaisei.aspx">
+<Genre Title="ＭＷＳユーザー数" url="MWS/MWS_USER_C.aspx"/>
+<Genre Title="ＭＷＳ口振未加入ユーザー" url="MWS/MWS_koufuri.aspx"/>
+<Genre Title="ログオフ" url="Login.aspx"/>
+<Genre Title="営業実績(簡易版)37期,38期,39期,40期" url="BusinessPerformance/BusinessPerformance37.aspx"/>
+<Genre Title="営業実績(簡易版)35期,36期" url="BusinessPerformance/BusinessPerformance.aspx"/>
+<Genre Title="2016/5 営業報奨企画" url="41campaign/41campaign.aspx"/>
+<Genre Title="42期上期社内報賞企画" url="42campaign/42campaign.aspx"/>
+<Genre Title="42期第４四半期社内キャンペーン" url="42_2campaign/42_2campaign.aspx"/> 
+<Genre Title="管理者メニュー" url="AuthorityError.aspx"/>
+<Genre Title="オンライン資格問い合わせフォーム" url="OnlineInquiry/OnlineInquiry.aspx">
+-->

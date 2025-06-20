@@ -1,0 +1,67 @@
+﻿<%@ Master Language="VB" CodeFile="BusinessPlanningWeb.master.vb" Inherits="BusinessPlanningWeb" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>BusinessPlanningWeb</title>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+    
+    <script language="javascript" type="text/javascript">
+   
+    function WinOpen(inpid) 
+　  {
+　　    
+　　    URL = 'UserInfo.aspx?UserID=' + inpid; 
+　　    NewWin=window.open(URL,'top','width=600,height=600,menubar=no,toolbar=no,location=no,directories=no,scrollbars=yes,status=yes,resizable=yes,alwaysRaised=yes,screenX=2,left=2,screenY=2,top=2');return false ; NewWin.focus();
+　  } 
+    </script>
+    
+    
+    
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+    <table cellpadding ="0" cellspacing="0" border="0">
+        <tr>
+            <td style="width:100px;background-color:#EEEEEE" align="center" colspan = "2">
+                <h1>BusinessPlanningWeb</h1>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px;background-color:#EEEEEE" valign="top">                  
+                <asp:XmlDataSource ID="XmlDataSource1" runat="server" 
+                        DataFile="~/App_Data/menu.xml"></asp:XmlDataSource>
+                    <asp:TreeView ID="TreeView1" runat="server" DataSourceID="XmlDataSource1" 
+                        ImageSet="BulletedList3" ShowExpandCollapse="False">
+                        <ParentNodeStyle Font-Bold="False" />
+                        <HoverNodeStyle Font-Underline="True" ForeColor="#5555DD" />
+                        <SelectedNodeStyle Font-Underline="True" ForeColor="#5555DD" 
+                            HorizontalPadding="0px" VerticalPadding="0px" />
+                        <DataBindings>
+                            <asp:TreeNodeBinding DataMember="Genre" NavigateUrlField="Url" 
+                                TextField="title" />
+                        </DataBindings>
+                        <NodeStyle Font-Names="Verdana" Font-Size="8pt" ForeColor="Black" 
+                            HorizontalPadding="5px" NodeSpacing="0px" VerticalPadding="0px" />
+                    </asp:TreeView>
+            </td>
+            <td style="background-color:white" valign="top">  
+                <table cellpadding ="5" cellspacing ="5" border = "0">               
+                    <tr>   
+                        <td>
+                            <asp:contentplaceholder ID="ContentPlaceHolderbody" runat = "server">
+                                ここにWebページ
+                            </asp:contentplaceholder>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    </div>
+    </form>
+</body>
+</html>
