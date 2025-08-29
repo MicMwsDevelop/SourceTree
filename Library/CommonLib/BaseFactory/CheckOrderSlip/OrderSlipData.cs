@@ -6,6 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 // Ver1.000 新規作成(2019/11/15 勝呂)
+// Ver1.001 palette ES 2025版に対応(2025/07/08 勝呂)
 // 
 using CommonLib.Common;
 using System;
@@ -444,7 +445,9 @@ namespace CommonLib.BaseFactory.Junp.CheckOrderSlip
 		/// <returns>結果</returns>
 		public static List<OrderSlipData> SelectPaletteES(List<OrderSlipData> list)
 		{
-			return list.FindAll(p => PcaGoodsIDDefine.PaletteES_2019 == p.商品コード);
+			// Ver1.001 palette ES 2025版に対応(2025/07/08 勝呂)
+			//return list.FindAll(p => PcaGoodsIDDefine.PaletteES_2019 == p.商品コード);
+			return list.FindAll(p => PcaGoodsIDDefine.IsPaletteES(p.商品コード));
 		}
 
 		/// <summary>
@@ -546,6 +549,22 @@ namespace CommonLib.BaseFactory.Junp.CheckOrderSlip
 		public static List<OrderSlipData> SelectMatome(List<OrderSlipData> list)
 		{
 			return list.FindAll(p => PcaGoodsIDDefine.Matome12 == p.商品コード || PcaGoodsIDDefine.Matome24 == p.商品コード || PcaGoodsIDDefine.Matome36 == p.商品コード || PcaGoodsIDDefine.Matome48 == p.商品コード || PcaGoodsIDDefine.Matome60 == p.商品コード);
+		}
+
+		/// <summary>
+		/// 別伝票にMIC WEB SERVICE(ﾌﾟﾗｯﾄﾌｫｰﾑ利用 月額)が存在するか？
+		/// </summary>
+		/// <param name="list"></param>
+		/// <param name="target"></param>
+		/// <returns>結果</returns>
+		// Ver1.001 palette ES 2025版に対応(2025/07/08 勝呂)
+		public static OrderSlipData GetAnotherPlatform(List<OrderSlipData> list, OrderSlipData target)
+		{
+			if (PcaGoodsIDDefine.PaletteES_2025 == target.商品コード)
+			{
+				return list.Find(p => target.顧客No == p.顧客No && PcaGoodsIDDefine.MwsPlatform == p.商品コード);
+			}
+			return null;
 		}
 	}
 }

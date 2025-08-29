@@ -68,58 +68,6 @@ namespace CommonLib.DB.SqlServer.Junp
 		// SELECT
 
 		/// <summary>
-		/// [JunpDB].[dbo].[tMikユーザ]の取得
-		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>tMikユーザ</returns>
-		public static List<tMikユーザ> Select_tMikユーザ(string whereStr, string orderStr, string connectStr)
-		{
-			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ], whereStr, orderStr, connectStr);
-			return tMikユーザ.DataTableToList(table);
-		}
-
-		/// <summary>
-		/// [JunpDB].[dbo].[tMikOS明細印字]の取得
-		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>tMikOS明細印字</returns>
-		public static List<tMikOS明細印字> Select_tMikOS明細印字(string whereStr, string orderStr, string connectStr)
-		{
-			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikOS明細印字], whereStr, orderStr, connectStr);
-			return tMikOS明細印字.DataTableToList(table);
-		}
-
-		/// <summary>
-		/// [JunpDB].[dbo].[tMikコードマスタ]の取得
-		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>tMikコードマスタ</returns>
-		public static List<tMikコードマスタ> Select_tMikコードマスタ(string whereStr, string orderStr, string connectStr)
-		{
-			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ], whereStr, orderStr, connectStr);
-			return tMikコードマスタ.DataTableToList(table);
-		}
-
-		/// <summary>
-		/// [JunpDB].[dbo].[tMik保守契約]の取得
-		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>tMik保守契約</returns>
-		public static List<tMik保守契約> Select_tMik保守契約(string whereStr, string orderStr, string connectStr)
-		{
-			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik保守契約], whereStr, orderStr, connectStr);
-			return tMik保守契約.DataTableToList(table);
-		}
-
-		/// <summary>
 		/// [JunpDB].[dbo].[tBusho]の取得
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
@@ -130,45 +78,6 @@ namespace CommonLib.DB.SqlServer.Junp
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tBusho], whereStr, orderStr, connectStr);
 			return tBusho.DataTableToList(table);
-		}
-
-		/// <summary>
-		/// [JunpDB].[dbo].[tMih支店情報]の取得
-		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>tMih支店情報</returns>
-		public static List<tMih支店情報> Select_tMih支店情報(string whereStr, string orderStr, string connectStr)
-		{
-			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報], whereStr, orderStr, connectStr);
-			return tMih支店情報.DataTableToList(table);
-		}
-
-		/// <summary>
-		/// [JunpDB].[dbo].[tMik基本情報]の取得
-		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>tMik基本情報</returns>
-		public static List<tMik基本情報> Select_tMik基本情報(string whereStr, string orderStr, string connectStr)
-		{
-			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報], whereStr, orderStr, connectStr);
-			return tMik基本情報.DataTableToList(table);
-		}
-
-		/// <summary>
-		/// [JunpDB].[dbo].[tMikアプリケーション情報]の取得
-		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>tMik基本tMikアプリケーション情報</returns>
-		public static List<tMikアプリケーション情報> Select_tMikアプリケーション情報(string whereStr, string orderStr, string connectStr)
-		{
-			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報], whereStr, orderStr, connectStr);
-			return tMikアプリケーション情報.DataTableToList(table);
 		}
 
 		/// <summary>
@@ -208,6 +117,97 @@ namespace CommonLib.DB.SqlServer.Junp
 		{
 			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMic終了ユーザーリスト], whereStr, orderStr, connectStr);
 			return tMic終了ユーザーリスト.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMih支店情報]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>tMih支店情報</returns>
+		public static List<tMih支店情報> Select_tMih支店情報(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMih支店情報], whereStr, orderStr, connectStr);
+			return tMih支店情報.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMikOS明細印字]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>tMikOS明細印字</returns>
+		public static List<tMikOS明細印字> Select_tMikOS明細印字(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikOS明細印字], whereStr, orderStr, connectStr);
+			return tMikOS明細印字.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMikアプリケーション情報]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>tMik基本tMikアプリケーション情報</returns>
+		public static List<tMikアプリケーション情報> Select_tMikアプリケーション情報(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikアプリケーション情報], whereStr, orderStr, connectStr);
+			return tMikアプリケーション情報.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMikコードマスタ]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>tMikコードマスタ</returns>
+		public static List<tMikコードマスタ> Select_tMikコードマスタ(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikコードマスタ], whereStr, orderStr, connectStr);
+			return tMikコードマスタ.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMikユーザ]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>tMikユーザ</returns>
+		public static List<tMikユーザ> Select_tMikユーザ(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMikユーザ], whereStr, orderStr, connectStr);
+			return tMikユーザ.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMik基本情報]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>tMik基本情報</returns>
+		public static List<tMik基本情報> Select_tMik基本情報(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik基本情報], whereStr, orderStr, connectStr);
+			return tMik基本情報.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[tMik保守契約]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>tMik保守契約</returns>
+		public static List<tMik保守契約> Select_tMik保守契約(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.TableName[JunpDatabaseDefine.TableType.tMik保守契約], whereStr, orderStr, connectStr);
+			return tMik保守契約.DataTableToList(table);
 		}
 
 		/// <summary>
@@ -366,6 +366,32 @@ namespace CommonLib.DB.SqlServer.Junp
 		}
 
 		/// <summary>
+		/// [JunpDB].[dbo].[vMicPCA区分マスタ]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>vMicPCA区分マスタ</returns>
+		public static List<vMicPCA区分マスタ> Select_vMicPCA区分マスタ(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA区分マスタ], whereStr, orderStr, connectStr);
+			return vMicPCA区分マスタ.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[vMicPCA仕入先マスタ]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>vMicPCA仕入先マスタ</returns>
+		public static List<vMicPCA仕入先マスタ> Select_vMicPCA仕入先マスタ(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA仕入先マスタ], whereStr, orderStr, connectStr);
+			return vMicPCA仕入先マスタ.DataTableToList(table);
+		}
+
+		/// <summary>
 		/// vMicPCA商品マスタの取得
 		/// </summary>
 		/// <param name="code">商品コード</param>
@@ -397,19 +423,6 @@ namespace CommonLib.DB.SqlServer.Junp
 		}
 
 		/// <summary>
-		/// vSoftwareMainteLimitの取得
-		/// </summary>
-		/// <param name="whereStr"></param>
-		/// <param name="orderStr"></param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns></returns>
-		public static List<vSoftwareMainteLimit> Select_vSoftwareMainteLimit(string whereStr, string orderStr, string connectStr)
-		{
-			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vSoftwareMainteLimit], whereStr, orderStr, connectStr);
-			return vSoftwareMainteLimit.DataTableToList(table);
-		}
-
-		/// <summary>
 		/// [JunpDB].[dbo].[vMicPCA売上明細]の取得
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
@@ -423,16 +436,43 @@ namespace CommonLib.DB.SqlServer.Junp
 		}
 
 		/// <summary>
-		/// [JunpDB].[dbo].[vMicPCA仕入先マスタ]の取得
+		/// [JunpDB].[dbo].[vMicオンライン資格確認ソフト改修費]の取得
 		/// </summary>
 		/// <param name="whereStr">Where句</param>
 		/// <param name="orderStr">Order句</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>vMicPCA仕入先マスタ</returns>
-		public static List<vMicPCA仕入先マスタ> Select_vMicPCA仕入先マスタ(string whereStr, string orderStr, string connectStr)
+		/// <returns>vMicオンライン資格確認ソフト改修費</returns>
+		/// Ver1.01 新規作成(2022/12/28 勝呂)
+		public static List<vMicオンライン資格確認ソフト改修費> Select_vMicオンライン資格確認ソフト改修費(string whereStr, string orderStr, string connectStr)
 		{
-			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA仕入先マスタ], whereStr, orderStr, connectStr);
-			return vMicPCA仕入先マスタ.DataTableToList(table);
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicオンライン資格確認ソフト改修費], whereStr, orderStr, connectStr);
+			return vMicオンライン資格確認ソフト改修費.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[vMicソフトウェア保守料売上予測]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>vMicソフトウェア保守料売上予測</returns>
+		public static List<vMicソフトウェア保守料売上予測> Select_vMicソフトウェア保守料売上予測(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicソフトウェア保守料売上予測], whereStr, orderStr, connectStr);
+			return vMicソフトウェア保守料売上予測.DataTableToList(table);
+		}
+
+		/// <summary>
+		/// [JunpDB].[dbo].[vMicユーザーオン資用]の取得
+		/// </summary>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="orderStr">Order句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>vMicユーザーオン資用</returns>
+		public static List<vMicユーザーオン資用> Select_vMicユーザーオン資用(string whereStr, string orderStr, string connectStr)
+		{
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicユーザーオン資用], whereStr, orderStr, connectStr);
+			return vMicユーザーオン資用.DataTableToList(table);
 		}
 
 		/// <summary>
@@ -500,44 +540,17 @@ namespace CommonLib.DB.SqlServer.Junp
 			return vMic翌月売上予想.DataTableToList(table);
 		}
 
-		///// <summary>
-		///// [JunpDB].[dbo].[vMicソフトウェア保守料売上予測]の取得
-		///// </summary>
-		///// <param name="whereStr">Where句</param>
-		///// <param name="orderStr">Order句</param>
-		///// <param name="connectStr">SQL Server接続文字列</param>
-		///// <returns>vMicソフトウェア保守料売上予測</returns>
-		//public static List<vMicソフトウェア保守料売上予測> Select_vMicソフトウェア保守料売上予測(string whereStr, string orderStr, string connectStr)
-		//{
-		//	DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicソフトウェア保守料売上予測], whereStr, orderStr, connectStr);
-		//	return vMicソフトウェア保守料売上予測.DataTableToList(table);
-		//}
-
 		/// <summary>
-		/// [JunpDB].[dbo].[vMicユーザーオン資用]の取得
+		/// vSoftwareMainteLimitの取得
 		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
+		/// <param name="whereStr"></param>
+		/// <param name="orderStr"></param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>vMicユーザーオン資用</returns>
-		public static List<vMicユーザーオン資用> Select_vMicユーザーオン資用(string whereStr, string orderStr, string connectStr)
+		/// <returns></returns>
+		public static List<vSoftwareMainteLimit> Select_vSoftwareMainteLimit(string whereStr, string orderStr, string connectStr)
 		{
-			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicユーザーオン資用], whereStr, orderStr, connectStr);
-			return vMicユーザーオン資用.DataTableToList(table);
-		}
-
-		/// <summary>
-		/// [JunpDB].[dbo].[vMicオンライン資格確認ソフト改修費]の取得
-		/// </summary>
-		/// <param name="whereStr">Where句</param>
-		/// <param name="orderStr">Order句</param>
-		/// <param name="connectStr">SQL Server接続文字列</param>
-		/// <returns>vMicオンライン資格確認ソフト改修費</returns>
-		/// Ver1.01 新規作成(2022/12/28 勝呂)
-		public static List<vMicオンライン資格確認ソフト改修費> Select_vMicオンライン資格確認ソフト改修費(string whereStr, string orderStr, string connectStr)
-		{
-			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicオンライン資格確認ソフト改修費], whereStr, orderStr, connectStr);
-			return vMicオンライン資格確認ソフト改修費.DataTableToList(table);
+			DataTable table = DatabaseAccess.SelectDatabase(JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vSoftwareMainteLimit], whereStr, orderStr, connectStr);
+			return vSoftwareMainteLimit.DataTableToList(table);
 		}
 	}
 }

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HardRentalManagerSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ConnectJunp>
+		<!-- InstanceName>SQLSV</InstanceName -->
+		<InstanceName>TESTSV2</InstanceName>
+		<DatabaseName>JunpDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+	</ConnectJunp>
+	<ConnectCharlie>
+		<!-- InstanceName>SQLSV</InstanceName -->
+		<InstanceName>TESTSV2</InstanceName>
+		<DatabaseName>CharlieDB</DatabaseName>
+		<UserID>web</UserID>
+		<Password>02035612</Password>
+		</ConnectCharlie>
+	<Mail>
+		<From>mainte_info_sys@mic.jp</From>
+		<To>gyomu@mic.jp</To>
+		<CC>mainte_info_sys@mic.jp</CC>
+		<TestTo>suguro@mic.jp</TestTo>
+		<TestCC>suguro@mic.jp</TestCC>
+		<Smtp>dove.mic.jp</Smtp>
+		<Port>25</Port>
+		<User />
+		<Pass />
+	</Mail>
+</HardRentalManagerSettings>

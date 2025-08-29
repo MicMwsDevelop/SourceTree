@@ -46,10 +46,9 @@
 		ValidationExpression="\d{4}/\d{2}/\d{2}">※</asp:RegularExpressionValidator>
 	</p>
 	<asp:ValidationSummary ID="ValidationSummary1" runat="server" />
-
 	<p>
-	<asp:Label ID="label東日本営業部" runat="server" Text="東日本営業部" Font-Bold="True" Visible=False />
-	<asp:GridView ID="GridView東日本営業部" runat="server" DataSourceID="SqlDataSource東日本営業部" 
+	<asp:Label ID="labelプロモーション営業部" runat="server" Text="プロモーション営業部" Font-Bold="True" Visible=False />
+	<asp:GridView ID="GridViewプロモーション営業部" runat="server" DataSourceID="SqlDataSourceプロモーション営業部" 
 		AutoGenerateColumns="False" BackColor="White" BorderColor="#999999" 
 		BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" ShowFooter="True" Visible=False>
 	<FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
@@ -66,12 +65,12 @@
 	<HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
 	<AlternatingRowStyle BackColor="Gainsboro" />
 	</asp:GridView>
-	<asp:SqlDataSource ID="SqlDataSource東日本営業部" runat="server">
+	<asp:SqlDataSource ID="SqlDataSourceプロモーション営業部" runat="server">
 	</asp:SqlDataSource>
 	</p>
 	<p>
-	<asp:Label ID="label西日本営業部" runat="server" Text="西日本営業部" Font-Bold="True" Visible=False />
-	<asp:GridView ID="GridView西日本営業部" runat="server" DataSourceID="SqlDataSource西日本営業部" 
+	<asp:Label ID="labelソリューション営業部" runat="server" Text="ソリューション営業部" Font-Bold="True" Visible=False />
+	<asp:GridView ID="GridViewソリューション営業部" runat="server" DataSourceID="SqlDataSourceソリューション営業部" 
 		AutoGenerateColumns="False" BackColor="White" BorderColor="#999999" 
 		BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" ShowFooter="True" Visible=False>
 	<FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
@@ -88,7 +87,7 @@
 	<HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
 	<AlternatingRowStyle BackColor="Gainsboro" />
 	</asp:GridView>
-	<asp:SqlDataSource ID="SqlDataSource西日本営業部" runat="server">
+	<asp:SqlDataSource ID="SqlDataSourceソリューション営業部" runat="server">
 	</asp:SqlDataSource>
 	</p>
 	<p>
@@ -196,6 +195,50 @@
 		<AlternatingRowStyle BackColor="Gainsboro" />
 	</asp:GridView>
 	<asp:SqlDataSource ID="SqlDataSource西日本サポートセンター" runat="server"></asp:SqlDataSource>
+	</p>
+	<p>
+	<asp:Label ID="label東日本営業部" runat="server" Text="東日本営業部" Font-Bold="True" Visible=False />
+	<asp:GridView ID="GridView東日本営業部" runat="server" DataSourceID="SqlDataSource東日本営業部" 
+		AutoGenerateColumns="False" BackColor="White" BorderColor="#999999" 
+		BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" ShowFooter="True" Visible=False>
+	<FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
+	<RowStyle BackColor="#EEEEEE" ForeColor="Black" />
+	<Columns>
+		<asp:BoundField DataField="都道府県名" HeaderText="都道府県" />
+		<asp:BoundField DataField="商品コード" HeaderText="商品コード" />
+		<asp:BoundField DataField="商品名" HeaderText="商品名" />
+		<asp:BoundField DataField="数量" HeaderText="数量" />
+		<asp:BoundField DataField="金額" DataFormatString="{0:c}" HeaderText="金額" />
+	</Columns>
+	<PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+	<SelectedRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
+	<HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
+	<AlternatingRowStyle BackColor="Gainsboro" />
+	</asp:GridView>
+	<asp:SqlDataSource ID="SqlDataSource東日本営業部" runat="server">
+	</asp:SqlDataSource>
+	</p>
+	<p>
+	<asp:Label ID="label西日本営業部" runat="server" Text="西日本営業部" Font-Bold="True" Visible=False />
+	<asp:GridView ID="GridView西日本営業部" runat="server" DataSourceID="SqlDataSource西日本営業部" 
+		AutoGenerateColumns="False" BackColor="White" BorderColor="#999999" 
+		BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" ShowFooter="True" Visible=False>
+	<FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
+	<RowStyle BackColor="#EEEEEE" ForeColor="Black" />
+	<Columns>
+		<asp:BoundField DataField="都道府県名" HeaderText="都道府県" />
+		<asp:BoundField DataField="商品コード" HeaderText="商品コード" />
+		<asp:BoundField DataField="商品名" HeaderText="商品名" />
+		<asp:BoundField DataField="数量" HeaderText="数量" />
+		<asp:BoundField DataField="金額" DataFormatString="{0:c}" HeaderText="金額" />
+	</Columns>
+	<PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+	<SelectedRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
+	<HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
+	<AlternatingRowStyle BackColor="Gainsboro" />
+	</asp:GridView>
+	<asp:SqlDataSource ID="SqlDataSource西日本営業部" runat="server">
+	</asp:SqlDataSource>
 	</p>
 	<p>
 	<asp:Label ID="label01" runat="server" Text="北海道" Font-Bold="True" Visible=False />

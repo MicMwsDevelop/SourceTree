@@ -17,8 +17,8 @@
 	</asp:Label>
 	<asp:DropDownList ID="D_Area" runat="server" AutoPostBack="True">
 		<asp:ListItem Value="%">すべて</asp:ListItem>
-		<asp:ListItem Value="東日本営業部">東日本営業部</asp:ListItem>
-		<asp:ListItem Value="西日本営業部">西日本営業部</asp:ListItem>
+		<asp:ListItem Value="プロモーション営業部">プロモーション営業部</asp:ListItem>
+		<asp:ListItem Value="ソリューション営業部">ソリューション営業部</asp:ListItem>
 		<asp:ListItem Value="東日本サポートセンター">東日本サポートセンター</asp:ListItem>
 		<asp:ListItem Value="首都圏サポートセンター">首都圏サポートセンター</asp:ListItem>
 		<asp:ListItem Value="中日本サポートセンター">中日本サポートセンター</asp:ListItem>
@@ -30,11 +30,12 @@
 	</asp:Label>
 	<asp:DropDownList ID="D_Tanto" runat="server" AutoPostBack="True">
 		<asp:ListItem Value="%">すべて</asp:ListItem>
-		<asp:ListItem Value="営業1課(東)">営業1課(東)</asp:ListItem>
-		<asp:ListItem Value="営業2課(東)">営業2課(東)</asp:ListItem>
-		<asp:ListItem Value="営業3課(東)">営業3課(東)</asp:ListItem>
-		<asp:ListItem Value="営業1課(西)">営業1課(西)</asp:ListItem>
-		<asp:ListItem Value="営業2課(西)">営業2課(西)</asp:ListItem>
+		<asp:ListItem Value="営業1課">営業1課</asp:ListItem>
+		<asp:ListItem Value="営業2課">営業2課</asp:ListItem>
+		<asp:ListItem Value="関東エリア1課">関東エリア1課</asp:ListItem>
+		<asp:ListItem Value="関東エリア2課">関東エリア2課</asp:ListItem>
+		<asp:ListItem Value="関西エリア1課">関西エリア1課</asp:ListItem>
+		<asp:ListItem Value="九州エリア">九州エリア</asp:ListItem>
 		<asp:ListItem Value="札幌オフィス">札幌オフィス</asp:ListItem>
 		<asp:ListItem Value="仙台オフィス">仙台オフィス</asp:ListItem>
 		<asp:ListItem Value="さいたまオフィス">さいたまオフィス</asp:ListItem>

@@ -5,6 +5,7 @@
 // 
 // Ver1.000 新規作成(2019/02/08 勝呂)
 // Ver1.001 PC安心サポートPlus対応(2020/10/16 勝呂)
+// Ver1.002 palette ES 2025版に対応(2025/07/08 勝呂)
 //
 namespace CommonLib.BaseFactory
 {
@@ -69,6 +70,12 @@ namespace CommonLib.BaseFactory
 		/// MWS palette ES 2019版
 		/// </summary>
 		public const string PaletteES_2019 = "800121";
+
+		/// <summary>
+		/// MWS palette ES 2025版
+		/// </summary>
+		// Ver1.002 palette ES 2025版に対応(2025/07/08 勝呂)
+		public const string PaletteES_2025 = "800131";
 
 		/// <summary>
 		/// MWS palette ES（月額）
@@ -171,7 +178,9 @@ namespace CommonLib.BaseFactory
 		/// <returns>判定</returns>
 		public static bool IsPaletteES(string code)
 		{
-			if (code == PaletteES_2019)
+			// Ver1.002 palette ES 2025版に対応(2025/07/08 勝呂)
+			//if (code == PaletteES_2019)
+			if (code == PaletteES_2019 || code == PaletteES_2025)
 			{
 				return true;
 			}

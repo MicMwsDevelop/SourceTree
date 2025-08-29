@@ -9,6 +9,7 @@
 // Ver1.10 PC安心サポートPlus対応(2020/10/16 勝呂)
 // Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
 // Ver1.12 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
+// Ver1.13(2025/07/08 勝呂):palette ES 2025版に対応
 // 
 using ClosedXML.Excel;
 using CommonLib.BaseFactory;
@@ -400,6 +401,11 @@ namespace CheckOrderSlip.Forms
 		{
 			// チェック対象の商品の設定
 			List<string> goods = new List<string>();
+
+			// Ver1.13(2025/07/08 勝呂):palette ES 2025版に対応
+			goods.Add(PcaGoodsIDDefine.PaletteES_2025);
+			goods.Add(PcaGoodsIDDefine.MwsPlatform);
+
 			goods.Add(PcaGoodsIDDefine.PaletteES_2019);
 			goods.Add(PcaGoodsIDDefine.PaletteES_Mainte72);
 			goods.Add(PcaGoodsIDDefine.PaletteES_Mainte12);
@@ -443,34 +449,48 @@ namespace CheckOrderSlip.Forms
 						//		es.ErrorList.Add("paletteESの利用開始日が受注日の半年以降");
 						//	}
 						//}
-						// 同伝票にｿﾌﾄｳｪｱ保守料72ケ月が存在するか？
-						OrderSlipData mainte72 = OrderSlipData.GetSameMainte72(list, es);
-						if (null == mainte72)
+						if (PcaGoodsIDDefine.PaletteES_2019 == es.商品コード)
 						{
-							// 別伝票にｿﾌﾄｳｪｱ保守料72ケ月が存在するか？
-							mainte72 = OrderSlipData.GetAnotherMainte72(list, es);
-							if (null != mainte72)
+							// ES2019
+							// 同伝票にｿﾌﾄｳｪｱ保守料72ケ月が存在するか？
+							OrderSlipData mainte72 = OrderSlipData.GetSameMainte72(list, es);
+							if (null == mainte72)
 							{
-								if (es.利用期間 != mainte72.利用期間)
+								// 別伝票にｿﾌﾄｳｪｱ保守料72ケ月が存在するか？
+								mainte72 = OrderSlipData.GetAnotherMainte72(list, es);
+								if (null != mainte72)
 								{
-									mainte72.ErrorList.Add("paletteESの利用期間とｿﾌﾄｳｪｱ保守料の利用期間が違う");
-								}
-							}
-							else
-							{
-								// 別伝票にｿﾌﾄｳｪｱ保守料12ケ月が存在するか？
-								OrderSlipData mainte12 = OrderSlipData.GetAnotherMainte12(list, es);
-								if (null != mainte12)
-								{
-									if (es.利用期間.Start != mainte12.利用期間.Start)
+									if (es.利用期間 != mainte72.利用期間)
 									{
-										mainte12.ErrorList.Add("paletteESの利用開始日とｿﾌﾄｳｪｱ保守料の利用開始日が違う");
+										mainte72.ErrorList.Add("paletteESの利用期間とｿﾌﾄｳｪｱ保守料の利用期間が違う");
 									}
 								}
 								else
 								{
-									es.ErrorList.Add("ｿﾌﾄｳｪｱ保守料の伝票が存在しない");
+									// 別伝票にｿﾌﾄｳｪｱ保守料12ケ月が存在するか？
+									OrderSlipData mainte12 = OrderSlipData.GetAnotherMainte12(list, es);
+									if (null != mainte12)
+									{
+										if (es.利用期間.Start != mainte12.利用期間.Start)
+										{
+											mainte12.ErrorList.Add("paletteESの利用開始日とｿﾌﾄｳｪｱ保守料の利用開始日が違う");
+										}
+									}
+									else
+									{
+										es.ErrorList.Add("ｿﾌﾄｳｪｱ保守料の伝票が存在しない");
+									}
 								}
+							}
+						}
+						else if (PcaGoodsIDDefine.PaletteES_2025 == es.商品コード)
+						{
+							// ES2025
+							// 別伝票にMIC WEB SERVICE(ﾌﾟﾗｯﾄﾌｫｰﾑ利用 月額)が存在するか？
+							OrderSlipData platform = OrderSlipData.GetAnotherPlatform(list, es);
+							if (null == platform)
+							{
+								es.ErrorList.Add("MWSプラットフォーム利用料の伝票が存在しない");
 							}
 						}
 						if (es.NoReplace)

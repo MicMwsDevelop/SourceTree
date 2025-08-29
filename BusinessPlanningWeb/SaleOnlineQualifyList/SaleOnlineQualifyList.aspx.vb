@@ -5,7 +5,8 @@
 	' オンライン資格確認売上一覧
 	'
 	'Ver1.01(2023/02/07 勝呂):オンライン資格確認売上一覧 集計単位が部単位で集計できていない
-	'*****************************************************************
+  'Ver1.02(2025/07/03 勝呂):2025/08/01の組織変更対応に伴い改修。当分の間は業務に支障があるため、東日本営業部と西日本営業部は残置する
+'*****************************************************************
 	Dim totalPrice東日本営業部 As Decimal = 0
 	Dim totalCount東日本営業部 As Integer = 0
 	Dim totalPrice西日本営業部 As Decimal = 0
@@ -20,6 +21,10 @@
 	Dim totalCount関西サポートセンター As Integer = 0
 	Dim totalPrice西日本サポートセンター As Decimal = 0
 	Dim totalCount西日本サポートセンター As Integer = 0
+	Dim totalPriceプロモーション営業部 As Decimal = 0
+	Dim totalCountプロモーション営業部 As Integer = 0
+	Dim totalPriceソリューション営業部 As Decimal = 0
+	Dim totalCountソリューション営業部 As Integer = 0
 
 	Dim totalPrice(46) As Decimal
 	Dim totalCount(46) As Integer
@@ -153,6 +158,8 @@
 			GridView中日本サポートセンター.Visible = False
 			GridView関西サポートセンター.Visible = False
 			GridView西日本サポートセンター.Visible = False
+			GridViewプロモーション営業部.Visible = False
+			GridViewソリューション営業部.Visible = False
 			label東日本営業部.Visible = False
 			label西日本営業部.Visible = False
 			label東日本サポートセンター.Visible = False
@@ -160,6 +167,8 @@
 			label中日本サポートセンター.Visible = False
 			label関西サポートセンター.Visible = False
 			label西日本サポートセンター.Visible = False
+			labelプロモーション営業部.Visible = False
+			labelソリューション営業部.Visible = False
 		Else
 			'部
 			label01.Visible = False
@@ -264,6 +273,8 @@
 			GridView中日本サポートセンター.Visible = True
 			GridView関西サポートセンター.Visible = True
 			GridView西日本サポートセンター.Visible = True
+			GridViewプロモーション営業部.Visible = True
+			GridViewソリューション営業部.Visible = True
 			label東日本営業部.Visible = True
 			label西日本営業部.Visible = True
 			label東日本サポートセンター.Visible = True
@@ -271,6 +282,8 @@
 			label中日本サポートセンター.Visible = True
 			label関西サポートセンター.Visible = True
 			label西日本サポートセンター.Visible = True
+			labelプロモーション営業部.Visible = True
+			labelソリューション営業部.Visible = True
 		End If
 	End Sub
 
@@ -317,16 +330,20 @@
 			totalCount関西サポートセンター = 0
 			totalPrice西日本サポートセンター = 0
 			totalCount西日本サポートセンター = 0
+			totalPriceプロモーション営業部 = 0
+			totalCountプロモーション営業部 = 0
+			totalPriceソリューション営業部 = 0
+			totalCountソリューション営業部 = 0
 
-			sqlStr = selectStr & whereStr & termStr & " AND [営業部コード] = '045' ORDER BY [県番号] ASC, [顧客No] ASC"
-			SqlDataSource東日本営業部.ConnectionString = connStr
-			SqlDataSource東日本営業部.SelectCommand = sqlStr
-			GridView東日本営業部.PageIndex = 0
+			sqlStr = selectStr & whereStr & termStr & " AND [営業部コード] = '047' ORDER BY [県番号] ASC, [顧客No] ASC"
+			SqlDataSourceプロモーション営業部.ConnectionString = connStr
+			SqlDataSourceプロモーション営業部.SelectCommand = sqlStr
+			GridViewプロモーション営業部.PageIndex = 0
 
-			sqlStr = selectStr & whereStr & termStr & " AND [営業部コード] = '046' ORDER BY [県番号] ASC, [顧客No] ASC"
-			SqlDataSource西日本営業部.ConnectionString = connStr
-			SqlDataSource西日本営業部.SelectCommand = sqlStr
-			GridView西日本営業部.PageIndex = 0
+			sqlStr = selectStr & whereStr & termStr & " AND [営業部コード] = '048' ORDER BY [県番号] ASC, [顧客No] ASC"
+			SqlDataSourceソリューション営業部.ConnectionString = connStr
+			SqlDataSourceソリューション営業部.SelectCommand = sqlStr
+			GridViewソリューション営業部.PageIndex = 0
 
 			sqlStr = selectStr & whereStr & termStr & " AND [営業部コード] = '053' ORDER BY [県番号] ASC, [顧客No] ASC"
 			SqlDataSource東日本サポートセンター.ConnectionString = connStr
@@ -352,6 +369,16 @@
 			SqlDataSource西日本サポートセンター.ConnectionString = connStr
 			SqlDataSource西日本サポートセンター.SelectCommand = sqlStr
 			GridView西日本サポートセンター.PageIndex = 0
+
+			sqlStr = selectStr & whereStr & termStr & " AND [営業部コード] = '045' ORDER BY [県番号] ASC, [顧客No] ASC"
+			SqlDataSource東日本営業部.ConnectionString = connStr
+			SqlDataSource東日本営業部.SelectCommand = sqlStr
+			GridView東日本営業部.PageIndex = 0
+
+			sqlStr = selectStr & whereStr & termStr & " AND [営業部コード] = '046' ORDER BY [県番号] ASC, [顧客No] ASC"
+			SqlDataSource西日本営業部.ConnectionString = connStr
+			SqlDataSource西日本営業部.SelectCommand = sqlStr
+			GridView西日本営業部.PageIndex = 0
 		Else
 			VisibleControl(True)
 
@@ -608,10 +635,10 @@
 		Page.EnableViewState = False
 		Controls.Add(frm)
 
-		frm.Controls.Add(label東日本営業部)
-		frm.Controls.Add(GridView東日本営業部)
-		frm.Controls.Add(label西日本営業部)
-		frm.Controls.Add(GridView西日本営業部)
+		frm.Controls.Add(labelプロモーション営業部)
+		frm.Controls.Add(GridViewプロモーション営業部)
+		frm.Controls.Add(labelソリューション営業部)
+		frm.Controls.Add(GridViewソリューション営業部)
 		frm.Controls.Add(label東日本サポートセンター)
 		frm.Controls.Add(GridView東日本サポートセンター)
 		frm.Controls.Add(label首都圏サポートセンター)
@@ -622,6 +649,10 @@
 		frm.Controls.Add(GridView関西サポートセンター)
 		frm.Controls.Add(label西日本サポートセンター)
 		frm.Controls.Add(GridView西日本サポートセンター)
+		frm.Controls.Add(label東日本営業部)
+		frm.Controls.Add(GridView東日本営業部)
+		frm.Controls.Add(label西日本営業部)
+		frm.Controls.Add(GridView西日本営業部)
 
 		frm.Controls.Add(label01)
 		frm.Controls.Add(GridView01)
@@ -738,32 +769,32 @@
 
 	End Property
 
-	Protected Sub GridView東日本営業部_RowDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles GridView東日本営業部.RowDataBound
+	Protected Sub GridViewプロモーション営業部_RowDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles GridViewプロモーション営業部.RowDataBound
 		If e.Row.RowType = DataControlRowType.DataRow Then
 			' totalCount および totalPrice をそれぞれの累計用変数に加算します
-			totalCount東日本営業部 += Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "数量"))
-			totalPrice東日本営業部 += Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "金額"))
+			totalCountプロモーション営業部 += Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "数量"))
+			totalPriceプロモーション営業部 += Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "金額"))
 		ElseIf e.Row.RowType = DataControlRowType.Footer Then
 			e.Row.Cells(0).Text = "合計："
 			' フッターに、累計を表示します。
-			e.Row.Cells(5).Text = totalCount東日本営業部.ToString("G")
-			e.Row.Cells(6).Text = totalPrice東日本営業部.ToString("c")
+			e.Row.Cells(5).Text = totalCountプロモーション営業部.ToString("G")
+			e.Row.Cells(6).Text = totalPriceプロモーション営業部.ToString("c")
 			e.Row.Cells(1).HorizontalAlign = HorizontalAlign.Right
 			e.Row.Cells(2).HorizontalAlign = HorizontalAlign.Right
 			e.Row.Font.Bold = True
 		End If
 	End Sub
 
-	Protected Sub GridView西日本営業部_RowDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles GridView西日本営業部.RowDataBound
+	Protected Sub GridViewソリューション営業部_RowDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles GridViewソリューション営業部.RowDataBound
 		If e.Row.RowType = DataControlRowType.DataRow Then
 			' totalCount および totalPrice をそれぞれの累計用変数に加算します
-			totalCount西日本営業部 += Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "数量"))
-			totalPrice西日本営業部 += Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "金額"))
+			totalCountソリューション営業部 += Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "数量"))
+			totalPriceソリューション営業部 += Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "金額"))
 		ElseIf e.Row.RowType = DataControlRowType.Footer Then
 			e.Row.Cells(0).Text = "合計："
 			' フッターに、累計を表示します。
-			e.Row.Cells(5).Text = totalCount西日本営業部.ToString("G")
-			e.Row.Cells(6).Text = totalPrice西日本営業部.ToString("c")
+			e.Row.Cells(5).Text = totalCountソリューション営業部.ToString("G")
+			e.Row.Cells(6).Text = totalPriceソリューション営業部.ToString("c")
 			e.Row.Cells(1).HorizontalAlign = HorizontalAlign.Right
 			e.Row.Cells(2).HorizontalAlign = HorizontalAlign.Right
 			e.Row.Font.Bold = True
@@ -844,6 +875,38 @@
 			' フッターに、累計を表示します。
 			e.Row.Cells(5).Text = totalCount西日本サポートセンター.ToString("G")
 			e.Row.Cells(6).Text = totalPrice西日本サポートセンター.ToString("c")
+			e.Row.Cells(1).HorizontalAlign = HorizontalAlign.Right
+			e.Row.Cells(2).HorizontalAlign = HorizontalAlign.Right
+			e.Row.Font.Bold = True
+		End If
+	End Sub
+
+	Protected Sub GridView東日本営業部_RowDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles GridView東日本営業部.RowDataBound
+		If e.Row.RowType = DataControlRowType.DataRow Then
+			' totalCount および totalPrice をそれぞれの累計用変数に加算します
+			totalCount東日本営業部 += Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "数量"))
+			totalPrice東日本営業部 += Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "金額"))
+		ElseIf e.Row.RowType = DataControlRowType.Footer Then
+			e.Row.Cells(0).Text = "合計："
+			' フッターに、累計を表示します。
+			e.Row.Cells(5).Text = totalCount東日本営業部.ToString("G")
+			e.Row.Cells(6).Text = totalPrice東日本営業部.ToString("c")
+			e.Row.Cells(1).HorizontalAlign = HorizontalAlign.Right
+			e.Row.Cells(2).HorizontalAlign = HorizontalAlign.Right
+			e.Row.Font.Bold = True
+		End If
+	End Sub
+
+	Protected Sub GridView西日本営業部_RowDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles GridView西日本営業部.RowDataBound
+		If e.Row.RowType = DataControlRowType.DataRow Then
+			' totalCount および totalPrice をそれぞれの累計用変数に加算します
+			totalCount西日本営業部 += Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "数量"))
+			totalPrice西日本営業部 += Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "金額"))
+		ElseIf e.Row.RowType = DataControlRowType.Footer Then
+			e.Row.Cells(0).Text = "合計："
+			' フッターに、累計を表示します。
+			e.Row.Cells(5).Text = totalCount西日本営業部.ToString("G")
+			e.Row.Cells(6).Text = totalPrice西日本営業部.ToString("c")
 			e.Row.Cells(1).HorizontalAlign = HorizontalAlign.Right
 			e.Row.Cells(2).HorizontalAlign = HorizontalAlign.Right
 			e.Row.Font.Bold = True

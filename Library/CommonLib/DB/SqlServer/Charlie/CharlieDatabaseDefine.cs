@@ -134,14 +134,14 @@ namespace CommonLib.DB.SqlServer.Charlie
 			T_売上明細データ内訳 = 21,
 
 			/// <summary>
-			/// ハードサブスク管理 契約情報
+			/// ハードレンタル管理 契約情報
 			/// </summary>
-			T_HARD_SUBSCRIPT_HEADER = 22,
+			T_HARD_RENTAL_HEADER = 22,
 
 			/// <summary>
-			/// ハードサブスク管理 機器情報
+			/// ハードレンタル管理 機器情報
 			/// </summary>
-			T_HARD_SUBSCRIPT_DETAIL = 23,
+			T_HARD_RENTAL_DETAIL = 23,
 		}
 
 		/// <summary>
@@ -170,8 +170,8 @@ namespace CommonLib.DB.SqlServer.Charlie
 			{ TableType.T_USE_ELECTRIC_PRESCRIPTION, string.Format("{0}.T_USE_ELECTRIC_PRESCRIPTION", DatabaseName) },
 			{ TableType.T_USE_PRESCRIPTION_HEADER, string.Format("{0}.T_USE_PRESCRIPTION_HEADER", DatabaseName) },
 			{ TableType.T_売上明細データ内訳, string.Format("{0}.T_売上明細データ内訳", DatabaseName) },
-			{ TableType.T_HARD_SUBSCRIPT_HEADER, string.Format("{0}.T_HARD_SUBSCRIPT_HEADER", DatabaseName) },
-			{ TableType.T_HARD_SUBSCRIPT_DETAIL, string.Format("{0}.T_HARD_SUBSCRIPT_DETAIL", DatabaseName) },
+			{ TableType.T_HARD_RENTAL_HEADER, string.Format("{0}.T_HARD_RENTAL_HEADER", DatabaseName) },
+			{ TableType.T_HARD_RENTAL_DETAIL, string.Format("{0}.T_HARD_RENTAL_DETAIL", DatabaseName) },
 		};
 
 		/// <summary>

@@ -10,6 +10,7 @@
 // Ver1.10 PC安心サポートPlus対応(2020/10/16 勝呂)
 // Ver1.11 PC安心サポートPlus切替対応(2020/10/29 勝呂)
 // Ver1.12 SQL Server接続情報を環境設定に移行(2021/09/07 勝呂)
+// Ver1.13(2025/07/08 勝呂):palette ES 2025版に対応
 // 
 using CheckOrderSlip.Settings;
 using System;
@@ -22,7 +23,7 @@ namespace CheckOrderSlip
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.12 (2021/09/07)";
+		public const string VersionStr = "Ver1.13 (2025/07/08)";
 
 		/// <summary>
 		/// 環境設定

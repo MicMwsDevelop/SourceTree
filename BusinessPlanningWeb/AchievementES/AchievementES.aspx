@@ -16,8 +16,8 @@
 	</asp:Label>
 	<asp:DropDownList ID="dropListエリア" runat="server" AutoPostBack="False">
 		<asp:ListItem Value="%">すべて</asp:ListItem>
-		<asp:ListItem Value="東日本営業部">東日本営業部</asp:ListItem>
-		<asp:ListItem Value="西日本営業部">西日本営業部</asp:ListItem>
+		<asp:ListItem Value="プロモーション営業部">プロモーション営業部</asp:ListItem>
+		<asp:ListItem Value="ソリューション営業部">ソリューション営業部</asp:ListItem>
 		<asp:ListItem Value="東日本サポートセンター">東日本サポートセンター</asp:ListItem>
 		<asp:ListItem Value="首都圏サポートセンター">首都圏サポートセンター</asp:ListItem>
 		<asp:ListItem Value="中日本サポートセンター">中日本サポートセンター</asp:ListItem>

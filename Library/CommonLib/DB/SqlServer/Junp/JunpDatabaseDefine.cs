@@ -122,6 +122,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			vMic全販売店 = 27,
 			vMic顧客情報 = 28,
 			vMicWW伝票申込種別 = 29,
+			vMicソフトウェア保守料売上予測 = 30,
 		}
 
 		/// <summary>
@@ -158,6 +159,7 @@ namespace CommonLib.DB.SqlServer.Junp
 			{ ViewType.vMic全販売店, string.Format("{0}.vMic全販売店", DatabaseName) },
 			{ ViewType.vMic顧客情報, string.Format("{0}.vMic顧客情報", DatabaseName) },
 			{ ViewType.vMicWW伝票申込種別, string.Format("{0}.vMicWW伝票申込種別", DatabaseName) },
+			{ ViewType.vMicソフトウェア保守料売上予測, string.Format("{0}.vMicソフトウェア保守料売上予測", DatabaseName) },
 		};
 	}
 }
