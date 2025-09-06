@@ -23,6 +23,7 @@
 // Ver1.19(2023/04/13 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 「領収書内訳書」の顧客名の後ろに様を付加しない
 // Ver1.19(2023/04/13 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 「領収書内訳書」と「事業完了報告書」の医療機関コードが出力されない
 // Ver1.20(2023/06/09 勝呂):2-FAX送付状、3-種類送付状が販売店の時に出力できない
+// Ver1.22(2025/09/02 勝呂):20-休止届 用紙追加に対応
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory;
@@ -106,6 +107,12 @@ namespace VariousDocumentOut.BaseFactory
 			UserChange,
 
 			/// <summary>
+			/// 休止届
+			/// </summary>
+			// Ver1.22(2025/09/02 勝呂):20-休止届 用紙追加に対応
+			UserPause,
+
+			/// <summary>
 			/// 第一園芸注文書
 			/// </summary>
 			FirstEngei,
@@ -165,6 +172,7 @@ namespace VariousDocumentOut.BaseFactory
 			{ DocumentType.SeikyuChange, "9-請求先変更届.xlsx.org" },
 			{ DocumentType.UserFinished, "10-終了届.xlsx.org" },
 			{ DocumentType.UserChange, "11-変更届.xlsx.org" },
+			{ DocumentType.UserPause, "20-休止届.xlsx.org" },
 			{ DocumentType.FirstEngei, "12-第一園芸注文書.xlsx.org" },
 			{ DocumentType.Delivery, "13-納品補助作業依頼書.xlsx.org" },
 			//{ DocumentType.SecondKitting, "14-2次キッティング依頼書.xlsx.org" },
@@ -191,6 +199,7 @@ namespace VariousDocumentOut.BaseFactory
 			{ DocumentType.SeikyuChange, "9-請求先変更届.xlsx" },
 			{ DocumentType.UserFinished, "10-終了届.xlsx" },
 			{ DocumentType.UserChange, "11-変更届.xlsx" },
+			{ DocumentType.UserPause, "20-休止届.xlsx" },
 			{ DocumentType.FirstEngei, "12-第一園芸注文書.xlsx" },
 			{ DocumentType.Delivery, "13-納品補助作業依頼書.xlsx" },
 			//{ DocumentType.SecondKitting, "14-2次キッティング依頼書.xlsx" },
@@ -1676,6 +1685,111 @@ namespace VariousDocumentOut.BaseFactory
 					}
 				}
 				xlCells[1, 19] = string.Format("作成日　　{0}", DocumentCommon.DateTodayString());
+				xlCells[12, 23] = common.顧客情報.得意先No;
+				xlCells[15, 5] = common.顧客情報.フリガナ;
+				xlCells[16, 5] = common.顧客情報.顧客名;
+				xlCells[17, 5] = common.顧客情報.院長名フリガナ;
+				xlCells[18, 5] = common.顧客情報.院長名;
+				xlCells[20, 5] = "〒" + common.顧客情報.郵便番号 + "\r\n" + common.顧客情報.住所1 + "\r\n" + common.顧客情報.住所2;
+				xlCells[20, 21] = common.顧客情報.電話番号;
+				xlCells[22, 21] = common.顧客情報.FAX番号;
+				xlCells[24, 5] = common.顧客情報.医保医療コード;
+				xlCells[26, 5] = common.顧客情報.システム名称;
+				xlCells[26, 17] = common.顧客情報.クライアント;
+			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
+			finally
+			{
+				if (null != xlCells)
+				{
+					Marshal.ReleaseComObject(xlCells);
+				}
+				if (null != xlSheet)
+				{
+					Marshal.ReleaseComObject(xlSheet);
+				}
+				if (null != xlSheets)
+				{
+					Marshal.ReleaseComObject(xlSheets);
+				}
+				if (null != xlBook)
+				{
+					xlBook.Save();
+					Marshal.ReleaseComObject(xlBook);
+				}
+				if (null != xlBooks)
+				{
+					Marshal.ReleaseComObject(xlBooks);
+				}
+				if (null != xlApp)
+				{
+					xlApp.Quit();
+					Marshal.ReleaseComObject(xlApp);
+				}
+				// ガベージコレクションを直ちに強制実行する
+				GC.Collect();
+			}
+		}
+
+		/// <summary>
+		/// EXCEL出力 - 20 休止届
+		/// </summary>
+		/// <param name="common">各種書類出力 共通情報</param>
+		/// <param name="pathname">Excelファイルパス名</param>
+		// Ver1.22(2025/09/02 勝呂):20-休止届 用紙追加に対応
+		public static void ExcelOutUserPause(DocumentCommon common, string pathname)
+		{
+			Excel.Application xlApp = null;
+			Excel.Workbooks xlBooks = null;
+			Excel.Workbook xlBook = null;
+			Excel.Sheets xlSheets = null;
+			Excel.Worksheet xlSheet = null;
+			Excel.Shapes xlShapes = null;
+			Excel.Range xlCells = null;
+			try
+			{
+				xlApp = new Microsoft.Office.Interop.Excel.Application();
+				xlBooks = xlApp.Workbooks;
+				xlBook = xlBooks.Open(pathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+				xlSheets = xlBook.Worksheets;
+				xlSheet = xlSheets["休止届"] as Excel.Worksheet;
+				xlShapes = xlSheet.Shapes;
+				xlCells = xlSheet.Cells;
+				foreach (Excel.Shape shape in xlShapes)
+				{
+					if (MsoShapeType.msoTextBox == shape.Type)
+					{
+						dynamic textFrame = shape.TextFrame;
+						switch (shape.Name)
+						{
+							case "郵便番号":
+								textFrame.Characters.Text = string.Format("〒{0}", common.郵便番号);
+								break;
+							case "住所１":
+								textFrame.Characters.Text = common.住所1;
+								break;
+							case "住所２":
+								textFrame.Characters.Text = common.住所2;
+								break;
+							case "送付先":
+								textFrame.Characters.Text = common.送付先;
+								break;
+							case "FAX番号":
+								textFrame.Characters.Text = string.Format("FAX {0}", common.FAX番号);
+								break;
+							case "顧客No":
+								textFrame.Characters.Text = common.顧客情報.顧客No;
+								break;
+							case "得意先No":
+								textFrame.Characters.Text = common.顧客情報.得意先No;
+								break;
+						}
+					}
+				}
+				xlCells[1, 18] = string.Format("作成日　　{0}", DocumentCommon.DateTodayString());
 				xlCells[12, 23] = common.顧客情報.得意先No;
 				xlCells[15, 5] = common.顧客情報.フリガナ;
 				xlCells[16, 5] = common.顧客情報.顧客名;

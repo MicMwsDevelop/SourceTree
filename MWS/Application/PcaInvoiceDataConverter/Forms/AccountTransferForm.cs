@@ -11,6 +11,7 @@ using ClosedXML.Excel;
 using CommonLib.BaseFactory.PcaInvoiceDataConverter;
 using CommonLib.Common;
 using CommonLib.DB.SqlServer.PcaInvoiceDataConverter;
+using DocumentFormat.OpenXml.Spreadsheet;
 using PcaInvoiceDataConverter.BaseFactory;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,21 @@ namespace PcaInvoiceDataConverter.Forms
 		private List<string> 口振請求なしList { get; set; }
 
 		/// <summary>
+		/// 口座振替ヘッダ行および明細行
+		/// </summary>
+		private List<AccountTransferHeaderLine> HeaderLineList =null;
+
+		/// <summary>
+		/// PCA請求データコンバータ.xlsx
+		/// </summary>
+		//private XLWorkbook WorkbookPca = null;
+
+		/// <summary>
+		/// Excelの起動プロセス
+		/// </summary>
+		private Process ProcessExcel = null;
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public AccountTransferForm()
@@ -74,6 +90,11 @@ namespace PcaInvoiceDataConverter.Forms
 			口振不可List = new List<string>();
 			口振不要List = new List<string>();
 			口振請求なしList = new List<string>();
+			HeaderLineList = null;
+
+			ProcessExcel = new Process();
+			ProcessExcel.StartInfo.FileName = Program.ExcelPathname;
+			ProcessExcel.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
 		}
 
 		/// <summary>
@@ -83,6 +104,82 @@ namespace PcaInvoiceDataConverter.Forms
 		/// <param name="e"></param>
 		private void AccountTransferForm_Load(object sender, EventArgs e)
 		{
+			try
+			{
+				///////////////////////////////////////////////////////
+				// PCA請求データコンバータ.xlsx 更新処理
+
+				using (XLWorkbook book = new XLWorkbook(Program.ExcelPathname))
+				{
+					book.Style.Font.FontName = "メイリオ";
+					book.Style.Font.FontSize = 9;
+
+					/////////////////////////////////////////////////////////////////////
+					// 「基本データ」 口座振替関連基本データ 初期値設定
+
+					IXLWorksheet wsBasic = book.Worksheet(Program.SheetNameBasicData);
+
+					// 口座振替日=今月27日
+					wsBasic.Cell(5, 3).Value = Program.gBasicSheetData.口座振替日;
+
+					// PCA請求一覧読込みファイル
+					wsBasic.Cell(6, 3).Value = Program.gBasicSheetData.PCA請求一覧10読込みファイル;
+
+					// APLUS送信ファイル出力フォルダ
+					wsBasic.Cell(7, 3).Value = Program.gBasicSheetData.APLUS送信ファイル出力フォルダ;
+
+					// APLUS送信ファイル
+					wsBasic.Cell(8, 3).Value = Program.gBasicSheetData.APLUS送信ファイル;
+
+
+					/////////////////////////////////////////////////////////////////////
+					// 「基本データ」 WEB請求書発行関連基本データ 初期値設定
+
+					// 請求書番号基数
+					wsBasic.Cell(16, 3).Value = Program.gBasicSheetData.WEB請求書番号基数;
+
+					// 口座振替請求日=今月27日
+					wsBasic.Cell(17, 3).Value = Program.gBasicSheetData.口座振替請求日;
+
+					// 口座振替請求期間開始日=先月11日、口座振替請求期間終了日=今月10日
+					wsBasic.Cell(18, 3).Value = Program.gBasicSheetData.口座振替請求期間開始日;
+					wsBasic.Cell(18, 5).Value = Program.gBasicSheetData.口座振替請求期間終了日;
+
+					// PCA請求明細読込みファイル
+					wsBasic.Cell(19, 3).Value = Program.gBasicSheetData.PCA請求明細10読込みファイル;
+
+					// WEB請求書ファイル出力フォルダ
+					wsBasic.Cell(20, 3).Value = Program.gBasicSheetData.WEB請求書ファイル出力フォルダ;
+
+					// WEB請求書ヘッダファイル
+					wsBasic.Cell(21, 3).Value = Program.gBasicSheetData.WEB請求書ヘッダファイル;
+
+					// WEB請求書明細売上行ファイル
+					wsBasic.Cell(22, 3).Value = Program.gBasicSheetData.WEB請求書明細売上行ファイル;
+
+					// WEB請求書明細消費税行ファイル
+					wsBasic.Cell(23, 3).Value = Program.gBasicSheetData.WEB請求書明細消費税行ファイル;
+
+					// WEB請求書明細記事行ファイル
+					wsBasic.Cell(24, 3).Value = Program.gBasicSheetData.WEB請求書明細記事行ファイル;
+
+					// AGREX口振通知書ファイル出力フォルダ
+					wsBasic.Cell(25, 3).Value = Program.gBasicSheetData.AGREX口振通知書ファイル出力フォルダ;
+
+					// AGREX口振通知書ファイル=本日
+					wsBasic.Cell(26, 3).Value = Program.gBasicSheetData.AGREX口振通知書ファイル;
+
+					// ワークブックの保存
+					book.Save();
+
+					// Excelの起動
+					ProcessExcel.Start();
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 			///////////////////////////////////////////////////////
 			// 口座振替関連基本データ
 
@@ -191,6 +288,11 @@ namespace PcaInvoiceDataConverter.Forms
 		{
 			try
 			{
+				if (null != ProcessExcel)
+				{
+					// Excelを閉じる
+					ProcessExcel.CloseMainWindow();
+				}
 				// 元のカーソルを保持
 				Cursor preCursor = Cursor.Current;
 
@@ -218,10 +320,23 @@ namespace PcaInvoiceDataConverter.Forms
 						}
 					}
 				}
-				// カーソルを元に戻す
-				Cursor.Current = preCursor;
+				using (XLWorkbook book = new XLWorkbook(Program.ExcelPathname))
+				{
+					// 「顧客情報」シートの出力
+					Program.DeleteWorksheet(book, Program.SheetNameCustomer);
+					IXLWorksheet wsCust = book.Worksheets.Add(DataTableCustomers, Program.SheetNameCustomer);
 
-				MessageBox.Show("顧客情報読込みが終了しました。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+					// ワークブックの保存
+					book.Save();
+
+					// カーソルを元に戻す
+					Cursor.Current = preCursor;
+
+					MessageBox.Show("顧客情報読込みが終了しました。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+					// Excelの起動
+					ProcessExcel.Start();
+				}
 			}
 			catch (Exception ex)
 			{
@@ -249,6 +364,11 @@ namespace PcaInvoiceDataConverter.Forms
 				{
 					MessageBox.Show(string.Format("{0}が存在しません。", pathname), Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
+				}
+				if (null != ProcessExcel)
+				{
+					// Excelを閉じる
+					ProcessExcel.CloseMainWindow();
 				}
 				Program.gBasicSheetData.PCA請求一覧10読込みファイル = textBoxPCA請求一覧10読込みファイル.Text.Trim();
 
@@ -310,10 +430,24 @@ namespace PcaInvoiceDataConverter.Forms
 						}
 					}
 				}
-				// カーソルを元に戻す
-				Cursor.Current = preCursor;
+				using (XLWorkbook book = new XLWorkbook(Program.ExcelPathname))
+				{
+					// 「請求一覧」シートの出力
+					Program.DeleteWorksheet(book, Program.SheetNameInvoiceHeader);
+					DataTable tableHeaderData = InvoiceHeaderData.GetHeaderDataDataTable(InvoiceHeaderDataList);
+					IXLWorksheet wsHeaderData = book.Worksheets.Add(tableHeaderData, Program.SheetNameInvoiceHeader);
 
-				MessageBox.Show("請求一覧データ読込みが終了しました。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+					// ワークブックの保存
+					book.Save();
+
+					// カーソルを元に戻す
+					Cursor.Current = preCursor;
+
+					MessageBox.Show("請求一覧データ読込みが終了しました。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+					// Excelの起動
+					ProcessExcel.Start();
+				}
 			}
 			catch (Exception ex)
 			{
@@ -342,6 +476,11 @@ namespace PcaInvoiceDataConverter.Forms
 					MessageBox.Show(string.Format("{0}が存在しません。", pathname), Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
+				if (null != ProcessExcel)
+				{
+					// Excelを閉じる
+					ProcessExcel.CloseMainWindow();
+				}
 				Program.gBasicSheetData.PCA請求明細10読込みファイル = textBoxPCA請求明細10読込みファイル.Text.Trim();
 
 				// 元のカーソルを保持
@@ -368,10 +507,31 @@ namespace PcaInvoiceDataConverter.Forms
 						headerData.InvoiceDetailDataList = invoiceDetailDataList.FindAll(p => p.得意先コード == headerData.得意先コード);
 					}
 				}
-				// カーソルを元に戻す
-				Cursor.Current = preCursor;
+				using (XLWorkbook book = new XLWorkbook(Program.ExcelPathname))
+				{
+					// 「請求明細」シートの出力
+					Program.DeleteWorksheet(book, Program.SheetNameInvoiceDetail);
+					DataTable tableDetailData = InvoiceDetailData.SetColumns();
+					foreach (InvoiceHeaderData header in InvoiceHeaderDataList)
+					{
+						foreach (InvoiceDetailData detail in header.InvoiceDetailDataList)
+						{
+							tableDetailData.Rows.Add(detail.GetDataRow(tableDetailData.NewRow()));
+						}
+					}
+					IXLWorksheet wsDetailData = book.Worksheets.Add(tableDetailData, Program.SheetNameInvoiceDetail);
 
-				MessageBox.Show("請求明細データ読込みが終了しました。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+					// ワークブックの保存
+					book.Save();
+
+					// カーソルを元に戻す
+					Cursor.Current = preCursor;
+
+					MessageBox.Show("請求明細データ読込みが終了しました。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+					// Excelの起動
+					ProcessExcel.Start();
+				}
 			}
 			catch (Exception ex)
 			{
@@ -404,6 +564,11 @@ namespace PcaInvoiceDataConverter.Forms
 					MessageBox.Show("APLUS送信ファイルを指定してください。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					return;
 				}
+				if (null != ProcessExcel)
+				{
+					// Excelを閉じる
+					ProcessExcel.CloseMainWindow();
+				}
 				Program.gBasicSheetData.APLUS送信ファイル出力フォルダ = labelAPLUS送信ファイル出力フォルダ.Text;
 				Program.gBasicSheetData.APLUS送信ファイル = textBoxAPLUS送信ファイル.Text.Trim();
 				Program.gBasicSheetData.口座振替日 = dateTimePicker口座振替日.Value;
@@ -417,12 +582,63 @@ namespace PcaInvoiceDataConverter.Forms
 				// 現在時刻の取得
 				DateTime start = DateTime.Now;
 
-				// 口座振替データ作成
-				this.口座振替送信データ作成();
+				using (XLWorkbook book = new XLWorkbook(Program.ExcelPathname))
+				{
+					// 口座振替データ作成
+					this.口座振替送信データ作成(book);
 
-				// 口座振替ファイル出力（SosinyyMMdd.txt）
-				this.口座振替ファイル出力();
+					// 口座振替ファイル出力（SosinyyMMdd.txt）
+					this.口座振替ファイル出力();
 
+					// 「基本データ」 口座振替関連基本データ
+					IXLWorksheet wsBasic = book.Worksheet(Program.SheetNameBasicData);
+					wsBasic.Cell(10, 3).Value = Program.gBasicSheetData.口座振替不可件数;
+					wsBasic.Cell(10, 6).Value = Program.gBasicSheetData.口座振替不可請求額;
+					wsBasic.Cell(11, 3).Value = Program.gBasicSheetData.口座振替不要件数;
+					wsBasic.Cell(11, 6).Value = Program.gBasicSheetData.口座振替不要請求額;
+
+					// 「送信データ」シートの出力
+					// ws送信データは固定長なのでフォントを"ＭＳ ゴシック"に設定する
+					IXLWorksheet ws送信データ = Program.AddWorksheet(book, Program.SheetNameSendData);
+					ws送信データ.Style.Font.FontName = "ＭＳ ゴシック";
+					ws送信データ.Style.Font.FontSize = 9;
+					int row = 1;
+					foreach (string line in 送信データList)
+					{
+						ws送信データ.Cell(row, 1).Value = line;
+						row++;
+					}
+					// 「口振不可」シートの出力
+					IXLWorksheet ws口振不可 = Program.AddWorksheet(book, Program.SheetNameImpossible);
+					row = 1;
+					foreach (string line in 口振不可List)
+					{
+						string[] values = line.Split(',');
+						int column = 1;
+						foreach (string str in values)
+						{
+							ws口振不可.Cell(row, column).Value = str;
+							column++;
+						}
+						row++;
+					}
+					// 「口振不要」シートの出力
+					IXLWorksheet ws口振不要 = Program.AddWorksheet(book, Program.SheetNameUnnecessary);
+					row = 1;
+					foreach (string line in 口振不要List)
+					{
+						string[] values = line.Split(',');
+						int column = 1;
+						foreach (string str in values)
+						{
+							ws口振不要.Cell(row, column).Value = str;
+							column++;
+						}
+						row++;
+					}
+					// ワークブックの保存
+					book.Save();
+				}
 				// 終了時刻の取得
 				DateTime end = DateTime.Now;
 
@@ -437,6 +653,9 @@ namespace PcaInvoiceDataConverter.Forms
 															, Program.gBasicSheetData.APLUS送信ファイル
 															, Math.Floor(sp.TotalSeconds));
 				MessageBox.Show(msg, Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+				// Excelの起動
+				ProcessExcel.Start();
 			}
 			catch (Exception ex)
 			{
@@ -453,12 +672,6 @@ namespace PcaInvoiceDataConverter.Forms
 		{
 			try
 			{
-				// 元のカーソルを保持
-				Cursor preCursor = Cursor.Current;
-
-				// カーソルを待機カーソルに変更
-				Cursor.Current = Cursors.WaitCursor;
-
 				// 「請求明細」シートと「顧客一覧」シートの存在確認
 				if (0 == InvoiceHeaderDataList.Count || 0 == InvoiceHeaderDataList[0].InvoiceDetailDataList.Count || 0 == Customers.Count)
 				{
@@ -505,6 +718,17 @@ namespace PcaInvoiceDataConverter.Forms
 					MessageBox.Show("口座振替請求期間開始日または口座振替請求期間終了日が正しくありません。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					return;
 				}
+				if (null != ProcessExcel)
+				{
+					// Excelを閉じる
+					ProcessExcel.CloseMainWindow();
+				}
+				// 元のカーソルを保持
+				Cursor preCursor = Cursor.Current;
+
+				// カーソルを待機カーソルに変更
+				Cursor.Current = Cursors.WaitCursor;
+
 				Program.gBasicSheetData.WEB請求書番号基数 = textBoxWEB請求書番号基数.ToInt() + 1;
 				Program.gBasicSheetData.口座振替請求日 = dateTimePicker口座振替請求日.Value;
 				Program.gBasicSheetData.口座振替請求期間開始日 = dateTimePicker口座振替請求期間開始日.Value;
@@ -521,7 +745,7 @@ namespace PcaInvoiceDataConverter.Forms
 				DateTime start = DateTime.Now;
 
 				// 口座振替ヘッダ行および明細行の作成
-				List<AccountTransferHeaderLine> headerLineList = this.MakeHeaderLineAndDeatilLine();
+				HeaderLineList = this.MakeHeaderLineAndDeatilLine();
 
 				// WEB請求書ファイル出力フォルダの取得
 				if (false == Directory.Exists(Program.gBasicSheetData.WEB請求書ファイル出力フォルダ))
@@ -534,24 +758,55 @@ namespace PcaInvoiceDataConverter.Forms
 					Directory.CreateDirectory(webFolder);
 				}
 				// WEB請求書ヘッダファイル（invoice_header.tsv）の出力
-				this.FileOut(Path.Combine(webFolder, Program.gBasicSheetData.WEB請求書ヘッダファイル), headerLineList);
+				this.FileOut(Path.Combine(webFolder, Program.gBasicSheetData.WEB請求書ヘッダファイル), HeaderLineList);
 
 				// WEB請求書明細売上行ファイル（invoice_detail_bill.tsv）の出力
-				this.FileOutBill(Path.Combine(webFolder, Program.gBasicSheetData.WEB請求書明細売上行ファイル), headerLineList);
+				this.FileOutBill(Path.Combine(webFolder, Program.gBasicSheetData.WEB請求書明細売上行ファイル), HeaderLineList);
 
 				// WEB請求書明細消費税行ファイル（invoice_detail_tax.tsv）の出力
-				this.FileOutTax(Path.Combine(webFolder, Program.gBasicSheetData.WEB請求書明細消費税行ファイル), headerLineList);
+				this.FileOutTax(Path.Combine(webFolder, Program.gBasicSheetData.WEB請求書明細消費税行ファイル), HeaderLineList);
 
 				// WEB請求書明細記事行ファイル（invoice_detail_comment.tsv）の出力
-				this.FileOutComment(Path.Combine(webFolder, Program.gBasicSheetData.WEB請求書明細記事行ファイル), headerLineList);
+				this.FileOutComment(Path.Combine(webFolder, Program.gBasicSheetData.WEB請求書明細記事行ファイル), HeaderLineList);
 
 				// AGREX口振通知書ファイル（132001yyyyMMddF.csv）の出力
 				if (false == Directory.Exists(Program.gBasicSheetData.AGREX口振通知書ファイル出力フォルダ))
 				{
 					Directory.CreateDirectory(Program.gBasicSheetData.AGREX口振通知書ファイル出力フォルダ);
 				}
-				this.FileOutAgrexFile(Path.Combine(Program.gBasicSheetData.AGREX口振通知書ファイル出力フォルダ, Program.gBasicSheetData.AGREX口振通知書ファイル), headerLineList);
+				this.FileOutAgrexFile(Path.Combine(Program.gBasicSheetData.AGREX口振通知書ファイル出力フォルダ, Program.gBasicSheetData.AGREX口振通知書ファイル), HeaderLineList);
 
+				using (XLWorkbook book = new XLWorkbook(Program.ExcelPathname))
+				{
+					// 「ヘッダ行作業」シートの出力
+					Program.DeleteWorksheet(book, Program.SheetNameHeaderLine);
+					DataTable dataTableHeaderLine = AccountTransferHeaderLine.GetHeaderLineDataTable(HeaderLineList);
+					IXLWorksheet wsHeaderLine = book.Worksheets.Add(dataTableHeaderLine, Program.SheetNameHeaderLine);
+
+					// 「明細行作業」シートの出力
+					Program.DeleteWorksheet(book, Program.SheetNameDetailLine);
+					DataTable dataTableDetailLine = InvoiceDetailLine.SetColumns();
+					foreach (AccountTransferHeaderLine headerLine in HeaderLineList)
+					{
+						foreach (InvoiceDetailLine detailLine in headerLine.DetailLineList)
+						{
+							dataTableDetailLine.Rows.Add(detailLine.GetDataRow(dataTableDetailLine.NewRow()));
+						}
+					}
+					IXLWorksheet wsDetailLine = book.Worksheets.Add(dataTableDetailLine, Program.SheetNameDetailLine);
+
+					// 「基本データ」 WEB請求書発行関連基本データ
+					IXLWorksheet wsBasic = book.Worksheet(Program.SheetNameBasicData);
+					wsBasic.Cell(16, 3).Value = Program.gBasicSheetData.WEB請求書番号基数;
+					wsBasic.Cell(27, 3).Value = Program.gBasicSheetData.WEB請求書件数;
+					wsBasic.Cell(27, 6).Value = Program.gBasicSheetData.AGREX口振通知書件数;
+					wsBasic.Cell(28, 3).Value = Program.gBasicSheetData.口振請求なし件数;
+					wsBasic.Cell(29, 3).Value = Program.gBasicSheetData.請求金額あり件数;
+					wsBasic.Cell(29, 6).Value = Program.gBasicSheetData.WEB請求書請求金額;
+
+					// ワークブックの保存
+					book.Save();
+				}
 				// 終了時刻の取得
 				DateTime end = DateTime.Now;
 
@@ -579,8 +834,8 @@ namespace PcaInvoiceDataConverter.Forms
 															, Math.Floor(sp.TotalSeconds));
 				MessageBox.Show(msg, Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-				// PCA請求データコンバータ.xlsxの表示
-				this.BootExcel(headerLineList);
+				// Excelの起動
+				ProcessExcel.Start();
 			}
 			catch (Exception ex)
 			{
@@ -591,7 +846,8 @@ namespace PcaInvoiceDataConverter.Forms
 		/// <summary>
 		/// 口座振替送信データ作成
 		/// </summary>
-		private void 口座振替送信データ作成()
+		/// <param name="book">ワークブック</param>
+		private void 口座振替送信データ作成(XLWorkbook book)
 		{
 			送信データList.Clear();
 			口振不可List.Clear();
@@ -682,6 +938,37 @@ namespace PcaInvoiceDataConverter.Forms
 			// 送信データシートにエンドレコード（終端データ）を記録
 			record = AgrexDefine.AplusEndRecord();
 			送信データList.Add(record);   // 送信データリストに追加
+
+			// 「口振請求なし」シートの出力
+			IXLWorksheet ws口振請求なし = Program.AddWorksheet(book, Program.SheetNameInvoiceNothing);
+			int row = 1;
+			foreach (string line in 口振請求なしList)
+			{
+				string[] values = line.Split(',');
+				int column = 1;
+				foreach (string str in values)
+				{
+					ws口振請求なし.Cell(row, column).Value = str;
+					column++;
+				}
+				row++;
+			}
+			// 「ヘッダ行作業」シートの出力
+			Program.DeleteWorksheet(book, Program.SheetNameHeaderLine);
+			DataTable dataTableHeaderLine = AccountTransferHeaderLine.GetHeaderLineDataTable(HeaderLineList);
+			IXLWorksheet wsHeaderLine = book.Worksheets.Add(dataTableHeaderLine, Program.SheetNameHeaderLine);
+
+			// 「明細行作業」シートの出力
+			Program.DeleteWorksheet(book, Program.SheetNameDetailLine);
+			DataTable dataTableDetailLine = InvoiceDetailLine.SetColumns();
+			foreach (AccountTransferHeaderLine headerLine in HeaderLineList)
+			{
+				foreach (InvoiceDetailLine detailLine in headerLine.DetailLineList)
+				{
+					dataTableDetailLine.Rows.Add(detailLine.GetDataRow(dataTableDetailLine.NewRow()));
+				}
+			}
+			IXLWorksheet wsDetailLine = book.Worksheets.Add(dataTableDetailLine, Program.SheetNameDetailLine);
 		}
 
 		/// <summary>
@@ -1115,7 +1402,7 @@ namespace PcaInvoiceDataConverter.Forms
 				}
 			}
 		}
-
+/*
 		/// <summary>
 		/// Excelの起動
 		/// </summary>
@@ -1279,6 +1566,17 @@ namespace PcaInvoiceDataConverter.Forms
 			{
 				MessageBox.Show(ex.Message, Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+		}
+*/
+		/// <summary>
+		/// Form Closed
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void AccountTransferForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			// ワークブックの保存
+			//WorkbookPca.Save();
 		}
 	}
 }

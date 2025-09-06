@@ -13,6 +13,7 @@
 // Ver1.15(2023/01/13):19-経理部専用 オンライン資格確認等事業完了報告書 注文確認書の追加、領収証および書類送付状の削除
 // Ver1.18(2023/04/06 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 送付先リストから受注日を取得
 // Ver1.20(2023/06/09 勝呂):2-FAX送付状、3-種類送付状が販売店の時に出力できない
+// Ver1.22(2025/09/02 勝呂):20-休止届 用紙追加に対応
 //
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Junp.View;
@@ -136,6 +137,7 @@ namespace VariousDocumentOut.Forms
 			radio第一園芸注文書.Enabled = enable;
 			radio変更届.Enabled = enable;
 			radio終了届.Enabled = enable;
+			radio休止届.Enabled = enable;
 			radio請求先変更届.Enabled = enable;
 			radioMicrosoft365利用申請書.Enabled = enable;
 			radio登録データ確認カード.Enabled = enable;
@@ -324,6 +326,17 @@ namespace VariousDocumentOut.Forms
 		private void radio変更届_CheckedChanged(object sender, EventArgs e)
 		{
 			DocType = DocumentOut.DocumentType.UserChange;
+		}
+
+		/// <summary>
+		/// 休止届
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		// Ver1.22(2025/09/02 勝呂):20-休止届 用紙追加に対応
+		private void radio休止届_CheckedChanged(object sender, EventArgs e)
+		{
+			DocType = DocumentOut.DocumentType.UserPause;
 		}
 
 		/// <summary>
@@ -545,6 +558,17 @@ namespace VariousDocumentOut.Forms
 							return;
 						}
 						DocumentOut.ExcelOutUserChange(Common, xlsPathname);
+						break;
+					/// <summary>
+					/// 休止届
+					/// </summary>
+					// Ver1.22(2025/09/02 勝呂):20-休止届 用紙追加に対応
+					case DocumentOut.DocumentType.UserPause:
+						if (false == radio休止届.Enabled)
+						{
+							return;
+						}
+						DocumentOut.ExcelOutUserPause(Common, xlsPathname);
 						break;
 					/// <summary>
 					/// 第一園芸注文書

@@ -28,7 +28,7 @@ namespace PcaInvoiceDataConverter
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver 1.00（2023/06/27）";
+		public const string VersionStr = "Ver 1.00（2025/09/04）";
 
 		/// <summary>
 		/// 環境設定

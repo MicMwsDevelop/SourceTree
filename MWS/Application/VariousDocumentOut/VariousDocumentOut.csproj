@@ -138,6 +138,9 @@
     <None Include="2-FAX送付状.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="20-休止届.xlsx.org">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="3-書類送付状.xlsx.org">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

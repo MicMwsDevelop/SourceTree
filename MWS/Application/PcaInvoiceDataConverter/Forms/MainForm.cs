@@ -7,7 +7,6 @@
 // 
 // Ver1.00(2023/06/27 勝呂):新規作成
 //
-using ClosedXML.Excel;
 using CommonLib.Common;
 using PcaInvoiceDataConverter.BaseFactory;
 using PcaInvoiceDataConverter.Settings;
@@ -37,11 +36,6 @@ namespace PcaInvoiceDataConverter.Forms
 
 			try
 			{
-				//Program.WorkbookPca = new XLWorkbook(Program.ExcelPathname);
-				//Program.WorkbookPca.Style.Font.FontName = "メイリオ";
-				//Program.WorkbookPca.Style.Font.FontSize = 9;
-				//Program.WorkSheetBasic = Program.WorkbookPca.Worksheet(Program.SheetNameBasicData);
-
 				// 今月27日（日曜日は翌日に移動）
 				DateTime transferDate = Program.gBasicSheetData.振替日();
 
@@ -60,75 +54,40 @@ namespace PcaInvoiceDataConverter.Forms
 
 				// 口座振替日=今月27日
 				Program.gBasicSheetData.口座振替日 = transferDate;
-				//Program.WS基本データ.Cell(5, 3).Value = transferDate;
-
-				//Program.gBasicSheetData.PCA請求一覧10読込みファイル = Program.WorkSheetBasic.Cell(6, 3).GetString().Trim();
-				//Program.gBasicSheetData.APLUS送信ファイル出力フォルダ = Program.WorkSheetBasic.Cell(7, 3).GetString().Trim();
 
 				// APLUS送信ファイル=本日
 				Program.gBasicSheetData.APLUS送信ファイル = AgrexDefine.GetAplusSendDataFilename;
-				//Program.WS基本データ.Cell(8, 3).Value = AgrexDefine.GetAplusSendDataFilename;
 
 
 				/////////////////////////////////////////////////////////////////////
 				// 「基本データ」 WEB請求書発行関連基本データ 初期値設定
 
-				// WEB請求書番号基数
-				//Program.gBasicSheetData.WEB請求書番号基数 = (int)Program.WorkSheetBasic.Cell(16, 3).GetDouble() + 1;
-
 				// 口座振替請求日=今月27日
 				Program.gBasicSheetData.口座振替請求日 = transferDate;
-				//Program.WS基本データ.Cell(17, 3).Value = Program.gBasicSheetData.口座振替請求日;
 
 				// 口座振替請求期間開始日=先月11日、口座振替請求期間終了日=今月10日
 				Program.gBasicSheetData.口座振替請求期間開始日 = prev11;
 				Program.gBasicSheetData.口座振替請求期間終了日 = this10;
-				//Program.WS基本データ.Cell(18, 3).Value = Program.gBasicSheetData.口座振替請求期間開始日;
-				//Program.WS基本データ.Cell(18, 5).Value = Program.gBasicSheetData.口座振替請求期間終了日;
-
-				//Program.gBasicSheetData.PCA請求明細10読込みファイル = Program.WorkSheetBasic.Cell(19, 3).GetString().Trim();
-				//Program.gBasicSheetData.WEB請求書ファイル出力フォルダ = Program.WorkSheetBasic.Cell(20, 3).GetString().Trim();
-				//Program.gBasicSheetData.WEB請求書ヘッダファイル = Program.WorkSheetBasic.Cell(21, 3).GetString().Trim();
-				//Program.gBasicSheetData.WEB請求書明細売上行ファイル = Program.WorkSheetBasic.Cell(22, 3).GetString().Trim();
-				//Program.gBasicSheetData.WEB請求書明細消費税行ファイル = Program.WorkSheetBasic.Cell(23, 3).GetString().Trim();
-				//Program.gBasicSheetData.WEB請求書明細記事行ファイル = Program.WorkSheetBasic.Cell(24, 3).GetString().Trim();
-				//Program.gBasicSheetData.AGREX口振通知書ファイル出力フォルダ = Program.WorkSheetBasic.Cell(25, 3).GetString().Trim();
 
 				// AGREX口振通知書ファイル=本日
 				Program.gBasicSheetData.AGREX口振通知書ファイル = AgrexDefine.GetAccountTransferFilename;
-				//Program.WS基本データ.Cell(26, 3).Value = Program.gBasicSheetData.AGREX口振通知書ファイル;
 
 
 				/////////////////////////////////////////////////////////////////////
 				// 「基本データ」 銀行振込請求書発行関連基本データ 初期値設定
 
-				// 請求書番号基数
-				//Program.gBasicSheetData.請求書番号基数 = (int)Program.WorkSheetBasic.Cell(33, 3).GetDouble() + 1;
-
 				// 銀行振込請求書請求日=本日
 				Program.gBasicSheetData.銀行振込請求書請求日 = DateTime.Today;
-				//Program.WS基本データ.Cell(34, 3).Value = Program.gBasicSheetData.銀行振込請求書請求日;
 
 				// 銀行振込請求期間開始日=先月11日、銀行振込請求期間終了日=今月10日
 				Program.gBasicSheetData.銀行振込請求期間開始日 = prev11;
 				Program.gBasicSheetData.銀行振込請求期間終了日 = this10;
-				//Program.WS基本データ.Cell(35, 3).Value = Program.gBasicSheetData.銀行振込請求期間開始日;
-				//Program.WS基本データ.Cell(35, 5).Value = Program.gBasicSheetData.銀行振込請求期間終了日;
 
 				// 銀行振込入金期限日=今月末日
 				Program.gBasicSheetData.銀行振込入金期限日 = thisLastday;
-				//Program.WS基本データ.Cell(36, 3).Value = Program.gBasicSheetData.銀行振込入金期限日;
-
-				//Program.gBasicSheetData.PCA請求一覧11読込みファイル = Program.WorkSheetBasic.Cell(37, 3).GetString().Trim();
-				//Program.gBasicSheetData.PCA請求明細11読込みファイル = Program.WorkSheetBasic.Cell(38, 3).GetString().Trim();
-				//Program.gBasicSheetData.AGREX請求書ファイル出力フォルダ = Program.WorkSheetBasic.Cell(39, 3).GetString().Trim();
 
 				// AGREX請求書ファイル=本日
 				Program.gBasicSheetData.AGREX請求書ファイル = AgrexDefine.GetBankTransferFilename;
-				//Program.WS基本データ.Cell(40, 3).Value = Program.gBasicSheetData.AGREX請求書ファイル;
-
-				// ワークブックの保存
-				//Program.PcaWorkbook.Save();
 			}
 			catch (Exception ex)
 			{

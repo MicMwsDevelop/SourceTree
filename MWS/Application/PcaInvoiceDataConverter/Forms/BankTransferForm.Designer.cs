@@ -613,6 +613,7 @@
 			this.Name = "BankTransferForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "銀行振替請求書データ作成";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BankTransferForm_FormClosed);
 			this.Load += new System.EventHandler(this.BankTransferForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

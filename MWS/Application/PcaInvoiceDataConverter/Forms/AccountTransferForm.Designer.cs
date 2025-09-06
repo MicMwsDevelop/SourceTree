@@ -961,6 +961,7 @@
 			this.Name = "AccountTransferForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "口座振替データ作成";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AccountTransferForm_FormClosed);
 			this.Load += new System.EventHandler(this.AccountTransferForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

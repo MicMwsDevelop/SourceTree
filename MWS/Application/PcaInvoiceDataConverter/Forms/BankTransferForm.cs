@@ -52,6 +52,11 @@ namespace PcaInvoiceDataConverter.Forms
 		private List<string> 銀行振込マイナス請求List { get; set; }
 
 		/// <summary>
+		/// PCA請求データコンバータ.xlsx
+		/// </summary>
+		private XLWorkbook WorkbookPca = null;
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public BankTransferForm()
@@ -72,6 +77,56 @@ namespace PcaInvoiceDataConverter.Forms
 		/// <param name="e"></param>
 		private void BankTransferForm_Load(object sender, EventArgs e)
 		{
+			try
+			{
+				///////////////////////////////////////////////////////
+				// PCA請求データコンバータ.xlsx 更新処理
+
+				WorkbookPca = new XLWorkbook(Program.ExcelPathname);
+				WorkbookPca.Style.Font.FontName = "メイリオ";
+				WorkbookPca.Style.Font.FontSize = 9;
+				IXLWorksheet basicSheet = WorkbookPca.Worksheet(Program.SheetNameBasicData);
+
+				/////////////////////////////////////////////////////////////////////
+				// 「基本データ」 銀行振込請求書発行関連基本データ 初期値設定
+
+				// 請求書番号基数
+				basicSheet.Cell(33, 3).Value = Program.gBasicSheetData.請求書番号基数;
+
+				// 銀行振込請求書請求日=本日
+				basicSheet.Cell(34, 3).Value = Program.gBasicSheetData.銀行振込請求書請求日;
+
+				// 銀行振込請求期間開始日=先月11日、銀行振込請求期間終了日=今月10日
+				basicSheet.Cell(35, 3).Value = Program.gBasicSheetData.銀行振込請求期間開始日;
+				basicSheet.Cell(35, 5).Value = Program.gBasicSheetData.銀行振込請求期間終了日;
+
+				// 銀行振込入金期限日=今月末日
+				basicSheet.Cell(36, 3).Value = Program.gBasicSheetData.銀行振込入金期限日;
+
+				// PCA請求一覧読込みファイル
+				basicSheet.Cell(37, 3).Value = Program.gBasicSheetData.PCA請求一覧11読込みファイル;
+
+				// PCA請求明細読込みファイル
+				basicSheet.Cell(38, 3).Value = Program.gBasicSheetData.PCA請求明細11読込みファイル;
+
+				// AGREX請求書ファイル出力フォルダ
+				basicSheet.Cell(39, 3).Value = Program.gBasicSheetData.AGREX請求書ファイル出力フォルダ;
+
+				// AGREX請求書ファイル=本日
+				basicSheet.Cell(40, 3).Value = Program.gBasicSheetData.AGREX請求書ファイル;
+
+				// Excelの起動
+				using (Process process = new Process())
+				{
+					process.StartInfo.FileName = Program.ExcelPathname;
+					process.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
+					process.Start();
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 			///////////////////////////////////////////////////////
 			// 銀行振込請求書発行関連基本データ
 
@@ -781,6 +836,17 @@ namespace PcaInvoiceDataConverter.Forms
 			{
 				MessageBox.Show(ex.Message, Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+		}
+
+		/// <summary>
+		/// Form Closed
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void BankTransferForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			// ワークブックの保存
+			WorkbookPca.Save();
 		}
 	}
 }
