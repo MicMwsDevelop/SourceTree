@@ -8,6 +8,7 @@
 // Ver1.00(2023/06/27 勝呂):新規作成
 //
 using CommonLib.Common;
+using CommonLib.DB;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -197,6 +198,30 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 				table.Rows.Add(row);
 			}
 			return table;
+		}
+
+		/// <summary>
+		/// DataRow → オブジェクト
+		/// </summary>
+		/// <param name="row"></param>
+		/// <returns>請求一覧表</returns>
+		public static InvoiceHeaderData DataTableToObject(DataRow row)
+		{
+			InvoiceHeaderData data = new InvoiceHeaderData();
+			data.請求締日 = DataBaseValue.ConvObjectToInt(row["請求締日"]);
+			data.請求期間開始 = DataBaseValue.ConvObjectToDateTimeNull(row["請求期間開始"]);
+			data.請求期間終了 = DataBaseValue.ConvObjectToDateTimeNull(row["請求期間終了"]);
+			data.データ区分 = DataBaseValue.ConvObjectToInt(row["データ区分"]);
+			data.得意先コード = row["得意先コード"].ToString().Trim();
+			data.得意先名1 = row["得意先名1"].ToString().Trim();
+			data.得意先名2 = row["得意先名2"].ToString().Trim();
+			data.前回請求額 = DataBaseValue.ConvObjectToInt(row["前回請求額"]);
+			data.入金額 = DataBaseValue.ConvObjectToInt(row["入金額"]);
+			data.繰越金額 = DataBaseValue.ConvObjectToInt(row["繰越金額"]);
+			data.税込売上高 = DataBaseValue.ConvObjectToInt(row["税込売上高"]);
+			data.請求残高 = DataBaseValue.ConvObjectToInt(row["請求残高"]);
+			data.回収予定日 = DataBaseValue.ConvObjectToDateTimeNull(row["回収予定日"]);
+			return data;
 		}
 	}
 }
