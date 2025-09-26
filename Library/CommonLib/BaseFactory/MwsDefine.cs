@@ -33,6 +33,18 @@ namespace CommonLib.BaseFactory
 		/// </summary>
 		public const int ClinicCodeLength = 7;
 
+		/// <summary>
+		/// 郵便番号
+		/// </summary>
+		public const int ZipcodeLength = 7;
+
+		//////////////////////////////////////////////////////////
+		/// 点数表
+
+		/// <summary>
+		/// 歯科点数表
+		/// </summary>
+		public const int DentalNumber = 3;
 
 		//////////////////////////////////////////////////////////
 		/// システムコード
