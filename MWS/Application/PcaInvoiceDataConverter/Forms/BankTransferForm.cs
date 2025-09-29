@@ -57,17 +57,26 @@ namespace PcaInvoiceDataConverter.Forms
 		private XLWorkbook WorkbookPca = null;
 
 		/// <summary>
+		/// Excelの起動プロセス
+		/// </summary>
+		private Process ProcessExcel = null;
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public BankTransferForm()
 		{
 			InitializeComponent();
 
-			Customers = null;
-			DataTableCustomers = null;
-			InvoiceHeaderDataList = new List<InvoiceHeaderData>();
-			銀行振込０円請求List = new List<string>();
-			銀行振込マイナス請求List = new List<string>();
+			//Customers = null;
+			//DataTableCustomers = null;
+			//InvoiceHeaderDataList = new List<InvoiceHeaderData>();
+			//銀行振込０円請求List = new List<string>();
+			//銀行振込マイナス請求List = new List<string>();
+
+			ProcessExcel = new Process();
+			ProcessExcel.StartInfo.FileName = Program.ExcelPathname;
+			ProcessExcel.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
 		}
 
 		/// <summary>
@@ -82,45 +91,46 @@ namespace PcaInvoiceDataConverter.Forms
 				///////////////////////////////////////////////////////
 				// PCA請求データコンバータ.xlsx 更新処理
 
-				WorkbookPca = new XLWorkbook(Program.ExcelPathname);
-				WorkbookPca.Style.Font.FontName = "メイリオ";
-				WorkbookPca.Style.Font.FontSize = 9;
-				IXLWorksheet basicSheet = WorkbookPca.Worksheet(Program.SheetNameBasicData);
-
-				/////////////////////////////////////////////////////////////////////
-				// 「基本データ」 銀行振込請求書発行関連基本データ 初期値設定
-
-				// 請求書番号基数
-				basicSheet.Cell(33, 3).Value = Program.gBasicSheetData.請求書番号基数;
-
-				// 銀行振込請求書請求日=本日
-				basicSheet.Cell(34, 3).Value = Program.gBasicSheetData.銀行振込請求書請求日;
-
-				// 銀行振込請求期間開始日=先月11日、銀行振込請求期間終了日=今月10日
-				basicSheet.Cell(35, 3).Value = Program.gBasicSheetData.銀行振込請求期間開始日;
-				basicSheet.Cell(35, 5).Value = Program.gBasicSheetData.銀行振込請求期間終了日;
-
-				// 銀行振込入金期限日=今月末日
-				basicSheet.Cell(36, 3).Value = Program.gBasicSheetData.銀行振込入金期限日;
-
-				// PCA請求一覧読込みファイル
-				basicSheet.Cell(37, 3).Value = Program.gBasicSheetData.PCA請求一覧11読込みファイル;
-
-				// PCA請求明細読込みファイル
-				basicSheet.Cell(38, 3).Value = Program.gBasicSheetData.PCA請求明細11読込みファイル;
-
-				// AGREX請求書ファイル出力フォルダ
-				basicSheet.Cell(39, 3).Value = Program.gBasicSheetData.AGREX請求書ファイル出力フォルダ;
-
-				// AGREX請求書ファイル=本日
-				basicSheet.Cell(40, 3).Value = Program.gBasicSheetData.AGREX請求書ファイル;
-
-				// Excelの起動
-				using (Process process = new Process())
+				using (XLWorkbook book = new XLWorkbook(Program.ExcelPathname))
 				{
-					process.StartInfo.FileName = Program.ExcelPathname;
-					process.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
-					process.Start();
+					book.Style.Font.FontName = Program.SheetNameFontName;
+					book.Style.Font.FontSize = Program.SheetNameFontSize;
+
+					/////////////////////////////////////////////////////////////////////
+					// 「基本データ」 銀行振込請求書発行関連基本データ 初期値設定
+
+					IXLWorksheet sheet基本データ = book.Worksheet(Program.SheetNameBasicData);
+
+					// 請求書番号基数
+					sheet基本データ.Cell(33, 3).Value = Program.gBasicSheetData.請求書番号基数;
+
+					// 銀行振込請求書請求日=本日
+					sheet基本データ.Cell(34, 3).Value = Program.gBasicSheetData.銀行振込請求書請求日;
+
+					// 銀行振込請求期間開始日=先月11日、銀行振込請求期間終了日=今月10日
+					sheet基本データ.Cell(35, 3).Value = Program.gBasicSheetData.銀行振込請求期間開始日;
+					sheet基本データ.Cell(35, 5).Value = Program.gBasicSheetData.銀行振込請求期間終了日;
+
+					// 銀行振込入金期限日=今月末日
+					sheet基本データ.Cell(36, 3).Value = Program.gBasicSheetData.銀行振込入金期限日;
+
+					// PCA請求一覧読込みファイル
+					sheet基本データ.Cell(37, 3).Value = Program.gBasicSheetData.PCA請求一覧11読込みファイル;
+
+					// PCA請求明細読込みファイル
+					sheet基本データ.Cell(38, 3).Value = Program.gBasicSheetData.PCA請求明細11読込みファイル;
+
+					// AGREX請求書ファイル出力フォルダ
+					sheet基本データ.Cell(39, 3).Value = Program.gBasicSheetData.AGREX請求書ファイル出力フォルダ;
+
+					// AGREX請求書ファイル=本日
+					sheet基本データ.Cell(40, 3).Value = Program.gBasicSheetData.AGREX請求書ファイル;
+
+					// ワークブックの保存
+					book.Save();
+
+					// Excelの起動
+					ProcessExcel.Start();
 				}
 			}
 			catch (Exception ex)
@@ -130,24 +140,24 @@ namespace PcaInvoiceDataConverter.Forms
 			///////////////////////////////////////////////////////
 			// 銀行振込請求書発行関連基本データ
 
-			textBox請求書番号基数.Text = Program.gBasicSheetData.請求書番号基数.ToString();
-			dateTimePicker銀行振込請求書請求日.Value = Program.gBasicSheetData.銀行振込請求書請求日.Value;
-			dateTimePicker銀行振込請求期間開始日.Value = Program.gBasicSheetData.銀行振込請求期間開始日.Value;
-			dateTimePicker銀行振込請求期間終了日.Value = Program.gBasicSheetData.銀行振込請求期間終了日.Value;
-			dateTimePicker銀行振込入金期限日.Value = Program.gBasicSheetData.銀行振込入金期限日.Value;
-			textBoxPCA請求一覧11読込みファイル.Text = Program.gBasicSheetData.PCA請求一覧11読込みファイル;
-			textBoxPCA請求明細11読込みファイル.Text = Program.gBasicSheetData.PCA請求明細11読込みファイル;
-			labelAGREX請求書ファイル出力フォルダ.Text = Program.gBasicSheetData.AGREX請求書ファイル出力フォルダ;
-			textBoxAGREX請求書ファイル.Text = Program.gBasicSheetData.AGREX請求書ファイル;
-			label銀行振込請求一覧件数.Text =  string.Format("{0} 件 ", Program.gBasicSheetData.銀行振込請求一覧件数.CommaEdit());
-			label銀行振込請求一覧請求金額.Text = string.Format("{0} 円 ", Program.gBasicSheetData.銀行振込請求一覧請求金額.CommaEdit());
-			label銀行振込請求書件数.Text = string.Format("{0} 件 ", Program.gBasicSheetData.銀行振込請求書件数.CommaEdit());
-			label銀行振込請求金額.Text = string.Format("{0} 円 ", Program.gBasicSheetData.銀行振込請求金額.CommaEdit());
-			label銀行振込マイナス請求件数.Text = string.Format("{0} 件 ", Program.gBasicSheetData.銀行振込マイナス請求件数.CommaEdit());
-			label銀行振込マイナス請求金額.Text = string.Format("{0} 円 ", Program.gBasicSheetData.銀行振込マイナス請求金額.CommaEdit());
-			label銀行振込0円請求件数.Text = string.Format("{0} 件 ", Program.gBasicSheetData.銀行振込0円請求件数.CommaEdit());
-			label銀行振込請求書発行件数.Text = string.Format("{0} 件 ", Program.gBasicSheetData.銀行振込請求書発行件数.CommaEdit());
-			label銀行振込請求書発行金額.Text = string.Format("{0} 円 ", Program.gBasicSheetData.銀行振込請求書発行金額.CommaEdit());
+			//textBox請求書番号基数.Text = Program.gBasicSheetData.請求書番号基数.ToString();
+			//dateTimePicker銀行振込請求書請求日.Value = Program.gBasicSheetData.銀行振込請求書請求日.Value;
+			//dateTimePicker銀行振込請求期間開始日.Value = Program.gBasicSheetData.銀行振込請求期間開始日.Value;
+			//dateTimePicker銀行振込請求期間終了日.Value = Program.gBasicSheetData.銀行振込請求期間終了日.Value;
+			//dateTimePicker銀行振込入金期限日.Value = Program.gBasicSheetData.銀行振込入金期限日.Value;
+			//textBoxPCA請求一覧11読込みファイル.Text = Program.gBasicSheetData.PCA請求一覧11読込みファイル;
+			//textBoxPCA請求明細11読込みファイル.Text = Program.gBasicSheetData.PCA請求明細11読込みファイル;
+			//labelAGREX請求書ファイル出力フォルダ.Text = Program.gBasicSheetData.AGREX請求書ファイル出力フォルダ;
+			//textBoxAGREX請求書ファイル.Text = Program.gBasicSheetData.AGREX請求書ファイル;
+			//label銀行振込請求一覧件数.Text =  string.Format("{0} 件 ", Program.gBasicSheetData.銀行振込請求一覧件数.CommaEdit());
+			//label銀行振込請求一覧請求金額.Text = string.Format("{0} 円 ", Program.gBasicSheetData.銀行振込請求一覧請求金額.CommaEdit());
+			//label銀行振込請求書件数.Text = string.Format("{0} 件 ", Program.gBasicSheetData.銀行振込請求書件数.CommaEdit());
+			//label銀行振込請求金額.Text = string.Format("{0} 円 ", Program.gBasicSheetData.銀行振込請求金額.CommaEdit());
+			//label銀行振込マイナス請求件数.Text = string.Format("{0} 件 ", Program.gBasicSheetData.銀行振込マイナス請求件数.CommaEdit());
+			//label銀行振込マイナス請求金額.Text = string.Format("{0} 円 ", Program.gBasicSheetData.銀行振込マイナス請求金額.CommaEdit());
+			//label銀行振込0円請求件数.Text = string.Format("{0} 件 ", Program.gBasicSheetData.銀行振込0円請求件数.CommaEdit());
+			//label銀行振込請求書発行件数.Text = string.Format("{0} 件 ", Program.gBasicSheetData.銀行振込請求書発行件数.CommaEdit());
+			//label銀行振込請求書発行金額.Text = string.Format("{0} 円 ", Program.gBasicSheetData.銀行振込請求書発行金額.CommaEdit());
 		}
 
 		/// <summary>
@@ -197,12 +207,12 @@ namespace PcaInvoiceDataConverter.Forms
 					using (StreamWriter sw = new StreamWriter(pathname, false, Encoding.GetEncoding("Shift_JIS")))
 					{
 						// タイトル行出力
-						sw.WriteLine(CustomerInfo.GetTitle());
+						sw.WriteLine(CustomerInfo.GetTitle(DataTableCustomers));
 
 						// データ出力
-						foreach (CustomerInfo data in Customers)
+						foreach (CustomerInfo customer in Customers)
 						{
-							sw.WriteLine(data.GetData());
+							sw.WriteLine(customer.GetData());
 						}
 					}
 				}
@@ -441,7 +451,7 @@ namespace PcaInvoiceDataConverter.Forms
 				MessageBox.Show(msg, Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 				// PCA請求データコンバータ.xlsxの表示
-				BootExcel(headerLineList);
+				//BootExcel(headerLineList);
 			}
 			catch (Exception ex)
 			{
@@ -713,130 +723,127 @@ namespace PcaInvoiceDataConverter.Forms
 			}
 		}
 
-		/// <summary>
-		/// Excelの起動
-		/// </summary>
-		/// <param name="headerLineList">銀行振込ヘッダ行リスト</param>
-		private void BootExcel(List<BankTransferHeaderLine> headerLineList)
-		{
-			try
-			{
-				// 元のカーソルを保持
-				Cursor preCursor = Cursor.Current;
+		///// <summary>
+		///// Excelの起動
+		///// </summary>
+		///// <param name="headerLineList">銀行振込ヘッダ行リスト</param>
+		//private void BootExcel(List<BankTransferHeaderLine> headerLineList)
+		//{
+		//	try
+		//	{
+		//		// 元のカーソルを保持
+		//		Cursor preCursor = Cursor.Current;
 
-				// カーソルを待機カーソルに変更
-				Cursor.Current = Cursors.WaitCursor;
+		//		// カーソルを待機カーソルに変更
+		//		Cursor.Current = Cursors.WaitCursor;
 
-				XLWorkbook wb = new XLWorkbook(Program.ExcelPathname);
-				wb.Style.Font.FontName = "メイリオ";
-				wb.Style.Font.FontSize = 9;
-				IXLWorksheet wsBasic = wb.Worksheet(Program.SheetNameBasicData);
+		//		XLWorkbook wb = new XLWorkbook(Program.ExcelPathname);
+		//		wb.Style.Font.FontName = "メイリオ";
+		//		wb.Style.Font.FontSize = 9;
+		//		IXLWorksheet wsBasic = wb.Worksheet(Program.SheetNameBasicData);
 
-				///////////////////////////////////////////////////////
-				// 銀行振込請求書発行関連基本データ
+		//		///////////////////////////////////////////////////////
+		//		// 銀行振込請求書発行関連基本データ
 
-				wsBasic.Cell(33, 3).Value = Program.gBasicSheetData.請求書番号基数;
-				wsBasic.Cell(34, 3).Value = Program.gBasicSheetData.銀行振込請求書請求日.Value;
-				wsBasic.Cell(35, 3).Value = Program.gBasicSheetData.銀行振込請求期間開始日.Value;
-				wsBasic.Cell(35, 6).Value = Program.gBasicSheetData.銀行振込請求期間終了日.Value;
-				wsBasic.Cell(36, 3).Value = Program.gBasicSheetData.銀行振込入金期限日.Value;
-				wsBasic.Cell(37, 3).Value = Program.gBasicSheetData.PCA請求一覧11読込みファイル;
-				wsBasic.Cell(38, 3).Value = Program.gBasicSheetData.PCA請求明細11読込みファイル;
-				wsBasic.Cell(39, 3).Value = Program.gBasicSheetData.AGREX請求書ファイル出力フォルダ;
-				wsBasic.Cell(40, 3).Value = Program.gBasicSheetData.AGREX請求書ファイル;
-				wsBasic.Cell(41, 3).Value = Program.gBasicSheetData.銀行振込請求一覧件数;
-				wsBasic.Cell(41, 6).Value = Program.gBasicSheetData.銀行振込請求一覧請求金額;
-				wsBasic.Cell(42, 3).Value = Program.gBasicSheetData.銀行振込請求書件数;
-				wsBasic.Cell(42, 6).Value = Program.gBasicSheetData.銀行振込請求金額;
-				wsBasic.Cell(43, 3).Value = Program.gBasicSheetData.銀行振込マイナス請求件数;
-				wsBasic.Cell(43, 6).Value = Program.gBasicSheetData.銀行振込マイナス請求金額;
-				wsBasic.Cell(44, 3).Value = Program.gBasicSheetData.銀行振込0円請求件数;
+		//		wsBasic.Cell(33, 3).Value = Program.gBasicSheetData.請求書番号基数;
+		//		wsBasic.Cell(34, 3).Value = Program.gBasicSheetData.銀行振込請求書請求日.Value;
+		//		wsBasic.Cell(35, 3).Value = Program.gBasicSheetData.銀行振込請求期間開始日.Value;
+		//		wsBasic.Cell(35, 6).Value = Program.gBasicSheetData.銀行振込請求期間終了日.Value;
+		//		wsBasic.Cell(36, 3).Value = Program.gBasicSheetData.銀行振込入金期限日.Value;
+		//		wsBasic.Cell(37, 3).Value = Program.gBasicSheetData.PCA請求一覧11読込みファイル;
+		//		wsBasic.Cell(38, 3).Value = Program.gBasicSheetData.PCA請求明細11読込みファイル;
+		//		wsBasic.Cell(39, 3).Value = Program.gBasicSheetData.AGREX請求書ファイル出力フォルダ;
+		//		wsBasic.Cell(40, 3).Value = Program.gBasicSheetData.AGREX請求書ファイル;
+		//		wsBasic.Cell(41, 3).Value = Program.gBasicSheetData.銀行振込請求一覧件数;
+		//		wsBasic.Cell(41, 6).Value = Program.gBasicSheetData.銀行振込請求一覧請求金額;
+		//		wsBasic.Cell(42, 3).Value = Program.gBasicSheetData.銀行振込請求書件数;
+		//		wsBasic.Cell(42, 6).Value = Program.gBasicSheetData.銀行振込請求金額;
+		//		wsBasic.Cell(43, 3).Value = Program.gBasicSheetData.銀行振込マイナス請求件数;
+		//		wsBasic.Cell(43, 6).Value = Program.gBasicSheetData.銀行振込マイナス請求金額;
+		//		wsBasic.Cell(44, 3).Value = Program.gBasicSheetData.銀行振込0円請求件数;
 
-				// 「顧客情報」シートの出力
-				Program.DeleteWorksheet(wb, Program.SheetNameCustomer);
-				IXLWorksheet wsCust = wb.Worksheets.Add(DataTableCustomers, Program.SheetNameCustomer);
+		//		// 「顧客情報」シートの出力
+		//		Program.AddWorksheet(book, Program.SheetNameCustomer, dataTableCustomer);
 
-				// 「請求一覧」シートの出力
-				Program.DeleteWorksheet(wb, Program.SheetNameInvoiceHeader);
-				DataTable tableHeaderData = InvoiceHeaderData.GetHeaderDataDataTable(InvoiceHeaderDataList);
-				IXLWorksheet wsHeaderData = wb.Worksheets.Add(tableHeaderData, Program.SheetNameInvoiceHeader);
+		//		// 「請求一覧」シートの出力
+		//		DataTable tableHeaderData = InvoiceHeaderData.GetHeaderDataDataTable(InvoiceHeaderDataList);
+		//		Program.AddWorksheet(book, Program.SheetNameInvoiceHeader, tableHeaderData);
 
-				// 「請求明細」シートの出力
-				Program.DeleteWorksheet(wb, Program.SheetNameInvoiceDetail);
-				DataTable tableDetailData = InvoiceDetailData.SetColumns();
-				foreach (InvoiceHeaderData header in InvoiceHeaderDataList)
-				{
-					foreach (InvoiceDetailData detail in header.InvoiceDetailDataList)
-					{
-						tableDetailData.Rows.Add(detail.GetDataRow(tableDetailData.NewRow()));
-					}
-				}
-				IXLWorksheet wsDetailData = wb.Worksheets.Add(tableDetailData, Program.SheetNameInvoiceDetail);
+		//		// 「請求明細」シートの出力
+		//		DataTable tableDetailData = InvoiceDetailData.SetColumns();
+		//		foreach (InvoiceHeaderData header in InvoiceHeaderDataList)
+		//		{
+		//			foreach (InvoiceDetailData detail in header.InvoiceDetailDataList)
+		//			{
+		//				tableDetailData.Rows.Add(detail.GetDataRow(tableDetailData.NewRow()));
+		//			}
+		//		}
+		//		Program.AddWorksheet(book, Program.SheetNameInvoiceDetail, tableDetailData);
 
-				// 「銀行振込０円請求」シートの出力
-				IXLWorksheet ws銀行振込０円請求 = Program.AddWorksheet(wb, Program.SheetNameBankTransferZeroInvoice);
-				int row = 1;
-				foreach (string line in 銀行振込０円請求List)
-				{
-					string[] values = line.Split(',');
-					int column = 1;
-					foreach (string str in values)
-					{
-						ws銀行振込０円請求.Cell(row, column).Value = str;
-						column++;
-					}
-					row++;
-				}
-				// 「銀行振込マイナス請求」シートの出力
-				IXLWorksheet ws銀行振込マイナス請求 = Program.AddWorksheet(wb, Program.SheetNameBankTransferMinusInvoice);
-				row = 1;
-				foreach (string line in 銀行振込マイナス請求List)
-				{
-					string[] values = line.Split(',');
-					int column = 1;
-					foreach (string str in values)
-					{
-						ws銀行振込マイナス請求.Cell(row, column).Value = str;
-						column++;
-					}
-					row++;
-				}
-				// 「ヘッダ行作業」の出力
-				Program.DeleteWorksheet(wb, Program.SheetNameHeaderLine);
-				DataTable headerLineDataTable = BankTransferHeaderLine.GetHeaderLineDataTable(headerLineList);
-				IXLWorksheet wsHeader = wb.Worksheets.Add(headerLineDataTable, Program.SheetNameHeaderLine);
+		//		// 「銀行振込０円請求」シートの出力
+		//		IXLWorksheet ws銀行振込０円請求 = Program.AddWorksheet(wb, Program.SheetNameBankTransferZeroInvoice);
+		//		int row = 1;
+		//		foreach (string line in 銀行振込０円請求List)
+		//		{
+		//			string[] values = line.Split(',');
+		//			int column = 1;
+		//			foreach (string str in values)
+		//			{
+		//				ws銀行振込０円請求.Cell(row, column).Value = str;
+		//				column++;
+		//			}
+		//			row++;
+		//		}
+		//		// 「銀行振込マイナス請求」シートの出力
+		//		IXLWorksheet ws銀行振込マイナス請求 = Program.AddWorksheet(wb, Program.SheetNameBankTransferMinusInvoice);
+		//		row = 1;
+		//		foreach (string line in 銀行振込マイナス請求List)
+		//		{
+		//			string[] values = line.Split(',');
+		//			int column = 1;
+		//			foreach (string str in values)
+		//			{
+		//				ws銀行振込マイナス請求.Cell(row, column).Value = str;
+		//				column++;
+		//			}
+		//			row++;
+		//		}
+		//		// 「ヘッダ行作業」の出力
+		//		Program.DeleteWorksheet(wb, Program.SheetNameHeaderLine);
+		//		DataTable headerLineDataTable = BankTransferHeaderLine.GetHeaderLineDataTable(headerLineList);
+		//		IXLWorksheet wsHeader = wb.Worksheets.Add(headerLineDataTable, Program.SheetNameHeaderLine);
 
-				// 「明細行作業」の出力
-				Program.DeleteWorksheet(wb, Program.SheetNameDetailLine);
-				DataTable detailLineDataTable = InvoiceDetailLine.SetColumns();
-				foreach (BankTransferHeaderLine headerLine in headerLineList)
-				{
-					foreach (InvoiceDetailLine detailLine in headerLine.DetailLineList)
-					{
-						detailLineDataTable.Rows.Add(detailLine.GetDataRow(detailLineDataTable.NewRow()));
-					}
-				}
-				IXLWorksheet wsDetail = wb.Worksheets.Add(detailLineDataTable, Program.SheetNameDetailLine);
+		//		// 「明細行作業」の出力
+		//		Program.DeleteWorksheet(wb, Program.SheetNameDetailLine);
+		//		DataTable detailLineDataTable = InvoiceDetailLine.SetColumns();
+		//		foreach (BankTransferHeaderLine headerLine in headerLineList)
+		//		{
+		//			foreach (InvoiceDetailLine detailLine in headerLine.DetailLineList)
+		//			{
+		//				detailLineDataTable.Rows.Add(detailLine.GetDataRow(detailLineDataTable.NewRow()));
+		//			}
+		//		}
+		//		IXLWorksheet wsDetail = wb.Worksheets.Add(detailLineDataTable, Program.SheetNameDetailLine);
 
-				// ワークブックの保存
-				wb.Save();
+		//		// ワークブックの保存
+		//		wb.Save();
 
-				// カーソルを元に戻す
-				Cursor.Current = preCursor;
+		//		// カーソルを元に戻す
+		//		Cursor.Current = preCursor;
 
-				// Excelの起動
-				using (Process process = new Process())
-				{
-					process.StartInfo.FileName = Program.ExcelPathname;
-					process.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
-					process.Start();
-				}
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message, Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-		}
+		//		// Excelの起動
+		//		using (Process process = new Process())
+		//		{
+		//			process.StartInfo.FileName = Program.ExcelPathname;
+		//			process.StartInfo.UseShellExecute = true;   // Win32Exceptionを発生させないためのおまじない
+		//			process.Start();
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		MessageBox.Show(ex.Message, Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+		//	}
+		//}
 
 		/// <summary>
 		/// Form Closed
@@ -846,7 +853,7 @@ namespace PcaInvoiceDataConverter.Forms
 		private void BankTransferForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			// ワークブックの保存
-			WorkbookPca.Save();
+			//WorkbookPca.Save();
 		}
 	}
 }

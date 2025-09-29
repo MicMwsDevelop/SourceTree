@@ -783,7 +783,6 @@
 			this.buttonAPLUS送信ファイル出力フォルダ.TabIndex = 14;
 			this.buttonAPLUS送信ファイル出力フォルダ.Text = "▼";
 			this.buttonAPLUS送信ファイル出力フォルダ.UseVisualStyleBackColor = true;
-			this.buttonAPLUS送信ファイル出力フォルダ.Click += new System.EventHandler(this.buttonAPLUS送信ファイル出力フォルダ_Click);
 			// 
 			// buttonWEB請求書ファイル出力フォルダ
 			// 
@@ -793,7 +792,6 @@
 			this.buttonWEB請求書ファイル出力フォルダ.TabIndex = 45;
 			this.buttonWEB請求書ファイル出力フォルダ.Text = "▼";
 			this.buttonWEB請求書ファイル出力フォルダ.UseVisualStyleBackColor = true;
-			this.buttonWEB請求書ファイル出力フォルダ.Click += new System.EventHandler(this.buttonWEB請求書ファイル出力フォルダ_Click);
 			// 
 			// buttonAGREX口振通知書ファイル出力フォルダ
 			// 
@@ -803,7 +801,6 @@
 			this.buttonAGREX口振通知書ファイル出力フォルダ.TabIndex = 56;
 			this.buttonAGREX口振通知書ファイル出力フォルダ.Text = "▼";
 			this.buttonAGREX口振通知書ファイル出力フォルダ.UseVisualStyleBackColor = true;
-			this.buttonAGREX口振通知書ファイル出力フォルダ.Click += new System.EventHandler(this.buttonAGREX口振通知書ファイル出力フォルダ_Click);
 			// 
 			// textBoxPCA請求一覧10読込みファイル
 			// 

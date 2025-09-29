@@ -141,7 +141,7 @@
 	</asp:GridView>
 	<asp:SqlDataSource ID="SqlDataSource1" runat="server"
 		ConnectionString="<%$ ConnectionStrings:JunpDBConnectionString %>"
-		SelectCommand="SELECT [拠点名], [担当者], [納期], [販売先], [ユーザー], [受注金額], [受注No], [受注日], [受注承認日], [出荷完了日], [入金予定日], [件名], [リプレース], [ES本数], [ｻｰﾋﾞｽ利用期間] FROM [vMisyounin] WHERE (([拠点名] LIKE '%' + @拠点名 + '%') AND ([承認] LIKE '%' + @承認 + '%') AND ([伝票種別] LIKE '%' + @伝票種別 + '%') AND ([エリア] LIKE '%' + @エリア + '%') AND ([納期年月] LIKE '%' + @納期年月 + '%') AND ([リプレース有無] LIKE '%' + @リプレース有無 + '%') AND ([件名] LIKE '%' + @件名 + '%')) ORDER BY [拠点コード], [受注日]">
+		SelectCommand="SELECT [拠点名], [担当者], [納期], [販売先], [ユーザー], [受注金額], [受注No], [受注日], [受注承認日], [出荷完了日], [入金予定日], [件名], [リプレース], [ES本数], [ｻｰﾋﾞｽ利用期間] FROM [vMisyounin] WHERE (([拠点名] LIKE '%' + @拠点名 + '%') AND ([承認] LIKE '%' + @承認 + '%') AND ([伝票種別] LIKE '%' + @伝票種別 + '%') AND ([エリア] LIKE '%' + @エリア + '%') AND ([納期年月] LIKE '%' + @納期年月 + '%') AND ([リプレース有無] LIKE '%' + @リプレース有無 + '%') AND ([件名] LIKE '%' + @件名 + '%')) ORDER BY [拠点コード], [受注日]" >
 		<SelectParameters>
 			<asp:ControlParameter ControlID="D_Tanto" Name="拠点名"
 				PropertyName="SelectedValue" Type="String" />

@@ -54,28 +54,27 @@ namespace PcaInvoiceDataConverter.BaseFactory
 			DetailLineList = new List<InvoiceDetailLine>();
 		}
 
-		/// <summary>
-		/// タイトル行の取得
-		/// </summary>
-		/// <returns></returns>
-		public static string GetTitle()
-		{
-			List<string> result = new List<string>
-			{
-				"請求書No",
-				"顧客ID",
-				"得意先No",
-				"請求日付",
-				"合計請求額（税込）",
-				"消費税額",
-				"明細行数",
-				"消費税行数",
-				"記事行数",
-				"紙請求書",
-			};
-			return string.Join(",", result.ToArray());
-		}
-
+		///// <summary>
+		///// タイトル行の取得
+		///// </summary>
+		///// <returns></returns>
+		//public static string GetTitle()
+		//{
+		//	List<string> result = new List<string>
+		//	{
+		//		"請求書No",
+		//		"顧客ID",
+		//		"得意先No",
+		//		"請求日付",
+		//		"合計請求額（税込）",
+		//		"消費税額",
+		//		"明細行数",
+		//		"消費税行数",
+		//		"記事行数",
+		//		"紙請求書",
+		//	};
+		//	return string.Join(",", result.ToArray());
+		//}
 
 		/// <summary>
 		/// 明細行数の取得
@@ -115,46 +114,31 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		public static DataTable GetHeaderLineDataTable(List<AccountTransferHeaderLine> list)
 		{
 			DataTable table = new DataTable();
-			table.Columns.Add("請求書No", typeof(int));
-			table.Columns.Add("顧客ID", typeof(int));
-			table.Columns.Add("得意先No", typeof(int));
-			table.Columns.Add("請求日付", typeof(int));
-			table.Columns.Add("合計請求額（税込）", typeof(int));
-			table.Columns.Add("消費税額", typeof(int));
-			table.Columns.Add("明細行数", typeof(int));
-			table.Columns.Add("消費税行数", typeof(int));
-			table.Columns.Add("記事行数", typeof(int));
+			table.Columns.Add("請求書No", typeof(string));
+			table.Columns.Add("顧客ID", typeof(string));
+			table.Columns.Add("得意先No", typeof(string));
+			table.Columns.Add("請求日付", typeof(string));
+			table.Columns.Add("合計請求額（税込）", typeof(string));
+			table.Columns.Add("消費税額", typeof(string));
+			table.Columns.Add("明細行数", typeof(string));
+			table.Columns.Add("消費税行数", typeof(string));
+			table.Columns.Add("記事行数", typeof(string));
 			table.Columns.Add("紙請求書", typeof(string));
 
 			foreach (AccountTransferHeaderLine header in list)
 			{
 				DataRow row = table.NewRow();
-				row["請求書No"] = header.請求書No;
-				row["顧客ID"] = header.顧客ID;
+				row["請求書No"] = header.請求書No.ToString();
+				row["顧客ID"] = header.顧客ID.ToString();
 				row["得意先No"] = header.得意先No;
-				row["請求日付"] = header.請求日付.Value.ToDate().ToIntYMD();
-				row["合計請求額（税込）"] = header.合計請求額税込;
-				row["消費税額"] = header.消費税額;
-				row["明細行数"] = header.明細行数;
-				row["消費税行数"] = header.消費税行数;
-				row["記事行数"] = header.記事行数;
+				row["請求日付"] = header.請求日付.Value.ToDate().ToIntYMD().ToString();
+				row["合計請求額（税込）"] = header.合計請求額税込.ToString();
+				row["消費税額"] = header.消費税額.ToString();
+				row["明細行数"] = header.明細行数.ToString();
+				row["消費税行数"] = header.消費税行数.ToString();
+				row["記事行数"] = header.記事行数.ToString();
 				row["紙請求書"] = (header.紙請求書) ? "TRUE" : "FALSE";
 				table.Rows.Add(row);
-			}
-			return table;
-		}
-
-		/// <summary>
-		/// 明細行のDataTableの作成
-		/// </summary>
-		/// <returns>DataTable</returns>
-		public DataTable GetDetailLineDataTable()
-		{
-			DataTable table = new DataTable();
-			table.Columns.AddRange(InvoiceDetailLine.GetDataColumn());
-			foreach (InvoiceDetailLine detail in DetailLineList)
-			{
-				table.Rows.Add(detail.GetDataRow(table.NewRow()));
 			}
 			return table;
 		}
@@ -243,13 +227,23 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		/// <returns>AGREX口振通知書明細行</returns>
 		public string GetAgrexDataLine(string juchuCode, InvoiceDetailLine detailLine)
 		{
+			string dateStr = " ";
+			if (detailLine.売上日付.HasValue)
+			{
+				dateStr = detailLine.売上日付.Value.ToString("yyyy/MM/dd");
+			}
+			string denNoStr = " ";
+			if (0 < detailLine.伝票No && InvoiceDetailLine.DenNoMax != detailLine.伝票No)
+			{
+				denNoStr = detailLine.伝票No.ToString();
+			}
 			string[] array = new string[10];
 			array[0] = "2";
 			array[1] = AgrexDefine.ContactCode;	// 契約先コード:132002
 			array[2] = juchuCode;	// 受注コード
 			array[3] = detailLine.枝番.ToString();
-			array[4] = detailLine.売上日付.Value.ToString("yyyy/MM/dd");
-			array[5] = detailLine.伝票No.ToString();
+			array[4] = dateStr;
+			array[5] = denNoStr;
 			array[6] = detailLine.商品名;
 			switch (detailLine.行タイプ)
 			{

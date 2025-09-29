@@ -1,8 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//
+// BasicSheetData.cs
+// 
+// 「基本データ」設定値クラス
+// 
+// Copyright (C) MIC All Rights Reserved.
+// 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+// Ver2.00(2023/06/27 勝呂):新規作成
+//
+using System;
 
 namespace PcaInvoiceDataConverter.BaseFactory
 {

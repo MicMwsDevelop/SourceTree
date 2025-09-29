@@ -158,70 +158,84 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 			return (0 < 請求残高) ? true : false;
 		}
 
-		/// <summary>
-		/// 請求一覧のDataTableの作成
-		/// </summary>
-		/// <param name="list">請求一覧リスト</param>
-		/// <returns>DataTable</returns>
-		public static DataTable GetHeaderDataDataTable(List<InvoiceHeaderData> list)
-		{
-			DataTable table = new DataTable();
-			table.Columns.Add("請求締日", typeof(int));
-			table.Columns.Add("請求期間開始", typeof(string));
-			table.Columns.Add("請求期間終了", typeof(string));
-			table.Columns.Add("データ区分", typeof(int));
-			table.Columns.Add("得意先コード", typeof(string));
-			table.Columns.Add("得意先名1", typeof(string));
-			table.Columns.Add("得意先名2", typeof(string));
-			table.Columns.Add("前回請求額", typeof(int));
-			table.Columns.Add("入金額", typeof(int));
-			table.Columns.Add("繰越金額", typeof(int));
-			table.Columns.Add("税込売上高", typeof(int));
-			table.Columns.Add("請求残高", typeof(int));
-			table.Columns.Add("回収予定日", typeof(string));
-			foreach (InvoiceHeaderData header in list)
-			{
-				DataRow row = table.NewRow();
-				row["請求締日"] = header.請求締日;
-				row["請求期間開始"] = (header.請求期間開始.HasValue) ? header.請求期間開始.Value.ToString("yyyyMMdd") : "";
-				row["請求期間終了"] = (header.請求期間終了.HasValue) ? header.請求期間終了.Value.ToString("yyyyMMdd") : "";
-				row["データ区分"] = header.データ区分;
-				row["得意先コード"] = header.得意先コード;
-				row["得意先名1"] = header.得意先名1;
-				row["得意先名2"] = header.得意先名2;
-				row["前回請求額"] = header.前回請求額;
-				row["入金額"] = header.入金額;
-				row["繰越金額"] = header.繰越金額;
-				row["税込売上高"] = header.税込売上高;
-				row["請求残高"] = header.請求残高;
-				row["回収予定日"] = (header.回収予定日.HasValue) ? header.回収予定日.Value.ToString("yyyyMMdd") : "";
-				table.Rows.Add(row);
-			}
-			return table;
-		}
+		///// <summary>
+		///// 「請求一覧10.txt」の内容をDataTableに変換
+		///// </summary>
+		///// <param name="list">請求一覧リスト</param>
+		///// <returns>DataTable</returns>
+		//public static DataTable ConvertDataTable(List<InvoiceHeaderData> list)
+		//{
+		//	DataTable table = new DataTable();
+		//	table.Columns.Add("請求締日", typeof(string));
+		//	table.Columns.Add("請求期間開始", typeof(string));
+		//	table.Columns.Add("請求期間終了", typeof(string));
+		//	table.Columns.Add("データ区分", typeof(string));
+		//	table.Columns.Add("得意先コード", typeof(string));
+		//	table.Columns.Add("得意先名1", typeof(string));
+		//	table.Columns.Add("得意先名2", typeof(string));
+		//	table.Columns.Add("前回請求額", typeof(string));
+		//	table.Columns.Add("入金額", typeof(string));
+		//	table.Columns.Add("繰越金額", typeof(string));
+		//	table.Columns.Add("税込売上高", typeof(string));
+		//	table.Columns.Add("請求残高", typeof(string));
+		//	table.Columns.Add("回収予定日", typeof(string));
+		//	foreach (InvoiceHeaderData header in list)
+		//	{
+		//		DataRow row = table.NewRow();
+		//		row["請求締日"] = header.請求締日.ToString();
+		//		row["請求期間開始"] = (header.請求期間開始.HasValue) ? header.請求期間開始.Value.ToString("yyyyMMdd") : "";
+		//		row["請求期間終了"] = (header.請求期間終了.HasValue) ? header.請求期間終了.Value.ToString("yyyyMMdd") : "";
+		//		row["データ区分"] = header.データ区分.ToString();
+		//		row["得意先コード"] = header.得意先コード;
+		//		row["得意先名1"] = header.得意先名1;
+		//		row["得意先名2"] = header.得意先名2;
+		//		row["前回請求額"] = header.前回請求額.ToString();
+		//		row["入金額"] = header.入金額.ToString();
+		//		row["繰越金額"] = header.繰越金額.ToString();
+		//		row["税込売上高"] = header.税込売上高.ToString();
+		//		row["請求残高"] = header.請求残高.ToString();
+		//		row["回収予定日"] = (header.回収予定日.HasValue) ? header.回収予定日.Value.ToString("yyyyMMdd") : "";
+		//		table.Rows.Add(row);
+		//	}
+		//	return table;
+		//}
 
 		/// <summary>
 		/// DataRow → オブジェクト
 		/// </summary>
 		/// <param name="row"></param>
-		/// <returns>請求一覧表</returns>
+		/// <returns>請求一覧データ</returns>
 		public static InvoiceHeaderData DataTableToObject(DataRow row)
 		{
 			InvoiceHeaderData data = new InvoiceHeaderData();
-			data.請求締日 = DataBaseValue.ConvObjectToInt(row["請求締日"]);
-			data.請求期間開始 = DataBaseValue.ConvObjectToDateTimeNull(row["請求期間開始"]);
-			data.請求期間終了 = DataBaseValue.ConvObjectToDateTimeNull(row["請求期間終了"]);
+			data.請求締日 = row["請求締日"].ToString().Trim().ToInt();
+			data.請求期間開始 = ConvObjectDateTimeNull(row["請求期間開始"].ToString().Trim());
+			data.請求期間終了 = ConvObjectDateTimeNull(row["請求期間終了"].ToString().Trim());
 			data.データ区分 = DataBaseValue.ConvObjectToInt(row["データ区分"]);
 			data.得意先コード = row["得意先コード"].ToString().Trim();
 			data.得意先名1 = row["得意先名1"].ToString().Trim();
 			data.得意先名2 = row["得意先名2"].ToString().Trim();
-			data.前回請求額 = DataBaseValue.ConvObjectToInt(row["前回請求額"]);
-			data.入金額 = DataBaseValue.ConvObjectToInt(row["入金額"]);
-			data.繰越金額 = DataBaseValue.ConvObjectToInt(row["繰越金額"]);
-			data.税込売上高 = DataBaseValue.ConvObjectToInt(row["税込売上高"]);
-			data.請求残高 = DataBaseValue.ConvObjectToInt(row["請求残高"]);
-			data.回収予定日 = DataBaseValue.ConvObjectToDateTimeNull(row["回収予定日"]);
+			data.前回請求額 = row["前回請求額"].ToString().Trim().ToInt();
+			data.入金額 = row["入金額"].ToString().Trim().ToInt();
+			data.繰越金額 = row["繰越金額"].ToString().Trim().ToInt();
+			data.税込売上高 = row["税込売上高"].ToString().Trim().ToInt();
+			data.請求残高 = row["請求残高"].ToString().Trim().ToInt();
+			data.回収予定日 = ConvObjectDateTimeNull(row["回収予定日"].ToString().Trim());
 			return data;
+		}
+
+		/// <summary>
+		/// yyyyMMdd文字列からDateTime?に変換
+		/// </summary>
+		/// <param name="str">yyyyMMdd文字列</param>
+		/// <returns>DateTime?</returns>
+		public static DateTime? ConvObjectDateTimeNull(string str)
+		{
+			if (null != str && 0 < str.Length)
+			{
+				return Convert.ToInt32(str).YMDToDate().ToDateTime();
+			}
+			return null;
 		}
 	}
 }

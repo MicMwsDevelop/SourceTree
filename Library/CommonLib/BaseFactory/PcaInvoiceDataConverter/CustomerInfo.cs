@@ -107,25 +107,15 @@ namespace CommonLib.BaseFactory.PcaInvoiceDataConverter
 		/// <summary>
 		/// タイトル行の取得
 		/// </summary>
-		/// <returns></returns>
-		public static string GetTitle()
+		/// <param name="table"></param>
+		/// <returns>タイトル行</returns>
+		public static string GetTitle(DataTable table)
 		{
-			List<string> result = new List<string>
+			List<string> result = new List<string>();
+			foreach (var column in table.Columns)
 			{
-				";得意先No",
-				"顧客No",
-				"顧客名1",
-				"顧客名2",
-				"APLUSコード",
-				"銀行コード",
-				"銀行名カナ",
-				"支店コード",
-				"支店名カナ",
-				"預金種別",
-				"口座番号",
-				"預金者名",
-				"レセコン区分"
-			};
+				result.Add(column.ToString());
+			}
 			return string.Join(",", result.ToArray());
 		}
 

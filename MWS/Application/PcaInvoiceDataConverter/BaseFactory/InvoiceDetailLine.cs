@@ -55,6 +55,21 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		public const string GoodsNameSubTotal = "　　　　　　　　　　　　　　伝票計";
 
 		/// <summary>
+		/// 商品名：今回ご利用料金合計
+		/// </summary>
+		public const string GoodsNameThisUseTotal = "今回ご利用料金合計";
+
+		/// <summary>
+		/// 商品名：（内 消費税等）
+		/// </summary>
+		public const string GoodsNameIncludeTax = "（内 消費税等）";
+
+		/// <summary>
+		/// 商品名：10%対象額
+		/// </summary>
+		public const string GoodsNameConsumptionTax = "10%対象額";
+
+		/// <summary>
 		/// 明細行
 		/// </summary>
 		public const short TypeBill = 1;
@@ -101,61 +116,31 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		}
 
 		/// <summary>
-		/// タイトル行の取得
-		/// </summary>
-		/// <returns></returns>
-		public static string GetTitle()
-		{
-			List<string> result = new List<string>
-			{
-				"請求書No",
-				"枝番",
-				"売上日付",
-				"伝票No",
-				"商品名",
-				"数量",
-				"単価",
-				"金額",
-				"行タイプ"
-			};
-			return string.Join(",", result.ToArray());
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public static DataColumn[] GetDataColumn()
-		{
-			DataColumn[] columns = new DataColumn[9];
-			columns[0].ColumnName = "請求書No";
-			columns[1].ColumnName = "枝番";
-			columns[2].ColumnName = "売上日付";
-			columns[3].ColumnName = "伝票No";
-			columns[4].ColumnName = "商品名";
-			columns[5].ColumnName = "数量";
-			columns[6].ColumnName = "単価";
-			columns[7].ColumnName = "金額";
-			columns[8].ColumnName = "行タイプ";
-			return columns;
-		}
-
-		/// <summary>
-		/// 
+		/// DataRowの設定
 		/// </summary>
 		/// <param name="table">DataTable</param>
-		/// <returns></returns>
+		/// <returns>DataRow</returns>
 		public DataRow GetDataRow(DataRow row)
 		{
-			row["請求書No"] = 請求書No;
-			row["枝番"] = 枝番;
-			row["売上日付"] = 売上日付.Value.ToDate().ToIntYMD(); ;
-			row["伝票No"] = 伝票No;
+			string dateStr = " ";
+			if (売上日付.HasValue)
+			{
+				dateStr = 売上日付.Value.ToString("yyyy/MM/dd");
+			}
+			string denNoStr = " ";
+			if (0 < 伝票No && DenNoMax != 伝票No)
+			{
+				denNoStr = 伝票No.ToString();
+			}
+			row["請求書No"] = 請求書No.ToString();
+			row["枝番"] = 枝番.ToString();
+			row["売上日付"] = dateStr;
+			row["伝票No"] = denNoStr;
 			row["商品名"] = 商品名;
-			row["数量"] = 数量;
-			row["単価"] = 単価;
-			row["金額"] = 金額;
-			row["行タイプ"] = 行タイプ;
+			row["数量"] = 数量.ToString();
+			row["単価"] = 単価.ToString();
+			row["金額"] = 金額.ToString();
+			row["行タイプ"] = 行タイプ.ToString();
 			return row;
 		}
 
@@ -165,8 +150,18 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		/// <returns></returns>
 		public string GetBillData()
 		{
+			string dateStr = " ";
+			if (売上日付.HasValue)
+			{
+				dateStr = 売上日付.Value.ToString("yyyy/MM/dd");
+			}
+			string denNoStr = " ";
+			if (0 < 伝票No)
+			{
+				denNoStr = 伝票No.ToString();
+			}
 			return string.Format("\"{0}\"\t\"{1}\"\t\"{2}\"\t\"{3}\"\t\"{4}\"\t\"{5}\"\t\"{6}\""
-													, 請求書No, 売上日付.Value.ToString("yyyy/MM/dd"), 伝票No, 枝番, 商品名, 数量, 金額.CommaEdit());
+													, 請求書No, dateStr, denNoStr, 枝番, 商品名, 数量, 金額.CommaEdit());
 		}
 
 		/// <summary>
@@ -193,8 +188,18 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		/// <returns></returns>
 		public string GetTaxData()
 		{
+			string dateStr = " ";
+			if (売上日付.HasValue)
+			{
+				dateStr = 売上日付.Value.ToString("yyyy/MM/dd");
+			}
+			string denNoStr = " ";
+			if (0 < 伝票No && DenNoMax != 伝票No)
+			{
+				denNoStr = 伝票No.ToString();
+			}
 			return string.Format("\"{0}\"\t\"{1}\"\t\"{2}\"\t\"{3}\"\t\"{4}\"\t\"{5}\""
-												, 請求書No, 売上日付.Value.ToString("yyyy/MM/dd"), 伝票No, 枝番, 商品名, 金額.CommaEdit());
+												, 請求書No, dateStr, denNoStr, 枝番, 商品名, 金額.CommaEdit());
 		}
 
 		/// <summary>
@@ -221,8 +226,18 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		/// <returns></returns>
 		public string GetCommentData()
 		{
+			string dateStr = " ";
+			if (売上日付.HasValue)
+			{
+				dateStr = 売上日付.Value.ToString("yyyy/MM/dd");
+			}
+			string denNoStr = " ";
+			if (0 < 伝票No && DenNoMax != 伝票No)
+			{
+				denNoStr = 伝票No.ToString();
+			}
 			return string.Format("\"{0}\"\t\"{1}\"\t\"{2}\"\t\"{3}\"\t\"{4}\""
-												, 請求書No, 売上日付.Value.ToString("yyyy/MM/dd"), 伝票No, 枝番, 商品名);
+												, 請求書No, dateStr, denNoStr, 枝番, 商品名);
 		}
 
 		/// <summary>
@@ -244,21 +259,21 @@ namespace PcaInvoiceDataConverter.BaseFactory
 		}
 
 		/// <summary>
-		/// 
+		/// カラムの設定
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>DataTable</returns>
 		public static DataTable SetColumns()
 		{
 			DataTable table = new DataTable();
-			table.Columns.Add("請求書No", typeof(int));
-			table.Columns.Add("枝番", typeof(int));
-			table.Columns.Add("売上日付", typeof(int));
-			table.Columns.Add("伝票No", typeof(int));
+			table.Columns.Add("請求書No", typeof(string));
+			table.Columns.Add("枝番", typeof(string));
+			table.Columns.Add("売上日付", typeof(string));
+			table.Columns.Add("伝票No", typeof(string));
 			table.Columns.Add("商品名", typeof(string));
-			table.Columns.Add("数量", typeof(int));
-			table.Columns.Add("単価", typeof(int));
-			table.Columns.Add("金額", typeof(int));
-			table.Columns.Add("行タイプ", typeof(int));
+			table.Columns.Add("数量", typeof(string));
+			table.Columns.Add("単価", typeof(string));
+			table.Columns.Add("金額", typeof(string));
+			table.Columns.Add("行タイプ", typeof(string));
 			return table;
 		}
 	}

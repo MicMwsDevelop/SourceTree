@@ -143,20 +143,20 @@ namespace PcaInvoiceDataConverter.BaseFactory
 			return table;
 		}
 
-		/// <summary>
-		/// 明細行のDataTableの作成
-		/// </summary>
-		/// <returns>DataTable</returns>
-		public DataTable GetDetailLineDataTable()
-		{
-			DataTable table = new DataTable();
-			table.Columns.AddRange(InvoiceDetailLine.GetDataColumn());
-			foreach (InvoiceDetailLine detail in DetailLineList)
-			{
-				table.Rows.Add(detail.GetDataRow(table.NewRow()));
-			}
-			return table;
-		}
+		///// <summary>
+		///// 明細行のDataTableの作成
+		///// </summary>
+		///// <returns>DataTable</returns>
+		//public DataTable GetDetailLineDataTable()
+		//{
+		//	DataTable table = new DataTable();
+		//	table.Columns.AddRange(InvoiceDetailLine.GetDataColumn());
+		//	foreach (InvoiceDetailLine detail in DetailLineList)
+		//	{
+		//		table.Rows.Add(detail.GetDataRow(table.NewRow()));
+		//	}
+		//	return table;
+		//}
 
 		/// <summary>
 		/// AGREX銀行振込請求書開始行の取得

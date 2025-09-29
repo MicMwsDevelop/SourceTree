@@ -24,6 +24,8 @@
 // Ver1.19(2023/04/13 勝呂):19-経理部専用 オンライン資格確認等事業完了報告書 「領収書内訳書」と「事業完了報告書」の医療機関コードが出力されない
 // Ver1.20(2023/06/09 勝呂):2-FAX送付状、3-種類送付状が販売店の時に出力できない
 // Ver1.22(2025/09/02 勝呂):20-休止届 用紙追加に対応
+// Ver1.23(2025/09/10 勝呂):8-Microsoft365利用申請書 新様式に対応
+// Ver1.24(2025/09/19 勝呂):5-オンライン請求届出 「オンライン請求届出」「電子証明書発行等依頼書」「電子証明書発行等依頼内訳」シートを新様式に変更
 //
 using ClosedXML.Excel;
 using CommonLib.BaseFactory;
@@ -868,6 +870,8 @@ namespace VariousDocumentOut.BaseFactory
 		/// <param name="orgPathname">Excelファイルパス名(org)</param>
 		public static void ExcelOutOnline(DocumentCommon common, string xlsPathname, string orgPathname)
 		{
+			// Ver1.24(2025/09/19 勝呂):5-オンライン請求届出 「オンライン請求届出」「電子証明書発行等依頼書」「電子証明書発行等依頼内訳」シートを新様式に変更
+/*
 			try
 			{
 				using (XLWorkbook wb = new XLWorkbook(xlsPathname, XLEventTracking.Disabled))
@@ -949,6 +953,7 @@ namespace VariousDocumentOut.BaseFactory
 			{
 				throw new Exception(e.Message);
 			}
+*/
 			Excel.Application xlApp = null;
 			Excel.Workbooks xlBooks = null;
 			Excel.Workbook xlBook = null;
@@ -969,24 +974,13 @@ namespace VariousDocumentOut.BaseFactory
 				xlBooks = xlApp.Workbooks;
 				xlBook = xlBooks.Open(xlsPathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				xlSheets = xlBook.Worksheets;
-				xlSheet3 = xlSheets["電子証明書発行等依頼書"] as Excel.Worksheet;
-				xlShapes3 = xlSheet3.Shapes;
 
-				//「電子証明書発行等依頼書」新規発行丸付け
-				Microsoft.Office.Interop.Excel.Shape oval3 = xlShapes3.AddShape(MsoAutoShapeType.msoShapeOval, 215, 122, 75, 20);
-				oval3.Fill.Visible = MsoTriState.msoFalse;
-				oval3.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
-
-				//「電子証明書発行等依頼内訳」新規発行丸付け
-				xlSheet4 = xlSheets["電子証明書発行等依頼内訳"] as Excel.Worksheet;
-				xlShapes4 = xlSheet4.Shapes;
-				Microsoft.Office.Interop.Excel.Shape oval4 = xlShapes4.AddShape(MsoAutoShapeType.msoShapeOval, 125, 95, 70, 20);
-				oval4.Fill.Visible = MsoTriState.msoFalse;
-				oval4.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
-
-				xlBookOrg = xlBooks.Open(orgPathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-				xlSheetOrg1 = xlBookOrg.Worksheets["オンライン請求届出"] as Excel.Worksheet;
-				xlSheetOrg1.Copy(xlSheet3, Type.Missing);   // 「電子証明書発行等依頼書」の前に「オンライン請求届出」をコピー
+				// Ver1.24(2025/09/19 勝呂):5-オンライン請求届出 「オンライン請求届出」「電子証明書発行等依頼書」「電子証明書発行等依頼内訳」シートを新様式に変更
+				// 「電子証明書発行等依頼書」の前に「オンライン請求届出」をコピー
+				//xlSheet3 = xlSheets["電子証明書発行等依頼書"] as Excel.Worksheet;
+				//xlBookOrg = xlBooks.Open(orgPathname, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+				//xlSheetOrg1 = xlBookOrg.Worksheets["オンライン請求届出"] as Excel.Worksheet;
+				//xlSheetOrg1.Copy(xlSheet3, Type.Missing);   
 
 				xlSheet1 = xlSheets["オンライン請求届出"] as Excel.Worksheet;
 				xlShapes1 = xlSheet1.Shapes;
@@ -994,6 +988,7 @@ namespace VariousDocumentOut.BaseFactory
 				string clinicCode = common.顧客情報.NumericClinicCode;
 				string zipCode = common.顧客情報.NumericZipcode;
 
+				////////////////////////////////
 				// オンライン請求届出-社保用
 				foreach (Excel.Shape shape in xlShapes1)
 				{
@@ -1018,43 +1013,43 @@ namespace VariousDocumentOut.BaseFactory
 								textFrame.Characters.Text = common.顧客情報.住所2;
 								break;
 							case "医療機関コード１":
-								if (7 == clinicCode.Length)
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
 									textFrame.Characters.Text = clinicCode.Substring(0, 1);
 								}
 								break;
 							case "医療機関コード２":
-								if (7 == clinicCode.Length)
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
 									textFrame.Characters.Text = clinicCode.Substring(1, 1);
 								}
 								break;
 							case "医療機関コード３":
-								if (7 == clinicCode.Length)
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
 									textFrame.Characters.Text = clinicCode.Substring(2, 1);
 								}
 								break;
 							case "医療機関コード４":
-								if (7 == clinicCode.Length)
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
 									textFrame.Characters.Text = clinicCode.Substring(3, 1);
 								}
 								break;
 							case "医療機関コード５":
-								if (7 == clinicCode.Length)
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
 									textFrame.Characters.Text = clinicCode.Substring(4, 1);
 								}
 								break;
 							case "医療機関コード６":
-								if (7 == clinicCode.Length)
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
 									textFrame.Characters.Text = clinicCode.Substring(5, 1);
 								}
 								break;
 							case "医療機関コード７":
-								if (7 == clinicCode.Length)
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
 									textFrame.Characters.Text = clinicCode.Substring(6, 1);
 								}
@@ -1075,43 +1070,43 @@ namespace VariousDocumentOut.BaseFactory
 								textFrame.Characters.Text = common.顧客情報.電話番号;
 								break;
 							case "郵便番号１":
-								if (7 == zipCode.Length)
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
 									textFrame.Characters.Text = zipCode.Substring(0, 1);
 								}
 								break;
 							case "郵便番号２":
-								if (7 == zipCode.Length)
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
 									textFrame.Characters.Text = zipCode.Substring(1, 1);
 								}
 								break;
 							case "郵便番号３":
-								if (7 == zipCode.Length)
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
 									textFrame.Characters.Text = zipCode.Substring(2, 1);
 								}
 								break;
 							case "郵便番号４":
-								if (7 == zipCode.Length)
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
 									textFrame.Characters.Text = zipCode.Substring(3, 1);
 								}
 								break;
 							case "郵便番号５":
-								if (7 == zipCode.Length)
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
 									textFrame.Characters.Text = zipCode.Substring(4, 1);
 								}
 								break;
 							case "郵便番号６":
-								if (7 == zipCode.Length)
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
 									textFrame.Characters.Text = zipCode.Substring(5, 1);
 								}
 								break;
 							case "郵便番号７":
-								if (7 == zipCode.Length)
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
 									textFrame.Characters.Text = zipCode.Substring(6, 1);
 								}
@@ -1122,6 +1117,7 @@ namespace VariousDocumentOut.BaseFactory
 						}
 					}
 				}
+				////////////////////////////////
 				// オンライン請求届出-国保用
 				xlSheet1.Copy(Type.Missing, xlSheet1);  //「オンライン請求届出」の後に同シートをコピー
 				xlSheet2 = xlSheets["オンライン請求届出 (2)"] as Excel.Worksheet;
@@ -1140,6 +1136,228 @@ namespace VariousDocumentOut.BaseFactory
 								break;
 							case "宛先２":
 								textFrame.Characters.Text = string.Empty;
+								break;
+						}
+					}
+				}
+				////////////////////////////////
+				//「電子証明書発行等依頼書」
+				// Ver1.24(2025/09/19 勝呂):5-オンライン請求届出 「オンライン請求届出」「電子証明書発行等依頼書」「電子証明書発行等依頼内訳」シートを新様式に変更
+
+				xlSheet3 = xlSheets["電子証明書発行等依頼書"] as Excel.Worksheet;
+				xlShapes3 = xlSheet3.Shapes;
+				//Microsoft.Office.Interop.Excel.Shape oval3 = xlShapes3.AddShape(MsoAutoShapeType.msoShapeOval, 215, 122, 75, 20);
+				//oval3.Fill.Visible = MsoTriState.msoFalse;
+				//oval3.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
+				foreach (Excel.Shape shape in xlShapes3)
+				{
+					if (MsoShapeType.msoTextBox == shape.Type)
+					{
+						dynamic textFrame = shape.TextFrame;
+						switch (shape.Name)
+						{
+							case "県番号1":
+								if (KenNumDef.Length == common.顧客情報.県番号.Length)
+								{
+									textFrame.Characters.Text = common.顧客情報.県番号.Substring(0, 1);
+								}
+								break;
+							case "県番号2":
+								if (KenNumDef.Length == common.顧客情報.県番号.Length)
+								{
+									textFrame.Characters.Text = common.顧客情報.県番号.Substring(1, 1);
+								}
+								break;
+							case "点数表":
+								textFrame.Characters.Text = MwsDefine.DentalNumber.ToString();
+								break;
+							case "医療機関コード1":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(0, 1);
+								}
+								break;
+							case "医療機関コード2":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(1, 1);
+								}
+								break;
+							case "医療機関コード3":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(2, 1);
+								}
+								break;
+							case "医療機関コード4":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(3, 1);
+								}
+								break;
+							case "医療機関コード5":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(4, 1);
+								}
+								break;
+							case "医療機関コード6":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(5, 1);
+								}
+								break;
+							case "医療機関コード7":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(6, 1);
+								}
+								break;
+							case "フリガナ":
+								if (0 < clinicCode.Length)
+								{
+									textFrame.Characters.Text = common.顧客情報.フリガナ;
+								}
+								break;
+							case "顧客名":
+								if (0 < clinicCode.Length)
+								{
+									textFrame.Characters.Text = common.顧客情報.顧客名;
+								}
+								break;
+							case "郵便番号1":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(0, 1);
+								}
+								break;
+							case "郵便番号2":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(1, 1);
+								}
+								break;
+							case "郵便番号3":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(2, 1);
+								}
+								break;
+							case "郵便番号4":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(3, 1);
+								}
+								break;
+							case "郵便番号5":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(4, 1);
+								}
+								break;
+							case "郵便番号6":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(5, 1);
+								}
+								break;
+							case "郵便番号7":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Text = zipCode.Substring(6, 1);
+								}
+								break;
+							case "住所":
+								textFrame.Characters.Text = common.顧客情報.住所;
+								break;
+							case "電話番号":
+								textFrame.Characters.Text = common.顧客情報.電話番号;
+								break;
+							case "メールアドレス":
+								textFrame.Characters.Text = common.顧客情報.メールアドレス;
+								break;
+						}
+					}
+				}
+
+				////////////////////////////////
+				//「電子証明書発行等依頼内訳」
+				// Ver1.24(2025/09/19 勝呂):5-オンライン請求届出 「オンライン請求届出」「電子証明書発行等依頼書」「電子証明書発行等依頼内訳」シートを新様式に変更
+
+				xlSheet4 = xlSheets["電子証明書発行等依頼内訳"] as Excel.Worksheet;
+				xlShapes4 = xlSheet4.Shapes;
+				//Microsoft.Office.Interop.Excel.Shape oval4 = xlShapes4.AddShape(MsoAutoShapeType.msoShapeOval, 125, 95, 70, 20);
+				//oval4.Fill.Visible = MsoTriState.msoFalse;
+				//oval4.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
+				foreach (Excel.Shape shape in xlShapes4)
+				{
+					if (MsoShapeType.msoTextBox == shape.Type)
+					{
+						dynamic textFrame = shape.TextFrame;
+						switch (shape.Name)
+						{
+							case "県番号1":
+								if (KenNumDef.Length == common.顧客情報.県番号.Length)
+								{
+									textFrame.Characters.Text = common.顧客情報.県番号.Substring(0, 1);
+								}
+								break;
+							case "県番号2":
+								if (KenNumDef.Length == common.顧客情報.県番号.Length)
+								{
+									textFrame.Characters.Text = common.顧客情報.県番号.Substring(1, 1);
+								}
+								break;
+							case "点数表":
+								textFrame.Characters.Text = MwsDefine.DentalNumber.ToString();
+								break;
+							case "医療機関コード1":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(0, 1);
+								}
+								break;
+							case "医療機関コード2":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(1, 1);
+								}
+								break;
+							case "医療機関コード3":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(2, 1);
+								}
+								break;
+							case "医療機関コード4":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(3, 1);
+								}
+								break;
+							case "医療機関コード5":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(4, 1);
+								}
+								break;
+							case "医療機関コード6":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(5, 1);
+								}
+								break;
+							case "医療機関コード7":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Text = clinicCode.Substring(6, 1);
+								}
+								break;
+							case "顧客名":
+								if (0 < clinicCode.Length)
+								{
+									textFrame.Characters.Text = common.顧客情報.顧客名;
+								}
 								break;
 						}
 					}
@@ -1406,14 +1624,21 @@ namespace VariousDocumentOut.BaseFactory
 					//ws.Cell(58, 19).SetValue(common.HeadOffice.Fax);
 
 					// Ver1.14(2022/06/16):8-Microsoft365利用申込書 拠点FAX番号対応
+					// Ver1.23(2025/09/10 勝呂):8-Microsoft365利用申請書 新様式に対応
 					//ws.Cell(47, 20).SetValue(Program.gSettings.HeadOffice.FaxExpendables);
-					ws.Cell(50, 20).SetValue(common.FAX番号);
+					//ws.Cell(50, 20).SetValue(common.FAX番号);
+					ws.Cell(52, 20).SetValue(common.FAX番号);
 
-					ws.Cell(54, 19).SetValue(common.社名);
-					ws.Cell(55, 19).SetValue(common.本社郵便番号);
-					ws.Cell(56, 19).SetValue(common.本社住所);
+					// Ver1.23(2025/09/10 勝呂):8-Microsoft365利用申請書 新様式に対応
+					//ws.Cell(54, 19).SetValue(common.社名);
+					//ws.Cell(55, 19).SetValue(common.本社郵便番号);
+					//ws.Cell(56, 19).SetValue(common.本社住所);
 					//ws.Cell(55, 21).SetValue(string.Format("e-mail {0}", common.メールアドレス));
-					ws.Cell(57, 19).SetValue(common.URL);
+					//ws.Cell(57, 19).SetValue(common.URL);
+					ws.Cell(56, 19).SetValue(common.社名);
+					ws.Cell(57, 19).SetValue(common.本社郵便番号);
+					ws.Cell(58, 19).SetValue(common.本社住所);
+					ws.Cell(59, 19).SetValue(common.URL);
 
 					// Excelファイルの保存
 					wb.Save();
