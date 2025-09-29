@@ -170,6 +170,7 @@
     <Compile Include="BaseFactory\Pca\商品マスタ.cs" />
     <Compile Include="BaseFactory\Pca\汎用データレイアウト売上明細データ.cs" />
     <Compile Include="BaseFactory\Pca\汎用データレイアウト仕入明細データ.cs" />
+    <Compile Include="BaseFactory\ProfitTransferPurchaseFile\営業部_CS事業部_利益付け替え仕入集計.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上予測ES保守.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上進捗ES.cs" />
     <Compile Include="BaseFactory\ProspectProgressAutoAggregate\売上進捗まとめ.cs" />
@@ -312,6 +313,7 @@
     <Compile Include="DB\SqlServer\PcaInvoiceDataConverter\PcaInvoiceDataConverterGetIO.cs" />
     <Compile Include="DB\SqlServer\PCA\PcaDatabaseAccess.cs" />
     <Compile Include="DB\SqlServer\PCA\PcaDatabaseDefine.cs" />
+    <Compile Include="DB\SqlServer\ProfitTransferPurchaseFile\ProfitTransferPurchaseFileAccess.cs" />
     <Compile Include="DB\SqlServer\ProspectProgressAutoAggregate\ProspectProgressAutoAggregateAccess.cs" />
     <Compile Include="DB\SqlServer\ProspectProgressAutoAggregate\ProspectProgressAutoAggregateGetIO.cs" />
     <Compile Include="DB\SqlServer\PurchaseTransfer\PurchaseTransferAccess.cs" />

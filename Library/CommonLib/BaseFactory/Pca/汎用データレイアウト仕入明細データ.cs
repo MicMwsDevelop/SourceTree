@@ -7,6 +7,7 @@
 // 
 // Ver1.000 新規作成(2019/11/15 勝呂)
 // Ver1.02 汎用データレイアウト 仕入明細データ Version 9(DX-Rev3.00)に対応(2022/05/25 勝呂)
+// Ver1.03 汎用データレイアウト 仕入明細データ 各列の最大バイト数定数を追加(2025/09/22 越田)
 // 
 using CommonLib.DB;
 using System;
@@ -21,6 +22,28 @@ namespace CommonLib.BaseFactory.Pca
 	[Serializable]
 	public class 汎用データレイアウト仕入明細データ
 	{
+		// Ver1.03 汎用データレイアウト 仕入明細データ 各列の最大バイト数定数を追加(2025/09/22 越田)
+		public static readonly int 仕入先コード_MAX_BYTE_LENGTH = 13;
+		public static readonly int 仕入先名_MAX_BYTE_LENGTH = 40;
+		public static readonly int 先方担当者名_MAX_BYTE_LENGTH = 30;
+		public static readonly int 部門コード_MAX_BYTE_LENGTH = 6;
+		public static readonly int 担当者コード_MAX_BYTE_LENGTH = 13;
+		public static readonly int 摘要コード_MAX_BYTE_LENGTH = 6;
+		public static readonly int 摘要名_MAX_BYTE_LENGTH = 30;
+		public static readonly int 商品コード_MAX_BYTE_LENGTH = 13;
+		public static readonly int 商品名_MAX_BYTE_LENGTH = 36;
+		public static readonly int 倉庫コード_MAX_BYTE_LENGTH = 6;
+		public static readonly int 単位_MAX_BYTE_LENGTH = 10;
+		public static readonly int 備考_MAX_BYTE_LENGTH = 20;
+		public static readonly int 規格型番_MAX_BYTE_LENGTH = 36;
+		public static readonly int 色_MAX_BYTE_LENGTH = 7;
+		public static readonly int サイズ_MAX_BYTE_LENGTH = 5;
+		public static readonly int ﾌﾟﾛｼﾞｪｸﾄコード_MAX_BYTE_LENGTH = 16;
+		public static readonly int 伝票No2_MAX_BYTE_LENGTH = 16;
+		public static readonly int 商品名2_MAX_BYTE_LENGTH = 256;
+		public static readonly int ロットNo_MAX_BYTE_LENGTH = 20;
+
+
 		/// <summary>
 		/// 1 0:通常仕入、1:製品完成
 		/// </summary>

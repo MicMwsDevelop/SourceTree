@@ -824,13 +824,16 @@ namespace CommonLib.Common
             return str.Substring(0, len);
         }
 
-        /// <summary>
-        /// 文字列の先頭から指定したバイト数の文字列を取得する
-        /// </summary>
-        /// <param name="str">文字列</param>
-        /// <param name="len">長さ</param>
-        /// <returns>取得文字列</returns>
-        public static string ByteLeft(string str, int len)
+		/// <summary>
+		/// 文字列の先頭から指定したバイト数の文字列を取得する
+		/// </summary>
+		/// <param name="str">文字列</param>
+		/// <param name="len">長さ</param>
+		/// <returns>取得文字列</returns>
+		/// <remarks>
+		/// ※マルチバイト文字対応版は、MultiByteStrings.CutByMultiByteLength()
+		/// </remarks>
+		public static string ByteLeft(string str, int len)
         {
             return ByteMid(str, 0, len);
         }
