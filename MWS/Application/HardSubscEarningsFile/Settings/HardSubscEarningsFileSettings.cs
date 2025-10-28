@@ -57,13 +57,13 @@ namespace HardSubscEarningsFile.Settings
 
 		/// <summary>
 		/// 出力ファイル名
-		/// アルメックス保守売上データ_202011251201.csv
+		/// アルメックス保守売上データ_20201125120159.csv
 		/// </summary>
 		public string FormalFilename
 		{
 			get
 			{
-				return string.Format("{0}_{1}.csv", ExportFilename, DateTime.Now.ToString("yyyyMMddHHmm"));
+				return string.Format("{0}_{1}.csv", ExportFilename, DateTime.Now.ToString("yyyyMMddHHmmss"));
 			}
 		}
 

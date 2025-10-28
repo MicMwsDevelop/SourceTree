@@ -1,51 +1,47 @@
 ﻿//
-// HardSubscManagerSettings.cs
+// HardSubscNotifyMailSettings.cs
 // 
 // 環境設定定義クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2025/10/20 勝呂)
+/////////////////////////////////////////////////////////
+// Ver1.00(2025/10/28 勝呂):新規作成
 //
+using MwsLib.Settings.Mail;
 using MwsLib.Settings.SqlServer;
 using System;
 
-namespace HardSubscManager.Settings
+namespace HardSubscNotifyMail.Settings
 {
 	/// <summary>
 	/// 環境設定
 	/// </summary>
-	public class HardSubscManagerSettings : ICloneable, IEquatable<HardSubscManagerSettings>
+	public class HardSubscNotifyMailSettings : ICloneable, IEquatable<HardSubscNotifyMailSettings>
 	{
 		/// <summary>
-		/// SQL Server接続情報 JunpDB
+		/// メール設定
+		/// </summary>
+		public MailSettings Mail { get; set; }
+
+		/// <summary>
+		/// SQL Server接続情報（Junp）
 		/// </summary>
 		public SqlServerConnect ConnectJunp { get; set; }
 
 		/// <summary>
-		/// SQL Server接続情報 CharlieDB
+		/// SQL Server接続情報（Charlie）
 		/// </summary>
 		public SqlServerConnect ConnectCharlie { get; set; }
 
 		/// <summary>
-		/// 顧客情報連絡シート格納フォルダ
-		/// </summary>
-		public string InputFolder { get; set; }
-
-		/// <summary>
-		/// 契約管理台帳出力フォルダ
-		/// </summary>
-		public string OutputFolder { get; set; }
-
-		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public HardSubscManagerSettings()
+		public HardSubscNotifyMailSettings()
         {
+			Mail = new MailSettings();
 			ConnectJunp = new SqlServerConnect();
 			ConnectCharlie = new SqlServerConnect();
-			InputFolder = string.Empty;
-			OutputFolder = string.Empty;
 		}
 
 		/// <summary>
@@ -63,14 +59,13 @@ namespace HardSubscManager.Settings
 		/// </summary>
 		/// <param name="other">比較するオブジェクト</param>
 		/// <returns>判定</returns>
-		public bool Equals(HardSubscManagerSettings other)
+		public bool Equals(HardSubscNotifyMailSettings other)
 		{
 			if (other != null)
 			{
-				if (ConnectJunp.Equals(other.ConnectJunp)
-					&& ConnectCharlie.Equals(other.ConnectCharlie)
-					&& InputFolder == other.InputFolder
-					&& OutputFolder == other.OutputFolder)
+				if (Mail.Equals(other.Mail)
+					&& ConnectJunp.Equals(other.ConnectJunp)
+					&& ConnectCharlie.Equals(other.ConnectCharlie))
 				{
 					return true;
 				}
@@ -86,9 +81,9 @@ namespace HardSubscManager.Settings
 		/// <returns>判定</returns>
 		public override bool Equals(object obj)
 		{
-			if (obj is HardSubscManagerSettings)
+			if (obj is HardSubscNotifyMailSettings)
 			{
-				return this.Equals((HardSubscManagerSettings)obj);
+				return this.Equals((HardSubscNotifyMailSettings)obj);
 			}
 			else
 			{

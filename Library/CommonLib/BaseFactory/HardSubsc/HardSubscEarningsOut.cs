@@ -6,7 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 /////////////////////////////////////////////////////////
-// Ver1.00(2025/04/15 勝呂):新規作成
+// Ver1.00(2025/10/21 勝呂):新規作成
 // 
 using CommonLib.BaseFactory.Pca;
 using CommonLib.Common;
@@ -95,9 +95,9 @@ namespace CommonLib.BaseFactory.HardSubsc
 		public string 契約番号 { get; set; }
 
 		/// <summary>
-		/// 契約日
+		/// 受注日
 		/// </summary>
-		public DateTime? 契約日 { get; set; }
+		public DateTime? 受注日 { get; set; }
 
 		/// <summary>
 		/// 月額利用料
@@ -110,14 +110,14 @@ namespace CommonLib.BaseFactory.HardSubsc
 		public short 利用月数 { get; set; }
 
 		/// <summary>
-		/// 利用開始日
+		/// 契約開始日
 		/// </summary>
-		public DateTime?  利用開始日 { get; set; }
+		public DateTime? 契約開始日 { get; set; }
 
 		/// <summary>
-		/// 利用終了日
+		/// 契約終了日
 		/// </summary>
-		public DateTime? 利用終了日 { get; set; }
+		public DateTime? 契約終了日 { get; set; }
 
 		/// <summary>
 		/// 課金開始日
@@ -164,15 +164,15 @@ namespace CommonLib.BaseFactory.HardSubsc
 		}
 
 		/// <summary>
-		/// 利用期間文字列の取得
+		/// 契約期間文字列の取得
 		/// </summary>
-		public string 利用期間
+		public string 契約期間
 		{
 			get
 			{
-				if (利用開始日.HasValue && 利用終了日.HasValue)
+				if (契約開始日.HasValue && 契約終了日.HasValue)
 				{
-					return string.Format("{0}年{1}月～{2}年{3}月", 利用開始日.Value.Year, 利用開始日.Value.Month, 利用終了日.Value.Year, 利用終了日.Value.Month);
+					return string.Format("{0}年{1}月～{2}年{3}月", 契約開始日.Value.Year, 契約開始日.Value.Month, 契約終了日.Value.Year, 契約終了日.Value.Month);
 				}
 				return string.Empty;
 			}
@@ -198,11 +198,11 @@ namespace CommonLib.BaseFactory.HardSubsc
 			終了フラグ = false;
 			内部契約番号 = 0;
 			契約番号 = string.Empty;
-			契約日 = null;
+			受注日 = null;
 			月額利用料 = 0;
 			利用月数 = 0;
-			利用開始日 = null;
-			利用終了日 = null;
+			契約開始日 = null;
+			契約終了日 = null;
 			課金開始日 = null;
 			課金終了日 = null;
 			解約日 = null;
@@ -256,11 +256,11 @@ namespace CommonLib.BaseFactory.HardSubsc
 					data.終了フラグ = DataBaseValue.ConvObjectToBool(row["終了フラグ"]);
 					data.内部契約番号 = DataBaseValue.ConvObjectToInt(row["内部契約番号"]);
 					data.契約番号 = row["契約番号"].ToString().Trim();
-					data.契約日 = DataBaseValue.ConvObjectToDateTimeNull(row["契約日"]);
+					data.受注日 = DataBaseValue.ConvObjectToDateTimeNull(row["受注日"]);
 					data.月額利用料 = DataBaseValue.ConvObjectToInt(row["月額利用料"]);
 					data.利用月数 = DataBaseValue.ConvObjectToShort(row["利用月数"]);
-					data.利用開始日 = DataBaseValue.ConvObjectToDateTimeNull(row["利用開始日"]);
-					data.利用終了日 = DataBaseValue.ConvObjectToDateTimeNull(row["利用終了日"]);
+					data.契約開始日 = DataBaseValue.ConvObjectToDateTimeNull(row["契約開始日"]);
+					data.契約終了日 = DataBaseValue.ConvObjectToDateTimeNull(row["契約終了日"]);
 					data.課金開始日 = DataBaseValue.ConvObjectToDateTimeNull(row["課金開始日"]);
 					data.課金終了日 = DataBaseValue.ConvObjectToDateTimeNull(row["課金終了日"]);
 					data.解約日 = DataBaseValue.ConvObjectToDateTimeNull(row["解約日"]);

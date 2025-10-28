@@ -11,6 +11,7 @@
   <Genre Title="各種作業料顧客一覧" url="OnlineDemand/OnlineDemand.aspx"/>
   <Genre Title="オン資訪問診療連携費顧客一覧" url="OnlineLicenseHomon/OnlineLicenseHomon.aspx"/>
   <Genre Title="オン資電子処方箋連携費顧客一覧" url="OnlineElectricPrescript/OnlineElectricPrescript.aspx"/>
+  <Genre Title="釣銭機･精算機･post-pay販売顧客一覧" url="ChangeMachine/ChangeMachine.aspx"/>
 </BusinessPlanningWeb>
 
 

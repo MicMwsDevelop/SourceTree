@@ -95,8 +95,8 @@ namespace VariousDocumentOut.Forms
 				DocType = DocumentOut.DocumentType.MwsIDPassword;
 
 #if DEBUG
-				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("s-hamano", Program.gSettings.Connect.Junp.ConnectionString);
-				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("s-hamano", Program.gSettings.Connect.Junp.ConnectionString);
+				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("sonoda", Program.gSettings.Connect.Junp.ConnectionString);
+				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo("sonoda", Program.gSettings.Connect.Junp.ConnectionString);
 #else
 				List<SatelliteOffice> satelliteList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.gSettings.Connect.Junp.ConnectionString);
 				List<SatelliteOffice> headOfficeList = VariousDocumentOutAccess.Select_SatelliteOfficeInfo(Environment.UserName, Program.gSettings.Connect.Junp.ConnectionString);

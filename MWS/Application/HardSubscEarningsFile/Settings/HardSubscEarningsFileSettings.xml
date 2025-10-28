@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HardSubscEarningsFileSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<!-- ExportDir>\\sqlsv\pcadata</ExportDir -->
-	<ExportDir>C:\_売上データ作成\ハードレンタル売上データ</ExportDir>
-	<ExportFilename>ハードレンタル売上データ</ExportFilename>
+	<ExportDir>C:\_ハードサブスク\売上データ作成</ExportDir>
+	<ExportFilename>ハードサブスク売上データ</ExportFilename>
 	<PcaVersion>7</PcaVersion>
 	<SlipInitialNumber>670001</SlipInitialNumber>
 	<Mail>

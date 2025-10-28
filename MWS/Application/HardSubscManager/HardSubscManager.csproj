@@ -98,11 +98,17 @@
     <Compile Include="Forms\DetailForm.Designer.cs">
       <DependentUpon>DetailForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\HeaderDetailForm.cs">
+    <Compile Include="Forms\ContractForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\HeaderDetailForm.Designer.cs">
-      <DependentUpon>HeaderDetailForm.cs</DependentUpon>
+    <Compile Include="Forms\ContractForm.Designer.cs">
+      <DependentUpon>ContractForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InputCustomerNoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InputCustomerNoForm.Designer.cs">
+      <DependentUpon>InputCustomerNoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -110,13 +116,12 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ManagerForm.cs">
+    <Compile Include="Forms\ContractListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ManagerForm.Designer.cs">
-      <DependentUpon>ManagerForm.cs</DependentUpon>
+    <Compile Include="Forms\ContractListForm.Designer.cs">
+      <DependentUpon>ContractListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Mail\SendMailControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\HardSubscManagerSettings.cs" />
@@ -124,14 +129,17 @@
     <EmbeddedResource Include="Forms\DetailForm.resx">
       <DependentUpon>DetailForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\HeaderDetailForm.resx">
-      <DependentUpon>HeaderDetailForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ContractForm.resx">
+      <DependentUpon>ContractForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InputCustomerNoForm.resx">
+      <DependentUpon>InputCustomerNoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ManagerForm.resx">
-      <DependentUpon>ManagerForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ContractListForm.resx">
+      <DependentUpon>ContractListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -152,6 +160,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="契約管理台帳.xlsx.org">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

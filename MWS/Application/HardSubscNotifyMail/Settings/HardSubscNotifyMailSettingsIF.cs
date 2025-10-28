@@ -1,33 +1,34 @@
 ﻿//
-// HardSubscManagerSettingsIF.cs
+// HardSubscNotifyMailSettingsIF.cs
 // 
 // 環境設定インターフェイス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2025/10/20 勝呂)
+/////////////////////////////////////////////////////////
+// Ver1.00(2025/10/28 勝呂):新規作成
 //
 using System;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace HardSubscManager.Settings
+namespace HardSubscNotifyMail.Settings
 {
 	/// <summary>
 	/// 環境設定インターフェイス
 	/// </summary>
-	public static class HardSubscManagerSettingsIF
+	public static class HardSubscNotifyMailSettingsIF
 	{
 		/// <summary>
 		/// 環境設定ファイル名称
 		/// </summary>
-		public const string SETTINGS_FILENAME = "HardSubscManagerSettings.xml";
+		public const string SETTINGS_FILENAME = "HardSubscNotifyMailSettings.xml";
 
 		/// <summary>
 		/// 環境設定
 		/// </summary>
-		private static HardSubscManagerSettings Settings = null;
+		private static HardSubscNotifyMailSettings Settings = null;
 
 		/// <summary>
 		/// 環境設定ファイル名
@@ -62,8 +63,8 @@ namespace HardSubscManager.Settings
 					try
 					{
 						fileStream = new FileStream(SettingsFileName, FileMode.Open);
-						XmlSerializer serializer = new XmlSerializer(typeof(HardSubscManagerSettings));
-						Settings = serializer.Deserialize(fileStream) as HardSubscManagerSettings;
+						XmlSerializer serializer = new XmlSerializer(typeof(HardSubscNotifyMailSettings));
+						Settings = serializer.Deserialize(fileStream) as HardSubscNotifyMailSettings;
 					}
 					catch (Exception)
 					{
@@ -80,7 +81,7 @@ namespace HardSubscManager.Settings
 				else
 				{
 					// 存在しない場合は初期値を設定
-					Settings = new HardSubscManagerSettings();
+					Settings = new HardSubscNotifyMailSettings();
 				}
 			}
 			return result;
@@ -99,7 +100,7 @@ namespace HardSubscManager.Settings
 			{
 				fileStream = new FileStream(SettingsFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 				StreamWriter stream = new StreamWriter(fileStream, Encoding.UTF8);   // Unicodeで書き込む
-				XmlSerializer serializer = new XmlSerializer(typeof(HardSubscManagerSettings));
+				XmlSerializer serializer = new XmlSerializer(typeof(HardSubscNotifyMailSettings));
 				serializer.Serialize(stream, Settings);
 			}
 			catch (Exception)
@@ -122,7 +123,7 @@ namespace HardSubscManager.Settings
 		/// <param name="reload">環境設定を再読みするかどうか（デフォルト：false）</param>
 		/// <returns>環境設定</returns>
 		/// <exception cref="ApplicationException">環境設定の読み込みが出来なかった場合に発生</exception>
-		public static HardSubscManagerSettings GetSettings(bool reload = false)
+		public static HardSubscNotifyMailSettings GetSettings(bool reload = false)
 		{
 			SetSettingsFileName();
 
@@ -132,14 +133,14 @@ namespace HardSubscManager.Settings
 			{
 				throw new ApplicationException("環境設定の取得に失敗");
 			}
-			return Settings.Clone() as HardSubscManagerSettings;
+			return Settings.Clone() as HardSubscNotifyMailSettings;
 		}
 
 		/// <summary>
 		/// 環境設定の設定
 		/// </summary>
 		/// <param name="settings">環境設定</param>
-		public static void SetSettings(HardSubscManagerSettings settings)
+		public static void SetSettings(HardSubscNotifyMailSettings settings)
 		{
 			SetSettingsFileName();
 

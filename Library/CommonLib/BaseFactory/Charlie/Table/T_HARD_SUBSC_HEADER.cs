@@ -6,7 +6,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2025/04/03 勝呂)
+// Ver1.00 新規作成(2025/10/20 勝呂)
 //
 using CommonLib.Common;
 using CommonLib.DB;
@@ -49,9 +49,9 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		public int CustomerID { get; set; }
 
 		/// <summary>
-		/// 受付日
+		/// 受注日
 		/// </summary>
-		public DateTime? AcceptDate { get; set; }
+		public DateTime? OrderDate { get; set; }
 
 		/// <summary>
 		/// 利用月数
@@ -69,14 +69,14 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		public DateTime? DeliveryDate { get; set; }
 
 		/// <summary>
-		/// 利用開始日
+		/// 契約開始日
 		/// </summary>
-		public DateTime? UseStartDate { get; set; }
+		public DateTime? ContractStartDate { get; set; }
 
 		/// <summary>
-		/// 利用終了日
+		/// 契約終了日
 		/// </summary>
-		public DateTime? UseEndDate { get; set; }
+		public DateTime? ContractEndDate { get; set; }
 
 		/// <summary>
 		/// 課金開始日
@@ -158,7 +158,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		{
 			get
 			{
-				return string.Format(@"UPDATE {0} SET ContractNo = @1, CustomerID = @2, AcceptDate = @3, Months = @4, MonthlyAmount = @5,  DeliveryDate= @6, UseStartDate = @7, UseEndDate = @8, BillingStartDate = @9,"
+				return string.Format(@"UPDATE {0} SET ContractNo = @1, CustomerID = @2, OrderDate = @3, Months = @4, MonthlyAmount = @5,  DeliveryDate= @6, ContractStartDate = @7, ContractEndDate = @8, BillingStartDate = @9,"
 									+ " BillingEndDate = @10, CancelDate = @11, CollectDate = @12, DisposalDate = @13, ServiceEndFlag = @14, UpdateDate = @15, UpdatePerson = @16"
 									+ " WHERE [InternalContractNo] = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_HARD_SUBSC_HEADER], InternalContractNo);
 			}
@@ -180,12 +180,12 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			InternalContractNo = 0;
 			ContractNo = string.Empty;
 			CustomerID = 0;
-			AcceptDate = null;
+			OrderDate = null;
 			Months = 0;
 			MonthlyAmount = 0;
 			DeliveryDate = null;
-			UseStartDate = null;
-			UseEndDate = null;
+			ContractStartDate = null;
+			ContractEndDate = null;
 			BillingStartDate = null;
 			BillingEndDate = null;
 			CancelDate = null;
@@ -218,12 +218,12 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			ret.InternalContractNo = this.InternalContractNo;
 			ret.ContractNo = this.ContractNo;
 			ret.CustomerID = this.CustomerID;
-			ret.AcceptDate = this.AcceptDate;
+			ret.OrderDate = this.OrderDate;
 			ret.Months = this.Months;
 			ret.MonthlyAmount = this.MonthlyAmount;
 			ret.DeliveryDate = this.DeliveryDate;
-			ret.UseStartDate = this.UseStartDate;
-			ret.UseEndDate = this.UseEndDate;
+			ret.ContractStartDate = this.ContractStartDate;
+			ret.ContractEndDate = this.ContractEndDate;
 			ret.BillingStartDate = this.BillingStartDate;
 			ret.BillingEndDate = this.BillingEndDate;
 			ret.CancelDate = this.CancelDate;
@@ -249,12 +249,12 @@ namespace CommonLib.BaseFactory.Charlie.Table
 				if (InternalContractNo == other.InternalContractNo
 					&& ContractNo == other.ContractNo
 					&& CustomerID == other.CustomerID
-					&& AcceptDate.Equals(other.AcceptDate)
+					&& OrderDate.Equals(other.OrderDate)
 					&& Months == other.Months
 					&& MonthlyAmount == other.MonthlyAmount
 					&& DeliveryDate.Equals(other.DeliveryDate)
-					&& UseStartDate.Equals(other.UseStartDate)
-					&& UseEndDate.Equals(other.UseEndDate)
+					&& ContractStartDate.Equals(other.ContractStartDate)
+					&& ContractEndDate.Equals(other.ContractEndDate)
 					&& BillingStartDate.Equals(other.BillingStartDate)
 					&& BillingEndDate.Equals(other.BillingEndDate)
 					&& CancelDate.Equals(other.CancelDate)
@@ -316,12 +316,12 @@ namespace CommonLib.BaseFactory.Charlie.Table
 						InternalContractNo = DataBaseValue.ConvObjectToInt(row["InternalContractNo"]),
 						ContractNo = row["ContractNo"].ToString().Trim(),
 						CustomerID = DataBaseValue.ConvObjectToInt(row["CustomerID"]),
-						AcceptDate = DataBaseValue.ConvObjectToDateTimeNull(row["AcceptDate"]),
+						OrderDate = DataBaseValue.ConvObjectToDateTimeNull(row["OrderDate"]),
 						Months = DataBaseValue.ConvObjectToShort(row["Months"]),
 						MonthlyAmount = DataBaseValue.ConvObjectToInt(row["MonthlyAmount"]),
 						DeliveryDate = DataBaseValue.ConvObjectToDateTimeNull(row["DeliveryDate"]),
-						UseStartDate = DataBaseValue.ConvObjectToDateTimeNull(row["UseStartDate"]),
-						UseEndDate = DataBaseValue.ConvObjectToDateTimeNull(row["UseEndDate"]),
+						ContractStartDate = DataBaseValue.ConvObjectToDateTimeNull(row["ContractStartDate"]),
+						ContractEndDate = DataBaseValue.ConvObjectToDateTimeNull(row["ContractEndDate"]),
 						BillingStartDate = DataBaseValue.ConvObjectToDateTimeNull(row["BillingStartDate"]),
 						BillingEndDate = DataBaseValue.ConvObjectToDateTimeNull(row["BillingEndDate"]),
 						CancelDate = DataBaseValue.ConvObjectToDateTimeNull(row["CancelDate"]),
@@ -350,12 +350,12 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			SqlParameter[] param = {
 				new SqlParameter("@1", ContractNo),
 				new SqlParameter("@2", CustomerID),
-				new SqlParameter("@3", AcceptDate.HasValue ? AcceptDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@3", OrderDate.HasValue ? OrderDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@4", Months),
 				new SqlParameter("@5", MonthlyAmount),
 				new SqlParameter("@6", DeliveryDate.HasValue ? DeliveryDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
-				new SqlParameter("@7", UseStartDate.HasValue ? UseStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
-				new SqlParameter("@8", UseEndDate.HasValue ? UseEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@7", ContractStartDate.HasValue ? ContractStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@8", ContractEndDate.HasValue ? ContractEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@9", BillingStartDate.HasValue ? BillingStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@10", BillingEndDate.HasValue ? BillingEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@11", CancelDate.HasValue ? CancelDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
@@ -380,12 +380,12 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			SqlParameter[] param = {
 				new SqlParameter("@1", ContractNo),
 				new SqlParameter("@2", CustomerID),
-				new SqlParameter("@3", AcceptDate.HasValue ? AcceptDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@3", OrderDate.HasValue ? OrderDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@4", Months),
 				new SqlParameter("@5", MonthlyAmount),
 				new SqlParameter("@6", DeliveryDate.HasValue ? DeliveryDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
-				new SqlParameter("@7", UseStartDate.HasValue ? UseStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
-				new SqlParameter("@8", UseEndDate.HasValue ? UseEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@7", ContractStartDate.HasValue ? ContractStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@8", ContractEndDate.HasValue ? ContractEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@9", BillingStartDate.HasValue ? BillingStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@10", BillingEndDate.HasValue ? BillingEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@11", CancelDate.HasValue ? CancelDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
@@ -409,11 +409,11 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		}
 
 		/// <summary>
-		/// 納品日から利用開始日を取得
+		/// 納品日から契約開始日を取得
 		/// </summary>
 		/// <param name="shippingDate">納品日</param>
-		/// <returns>利用開始日</returns>
-		public static DateTime? GetUseStartDate(DateTime? deliveryDate)
+		/// <returns>契約開始日</returns>
+		public static DateTime? GetContractStartDate(DateTime? deliveryDate)
 		{
 			if (deliveryDate.HasValue)
 			{
@@ -424,19 +424,29 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		}
 
 		/// <summary>
-		/// 利用開始日と利用月数から利用終了日の取得
+		/// 契約開始日と利用月数から契約終了日の取得
 		/// </summary>
-		/// <param name="startDate">利用開始日</param>
+		/// <param name="startDate">契約開始日</param>
 		/// <param name="months">利用月数</param>
-		/// <returns>利用終了日</returns>
-		public static DateTime? GetUseEndDate(DateTime? startDate, int months)
+		/// <returns>契約終了日</returns>
+		public static DateTime? GetContractEndDate(DateTime? startDate, int months)
 		{
 			if (startDate.HasValue && 0 < months)
 			{
 				// 末日
-				return startDate.Value.ToDate().PlusMonths(months).LastDayOfTheMonth().ToDateTime();
+				return startDate.Value.ToDate().PlusMonths(months - 1).LastDayOfTheMonth().ToDateTime();
 			}
 			return null;
+		}
+
+		/// <summary>
+		/// 契約番号の採番
+		/// </summary>
+		/// <param name="internalContractNo">内部契約番号</param>
+		/// <returns>契約番号</returns>
+		public static string NumberingContractNo(int internalContractNo)
+		{
+			return string.Format("S{0}", internalContractNo);
 		}
 	}
 }

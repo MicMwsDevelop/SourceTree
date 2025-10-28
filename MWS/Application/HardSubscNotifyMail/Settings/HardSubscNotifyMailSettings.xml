@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<HardSubscManagerSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<HardSubscNotifyMailSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Mail>
+		<From>mainte_info_sys@mic.jp</From>
+		<To>gyomu@mic.jp</To>
+		<CC>mainte_info_sys@mic.jp</CC>
+		<TestTo>suguro@mic.jp</TestTo>
+		<TestCC>suguro@mic.jp</TestCC>
+		<Smtp>dove.mic.jp</Smtp>
+		<Port>25</Port>
+		<User />
+		<Pass />
+	</Mail>
 	<ConnectJunp>
 		<!-- InstanceName>SQLSV</InstanceName -->
 		<InstanceName>TESTSV2</InstanceName>
@@ -13,7 +24,5 @@
 		<DatabaseName>CharlieDB</DatabaseName>
 		<UserID>web</UserID>
 		<Password>02035612</Password>
-		</ConnectCharlie>
-	<InputFolder>C:\_ハードサブスク\顧客情報連絡シート</InputFolder>
-	<OutputFolder>C:\_ハードサブスク\契約管理台帳</OutputFolder>
-</HardSubscManagerSettings>
+	</ConnectCharlie>
+</HardSubscNotifyMailSettings>

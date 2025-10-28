@@ -68,7 +68,17 @@ namespace VariousDocumentOut
 		/// <summary>
 		/// バージョン番号
 		/// </summary>
-		public const string VersionStr = "Ver1.24 (2025/09/19)";
+		public const string VersionStr = "Ver1.24 (2025/10/02)";
+
+		/// <summary>
+		/// デフォルトフォント名
+		/// </summary>
+		public const string DefaultFontName = "ＭＳ Ｐゴシック";
+
+		/// <summary>
+		/// 数字フォント名
+		/// </summary>
+		public const string NumberFontName = "Calibri";
 
 		/// <summary>
 		/// 環境設定

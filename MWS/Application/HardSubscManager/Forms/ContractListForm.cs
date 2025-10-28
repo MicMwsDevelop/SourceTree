@@ -1,18 +1,16 @@
 ﻿//
-// ManagerForm.cs
+// ContractListForm.cs
 //
 // ハードサブスク契約管理画面
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2025/04/03 勝呂)
+// Ver1.00 新規作成(2025/10/20 勝呂)
 // 
 using CommonLib.BaseFactory.Charlie.Table;
-using CommonLib.BaseFactory.Junp.Table;
 using CommonLib.BaseFactory.Junp.View;
 using CommonLib.DB.SqlServer.HardSubsc;
 using HardSubscManager.Forms;
-using HardSubscManager.Settings;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -22,12 +20,17 @@ namespace HardSubscManager
 	/// <summary>
 	/// メイン画面
 	/// </summary>
-	public partial class ManagerForm : Form
+	public partial class ContractListForm : Form
 	{
+		/// <summary>
+		/// 顧客No
+		/// </summary>
+		public int CustomerNo { get; set; }
+
 		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
-		public ManagerForm()
+		public ContractListForm()
 		{
 			InitializeComponent();
 		}
@@ -37,85 +40,32 @@ namespace HardSubscManager
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void MainForm_Load(object sender, EventArgs e)
+		private void ContractListForm_Load(object sender, EventArgs e)
 		{
 			// バージョン情報設定
 			labelVersion.Text = Program.ProgramVersion;
 
-			// ログインユーザー情報の取得
-			tUser user = HardSubscAccess.GetLoginUser(Environment.UserName, Program.gSettings.ConnectJunp.ConnectionString);
-			if (null != user)
-			{
-				Program.UserInfo = user;
-			}
-		}
-
-		/// <summary>
-		/// 顧客Noの入力
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void buttonSearch_Click(object sender, EventArgs e)
-		{
-			// クリア
-			labelOffice.Text = string.Empty;
-			labelClinicName.Text = string.Empty;
-			labelClinickKana.Text = string.Empty;
-			labelAddress.Text = string.Empty;
-			labelTel.Text = string.Empty;
-			labelEndFlag.Text = string.Empty;
-			listViewHeader.Items.Clear();
-
 			try
 			{
-				int customerNo = numericTextBoxCustomerID.ToInt();
-				vMic全ユーザー2 user = HardSubscAccess.GetClinicInfo(customerNo, Program.gSettings.ConnectJunp.ConnectionString);
-				if (null != user)
+				// 顧客情報の設定
+				vMic全ユーザー2 clinicInfo = HardSubscAccess.GetClinicInfo(CustomerNo, Program.gSettings.ConnectJunp.ConnectionString);
+				if (null != clinicInfo)
 				{
-					// 顧客情報の設定
-					labelOffice.Text = user.支店名;
-					labelClinicName.Text = user.顧客名;
-					labelClinickKana.Text = user.フリガナ;
-					labelAddress.Text = user.住所;
-					labelTel.Text = user.電話番号;
-					labelEndFlag.Text = (user.終了フラグ) ? "終了" : "";
+					labelCustomerNo.Text = CustomerNo.ToString();
+					labelOffice.Text = clinicInfo.支店名;
+					labelClinicName.Text = clinicInfo.顧客名;
+					labelClinickKana.Text = clinicInfo.フリガナ;
+					labelAddress.Text = clinicInfo.住所;
+					labelTel.Text = clinicInfo.電話番号;
+					labelEndFlag.Text = (clinicInfo.終了フラグ) ? "終了" : "";
 
 					// 契約情報ListViewの設定
-					this.SetHeaderListView(customerNo);
-				}
-				else
-				{
-					MessageBox.Show("顧客Noに該当する医院が見つかりません。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					SetHeaderListView(CustomerNo);
 				}
 			}
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message, Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-		}
-
-		/// <summary>
-		/// 新規申込
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void buttonAddNew_Click(object sender, EventArgs e)
-		{
-			if (0 < labelClinicName.Text.Length) 
-			{
-				using (HeaderDetailForm form = new HeaderDetailForm())
-				{
-					form.CustomerNo = numericTextBoxCustomerID.ToInt();
-					if (DialogResult.OK == form.ShowDialog())
-					{
-						// 契約情報ListViewの設定
-						this.SetHeaderListView(form.CustomerNo);
-					}
-				}
-			}
-			else
-			{
-				MessageBox.Show("医院が指定されていません。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 
@@ -142,14 +92,22 @@ namespace HardSubscManager
 				if (null != lvItem.Tag)
 				{
 					T_HARD_SUBSC_HEADER header = (T_HARD_SUBSC_HEADER)lvItem.Tag;
-					using (HeaderDetailForm form = new HeaderDetailForm())
+					using (ContractForm form = new ContractForm())
 					{
-						form.CustomerNo = header.CustomerID;
-						form.SaveHeader = header;
-						if (DialogResult.OK == form.ShowDialog())
+						try
 						{
-							// 契約情報ListViewの設定
-							this.SetHeaderListView(header.CustomerID);
+							form.ModofyFlag = true;
+							form.OrgHeader = header;
+							form.OrgDetailList = HardSubscAccess.GetHardSubscDetailList(header.InternalContractNo, Program.gSettings.ConnectCharlie.ConnectionString);
+							if (DialogResult.OK == form.ShowDialog())
+							{
+								this.DialogResult = DialogResult.OK;
+								this.Close();
+							}
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(ex.Message, Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
 						}
 					}
 				}
@@ -158,6 +116,7 @@ namespace HardSubscManager
 
 		/// <summary>
 		/// 契約情報削除
+		/// 現機能は安全運用を考慮してマスク中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -223,12 +182,6 @@ namespace HardSubscManager
 		{
 			try
 			{
-				// 元のカーソルを保持
-				Cursor preCursor = Cursor.Current;
-
-				// カーソルを待機カーソルに変更
-				Cursor.Current = Cursors.WaitCursor;
-
 				listViewHeader.Items.Clear();
 
 				// 契約情報リストの取得
@@ -238,16 +191,19 @@ namespace HardSubscManager
 					foreach (T_HARD_SUBSC_HEADER header in headerList)
 					{
 						ListViewItem item = new ListViewItem(Program.GetHeaderListViewItem(header));
+
+						// 解約日は協調表示
+						item.UseItemStyleForSubItems = false;
+						item.SubItems[8].ForeColor = System.Drawing.Color.Red;
+
 						item.Tag = header;
 						listViewHeader.Items.Add(item);
 					}
 				}
-				// カーソルを元に戻す
-				Cursor.Current = preCursor;
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				throw new Exception(ex.Message);
 			}
 		}
 	}

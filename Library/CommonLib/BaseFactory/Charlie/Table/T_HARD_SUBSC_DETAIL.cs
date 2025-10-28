@@ -1,12 +1,12 @@
 ﻿//
 // T_HARD_SUBSC_DETAIL.cs
 //
-// ハードサブスク情報管理 機器情報クラス
+// ハードサブスク情報管理 貸出機器情報クラス
 // [CharlieDB].[dbo].[T_HARD_SUBSC_DETAIL]
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2025/04/03 勝呂)
+// Ver1.00 新規作成(2025/10/20 勝呂)
 // 
 using CommonLib.DB;
 using CommonLib.DB.SqlServer.Charlie;
@@ -18,7 +18,7 @@ using System.Data.SqlClient;
 namespace CommonLib.BaseFactory.Charlie.Table
 {
 	/// <summary>
-	/// ハードサブスク情報管理 機器情報
+	/// ハードサブスク情報管理 貸出機器情報
 	/// </summary>
 	public class T_HARD_SUBSC_DETAIL : ICloneable, IEquatable<T_HARD_SUBSC_DETAIL>
 	{
@@ -46,11 +46,6 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		/// カテゴリ
 		/// </summary>
 		public string CategoryName { get; set; }
-
-		/// <summary>
-		/// 取得金額
-		/// </summary>
-		public int Amount { get; set; }
 
 		/// <summary>
 		/// 数量
@@ -89,7 +84,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		{
 			get
 			{
-				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11)", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_HARD_SUBSC_DETAIL]);
+				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10)", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_HARD_SUBSC_DETAIL]);
 			}
 		}
 
@@ -103,7 +98,6 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			GoodsCode = string.Empty;
 			GoodsName = string.Empty;
 			CategoryName = string.Empty;
-			Amount = 0;
 			Quantity = 0;
 			SerialNo = string.Empty;
 			ScanFilename = string.Empty;
@@ -134,7 +128,6 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			ret.GoodsCode = this.GoodsCode;
 			ret.GoodsName = this.GoodsName;
 			ret.CategoryName = this.CategoryName;
-			ret.Amount = this.Amount;
 			ret.Quantity = this.Quantity;
 			ret.SerialNo = this.SerialNo;
 			ret.ScanFilename = this.ScanFilename;
@@ -158,7 +151,6 @@ namespace CommonLib.BaseFactory.Charlie.Table
 					&& GoodsCode == other.GoodsCode
 					&& GoodsName == other.GoodsName
 					&& CategoryName == other.CategoryName
-					&& Amount == other.Amount
 					&& Quantity == other.Quantity
 					&& SerialNo == other.SerialNo
 					&& ScanFilename == other.ScanFilename
@@ -218,7 +210,6 @@ namespace CommonLib.BaseFactory.Charlie.Table
 						GoodsCode = row["GoodsCode"].ToString().Trim(),
 						GoodsName = row["GoodsName"].ToString().Trim(),
 						CategoryName = row["CategoryName"].ToString().Trim(),
-						Amount = DataBaseValue.ConvObjectToInt(row["Amount"]),
 						Quantity = DataBaseValue.ConvObjectToShort(row["Quantity"]),
 						SerialNo = row["SerialNo"].ToString().Trim(),
 						ScanFilename = row["ScanFilename"].ToString().Trim(),
@@ -266,13 +257,12 @@ namespace CommonLib.BaseFactory.Charlie.Table
 				new SqlParameter("@2", GoodsCode),
 				new SqlParameter("@3", GoodsName),
 				new SqlParameter("@4", CategoryName),
-				new SqlParameter("@5", Amount),
-				new SqlParameter("@6", Quantity),
-				new SqlParameter("@7", SerialNo),
-				new SqlParameter("@8", ScanFilename),
-				new SqlParameter("@9", AssetsCode),
-				new SqlParameter("@10", DateTime.Now),
-				new SqlParameter("@11", person)
+				new SqlParameter("@5", Quantity),
+				new SqlParameter("@6", SerialNo),
+				new SqlParameter("@7", ScanFilename),
+				new SqlParameter("@8", AssetsCode),
+				new SqlParameter("@9", DateTime.Now),
+				new SqlParameter("@10", person)
 			};
 			return param;
 		}

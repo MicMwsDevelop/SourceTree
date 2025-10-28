@@ -998,120 +998,144 @@ namespace VariousDocumentOut.BaseFactory
 						switch (shape.Name)
 						{
 							case "宛先１":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
 								textFrame.Characters.Text = "社会保険診療報酬支払基金";
 								break;
 							case "宛先２":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
 								textFrame.Characters.Text = common.顧客情報.支部名;
 								break;
 							case "院長名":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
 								textFrame.Characters.Text = common.顧客情報.院長名;
 								break;
 							case "住所１":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
 								textFrame.Characters.Text = common.顧客情報.住所1;
 								break;
 							case "住所２":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
 								textFrame.Characters.Text = common.顧客情報.住所2;
 								break;
 							case "医療機関コード１":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(0, 1);
 								}
 								break;
 							case "医療機関コード２":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(1, 1);
 								}
 								break;
 							case "医療機関コード３":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(2, 1);
 								}
 								break;
 							case "医療機関コード４":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(3, 1);
 								}
 								break;
 							case "医療機関コード５":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(4, 1);
 								}
 								break;
 							case "医療機関コード６":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(5, 1);
 								}
 								break;
 							case "医療機関コード７":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(6, 1);
 								}
 								break;
 							case "顧客名":
 								if (0 < clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.DefaultFontName;
 									textFrame.Characters.Text = common.顧客情報.顧客名;
 								}
 								break;
 							case "住所":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
 								textFrame.Characters.Text = common.顧客情報.住所;
 								break;
 							case "システム名称":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
 								textFrame.Characters.Text = common.顧客情報.システム略称;
 								break;
 							case "電話番号":
+								textFrame.Characters.Font.Name = Program.NumberFontName;
 								textFrame.Characters.Text = common.顧客情報.電話番号;
 								break;
 							case "郵便番号１":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(0, 1);
 								}
 								break;
 							case "郵便番号２":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(1, 1);
 								}
 								break;
 							case "郵便番号３":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(2, 1);
 								}
 								break;
 							case "郵便番号４":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(3, 1);
 								}
 								break;
 							case "郵便番号５":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(4, 1);
 								}
 								break;
 							case "郵便番号６":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(5, 1);
 								}
 								break;
 							case "郵便番号７":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(6, 1);
 								}
 								break;
 							case "メーカー名":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
 								textFrame.Characters.Text = common.社名;
 								break;
 						}
@@ -1132,10 +1156,145 @@ namespace VariousDocumentOut.BaseFactory
 						switch (shape.Name)
 						{
 							case "宛先１":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
 								textFrame.Characters.Text = common.顧客情報.都道府県名 + "国民健康保険団体連合会";
 								break;
 							case "宛先２":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
 								textFrame.Characters.Text = string.Empty;
+								break;
+							case "院長名":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
+								textFrame.Characters.Text = common.顧客情報.院長名;
+								break;
+							case "住所１":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
+								textFrame.Characters.Text = common.顧客情報.住所1;
+								break;
+							case "住所２":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
+								textFrame.Characters.Text = common.顧客情報.住所2;
+								break;
+							case "医療機関コード１":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = clinicCode.Substring(0, 1);
+								}
+								break;
+							case "医療機関コード２":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = clinicCode.Substring(1, 1);
+								}
+								break;
+							case "医療機関コード３":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = clinicCode.Substring(2, 1);
+								}
+								break;
+							case "医療機関コード４":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = clinicCode.Substring(3, 1);
+								}
+								break;
+							case "医療機関コード５":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = clinicCode.Substring(4, 1);
+								}
+								break;
+							case "医療機関コード６":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = clinicCode.Substring(5, 1);
+								}
+								break;
+							case "医療機関コード７":
+								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = clinicCode.Substring(6, 1);
+								}
+								break;
+							case "顧客名":
+								if (0 < clinicCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.DefaultFontName;
+									textFrame.Characters.Text = common.顧客情報.顧客名;
+								}
+								break;
+							case "住所":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
+								textFrame.Characters.Text = common.顧客情報.住所;
+								break;
+							case "システム名称":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
+								textFrame.Characters.Text = common.顧客情報.システム略称;
+								break;
+							case "電話番号":
+								textFrame.Characters.Font.Name = Program.NumberFontName;
+								textFrame.Characters.Text = common.顧客情報.電話番号;
+								break;
+							case "郵便番号１":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = zipCode.Substring(0, 1);
+								}
+								break;
+							case "郵便番号２":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = zipCode.Substring(1, 1);
+								}
+								break;
+							case "郵便番号３":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = zipCode.Substring(2, 1);
+								}
+								break;
+							case "郵便番号４":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = zipCode.Substring(3, 1);
+								}
+								break;
+							case "郵便番号５":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = zipCode.Substring(4, 1);
+								}
+								break;
+							case "郵便番号６":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = zipCode.Substring(5, 1);
+								}
+								break;
+							case "郵便番号７":
+								if (MwsDefine.ZipcodeLength == zipCode.Length)
+								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
+									textFrame.Characters.Text = zipCode.Substring(6, 1);
+								}
+								break;
+							case "メーカー名":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
+								textFrame.Characters.Text = common.社名;
 								break;
 						}
 					}
@@ -1159,121 +1318,143 @@ namespace VariousDocumentOut.BaseFactory
 							case "県番号1":
 								if (KenNumDef.Length == common.顧客情報.県番号.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = common.顧客情報.県番号.Substring(0, 1);
 								}
 								break;
 							case "県番号2":
 								if (KenNumDef.Length == common.顧客情報.県番号.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = common.顧客情報.県番号.Substring(1, 1);
 								}
 								break;
 							case "点数表":
+								textFrame.Characters.Font.Name = Program.NumberFontName;
 								textFrame.Characters.Text = MwsDefine.DentalNumber.ToString();
 								break;
 							case "医療機関コード1":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(0, 1);
 								}
 								break;
 							case "医療機関コード2":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(1, 1);
 								}
 								break;
 							case "医療機関コード3":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(2, 1);
 								}
 								break;
 							case "医療機関コード4":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(3, 1);
 								}
 								break;
 							case "医療機関コード5":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(4, 1);
 								}
 								break;
 							case "医療機関コード6":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(5, 1);
 								}
 								break;
 							case "医療機関コード7":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(6, 1);
 								}
 								break;
 							case "フリガナ":
 								if (0 < clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.DefaultFontName;
 									textFrame.Characters.Text = common.顧客情報.フリガナ;
 								}
 								break;
 							case "顧客名":
 								if (0 < clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.DefaultFontName;
 									textFrame.Characters.Text = common.顧客情報.顧客名;
 								}
 								break;
 							case "郵便番号1":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(0, 1);
 								}
 								break;
 							case "郵便番号2":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(1, 1);
 								}
 								break;
 							case "郵便番号3":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(2, 1);
 								}
 								break;
 							case "郵便番号4":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(3, 1);
 								}
 								break;
 							case "郵便番号5":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(4, 1);
 								}
 								break;
 							case "郵便番号6":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(5, 1);
 								}
 								break;
 							case "郵便番号7":
 								if (MwsDefine.ZipcodeLength == zipCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = zipCode.Substring(6, 1);
 								}
 								break;
 							case "住所":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
 								textFrame.Characters.Text = common.顧客情報.住所;
 								break;
 							case "電話番号":
+								textFrame.Characters.Font.Name = Program.NumberFontName;
 								textFrame.Characters.Text = common.顧客情報.電話番号;
 								break;
 							case "メールアドレス":
+								textFrame.Characters.Font.Name = Program.DefaultFontName;
 								textFrame.Characters.Text = common.顧客情報.メールアドレス;
 								break;
 						}
@@ -1294,68 +1475,80 @@ namespace VariousDocumentOut.BaseFactory
 					if (MsoShapeType.msoTextBox == shape.Type)
 					{
 						dynamic textFrame = shape.TextFrame;
+						textFrame.Characters.Font.Name = Program.DefaultFontName;
 						switch (shape.Name)
 						{
 							case "県番号1":
 								if (KenNumDef.Length == common.顧客情報.県番号.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = common.顧客情報.県番号.Substring(0, 1);
 								}
 								break;
 							case "県番号2":
 								if (KenNumDef.Length == common.顧客情報.県番号.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = common.顧客情報.県番号.Substring(1, 1);
 								}
 								break;
 							case "点数表":
+								textFrame.Characters.Font.Name = Program.NumberFontName;
 								textFrame.Characters.Text = MwsDefine.DentalNumber.ToString();
 								break;
 							case "医療機関コード1":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(0, 1);
 								}
 								break;
 							case "医療機関コード2":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(1, 1);
 								}
 								break;
 							case "医療機関コード3":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(2, 1);
 								}
 								break;
 							case "医療機関コード4":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(3, 1);
 								}
 								break;
 							case "医療機関コード5":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(4, 1);
 								}
 								break;
 							case "医療機関コード6":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(5, 1);
 								}
 								break;
 							case "医療機関コード7":
 								if (MwsDefine.ClinicCodeLength == clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.NumberFontName;
 									textFrame.Characters.Text = clinicCode.Substring(6, 1);
 								}
 								break;
 							case "顧客名":
 								if (0 < clinicCode.Length)
 								{
+									textFrame.Characters.Font.Name = Program.DefaultFontName;
 									textFrame.Characters.Text = common.顧客情報.顧客名;
 								}
 								break;

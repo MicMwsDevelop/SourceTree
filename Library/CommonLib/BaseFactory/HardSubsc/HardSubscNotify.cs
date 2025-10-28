@@ -8,6 +8,7 @@
 /////////////////////////////////////////////////////////
 // Ver1.00(2025/04/15 勝呂):新規作成
 // 
+using CommonLib.Common;
 using CommonLib.DB;
 using System;
 using System.Collections.Generic;
@@ -33,9 +34,9 @@ namespace CommonLib.BaseFactory.HardSubsc
 		public int 顧客No { get; set; }
 
 		/// <summary>
-		/// 契約日
+		/// 受注日
 		/// </summary>
-		public DateTime? 契約日 { get; set; }
+		public DateTime? 受注日 { get; set; }
 
 		/// <summary>
 		/// 月額利用料
@@ -48,14 +49,14 @@ namespace CommonLib.BaseFactory.HardSubsc
 		public short 利用月数 { get; set; }
 
 		/// <summary>
-		/// 利用開始日
+		/// 契約開始日
 		/// </summary>
-		public DateTime? 利用開始日 { get; set; }
+		public DateTime? 契約開始日 { get; set; }
 
 		/// <summary>
-		/// 利用終了日
+		/// 契約終了日
 		/// </summary>
-		public DateTime? 利用終了日 { get; set; }
+		public DateTime? 契約終了日 { get; set; }
 
 		/// <summary>
 		/// 解約日
@@ -113,15 +114,15 @@ namespace CommonLib.BaseFactory.HardSubsc
 		public string オフィスメールアドレス { get; set; }
 
 		/// <summary>
-		/// 利用期間文字列の取得
+		/// 契約期間文字列の取得
 		/// </summary>
-		public string 利用期間
+		public string 契約期間
 		{
 			get
 			{
-				if (利用開始日.HasValue && 利用終了日.HasValue)
+				if (契約開始日.HasValue && 契約終了日.HasValue)
 				{
-					return string.Format("{0}年{1}月～{2}年{3}月", 利用開始日.Value.Year, 利用開始日.Value.Month, 利用終了日.Value.Year, 利用終了日.Value.Month);
+					return string.Format("{0}年{1}月～{2}年{3}月", 契約開始日.Value.Year, 契約開始日.Value.Month, 契約終了日.Value.Year, 契約終了日.Value.Month);
 				}
 				return string.Empty;
 			}
@@ -135,11 +136,11 @@ namespace CommonLib.BaseFactory.HardSubsc
 			内部契約番号 = 0;
 			契約番号 = string.Empty;
 			顧客No = 0;
-			契約日 = null;
+			受注日 = null;
 			月額利用料 = 0;
 			利用月数 = 0;
-			利用開始日 = null;
-			利用終了日 = null;
+			契約開始日 = null;
+			契約終了日 = null;
 			解約日 = null;
 			サービス終了フラグ = false;
 			顧客名 = string.Empty;
@@ -151,6 +152,18 @@ namespace CommonLib.BaseFactory.HardSubsc
 			支店コード = string.Empty;
 			オフィス名 = string.Empty;
 			オフィスメールアドレス = string.Empty;
+		}
+
+		/// <summary>
+		/// 利用期限日の取得
+		/// </summary>
+		/// <param name="date">当日</param>
+		/// <returns>利用期限日</returns>
+		public static Date GetLimitDate(Date date)
+		{
+			// 当日から半年後の末日
+			// 2027/12/1→2028/5/31
+			return date.PlusMonths(5).LastDayOfTheMonth();
 		}
 
 		/// <summary>
@@ -170,11 +183,11 @@ namespace CommonLib.BaseFactory.HardSubsc
 						内部契約番号 = DataBaseValue.ConvObjectToInt(row["内部契約番号"]),
 						契約番号 = row["契約番号"].ToString().Trim(),
 						顧客No = DataBaseValue.ConvObjectToInt(row["顧客No"]),
-						契約日 = DataBaseValue.ConvObjectToDateTimeNull(row["契約日"]),
+						受注日 = DataBaseValue.ConvObjectToDateTimeNull(row["受注日"]),
 						月額利用料 = DataBaseValue.ConvObjectToInt(row["月額利用料"]),
 						利用月数 = DataBaseValue.ConvObjectToShort(row["利用月数"]),
-						利用開始日 = DataBaseValue.ConvObjectToDateTimeNull(row["利用開始日"]),
-						利用終了日 = DataBaseValue.ConvObjectToDateTimeNull(row["利用終了日"]),
+						契約開始日 = DataBaseValue.ConvObjectToDateTimeNull(row["契約開始日"]),
+						契約終了日 = DataBaseValue.ConvObjectToDateTimeNull(row["契約終了日"]),
 						解約日 = DataBaseValue.ConvObjectToDateTimeNull(row["解約日"]),
 						サービス終了フラグ = ("0" == row["サービス終了フラグ"].ToString()) ? false : true,
 						顧客名 = row["顧客名"].ToString().Trim(),

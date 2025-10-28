@@ -43,8 +43,6 @@
 			this.numericTextBoxQuantity = new MwsLib.Component.NumericTextBox();
 			this.numericTextBoxGoodsCode = new MwsLib.Component.NumericTextBox();
 			this.labelCategory = new System.Windows.Forms.Label();
-			this.numericTextBoxAmount = new MwsLib.Component.NumericTextBox();
-			this.label7 = new System.Windows.Forms.Label();
 			this.textBoxScanFilename = new System.Windows.Forms.TextBox();
 			this.label8 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
@@ -115,11 +113,11 @@
 			this.label4.BackColor = System.Drawing.Color.Moccasin;
 			this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.label4.Font = new System.Drawing.Font("BIZ UDゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label4.Location = new System.Drawing.Point(13, 115);
+			this.label4.Location = new System.Drawing.Point(13, 88);
 			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(99, 25);
-			this.label4.TabIndex = 9;
+			this.label4.TabIndex = 7;
 			this.label4.Text = "数量 ";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -128,11 +126,11 @@
 			this.label5.BackColor = System.Drawing.Color.Moccasin;
 			this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.label5.Font = new System.Drawing.Font("BIZ UDゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label5.Location = new System.Drawing.Point(13, 196);
+			this.label5.Location = new System.Drawing.Point(13, 169);
 			this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(99, 25);
-			this.label5.TabIndex = 15;
+			this.label5.TabIndex = 13;
 			this.label5.Text = "資産コード ";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -141,58 +139,58 @@
 			this.label6.BackColor = System.Drawing.Color.Moccasin;
 			this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.label6.Font = new System.Drawing.Font("BIZ UDゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label6.Location = new System.Drawing.Point(13, 142);
+			this.label6.Location = new System.Drawing.Point(13, 115);
 			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(99, 25);
-			this.label6.TabIndex = 11;
+			this.label6.TabIndex = 9;
 			this.label6.Text = "シリアルNo ";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textBoxAssetsCode
 			// 
-			this.textBoxAssetsCode.Location = new System.Drawing.Point(113, 201);
+			this.textBoxAssetsCode.Location = new System.Drawing.Point(113, 174);
 			this.textBoxAssetsCode.Name = "textBoxAssetsCode";
 			this.textBoxAssetsCode.Size = new System.Drawing.Size(121, 20);
-			this.textBoxAssetsCode.TabIndex = 16;
+			this.textBoxAssetsCode.TabIndex = 14;
 			// 
 			// textBoxSerialNo
 			// 
-			this.textBoxSerialNo.Location = new System.Drawing.Point(113, 147);
+			this.textBoxSerialNo.Location = new System.Drawing.Point(113, 120);
 			this.textBoxSerialNo.Name = "textBoxSerialNo";
 			this.textBoxSerialNo.Size = new System.Drawing.Size(270, 20);
-			this.textBoxSerialNo.TabIndex = 12;
+			this.textBoxSerialNo.TabIndex = 10;
 			// 
 			// buttonOK
 			// 
-			this.buttonOK.Location = new System.Drawing.Point(505, 193);
+			this.buttonOK.Location = new System.Drawing.Point(505, 166);
 			this.buttonOK.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(102, 31);
-			this.buttonOK.TabIndex = 17;
+			this.buttonOK.TabIndex = 15;
 			this.buttonOK.Text = "OK";
 			this.buttonOK.UseVisualStyleBackColor = true;
 			this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
 			// 
 			// buttonCancel
 			// 
-			this.buttonCancel.Location = new System.Drawing.Point(615, 193);
+			this.buttonCancel.Location = new System.Drawing.Point(615, 166);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(102, 31);
-			this.buttonCancel.TabIndex = 18;
+			this.buttonCancel.TabIndex = 16;
 			this.buttonCancel.Text = "キャンセル";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
 			// 
 			// numericTextBoxQuantity
 			// 
-			this.numericTextBoxQuantity.Location = new System.Drawing.Point(113, 120);
+			this.numericTextBoxQuantity.Location = new System.Drawing.Point(113, 93);
 			this.numericTextBoxQuantity.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.numericTextBoxQuantity.MaxLength = 2;
 			this.numericTextBoxQuantity.Name = "numericTextBoxQuantity";
 			this.numericTextBoxQuantity.Size = new System.Drawing.Size(50, 20);
-			this.numericTextBoxQuantity.TabIndex = 10;
+			this.numericTextBoxQuantity.TabIndex = 8;
 			// 
 			// numericTextBoxGoodsCode
 			// 
@@ -214,45 +212,23 @@
 			this.labelCategory.TabIndex = 6;
 			this.labelCategory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// numericTextBoxAmount
-			// 
-			this.numericTextBoxAmount.Location = new System.Drawing.Point(113, 92);
-			this.numericTextBoxAmount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			this.numericTextBoxAmount.MaxLength = 8;
-			this.numericTextBoxAmount.Name = "numericTextBoxAmount";
-			this.numericTextBoxAmount.Size = new System.Drawing.Size(93, 20);
-			this.numericTextBoxAmount.TabIndex = 8;
-			// 
-			// label7
-			// 
-			this.label7.BackColor = System.Drawing.Color.Moccasin;
-			this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.label7.Font = new System.Drawing.Font("BIZ UDゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label7.Location = new System.Drawing.Point(13, 87);
-			this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(99, 25);
-			this.label7.TabIndex = 7;
-			this.label7.Text = "取得金額 ";
-			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
 			// textBoxScanFilename
 			// 
-			this.textBoxScanFilename.Location = new System.Drawing.Point(113, 174);
+			this.textBoxScanFilename.Location = new System.Drawing.Point(113, 147);
 			this.textBoxScanFilename.Name = "textBoxScanFilename";
 			this.textBoxScanFilename.Size = new System.Drawing.Size(270, 20);
-			this.textBoxScanFilename.TabIndex = 14;
+			this.textBoxScanFilename.TabIndex = 12;
 			// 
 			// label8
 			// 
 			this.label8.BackColor = System.Drawing.Color.Moccasin;
 			this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.label8.Font = new System.Drawing.Font("BIZ UDゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label8.Location = new System.Drawing.Point(13, 169);
+			this.label8.Location = new System.Drawing.Point(13, 142);
 			this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(99, 25);
-			this.label8.TabIndex = 13;
+			this.label8.TabIndex = 11;
 			this.label8.Text = "ｽｷｬﾝﾃﾞｰﾀﾌｧｲﾙ名 ";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -260,11 +236,9 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(730, 234);
+			this.ClientSize = new System.Drawing.Size(730, 208);
 			this.Controls.Add(this.textBoxScanFilename);
 			this.Controls.Add(this.label8);
-			this.Controls.Add(this.numericTextBoxAmount);
-			this.Controls.Add(this.label7);
 			this.Controls.Add(this.labelCategory);
 			this.Controls.Add(this.buttonOK);
 			this.Controls.Add(this.buttonCancel);
@@ -287,7 +261,7 @@
 			this.MinimizeBox = false;
 			this.Name = "DetailForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "機器情報の入力";
+			this.Text = "貸出機器情報の入力";
 			this.Load += new System.EventHandler(this.DetailForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -311,8 +285,6 @@
 		private System.Windows.Forms.Button buttonOK;
 		private System.Windows.Forms.Button buttonCancel;
 		private System.Windows.Forms.Label labelCategory;
-		private MwsLib.Component.NumericTextBox numericTextBoxAmount;
-		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.TextBox textBoxScanFilename;
 		private System.Windows.Forms.Label label8;
 	}

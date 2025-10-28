@@ -1,11 +1,11 @@
 ﻿//
 // DetailForm.cs
 //
-// 機器情報入力画面クラス
+// 貸出機器情報入力画面クラス
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2025/04/03 勝呂)
+// Ver1.00 新規作成(2025/10/20 勝呂)
 // 
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Charlie.Table;
@@ -17,7 +17,7 @@ using System.Windows.Forms;
 namespace HardSubscManager.Forms
 {
 	/// <summary>
-	/// 機器情報入力画面クラス
+	/// 貸出機器情報入力画面クラス
 	/// </summary>
 	public partial class DetailForm : Form
 	{
@@ -66,12 +66,15 @@ namespace HardSubscManager.Forms
 				numericTextBoxGoodsCode.Text = SaveDetail.GoodsCode;
 				labelGoodsName.Text = SaveDetail.GoodsName;
 				labelCategory.Text = SaveDetail.CategoryName;
-				numericTextBoxAmount.Text = SaveDetail.Amount.ToString();
 				numericTextBoxQuantity.Text = SaveDetail.Quantity.ToString();
 				textBoxSerialNo.Text = SaveDetail.SerialNo;
 				textBoxScanFilename.Text = SaveDetail.ScanFilename;
 				textBoxAssetsCode.Text = SaveDetail.AssetsCode;
 				Detail = SaveDetail.DeepCopy();
+				if (Program.CategoryPC == SaveDetail.CategoryName)
+				{
+					labelCategory.ForeColor = System.Drawing.Color.Red;
+				}
 			}
 		}
 
@@ -93,6 +96,14 @@ namespace HardSubscManager.Forms
 					textBoxSerialNo.Text = string.Empty;
 					textBoxScanFilename.Text = string.Empty;
 					textBoxAssetsCode.Text = string.Empty;
+					if (Program.CategoryPC == labelCategory.Text)
+					{
+						labelCategory.ForeColor = System.Drawing.Color.Red;
+					}
+					else
+					{
+						labelCategory.ForeColor = System.Drawing.Color.Black;
+					}
 				}
 				else
 				{
@@ -103,6 +114,7 @@ namespace HardSubscManager.Forms
 					textBoxSerialNo.Text = string.Empty;
 					textBoxScanFilename.Text = string.Empty;
 					textBoxAssetsCode.Text = string.Empty;
+					labelCategory.ForeColor = System.Drawing.Color.Black;
 				}
 			}
 			else
@@ -114,6 +126,7 @@ namespace HardSubscManager.Forms
 				textBoxSerialNo.Text = string.Empty;
 				textBoxScanFilename.Text = string.Empty;
 				textBoxAssetsCode.Text = string.Empty;
+				labelCategory.ForeColor = System.Drawing.Color.Black;
 			}
 		}
 
@@ -127,12 +140,6 @@ namespace HardSubscManager.Forms
 			if (0 == labelGoodsName.Text.Length)
 			{
 				MessageBox.Show("機器名が設定されていません。商品コードによる検索を行ってください。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-			int amount = numericTextBoxAmount.ToInt();
-			if (amount < 1)
-			{
-				MessageBox.Show("取得金額を入力してください。", Program.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 			short quantity = (short)numericTextBoxQuantity.ToInt();
@@ -156,7 +163,6 @@ namespace HardSubscManager.Forms
 				Detail.GoodsCode = numericTextBoxGoodsCode.Text;
 				Detail.GoodsName = labelGoodsName.Text;
 				Detail.CategoryName = labelCategory.Text;
-				Detail.Amount = amount;
 				Detail.Quantity = quantity;
 				Detail.SerialNo = serialNo;
 				Detail.ScanFilename = textBoxScanFilename.Text;
@@ -169,7 +175,6 @@ namespace HardSubscManager.Forms
 				Detail.GoodsCode = numericTextBoxGoodsCode.Text;
 				Detail.GoodsName = labelGoodsName.Text;
 				Detail.CategoryName = labelCategory.Text;
-				Detail.Amount = amount;
 				Detail.Quantity = quantity;
 				Detail.SerialNo = serialNo;
 				Detail.ScanFilename = textBoxScanFilename.Text;

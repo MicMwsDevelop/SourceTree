@@ -147,8 +147,7 @@
 			this.comboBoxFinishedReason.Items.AddRange(new object[] {
             "１．他メーカーリプレース",
             "２．閉院",
-            "３．手書きなどに変更",
-            "４．その他"});
+            "３．ソフトを使用しない"});
 			this.comboBoxFinishedReason.Location = new System.Drawing.Point(100, 163);
 			this.comboBoxFinishedReason.MaxLength = 50;
 			this.comboBoxFinishedReason.Name = "comboBoxFinishedReason";

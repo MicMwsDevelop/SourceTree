@@ -16,7 +16,7 @@
 // 注意事項
 // 本アプリは終了ユーザーの売上を作成しないため、課金データ作成バッチの後に実行する必要がある
 /////////////////////////////////////////////////////////
-// Ver1.00(2025/04/15 勝呂):新規作成
+// Ver1.00(2025/10/21 勝呂):新規作成
 //
 using CommonLib.BaseFactory.HardSubsc;
 using CommonLib.Common;
@@ -41,7 +41,7 @@ namespace HardSubscEarningsFile
 		/// <summary>
 		/// バージョン情報
 		/// </summary>
-		public const string VersionStr = "Ver1.00(2025/04/15)";
+		public const string VersionStr = "Ver1.00(2025/10/21)";
 
 		/// <summary>
 		/// 環境設定
@@ -70,7 +70,7 @@ namespace HardSubscEarningsFile
 			gSettings = HardSubscEarningsFileSettingsIF.GetSettings();
 
 #if DEBUG
-			gBootDate = new Date(2025, 6, 1);
+			gBootDate = new Date(2026, 5, 1);
 #else
 			gBootDate = Date.Today;
 #endif
@@ -114,7 +114,7 @@ namespace HardSubscEarningsFile
 
 			try
 			{
-				// ハードサブスク管理契約情報から売上対象医院の取得
+				// ハードサブスク契約情報から売上対象医院の取得
 				List<HardSubscEarningsOut> saleList = HardSubscAccess.GetHardSubscEarningsOut(firstDate, gSettings.ConnectCharlie.ConnectionString);
 				if (null != saleList && 0 < saleList.Count)
 				{
@@ -158,27 +158,25 @@ namespace HardSubscEarningsFile
 						}
 						// 当月末日
 						sale.課金終了日 = lastDate.ToDateTime();
-
-						bool serviceEndFlag = false;
-						if (sale.課金終了日 == sale.利用終了日)
+						if (sale.課金終了日 == sale.契約終了日)
 						{
-							// 利用終了日を迎えたので、サービス終了
-							serviceEndFlag = true;
+							// 契約終了日を迎えたので、サービス終了
+							sale.サービス終了フラグ = true;
 						}
 						else if (sale.解約日.HasValue && sale.解約日 == sale.課金終了日)
 						{
 							// 解約日を迎えたので、サービス終了
-							serviceEndFlag = true;
+							sale.サービス終了フラグ = true;
 						}
 #if !DebugNoWrite
-						// ハードレンタル管理契約情報 課金終了日、終了フラグの設定
-						HardSubscAccess.UpdateSetHardSubscHeader(sale, serviceEndFlag, gSettings.ConnectCharlie.ConnectionString, PROC_NAME);
+						// ハードサブスク契約情報 課金終了日、終了フラグの設定
+						HardSubscAccess.UpdateSetHardSubscHeader(sale, gSettings.ConnectCharlie.ConnectionString, PROC_NAME);
 #endif
 					}
 				}
 				else
 				{
-					// ハードレンタル売上データ.csvの出力
+					// ハードサブスク売上データ.csvの出力
 					using (var sw = new StreamWriter(gSettings.FormalPathname(gFormalFilename), false, System.Text.Encoding.GetEncoding("shift_jis")))
 					{
 						// 出力物はないが、売上データファイルは出力する
@@ -187,7 +185,7 @@ namespace HardSubscEarningsFile
 				}
 #if !DebugNoWrite
 				// 業務課にメール送信
-				//SendMailControl.SendMail(saleList, gFormalFilename, firstDate);
+				SendMailControl.SendMail(saleList, gFormalFilename, firstDate);
 #endif
 			}
 			catch (Exception ex)

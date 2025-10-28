@@ -6,7 +6,7 @@
 // Copyright (C) MIC All Rights Reserved.
 // 
 /////////////////////////////////////////////////////////
-// Ver1.00(2025/04/15 勝呂):新規作成
+// Ver1.00(2025/10/21 勝呂):新規作成
 //
 using CommonLib.BaseFactory.HardSubsc;
 using CommonLib.Common;
@@ -63,8 +63,9 @@ namespace HardSubscEarningsFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>契約番号</font></th>"
-								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>利用期間</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>契約期間</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>利用月</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>解約日</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>サービス終了</font></th>"
 								+ @"</tr>";
 					foreach (HardSubscEarningsOut sale in saleList)
@@ -75,12 +76,15 @@ namespace HardSubscEarningsFile.Mail
 								+ @"<td><font size=2>{2}</font></td>"
 								+ @"<td><font size=2>{3}</font></td>"
 								+ @"<td><font size=2>{4}</font></td>"
+								+ @"<td><font size=2>{5}</font></td>"
+								+ @"<td><font size=2>{6}</font></td>"
 								+ @"</tr>"
 								, sale.顧客No
 								, sale.顧客名
 								, sale.契約番号
-								, sale.利用期間
+								, sale.契約期間
 								, sale.摘要名(ym)
+								, (sale.解約日.HasValue) ? sale.解約日.Value.ToShortDateString() : ""
 								, (sale.サービス終了フラグ) ? "終了" : "");
 					}
 					msg.Body += @"</table>";
@@ -92,8 +96,9 @@ namespace HardSubscEarningsFile.Mail
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>顧客No</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>医院名</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>契約番号</font></th>"
-								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>利用期間</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>契約期間</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>利用月</font></th>"
+								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>解約日</font></th>"
 								+ @"<th style=""BACKGROUND-COLOR: silver""><font size=2>サービス終了</font></th>"
 								+ @"</tr>"
 								+ @"</table>";

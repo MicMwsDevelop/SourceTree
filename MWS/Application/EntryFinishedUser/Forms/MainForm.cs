@@ -54,8 +54,11 @@ namespace EntryFinishedUser.Forms
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e)
 		{
+#if DEBUG
+			this.Text += string.Format("  {0} {1}", Program.VersionStr, Program.gSettings.ConnectJunp.InstanceName);
+#else
 			this.Text += string.Format("  {0}", Program.VersionStr);
-
+#endif
 			// 終了ユーザーリストの設定
 			dataGridViewFinishedUser.DataSource = null;
 			dataGridViewFinishedUser.Rows.Clear();

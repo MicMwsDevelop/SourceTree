@@ -296,6 +296,28 @@ namespace CommonLib.DB.SqlServer
 		}
 
 		/// <summary>
+		/// レコード数の取得
+		/// </summary>
+		/// <param name="tableName">テーブル/ビュー名</param>
+		/// <param name="whereStr">Where句</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns>レコード数</returns>
+		public static int GetRecordCount(string tableName, string whereStr, string connectStr)
+		{
+			string strSQL = string.Format(@"SELECT Count(*) as RecordCount FROM {0}", tableName);
+			if (0 < whereStr.Length)
+			{
+				strSQL += " WHERE " + whereStr;
+			}
+			DataTable table = DatabaseAccess.SelectDatabase(strSQL, connectStr);
+			if (null != table && 0 < table.Rows.Count)
+			{
+				return DataBaseValue.ConvObjectToInt(table.Rows[0]["RecordCount"]);
+			}
+			return 0;
+		}
+
+		/// <summary>
 		/// レコードの取得
 		/// </summary>
 		/// <param name="tableName">テーブル/ビュー名</param>
