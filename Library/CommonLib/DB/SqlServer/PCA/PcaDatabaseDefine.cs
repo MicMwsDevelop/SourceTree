@@ -16,8 +16,8 @@ namespace CommonLib.DB.SqlServer.PCA
 		/// データベース名
 		/// </summary>
 		/// Ver1.01(2023/03/08 勝呂):PCAX→PCADXへの入替により、データベース名が変更
-		static private string DatabaseName = "P10V01C001KON0001.dbo";
-		//static private string DatabaseName = "P20V01C001KON0001.dbo";
+		//static private string DatabaseName = "P10V01C001KON0001.dbo";
+		static private string DatabaseName = "P20V01C001KON0001.dbo";
 
 		/// <summary>
 		/// テーブル種別 
