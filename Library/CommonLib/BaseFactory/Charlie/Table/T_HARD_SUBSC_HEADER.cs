@@ -64,9 +64,9 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		public int MonthlyAmount { get; set; }
 
 		/// <summary>
-		/// 納品日
+		/// 出荷日
 		/// </summary>
-		public DateTime? DeliveryDate { get; set; }
+		public DateTime? ShippingDate { get; set; }
 
 		/// <summary>
 		/// 契約開始日
@@ -158,7 +158,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		{
 			get
 			{
-				return string.Format(@"UPDATE {0} SET ContractNo = @1, CustomerID = @2, OrderDate = @3, Months = @4, MonthlyAmount = @5,  DeliveryDate= @6, ContractStartDate = @7, ContractEndDate = @8, BillingStartDate = @9,"
+				return string.Format(@"UPDATE {0} SET ContractNo = @1, CustomerID = @2, OrderDate = @3, Months = @4, MonthlyAmount = @5,  ShippingDate= @6, ContractStartDate = @7, ContractEndDate = @8, BillingStartDate = @9,"
 									+ " BillingEndDate = @10, CancelDate = @11, CollectDate = @12, DisposalDate = @13, ServiceEndFlag = @14, UpdateDate = @15, UpdatePerson = @16"
 									+ " WHERE [InternalContractNo] = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_HARD_SUBSC_HEADER], InternalContractNo);
 			}
@@ -183,7 +183,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			OrderDate = null;
 			Months = 0;
 			MonthlyAmount = 0;
-			DeliveryDate = null;
+			ShippingDate = null;
 			ContractStartDate = null;
 			ContractEndDate = null;
 			BillingStartDate = null;
@@ -221,7 +221,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			ret.OrderDate = this.OrderDate;
 			ret.Months = this.Months;
 			ret.MonthlyAmount = this.MonthlyAmount;
-			ret.DeliveryDate = this.DeliveryDate;
+			ret.ShippingDate = this.ShippingDate;
 			ret.ContractStartDate = this.ContractStartDate;
 			ret.ContractEndDate = this.ContractEndDate;
 			ret.BillingStartDate = this.BillingStartDate;
@@ -252,7 +252,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 					&& OrderDate.Equals(other.OrderDate)
 					&& Months == other.Months
 					&& MonthlyAmount == other.MonthlyAmount
-					&& DeliveryDate.Equals(other.DeliveryDate)
+					&& ShippingDate.Equals(other.ShippingDate)
 					&& ContractStartDate.Equals(other.ContractStartDate)
 					&& ContractEndDate.Equals(other.ContractEndDate)
 					&& BillingStartDate.Equals(other.BillingStartDate)
@@ -319,7 +319,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 						OrderDate = DataBaseValue.ConvObjectToDateTimeNull(row["OrderDate"]),
 						Months = DataBaseValue.ConvObjectToShort(row["Months"]),
 						MonthlyAmount = DataBaseValue.ConvObjectToInt(row["MonthlyAmount"]),
-						DeliveryDate = DataBaseValue.ConvObjectToDateTimeNull(row["DeliveryDate"]),
+						ShippingDate = DataBaseValue.ConvObjectToDateTimeNull(row["ShippingDate"]),
 						ContractStartDate = DataBaseValue.ConvObjectToDateTimeNull(row["ContractStartDate"]),
 						ContractEndDate = DataBaseValue.ConvObjectToDateTimeNull(row["ContractEndDate"]),
 						BillingStartDate = DataBaseValue.ConvObjectToDateTimeNull(row["BillingStartDate"]),
@@ -353,7 +353,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 				new SqlParameter("@3", OrderDate.HasValue ? OrderDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@4", Months),
 				new SqlParameter("@5", MonthlyAmount),
-				new SqlParameter("@6", DeliveryDate.HasValue ? DeliveryDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@6", ShippingDate.HasValue ? ShippingDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@7", ContractStartDate.HasValue ? ContractStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@8", ContractEndDate.HasValue ? ContractEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@9", BillingStartDate.HasValue ? BillingStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
@@ -383,7 +383,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 				new SqlParameter("@3", OrderDate.HasValue ? OrderDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@4", Months),
 				new SqlParameter("@5", MonthlyAmount),
-				new SqlParameter("@6", DeliveryDate.HasValue ? DeliveryDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@6", ShippingDate.HasValue ? ShippingDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@7", ContractStartDate.HasValue ? ContractStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@8", ContractEndDate.HasValue ? ContractEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 				new SqlParameter("@9", BillingStartDate.HasValue ? BillingStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
@@ -409,16 +409,16 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		}
 
 		/// <summary>
-		/// 納品日から契約開始日を取得
+		/// 出荷日から契約開始日を取得
 		/// </summary>
-		/// <param name="shippingDate">納品日</param>
+		/// <param name="shippingDate">出荷日</param>
 		/// <returns>契約開始日</returns>
-		public static DateTime? GetContractStartDate(DateTime? deliveryDate)
+		public static DateTime? GetContractStartDate(DateTime? shippingDate)
 		{
-			if (deliveryDate.HasValue)
+			if (shippingDate.HasValue)
 			{
-				// 納品日の翌月初日
-				return deliveryDate.Value.ToDate().PlusMonths(1).FirstDayOfTheMonth().ToDateTime();
+				// 出荷日の翌月初日
+				return shippingDate.Value.ToDate().PlusMonths(1).FirstDayOfTheMonth().ToDateTime();
 			}
 			return null;
 		}

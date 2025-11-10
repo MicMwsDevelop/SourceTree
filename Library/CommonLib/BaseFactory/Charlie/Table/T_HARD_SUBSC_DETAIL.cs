@@ -6,7 +6,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2025/10/20 勝呂)
+// Ver1.00 新規作成(2025/11/10 勝呂)
 // 
 using CommonLib.DB;
 using CommonLib.DB.SqlServer.Charlie;
@@ -43,7 +43,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		public string GoodsName { get; set; }
 
 		/// <summary>
-		/// カテゴリ
+		/// 区分
 		/// </summary>
 		public string CategoryName { get; set; }
 
@@ -58,7 +58,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		public string SerialNo { get; set; }
 
 		/// <summary>
-		/// 保証書スキャンデータファイル名
+		/// スキャナイメージ
 		/// </summary>
 		public string ScanFilename { get; set; }
 
@@ -66,6 +66,16 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		/// 資産コード
 		/// </summary>
 		public string AssetsCode { get; set; }
+
+		/// <summary>
+		/// 交換日
+		/// </summary>
+		public DateTime? ExchangeDate { get; set; }
+
+		/// <summary>
+		/// 交換元シリアルNo
+		/// </summary>
+		public string DstSerialNo { get; set; }
 
 		/// <summary>
 		/// 作成日時
@@ -84,7 +94,7 @@ namespace CommonLib.BaseFactory.Charlie.Table
 		{
 			get
 			{
-				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10)", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_HARD_SUBSC_DETAIL]);
+				return string.Format(@"INSERT INTO {0} VALUES (@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12)", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_HARD_SUBSC_DETAIL]);
 			}
 		}
 
@@ -102,6 +112,8 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			SerialNo = string.Empty;
 			ScanFilename = string.Empty;
 			AssetsCode = string.Empty;
+			ExchangeDate = null;
+			DstSerialNo = string.Empty;
 			CreateDate = null;
 			CreatePerson = string.Empty;
 		}
@@ -132,6 +144,8 @@ namespace CommonLib.BaseFactory.Charlie.Table
 			ret.SerialNo = this.SerialNo;
 			ret.ScanFilename = this.ScanFilename;
 			ret.AssetsCode = this.AssetsCode;
+			ret.ExchangeDate = this.ExchangeDate;
+			ret.DstSerialNo = this.DstSerialNo;
 			ret.CreateDate = this.CreateDate;
 			ret.CreatePerson = this.CreatePerson;
 			return ret;
@@ -155,6 +169,8 @@ namespace CommonLib.BaseFactory.Charlie.Table
 					&& SerialNo == other.SerialNo
 					&& ScanFilename == other.ScanFilename
 					&& AssetsCode == other.AssetsCode
+					&& ExchangeDate.Equals(other.ExchangeDate)
+					&& DstSerialNo == other.DstSerialNo
 					&& CreateDate.Equals(other.CreateDate)
 					&& CreatePerson == other.CreatePerson)
 				{
@@ -214,6 +230,8 @@ namespace CommonLib.BaseFactory.Charlie.Table
 						SerialNo = row["SerialNo"].ToString().Trim(),
 						ScanFilename = row["ScanFilename"].ToString().Trim(),
 						AssetsCode = row["AssetsCode"].ToString().Trim(),
+						ExchangeDate = DataBaseValue.ConvObjectToDateTimeNull(row["ExchangeDate"]),
+						DstSerialNo = row["DstSerialNo"].ToString().Trim(),
 						CreateDate = DataBaseValue.ConvObjectToDateTimeNull(row["CreateDate"]),
 						CreatePerson = row["CreatePerson"].ToString().Trim(),
 					};
@@ -261,8 +279,10 @@ namespace CommonLib.BaseFactory.Charlie.Table
 				new SqlParameter("@6", SerialNo),
 				new SqlParameter("@7", ScanFilename),
 				new SqlParameter("@8", AssetsCode),
-				new SqlParameter("@9", DateTime.Now),
-				new SqlParameter("@10", person)
+				new SqlParameter("@9", ExchangeDate.HasValue ? ExchangeDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+				new SqlParameter("@10", DstSerialNo),
+				new SqlParameter("@11", DateTime.Now),
+				new SqlParameter("@12", person)
 			};
 			return param;
 		}

@@ -44,6 +44,7 @@
 			// buttonOK
 			// 
 			this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonOK.Enabled = false;
 			this.buttonOK.Font = new System.Drawing.Font("BIZ UDPゴシック", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.buttonOK.Location = new System.Drawing.Point(806, 10);
 			this.buttonOK.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -111,10 +112,12 @@
 			this.dataGridViewOnlineDemand.Name = "dataGridViewOnlineDemand";
 			this.dataGridViewOnlineDemand.ReadOnly = true;
 			this.dataGridViewOnlineDemand.RowHeadersVisible = false;
+			this.dataGridViewOnlineDemand.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.dataGridViewOnlineDemand.RowTemplate.Height = 21;
 			this.dataGridViewOnlineDemand.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewOnlineDemand.Size = new System.Drawing.Size(953, 157);
 			this.dataGridViewOnlineDemand.TabIndex = 6;
+			this.dataGridViewOnlineDemand.SelectionChanged += new System.EventHandler(this.dataGridViewOnlineDemand_SelectionChanged);
 			// 
 			// label1
 			// 

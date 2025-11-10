@@ -97,8 +97,8 @@ namespace HardSubscManager.Forms
 								}
 								if (0 < sheet.Cell(22, 5).Value.ToString().Length)
 								{
-									// 納品日
-									form.OrgHeader.DeliveryDate = sheet.Cell(22, 5).Value.GetDateTime();
+									// 出荷日
+									form.OrgHeader.ShippingDate = sheet.Cell(22, 5).Value.GetDateTime();
 								}
 								if (0 < sheet.Cell(22, 14).Value.ToString().Length)
 								{
@@ -111,7 +111,7 @@ namespace HardSubscManager.Forms
 									form.OrgHeader.ContractEndDate = sheet.Cell(22, 23).Value.GetDateTime();
 								}
 								form.OrgDetailList = new List<T_HARD_SUBSC_DETAIL>();
-								for (int i = 0, j = 34; i < 20; i++, j += 2)
+								for (int i = 0, j = Program.GoodsStartRow; i < Program.GoodsMaxCount; i++, j += 2)
 								{
 									if (0 == sheet.Cell(j, 3).Value.ToString().Length)
 									{

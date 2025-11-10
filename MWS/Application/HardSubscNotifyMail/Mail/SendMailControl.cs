@@ -201,15 +201,15 @@ namespace HardSubscNotifyMail.Mail
 							+ @"</html>";
 
 				// メール送信
-				string from = "mainte_info_sys@mic.jp";
+				string from = Program.gSettings.Mail.From;
 
 #if DEBUG
-				string[] toArray = { "suguro@mic.jp" };
-				string[] ccArray = { "suguro@mic.jp" };
+				string[] toArray = { Program.gSettings.Mail.TestTo };
+				string[] ccArray = { Program.gSettings.Mail.TestCC };
 #else
 				string[] toArray = new string[1];
 				toArray[0] = branch.fメールアドレス;
-				string[] ccArray = { "gyomu@mic.jp", "mainte_info_sys@mic.jp" };
+				string[] ccArray = { Program.gSettings.Mail.To, Program.gSettings.Mail.CC };
 #endif
 				MailSettings.SendMail(msg, Program.gSettings.Mail, from, toArray, ccArray);
 			}
@@ -321,7 +321,6 @@ namespace HardSubscNotifyMail.Mail
 							+ @"<body>"
 							+ @"<font face=""MS UI Gothic"" size=""2"">";
 
-
 				// 件名
 				msg.Subject = string.Format("【{0}】 当月にハードサブスクの契約を満了する対象ユーザー連絡", branch.f支店名);
 
@@ -389,15 +388,15 @@ namespace HardSubscNotifyMail.Mail
 							+ @"</html>";
 
 				// メール送信
-				string from = "mainte_info_sys@mic.jp";
+				string from = Program.gSettings.Mail.From;
 
 #if DEBUG
-				string[] toArray = { "suguro@mic.jp" };
-				string[] ccArray = { "suguro@mic.jp" };
+				string[] toArray = { Program.gSettings.Mail.TestTo };
+				string[] ccArray = { Program.gSettings.Mail.TestCC };
 #else
 				string[] toArray = new string[1];
 				toArray[0] = branch.fメールアドレス;
-				string[] ccArray = { "gyomu@mic.jp", "mainte_info_sys@mic.jp" };
+				string[] ccArray = { Program.gSettings.Mail.To, Program.gSettings.Mail.CC };
 #endif
 				MailSettings.SendMail(msg, Program.gSettings.Mail, from, toArray, ccArray);
 			}

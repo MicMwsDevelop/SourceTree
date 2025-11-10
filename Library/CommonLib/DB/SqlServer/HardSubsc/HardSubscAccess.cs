@@ -232,7 +232,7 @@ namespace CommonLib.DB.SqlServer.HardSubsc
 			}
 			try
 			{
-				string sqlStr = string.Format(@"UPDATE {0} SET OrderDate = @1, Months = @2, MonthlyAmount = @3,  DeliveryDate= @4, ContractStartDate = @5"
+				string sqlStr = string.Format(@"UPDATE {0} SET OrderDate = @1, Months = @2, MonthlyAmount = @3,  ShippingDate= @4, ContractStartDate = @5"
 									+ ", ContractEndDate = @6, CancelDate = @7, CollectDate = @8, DisposalDate = @9, UpdateDate = @10, UpdatePerson = @11"
 									+ " WHERE InternalContractNo = {1}"
 									, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_HARD_SUBSC_HEADER]
@@ -242,7 +242,7 @@ namespace CommonLib.DB.SqlServer.HardSubsc
 					new SqlParameter("@1", header.OrderDate.HasValue ? header.OrderDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 					new SqlParameter("@2", header.Months),
 					new SqlParameter("@3", header.MonthlyAmount),
-					new SqlParameter("@4", header.DeliveryDate.HasValue ? header.DeliveryDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
+					new SqlParameter("@4", header.ShippingDate.HasValue ? header.ShippingDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 					new SqlParameter("@5", header.ContractStartDate.HasValue ? header.ContractStartDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 					new SqlParameter("@6", header.ContractEndDate.HasValue ? header.ContractEndDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
 					new SqlParameter("@7", header.CancelDate.HasValue ? header.CancelDate.Value.ToString() : System.Data.SqlTypes.SqlString.Null),
@@ -309,7 +309,7 @@ namespace CommonLib.DB.SqlServer.HardSubsc
 			// 終了フラグ=OFF (1)
 			// サービス終了フラグ=OFF (2)
 			// 契約開始日と契約終了日が設定済(3)
-			// (課金開始日==null && 当日が納品日の翌月)(4) || (課金終了日 <= iif(解約日 is not null, 解約日, 利用終了日))(5)
+			// (課金開始日==null && 当日が出荷日の翌月)(4) || (課金終了日 <= iif(解約日 is not null, 解約日, 利用終了日))(5)
 			string strSQL = string.Format(@"SELECT"
 									+ " U.[顧客No] as 顧客No"
 									+ ", U.[顧客名１] + U.[顧客名２] as 顧客名"

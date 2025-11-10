@@ -485,7 +485,29 @@ namespace CommonLib.DB.SqlServer.Charlie
 			return DatabaseAccess.DeleteDatabase(sqlStr, connectStr);
 		}
 
+		/// <summary>
+		/// [charlieDB].[dbo].[T_USE_ONLINE_HOMON]の削除
+		/// </summary>
+		/// <param name="applyNo">受付No</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns></returns>
+		public static int Delete_T_USE_ONLINE_HOMON(int applyNo, string connectStr)
+		{
+			string sqlStr = string.Format("DELETE FROM {0} WHERE ApplyNo = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_HOMON], applyNo);
+			return DatabaseAccess.DeleteDatabase(sqlStr, connectStr);
+		}
 
+		/// <summary>
+		/// [charlieDB].[dbo].[T_USE_ELECTRIC_PRESCRIPTION]の削除
+		/// </summary>
+		/// <param name="applyNo">受付No</param>
+		/// <param name="connectStr">SQL Server接続文字列</param>
+		/// <returns></returns>
+		public static int Delete_T_USE_ELECTRIC_PRESCRIPTION(int applyNo, string connectStr)
+		{
+			string sqlStr = string.Format("DELETE FROM {0} WHERE ApplyNo = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ELECTRIC_PRESCRIPTION], applyNo);
+			return DatabaseAccess.DeleteDatabase(sqlStr, connectStr);
+		}
 
 
 		////////////////////////////////////////////////////////////////

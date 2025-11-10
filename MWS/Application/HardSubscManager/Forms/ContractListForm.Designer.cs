@@ -52,7 +52,6 @@
 			this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.label7 = new System.Windows.Forms.Label();
 			this.buttonClose = new System.Windows.Forms.Button();
-			this.labelVersion = new System.Windows.Forms.Label();
 			this.labelEndFlag = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
 			this.buttonDeleteHeader = new System.Windows.Forms.Button();
@@ -82,7 +81,7 @@
 			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(99, 25);
-			this.label1.TabIndex = 3;
+			this.label1.TabIndex = 2;
 			this.label1.Text = "担当オフィス ";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -95,7 +94,7 @@
 			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(99, 25);
-			this.label2.TabIndex = 5;
+			this.label2.TabIndex = 4;
 			this.label2.Text = "顧客名 ";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -108,7 +107,7 @@
 			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(99, 25);
-			this.label3.TabIndex = 7;
+			this.label3.TabIndex = 6;
 			this.label3.Text = "顧客名カナ ";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -121,7 +120,7 @@
 			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(99, 25);
-			this.label4.TabIndex = 9;
+			this.label4.TabIndex = 8;
 			this.label4.Text = "住所 ";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -134,7 +133,7 @@
 			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(99, 25);
-			this.label6.TabIndex = 11;
+			this.label6.TabIndex = 10;
 			this.label6.Text = "電話番号 ";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -146,7 +145,7 @@
 			this.labelOffice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.labelOffice.Name = "labelOffice";
 			this.labelOffice.Size = new System.Drawing.Size(634, 25);
-			this.labelOffice.TabIndex = 4;
+			this.labelOffice.TabIndex = 3;
 			this.labelOffice.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelClinicName
@@ -157,7 +156,7 @@
 			this.labelClinicName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.labelClinicName.Name = "labelClinicName";
 			this.labelClinicName.Size = new System.Drawing.Size(634, 25);
-			this.labelClinicName.TabIndex = 6;
+			this.labelClinicName.TabIndex = 5;
 			this.labelClinicName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelClinickKana
@@ -168,7 +167,7 @@
 			this.labelClinickKana.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.labelClinickKana.Name = "labelClinickKana";
 			this.labelClinickKana.Size = new System.Drawing.Size(634, 25);
-			this.labelClinickKana.TabIndex = 8;
+			this.labelClinickKana.TabIndex = 7;
 			this.labelClinickKana.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelAddress
@@ -179,7 +178,7 @@
 			this.labelAddress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.labelAddress.Name = "labelAddress";
 			this.labelAddress.Size = new System.Drawing.Size(634, 25);
-			this.labelAddress.TabIndex = 10;
+			this.labelAddress.TabIndex = 9;
 			this.labelAddress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelTel
@@ -190,11 +189,14 @@
 			this.labelTel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.labelTel.Name = "labelTel";
 			this.labelTel.Size = new System.Drawing.Size(317, 25);
-			this.labelTel.TabIndex = 12;
+			this.labelTel.TabIndex = 11;
 			this.labelTel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// listViewHeader
 			// 
+			this.listViewHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.listViewHeader.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
@@ -213,7 +215,7 @@
 			this.listViewHeader.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.listViewHeader.Name = "listViewHeader";
 			this.listViewHeader.Size = new System.Drawing.Size(827, 266);
-			this.listViewHeader.TabIndex = 16;
+			this.listViewHeader.TabIndex = 15;
 			this.listViewHeader.UseCompatibleStateImageBehavior = false;
 			this.listViewHeader.View = System.Windows.Forms.View.Details;
 			this.listViewHeader.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listViewHeader_MouseDoubleClick);
@@ -273,30 +275,21 @@
 			this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(72, 13);
-			this.label7.TabIndex = 15;
+			this.label7.TabIndex = 14;
 			this.label7.Text = "■契約情報";
 			// 
 			// buttonClose
 			// 
+			this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.buttonClose.Location = new System.Drawing.Point(728, 497);
 			this.buttonClose.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(113, 31);
-			this.buttonClose.TabIndex = 19;
+			this.buttonClose.TabIndex = 18;
 			this.buttonClose.Text = "閉じる";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
-			// 
-			// labelVersion
-			// 
-			this.labelVersion.AutoSize = true;
-			this.labelVersion.Location = new System.Drawing.Point(708, 9);
-			this.labelVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.labelVersion.Name = "labelVersion";
-			this.labelVersion.Size = new System.Drawing.Size(133, 13);
-			this.labelVersion.TabIndex = 2;
-			this.labelVersion.Text = "Ver1.00 2025/05/20";
 			// 
 			// labelEndFlag
 			// 
@@ -307,7 +300,7 @@
 			this.labelEndFlag.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.labelEndFlag.Name = "labelEndFlag";
 			this.labelEndFlag.Size = new System.Drawing.Size(73, 25);
-			this.labelEndFlag.TabIndex = 14;
+			this.labelEndFlag.TabIndex = 13;
 			this.labelEndFlag.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label9
@@ -319,18 +312,19 @@
 			this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(99, 25);
-			this.label9.TabIndex = 13;
+			this.label9.TabIndex = 12;
 			this.label9.Text = "終了届 ";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// buttonDeleteHeader
 			// 
+			this.buttonDeleteHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.buttonDeleteHeader.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.buttonDeleteHeader.Location = new System.Drawing.Point(134, 497);
 			this.buttonDeleteHeader.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.buttonDeleteHeader.Name = "buttonDeleteHeader";
 			this.buttonDeleteHeader.Size = new System.Drawing.Size(113, 31);
-			this.buttonDeleteHeader.TabIndex = 18;
+			this.buttonDeleteHeader.TabIndex = 17;
 			this.buttonDeleteHeader.Text = "契約情報削除";
 			this.buttonDeleteHeader.UseVisualStyleBackColor = true;
 			this.buttonDeleteHeader.Visible = false;
@@ -338,12 +332,13 @@
 			// 
 			// buttonModify
 			// 
+			this.buttonModify.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.buttonModify.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.buttonModify.Location = new System.Drawing.Point(13, 497);
 			this.buttonModify.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.buttonModify.Name = "buttonModify";
 			this.buttonModify.Size = new System.Drawing.Size(113, 31);
-			this.buttonModify.TabIndex = 17;
+			this.buttonModify.TabIndex = 16;
 			this.buttonModify.Text = "契約情報変更";
 			this.buttonModify.UseVisualStyleBackColor = true;
 			this.buttonModify.Click += new System.EventHandler(this.buttonModify_Click);
@@ -369,7 +364,6 @@
 			this.Controls.Add(this.buttonDeleteHeader);
 			this.Controls.Add(this.labelEndFlag);
 			this.Controls.Add(this.label9);
-			this.Controls.Add(this.labelVersion);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.listViewHeader);
@@ -385,11 +379,10 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.label5);
 			this.Font = new System.Drawing.Font("BIZ UDゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.Name = "ContractListForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "ハードサブスク契約管理";
+			this.Text = "ハードサブスク契約情報";
 			this.Load += new System.EventHandler(this.ContractListForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -412,7 +405,6 @@
 		private System.Windows.Forms.ListView listViewHeader;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Button buttonClose;
-		private System.Windows.Forms.Label labelVersion;
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.ColumnHeader columnHeader3;

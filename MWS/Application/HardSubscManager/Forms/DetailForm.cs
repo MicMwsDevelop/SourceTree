@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2025/10/20 勝呂)
+// Ver1.00 新規作成(2025/11/10 勝呂)
 // 
 using CommonLib.BaseFactory;
 using CommonLib.BaseFactory.Charlie.Table;
@@ -70,6 +70,12 @@ namespace HardSubscManager.Forms
 				textBoxSerialNo.Text = SaveDetail.SerialNo;
 				textBoxScanFilename.Text = SaveDetail.ScanFilename;
 				textBoxAssetsCode.Text = SaveDetail.AssetsCode;
+				if (SaveDetail.ExchangeDate.HasValue)
+				{
+					dateTimePickerExchangeDate.Checked = true;
+					dateTimePickerExchangeDate.Value = SaveDetail.ExchangeDate.Value;
+				}
+				textBoxDstSerialNo.Text = SaveDetail.DstSerialNo;
 				Detail = SaveDetail.DeepCopy();
 				if (Program.CategoryPC == SaveDetail.CategoryName)
 				{
@@ -96,6 +102,8 @@ namespace HardSubscManager.Forms
 					textBoxSerialNo.Text = string.Empty;
 					textBoxScanFilename.Text = string.Empty;
 					textBoxAssetsCode.Text = string.Empty;
+					dateTimePickerExchangeDate.Checked = false;
+					textBoxDstSerialNo.Text = string.Empty;
 					if (Program.CategoryPC == labelCategory.Text)
 					{
 						labelCategory.ForeColor = System.Drawing.Color.Red;
@@ -114,6 +122,8 @@ namespace HardSubscManager.Forms
 					textBoxSerialNo.Text = string.Empty;
 					textBoxScanFilename.Text = string.Empty;
 					textBoxAssetsCode.Text = string.Empty;
+					dateTimePickerExchangeDate.Checked = false;
+					textBoxDstSerialNo.Text = string.Empty;
 					labelCategory.ForeColor = System.Drawing.Color.Black;
 				}
 			}
@@ -126,6 +136,8 @@ namespace HardSubscManager.Forms
 				textBoxSerialNo.Text = string.Empty;
 				textBoxScanFilename.Text = string.Empty;
 				textBoxAssetsCode.Text = string.Empty;
+				dateTimePickerExchangeDate.Checked = false;
+				textBoxDstSerialNo.Text = string.Empty;
 				labelCategory.ForeColor = System.Drawing.Color.Black;
 			}
 		}
@@ -167,6 +179,11 @@ namespace HardSubscManager.Forms
 				Detail.SerialNo = serialNo;
 				Detail.ScanFilename = textBoxScanFilename.Text;
 				Detail.AssetsCode = assetsCode;
+				if (dateTimePickerExchangeDate.Checked)
+				{
+					Detail.ExchangeDate = dateTimePickerExchangeDate.Value;
+				}
+				Detail.DstSerialNo = textBoxDstSerialNo.Text;
 				this.DialogResult = DialogResult.OK;
 			}
 			else
@@ -179,6 +196,15 @@ namespace HardSubscManager.Forms
 				Detail.SerialNo = serialNo;
 				Detail.ScanFilename = textBoxScanFilename.Text;
 				Detail.AssetsCode = assetsCode;
+				if (dateTimePickerExchangeDate.Checked)
+				{
+					Detail.ExchangeDate = dateTimePickerExchangeDate.Value;
+				}
+				else
+				{
+					Detail.ExchangeDate = null;
+				}
+				Detail.DstSerialNo = textBoxDstSerialNo.Text;
 				if (false == SaveDetail.Equals(Detail))
 				{
 					this.DialogResult = DialogResult.OK;

@@ -87,7 +87,7 @@ namespace MwsServiceCancelTool.Forms
 					BindingSourceHeader = new BindingSource(table, null);
 					dataGridViewHeader.DataSource = BindingSourceHeader;
 
-					// カプラー申込情報の設定
+					// 申込情報の設定
 					for (int i  = 0; i < HeaderList.Count; i++)
 					{
 						string whereStr = string.Format("GOODS_ID = {0}", HeaderList[i].fGoodsID);
@@ -115,14 +115,17 @@ namespace MwsServiceCancelTool.Forms
 		/// <param name="e"></param>
 		private void dataGridViewHeader_SelectionChanged(object sender, EventArgs e)
 		{
-			// ヘッダーを残しデータをクリア
-			//if (null != dataGridViewApply.DataSource)
-			//{
-			//	DataTable table = (DataTable)dataGridViewApply.DataSource;
-			//	table.Clear();
-			//}
 			foreach (DataGridViewRow row in dataGridViewHeader.SelectedRows)
 			{
+				UseContractHeader header = HeaderList[row.Index];
+				if (header.IsEnableCancelSet)
+				{
+					buttonOK.Enabled = true;
+				}
+				else
+				{
+					buttonOK.Enabled = false;
+				}
 				if (null != row.Tag)
 				{
 					DataTable table = row.Tag as DataTable;
@@ -145,7 +148,7 @@ namespace MwsServiceCancelTool.Forms
 				foreach (DataGridViewRow row in dataGridViewHeader.SelectedRows)
 				{
 					UseContractHeader header = HeaderList[row.Index];
-					if (header.IsEnableCancel)
+					if (header.IsEnableCancelSet)
 					{
 						if (DialogResult.Yes == MessageBox.Show("セット割サービスの利用申込を取り消してよろしいですか？", "利用申込取消", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
 						{
@@ -157,10 +160,6 @@ namespace MwsServiceCancelTool.Forms
 							this.DialogResult = DialogResult.OK;
 							this.Close();
 						}
-					}
-					else
-					{
-						MessageBox.Show("既に契約済みのため、利用申込の取消はできません。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					}
 					break;
 				}

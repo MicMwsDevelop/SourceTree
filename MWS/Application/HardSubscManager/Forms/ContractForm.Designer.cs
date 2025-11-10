@@ -42,10 +42,12 @@
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.label7 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.buttonDelete = new System.Windows.Forms.Button();
@@ -53,7 +55,7 @@
 			this.label9 = new System.Windows.Forms.Label();
 			this.labelContractEndDate = new System.Windows.Forms.Label();
 			this.label12 = new System.Windows.Forms.Label();
-			this.dateTimePickerDeliveryDate = new System.Windows.Forms.DateTimePicker();
+			this.dateTimePickerShippingDate = new System.Windows.Forms.DateTimePicker();
 			this.label10 = new System.Windows.Forms.Label();
 			this.labelContractStartDate = new System.Windows.Forms.Label();
 			this.labelBillingStartDate = new System.Windows.Forms.Label();
@@ -152,7 +154,8 @@
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(739, 853);
+			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonSave.Location = new System.Drawing.Point(954, 676);
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(102, 31);
@@ -163,7 +166,8 @@
 			// 
 			// buttonCancel
 			// 
-			this.buttonCancel.Location = new System.Drawing.Point(849, 853);
+			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonCancel.Location = new System.Drawing.Point(1064, 676);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(102, 31);
@@ -200,22 +204,27 @@
 			// 
 			// listViewDetail
 			// 
+			this.listViewDetail.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.listViewDetail.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4,
+            this.columnHeader5,
             this.columnHeader6,
             this.columnHeader7,
             this.columnHeader8,
-            this.columnHeader9});
+            this.columnHeader9,
+            this.columnHeader10});
 			this.listViewDetail.Font = new System.Drawing.Font("BIZ UDゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.listViewDetail.FullRowSelect = true;
 			this.listViewDetail.HideSelection = false;
 			this.listViewDetail.Location = new System.Drawing.Point(13, 404);
 			this.listViewDetail.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.listViewDetail.Name = "listViewDetail";
-			this.listViewDetail.Size = new System.Drawing.Size(938, 443);
+			this.listViewDetail.Size = new System.Drawing.Size(1153, 266);
 			this.listViewDetail.TabIndex = 43;
 			this.listViewDetail.UseCompatibleStateImageBehavior = false;
 			this.listViewDetail.View = System.Windows.Forms.View.Details;
@@ -238,28 +247,38 @@
 			// 
 			// columnHeader4
 			// 
-			this.columnHeader4.Text = "カテゴリ";
+			this.columnHeader4.Text = "区分";
 			this.columnHeader4.Width = 100;
+			// 
+			// columnHeader5
+			// 
+			this.columnHeader5.Text = "数量";
+			this.columnHeader5.Width = 40;
 			// 
 			// columnHeader6
 			// 
-			this.columnHeader6.Text = "数量";
-			this.columnHeader6.Width = 40;
+			this.columnHeader6.Text = "シリアルNo";
+			this.columnHeader6.Width = 140;
 			// 
 			// columnHeader7
 			// 
-			this.columnHeader7.Text = "シリアルNo";
-			this.columnHeader7.Width = 140;
+			this.columnHeader7.Text = "スキャナイメージ";
+			this.columnHeader7.Width = 150;
 			// 
 			// columnHeader8
 			// 
-			this.columnHeader8.Text = "ｽｷｬﾝﾃﾞｰﾀﾌｧｲﾙ名";
-			this.columnHeader8.Width = 150;
+			this.columnHeader8.Text = "資産コード";
+			this.columnHeader8.Width = 85;
 			// 
 			// columnHeader9
 			// 
-			this.columnHeader9.Text = "資産コード";
-			this.columnHeader9.Width = 85;
+			this.columnHeader9.Text = "交換日";
+			this.columnHeader9.Width = 75;
+			// 
+			// columnHeader10
+			// 
+			this.columnHeader10.Text = "交換元シリアルNo";
+			this.columnHeader10.Width = 140;
 			// 
 			// label7
 			// 
@@ -283,7 +302,8 @@
 			// 
 			// buttonDelete
 			// 
-			this.buttonDelete.Location = new System.Drawing.Point(229, 853);
+			this.buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonDelete.Location = new System.Drawing.Point(229, 676);
 			this.buttonDelete.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.buttonDelete.Name = "buttonDelete";
 			this.buttonDelete.Size = new System.Drawing.Size(102, 31);
@@ -295,7 +315,8 @@
 			// 
 			// buttonAdd
 			// 
-			this.buttonAdd.Location = new System.Drawing.Point(123, 853);
+			this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonAdd.Location = new System.Drawing.Point(123, 676);
 			this.buttonAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.buttonAdd.Name = "buttonAdd";
 			this.buttonAdd.Size = new System.Drawing.Size(102, 31);
@@ -342,19 +363,19 @@
 			this.label12.Text = "契約終了日 ";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// dateTimePickerDeliveryDate
+			// dateTimePickerShippingDate
 			// 
-			this.dateTimePickerDeliveryDate.Checked = false;
-			this.dateTimePickerDeliveryDate.CustomFormat = "yyyy/MM/dd";
-			this.dateTimePickerDeliveryDate.Enabled = false;
-			this.dateTimePickerDeliveryDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.dateTimePickerDeliveryDate.Location = new System.Drawing.Point(98, 298);
-			this.dateTimePickerDeliveryDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			this.dateTimePickerDeliveryDate.Name = "dateTimePickerDeliveryDate";
-			this.dateTimePickerDeliveryDate.ShowCheckBox = true;
-			this.dateTimePickerDeliveryDate.Size = new System.Drawing.Size(127, 20);
-			this.dateTimePickerDeliveryDate.TabIndex = 27;
-			this.dateTimePickerDeliveryDate.ValueChanged += new System.EventHandler(this.dateTimePickerDeliveryDate_ValueChanged);
+			this.dateTimePickerShippingDate.Checked = false;
+			this.dateTimePickerShippingDate.CustomFormat = "yyyy/MM/dd";
+			this.dateTimePickerShippingDate.Enabled = false;
+			this.dateTimePickerShippingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+			this.dateTimePickerShippingDate.Location = new System.Drawing.Point(98, 298);
+			this.dateTimePickerShippingDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.dateTimePickerShippingDate.Name = "dateTimePickerShippingDate";
+			this.dateTimePickerShippingDate.ShowCheckBox = true;
+			this.dateTimePickerShippingDate.Size = new System.Drawing.Size(127, 20);
+			this.dateTimePickerShippingDate.TabIndex = 27;
+			this.dateTimePickerShippingDate.ValueChanged += new System.EventHandler(this.dateTimePickerShippingDate_ValueChanged);
 			// 
 			// label10
 			// 
@@ -366,7 +387,7 @@
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(81, 25);
 			this.label10.TabIndex = 26;
-			this.label10.Text = "納品日 ";
+			this.label10.Text = "出荷日 ";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelContractStartDate
@@ -697,7 +718,7 @@
 			// buttonLoadSheet
 			// 
 			this.buttonLoadSheet.Enabled = false;
-			this.buttonLoadSheet.Location = new System.Drawing.Point(707, 374);
+			this.buttonLoadSheet.Location = new System.Drawing.Point(922, 371);
 			this.buttonLoadSheet.Name = "buttonLoadSheet";
 			this.buttonLoadSheet.Size = new System.Drawing.Size(244, 27);
 			this.buttonLoadSheet.TabIndex = 44;
@@ -707,7 +728,8 @@
 			// 
 			// buttonModify
 			// 
-			this.buttonModify.Location = new System.Drawing.Point(13, 853);
+			this.buttonModify.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonModify.Location = new System.Drawing.Point(13, 676);
 			this.buttonModify.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.buttonModify.Name = "buttonModify";
 			this.buttonModify.Size = new System.Drawing.Size(102, 31);
@@ -738,7 +760,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(964, 894);
+			this.ClientSize = new System.Drawing.Size(1179, 716);
 			this.Controls.Add(this.buttonModify);
 			this.Controls.Add(this.buttonLoadSheet);
 			this.Controls.Add(this.labelContractNo);
@@ -768,7 +790,7 @@
 			this.Controls.Add(this.label16);
 			this.Controls.Add(this.label17);
 			this.Controls.Add(this.labelContractStartDate);
-			this.Controls.Add(this.dateTimePickerDeliveryDate);
+			this.Controls.Add(this.dateTimePickerShippingDate);
 			this.Controls.Add(this.label10);
 			this.Controls.Add(this.labelContractEndDate);
 			this.Controls.Add(this.label12);
@@ -790,7 +812,6 @@
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Font = new System.Drawing.Font("BIZ UDゴシック", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -820,10 +841,12 @@
 		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.ColumnHeader columnHeader3;
 		private System.Windows.Forms.ColumnHeader columnHeader4;
+		private System.Windows.Forms.ColumnHeader columnHeader5;
 		private System.Windows.Forms.ColumnHeader columnHeader6;
 		private System.Windows.Forms.ColumnHeader columnHeader7;
 		private System.Windows.Forms.ColumnHeader columnHeader8;
 		private System.Windows.Forms.ColumnHeader columnHeader9;
+		private System.Windows.Forms.ColumnHeader columnHeader10;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Button buttonDelete;
@@ -831,7 +854,7 @@
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label labelContractEndDate;
 		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.DateTimePicker dateTimePickerDeliveryDate;
+		private System.Windows.Forms.DateTimePicker dateTimePickerShippingDate;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label labelContractStartDate;
 		private System.Windows.Forms.Label labelBillingStartDate;

@@ -86,6 +86,34 @@ namespace MwsServiceCancelTool.Forms
 		}
 
 		/// <summary>
+		/// 各種作業料作業済申請情報グリッドビューの選択
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dataGridViewOnlineDemand_SelectionChanged(object sender, EventArgs e)
+		{
+			foreach (DataGridViewRow row in dataGridViewOnlineDemand.SelectedRows)
+			{
+				UseOnlineDemand demand = OnlineDemandList[row.Index];
+				if (demand.IsEnableCancel)
+				{
+					buttonOK.Enabled = true;
+				}
+				else
+				{
+					buttonOK.Enabled = false;
+				}
+				if (null != row.Tag)
+				{
+					DataTable table = row.Tag as DataTable;
+					BindingSourceOnlineDemand = new BindingSource(table, null);
+					dataGridViewOnlineDemand.DataSource = BindingSourceOnlineDemand;
+					break;
+				}
+			}
+		}
+
+		/// <summary>
 		/// 作業済申請取消
 		/// </summary>
 		/// <param name="sender"></param>
@@ -109,10 +137,6 @@ namespace MwsServiceCancelTool.Forms
 							this.DialogResult = DialogResult.OK;
 							this.Close();
 						}
-					}
-					else
-					{
-						MessageBox.Show("既に売上データが作成されているため取消できません。\n\n[charlieDB].[dbo].[T_USE_ONLINE_DEMAND]のレコードを物理的に削除する必要があります。", Program.ProcName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					}
 					return;
 				}

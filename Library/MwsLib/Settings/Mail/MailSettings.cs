@@ -169,12 +169,12 @@ namespace MwsLib.Settings.Mail
 		public static void SendMail(MailMessage msg, MailSettings settings)
 		{
 			// 差出人（From）
-			msg.From = new MailAddress(settings.From);           // mainte_info_sys@mic.jp
+			msg.From = new MailAddress(settings.From);           // MIC社内システム自動送信 <mainte_info_sys@mic.jp>
 
 #if DEBUG
-			string[] toArray = settings.TestTo.Split(';');    // suguro@mic.jp
+			string[] toArray = settings.TestTo.Split(';');    // 勝呂 幹雄 <suguro@mic.jp>
 #else
-			string[] toArray = settings.To.Split(';');		// keiri@mic.jp
+			string[] toArray = settings.To.Split(';');		// GYOMU(業務課) <gyomu@mic.jp>
 #endif
 			// 宛先（To）を登録する
 			foreach (string to in toArray)
@@ -182,9 +182,9 @@ namespace MwsLib.Settings.Mail
 				msg.To.Add(new MailAddress(to));
 			}
 #if DEBUG
-			string ccStr = settings.TestCC;       // suguro@mic.jp
+			string ccStr = settings.TestCC;       // 勝呂 幹雄 <suguro@mic.jp>
 #else
-			string ccStr = settings.CC;			// sys_kanri@mic.jp;jigyo_plan_dx@mic.jp
+			string ccStr = settings.CC;			// GYOMU(業務課) <gyomu@mic.jp>;SYS_KANRI(システム管理部) <sys_kanri@mic.jp>
 #endif
 			if (0 < ccStr.Length)
 			{

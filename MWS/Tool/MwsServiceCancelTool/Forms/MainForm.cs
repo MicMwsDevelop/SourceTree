@@ -88,7 +88,7 @@ namespace MwsServiceCancelTool.Forms
 			//textBoxCustomerNo.Text = "10002207";
 
 			// オンライン請求作業済申請 利用申込取消
-			//textBoxCustomerNo.Text = "10075375";
+			textBoxCustomerNo.Text = "10075375";
 
 			// セット割サービス
 			// 〇
@@ -113,7 +113,7 @@ namespace MwsServiceCancelTool.Forms
 			// 〇
 			//textBoxCustomerNo.Text = "10001330";
 			// ×
-			textBoxCustomerNo.Text = "10003080";
+			//textBoxCustomerNo.Text = "10003080";
 
 			// PC安心サポート 自動更新後の終了処理
 			// ✖1年 2024/04～2025/03

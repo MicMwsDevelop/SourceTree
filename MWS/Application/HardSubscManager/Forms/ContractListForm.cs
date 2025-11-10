@@ -1,7 +1,7 @@
 ﻿//
 // ContractListForm.cs
 //
-// ハードサブスク契約管理画面
+// ハードサブスク契約情報画面
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
@@ -18,7 +18,7 @@ using System.Windows.Forms;
 namespace HardSubscManager
 {
 	/// <summary>
-	/// メイン画面
+	/// ハードサブスク契約情報画面
 	/// </summary>
 	public partial class ContractListForm : Form
 	{
@@ -42,9 +42,6 @@ namespace HardSubscManager
 		/// <param name="e"></param>
 		private void ContractListForm_Load(object sender, EventArgs e)
 		{
-			// バージョン情報設定
-			labelVersion.Text = Program.ProgramVersion;
-
 			try
 			{
 				// 顧客情報の設定
@@ -70,7 +67,7 @@ namespace HardSubscManager
 		}
 
 		/// <summary>
-		/// 契約情報修正
+		/// 契約情報変更
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -80,7 +77,7 @@ namespace HardSubscManager
 		}
 
 		/// <summary>
-		/// 契約情報修正
+		/// 契約情報変更
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

@@ -94,7 +94,7 @@ namespace MwsServiceCancelTool.Forms
 					table = MwsServiceCancelToolAccess.DataTable_V_COUPLER_APPLY(PcSupport.fCustomerID, array, PcSupport.fApplyDate.Value.ToDate(), Program.gSettings.ConnectCharlie.ConnectionString);
 					if (null != table && 0 < table.Rows.Count)
 					{
-						// カプラー申込情報の設定
+						// 申込情報の設定
 						BindingSourceApply = new BindingSource(table, null);
 						dataGridViewApply.DataSource = BindingSourceApply;
 					}
@@ -120,7 +120,7 @@ namespace MwsServiceCancelTool.Forms
 		{
 			if (0 < dataGridViewApply.RowCount)
 			{
-				MessageBox.Show("カプラー申込情報があります。本取消処理を行う前に管理画面にて、クラウドバックアップの利用申込の取消処理を行ってください。", "利用申込取消", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+				MessageBox.Show("申込情報があります。本取消処理を行う前に管理画面にて、クラウドバックアップ（PC安心サポート）の利用申込の取消処理を行ってください。", "利用申込取消", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 				return;
 			}
 			if (DialogResult.Yes == MessageBox.Show("PC安心サポートの利用申込を取り消してよろしいですか？", "利用申込取消", MessageBoxButtons.YesNo, MessageBoxIcon.Question))

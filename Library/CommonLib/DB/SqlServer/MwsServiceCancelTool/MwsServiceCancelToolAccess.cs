@@ -135,6 +135,44 @@ namespace CommonLib.DB.SqlServer.MwsServiceCancelTool
 		}
 
 		/// <summary>
+		/// オンライン資格確認訪問診療連携契約情報の取得
+		/// </summary>
+		/// <param name="customerNo">顧客No</param>
+		/// <param name="connectStr">SQL接続文字列</param>
+		/// <returns>オンライン資格確認訪問診療連携契約情報</returns>
+		public static DataTable DataTable_UseOnlineHomon(int customerNo, string connectStr)
+		{
+			string sqlStr = string.Format("SELECT TOP 1 [ApplyNo], [CustomerID], [GoodsID], [CouplerApplyID], [OrderReserveID], [sms_mei] as GoodsName, [ApplyDate], [SalesDate]"
+												+ " FROM {0} as D"
+												+ " LEFT JOIN {1} as G on G.[sms_scd] = D.[GoodsID]"
+												+ " WHERE [CustomerID] = {2}"
+												+ " ORDER BY [ApplyNo] DESC"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ONLINE_HOMON]
+												, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
+												, customerNo);
+			return DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		}
+
+		/// <summary>
+		/// オンライン資格電子処方箋連携費契約情報の取得
+		/// </summary>
+		/// <param name="customerNo">顧客No</param>
+		/// <param name="connectStr">SQL接続文字列</param>
+		/// <returns>オンライン資格電子処方箋連携費契約情報</returns>
+		public static DataTable DataTable_UseOnlinePrescription(int customerNo, string connectStr)
+		{
+			string sqlStr = string.Format("SELECT TOP 1 [ApplyNo], [CustomerID], [GoodsID], [CouplerApplyID], [OrderReserveID], [sms_mei] as GoodsName, [ApplyDate], [SalesDate]"
+												+ " FROM {0} as D"
+												+ " LEFT JOIN {1} as G on G.[sms_scd] = D.[GoodsID]"
+												+ " WHERE [CustomerID] = {2}"
+												+ " ORDER BY [ApplyNo] DESC"
+												, CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_ELECTRIC_PRESCRIPTION]
+												, JunpDatabaseDefine.ViewName[JunpDatabaseDefine.ViewType.vMicPCA商品マスタ]
+												, customerNo);
+			return DatabaseAccess.SelectDatabase(sqlStr, connectStr);
+		}
+
+		/// <summary>
 		/// 顧客管理利用情報の取得
 		/// </summary>
 		/// <param name="customerNo">顧客No</param>
@@ -214,11 +252,11 @@ namespace CommonLib.DB.SqlServer.MwsServiceCancelTool
 		/// <summary>
 		/// おまとめプラン契約情報の削除（契約ヘッダ情報、契約詳細情報を共に削除）
 		/// </summary>
-		/// <param name="header">契約ヘッダ情報</param>
+		/// <param name="contractID">契約番号</param>
 		/// <param name="connectStr">SQL Server接続文字列</param>
 		/// <returns>影響行数</returns>
 		/// <exception cref="ApplicationException"></exception>
-		public static int Delete_UseContractMatome(UseContractHeader header, string connectStr)
+		public static int Delete_UseContractMatome(int contractID, string connectStr)
 		{
 			int rowCount = -1;
 			using (SqlConnection con = new SqlConnection(connectStr))
@@ -234,18 +272,18 @@ namespace CommonLib.DB.SqlServer.MwsServiceCancelTool
 						try
 						{
 							// T_USE_CONTRACT_DETAILの削除
-							string sql = string.Format("DELETE FROM {0} WHERE fContractID = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_DETAIL], header.fContractID);
+							string sql = string.Format("DELETE FROM {0} WHERE fContractID = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_DETAIL], contractID);
 							rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, sql);
 							if (rowCount <= -1)
 							{
-								throw new ApplicationException("Delete_Matome() Error!");
+								throw new ApplicationException(sql);
 							}
 							// T_USE_CONTRACT_HEADERの削除
-							sql = string.Format("DELETE FROM {0} WHERE fContractID = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_HEADER], header.fContractID);
+							sql = string.Format("DELETE FROM {0} WHERE fContractID = {1}", CharlieDatabaseDefine.TableName[CharlieDatabaseDefine.TableType.T_USE_CONTRACT_HEADER], contractID);
 							rowCount = DatabaseController.SqlExecuteNonQueryTran(con, tran, sql);
 							if (rowCount <= -1)
 							{
-								throw new ApplicationException("Delete_Matome() Error!");
+								throw new ApplicationException(sql);
 							}
 							// コミット
 							tran.Commit();

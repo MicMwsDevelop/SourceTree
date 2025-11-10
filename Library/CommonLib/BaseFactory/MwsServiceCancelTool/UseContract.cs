@@ -87,6 +87,17 @@ namespace CommonLib.BaseFactory.MwsServiceCancelTool
 		}
 
 		/// <summary>
+		/// セット割サービスの利用申込が取消が可能かどうか？
+		/// </summary>
+		public bool IsEnableCancelSet
+		{
+			get
+			{
+				return (fBillingEndDate is null) ? true : false;
+			}
+		}
+
+		/// <summary>
 		/// デフォルトコンストラクタ
 		/// </summary>
 		public UseContractHeader()

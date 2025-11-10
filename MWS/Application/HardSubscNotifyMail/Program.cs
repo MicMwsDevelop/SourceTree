@@ -57,7 +57,7 @@ namespace HardSubscNotifyMail
 					// サイレントモード
 					if ("1" == cmds[2].ToUpper())
 					{
-						// 利用終了通知
+						// 利用期限通知
 						string msg = Program.NotifyLimitMail();
 						if (0 < msg.Length)
 						{
@@ -66,7 +66,7 @@ namespace HardSubscNotifyMail
 					}
 					else if ("2" == cmds[2].ToUpper())
 					{
-						// 利用期限通知
+						// 利用終了通知
 						string msg = Program.NotifyFinishedMail();
 						if (0 < msg.Length)
 						{

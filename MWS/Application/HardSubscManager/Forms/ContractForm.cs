@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2025/10/20 勝呂)
+// Ver1.00 新規作成(2025/11/10 勝呂)
 // 
 using ClosedXML.Excel;
 using CommonLib.BaseFactory.Charlie.Table;
@@ -65,7 +65,7 @@ namespace HardSubscManager.Forms
 				// 更新
 				this.Text = string.Format("{0}（更新）", this.Text);
 				buttonLoadSheet.Enabled = true;
-				dateTimePickerDeliveryDate.Enabled = true;
+				dateTimePickerShippingDate.Enabled = true;
 				dateTimePickerCancelDate.Enabled = true;
 				dateTimePickerCollectDate.Enabled = true;
 				dateTimePickerDisposalDate.Enabled = true;
@@ -94,13 +94,13 @@ namespace HardSubscManager.Forms
 			}
 		}
 		/// <summary>
-		/// 納品日の設定
+		/// 出荷日の設定
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void dateTimePickerDeliveryDate_ValueChanged(object sender, EventArgs e)
+		private void dateTimePickerShippingDate_ValueChanged(object sender, EventArgs e)
 		{
-			if (dateTimePickerDeliveryDate.Checked)
+			if (dateTimePickerShippingDate.Checked)
 			{
 				short months = (short)numericTextBoxMonths.ToInt();
 				if (false == T_HARD_SUBSC_HEADER.IsFormalMonths(months))
@@ -110,7 +110,7 @@ namespace HardSubscManager.Forms
 				}
 				labelContractStartDate.Enabled = true;
 				labelContractEndDate.Enabled = true;
-				DateTime? startDate = T_HARD_SUBSC_HEADER.GetContractStartDate(dateTimePickerDeliveryDate.Value);
+				DateTime? startDate = T_HARD_SUBSC_HEADER.GetContractStartDate(dateTimePickerShippingDate.Value);
 				if (startDate.HasValue)
 				{
 					DateTime? endDate = T_HARD_SUBSC_HEADER.GetContractEndDate(startDate.Value, months);
@@ -197,11 +197,11 @@ namespace HardSubscManager.Forms
 							{
 								header.MonthlyAmount = (int)sheet.Cell(20, 23).Value.GetNumber();
 							}
-							// 納品日
-							header.DeliveryDate = null;
+							// 出荷日
+							header.ShippingDate = null;
 							if (0 < sheet.Cell(22, 5).Value.ToString().Length)
 							{
-								header.DeliveryDate = sheet.Cell(22, 5).Value.GetDateTime();
+								header.ShippingDate = sheet.Cell(22, 5).Value.GetDateTime();
 							}
 							// 契約開始日
 							header.ContractStartDate = null;
@@ -234,21 +234,14 @@ namespace HardSubscManager.Forms
 								header.DisposalDate = sheet.Cell(24, 23).Value.GetDateTime();
 							}
 							List<T_HARD_SUBSC_DETAIL> detailList = new List<T_HARD_SUBSC_DETAIL>();
-							for (int i = 0, j = 34; i < 20; i++, j += 2)
+							for (int i = 0, j = Program.GoodsStartRow; i < Program.GoodsMaxCount; i++, j += 2)
 							{
 								if (0 == sheet.Cell(j, 3).Value.ToString().Length)
 								{
 									break;
 								}
 								T_HARD_SUBSC_DETAIL detail = new T_HARD_SUBSC_DETAIL();
-								if (i < OrgDetailList.Count)
-								{
-									detail = OrgDetailList[i].DeepCopy();
-								}
-								else
-								{
-									detail.InternalContractNo = header.InternalContractNo;
-								}
+								detail.InternalContractNo = header.InternalContractNo;
 								if (0 < sheet.Cell(j, 3).Value.ToString().Length)
 								{
 									// 商品コード
@@ -261,7 +254,7 @@ namespace HardSubscManager.Forms
 								}
 								if (0 < sheet.Cell(j, 25).Value.ToString().Length)
 								{
-									// カテゴリ
+									// 区分
 									detail.CategoryName = sheet.Cell(j, 25).Value.GetText();
 								}
 								if (0 < sheet.Cell(j, 29).Value.ToString().Length)
@@ -278,6 +271,22 @@ namespace HardSubscManager.Forms
 								{
 									// 保証書スキャンデータファイル名
 									detail.ScanFilename = sheet.Cell(j, 39).Value.GetText();
+								}
+								if (0 < sheet.Cell(j, 50).Value.ToString().Length)
+								{
+									// 交換日
+									detail.ExchangeDate = sheet.Cell(j, 50).Value.GetDateTime();
+								}
+								if (0 < sheet.Cell(j, 54).Value.ToString().Length)
+								{
+									// 交換元シリアルNo
+									detail.DstSerialNo = sheet.Cell(j, 54).Value.GetText();
+								}
+								T_HARD_SUBSC_DETAIL work = OrgDetailList.Find(p => p.SerialNo == detail.SerialNo);
+								if (null != work)
+								{
+									// 資産コードはDBから取得。検索キーはシリアルNo
+									detail.AssetsCode = work.AssetsCode;
 								}
 								detailList.Add(detail);
 							}
@@ -396,8 +405,8 @@ namespace HardSubscManager.Forms
 					// 更新
 					header = OrgHeader.DeepCopy();
 
-					// 納品日
-					header.DeliveryDate = null;
+					// 出荷日
+					header.ShippingDate = null;
 
 					// 契約期間
 					header.ContractStartDate = null;
@@ -411,13 +420,13 @@ namespace HardSubscManager.Forms
 
 					// 機器廃棄日
 					header.DisposalDate = null;
-					if (dateTimePickerDeliveryDate.Checked)
+					if (dateTimePickerShippingDate.Checked)
 					{
-						// 納品日
-						header.DeliveryDate = dateTimePickerDeliveryDate.Value;
+						// 出荷日
+						header.ShippingDate = dateTimePickerShippingDate.Value;
 
 						// 契約期間
-						header.ContractStartDate = T_HARD_SUBSC_HEADER.GetContractStartDate(header.DeliveryDate);
+						header.ContractStartDate = T_HARD_SUBSC_HEADER.GetContractStartDate(header.ShippingDate);
 						header.ContractEndDate = T_HARD_SUBSC_HEADER.GetContractEndDate(header.ContractStartDate, header.Months);
 
 						Span contractSpan = new Span(header.ContractStartDate.Value.ToDate(), header.ContractEndDate.Value.ToDate());
@@ -487,13 +496,13 @@ namespace HardSubscManager.Forms
 					sheet.Cell(20, 5).Value = header.OrderDate;
 					sheet.Cell(20, 14).Value = header.Months;
 					sheet.Cell(20, 23).Value = header.MonthlyAmount;
-					sheet.Cell(22, 5).Value = header.DeliveryDate;
+					sheet.Cell(22, 5).Value = header.ShippingDate;
 					sheet.Cell(22, 14).Value = header.ContractStartDate;
 					sheet.Cell(22, 23).Value = header.ContractEndDate;
 					sheet.Cell(24, 5).Value = header.CancelDate;
 					sheet.Cell(24, 14).Value = header.CollectDate;
 					sheet.Cell(24, 23).Value = header.DisposalDate;
-					for (int i = 0, j = 31; i < detailList.Count; i++, j += 2)
+					for (int i = 0, j = Program.GoodsStartRow; i < detailList.Count; i++, j += 2)
 					{
 						T_HARD_SUBSC_DETAIL detail = detailList[i];
 						sheet.Cell(j, 3).Value = detail.GoodsCode;
@@ -507,6 +516,11 @@ namespace HardSubscManager.Forms
 						sheet.Cell(j, 31).Value = detail.SerialNo;
 						sheet.Cell(j, 39).Value = detail.ScanFilename;
 						sheet.Cell(j, 50).Value = detail.AssetsCode;
+						if (detail.ExchangeDate.HasValue)
+						{
+							sheet.Cell(j, 56).Value = detail.ExchangeDate;
+						}
+						sheet.Cell(j, 60).Value = detail.DstSerialNo;
 					}
 					book.Save();
 				}
@@ -577,11 +591,20 @@ namespace HardSubscManager.Forms
 						lvItem.Tag = form.Detail;
 						lvItem.SubItems[1].Text = form.Detail.GoodsCode;
 						lvItem.SubItems[2].Text = form.Detail.GoodsName;
-						lvItem.SubItems[3].Text = detail.CategoryName;
+						lvItem.SubItems[3].Text = form.Detail.CategoryName;
 						lvItem.SubItems[4].Text = form.Detail.Quantity.ToString();
 						lvItem.SubItems[5].Text = form.Detail.SerialNo;
 						lvItem.SubItems[6].Text = form.Detail.ScanFilename;
 						lvItem.SubItems[7].Text = form.Detail.AssetsCode;
+						if (form.Detail.ExchangeDate.HasValue)
+						{
+							lvItem.SubItems[8].Text = form.Detail.ExchangeDate.Value.ToShortDateString();
+						}
+						else
+						{
+							lvItem.SubItems[8].Text = string.Empty;
+						}
+						lvItem.SubItems[9].Text = form.Detail.DstSerialNo;
 						if (Program.CategoryPC == lvItem.SubItems[3].Text)
 						{
 							// 資産コードを格納する機器のカテゴリ名はテキストカラーを赤にする
@@ -672,11 +695,11 @@ namespace HardSubscManager.Forms
 			}
 			numericTextBoxMonths.Text = header.Months.ToString();
 			numericTextBoxMonthlyAmount.Text = header.MonthlyAmount.ToString();
-			dateTimePickerDeliveryDate.Checked = false;
-			if (header.DeliveryDate.HasValue)
+			dateTimePickerShippingDate.Checked = false;
+			if (header.ShippingDate.HasValue)
 			{
-				dateTimePickerDeliveryDate.Checked = true;
-				dateTimePickerDeliveryDate.Value = header.DeliveryDate.Value.Date;
+				dateTimePickerShippingDate.Checked = true;
+				dateTimePickerShippingDate.Value = header.ShippingDate.Value.Date;
 			}
 			labelContractStartDate.Text = string.Empty;
 			if (header.ContractStartDate.HasValue)

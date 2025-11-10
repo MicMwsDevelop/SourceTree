@@ -141,7 +141,7 @@ namespace MwsServiceCancelTool.Forms
 		{
 			if (0 < dataGridViewApply.RowCount)
 			{
-				MessageBox.Show("カプラー申込情報があります。本取消処理を行う前に管理画面にて、サービスの利用申込の取消処理を行ってください。", "利用申込取消", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+				MessageBox.Show("申込情報があります。本取消処理を行う前に管理画面にて、サービスの利用申込の取消処理を行ってください。", "利用申込取消", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 				return;
 			}
 			if (DialogResult.Yes == MessageBox.Show("おまとめプラン利用申込を取り消してよろしいですか？", "利用申込取消", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
@@ -150,7 +150,7 @@ namespace MwsServiceCancelTool.Forms
 				{
 #if !DebugNoWrite
 					// おまとめプラン契約情報の削除（契約ヘッダ情報、契約詳細情報を共に削除）
-					int result = MwsServiceCancelToolAccess.Delete_UseContractMatome(Header, Program.gSettings.ConnectCharlie.ConnectionString);
+					int result = MwsServiceCancelToolAccess.Delete_UseContractMatome(Header.fContractID, Program.gSettings.ConnectCharlie.ConnectionString);
 #endif
 					MessageBox.Show("おまとめプランの利用申込取消処理が正常終了しました。", "利用申込取消", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					this.DialogResult = DialogResult.OK;
@@ -158,7 +158,7 @@ namespace MwsServiceCancelTool.Forms
 				}
 				catch (Exception ex) 
 				{
-					MessageBox.Show(ex.Message, "おまとめプラン利用申込取消", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(ex.Message, "利用申込取消", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}

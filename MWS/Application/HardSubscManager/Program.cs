@@ -5,7 +5,7 @@
 // 
 // Copyright (C) MIC All Rights Reserved.
 // 
-// Ver1.00 新規作成(2025/10/20 勝呂)
+// Ver1.00 新規作成(2025/11/10 勝呂)
 // 
 using CommonLib.BaseFactory.Charlie.Table;
 using CommonLib.BaseFactory.Junp.Table;
@@ -23,6 +23,16 @@ namespace HardSubscManager
 	internal static class Program
 	{
 		/// <summary>
+		/// 貸出機器登録開始行数
+		/// </summary>
+		public const int GoodsStartRow = 31;
+
+		/// <summary>
+		/// 貸出機器最大登録数
+		/// </summary>
+		public const int GoodsMaxCount = 20;
+
+		/// <summary>
 		/// プログラム名
 		/// </summary>
 		public const string ProgramName = "ハードサブスク管理";
@@ -30,7 +40,7 @@ namespace HardSubscManager
 		/// <summary>
 		/// プログラムバージョン
 		/// </summary>
-		public const string ProgramVersion = "Ver1.00 2025/10/20";
+		public const string ProgramVersion = "Ver1.00 2025/11/10";
 
 		/// <summary>
 		/// [JunpDB].[dbo].[tUser]
@@ -111,7 +121,7 @@ namespace HardSubscManager
 		/// <returns>ListView設定値</returns>
 		public static string[] GetDetailListViewItem(int line, T_HARD_SUBSC_DETAIL detail)
 		{
-			string[] item = new string[8];
+			string[] item = new string[10];
 			item[0] = line.ToString();
 			item[1] = detail.GoodsCode;
 			item[2] = detail.GoodsName;
@@ -120,14 +130,23 @@ namespace HardSubscManager
 			item[5] = detail.SerialNo;
 			item[6] = detail.ScanFilename;
 			item[7] = detail.AssetsCode;
+			if (detail.ExchangeDate.HasValue)
+			{
+				item[8] = detail.ExchangeDate.Value.ToShortDateString();
+			}
+			else
+			{
+				item[8] = string.Empty;
+			}
+			item[9] = detail.DstSerialNo;
 			return item;
 		}
 
 		/// <summary>
-		/// カテゴリの取得
+		/// 区分の取得
 		/// </summary>
-		/// <param name="CategoryNo">カテゴリ番号</param>
-		/// <returns>カテゴリ</returns>
+		/// <param name="CategoryNo">区分番号</param>
+		/// <returns>区分</returns>
 		public static string GetCategoryName(int CategoryNo)
 		{
 			if (null == gCategoryList)

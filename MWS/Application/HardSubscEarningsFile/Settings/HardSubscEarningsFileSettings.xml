@@ -6,11 +6,11 @@
 	<PcaVersion>7</PcaVersion>
 	<SlipInitialNumber>670001</SlipInitialNumber>
 	<Mail>
-		<From>mainte_info_sys@mic.jp</From>
-		<To>gyomu@mic.jp</To>
-		<CC>mainte_info_sys@mic.jp</CC>
-		<TestTo>suguro@mic.jp</TestTo>
-		<TestCC>suguro@mic.jp</TestCC>
+		<From>MIC社内システム自動送信 <mainte_info_sys@mic.jp></From>
+		<To>GYOMU(業務課) <gyomu@mic.jp></To>
+		<CC>SYS_KANRI(システム管理部) <sys_kanri@mic.jp></CC>
+		<TestTo>勝呂 幹雄 <suguro@mic.jp></TestTo>
+		<TestCC>勝呂 幹雄 <suguro@mic.jp></TestCC>
 		<Smtp>dove.mic.jp</Smtp>
 		<Port>25</Port>
 		<User />
